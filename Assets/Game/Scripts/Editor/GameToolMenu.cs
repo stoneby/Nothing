@@ -14,7 +14,7 @@ public static class GameToolMenu
         var window = EditorWindow.GetWindow<WindowConfigurator>(false, "Window Configurator", true);
     }
 
-    [MenuItem("Tool/Sample", false, 0)]
+    [MenuItem("Tool/Window Prefab Generator", false, 0)]
     static public void OpenSample()
     {
         EditorWindow.GetWindow<Sample>(false, "Sample", true);

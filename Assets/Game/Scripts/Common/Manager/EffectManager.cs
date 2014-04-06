@@ -33,15 +33,25 @@ public class EffectManager
         return effectobj;
     }
 
-    public static void PlayEffect(string effecttype, float showtime, float offsetx, float offsety, Vector3 pos, float rotatevalue = 0)
+    public static void PlayEffect(string effecttype, float showtime, float offsetx, float offsety, Vector3 pos, float rotatevalue = 0, bool isbig = false)
     {
+        var sam = rootGameObject.GetComponent<Camera>();
+        if (isbig)
+        {
+            sam.orthographicSize = 0.5f;
+        }
+        else
+        {
+            sam.orthographicSize = 2.5f;
+
+        }
         GameObject obj = GetEffectPrefab(effecttype);
 
         //Transform trans = transforms;
         Vector3 v3 = Camera.main.WorldToScreenPoint(pos);
         v3.x += offsetx;
         v3.y += offsety;
-        var sam = rootGameObject.GetComponent<Camera>();
+       
         v3 = sam.ScreenToWorldPoint(v3);
         v3.z = 5;
         //obj.transform.rotation

@@ -10,8 +10,8 @@ public class BattleEndControl : MonoBehaviour
     {
         var sp = BgSprite.GetComponent<UISprite>();
         sp.alpha = 0.8f;
-        sp.width = Screen.width;
-        sp.height = Screen.height;
+        sp.width = (int) (CameraAdjuster.StandardWidth + 60);
+        sp.height = (int)(CameraAdjuster.StandardHeight + 60);
     }
 
     public void Show()

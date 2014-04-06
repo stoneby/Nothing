@@ -12,12 +12,14 @@ public class CameraAdjuster : MonoBehaviour
     /// <summary>
     /// The standard screen width.
     /// </summary>
-    public float StandardWidth = 1280;
+    public static float StandardWidth = 1280;
 
     /// <summary>
     /// The standard screen height.
     /// </summary>
-    public float StandardHeight = 720;
+    public static float StandardHeight = 720;
+
+    public static float CameraScale;
 
     #endregion
 
@@ -58,6 +60,14 @@ public class CameraAdjuster : MonoBehaviour
         {
             camera.orthographicSize = standardAspect / deviceAspect;
         }
+
+        float r1 = StandardWidth/deviceWidth;
+        float r2 = StandardHeight/deviceHeight;
+
+        CameraScale = (r1 < r2) ? r1 : r2;
+        //camera.orthographicSize = 1/CameraScale;
+
+        Debug.Log("Scale " + CameraScale.ToString());
     }
 
     #endregion

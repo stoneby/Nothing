@@ -10,9 +10,9 @@ public class ShowImg : MonoBehaviour {
 	int currentIndex = 0;
 	// Use this for initialization
 	void Start () {
-        ShowTexture.SetActive(false);
-        var sp = BgTexture.GetComponent<UISprite>();
-	    sp.alpha = 0.1f;
+//        ShowTexture.SetActive(false);
+//        var sp = BgTexture.GetComponent<UISprite>();
+//	    sp.alpha = 0.1f;
 	}
 	
 	// Update is called once per frame
@@ -35,7 +35,7 @@ public class ShowImg : MonoBehaviour {
         csMsg.AccountName = "test";
         NetManager.SendMessage(csMsg);
 
-		StartCoroutine (DoSlidePicture());
+		//StartCoroutine (DoSlidePicture());
 	}
 
 	IEnumerator DoSlidePicture()

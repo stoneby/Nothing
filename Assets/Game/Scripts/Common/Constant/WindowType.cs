@@ -10,6 +10,9 @@ public enum WindowType
 
     // Popup.
     BattleEnd,
+    BattleWin,
+    BattleLevelUp,
+    BattleLose,
 
     // Face.
     MainMenuBar,

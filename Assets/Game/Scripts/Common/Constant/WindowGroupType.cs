@@ -7,5 +7,6 @@ public enum WindowGroupType
     Screen = Utils.ScreenLayer,
     TabPanel,
     Popup,
-    Face
+    Face,
+    Fill,
 }

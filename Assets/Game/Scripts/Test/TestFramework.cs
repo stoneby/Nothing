@@ -52,15 +52,19 @@ public class TestFramework : MonoBehaviour
     {
         GUILayout.Label("Window Manager Test");
 
-        if (GUILayout.Button("Battle End Popup Show."))
+        //if (GUILayout.Button("Battle End Popup Show."))
+        if (GUILayout.Button("Battle Win Popup Show."))
         {
             var currentScreenWindow = WindowManager.Instance.CurrentWindowMap[WindowGroupType.Screen];
             var battle = currentScreenWindow.GetComponent<InitBattleField>();
             battle.enabled = false;
 
-            var battleEnd = WindowManager.Instance.Show(WindowType.BattleEnd, true);
-            var battleEndController = battleEnd.GetComponent<BattleEndControl>();
-            battleEndController.Show();
+            //var battleEnd = WindowManager.Instance.Show(WindowType.BattleEnd, true);
+            //var battleEndController = battleEnd.GetComponent<BattleEndControl>();
+            //battleEndController.Show();
+            var battleWin = WindowManager.Instance.Show(WindowType.BattleWin, true);
+            var battleWinControl = battleWin.GetComponent<BattleWinControl>();
+            battleWinControl.Show();
         }
     }
 
