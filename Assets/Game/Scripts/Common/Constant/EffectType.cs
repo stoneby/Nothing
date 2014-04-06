@@ -24,15 +24,15 @@ public class EffectType
     };
 	
 	public static string[] LeaderTextures = new string[11]{
-		"textures/leader_big/c0",
-		"textures/leader_big/c1",
-		"textures/leader_big/c2",
-		"textures/leader_big/c3",
-		"textures/leader_big/c4",
-		"textures/leader_big/c5",
-		"textures/leader_big/c6",
-		"textures/leader_big/c7",
-		"textures/leader_big/c8",
-		"textures/leader_big/c9",
-		"textures/leader_big/c10"};
+		"textures/LeaderBig/c0",
+		"textures/LeaderBig/c1",
+		"textures/LeaderBig/c2",
+		"textures/LeaderBig/c3",
+		"textures/LeaderBig/c4",
+		"textures/LeaderBig/c5",
+		"textures/LeaderBig/c6",
+		"textures/LeaderBig/c7",
+		"textures/LeaderBig/c8",
+		"textures/LeaderBig/c9",
+		"textures/LeaderBig/c10"};
 }

@@ -11,6 +11,7 @@ public class GameInit : MonoBehaviour
 
         Debug.Log("GameInit started after everything ready, all start later call.");
         WindowManager.Instance.Show(WindowType.MainMenu, true);
+        WindowManager.Instance.Show(WindowType.BackgroundFills, true);
     }
 
     #endregion

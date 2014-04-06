@@ -4,7 +4,7 @@ public class LeaderControl : MonoBehaviour
 {
     public GameObject CdLabel;
     public GameObject HeadButton;
-    public int leaderIndex;
+    public int LeaderIndex;
 
     private GameObject shineObj;
     private int baseCd;
@@ -17,7 +17,7 @@ public class LeaderControl : MonoBehaviour
         btn.disabledSprite = disableimage;
         btn.pressedSprite = downimage;
         baseCd = basecd;
-        leaderIndex = theindex;
+        LeaderIndex = theindex;
         Reset();
     }
 
@@ -44,7 +44,7 @@ public class LeaderControl : MonoBehaviour
         {
             cd = 0;
             ShowCd();
-            UIImageButton btn = HeadButton.GetComponent<UIImageButton>();
+            var btn = HeadButton.GetComponent<UIImageButton>();
             btn.isEnabled = true;
             if (shineObj == null) shineObj = EffectManager.ShowEffect(EffectType.HeadFlash, 0, 0, transform.position);
         }

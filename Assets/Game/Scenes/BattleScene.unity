@@ -1141,7 +1141,7 @@ GameObject:
   - 4: {fileID: 1107259581}
   - 114: {fileID: 1107259580}
   m_Layer: 0
-  m_Name: SingletonTest
+  m_Name: TestFramework
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1789,7 +1789,6 @@ GameObject:
   - 20: {fileID: 1662307367}
   - 81: {fileID: 1662307369}
   - 114: {fileID: 1662307368}
-  - 114: {fileID: 1662307370}
   - 114: {fileID: 1662307371}
   m_Layer: 8
   m_Name: NguiCamera
@@ -1808,6 +1807,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 2139537830}
   - {fileID: 1062014839}
   - {fileID: 1060736489}
   - {fileID: 963244136}
@@ -1833,11 +1833,11 @@ Camera:
   far clip plane: 2
   field of view: 60
   orthographic: 1
-  orthographic size: .723999977
+  orthographic size: 1
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 62208
+    m_Bits: 127744
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_HDR: 0
@@ -1884,24 +1884,6 @@ AudioListener:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1662307365}
   m_Enabled: 1
---- !u!114 &1662307370
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1662307365}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0208da0450ecd42dba2ef449c2c606a2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Screens:
-  - {fileID: 100070, guid: c8369df9e061bb448ba1e35467337841, type: 2}
-  - {fileID: 100022, guid: e46025ccf0c706c41b84e08eeaa1d7e3, type: 2}
-  Windows:
-  - {fileID: 100034, guid: fbab18df5608c3643a0345188d2c5502, type: 2}
-  Effects: []
-  TextPrefab: {fileID: 100006, guid: b352d3fa99ca79e4e8e43304016ce32a, type: 2}
 --- !u!114 &1662307371
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1913,7 +1895,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a2e894e08c423449b38e250ad714834, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Camera: {fileID: 1662307367}
+  StandardWidth: 1280
+  StandardHeight: 720
 --- !u!1 &1826192412
 GameObject:
   m_ObjectHideFlags: 0
@@ -2495,3 +2478,86 @@ MonoBehaviour:
   hideIfOffScreen: 0
   keepAspectRatio: 0
   aspectRatio: 1
+--- !u!1 &2139537829
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 2139537830}
+  - 114: {fileID: 2139537832}
+  - 54: {fileID: 2139537831}
+  m_Layer: 16
+  m_Name: Fill
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2139537830
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2139537829}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.00007999, y: 1.00007999, z: 1.00007999}
+  m_Children: []
+  m_Father: {fileID: 1662307366}
+--- !u!54 &2139537831
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2139537829}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: .0500000007
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &2139537832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2139537829}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae942c9068183dc40a9d01f648273726, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  showInPanelTool: 1
+  generateNormals: 0
+  widgetsAreStatic: 0
+  cullWhileDragging: 0
+  alwaysOnScreen: 0
+  anchorOffset: 0
+  renderQueue: 0
+  startingRenderQueue: 3000
+  mAlpha: 1
+  mClipping: 0
+  mClipRange: {x: 0, y: 0, z: 300, w: 200}
+  mClipSoftness: {x: 4, y: 4}
+  mDepth: 8

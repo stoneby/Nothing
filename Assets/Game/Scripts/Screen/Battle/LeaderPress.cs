@@ -12,6 +12,6 @@ public class LeaderPress : MonoBehaviour
         GameObject obj = GameObject.Find("Battle(Clone)");
         var battlemanager = obj.GetComponent<InitBattleField>();
 
-        battlemanager.InvokeLeaderSkill(lc.leaderIndex);
+        battlemanager.InvokeLeaderSkill(lc.LeaderIndex);
     }
 }

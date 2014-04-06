@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using UnityEngine;
 using System.Collections;
 using Random = UnityEngine.Random;
@@ -18,12 +19,12 @@ public class InitBattleField : MonoBehaviour
     public GameObject WarningText;
     public GameObject PopTextPrefab;
 
-	public GameObject BreakObject;
-	public GameObject TextBGObject;
-	public GameObject TextObject;
-	public GameObject Picture91;
-	public GameObject TextBG91;
-	public GameObject Text91;
+    public GameObject BreakObject;
+    public GameObject TextBGObject;
+    public GameObject TextObject;
+    public GameObject Picture91;
+    public GameObject TextBG91;
+    public GameObject Text91;
     public GameObject[] heads;
 
     public GameObject CharacterBloodBar;
@@ -92,12 +93,12 @@ public class InitBattleField : MonoBehaviour
         WarningBg1.SetActive(false);
         WarningBg2.SetActive(false);
         WarningText.SetActive(false);
-		BreakObject.SetActive (false);
-		TextBGObject.SetActive (false);
-		TextObject.SetActive (false);
-		Picture91.SetActive (false);
-		TextBG91.SetActive (false);
-		Text91.SetActive (false);
+        BreakObject.SetActive(false);
+        TextBGObject.SetActive(false);
+        TextObject.SetActive(false);
+        Picture91.SetActive(false);
+        TextBG91.SetActive(false);
+        Text91.SetActive(false);
 
         PopTextManager.Init(GameObject.Find("EffectPanel"), PopTextPrefab);
         InitLeaders();
@@ -137,7 +138,7 @@ public class InitBattleField : MonoBehaviour
 
         var bgObj = GameObject.Find("BackgroundTexture");
         var tp = bgObj.GetComponent<TweenPosition>();
-        var tempv = (1800 - (Screen.width / MainViewController.CameraScale + 500)) / 2;
+        var tempv = (1800 - (Screen.width + 500)) / 2;
         tp.from = new Vector3(tempv, 0, 0);
         tp.to = new Vector3(tempv, 0, 0);
         tp.PlayForward();
@@ -370,8 +371,6 @@ public class InitBattleField : MonoBehaviour
     //draw a line from current item to mouse
     void DrawLine(float xx, float yy)
     {
-        xx /= MainViewController.CameraScale;
-        yy /= MainViewController.CameraScale;
         Transform oldtrans = charactersLeft[oldI, oldJ].transform;
         xx -= oldtrans.localPosition.x;
         xx += 25;
@@ -462,12 +461,10 @@ public class InitBattleField : MonoBehaviour
             }
 
             playSpCount = 0;
-            for (int i = 0; i < pointList.Count; i++)
+            if (pointList != null)
             {
-                GameObject obj = pointList[i] as GameObject;
-                if (obj != null)
+                foreach (var cc in pointList.OfType<GameObject>().Select(obj => obj.GetComponent<CharacterControl>()))
                 {
-                    CharacterControl cc = obj.GetComponent<CharacterControl>();
                     cc.SetSelect(false);
                     if (cc.HaveSp)
                     {
@@ -475,9 +472,6 @@ public class InitBattleField : MonoBehaviour
                     }
                 }
             }
-
-            xx = xx / MainViewController.CameraScale;
-            yy = yy / MainViewController.CameraScale;
 
             if (xx > minX - 50 && xx < BaseX + 50 && yy > minY - 50 && yy < BaseY + 50)
             {
@@ -641,7 +635,7 @@ public class InitBattleField : MonoBehaviour
         var tp = bgObj.GetComponent<TweenPosition>();
         tp.ResetToBeginning();
         tp.duration = 0.8f;
-        var tempv = (1800 - (Screen.width / MainViewController.CameraScale + 500)) / 2;
+        var tempv = (1800 - (Screen.width + 500)) / 2;
         var tempv1 = tempv;//900 - (Screen.width / 2 + 500 * (_currEnemyGroupIndex - 1)) / MainViewController.cameraScale;
         var tempv2 = tempv - 500 * currEnemyGroupIndex;//900 - (Screen.width / 2 + 500 * _currEnemyGroupIndex) / MainViewController.cameraScale;
         tp.from = new Vector3(tempv1, 0, 0);
@@ -799,46 +793,46 @@ public class InitBattleField : MonoBehaviour
                 {
                     obj = pointList[pointList.Count - 1] as GameObject;
                     cc = obj.GetComponent<CharacterControl>();
-					//yield return new WaitForSeconds (0.5f);//镜头拉近
-					PlayMoveCamera(obj);
-					cc.Stop();
-					yield return new WaitForSeconds (0.2f);//显示遮罩
-					Picture91.SetActive (true);
-					yield return new WaitForSeconds (0.1f);//播放角色特效
-					EffectManager.PlayEffect(EffectType.NineAttrack, 0.9f, -25, 0, obj.transform.position);
-					yield return new WaitForSeconds (0.9f);//人物大图飞入
-					UITexture tt = EffectObject.GetComponent<UITexture>();
-					tt.mainTexture = (Texture2D)Resources.Load(EffectType.LeaderTextures[Random.Range(0, 11)], typeof(Texture2D));
-					tt.alpha = 1;
-					EffectObject.transform.localPosition = new Vector3(Screen.width / 2 + 300, -80, 0);
-					EffectObject.transform.localScale = new Vector3(1, 1, 1);
-					EffectObject.SetActive (true);
-					
-					PlayTweenPosition (EffectObject, 0.3f, new Vector3 (Screen.width / 2 + 300, -80, 0), new Vector3 (0,-80,0));
-					yield return new WaitForSeconds (0.3f);//显示文字背景
-					PlayTweenPosition(EffectObject, 1.2f, new Vector3 (0,-80,0), new Vector3 (-25,-80,0));
-					TextBG91.SetActive(true);
-					tt = TextBG91.GetComponent<UITexture>();
-					tt.alpha = 1;
-					yield return new WaitForSeconds (0.1f);//文字一出现
-					Text91.SetActive(true);
-					Text91.transform.localScale = new Vector3(5,5,1);
-					PlayTweenScale(Text91, 0.2f, new Vector3(5,5,1), new Vector3(1,1,1));
-					UILabel lb = Text91.GetComponent<UILabel>();
-					lb.alpha = 1;
-					yield return new WaitForSeconds (1.0f);//文字消失
-					PlayTweenScale(Text91, 0.2f, new Vector3(1,1,1), new Vector3(5,5,1));
-					PlayTweenAlpha(Text91, 0.2f, 1, 0);
-					PlayTweenAlpha(TextBG91, 0.2f, 1, 0);
-					yield return new WaitForSeconds (0.1f);//遮罩和大图消失
-					Picture91.SetActive (false);
-					PlayTweenAlpha(EffectObject, 0.2f, 1, 0);
-					PlayTweenScale(EffectObject, 0.2f, new Vector3(1,1,1), new Vector3(5,5,1));
-					yield return new WaitForSeconds (0.2f);//镜头拉回
-					Text91.SetActive(false);
-					TextBG91.SetActive(false);
-					PlayMoveCameraEnd();
-					yield return new WaitForSeconds (0.3f);//攻击动作
+                    //yield return new WaitForSeconds (0.5f);//镜头拉近
+                    PlayMoveCamera(obj);
+                    cc.Stop();
+                    yield return new WaitForSeconds(0.2f);//显示遮罩
+                    Picture91.SetActive(true);
+                    yield return new WaitForSeconds(0.1f);//播放角色特效
+                    EffectManager.PlayEffect(EffectType.NineAttrack, 0.9f, -25, 0, obj.transform.position);
+                    yield return new WaitForSeconds(0.9f);//人物大图飞入
+                    UITexture tt = EffectObject.GetComponent<UITexture>();
+                    tt.mainTexture = (Texture2D)Resources.Load(EffectType.LeaderTextures[Random.Range(0, 11)], typeof(Texture2D));
+                    tt.alpha = 1;
+                    EffectObject.transform.localPosition = new Vector3(Screen.width / 2 + 300, -80, 0);
+                    EffectObject.transform.localScale = new Vector3(1, 1, 1);
+                    EffectObject.SetActive(true);
+
+                    PlayTweenPosition(EffectObject, 0.3f, new Vector3(Screen.width / 2 + 300, -80, 0), new Vector3(0, -80, 0));
+                    yield return new WaitForSeconds(0.3f);//显示文字背景
+                    PlayTweenPosition(EffectObject, 1.2f, new Vector3(0, -80, 0), new Vector3(-25, -80, 0));
+                    TextBG91.SetActive(true);
+                    tt = TextBG91.GetComponent<UITexture>();
+                    tt.alpha = 1;
+                    yield return new WaitForSeconds(0.1f);//文字一出现
+                    Text91.SetActive(true);
+                    Text91.transform.localScale = new Vector3(5, 5, 1);
+                    PlayTweenScale(Text91, 0.2f, new Vector3(5, 5, 1), new Vector3(1, 1, 1));
+                    UILabel lb = Text91.GetComponent<UILabel>();
+                    lb.alpha = 1;
+                    yield return new WaitForSeconds(1.0f);//文字消失
+                    PlayTweenScale(Text91, 0.2f, new Vector3(1, 1, 1), new Vector3(5, 5, 1));
+                    PlayTweenAlpha(Text91, 0.2f, 1, 0);
+                    PlayTweenAlpha(TextBG91, 0.2f, 1, 0);
+                    yield return new WaitForSeconds(0.1f);//遮罩和大图消失
+                    Picture91.SetActive(false);
+                    PlayTweenAlpha(EffectObject, 0.2f, 1, 0);
+                    PlayTweenScale(EffectObject, 0.2f, new Vector3(1, 1, 1), new Vector3(5, 5, 1));
+                    yield return new WaitForSeconds(0.2f);//镜头拉回
+                    Text91.SetActive(false);
+                    TextBG91.SetActive(false);
+                    PlayMoveCameraEnd();
+                    yield return new WaitForSeconds(0.3f);//攻击动作
                     cc.Play();
 
                     RunToAttrackPlace(obj, enemy);
@@ -1104,9 +1098,7 @@ public class InitBattleField : MonoBehaviour
     //get character indexplace by the mouse place
     private Vector2 GetIndexByPlace(float xx, float yy)
     {
-        xx = xx / MainViewController.CameraScale;
-        yy = yy / MainViewController.CameraScale;
-        Vector2 v2 = new Vector2(-1, -1);
+        var v2 = new Vector2(-1, -1);
         if (xx > minX && xx < BaseX && yy > minY && yy < BaseY)
         {
             for (var i = 0; i < 3; i++)
@@ -1245,60 +1237,60 @@ public class InitBattleField : MonoBehaviour
         var tt = effectbg.GetComponent<UITexture>();
         tt.alpha = 0.9f;
 
-		GameObject effectobj = EffectObject;
-		tt = effectobj.GetComponent<UITexture>();
-		tt.mainTexture = (Texture2D)Resources.Load(EffectType.LeaderTextures[Random.Range(0, 11)], typeof(Texture2D));
-		effectobj.transform.localPosition = new Vector3 (0,0,0);
-		effectobj.transform.localScale = new Vector3 (5,5,1);
-		tt.alpha = 0.1f;
-		effectobj.SetActive (true);
+        GameObject effectobj = EffectObject;
+        tt = effectobj.GetComponent<UITexture>();
+        tt.mainTexture = (Texture2D)Resources.Load(EffectType.LeaderTextures[Random.Range(0, 11)], typeof(Texture2D));
+        effectobj.transform.localPosition = new Vector3(0, 0, 0);
+        effectobj.transform.localScale = new Vector3(5, 5, 1);
+        tt.alpha = 0.1f;
+        effectobj.SetActive(true);
 
-		PlayTweenScale (effectobj, 0.2f, new Vector3 (5, 5, 1), new Vector3 (1,1,1));
-		PlayTweenAlpha (effectobj, 0.2f, 0.1f, 1);
+        PlayTweenScale(effectobj, 0.2f, new Vector3(5, 5, 1), new Vector3(1, 1, 1));
+        PlayTweenAlpha(effectobj, 0.2f, 0.1f, 1);
 
-		yield return new WaitForSeconds (0.2f);
-		TextBGObject.SetActive (true);
-		tt = TextBGObject.GetComponent<UITexture>();
-		tt.alpha = 1;
+        yield return new WaitForSeconds(0.2f);
+        TextBGObject.SetActive(true);
+        tt = TextBGObject.GetComponent<UITexture>();
+        tt.alpha = 1;
 
-		PlayTweenScale (effectobj, 1.0f, new Vector3 (1, 1, 1), new Vector3 (0.9f, 0.9f, 1));
+        PlayTweenScale(effectobj, 1.0f, new Vector3(1, 1, 1), new Vector3(0.9f, 0.9f, 1));
 
 
-		TextObject.transform.localScale = new Vector3 (5,5,1);
-		UILabel lb = TextObject.GetComponent<UILabel>();
-		lb.alpha = 1;
-		TextObject.SetActive (true);
+        TextObject.transform.localScale = new Vector3(5, 5, 1);
+        UILabel lb = TextObject.GetComponent<UILabel>();
+        lb.alpha = 1;
+        TextObject.SetActive(true);
 
-		PlayTweenScale (TextObject, 0.2f, new Vector3 (5,5,1), new Vector3 (1,1,1));
-		yield return new WaitForSeconds (0.2f);
+        PlayTweenScale(TextObject, 0.2f, new Vector3(5, 5, 1), new Vector3(1, 1, 1));
+        yield return new WaitForSeconds(0.2f);
 
-		PlayTweenScale (TextObject, 0.8f, new Vector3 (1,1,1), new Vector3 (0.9f, 0.9f, 1));
+        PlayTweenScale(TextObject, 0.8f, new Vector3(1, 1, 1), new Vector3(0.9f, 0.9f, 1));
 
-		yield return new WaitForSeconds (0.8f);
+        yield return new WaitForSeconds(0.8f);
 
-		BreakObject.SetActive (true);
-		UITexture tt1 = BreakObject.GetComponent<UITexture>();
-		BreakObject.transform.localScale = new Vector3 (1,1,1);
-		tt1.alpha = 0.9f;
+        BreakObject.SetActive(true);
+        UITexture tt1 = BreakObject.GetComponent<UITexture>();
+        BreakObject.transform.localScale = new Vector3(1, 1, 1);
+        tt1.alpha = 0.9f;
 
-		yield return new WaitForSeconds (.1f);
-		PlayTweenAlpha (effectbg, 0.3f, 0.9f, 0);
+        yield return new WaitForSeconds(.1f);
+        PlayTweenAlpha(effectbg, 0.3f, 0.9f, 0);
 
-		PlayTweenScale (effectobj, 0.3f, new Vector3 (1,1,1), new Vector3 (5,5,1));
-		PlayTweenAlpha (effectobj, 0.3f, 1, 0.1f);
+        PlayTweenScale(effectobj, 0.3f, new Vector3(1, 1, 1), new Vector3(5, 5, 1));
+        PlayTweenAlpha(effectobj, 0.3f, 1, 0.1f);
 
-		PlayTweenAlpha (BreakObject, 0.3f, 1, 0);
-		PlayTweenScale (BreakObject, 0.3f, new Vector3 (1,1,1), new Vector3(5, 5, 1));
+        PlayTweenAlpha(BreakObject, 0.3f, 1, 0);
+        PlayTweenScale(BreakObject, 0.3f, new Vector3(1, 1, 1), new Vector3(5, 5, 1));
 
-		PlayTweenAlpha (TextBGObject, 0.3f, 1, 0);
+        PlayTweenAlpha(TextBGObject, 0.3f, 1, 0);
 
-		PlayTweenAlpha (TextObject, 0.2f, 1, 0);
+        PlayTweenAlpha(TextObject, 0.2f, 1, 0);
 
-		yield return new WaitForSeconds (.4f);
-		effectobj.SetActive (false);
-		BreakObject.SetActive(false);
-		effectbg.SetActive (false);
-		TextBGObject.SetActive (false);
+        yield return new WaitForSeconds(.4f);
+        effectobj.SetActive(false);
+        BreakObject.SetActive(false);
+        effectbg.SetActive(false);
+        TextBGObject.SetActive(false);
 
         EffectManager.PlayAllEffect(true);
     }
@@ -1449,7 +1441,7 @@ public class InitBattleField : MonoBehaviour
         {
             obj = moveGameObjects[i] as GameObject;
             var sp = obj.GetComponent<UISprite>();
- 
+
             if (sp.alpha > 0.5f)
             {
                 sp.alpha = 0.5f;
@@ -1490,34 +1482,34 @@ public class InitBattleField : MonoBehaviour
             }
         }
     }
-	//播放动画
-	void PlayTweenAlpha(GameObject obj, float playtime, float from, float to)
-	{
-		TweenAlpha ta = obj.AddComponent<TweenAlpha>();
-		ta.from = from;
-		ta.to = to;
-		ta.duration = playtime;
-		ta.PlayForward ();
-		Destroy (ta, playtime);
-	}
+    //播放动画
+    void PlayTweenAlpha(GameObject obj, float playtime, float from, float to)
+    {
+        TweenAlpha ta = obj.AddComponent<TweenAlpha>();
+        ta.from = from;
+        ta.to = to;
+        ta.duration = playtime;
+        ta.PlayForward();
+        Destroy(ta, playtime);
+    }
 
-	void PlayTweenScale(GameObject obj, float playtime, Vector3 from, Vector3 to)
-	{
-		TweenScale ts = obj.AddComponent<TweenScale>();
-		ts.from = from;
-		ts.to = to;
-		ts.duration = playtime;
-		ts.PlayForward ();
-		Destroy (ts, playtime);
-	}
+    void PlayTweenScale(GameObject obj, float playtime, Vector3 from, Vector3 to)
+    {
+        TweenScale ts = obj.AddComponent<TweenScale>();
+        ts.from = from;
+        ts.to = to;
+        ts.duration = playtime;
+        ts.PlayForward();
+        Destroy(ts, playtime);
+    }
 
-	void PlayTweenPosition(GameObject obj, float playtime, Vector3 from, Vector3 to)
-	{
-		TweenPosition ts = obj.AddComponent<TweenPosition>();
-		ts.from = from;
-		ts.to = to;
-		ts.duration = playtime;
-		ts.PlayForward ();
-		Destroy (ts, playtime);
-	}
+    void PlayTweenPosition(GameObject obj, float playtime, Vector3 from, Vector3 to)
+    {
+        TweenPosition ts = obj.AddComponent<TweenPosition>();
+        ts.from = from;
+        ts.to = to;
+        ts.duration = playtime;
+        ts.PlayForward();
+        Destroy(ts, playtime);
+    }
 }
