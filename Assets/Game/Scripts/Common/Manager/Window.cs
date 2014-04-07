@@ -5,7 +5,7 @@
 /// - OnOpen will be sent when window is opend.
 /// - OnClose will be sent when window is closed.
 /// </summary>
-public class Window : MonoBehaviour
+public abstract class Window : MonoBehaviour
 {
     #region Fields
 
@@ -61,6 +61,10 @@ public class Window : MonoBehaviour
     {
         gameObject.SendMessage(OnCloseMethod, null, SendMessageOptions.DontRequireReceiver);
     }
+
+    public abstract void OnEnter();
+
+    public abstract void OnExit();
 
     #endregion
 

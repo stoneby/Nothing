@@ -9,8 +9,6 @@ using UnityEngine;
 /// </summary>
 public class AutoPathLayerMapping : AbstractPathLayerMapping
 {
-    private const string PrefabExtension = ".prefab";
-    private const string BasePath = "Prefabs/UI";
     private const string SvnFolder = ".svn";
 
     private string absolutePath;
@@ -42,13 +40,17 @@ public class AutoPathLayerMapping : AbstractPathLayerMapping
             var prefabList =
                 Directory.GetFiles(path)
                     .Select(file => new FileInfo(file))
-                    .Where(fileInfor => fileInfor.Extension.Equals(PrefabExtension))
+                    .Where(fileInfor => fileInfor.Extension.Equals(Utils.PrefabExtension))
                     .Select(fileInfor => fileInfor.Name.Remove(fileInfor.Name.IndexOf(fileInfor.Extension, StringComparison.Ordinal)))
                     .ToList();
-            foreach (var prefabPath in prefabList.Select(prefabName => string.Format("{0}/{1}/{2}", BasePath, folderNameList[i], prefabName)))
+            foreach (var prefabPath in prefabList.Select(prefabName => string.Format("{0}/{1}/{2}", Utils.UIBasePath, folderNameList[i], prefabName)))
             {
-                var typeName = GetNameFromPath(prefabPath);
-                var windowType = (WindowType)Enum.Parse(typeof(WindowType), typeName);
+                var typeName = Utils.GetNameFromPath(prefabPath);
+                //var windowType = (WindowType)Enum.Parse(typeof(WindowType), typeName);
+                var windowType = Type.GetType(Utils.PrefabNameToWindow(typeName));
+                
+                Debug.LogWarning("Window type - " + windowType + " with name " + typeName);
+
                 PathTypeMap[prefabPath] = windowType;
                 TypePathMap[windowType] = prefabPath;
 
@@ -67,26 +69,6 @@ public class AutoPathLayerMapping : AbstractPathLayerMapping
     }
 
     #endregion
-
-    /// <summary>
-    /// Get file or folder name from a path
-    /// </summary>
-    /// <param name="path">Path</param>
-    /// <returns>File or folder name</returns>
-    private static string GetNameFromPath(string path)
-    {
-        if (string.IsNullOrEmpty(path))
-        {
-            Debug.LogError("path should not be null or empty.");
-            return string.Empty;
-        }
-
-        if (path[path.Length - 1] == '/')
-        {
-            path.Remove(path.Length - 1);
-        }
-        return path.Substring(path.LastIndexOf('/') + 1);
-    }
 
     private void Display()
     {
@@ -120,10 +102,10 @@ public class AutoPathLayerMapping : AbstractPathLayerMapping
     {
         PathLayerMap = new Dictionary<string, WindowGroupType>();
         LayerPathMap = new Dictionary<WindowGroupType, List<string>>();
-        TypePathMap = new Dictionary<WindowType, string>();
-        PathTypeMap = new Dictionary<string, WindowType>();
+        TypePathMap = new Dictionary<Type, string>();
+        PathTypeMap = new Dictionary<string, Type>();
 
-        absolutePath = string.Format("{0}/Game/Resources/{1}", Application.dataPath, BasePath);
+        absolutePath = string.Format("{0}/Game/Resources/{1}", Application.dataPath, Utils.UIBasePath);
         if (!Directory.Exists(absolutePath))
         {
             Debug.LogError("Window base path - " + absolutePath + " does not exist, please make sure we have this kind of folder structure to work properly.");

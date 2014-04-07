@@ -46,18 +46,13 @@ public class WindowManager : Singleton<WindowManager>
 
     #region Puiblic Methods
 
-    public Window Show(Type type, bool show)
-    {
-        return null;
-    }
-
     /// <summary>
     /// Show by window type.
     /// </summary>
     /// <param name="type">Window type</param>
     /// <param name="show">Flag indicates if window to show or hide</param>
     /// <returns>Window to show</returns>
-    public Window Show(WindowType type, bool show)
+    public Window Show(Type type, bool show)
     {
         var path = Mapping.TypePathMap[type];
         var layer = Mapping.PathLayerMap[path];
@@ -183,15 +178,18 @@ public class WindowManager : Singleton<WindowManager>
 
     #region Private Methods
 
-    private Window GetWindow(WindowGroupType layer, WindowType type, string path)
+    private Window GetWindow(WindowGroupType layer, Type type, string path)
     {
         var root = WindowRootManager.WindowObjectMap[layer];
         var prefab = Resources.Load<GameObject>(path);
         var child = NGUITools.AddChild(root, prefab);
 
-        var window = child.GetComponent<Window>() ?? child.AddComponent<Window>();
+        //var window = child.GetComponent<Window>() ?? child.AddComponent<Window>();
+        var windowName = Utils.PrefabNameToWindow(Utils.GetNameFromPath(path));
+        var component = child.GetComponent(windowName) ?? child.AddComponent(windowName);
+        var window = component as Window;
         window.Path = path;
-        window.Type = type;
+        //window.Type = type;
         return window;
     }
 

@@ -14,6 +14,6 @@ public class BattleEndHandler : MonoBehaviour
         //ScreenManager.CurrentScreen = ScreenType.GameWorld;
 
         WindowManager.Instance.Show(WindowGroupType.Popup, false);
-        WindowManager.Instance.Show(WindowType.MainMenu, true);
+        WindowManager.Instance.Show(typeof(MainMenuWindow), true);
     }
 }

@@ -1,5 +1,7 @@
-﻿using UnityEditor;
+﻿using System;
+using UnityEditor;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 /// <summary>
 /// Lab for debugging or logging or testing unity APIs.
@@ -33,6 +35,13 @@ public class UnityLab : MonoBehaviour
         Debug.LogWarning("Object asset scene path: " + AssetDatabase.GetAssetOrScenePath(Object));
 
         SendMessage();
+
+        Debug.LogWarning("type-gettype() - " + Type.GetType("Window"));
+        Debug.LogWarning("type-gettype() - " + Type.GetType("TemplateWindow"));
+        Debug.LogWarning("type-gettype() - " + Type.GetType("MainMenu"));
+
+        gameObject.AddComponent(Type.GetType("TemplateWindow"));
+        gameObject.AddComponent("TemplateWindow");
     }
 
     #endregion

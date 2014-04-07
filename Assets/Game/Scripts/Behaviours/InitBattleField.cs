@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using UnityEngine;
 using System.Collections;
 using Random = UnityEngine.Random;
@@ -466,12 +467,10 @@ public class InitBattleField : MonoBehaviour
             }
 
             playSpCount = 0;
-            for (int i = 0; i < pointList.Count; i++)
+            if (pointList != null)
             {
-                GameObject obj = pointList[i] as GameObject;
-                if (obj != null)
+                foreach (var cc in pointList.OfType<GameObject>().Select(obj => obj.GetComponent<CharacterControl>()))
                 {
-                    CharacterControl cc = obj.GetComponent<CharacterControl>();
                     cc.SetSelect(false);
                     if (cc.HaveSp)
                     {
@@ -942,7 +941,7 @@ public class InitBattleField : MonoBehaviour
                 //SubWindowManager.CurrentWindow = SubWindowType.BattleEnd;
 
                 //WindowManager.Instance.Show(WindowType.BattleEnd, true);
-                WindowManager.Instance.Show(WindowType.BattleWin, true);
+                WindowManager.Instance.Show(typeof(BattleWinWindow), true);
 
                 isBattling = false;
             }
@@ -1013,7 +1012,7 @@ public class InitBattleField : MonoBehaviour
             //SubWindowManager.CurrentWindow = SubWindowType.BattleEnd;
 
             //WindowManager.Instance.Show(WindowType.BattleEnd, true);
-            WindowManager.Instance.Show(WindowType.BattleWin, true);
+            WindowManager.Instance.Show(typeof(BattleWinWindow), true);
 
             isBattling = false;
         }
