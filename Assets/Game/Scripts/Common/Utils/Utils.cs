@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using System.Xml;
+using UnityEngine;
 
 /// <summary>
 /// Utilitity class used for helper functions and constances.
@@ -33,6 +35,9 @@ public class Utils
     /// UI resouces base path.
     /// </summary>
     public const string UIBasePath = "Prefabs/UI";
+
+    private const string windowMapName = "WindowMap.xml";
+    private static string windowMapPath = string.Format("{0}/{1}", Application.streamingAssetsPath, windowMapName);
 
     /// <summary>
     /// Get file or folder name from a path
@@ -78,5 +83,45 @@ public class Utils
     public static string WindowNameToPrefab(string windowName)
     {
         return windowName.Replace("Window", string.Empty);
+    }
+
+    public static void WriteWindowMapToXml(Dictionary<string, List<string>> prefabDict)
+    {
+        var doc = new XmlDocument();
+        var root = doc.CreateElement("Root");
+        doc.AppendChild(root);
+        foreach (var pair in prefabDict)
+        {
+            var element = doc.CreateElement("Group");
+            element.SetAttribute("name", pair.Key);
+            foreach (var path in pair.Value)
+            {
+                var subElement = doc.CreateElement("Path");
+                subElement.InnerText = path;
+                element.AppendChild(subElement);
+            }
+            root.AppendChild(element);
+        }
+        doc.Save(windowMapPath);
+
+        Debug.Log("Save window map file to " + windowMapPath);
+    }
+
+    public static Dictionary<string, List<string>> ReadWindowMapFromXml()
+    {
+        var dict = new Dictionary<string, List<string>>();
+        var doc = new XmlDocument();
+        doc.Load(windowMapPath);
+        var root = doc.DocumentElement;
+        foreach (XmlElement element in root.ChildNodes)
+        {
+			var name = element.Attributes[0].Value;
+            dict[name] = new List<string>();
+            foreach (XmlElement subElement in element.ChildNodes)
+            {
+				dict[name].Add(subElement.InnerText);
+            }
+        }
+        return dict;
     }
 }

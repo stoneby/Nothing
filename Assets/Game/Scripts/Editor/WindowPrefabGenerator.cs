@@ -26,10 +26,12 @@ public class WindowPrefabGenerator : EditorWindow
     private static readonly string UIBasePathBySystem = string.Format("{0}/Game/Resources/{1}", Application.dataPath, Utils.UIBasePath);
     private static readonly string UIScriptBasePath = string.Format("{0}/Game/Scripts/UI", Application.dataPath);
 
-    private const string TemplateWindow = "TemplateWindow";
+    private const string TemplateWindow = "TemplateWindowController";
 
     private bool buttonPressed;
     private GameObject generatedPrefab;
+
+    private TextAsset Template;
 
     #endregion
 
@@ -113,11 +115,18 @@ public class WindowPrefabGenerator : EditorWindow
 
     #region Mono
 
+    void OnEnable()
+    {
+        Template = Resources.Load<TextAsset>("");
+    }
+
     void OnGUI()
     {
         userManual = GUILayout.TextArea(userManual, "Label");
         
         EditorGUILayout.Space();
+
+        Template = EditorGUILayout.ObjectField("Template: ", Template, typeof(TextAsset), false) as TextAsset;
 
         prefabName = EditorGUILayout.TextField("Name: ", prefabName);
         windowGroup = (WindowGroupType)EditorGUILayout.EnumPopup("Window Group: ", windowGroup);

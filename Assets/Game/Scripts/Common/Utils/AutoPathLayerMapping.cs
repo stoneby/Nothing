@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using UnityEngine;
 
 /// <summary>
@@ -9,52 +7,32 @@ using UnityEngine;
 /// </summary>
 public class AutoPathLayerMapping : AbstractPathLayerMapping
 {
-    private const string SvnFolder = ".svn";
-
     private string absolutePath;
+
+    private Dictionary<string, List<string>> windowMapDict;
 
     #region AbstractPathLayerMapping
 
     public override bool Load()
     {
-        var folderNameList =
-            Directory.GetDirectories(absolutePath)
-                .Select(folder => new FileInfo(folder).Name)
-                .ToList();
-        folderNameList.Remove(SvnFolder);
-
-        var layerList = folderNameList.Select(folderName => LayerMask.NameToLayer(folderName)).Where(layer => layer != Utils.Invalid).ToList();
-        if (folderNameList.Count != layerList.Count())
-        {
-            Debug.LogError("Subfolder in path - " + absolutePath +
-                           " does not match layer exactly from layer manager. Folder count - " + folderNameList.Count +
-                           ", layer count - " + layerList.Count);
-            return false;
-        }
-
         PathLayerMap.Clear();
         LayerPathMap.Clear();
-        for (var i = 0; i < folderNameList.Count; ++i)
+
+        foreach (var pair in windowMapDict)
         {
-            var path = string.Format("{0}/{1}", absolutePath, folderNameList[i]);
-            var prefabList =
-                Directory.GetFiles(path)
-                    .Select(file => new FileInfo(file))
-                    .Where(fileInfor => fileInfor.Extension.Equals(Utils.PrefabExtension))
-                    .Select(fileInfor => fileInfor.Name.Remove(fileInfor.Name.IndexOf(fileInfor.Extension, StringComparison.Ordinal)))
-                    .ToList();
-            foreach (var prefabPath in prefabList.Select(prefabName => string.Format("{0}/{1}/{2}", Utils.UIBasePath, folderNameList[i], prefabName)))
+            var group = pair.Key;
+            var prefabList = pair.Value;
+            foreach (var prefabPath in prefabList)
             {
-                var typeName = Utils.GetNameFromPath(prefabPath);
-                //var windowType = (WindowType)Enum.Parse(typeof(WindowType), typeName);
-                var windowType = Type.GetType(Utils.PrefabNameToWindow(typeName));
-                
-                Debug.LogWarning("Window type - " + windowType + " with name " + typeName);
+                var className = Utils.GetNameFromPath(prefabPath);
+                var windowType = Type.GetType(Utils.PrefabNameToWindow(className));
+
+                Debug.LogWarning("Window type - " + windowType + " with name " + className);
 
                 PathTypeMap[prefabPath] = windowType;
                 TypePathMap[windowType] = prefabPath;
 
-                var windowGroupType = (WindowGroupType)layerList[i];
+                var windowGroupType = (WindowGroupType)Enum.Parse(typeof(WindowGroupType), group);
                 PathLayerMap[prefabPath] = windowGroupType;
                 if (!LayerPathMap.ContainsKey(windowGroupType))
                 {
@@ -105,13 +83,7 @@ public class AutoPathLayerMapping : AbstractPathLayerMapping
         TypePathMap = new Dictionary<Type, string>();
         PathTypeMap = new Dictionary<string, Type>();
 
-        absolutePath = string.Format("{0}/Game/Resources/{1}", Application.dataPath, Utils.UIBasePath);
-        if (!Directory.Exists(absolutePath))
-        {
-            Debug.LogError("Window base path - " + absolutePath + " does not exist, please make sure we have this kind of folder structure to work properly.");
-            return;
-        }
-
+        windowMapDict = Utils.ReadWindowMapFromXml();
         Load();
     }
 

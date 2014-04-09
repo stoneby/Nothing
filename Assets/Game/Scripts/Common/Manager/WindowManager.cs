@@ -65,7 +65,7 @@ public class WindowManager : Singleton<WindowManager>
         var window = windowMap[layer].Find(win => win.Path.Equals(path));
         if (window == null)
         {
-            window = GetWindow(layer, type, path);
+            window = GetWindow(layer, path);
             windowMap[layer].Add(window);
             Debug.Log("Create window with type - " + type + ", layer - " + layer + ", path - " + path);
         }
@@ -178,18 +178,16 @@ public class WindowManager : Singleton<WindowManager>
 
     #region Private Methods
 
-    private Window GetWindow(WindowGroupType layer, Type type, string path)
+    private Window GetWindow(WindowGroupType layer, string path)
     {
         var root = WindowRootManager.WindowObjectMap[layer];
         var prefab = Resources.Load<GameObject>(path);
         var child = NGUITools.AddChild(root, prefab);
 
-        //var window = child.GetComponent<Window>() ?? child.AddComponent<Window>();
         var windowName = Utils.PrefabNameToWindow(Utils.GetNameFromPath(path));
         var component = child.GetComponent(windowName) ?? child.AddComponent(windowName);
-        var window = component as Window;
+        var window = component.GetComponent<Window>();
         window.Path = path;
-        //window.Type = type;
         return window;
     }
 
