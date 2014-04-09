@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -48,6 +49,24 @@ public class AutoPathLayerMapping : AbstractPathLayerMapping
 
     #endregion
 
+    #region Private Methods
+
+    //private IEnumerator ReadXml()
+    //{
+    //    var path = Utils.WindowMapPath;
+    //    var data = new WWW(Utils.WindowMapPath);
+    //    yield return data;
+
+    //    if (!string.IsNullOrEmpty(data.error))
+    //    {
+    //        Debug.LogError("Load window map xml fail - " + Utils.WindowMapPath);
+    //    }
+
+    //    windowMapDict = Utils.ReadWindowMapFromXml(data.text);
+
+    //    Load();
+    //}
+
     private void Display()
     {
         foreach (var pair in PathLayerMap)
@@ -73,6 +92,8 @@ public class AutoPathLayerMapping : AbstractPathLayerMapping
             Debug.Log("pair: key-" + pair.Key + ", value-" + pair.Value);
         }
     }
+
+    #endregion
 
     #region Mono
 

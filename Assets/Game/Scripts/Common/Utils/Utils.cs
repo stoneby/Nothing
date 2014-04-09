@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Xml;
 using UnityEngine;
 
@@ -36,8 +37,9 @@ public class Utils
     /// </summary>
     public const string UIBasePath = "Prefabs/UI";
 
-    private const string windowMapName = "WindowMap.xml";
-    private static string windowMapPath = string.Format("{0}/{1}", Application.streamingAssetsPath, windowMapName);
+    public const string WindowMapName = "WindowMap.xml";
+
+    public static string WindowMapPath = string.Format("{0}/{1}", Application.streamingAssetsPath, WindowMapName);
 
     /// <summary>
     /// Get file or folder name from a path
@@ -84,7 +86,6 @@ public class Utils
     {
         return windowName.Replace("Window", string.Empty);
     }
-
     public static void WriteWindowMapToXml(Dictionary<string, List<string>> prefabDict)
     {
         var doc = new XmlDocument();
@@ -102,25 +103,33 @@ public class Utils
             }
             root.AppendChild(element);
         }
-        doc.Save(windowMapPath);
+        doc.Save(WindowMapPath);
 
-        Debug.Log("Save window map file to " + windowMapPath);
+        Debug.Log("Save window map file to " + WindowMapPath);
     }
 
     public static Dictionary<string, List<string>> ReadWindowMapFromXml()
     {
         var dict = new Dictionary<string, List<string>>();
         var doc = new XmlDocument();
-        doc.Load(windowMapPath);
-        var root = doc.DocumentElement;
-        foreach (XmlElement element in root.ChildNodes)
+        try
         {
-			var name = element.Attributes[0].Value;
-            dict[name] = new List<string>();
-            foreach (XmlElement subElement in element.ChildNodes)
+            doc.Load(Utils.WindowMapPath);
+            var root = doc.DocumentElement;
+            foreach (XmlElement element in root.ChildNodes)
             {
-				dict[name].Add(subElement.InnerText);
+                var name = element.Attributes[0].Value;
+                dict[name] = new List<string>();
+                foreach (XmlElement subElement in element.ChildNodes)
+                {
+                    dict[name].Add(subElement.InnerText);
+                }
             }
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("Load window map xml fail - " + WindowMapPath + " " + e.Message);
+            throw;
         }
         return dict;
     }
