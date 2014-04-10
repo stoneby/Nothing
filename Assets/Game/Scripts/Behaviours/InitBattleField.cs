@@ -1152,6 +1152,7 @@ public class InitBattleField : MonoBehaviour
             }
         }
         Debug.Log("1. i:" + v2.x.ToString() + ",j: " + v2.y.ToString());
+        //Debug.DrawLine(new Vector3(100, 100, 0), new Vector3(100f, 200f, 9f), Color.red);
         return v2;
     }
 
