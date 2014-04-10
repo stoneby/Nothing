@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml;
 using UnityEngine;
 
 /// <summary>
@@ -11,6 +12,9 @@ public class AutoPathLayerMapping : AbstractPathLayerMapping
     private string absolutePath;
 
     private Dictionary<string, List<string>> windowMapDict;
+
+	private const string windowMapName = "WindowMap.xml";
+	private static string windowMapPath = System.IO.Path.Combine(Application.streamingAssetsPath, windowMapName);
 
     #region AbstractPathLayerMapping
 
@@ -49,24 +53,6 @@ public class AutoPathLayerMapping : AbstractPathLayerMapping
 
     #endregion
 
-    #region Private Methods
-
-    //private IEnumerator ReadXml()
-    //{
-    //    var path = Utils.WindowMapPath;
-    //    var data = new WWW(Utils.WindowMapPath);
-    //    yield return data;
-
-    //    if (!string.IsNullOrEmpty(data.error))
-    //    {
-    //        Debug.LogError("Load window map xml fail - " + Utils.WindowMapPath);
-    //    }
-
-    //    windowMapDict = Utils.ReadWindowMapFromXml(data.text);
-
-    //    Load();
-    //}
-
     private void Display()
     {
         foreach (var pair in PathLayerMap)
@@ -93,7 +79,63 @@ public class AutoPathLayerMapping : AbstractPathLayerMapping
         }
     }
 
-    #endregion
+	IEnumerator DoReadXml ()
+	{
+		// print the path to the streaming assets folder
+		var result = "";
+		if (windowMapPath.Contains("://"))
+		{
+			var www = new WWW (windowMapPath);
+			yield return www;
+			result = www.text;
+		}
+		else
+		{
+			result = System.IO.File.ReadAllText(windowMapPath);
+		}
+		windowMapDict = ReadWindowMapFromXml(result);
+		Load();
+	}
+			
+	public static void WriteWindowMapToXml(Dictionary<string, List<string>> prefabDict)
+	{
+		var doc = new XmlDocument();
+		var root = doc.CreateElement("Root");
+		doc.AppendChild(root);
+		foreach (var pair in prefabDict)
+		{
+			var element = doc.CreateElement("Group");
+			element.SetAttribute("name", pair.Key);
+			foreach (var path in pair.Value)
+			{
+				var subElement = doc.CreateElement("Path");
+				subElement.InnerText = path;
+				element.AppendChild(subElement);
+			}
+			root.AppendChild(element);
+		}
+		doc.Save(windowMapPath);
+		
+		Debug.Log("Save window map file to " + windowMapPath);
+	}
+	
+	public static Dictionary<string, List<string>> ReadWindowMapFromXml(string text)
+	{
+		var dict = new Dictionary<string, List<string>>();
+		var doc = new XmlDocument();
+		doc.LoadXml(text);
+		var root = doc.DocumentElement;
+		foreach (XmlElement element in root.ChildNodes)
+		{
+			var name = element.Attributes[0].Value;
+			dict[name] = new List<string>();
+			foreach (XmlElement subElement in element.ChildNodes)
+			{
+				dict[name].Add(subElement.InnerText);
+			}
+		}
+		return dict;
+	}
 
     #region Mono
 
@@ -104,8 +146,8 @@ public class AutoPathLayerMapping : AbstractPathLayerMapping
         TypePathMap = new Dictionary<Type, string>();
         PathTypeMap = new Dictionary<string, Type>();
 
-        windowMapDict = Utils.ReadWindowMapFromXml();
-        Load();
+        //windowMapDict = Utils.ReadWindowMapFromXml();
+		StartCoroutine(DoReadXml());
     }
 
     #endregion

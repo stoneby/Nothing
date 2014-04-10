@@ -40,6 +40,136 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   material: {fileID: 2100000, guid: 64767b1ba97368749b2730a10bdfbb2c, type: 2}
   mSprites:
+  - name: 0
+    x: 1451
+    y: 1515
+    width: 16
+    height: 19
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: 1
+    x: 1464
+    y: 1495
+    width: 11
+    height: 19
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 2
+    paddingRight: 3
+    paddingTop: 0
+    paddingBottom: 0
+  - name: 2
+    x: 1430
+    y: 1475
+    width: 16
+    height: 19
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: 3
+    x: 1463
+    y: 1475
+    width: 15
+    height: 19
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 1
+    paddingTop: 0
+    paddingBottom: 0
+  - name: 4
+    x: 1413
+    y: 1495
+    width: 16
+    height: 19
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: 5
+    x: 1413
+    y: 1475
+    width: 16
+    height: 19
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: 6
+    x: 1447
+    y: 1495
+    width: 16
+    height: 19
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: 7
+    x: 1950
+    y: 2029
+    width: 15
+    height: 19
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 1
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: 8
+    x: 1447
+    y: 1475
+    width: 15
+    height: 19
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 1
+    paddingTop: 0
+    paddingBottom: 0
+  - name: 9
+    x: 1430
+    y: 1495
+    width: 16
+    height: 19
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
   - name: ActiveDown
     x: 0
     y: 603
@@ -54,8 +184,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: ActiveUp
-    x: 1479
-    y: 1523
+    x: 1700
+    y: 1153
     width: 333
     height: 96
     borderLeft: 0
@@ -106,19 +236,6 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: BarGreenFore
-    x: 1479
-    y: 1475
-    width: 193
-    height: 12
-    borderLeft: 0
-    borderRight: 0
-    borderTop: 0
-    borderBottom: 0
-    paddingLeft: 5
-    paddingRight: 9
-    paddingTop: 3
-    paddingBottom: 5
-  - name: BarRedFore
     x: 0
     y: 199
     width: 193
@@ -131,9 +248,22 @@ MonoBehaviour:
     paddingRight: 9
     paddingTop: 3
     paddingBottom: 5
+  - name: BarRedFore
+    x: 1479
+    y: 1475
+    width: 193
+    height: 12
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 5
+    paddingRight: 9
+    paddingTop: 3
+    paddingBottom: 5
   - name: BattbleUp
-    x: 121
-    y: 381
+    x: 0
+    y: 455
     width: 120
     height: 73
     borderLeft: 0
@@ -145,8 +275,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: BattleDown
-    x: 0
-    y: 233
+    x: 121
+    y: 381
     width: 120
     height: 73
     borderLeft: 0
@@ -197,7 +327,7 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: CallDown
-    x: 0
+    x: 121
     y: 455
     width: 120
     height: 73
@@ -210,8 +340,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: CallUp
-    x: 1447
-    y: 1176
+    x: 0
+    y: 381
     width: 120
     height: 73
     borderLeft: 0
@@ -249,8 +379,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: EquipDown
-    x: 1700
-    y: 1079
+    x: 0
+    y: 307
     width: 120
     height: 73
     borderLeft: 0
@@ -262,19 +392,6 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: EquipUp
-    x: 0
-    y: 381
-    width: 120
-    height: 73
-    borderLeft: 0
-    borderRight: 0
-    borderTop: 0
-    borderBottom: 0
-    paddingLeft: 0
-    paddingRight: 0
-    paddingTop: 0
-    paddingBottom: 0
-  - name: FriendDown
     x: 121
     y: 307
     width: 120
@@ -287,9 +404,22 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
-  - name: FriendUp
+  - name: FriendDown
     x: 0
-    y: 529
+    y: 233
+    width: 120
+    height: 73
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: FriendUp
+    x: 121
+    y: 233
     width: 120
     height: 73
     borderLeft: 0
@@ -378,7 +508,33 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
+  - name: LV
+    x: 1413
+    y: 1515
+    width: 37
+    height: 19
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
   - name: MainPageDown
+    x: 1447
+    y: 1176
+    width: 120
+    height: 73
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: MainPageUp
     x: 121
     y: 529
     width: 120
@@ -391,21 +547,8 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
-  - name: MainPageUp
-    x: 0
-    y: 307
-    width: 120
-    height: 73
-    borderLeft: 0
-    borderRight: 0
-    borderTop: 0
-    borderBottom: 0
-    paddingLeft: 0
-    paddingRight: 0
-    paddingTop: 0
-    paddingBottom: 0
   - name: ManuDown
-    x: 1568
+    x: 1447
     y: 1102
     width: 120
     height: 73
@@ -418,8 +561,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: ManuUp
-    x: 121
-    y: 233
+    x: 1568
+    y: 1176
     width: 120
     height: 73
     borderLeft: 0
@@ -431,8 +574,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: MilitaryDown
-    x: 1821
-    y: 1079
+    x: 1568
+    y: 1102
     width: 120
     height: 73
     borderLeft: 0
@@ -457,8 +600,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: MilitaryUp
-    x: 1447
-    y: 1102
+    x: 1700
+    y: 1079
     width: 120
     height: 73
     borderLeft: 0
@@ -483,8 +626,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: SearchUp
-    x: 1700
-    y: 1153
+    x: 1479
+    y: 1523
     width: 333
     height: 96
     borderLeft: 0
@@ -496,8 +639,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: ShopDown
-    x: 1568
-    y: 1176
+    x: 1821
+    y: 1079
     width: 120
     height: 73
     borderLeft: 0
@@ -509,8 +652,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: ShopUp
-    x: 121
-    y: 455
+    x: 0
+    y: 529
     width: 120
     height: 73
     borderLeft: 0
@@ -552,6 +695,19 @@ MonoBehaviour:
     y: 735
     width: 1024
     height: 160
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: vip
+    x: 1359
+    y: 1475
+    width: 42
+    height: 22
     borderLeft: 0
     borderRight: 0
     borderTop: 0
