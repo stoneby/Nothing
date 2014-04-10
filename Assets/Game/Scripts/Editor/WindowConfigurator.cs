@@ -71,7 +71,7 @@ public class WindowConfigurator : EditorWindow
             }
         }
 
-        Utils.WriteWindowMapToXml(prefabDict);
+        AutoPathLayerMapping.WriteWindowMapToXml(prefabDict);
     }
 
     #endregion
