@@ -14,7 +14,7 @@ public class AutoPathLayerMapping : AbstractPathLayerMapping
     private Dictionary<string, List<string>> windowMapDict;
 
 	private const string windowMapName = "WindowMap.xml";
-	private static string windowMapPath = System.IO.Path.Combine(Application.streamingAssetsPath, windowMapName);
+    private static string windowMapPath;
 
     #region AbstractPathLayerMapping
 
@@ -145,6 +145,8 @@ public class AutoPathLayerMapping : AbstractPathLayerMapping
         LayerPathMap = new Dictionary<WindowGroupType, List<string>>();
         TypePathMap = new Dictionary<Type, string>();
         PathTypeMap = new Dictionary<string, Type>();
+
+        windowMapPath = System.IO.Path.Combine(Application.streamingAssetsPath, windowMapName);
 
         //windowMapDict = Utils.ReadWindowMapFromXml();
 		StartCoroutine(DoReadXml());

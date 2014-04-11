@@ -15,6 +15,12 @@ public class EnemyControl : MonoBehaviour
     private int cd;
     private int spcd;
 
+    //Boss sprite name of different states.
+    private const string BossNormal = "BossNormal";
+    private const string BossWhite = "BossWhite";
+    private const string BossBlack = "BossBlack";
+
+
     public void playBigAttrack()
     {
         StartCoroutine(DoPlayBigAttrack());
@@ -111,12 +117,12 @@ public class EnemyControl : MonoBehaviour
     {
         var sp = EnemySprite.GetComponent<UISprite>();
         yield return new WaitForSeconds(0.3f);
-        sp.color = new Color(1, 1, 1, 1);
+        sp.spriteName = BossWhite;
         yield return new WaitForSeconds(0.3f);
-        sp.color = new Color(0, 0, 0, 1);
+        sp.spriteName = BossBlack;
         yield return new WaitForSeconds(0.3f);
-        sp.color = new Color(1, 1, 1, 1);
+        sp.spriteName = BossWhite;
         yield return new WaitForSeconds(0.3f);
-        sp.color = new Color(0.015f, 0.015f, 0.015f, 1);
+        sp.spriteName = BossNormal;
     }
 }

@@ -286,6 +286,7 @@ GameObject:
   - 114: {fileID: 383751334}
   - 114: {fileID: 383751335}
   - 114: {fileID: 383751337}
+  - 114: {fileID: 383751336}
   m_Layer: 0
   m_Name: Global
   m_TagString: Untagged
@@ -354,6 +355,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Mapping: {fileID: 383751332}
   Root: {fileID: 1662307365}
+--- !u!114 &383751336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 383751330}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8992d249e166c4e4289e89c34326f264, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ClickEffect: {fileID: 581642773}
 --- !u!114 &383751337
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -564,6 +577,60 @@ MonoBehaviour:
   rightType: 1
   bottomType: 1
   topType: 1
+--- !u!1 &581642772
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 581642777}
+  - 61: {fileID: 581642774}
+  - 114: {fileID: 581642773}
+  m_Layer: 9
+  m_Name: Click Effect
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &581642773
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 581642772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad33c1a06006f6442ab0dbe17fc5f1d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MainCamera: {fileID: 816984724}
+  ClickEffectParticle: {fileID: 100002, guid: f5f9d319d6e01d040bf288481c8f3276, type: 2}
+  ContinousMode: 0
+  TimeInterval: .100000001
+--- !u!61 &581642774
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 581642772}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Size: {x: 6, y: 4}
+  m_Center: {x: 0, y: 0}
+--- !u!4 &581642777
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 581642772}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 6, y: 4, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
 --- !u!1 &816984719
 GameObject:
   m_ObjectHideFlags: 0

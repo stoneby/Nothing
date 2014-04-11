@@ -9,7 +9,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 400000}
   - 114: {fileID: 11400000}
-  m_Layer: 12
+  m_Layer: 8
   m_Name: BloodLabel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25,7 +25,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 400002}
   - 114: {fileID: 11400004}
-  m_Layer: 12
+  m_Layer: 8
   m_Name: Foreground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41,7 +41,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 400004}
   - 114: {fileID: 11400006}
-  m_Layer: 12
+  m_Layer: 8
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -78,7 +78,7 @@ GameObject:
   - 114: {fileID: 11400028}
   - 114: {fileID: 11400030}
   - 114: {fileID: 11400012}
-  m_Layer: 12
+  m_Layer: 8
   m_Name: SpriteEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,7 @@ GameObject:
   - 4: {fileID: 400010}
   - 114: {fileID: 11400010}
   - 114: {fileID: 11400018}
-  m_Layer: 12
+  m_Layer: 8
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -111,7 +111,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 400014}
   - 114: {fileID: 11400026}
-  m_Layer: 12
+  m_Layer: 8
   m_Name: CDLabel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -416,7 +416,7 @@ MonoBehaviour:
   keepAspectRatio: 0
   aspectRatio: .772727251
   mAtlas: {fileID: 11400000, guid: d87aa08f93592fd48a2676650e3a1190, type: 2}
-  mSpriteName: 000_1
+  mSpriteName: BossNormal
   mType: 0
   mFillDirection: 4
   mFillAmount: 1
