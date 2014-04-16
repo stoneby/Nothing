@@ -3,15 +3,15 @@
 /// <summary>
 /// Specific window controller.
 /// </summary>
-public class TemplateWindowController : MonoBehaviour
+public class TemplateWindow : Window
 {
     #region Window
 
-    public void OnOpen()
+    public override void OnEnter()
     {
     }
 
-    public void OnClose()
+    public override void OnExit()
     {
     }
 

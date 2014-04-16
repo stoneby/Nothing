@@ -37,7 +37,6 @@ public class UnityLab : MonoBehaviour
 
         Debug.LogWarning("type-gettype() - " + Type.GetType("Window"));
         Debug.LogWarning("type-gettype() - " + Type.GetType("TemplateWindow"));
-        Debug.LogWarning("type-gettype() - " + Type.GetType("MainMenu"));
 
         gameObject.AddComponent(Type.GetType("TemplateWindow"));
         gameObject.AddComponent("TemplateWindow");

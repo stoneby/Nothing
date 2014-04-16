@@ -12,15 +12,15 @@ using UnityEngine;
 /// Write essential informations to xml, including:
 /// - Window path and layer configuration.
 /// </remarks>
-public class WindowConfigurator : EditorWindow
+public class WindowMappingXmlGenerator : EditorWindow
 {
     #region Private Fields
 
     private string absolutePath;
     private List<string> folderNameList = new List<string>();
-    private List<int> layerList = new List<int>(); 
+    private List<int> layerList = new List<int>();
 
-    private Dictionary<string, List<string>> prefabDict = new Dictionary<string, List<string>>(); 
+    private Dictionary<string, List<string>> prefabDict = new Dictionary<string, List<string>>();
 
     private const string SvnFolder = ".svn";
 
@@ -71,7 +71,8 @@ public class WindowConfigurator : EditorWindow
             }
         }
 
-        AutoPathLayerMapping.WriteWindowMapToXml(prefabDict);
+        var filePath = Path.Combine(Application.streamingAssetsPath, AutoPathLayerMapping.WindowMapName);
+        AutoPathLayerMapping.WriteWindowMapToXml(prefabDict, filePath);
     }
 
     #endregion

@@ -1,9 +1,6 @@
-﻿using System;
-using System.ComponentModel.Design.Serialization;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using UnityEditor;
-using UnityEditor.VersionControl;
 using UnityEngine;
 
 /// <summary>
@@ -26,7 +23,7 @@ public class WindowPrefabGenerator : EditorWindow
     private static readonly string UIBasePathBySystem = string.Format("{0}/Game/Resources/{1}", Application.dataPath, Utils.UIBasePath);
     private static readonly string UIScriptBasePath = string.Format("{0}/Game/Scripts/UI", Application.dataPath);
 
-    private const string TemplateWindow = "TemplateWindowController";
+    private const string TemplateWindow = "TemplateWindow";
 
     private bool buttonPressed;
     private GameObject generatedPrefab;
@@ -52,13 +49,7 @@ public class WindowPrefabGenerator : EditorWindow
 
         GenerateWindowScript();
 
-        var prefabPath = string.Format("{0}/{1}/{2}{3}", UIBasePathByAsset, windowGroup, prefabName, Utils.PrefabExtension);
-        // create prefab.
-        generatedPrefab = PrefabUtility.CreatePrefab(prefabPath, prefabGameObject, ReplacePrefabOptions.ReplaceNameBased);
-
-        log =
-            string.Format("Generate prefab - {0}, to path - {1}, with game object in scene - {2}", prefabName,
-                string.Format("{0}/{1}", Utils.UIBasePath, prefabName), prefabGameObject.name);
+        CreatePrefab();
     }
 
     private bool PrefabExistedCheck()
@@ -109,6 +100,17 @@ public class WindowPrefabGenerator : EditorWindow
         File.WriteAllText(generatedFilePath, fullText);
 
         AssetDatabase.Refresh();
+    }
+
+    private void CreatePrefab()
+    {
+        var prefabPath = string.Format("{0}/{1}/{2}{3}", UIBasePathByAsset, windowGroup, prefabName, Utils.PrefabExtension);
+        // create prefab.
+        generatedPrefab = PrefabUtility.CreatePrefab(prefabPath, prefabGameObject, ReplacePrefabOptions.ReplaceNameBased);
+
+        log =
+        string.Format("Generate prefab - {0}, to path - {1}, with game object in scene - {2}", prefabName,
+            string.Format("{0}/{1}", Utils.UIBasePath, prefabName), prefabGameObject.name);
     }
 
     #endregion

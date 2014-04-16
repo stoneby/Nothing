@@ -10,11 +10,6 @@ public abstract class Window : MonoBehaviour
     #region Fields
 
     /// <summary>
-    /// Window enum type.
-    /// </summary>
-    public WindowType Type;
-
-    /// <summary>
     /// Prefab path.
     /// </summary>
     public string Path;
@@ -72,7 +67,7 @@ public abstract class Window : MonoBehaviour
 
     public override string ToString()
     {
-        return string.Format("Window: name-{0}, type-{1}, path-{2}, active-{3}", name, Type, Path, Active);
+        return string.Format("Window: name-{0}, path-{1}, active-{2}", name, Path, Active);
     }
 
     #endregion

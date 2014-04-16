@@ -5,12 +5,6 @@
 /// </summary>
 public abstract class AbstractWindow : MonoBehaviour
 {
-    #region Fields
-
-    public WindowType Type;
-
-    #endregion
-
     #region Properties
 
     public string Path { get; set; }

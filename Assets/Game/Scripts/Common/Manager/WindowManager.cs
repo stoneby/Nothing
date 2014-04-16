@@ -87,7 +87,7 @@ public class WindowManager : Singleton<WindowManager>
             if (lastWindow != null && lastWindow.Active)
             {
                 var groupType = (WindowGroupType)lastWindow.gameObject.layer;
-                Debug.Log("Last window hide with type - " + lastWindow.Type + ", layer - " + groupType + ", path - " + lastWindow.Path);
+                Debug.Log("Last window hide with type - " + lastWindow.GetType().Name + ", layer - " + groupType + ", path - " + lastWindow.Path);
 
                 if (DestroyLastWindow)
                 {
@@ -101,18 +101,18 @@ public class WindowManager : Singleton<WindowManager>
                 {
                     lastWindow.gameObject.SetActive(false);
                 }
-                lastWindow.Close();
+                lastWindow.OnExit();
             }
 
             currentWindowMap[layer] = window;
             window.gameObject.SetActive(true);
-            window.Open();
+            window.OnEnter();
         }
         else
         {
             currentWindowMap[layer] = window;
             window.gameObject.SetActive(false);
-            window.Close();
+            window.OnExit();
         }
 
         Display();
@@ -152,11 +152,11 @@ public class WindowManager : Singleton<WindowManager>
                 win.gameObject.SetActive(show);
                 if (show)
                 {
-                    win.Open();
+                    win.OnEnter();
                 }
                 else
                 {
-                    win.Close();
+                    win.OnExit();
                 }
             }
         });
