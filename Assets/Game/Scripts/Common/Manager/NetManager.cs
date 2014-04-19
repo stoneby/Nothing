@@ -17,8 +17,20 @@ public class NetManager
     private static Queue SCMsgQueue;
     private static Thread MsgThread;
 
+    private static Mutex CSMutex;
+    private static Mutex SCMutex;
+
+    private static string SessionId = "";
+
     public static void SendMessage(TBase msg)
     {
+        if (CSMutex == null)
+        {
+            CSMutex = new Mutex();
+        }
+
+        CSMutex.WaitOne(500);
+
         if (CSMsgQueue == null)
         {
             CSMsgQueue = new Queue();
@@ -36,17 +48,27 @@ public class NetManager
         {
             MsgThread.Start();
         }
+
+        CSMutex.ReleaseMutex();
     }
 
     public static ThriftSCMessage GetMessage()
     {
+        if (SCMutex == null)
+        {
+            SCMutex = new Mutex();
+        }
+
+        SCMutex.WaitOne(500);
+
         if (SCMsgQueue == null || SCMsgQueue.Count <= 0)
         {
             return null;
         }
 
         var msg = SCMsgQueue.Dequeue() as ThriftSCMessage;
-        Debug.Log(msg);
+        
+        SCMutex.ReleaseMutex();
         return msg;
     }
 
@@ -60,6 +82,11 @@ public class NetManager
                 continue;
             }
 
+            if (CSMutex == null)
+            {
+                CSMutex = new Mutex();
+            }
+
             string responseData = "";
             try
             {
@@ -69,10 +96,13 @@ public class NetManager
                 hwrequest.UserAgent = "http_requester/0.1";
                 hwrequest.Timeout = 60000;
                 hwrequest.Method = METHOD;
+                hwrequest.Headers.Add("ISESSION", SessionId);
                 hwrequest.ContentType = "multipart/form-data";
-                Debug.Log("Do send" + CSMsgQueue.Count.ToString());
-                var csMsg = CSMsgQueue.Dequeue() as TBase;
+                CSMutex.WaitOne(500);
                 //Debug.Log("Do send" + CSMsgQueue.Count.ToString());
+                var csMsg = CSMsgQueue.Dequeue() as TBase;
+                Debug.Log("Do send" + csMsg.GetType());
+                CSMutex.ReleaseMutex();
                 var msg = new ThriftCSMessage(csMsg);
                 byte[] postByteArray = msg.Encode();
                 if (postByteArray == null || postByteArray.Length <= 0)
@@ -88,9 +118,12 @@ public class NetManager
                 postStream.Close();
 
                 var hwresponse = (HttpWebResponse)hwrequest.GetResponse();
+                Debug.Log("response status:" + hwresponse.StatusCode);
                 if (hwresponse.StatusCode == HttpStatusCode.OK)
                 {
+
                     int respLen = (int)hwresponse.ContentLength;
+                    Debug.Log("respLen:" + respLen);
                     if (respLen <= 0)
                     {
                         hwresponse.Close();
@@ -102,14 +135,26 @@ public class NetManager
                     responseStream.Read(recDatas, 0, respLen);
 
                     ThriftSCMessage scMsg = SocketClient.DecodeMsg(recDatas, respLen);
+                    Debug.Log("Do receive" + scMsg.GetMsgType());
+                    SessionId = hwresponse.GetResponseHeader("ISESSION");
+                    if (SCMutex == null)
+                    {
+                        SCMutex = new Mutex();
+                    }
+
+                    SCMutex.WaitOne(500);
+
                     SCMsgQueue.Enqueue(scMsg);
-                    Debug.Log(scMsg);
-                    Debug.Log(SCMsgQueue.Count);
+
+                    SCMutex.ReleaseMutex();
+                    
+                    //Debug.Log(SCMsgQueue.Count);
                 }
                 hwresponse.Close();
             }
             catch (Exception e)
             {
+                Debug.Log("An error occurred: " + e.Message);
                 responseData = "An error occurred: " + e.Message;
             }
 

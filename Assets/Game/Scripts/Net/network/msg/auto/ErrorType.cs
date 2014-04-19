@@ -7,9 +7,46 @@
 
 namespace KXSGCodec
 {
+  /// <summary>
+  /// 服务器产生的一些错误
+  /// </summary>
   public enum ErrorType
   {
-    DECODE_EXCEPTION = 0,
-    ILLEGAL_REQUEST = 1,
+    /// <summary>
+    /// 登录失效
+    /// </summary>
+    LOGIN_INVALID = 0,
+    /// <summary>
+    /// 帐号不存在或密码错误
+    /// </summary>
+    NO_ACCOUNT_OR_ERR_PWD = 1,
+    /// <summary>
+    /// 名字已存在
+    /// </summary>
+    NAME_EXISTS = 2,
+    /// <summary>
+    /// 名字非法
+    /// </summary>
+    NAME_ILLEGAL = 3,
+    /// <summary>
+    /// 创建角色失败
+    /// </summary>
+    CREATE_CHAR_FAIL = 4,
+    /// <summary>
+    /// 服务器未开放
+    /// </summary>
+    SERVER_NOT_OPEN = 5,
+    /// <summary>
+    /// 解码异常
+    /// </summary>
+    DECODE_EXCEPTION = 6,
+    /// <summary>
+    /// 非法请求
+    /// </summary>
+    ILLEGAL_REQUEST = 7,
+    /// <summary>
+    /// 消息执行异常
+    /// </summary>
+    MSG_EXEC_EXCEPTION = 8,
   }
 }

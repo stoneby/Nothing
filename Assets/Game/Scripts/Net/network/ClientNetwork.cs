@@ -163,11 +163,11 @@ namespace KXSGCodec
             ClientLog.Instance.LogError("Recv msg : " + msgContent.ToString());
             switch (msg.GetMsgType())
             {
-                case (short)KXSGCodec.MessageType.SC_USER_INFO:
-                    {
-
-                    }
-                    break;
+//                case (short)KXSGCodec.MessageType.SC_USER_INFO:
+//                    {
+//
+//                    }
+//                    break;
             }
 
         }

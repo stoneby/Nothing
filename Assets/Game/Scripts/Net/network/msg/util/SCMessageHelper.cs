@@ -20,7 +20,14 @@ namespace KXSGCodec
             } else  if (type == MessageType.SC_SYSTEM_INFO.GetHashCode()) {
 
                     return new SCErrorInfoMsg();
-            } else {
+			}else  if (type == MessageType.SC_PLAYER_INFO.GetHashCode()) {
+				
+				return new SCPlayerInfoMsg();
+			} else  if (type == MessageType.SC_CREATE_PLAYER.GetHashCode()) {
+				
+				return new SCCreatePlayerMsg();
+			}  
+			else {
                     ClientLog.Instance.LogError("Unknown sc msg type: " + type.ToString());
 	                return null;
             }

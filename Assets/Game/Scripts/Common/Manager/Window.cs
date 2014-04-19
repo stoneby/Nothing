@@ -74,8 +74,14 @@ public abstract class Window : MonoBehaviour
 
     #region Mono
 
-    void Start()
+    protected virtual void OnEnable()
     {
+        OnEnter();
+    }
+
+    protected virtual void OnDisable()
+    {
+        OnExit();
     }
 
     #endregion

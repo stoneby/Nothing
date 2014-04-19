@@ -16,6 +16,8 @@ public class TestFramework : MonoBehaviour
         WindowManagerTest();
 
         EventTest();
+
+        UIEventTest();
     }
 
     void Start()
@@ -65,6 +67,10 @@ public class TestFramework : MonoBehaviour
             var battleWin = WindowManager.Instance.Show(typeof(BattleWinWindow), true);
             var battleWinControl = battleWin.GetComponent<BattleWinControl>();
             battleWinControl.Show();
+        } 
+        if (GUILayout.Button("Heros"))
+        {
+            WindowManager.Instance.Show(typeof(UIHerosDisplayWindow), true);
         }
     }
 
@@ -85,6 +91,19 @@ public class TestFramework : MonoBehaviour
         if (GUILayout.Button("Post Event"))
         {
             EventManager.Instance.Post(new TestEvent {Message = "This is a test event."});
+        }
+    }
+
+    private void UIEventTest()
+    {
+        if (GUILayout.Button("Show Hero Window"))
+        {
+            WindowManager.Instance.Show(typeof(HeroWindow), true);
+        }
+
+        if (GUILayout.Button("Hide Hero Window"))
+        {
+            WindowManager.Instance.Show(typeof(HeroWindow), false);
         }
     }
 

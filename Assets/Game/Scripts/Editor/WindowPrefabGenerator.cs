@@ -10,8 +10,12 @@ public class WindowPrefabGenerator : EditorWindow
 {
     #region Private Fields
 
+    private TextAsset template;
+
     private string prefabName;
+
     private WindowGroupType windowGroup = WindowGroupType.Screen;
+    
     private GameObject prefabGameObject;
 
     private string userManual =
@@ -27,8 +31,6 @@ public class WindowPrefabGenerator : EditorWindow
 
     private bool buttonPressed;
     private GameObject generatedPrefab;
-
-    private TextAsset Template;
 
     #endregion
 
@@ -119,7 +121,18 @@ public class WindowPrefabGenerator : EditorWindow
 
     void OnEnable()
     {
-        Template = Resources.Load<TextAsset>("");
+        // template path.
+        var templatePath = EditorPrefs.GetString("TemplatePath");
+        if (!string.IsNullOrEmpty(templatePath))
+        {
+            template = AssetDatabase.LoadMainAssetAtPath(templatePath) as TextAsset;
+        }
+    }
+
+    void OnDisable()
+    {
+        var templatePath = AssetDatabase.GetAssetPath(template);
+        EditorPrefs.SetString("TemplatePath", !string.IsNullOrEmpty(templatePath) ? templatePath : string.Empty);
     }
 
     void OnGUI()
@@ -128,7 +141,7 @@ public class WindowPrefabGenerator : EditorWindow
         
         EditorGUILayout.Space();
 
-        Template = EditorGUILayout.ObjectField("Template: ", Template, typeof(TextAsset), false) as TextAsset;
+        template = EditorGUILayout.ObjectField("Template: ", template, typeof(TextAsset), false) as TextAsset;
 
         prefabName = EditorGUILayout.TextField("Name: ", prefabName);
         windowGroup = (WindowGroupType)EditorGUILayout.EnumPopup("Window Group: ", windowGroup);

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 /// <summary>
@@ -80,4 +81,19 @@ public class Utils
 	{
 		return string.Format("{0}Window", prefabName);
 	}
+
+    /// <summary>
+    /// Find the child transform with special name. 
+    /// </summary>
+    /// <param name="parent">The parent tranfrom of the child which will be found.</param>
+    /// <param name="objName">The name of the child transfrom.</param>
+    /// <returns>The transfrom to be found.</returns>
+    public static Transform FindChild(Transform parent, string objName)
+    {
+        if (parent.name == objName)
+        {
+            return parent;
+        }
+        return (from Transform item in parent select FindChild(item, objName)).FirstOrDefault(child => null != child);
+    }
 }

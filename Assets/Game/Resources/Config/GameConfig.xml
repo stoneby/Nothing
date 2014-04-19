@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <!--================网页版本需修改配置========================-->
+    <!-- 是否cookie模式-->
+	<CookieMode>0</CookieMode>
+    <!--登录地址-->
+	<LoginAddress>172.16.0.16</LoginAddress>
+	<!--登录端口-->
+	<LoginPort>8084</LoginPort>
+	<!--登录端口序列-->
+	<LoginPorts>443,7070</LoginPorts>
+	<!--游戏资源版本号-->
+	<resVersion>1.0.0</resVersion>
+	<!--游戏资源根地址-->
+	<resRoot></resRoot>
+	<!-- 平台接入模式(移动端0 web端1)-->
+	<Platform>0</Platform>
+	<!--================游戏基本配置========================-->
+	<!--f值名称-->
+	<fName>default</fName>
+	<!--游戏版本-->
+	<GameVersion>1.0.0</GameVersion>
+	<!--显示log-->
+	<ShowLog>true</ShowLog>
+	<!--语言版本: zh_CN简体中文 zh_TW繁体中文-->
+	<Language>zh_CN</Language>
+	<!--版本平台0：public快客飞豆平台，1：第三方平台小米等-->
+	<LoginSdk>public</LoginSdk>
+	<!--材质质量: l 低清 h高清-->
+	<Quality>h</Quality>
+	<!-- 屏幕宽度 -->
+	<StageWidth>960</StageWidth>
+	<!-- 屏幕高度 -->
+	<StageHeight>640</StageHeight>
+	<!-- 是否包含开场视频-->
+	<ContainVideo>1</ContainVideo>
+	<!-- 资源库模式(需远程下载资源库)-->
+	<LibraryMode>0</LibraryMode>
+	<!--服务器列表地址-->
+	<ServicePath>http://27.131.223.229/config/service.xml</ServicePath>
+	<LocalServicePath>service.xml</LocalServicePath>
+	<!--官网地 址-->
+	<OfficialSiteAddress>http://feidou.com</OfficialSiteAddress>
+	<!--Cookie地 址-->
+	<CookieAddress>cookie/account.txt</CookieAddress>
+</config>

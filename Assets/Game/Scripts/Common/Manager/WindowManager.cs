@@ -84,40 +84,59 @@ public class WindowManager : Singleton<WindowManager>
         if (show)
         {
             var lastWindow = currentWindowMap.ContainsKey(layer) ? currentWindowMap[layer] : null;
-            if (lastWindow != null && lastWindow.Active)
+            if (lastWindow != null && (lastWindow != window))
             {
-                var groupType = (WindowGroupType)lastWindow.gameObject.layer;
-                Debug.Log("Last window hide with type - " + lastWindow.GetType().Name + ", layer - " + groupType + ", path - " + lastWindow.Path);
-
-                if (DestroyLastWindow)
+                if (lastWindow.Active)
                 {
-                    Debug.Log("Removing last window hold: " + windowMap[groupType][0]);
+                    var groupType = (WindowGroupType) lastWindow.gameObject.layer;
+                    Debug.Log("Last window hide with type - " + lastWindow.GetType().Name + ", layer - " + groupType +
+                              ", path - " + lastWindow.Path);
 
-                    windowMap[groupType].RemoveAt(0);
-                    Destroy(lastWindow.gameObject);
-                    Resources.UnloadUnusedAssets();
+                    if (DestroyLastWindow)
+                    {
+                        DestroyWindow(groupType, lastWindow);
+                    }
+                    else
+                    {
+                        lastWindow.gameObject.SetActive(false);
+                    }
                 }
-                else
-                {
-                    lastWindow.gameObject.SetActive(false);
-                }
-                lastWindow.OnExit();
+            }
+
+            if (lastWindow == window)
+            {
+                Debug.Log("The window is currently showing already." + lastWindow.name);
             }
 
             currentWindowMap[layer] = window;
             window.gameObject.SetActive(true);
-            window.OnEnter();
         }
         else
         {
             currentWindowMap[layer] = window;
-            window.gameObject.SetActive(false);
-            window.OnExit();
+            if (DestroyLastWindow)
+            {
+                var groupType = (WindowGroupType) window.gameObject.layer;
+                DestroyWindow(groupType, window);
+            }
+            else
+            {
+                window.gameObject.SetActive(false);
+            }
         }
 
         Display();
 
         return window;
+    }
+
+    private void DestroyWindow(WindowGroupType groupType, Window lastWindow)
+    {
+        Debug.Log("Removing last window hold: " + windowMap[groupType][0]);
+
+        windowMap[groupType].RemoveAt(0);
+        Destroy(lastWindow.gameObject);
+        Resources.UnloadUnusedAssets();
     }
 
     /// <summary>
@@ -150,14 +169,6 @@ public class WindowManager : Singleton<WindowManager>
             if (win.gameObject.activeSelf != show)
             {
                 win.gameObject.SetActive(show);
-                if (show)
-                {
-                    win.OnEnter();
-                }
-                else
-                {
-                    win.OnExit();
-                }
             }
         });
     }
@@ -183,7 +194,6 @@ public class WindowManager : Singleton<WindowManager>
         var root = WindowRootManager.WindowObjectMap[layer];
         var prefab = Resources.Load<GameObject>(path);
         var child = NGUITools.AddChild(root, prefab);
-
         var windowName = Utils.PrefabNameToWindow(Utils.GetNameFromPath(path));
         var component = child.GetComponent(windowName) ?? child.AddComponent(windowName);
         var window = component.GetComponent<Window>();

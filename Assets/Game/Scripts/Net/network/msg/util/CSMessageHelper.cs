@@ -17,6 +17,7 @@ namespace KXSGCodec
         {
             MSG_TYPE_DICT[typeof(CSPasswdLoginMsg)] = (short)MessageType.CS_USER_PASSWD.GetHashCode();
             MSG_TYPE_DICT[typeof(CSQuickLoginMsg)] = (short)MessageType.CS_QUICK_LOGIN.GetHashCode();
+            MSG_TYPE_DICT[typeof(CSCreatePlayerMsg)] = (short)MessageType.CS_CREATE_PLAYER.GetHashCode();
 				
         }
 

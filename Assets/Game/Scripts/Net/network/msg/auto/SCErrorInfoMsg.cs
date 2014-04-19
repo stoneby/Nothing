@@ -23,9 +23,9 @@ namespace KXSGCodec
   #endif
   public partial class SCErrorInfoMsg : TBase
   {
-    private sbyte _errorCode;
+    private short _errorCode;
 
-    public sbyte ErrorCode
+    public short ErrorCode
     {
       get
       {
@@ -63,8 +63,8 @@ namespace KXSGCodec
         switch (field.ID)
         {
           case 1:
-            if (field.Type == TType.Byte) {
-              ErrorCode = iprot.ReadByte();
+            if (field.Type == TType.I16) {
+              ErrorCode = iprot.ReadI16();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
@@ -84,10 +84,10 @@ namespace KXSGCodec
       TField field = new TField();
       if (__isset.errorCode) {
         field.Name = "errorCode";
-        field.Type = TType.Byte;
+        field.Type = TType.I16;
         field.ID = 1;
         oprot.WriteFieldBegin(field);
-        oprot.WriteByte(ErrorCode);
+        oprot.WriteI16(ErrorCode);
         oprot.WriteFieldEnd();
       }
       oprot.WriteFieldStop();
