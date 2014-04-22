@@ -21,7 +21,7 @@ namespace KXSGCodec
   #if !SILVERLIGHT
   [Serializable]
   #endif
-  public partial class SCBattlePVEStartMsg : TBase
+  public partial class SCBattlePveStartMsg : TBase
   {
     private long _uuid;
     private sbyte _battleType;
@@ -92,7 +92,7 @@ namespace KXSGCodec
       public bool fighterList;
     }
 
-    public SCBattlePVEStartMsg() {
+    public SCBattlePveStartMsg() {
     }
 
     public void Read (TProtocol iprot)
@@ -156,7 +156,7 @@ namespace KXSGCodec
     }
 
     public void Write(TProtocol oprot) {
-      TStruct struc = new TStruct("SCBattlePVEStartMsg");
+      TStruct struc = new TStruct("SCBattlePveStartMsg");
       oprot.WriteStructBegin(struc);
       TField field = new TField();
       if (__isset.uuid) {
@@ -203,7 +203,7 @@ namespace KXSGCodec
     }
 
     public override string ToString() {
-      StringBuilder sb = new StringBuilder("SCBattlePVEStartMsg(");
+      StringBuilder sb = new StringBuilder("SCBattlePveStartMsg(");
       sb.Append("Uuid: ");
       sb.Append(Uuid);
       sb.Append(",BattleType: ");

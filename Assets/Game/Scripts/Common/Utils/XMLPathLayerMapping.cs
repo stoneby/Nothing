@@ -25,7 +25,7 @@ public class XMLPathLayerMapping : AbstractPathLayerMapping
 
     #region AbstractPathLayerMapping
 
-    public override bool Load()
+    public override bool Parse()
     {
         return true;
     }

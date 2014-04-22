@@ -9,4 +9,5 @@ public enum WindowGroupType
     Popup,
     Face,
     Fill,
+    Tip,
 }

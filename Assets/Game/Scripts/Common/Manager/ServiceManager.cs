@@ -45,29 +45,41 @@ public class ServiceManager
     //初始化账号信息
     public static void InitAccount()
     {
+        
         AccountArray = new List<AccountVO>();
+        //return;
         Debug.Log(GameConfig.CookieAddress);
-        if (!File.Exists(GameConfig.CookieAddress))
+        var f = new FileInfo(GameConfig.CookieAddress);
+        if (!f.Exists)
         {
-            File.Create(GameConfig.CookieAddress);
+            if (f.Directory == null || !f.Directory.Exists)
+            {
+                if (f.DirectoryName != null) Directory.CreateDirectory(f.DirectoryName);
+            }
+           
+            f.Create();
+            //File.WriteAllText(GameConfig.CookieAddress, "");
+            //File.Create(GameConfig.CookieAddress);
+            
             return;
         }
         var content = File.ReadAllText(GameConfig.CookieAddress);
             
         Debug.Log(content);
 		int index = content.IndexOf ("<GameAccount>");
-        string[] arr;
+        string[] arr = null;
         if (index >= 0)
 		{
 			arr = content.Split(new string[] {"<GameAccount>"}, StringSplitOptions.RemoveEmptyEntries);
 			Debug.Log(arr.Length);
 		}
-        else
+        else if (content != "")
         {
             arr = new string[1];
             arr[0] = content;
         }
 
+        if (arr == null) return;
         for (int i = 0; i < arr.Length; i++)
         {
             var obj = AccountVO.CreateData(arr[i]);
@@ -78,6 +90,7 @@ public class ServiceManager
     //本地保存账号信息
     public static void SaveAccount()
     {
+        //return;
         var str = "";
         for (int i = 0; i < AccountArray.Count; i++)
         {
@@ -121,6 +134,7 @@ public class ServiceManager
     public static void AddAccount(AccountVO obj)
     {
         var flag = true;
+        Debug.Log(AccountArray.Count);
         for (int i = 0; i < AccountArray.Count; i++)
         {
             if (AccountArray[i].Account == obj.Account)
@@ -142,6 +156,20 @@ public class ServiceManager
         {
             AccountArray.Add(obj);
         }
+    }
+
+    public static void DeleteAccount(AccountVO obj)
+    {
+        var flag = true;
+        for (int i = 0; i < AccountArray.Count; i++)
+        {
+            if (AccountArray[i].Account == obj.Account)
+            {
+                AccountArray.RemoveAt(i);
+                break;
+            }
+        }
+        SaveAccount();
     }
 
     public static AccountVO GetDefaultAccount()

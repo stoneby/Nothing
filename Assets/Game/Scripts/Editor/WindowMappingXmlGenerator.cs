@@ -23,6 +23,7 @@ public class WindowMappingXmlGenerator : EditorWindow
     private Dictionary<string, List<string>> prefabDict = new Dictionary<string, List<string>>();
 
     private const string SvnFolder = ".svn";
+    private const string WindowMapPath = "Game/Resources/Config/WindowMap.xml";
 
     #endregion
 
@@ -71,8 +72,9 @@ public class WindowMappingXmlGenerator : EditorWindow
             }
         }
 
-        var filePath = Path.Combine(Application.streamingAssetsPath, AutoPathLayerMapping.WindowMapName);
+        var filePath = Path.Combine(Application.dataPath, WindowMapPath);
         AutoPathLayerMapping.WriteWindowMapToXml(prefabDict, filePath);
+        AssetDatabase.Refresh();
     }
 
     #endregion
@@ -90,7 +92,7 @@ public class WindowMappingXmlGenerator : EditorWindow
     void OnGUI()
     {
         GUILayout.TextArea(
-            "UserManual: This tool to generator window path layer mapping to PathLayerMapping.xml. under streaming path.",
+            "UserManual: This tool to generator window path layer mapping to path - " + WindowMapPath,
             "Label");
 
         if (GUILayout.Button("Generate"))

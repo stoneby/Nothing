@@ -11,13 +11,20 @@ public class LoginWindow : Window
 
     public override void OnEnter()
     {
+        //GlobalUIEventManager.Instance.EventListener.onClick += OnFallThroughClick;
     }
 
     public override void OnExit()
     {
+        //GlobalUIEventManager.Instance.EventListener.onClick -= OnFallThroughClick;
     }
 
     #endregion
+
+//    private void OnFallThroughClick(GameObject sender)
+//    {
+//        Debug.LogWarning("This is a fall through event.");
+//    }
 
     #region Mono
 

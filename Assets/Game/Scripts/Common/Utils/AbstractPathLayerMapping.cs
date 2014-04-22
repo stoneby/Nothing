@@ -24,5 +24,5 @@ public abstract class AbstractPathLayerMapping : MonoBehaviour
     /// </summary>
     public Dictionary<string, Type> PathTypeMap { get; set; }
 
-    public abstract bool Load();
+    public abstract bool Parse();
 }

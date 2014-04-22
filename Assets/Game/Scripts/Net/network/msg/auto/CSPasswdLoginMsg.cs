@@ -27,6 +27,7 @@ namespace KXSGCodec
     private string _accountName;
     private string _passwd;
     private string _deviceId;
+    private short _serverId;
 
     public sbyte DeviceType
     {
@@ -80,6 +81,22 @@ namespace KXSGCodec
       }
     }
 
+    /// <summary>
+    /// 服务器序号
+    /// </summary>
+    public short ServerId
+    {
+      get
+      {
+        return _serverId;
+      }
+      set
+      {
+        __isset.serverId = true;
+        this._serverId = value;
+      }
+    }
+
 
     public Isset __isset;
     #if !SILVERLIGHT
@@ -90,6 +107,7 @@ namespace KXSGCodec
       public bool accountName;
       public bool passwd;
       public bool deviceId;
+      public bool serverId;
     }
 
     public CSPasswdLoginMsg() {
@@ -131,6 +149,13 @@ namespace KXSGCodec
           case 4:
             if (field.Type == TType.String) {
               DeviceId = iprot.ReadString();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 5:
+            if (field.Type == TType.I16) {
+              ServerId = iprot.ReadI16();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
@@ -180,6 +205,14 @@ namespace KXSGCodec
         oprot.WriteString(DeviceId);
         oprot.WriteFieldEnd();
       }
+      if (__isset.serverId) {
+        field.Name = "serverId";
+        field.Type = TType.I16;
+        field.ID = 5;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteI16(ServerId);
+        oprot.WriteFieldEnd();
+      }
       oprot.WriteFieldStop();
       oprot.WriteStructEnd();
     }
@@ -194,6 +227,8 @@ namespace KXSGCodec
       sb.Append(Passwd);
       sb.Append(",DeviceId: ");
       sb.Append(DeviceId);
+      sb.Append(",ServerId: ");
+      sb.Append(ServerId);
       sb.Append(")");
       return sb.ToString();
     }

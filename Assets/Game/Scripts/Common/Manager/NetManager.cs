@@ -9,7 +9,8 @@ using System.Collections;
 
 public class NetManager
 {
-    private const string URL = "http://172.16.7.132:8080/sglm-webserver/request";
+    //private const string URL = "http://172.16.7.132:8080/sglm-webserver/request";
+    private const string URL = "http://27.131.223.229:8080/sglm-webserver/request";
     private const string METHOD = "POST";
     private static ClientSocket SocketClient = new ClientSocket("127.0.0.1", "8080");
 

@@ -2,32 +2,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
 using UnityEngine;
 
+/// <summary>
+/// Game configuration files parser.
+/// </summary>
 public class GameConfiguration : Singleton<GameConfiguration>
 {
-    private const string GameConfigurationFile = "GameConfiguration.xml";
-    private string gameConfigurationPath;
+    #region Public Fields
 
-    private const string GameConfigPath = "Config/GameConfig";
+    public TextAsset FeatureConfigurationText;
+    public TextAsset GameConfigurationText;
 
     public ClickEffectHandler ClickEffect;
 
-    private void WriteToXml()
-    {
-        var doc = new XDocument(new XElement("Root",
-                                       new XElement("ClickBehaviour",
-                                           new XElement("ContinousMode", "false"),
-                                           new XElement("TimeInterval", "0"))));
-        doc.Save(gameConfigurationPath);
-    }
+    #endregion
 
-    private void ReadXml()
+    private void ReadFeatureConfigurationXml()
     {
-        var doc = XElement.Load(gameConfigurationPath);
+        var doc = XElement.Parse(FeatureConfigurationText.text);
         var clickElement = doc.Element("ClickBehaviour");
         var continousMode = clickElement.Element("ContinousMode").Value;
         var timeInterval = clickElement.Element("TimeInterval").Value;
@@ -35,60 +30,88 @@ public class GameConfiguration : Singleton<GameConfiguration>
         ClickEffect.TimeInterval = float.Parse(timeInterval);
     }
 
-    private void ReadGameConfigXml()
+    private void ReadGameConfigurationXml()
     {
-        var data = Resources.Load(GameConfigPath).ToString();
-
         var xmlDoc = new XmlDocument();
-
-        xmlDoc.LoadXml(data);
+        xmlDoc.LoadXml(GameConfigurationText.text);
         var nodeList = xmlDoc.SelectNodes("config");
 
-        if (nodeList != null)
+        if (nodeList == null)
         {
-            foreach (XmlNode node in nodeList)
+            return;
+        }
+
+        foreach (XmlNode node in nodeList)
+        {
+            if (node["fName"] != null)
             {
-                if (node["fName"] != null) GameConfig.FName = node["fName"].InnerText;
-                if (node["GameVersion"] != null) GameConfig.Version = node["GameVersion"].InnerText;
-                if (node["ShowLog"] != null) GameConfig.ShowLog = bool.Parse(node["ShowLog"].InnerText);
-                if (node["Language"] != null) GameConfig.Language = node["Language"].InnerText;
-                if (node["ServicePath"] != null) GameConfig.ServicePath = node["ServicePath"].InnerText;
-                
-                if (node["LocalServicePath"] != null) 
-                    GameConfig.LocalServicePath = string.Format("{0}/{1}", Application.streamingAssetsPath, node["LocalServicePath"].InnerText);
-                if (node["CookieAddress"] != null) 
-                    GameConfig.CookieAddress = string.Format("{0}/{1}", Application.dataPath, node["CookieAddress"].InnerText); 
+                GameConfig.FName = node["fName"].InnerText;
             }
+
+            if (node["GameVersion"] != null)
+            {
+                GameConfig.Version = node["GameVersion"].InnerText;
+            }
+
+            if (node["ShowLog"] != null)
+            {
+                GameConfig.ShowLog = bool.Parse(node["ShowLog"].InnerText);
+            }
+
+            if (node["Language"] != null)
+            {
+                GameConfig.Language = node["Language"].InnerText;
+            }
+
+            if (node["ServicePath"] != null)
+            {
+                GameConfig.ServicePath = node["ServicePath"].InnerText;
+            }
+
+            if (node["LocalServicePath"] != null)
+            {
+                // Warning: DO NOT USE THIS PATH. Currently we do not need local service path, which will be used as local testing usage.
+                GameConfig.LocalServicePath = string.Format("{0}/{1}", Application.persistentDataPath,
+                    node["LocalServicePath"].InnerText);
+            }
+
+            if (node["CookieAddress"] != null)
+            {
+                GameConfig.CookieAddress = string.Format("{0}/{1}", Application.persistentDataPath, node["CookieAddress"].InnerText);
+                Debug.LogWarning("cookie path" + GameConfig.CookieAddress);
+                if (!File.Exists(GameConfig.CookieAddress))
+                {
+                    var path = new FileInfo(GameConfig.CookieAddress).DirectoryName;
+                    if (!File.Exists(path))
+                    {
+                        Directory.CreateDirectory(path);
+                    }
+                    File.Create(GameConfig.CookieAddress);
+                }
+            } 
         }
     }
 
-    private void ReadServiceXml()
+    private void ReadServiceConfigurationXml()
     {        
-#if UNITY_EDITOR
-        ReadLocalServiceXml();
-#else
-        StartCoroutine(ReadRemoteServiceXml());
-#endif
+        StartCoroutine(DoReadRemoteServiceXml());
     }
 
-    private void ReadLocalServiceXml()
+    private IEnumerator DoReadRemoteServiceXml()
     {
-        var doc = XElement.Load(GameConfig.LocalServicePath);
-        ParseService(doc);
-        WindowManager.Instance.Show(typeof(LoginWindow), true);
-    }
-
-    private IEnumerator ReadRemoteServiceXml()
-    {
+        Debug.Log("加载Service.xml=" + GameConfig.ServicePath);
         var www = new WWW(GameConfig.ServicePath);
         yield return www;
+        Debug.Log("加载Service.xml成功");
         var doc = XElement.Parse(www.text, LoadOptions.None);
         ParseService(doc);
+
         WindowManager.Instance.Show(typeof(LoginWindow), true);
     }
 
-    private void ParseService(XElement doc)
+    private static void ParseService(XContainer doc)
     {
+        Debug.Log("解析Service.xml");
         if (doc != null)
         {
             var global = doc.Element("global");
@@ -150,20 +173,17 @@ public class GameConfiguration : Singleton<GameConfiguration>
 
             //servers
             ServiceManager.SetServers(serverMap);
-
+            Debug.Log("解析Service.xml成功");
         }
     }
 
     #region Mono
+
     private void Start()
     {
-        gameConfigurationPath = string.Format("{0}/{1}", Application.streamingAssetsPath, GameConfigurationFile);
-
-        ReadXml();
-
-        ReadGameConfigXml();
-
-        ReadServiceXml();
+        ReadFeatureConfigurationXml();
+        ReadGameConfigurationXml();
+        ReadServiceConfigurationXml();
     }
 
     #endregion

@@ -23,32 +23,18 @@ namespace KXSGCodec
   #endif
   public partial class SCSystemInfoMsg : TBase
   {
-    private string _infoId;
-    private List<string> _param;
+    private string _info;
 
-    public string InfoId
+    public string Info
     {
       get
       {
-        return _infoId;
+        return _info;
       }
       set
       {
-        __isset.infoId = true;
-        this._infoId = value;
-      }
-    }
-
-    public List<string> Param
-    {
-      get
-      {
-        return _param;
-      }
-      set
-      {
-        __isset.param = true;
-        this._param = value;
+        __isset.info = true;
+        this._info = value;
       }
     }
 
@@ -58,8 +44,7 @@ namespace KXSGCodec
     [Serializable]
     #endif
     public struct Isset {
-      public bool infoId;
-      public bool param;
+      public bool info;
     }
 
     public SCSystemInfoMsg() {
@@ -79,24 +64,7 @@ namespace KXSGCodec
         {
           case 1:
             if (field.Type == TType.String) {
-              InfoId = iprot.ReadString();
-            } else { 
-              TProtocolUtil.Skip(iprot, field.Type);
-            }
-            break;
-          case 2:
-            if (field.Type == TType.List) {
-              {
-                Param = new List<string>();
-                TList _list0 = iprot.ReadListBegin();
-                for( int _i1 = 0; _i1 < _list0.Count; ++_i1)
-                {
-                  string _elem2 = null;
-                  _elem2 = iprot.ReadString();
-                  Param.Add(_elem2);
-                }
-                iprot.ReadListEnd();
-              }
+              Info = iprot.ReadString();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
@@ -114,27 +82,12 @@ namespace KXSGCodec
       TStruct struc = new TStruct("SCSystemInfoMsg");
       oprot.WriteStructBegin(struc);
       TField field = new TField();
-      if (InfoId != null && __isset.infoId) {
-        field.Name = "infoId";
+      if (Info != null && __isset.info) {
+        field.Name = "info";
         field.Type = TType.String;
         field.ID = 1;
         oprot.WriteFieldBegin(field);
-        oprot.WriteString(InfoId);
-        oprot.WriteFieldEnd();
-      }
-      if (Param != null && __isset.param) {
-        field.Name = "param";
-        field.Type = TType.List;
-        field.ID = 2;
-        oprot.WriteFieldBegin(field);
-        {
-          oprot.WriteListBegin(new TList(TType.String, Param.Count));
-          foreach (string _iter3 in Param)
-          {
-            oprot.WriteString(_iter3);
-          }
-          oprot.WriteListEnd();
-        }
+        oprot.WriteString(Info);
         oprot.WriteFieldEnd();
       }
       oprot.WriteFieldStop();
@@ -143,10 +96,8 @@ namespace KXSGCodec
 
     public override string ToString() {
       StringBuilder sb = new StringBuilder("SCSystemInfoMsg(");
-      sb.Append("InfoId: ");
-      sb.Append(InfoId);
-      sb.Append(",Param: ");
-      sb.Append(Param);
+      sb.Append("Info: ");
+      sb.Append(Info);
       sb.Append(")");
       return sb.ToString();
     }

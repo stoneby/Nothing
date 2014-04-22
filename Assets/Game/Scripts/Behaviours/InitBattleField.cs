@@ -17,7 +17,7 @@ public class InitBattleField : MonoBehaviour
     public GameObject WarningBg1;
     public GameObject WarningBg2;
     public GameObject WarningText;
-    public GameObject PopTextPrefab;
+//    public GameObject PopTextPrefab;
 
 	public GameObject BreakObject;
 	public GameObject TextBGObject;
@@ -104,7 +104,7 @@ public class InitBattleField : MonoBehaviour
         Text91.SetActive(false);
         TexSwardBg91.SetActive(false);
 
-        PopTextManager.Init(GameObject.Find("EffectPanel"), PopTextPrefab);
+        //PopTextManager.Init(GameObject.Find("EffectPanel"), PopTextPrefab);
         InitLeaders();
         Debug.Log(Screen.height);
     }

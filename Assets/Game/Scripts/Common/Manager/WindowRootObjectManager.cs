@@ -65,6 +65,8 @@ public class WindowRootObjectManager : MonoBehaviour
 
             WindowObjectMap[layer] = layerTrans.gameObject;
         }
+
+        EventManager.Instance.Post(new WindowManagerReady());
     }
 
     #endregion

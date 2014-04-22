@@ -56,11 +56,11 @@ public class GameEventGenerator : EditorWindow
 
     private void OnGUI()
     {
-        className = EditorGUILayout.TextField("Class Name: ", className);
-
-        EditorGUILayout.LabelField("Template: ");
+        className = EditorGUILayout.TextField("Choose Your Class Name: ", className);
 
         EditorGUILayout.Space();
+
+        EditorGUILayout.LabelField("Template: ");
 
         // Draw template item.
         EditorGUILayout.BeginHorizontal();
@@ -70,6 +70,11 @@ public class GameEventGenerator : EditorWindow
 
         // Space bar.
         EditorGUILayout.Space();
+
+        if (fieldPairList.Count != 0)
+        {
+            EditorGUILayout.LabelField("You have added the following fields to your class.");
+        }
 
         // Draw key value pair list.
         fieldPairList.ForEach(pair =>

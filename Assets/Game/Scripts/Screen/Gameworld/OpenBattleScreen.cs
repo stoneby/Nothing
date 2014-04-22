@@ -7,6 +7,7 @@ public class OpenBattleScreen : MonoBehaviour
         //ScreenManager.CurrentScreen = ScreenType.Battle;
         
         var window = WindowManager.Instance.Show(typeof(BattleWindow), true).gameObject;
+        WindowManager.Instance.Show(typeof(MainMenuBarWindow), false);
 
         //GameObject obj = GameObject.Find("Battle(Clone)");
         Debug.Log(window);

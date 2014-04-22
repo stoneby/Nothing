@@ -5,13 +5,12 @@ public class GameInit : MonoBehaviour
 {
     #region Coroutine
 
-    private IEnumerator GameStart()
+    private static void GameStart(WindowManagerReady e)
     {
-        yield return null;
-
+        EventManager.Instance.RemoveListener<WindowManagerReady>(GameStart);
+        
         Debug.Log("GameInit started after everything ready, all start later call.");
-        //WindowManager.Instance.Show(typeof(MainMenuWindow), true);
-        //WindowManager.Instance.Show(typeof(LoginWindow), true);
+        WindowManager.Instance.Show(typeof (LoadingWindow), true);
         WindowManager.Instance.Show(typeof(BackgroundFillsWindow), true);
     }
 
@@ -19,9 +18,9 @@ public class GameInit : MonoBehaviour
 
     #region Mono
 
-    void Start()
+    void Awake()
     {
-        StartCoroutine(GameStart());
+        EventManager.Instance.AddListener<WindowManagerReady>(GameStart);
     }
 
     #endregion

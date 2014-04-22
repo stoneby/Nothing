@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
-using System.Collections;
 
 public class AccountVO
 {
@@ -53,5 +51,10 @@ public class AccountVO
     public static AccountVO CreateData(string ac, string pw, string sv)
     {
         return CreateData(ac + "," + pw + "," + sv);
+    }
+
+    public override string ToString()
+    {
+        return string.Format("Account: " + Account + ", Password: " + Password);
     }
 }

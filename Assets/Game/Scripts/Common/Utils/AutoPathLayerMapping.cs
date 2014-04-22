@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Xml;
 using UnityEngine;
@@ -9,16 +8,25 @@ using UnityEngine;
 /// </summary>
 public class AutoPathLayerMapping : AbstractPathLayerMapping
 {
+    #region Public Fields
+
+    public TextAsset WindowMapText;
+
+    #endregion
+
+    #region Private Fields
+
     private string absolutePath;
 
     private Dictionary<string, List<string>> windowMapDict;
 
-    public const string WindowMapName = "WindowMap.xml";
     private static string windowMapPath;
+
+    #endregion
 
     #region AbstractPathLayerMapping
 
-    public override bool Load()
+    public override bool Parse()
     {
         PathLayerMap.Clear();
         LayerPathMap.Clear();
@@ -77,24 +85,6 @@ public class AutoPathLayerMapping : AbstractPathLayerMapping
         {
             Debug.Log("pair: key-" + pair.Key + ", value-" + pair.Value);
         }
-    }
-
-    IEnumerator DoReadXml()
-    {
-        // print the path to the streaming assets folder
-        var result = "";
-        if (windowMapPath.Contains("://"))
-        {
-            var www = new WWW(windowMapPath);
-            yield return www;
-            result = www.text;
-        }
-        else
-        {
-            result = System.IO.File.ReadAllText(windowMapPath);
-        }
-        windowMapDict = ReadWindowMapFromXml(result);
-        Load();
     }
 
     /// <summary>
@@ -156,10 +146,8 @@ public class AutoPathLayerMapping : AbstractPathLayerMapping
         TypePathMap = new Dictionary<Type, string>();
         PathTypeMap = new Dictionary<string, Type>();
 
-        windowMapPath = System.IO.Path.Combine(Application.streamingAssetsPath, WindowMapName);
-
-        //windowMapDict = Utils.ReadWindowMapFromXml();
-        StartCoroutine(DoReadXml());
+        windowMapDict = ReadWindowMapFromXml(WindowMapText.text);
+        Parse();
     }
 
     #endregion

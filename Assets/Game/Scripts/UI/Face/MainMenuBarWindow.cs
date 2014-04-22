@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MainMenuBarWindow : MonoBehaviour {
+public class MainMenuBarWindow : Window {
 
 	// Use this for initialization
 	void Start () {
@@ -12,4 +12,14 @@ public class MainMenuBarWindow : MonoBehaviour {
 	void Update () {
 	
 	}
+
+    public override void OnEnter()
+    {
+      
+    }
+
+    public override void OnExit()
+    {
+        
+    }
 }

@@ -73,7 +73,7 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  iPhoneBundleIdentifier: cn.kx.sglm
+  iPhoneBundleIdentifier: "cn.kx.wg.kxsginhouse\r\ncn.kx.wg.kxsginhouse\r\n"
   metroEnableIndependentInputSource: 0
   metroEnableLowLatencyPresentationAPI: 0
   productGUID: 801936398638c411e994e5e26fb4a865
@@ -95,14 +95,15 @@ PlayerSettings:
   uIPrerenderedIcon: 0
   uIRequiresPersistentWiFi: 0
   uIStatusBarHidden: 1
-  uIExitOnSuspend: 0
+  uIExitOnSuspend: 1
   uIStatusBarStyle: 0
-  iPhoneSplashScreen: {fileID: 0}
+  iPhoneSplashScreen: {fileID: 2800000, guid: 9be80bd204c3b3b4b8cba09dc391e046, type: 3}
   iPhoneHighResSplashScreen: {fileID: 0}
   iPhoneTallHighResSplashScreen: {fileID: 0}
   iPadPortraitSplashScreen: {fileID: 0}
   iPadHighResPortraitSplashScreen: {fileID: 0}
-  iPadLandscapeSplashScreen: {fileID: 0}
+  iPadLandscapeSplashScreen: {fileID: 2800000, guid: 9be80bd204c3b3b4b8cba09dc391e046,
+    type: 3}
   iPadHighResLandscapeSplashScreen: {fileID: 0}
   AndroidTargetDevice: 0
   AndroidSplashScreenScale: 0
@@ -116,7 +117,7 @@ PlayerSettings:
       m_Size: 128
   - m_BuildTarget: Android
     m_Icons:
-    - m_Icon: {fileID: 2800000, guid: f06e99d163955400ab27a7176d2f2b00, type: 3}
+    - m_Icon: {fileID: 2800000, guid: 4c0cab4f2f371d44eb3089830f9d4305, type: 3}
       m_Size: 144
     - m_Icon: {fileID: 0}
       m_Size: 96
@@ -126,6 +127,22 @@ PlayerSettings:
       m_Size: 48
     - m_Icon: {fileID: 0}
       m_Size: 36
+  - m_BuildTarget: iPhone
+    m_Icons:
+    - m_Icon: {fileID: 2800000, guid: 4c0cab4f2f371d44eb3089830f9d4305, type: 3}
+      m_Size: 152
+    - m_Icon: {fileID: 0}
+      m_Size: 144
+    - m_Icon: {fileID: 0}
+      m_Size: 120
+    - m_Icon: {fileID: 0}
+      m_Size: 114
+    - m_Icon: {fileID: 0}
+      m_Size: 76
+    - m_Icon: {fileID: 0}
+      m_Size: 72
+    - m_Icon: {fileID: 0}
+      m_Size: 57
   m_BuildTargetBatching: []
   webPlayerTemplate: APPLICATION:Default
   m_TemplateCustomTags: {}

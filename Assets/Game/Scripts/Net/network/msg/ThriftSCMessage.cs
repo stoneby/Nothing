@@ -19,6 +19,8 @@ namespace KXSGCodec
         {
             this.msgType = msgType;
             content = SCMessageHelper.createMessage(msgType);
+            //content = SCMessageHelper.createMessage(msgType);
+            
         }
 
         public TBase getContent() 

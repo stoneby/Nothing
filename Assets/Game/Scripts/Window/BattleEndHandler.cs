@@ -15,5 +15,6 @@ public class BattleEndHandler : MonoBehaviour
 
         WindowManager.Instance.Show(WindowGroupType.Popup, false);
         WindowManager.Instance.Show(typeof(MainMenuWindow), true);
+        WindowManager.Instance.Show(typeof(MainMenuBarWindow), true);
     }
 }
