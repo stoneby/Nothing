@@ -115,14 +115,23 @@ public class EnemyControl : MonoBehaviour
 
     IEnumerator DoPlayAttarck()
     {
-        var sp = EnemySprite.GetComponent<UISprite>();
+        //var sp = EnemySprite.GetComponent<UISprite>();
+        var sp = EnemySprite.GetComponent<AdvanceImageTuner>(); 
         yield return new WaitForSeconds(0.3f);
-        sp.spriteName = BossWhite;
+        sp.Highlight = 0.89f;
+        sp.Color = Color.white;
+        //sp.spriteName = BossWhite;
         yield return new WaitForSeconds(0.3f);
-        sp.spriteName = BossBlack;
+        sp.Highlight = 0f;
+        sp.Color = Color.black;
+        //sp.spriteName = BossBlack;
         yield return new WaitForSeconds(0.3f);
-        sp.spriteName = BossWhite;
+        sp.Highlight = 0.89f;
+        sp.Color = Color.white;
+        //sp.spriteName = BossWhite;
         yield return new WaitForSeconds(0.3f);
-        sp.spriteName = BossNormal;
+        sp.Highlight = 0f;
+        sp.Color = Color.white;
+        //sp.spriteName = BossNormal;
     }
 }

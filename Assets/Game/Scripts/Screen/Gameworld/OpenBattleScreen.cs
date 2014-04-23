@@ -1,25 +1,29 @@
-﻿using UnityEngine;
+﻿using KXSGCodec;
+using UnityEngine;
 
 public class OpenBattleScreen : MonoBehaviour
 {
     void OnClick()
     {
-        //ScreenManager.CurrentScreen = ScreenType.Battle;
-        
-        var window = WindowManager.Instance.Show(typeof(BattleWindow), true).gameObject;
-        WindowManager.Instance.Show(typeof(MainMenuBarWindow), false);
+        //if (GameConfiguration.Instance.SingleMode)
+        //{
+        //    var window = WindowManager.Instance.Show(typeof(BattleWindow), true).gameObject;
+        //    WindowManager.Instance.Show(typeof(MainMenuBarWindow), false);
 
-        //GameObject obj = GameObject.Find("Battle(Clone)");
-        Debug.Log(window);
-        var battlemanager = window.GetComponent<InitBattleField>();
-        var attracks = new int[12];
-        for (var i = 0; i < attracks.Length; i++)
-        {
-            attracks[i] = (i % 2 == 0) ? 1 : 5;
-        }
-        var enemys = new int[2];
-        enemys[0] = 1;
-        enemys[1] = 2;
-        battlemanager.StartBattle(attracks, enemys);
+        //    Debug.Log(window);
+        //    var battlemanager = window.GetComponent<InitBattleField>();
+        //    battlemanager.StartBattle();
+        //}
+        //else
+        //{
+        //    var csMsg = new CSRaidBattleStartMsg();
+        //    csMsg.RaidId = 1;
+        //    csMsg.FriendId = 1;
+        //    NetManager.SendMessage(csMsg);
+        //}
+        var csMsg = new CSRaidBattleStartMsg();
+        csMsg.RaidId = 1;
+        csMsg.FriendId = 1;
+        NetManager.SendMessage(csMsg);
     }
 }

@@ -30,8 +30,9 @@ public class PopTextManager
 
     public static void PopTip(string str)
     {
+        
         //var now = DateTime.Now;
-        Debug.Log("time == " + Time.deltaTime);
+        //Debug.Log(Time.time);
         ShowText(str, 3, 0, 0, 100, new Vector3(0,250,0));
     }
 }

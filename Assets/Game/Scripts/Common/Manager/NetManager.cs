@@ -2,6 +2,7 @@
 using System.IO;
 using System.Net;
 using System.Threading;
+using Assets.Game.Scripts.Net.network;
 using KXSGCodec;
 using Thrift.Protocol;
 using UnityEngine;
@@ -9,8 +10,10 @@ using System.Collections;
 
 public class NetManager
 {
-    //private const string URL = "http://172.16.7.132:8080/sglm-webserver/request";
-    private const string URL = "http://27.131.223.229:8080/sglm-webserver/request";
+
+    //private const string URL = "http://172.16.7.131:8080/sglm-webserver/request";//李媛
+    //private const string URL = "http://172.16.7.132:8080/sglm-webserver/request";//方勇
+    //private const string URL = "http://27.131.223.229:8080/sglm-webserver/request";
     private const string METHOD = "POST";
     private static ClientSocket SocketClient = new ClientSocket("127.0.0.1", "8080");
 
@@ -38,6 +41,7 @@ public class NetManager
             SCMsgQueue = new Queue();
         }
         CSMsgQueue.Enqueue(msg);
+        CSMutex.ReleaseMutex();
         if (MsgThread == null)
         {
             var entry = new ThreadStart(DoSend);
@@ -49,8 +53,6 @@ public class NetManager
         {
             MsgThread.Start();
         }
-
-        CSMutex.ReleaseMutex();
     }
 
     public static ThriftSCMessage GetMessage()
@@ -60,14 +62,17 @@ public class NetManager
             SCMutex = new Mutex();
         }
 
+        ThriftSCMessage msg;
         SCMutex.WaitOne(500);
 
         if (SCMsgQueue == null || SCMsgQueue.Count <= 0)
         {
-            return null;
+            msg = null;
         }
-
-        var msg = SCMsgQueue.Dequeue() as ThriftSCMessage;
+        else
+        {
+            msg = SCMsgQueue.Dequeue() as ThriftSCMessage;
+        }
         
         SCMutex.ReleaseMutex();
         return msg;
@@ -88,10 +93,9 @@ public class NetManager
                 CSMutex = new Mutex();
             }
 
-            string responseData = "";
             try
             {
-                var hwrequest = (HttpWebRequest)WebRequest.Create(URL);
+                var hwrequest = (HttpWebRequest)WebRequest.Create(ServiceManager.ServerData.Url);
                 hwrequest.Accept = "*/*";
                 hwrequest.AllowAutoRedirect = true;
                 hwrequest.UserAgent = "http_requester/0.1";
@@ -156,7 +160,17 @@ public class NetManager
             catch (Exception e)
             {
                 Debug.Log("An error occurred: " + e.Message);
-                responseData = "An error occurred: " + e.Message;
+                var globalmessage = new ClientSCMessage((short)MessageType.SC_SYSTEM_INFO_MSG, e.Message);
+                if (SCMutex == null)
+                {
+                    SCMutex = new Mutex();
+                }
+
+                SCMutex.WaitOne(500);
+
+                SCMsgQueue.Enqueue(globalmessage);
+
+                SCMutex.ReleaseMutex();
             }
 
         }

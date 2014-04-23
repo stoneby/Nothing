@@ -18,6 +18,9 @@ using Thrift.Transport;
 namespace KXSGCodec
 {
 
+  /// <summary>
+  /// PVE战斗开始协议
+  /// </summary>
   #if !SILVERLIGHT
   [Serializable]
   #endif
@@ -26,8 +29,13 @@ namespace KXSGCodec
     private long _uuid;
     private sbyte _battleType;
     private int _raidID;
-    private List<KXSGCodec.BattleMsgFighter> _fighterList;
+    private List<KXSGCodec.BattleMsgHero> _fighterList;
+    private List<int> _monsterGroup;
+    private List<KXSGCodec.BattleMsgMonster> _monsterList;
 
+    /// <summary>
+    /// 战斗UUID
+    /// </summary>
     public long Uuid
     {
       get
@@ -41,6 +49,9 @@ namespace KXSGCodec
       }
     }
 
+    /// <summary>
+    /// 战斗类型
+    /// </summary>
     public sbyte BattleType
     {
       get
@@ -54,6 +65,9 @@ namespace KXSGCodec
       }
     }
 
+    /// <summary>
+    /// 副本ID
+    /// </summary>
     public int RaidID
     {
       get
@@ -67,7 +81,10 @@ namespace KXSGCodec
       }
     }
 
-    public List<KXSGCodec.BattleMsgFighter> FighterList
+    /// <summary>
+    /// 武将列表
+    /// </summary>
+    public List<KXSGCodec.BattleMsgHero> FighterList
     {
       get
       {
@@ -77,6 +94,38 @@ namespace KXSGCodec
       {
         __isset.fighterList = true;
         this._fighterList = value;
+      }
+    }
+
+    /// <summary>
+    /// 怪物分组
+    /// </summary>
+    public List<int> MonsterGroup
+    {
+      get
+      {
+        return _monsterGroup;
+      }
+      set
+      {
+        __isset.monsterGroup = true;
+        this._monsterGroup = value;
+      }
+    }
+
+    /// <summary>
+    /// 怪物列表
+    /// </summary>
+    public List<KXSGCodec.BattleMsgMonster> MonsterList
+    {
+      get
+      {
+        return _monsterList;
+      }
+      set
+      {
+        __isset.monsterList = true;
+        this._monsterList = value;
       }
     }
 
@@ -90,6 +139,8 @@ namespace KXSGCodec
       public bool battleType;
       public bool raidID;
       public bool fighterList;
+      public bool monsterGroup;
+      public bool monsterList;
     }
 
     public SCBattlePveStartMsg() {
@@ -131,14 +182,49 @@ namespace KXSGCodec
           case 4:
             if (field.Type == TType.List) {
               {
-                FighterList = new List<KXSGCodec.BattleMsgFighter>();
+                FighterList = new List<KXSGCodec.BattleMsgHero>();
                 TList _list0 = iprot.ReadListBegin();
                 for( int _i1 = 0; _i1 < _list0.Count; ++_i1)
                 {
-                  KXSGCodec.BattleMsgFighter _elem2 = new KXSGCodec.BattleMsgFighter();
-                  _elem2 = new KXSGCodec.BattleMsgFighter();
+                  KXSGCodec.BattleMsgHero _elem2 = new KXSGCodec.BattleMsgHero();
+                  _elem2 = new KXSGCodec.BattleMsgHero();
                   _elem2.Read(iprot);
                   FighterList.Add(_elem2);
+                }
+                iprot.ReadListEnd();
+              }
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 5:
+            if (field.Type == TType.List) {
+              {
+                MonsterGroup = new List<int>();
+                TList _list3 = iprot.ReadListBegin();
+                for( int _i4 = 0; _i4 < _list3.Count; ++_i4)
+                {
+                  int _elem5 = 0;
+                  _elem5 = iprot.ReadI32();
+                  MonsterGroup.Add(_elem5);
+                }
+                iprot.ReadListEnd();
+              }
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 6:
+            if (field.Type == TType.List) {
+              {
+                MonsterList = new List<KXSGCodec.BattleMsgMonster>();
+                TList _list6 = iprot.ReadListBegin();
+                for( int _i7 = 0; _i7 < _list6.Count; ++_i7)
+                {
+                  KXSGCodec.BattleMsgMonster _elem8 = new KXSGCodec.BattleMsgMonster();
+                  _elem8 = new KXSGCodec.BattleMsgMonster();
+                  _elem8.Read(iprot);
+                  MonsterList.Add(_elem8);
                 }
                 iprot.ReadListEnd();
               }
@@ -190,9 +276,39 @@ namespace KXSGCodec
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.Struct, FighterList.Count));
-          foreach (KXSGCodec.BattleMsgFighter _iter3 in FighterList)
+          foreach (KXSGCodec.BattleMsgHero _iter9 in FighterList)
           {
-            _iter3.Write(oprot);
+            _iter9.Write(oprot);
+          }
+          oprot.WriteListEnd();
+        }
+        oprot.WriteFieldEnd();
+      }
+      if (MonsterGroup != null && __isset.monsterGroup) {
+        field.Name = "monsterGroup";
+        field.Type = TType.List;
+        field.ID = 5;
+        oprot.WriteFieldBegin(field);
+        {
+          oprot.WriteListBegin(new TList(TType.I32, MonsterGroup.Count));
+          foreach (int _iter10 in MonsterGroup)
+          {
+            oprot.WriteI32(_iter10);
+          }
+          oprot.WriteListEnd();
+        }
+        oprot.WriteFieldEnd();
+      }
+      if (MonsterList != null && __isset.monsterList) {
+        field.Name = "monsterList";
+        field.Type = TType.List;
+        field.ID = 6;
+        oprot.WriteFieldBegin(field);
+        {
+          oprot.WriteListBegin(new TList(TType.Struct, MonsterList.Count));
+          foreach (KXSGCodec.BattleMsgMonster _iter11 in MonsterList)
+          {
+            _iter11.Write(oprot);
           }
           oprot.WriteListEnd();
         }
@@ -212,6 +328,10 @@ namespace KXSGCodec
       sb.Append(RaidID);
       sb.Append(",FighterList: ");
       sb.Append(FighterList);
+      sb.Append(",MonsterGroup: ");
+      sb.Append(MonsterGroup);
+      sb.Append(",MonsterList: ");
+      sb.Append(MonsterList);
       sb.Append(")");
       return sb.ToString();
     }

@@ -798,7 +798,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100002}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -572, y: 307, z: 0}
+  m_LocalPosition: {x: -568.5, y: 301.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400000}
@@ -1024,7 +1024,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100056}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 103.740692, y: 0, z: 0}
+  m_LocalPosition: {x: 104, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400040}
@@ -1036,7 +1036,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100060}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -122.177734, y: 0, z: 0}
+  m_LocalPosition: {x: -126, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400042}
@@ -1048,7 +1048,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100062}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.3269043, y: -2, z: 0}
+  m_LocalPosition: {x: 12.5, y: -2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400064}
@@ -1140,7 +1140,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100064}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -480, y: 340, z: 0}
+  m_LocalPosition: {x: -476, y: 340, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400048}
@@ -1407,30 +1407,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   leftAnchor:
-    target: {fileID: 0}
+    target: {fileID: 400004}
     relative: 0
     absolute: 0
   rightAnchor:
-    target: {fileID: 0}
+    target: {fileID: 400004}
     relative: 1
-    absolute: 0
+    absolute: -30
   bottomAnchor:
-    target: {fileID: 0}
+    target: {fileID: 400004}
     relative: 0
-    absolute: 0
+    absolute: 9
   topAnchor:
-    target: {fileID: 0}
+    target: {fileID: 400004}
     relative: 1
-    absolute: 0
+    absolute: -9
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
-  mWidth: 123
+  mWidth: 113
   mHeight: 25
   mDepth: 5
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
-  aspectRatio: 4.92000008
+  aspectRatio: 4.51999998
   keepCrispWhenShrunk: 1
   mTrueTypeFont: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
   mFont: {fileID: 0}
@@ -1467,30 +1467,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   leftAnchor:
-    target: {fileID: 0}
+    target: {fileID: 400064}
     relative: 0
     absolute: 0
   rightAnchor:
-    target: {fileID: 0}
-    relative: 1
-    absolute: 0
+    target: {fileID: 400064}
+    relative: .5
+    absolute: -21
   bottomAnchor:
-    target: {fileID: 0}
+    target: {fileID: 400064}
     relative: 0
-    absolute: 0
+    absolute: -43
   topAnchor:
-    target: {fileID: 0}
-    relative: 1
+    target: {fileID: 400064}
+    relative: 0
     absolute: 0
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
-  mWidth: 153
+  mWidth: 143
   mHeight: 43
   mDepth: 4
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
-  aspectRatio: 3.55813956
+  aspectRatio: 3.32558131
   mAtlas: {fileID: 11400000, guid: 2e5f36b2f1b529d4e9cfe99802d4dcb6, type: 2}
   mSpriteName: Tag
   mType: 0
@@ -2760,30 +2760,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   leftAnchor:
-    target: {fileID: 0}
-    relative: 0
-    absolute: 0
+    target: {fileID: 400064}
+    relative: 1
+    absolute: -80
   rightAnchor:
-    target: {fileID: 0}
+    target: {fileID: 400064}
     relative: 1
-    absolute: 0
+    absolute: -40
   bottomAnchor:
-    target: {fileID: 0}
+    target: {fileID: 400064}
     relative: 0
-    absolute: 0
+    absolute: 7
   topAnchor:
-    target: {fileID: 0}
+    target: {fileID: 400064}
     relative: 1
-    absolute: 0
+    absolute: -7
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
-  mWidth: 38
+  mWidth: 40
   mHeight: 20
   mDepth: 8
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
-  aspectRatio: 1.89999998
+  aspectRatio: 2
   mAtlas: {fileID: 11400000, guid: 2e5f36b2f1b529d4e9cfe99802d4dcb6, type: 2}
   mSpriteName: vip
   mType: 1
@@ -2808,30 +2808,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   leftAnchor:
-    target: {fileID: 0}
+    target: {fileID: 400064}
     relative: 0
-    absolute: 0
+    absolute: 15
   rightAnchor:
-    target: {fileID: 0}
-    relative: 1
-    absolute: 0
-  bottomAnchor:
-    target: {fileID: 0}
+    target: {fileID: 400064}
     relative: 0
-    absolute: 0
+    absolute: 61
+  bottomAnchor:
+    target: {fileID: 400064}
+    relative: 0
+    absolute: 7
   topAnchor:
-    target: {fileID: 0}
+    target: {fileID: 400064}
     relative: 1
-    absolute: 0
+    absolute: -7
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
-  mWidth: 38
+  mWidth: 46
   mHeight: 20
   mDepth: 7
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
-  aspectRatio: 1.89999998
+  aspectRatio: 2.29999995
   mAtlas: {fileID: 11400000, guid: 2e5f36b2f1b529d4e9cfe99802d4dcb6, type: 2}
   mSpriteName: LV
   mType: 1
@@ -2856,30 +2856,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   leftAnchor:
-    target: {fileID: 0}
-    relative: 0
-    absolute: 0
+    target: {fileID: 400046}
+    relative: 1
+    absolute: 51
   rightAnchor:
-    target: {fileID: 0}
+    target: {fileID: 400046}
     relative: 1
-    absolute: 0
+    absolute: 180
   bottomAnchor:
-    target: {fileID: 0}
+    target: {fileID: 400046}
     relative: 0
-    absolute: 0
+    absolute: -2
   topAnchor:
-    target: {fileID: 0}
+    target: {fileID: 400046}
     relative: 1
-    absolute: 0
+    absolute: -2
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
-  mWidth: 120
+  mWidth: 129
   mHeight: 20
   mDepth: 8
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
-  aspectRatio: 6
+  aspectRatio: 6.44999981
   keepCrispWhenShrunk: 1
   mTrueTypeFont: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
   mFont: {fileID: 0}
@@ -2916,30 +2916,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   leftAnchor:
-    target: {fileID: 0}
+    target: {fileID: 400092}
     relative: 0
     absolute: 0
   rightAnchor:
-    target: {fileID: 0}
-    relative: 1
-    absolute: 0
-  bottomAnchor:
-    target: {fileID: 0}
+    target: {fileID: 400092}
     relative: 0
-    absolute: 0
-  topAnchor:
-    target: {fileID: 0}
+    absolute: 328
+  bottomAnchor:
+    target: {fileID: 400092}
     relative: 1
-    absolute: 0
+    absolute: -37
+  topAnchor:
+    target: {fileID: 400092}
+    relative: 1
+    absolute: -3
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
-  mWidth: 340
+  mWidth: 328
   mHeight: 34
   mDepth: 6
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
-  aspectRatio: 10
+  aspectRatio: 9.64705849
   mAtlas: {fileID: 11400000, guid: 2e5f36b2f1b529d4e9cfe99802d4dcb6, type: 2}
   mSpriteName: InfoBar
   mType: 1

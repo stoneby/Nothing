@@ -64,7 +64,7 @@ public class CameraAdjuster : MonoBehaviour
         float r1 = StandardWidth/deviceWidth;
         float r2 = StandardHeight/deviceHeight;
 
-        //CameraScale = (r1 < r2) ? r1 : r2;
+        CameraScale = 1/r1;
         //camera.orthographicSize = 1/CameraScale;
 
         Debug.Log("Scale " + CameraScale.ToString());

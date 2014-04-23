@@ -11,12 +11,16 @@ public class Character : MonoBehaviour
 
     #endregion
 
+    #region Public Properties
+
+    public int Index { get; set; }
+
+    #endregion
+
     #region Mono
 
-    // Use this for initialization
-    void Start()
+    protected virtual void Start()
     {
-
     }
 
     #endregion

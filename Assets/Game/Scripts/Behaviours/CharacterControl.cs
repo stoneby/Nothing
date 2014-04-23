@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using KXSGCodec;
 using UnityEngine;
 
 public class CharacterControl : MonoBehaviour
@@ -14,6 +15,8 @@ public class CharacterControl : MonoBehaviour
     public GameObject SpriteObj;
     public GameObject PoisonPrefab;
     public GameObject BuffObj;
+
+    private BattleMsgHero Data;
 
     public int CharacterIndex;
     public int FootIndex;
@@ -66,11 +69,11 @@ public class CharacterControl : MonoBehaviour
     {
         FootIndex = footindex;
         var uisp = FootObj.GetComponent<UISprite>();
-        uisp.spriteName = "foot_" + footindex;
+        uisp.spriteName = "pck_" + footindex;
         uisp = JobObj.GetComponent<UISprite>();
-        uisp.spriteName = (FootIndex == 4) ? "icon_zhiye_1" : "icon_zhiye_" + JobIndex;
+        uisp.spriteName = (FootIndex == 5) ? "job_6" : "job_" + JobIndex;
         var uilb = AttrackObj.GetComponent<UILabel>();
-        uilb.text = (FootIndex == 4) ? ("" + Restore) : ("" + Attrack);
+        uilb.text = (FootIndex == 5) ? ("" + Restore) : ("" + Attrack);
     }
 
     public void SetCharacterAfter(float aftertime)
@@ -85,20 +88,21 @@ public class CharacterControl : MonoBehaviour
         PlayCharacter(0);
     }
 
-    public void SetCharacter(int characterindex, int zhiyeindex, int theattrack, int theback)
+    public void SetCharacter(BattleMsgHero data)
     {
-        CharacterIndex = characterindex;
-        JobIndex = zhiyeindex;
-        Attrack = theattrack;
-        Restore = theback;
+        Data = data;
+        CharacterIndex = (data.TemplateId % 2 == 0) ? 1 : 5;
+        JobIndex = Random.Range(1, 5);
+        Attrack = Random.Range(60, 150);
+        Restore = Random.Range(100, 200); 
 
         var uisa = AnimObj.GetComponent<UISpriteAnimation>();
         uisa.namePrefix = "c_" + CharacterIndex + "_0_";
         uisa.framesPerSecond = 8;
         var uisp = JobObj.GetComponent<UISprite>();
-        uisp.spriteName = (FootIndex == 4) ? "icon_zhiye_1" : "icon_zhiye_" + JobIndex;
+        uisp.spriteName = (FootIndex == 5) ? "job_6" : "job_" + JobIndex;
         var uilb = AttrackObj.GetComponent<UILabel>();
-        uilb.text = (FootIndex == 4) ? Restore.ToString() : Attrack.ToString();
+        uilb.text = (FootIndex == 5) ? Restore.ToString() : Attrack.ToString();
     }
 
     public string GetNamePrefix()

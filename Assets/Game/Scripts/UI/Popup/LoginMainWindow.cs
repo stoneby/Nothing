@@ -206,7 +206,11 @@ public class LoginMainWindow : Window
         {
             ServiceManager.DeleteAccount(e.account);
             ResetAccountList();
+            
         }
+
+        var grid = SelectAccountContainer.GetComponent<UIGrid>();
+        grid.Reposition();
     }
 
     private void OnSelectAccountClick(GameObject game = null)

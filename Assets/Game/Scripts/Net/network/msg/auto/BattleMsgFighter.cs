@@ -23,28 +23,15 @@ namespace KXSGCodec
   #endif
   public partial class BattleMsgFighter : TBase
   {
-    private int _uuid;
     private int _index;
     private int _templateId;
-    private Dictionary<int, int> _propties;
+    private Dictionary<int, int> _fighteProp;
+    private Dictionary<int, int> _otherProp;
     private List<int> _leaderSkill;
     private List<int> _activeSkill;
     private List<int> _giftSkill;
     private List<int> _warriorsSkill;
     private List<int> _weaponSkill;
-
-    public int Uuid
-    {
-      get
-      {
-        return _uuid;
-      }
-      set
-      {
-        __isset.uuid = true;
-        this._uuid = value;
-      }
-    }
 
     public int Index
     {
@@ -72,16 +59,29 @@ namespace KXSGCodec
       }
     }
 
-    public Dictionary<int, int> Propties
+    public Dictionary<int, int> FighteProp
     {
       get
       {
-        return _propties;
+        return _fighteProp;
       }
       set
       {
-        __isset.propties = true;
-        this._propties = value;
+        __isset.fighteProp = true;
+        this._fighteProp = value;
+      }
+    }
+
+    public Dictionary<int, int> OtherProp
+    {
+      get
+      {
+        return _otherProp;
+      }
+      set
+      {
+        __isset.otherProp = true;
+        this._otherProp = value;
       }
     }
 
@@ -156,10 +156,10 @@ namespace KXSGCodec
     [Serializable]
     #endif
     public struct Isset {
-      public bool uuid;
       public bool index;
       public bool templateId;
-      public bool propties;
+      public bool fighteProp;
+      public bool otherProp;
       public bool leaderSkill;
       public bool activeSkill;
       public bool giftSkill;
@@ -184,29 +184,22 @@ namespace KXSGCodec
         {
           case 1:
             if (field.Type == TType.I32) {
-              Uuid = iprot.ReadI32();
+              Index = iprot.ReadI32();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
             break;
           case 2:
             if (field.Type == TType.I32) {
-              Index = iprot.ReadI32();
-            } else { 
-              TProtocolUtil.Skip(iprot, field.Type);
-            }
-            break;
-          case 3:
-            if (field.Type == TType.I32) {
               TemplateId = iprot.ReadI32();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
             break;
-          case 4:
+          case 3:
             if (field.Type == TType.Map) {
               {
-                Propties = new Dictionary<int, int>();
+                FighteProp = new Dictionary<int, int>();
                 TMap _map0 = iprot.ReadMapBegin();
                 for( int _i1 = 0; _i1 < _map0.Count; ++_i1)
                 {
@@ -214,7 +207,26 @@ namespace KXSGCodec
                   int _val3;
                   _key2 = iprot.ReadI32();
                   _val3 = iprot.ReadI32();
-                  Propties[_key2] = _val3;
+                  FighteProp[_key2] = _val3;
+                }
+                iprot.ReadMapEnd();
+              }
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 4:
+            if (field.Type == TType.Map) {
+              {
+                OtherProp = new Dictionary<int, int>();
+                TMap _map4 = iprot.ReadMapBegin();
+                for( int _i5 = 0; _i5 < _map4.Count; ++_i5)
+                {
+                  int _key6;
+                  int _val7;
+                  _key6 = iprot.ReadI32();
+                  _val7 = iprot.ReadI32();
+                  OtherProp[_key6] = _val7;
                 }
                 iprot.ReadMapEnd();
               }
@@ -226,12 +238,12 @@ namespace KXSGCodec
             if (field.Type == TType.List) {
               {
                 LeaderSkill = new List<int>();
-                TList _list4 = iprot.ReadListBegin();
-                for( int _i5 = 0; _i5 < _list4.Count; ++_i5)
+                TList _list8 = iprot.ReadListBegin();
+                for( int _i9 = 0; _i9 < _list8.Count; ++_i9)
                 {
-                  int _elem6 = 0;
-                  _elem6 = iprot.ReadI32();
-                  LeaderSkill.Add(_elem6);
+                  int _elem10 = 0;
+                  _elem10 = iprot.ReadI32();
+                  LeaderSkill.Add(_elem10);
                 }
                 iprot.ReadListEnd();
               }
@@ -243,12 +255,12 @@ namespace KXSGCodec
             if (field.Type == TType.List) {
               {
                 ActiveSkill = new List<int>();
-                TList _list7 = iprot.ReadListBegin();
-                for( int _i8 = 0; _i8 < _list7.Count; ++_i8)
+                TList _list11 = iprot.ReadListBegin();
+                for( int _i12 = 0; _i12 < _list11.Count; ++_i12)
                 {
-                  int _elem9 = 0;
-                  _elem9 = iprot.ReadI32();
-                  ActiveSkill.Add(_elem9);
+                  int _elem13 = 0;
+                  _elem13 = iprot.ReadI32();
+                  ActiveSkill.Add(_elem13);
                 }
                 iprot.ReadListEnd();
               }
@@ -260,12 +272,12 @@ namespace KXSGCodec
             if (field.Type == TType.List) {
               {
                 GiftSkill = new List<int>();
-                TList _list10 = iprot.ReadListBegin();
-                for( int _i11 = 0; _i11 < _list10.Count; ++_i11)
+                TList _list14 = iprot.ReadListBegin();
+                for( int _i15 = 0; _i15 < _list14.Count; ++_i15)
                 {
-                  int _elem12 = 0;
-                  _elem12 = iprot.ReadI32();
-                  GiftSkill.Add(_elem12);
+                  int _elem16 = 0;
+                  _elem16 = iprot.ReadI32();
+                  GiftSkill.Add(_elem16);
                 }
                 iprot.ReadListEnd();
               }
@@ -277,12 +289,12 @@ namespace KXSGCodec
             if (field.Type == TType.List) {
               {
                 WarriorsSkill = new List<int>();
-                TList _list13 = iprot.ReadListBegin();
-                for( int _i14 = 0; _i14 < _list13.Count; ++_i14)
+                TList _list17 = iprot.ReadListBegin();
+                for( int _i18 = 0; _i18 < _list17.Count; ++_i18)
                 {
-                  int _elem15 = 0;
-                  _elem15 = iprot.ReadI32();
-                  WarriorsSkill.Add(_elem15);
+                  int _elem19 = 0;
+                  _elem19 = iprot.ReadI32();
+                  WarriorsSkill.Add(_elem19);
                 }
                 iprot.ReadListEnd();
               }
@@ -294,12 +306,12 @@ namespace KXSGCodec
             if (field.Type == TType.List) {
               {
                 WeaponSkill = new List<int>();
-                TList _list16 = iprot.ReadListBegin();
-                for( int _i17 = 0; _i17 < _list16.Count; ++_i17)
+                TList _list20 = iprot.ReadListBegin();
+                for( int _i21 = 0; _i21 < _list20.Count; ++_i21)
                 {
-                  int _elem18 = 0;
-                  _elem18 = iprot.ReadI32();
-                  WeaponSkill.Add(_elem18);
+                  int _elem22 = 0;
+                  _elem22 = iprot.ReadI32();
+                  WeaponSkill.Add(_elem22);
                 }
                 iprot.ReadListEnd();
               }
@@ -320,18 +332,10 @@ namespace KXSGCodec
       TStruct struc = new TStruct("BattleMsgFighter");
       oprot.WriteStructBegin(struc);
       TField field = new TField();
-      if (__isset.uuid) {
-        field.Name = "uuid";
-        field.Type = TType.I32;
-        field.ID = 1;
-        oprot.WriteFieldBegin(field);
-        oprot.WriteI32(Uuid);
-        oprot.WriteFieldEnd();
-      }
       if (__isset.index) {
         field.Name = "index";
         field.Type = TType.I32;
-        field.ID = 2;
+        field.ID = 1;
         oprot.WriteFieldBegin(field);
         oprot.WriteI32(Index);
         oprot.WriteFieldEnd();
@@ -339,22 +343,38 @@ namespace KXSGCodec
       if (__isset.templateId) {
         field.Name = "templateId";
         field.Type = TType.I32;
-        field.ID = 3;
+        field.ID = 2;
         oprot.WriteFieldBegin(field);
         oprot.WriteI32(TemplateId);
         oprot.WriteFieldEnd();
       }
-      if (Propties != null && __isset.propties) {
-        field.Name = "propties";
+      if (FighteProp != null && __isset.fighteProp) {
+        field.Name = "fighteProp";
+        field.Type = TType.Map;
+        field.ID = 3;
+        oprot.WriteFieldBegin(field);
+        {
+          oprot.WriteMapBegin(new TMap(TType.I32, TType.I32, FighteProp.Count));
+          foreach (int _iter23 in FighteProp.Keys)
+          {
+            oprot.WriteI32(_iter23);
+            oprot.WriteI32(FighteProp[_iter23]);
+          }
+          oprot.WriteMapEnd();
+        }
+        oprot.WriteFieldEnd();
+      }
+      if (OtherProp != null && __isset.otherProp) {
+        field.Name = "otherProp";
         field.Type = TType.Map;
         field.ID = 4;
         oprot.WriteFieldBegin(field);
         {
-          oprot.WriteMapBegin(new TMap(TType.I32, TType.I32, Propties.Count));
-          foreach (int _iter19 in Propties.Keys)
+          oprot.WriteMapBegin(new TMap(TType.I32, TType.I32, OtherProp.Count));
+          foreach (int _iter24 in OtherProp.Keys)
           {
-            oprot.WriteI32(_iter19);
-            oprot.WriteI32(Propties[_iter19]);
+            oprot.WriteI32(_iter24);
+            oprot.WriteI32(OtherProp[_iter24]);
           }
           oprot.WriteMapEnd();
         }
@@ -367,9 +387,9 @@ namespace KXSGCodec
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.I32, LeaderSkill.Count));
-          foreach (int _iter20 in LeaderSkill)
+          foreach (int _iter25 in LeaderSkill)
           {
-            oprot.WriteI32(_iter20);
+            oprot.WriteI32(_iter25);
           }
           oprot.WriteListEnd();
         }
@@ -382,9 +402,9 @@ namespace KXSGCodec
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.I32, ActiveSkill.Count));
-          foreach (int _iter21 in ActiveSkill)
+          foreach (int _iter26 in ActiveSkill)
           {
-            oprot.WriteI32(_iter21);
+            oprot.WriteI32(_iter26);
           }
           oprot.WriteListEnd();
         }
@@ -397,9 +417,9 @@ namespace KXSGCodec
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.I32, GiftSkill.Count));
-          foreach (int _iter22 in GiftSkill)
+          foreach (int _iter27 in GiftSkill)
           {
-            oprot.WriteI32(_iter22);
+            oprot.WriteI32(_iter27);
           }
           oprot.WriteListEnd();
         }
@@ -412,9 +432,9 @@ namespace KXSGCodec
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.I32, WarriorsSkill.Count));
-          foreach (int _iter23 in WarriorsSkill)
+          foreach (int _iter28 in WarriorsSkill)
           {
-            oprot.WriteI32(_iter23);
+            oprot.WriteI32(_iter28);
           }
           oprot.WriteListEnd();
         }
@@ -427,9 +447,9 @@ namespace KXSGCodec
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.I32, WeaponSkill.Count));
-          foreach (int _iter24 in WeaponSkill)
+          foreach (int _iter29 in WeaponSkill)
           {
-            oprot.WriteI32(_iter24);
+            oprot.WriteI32(_iter29);
           }
           oprot.WriteListEnd();
         }
@@ -441,14 +461,14 @@ namespace KXSGCodec
 
     public override string ToString() {
       StringBuilder sb = new StringBuilder("BattleMsgFighter(");
-      sb.Append("Uuid: ");
-      sb.Append(Uuid);
-      sb.Append(",Index: ");
+      sb.Append("Index: ");
       sb.Append(Index);
       sb.Append(",TemplateId: ");
       sb.Append(TemplateId);
-      sb.Append(",Propties: ");
-      sb.Append(Propties);
+      sb.Append(",FighteProp: ");
+      sb.Append(FighteProp);
+      sb.Append(",OtherProp: ");
+      sb.Append(OtherProp);
       sb.Append(",LeaderSkill: ");
       sb.Append(LeaderSkill);
       sb.Append(",ActiveSkill: ");

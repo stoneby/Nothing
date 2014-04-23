@@ -185,7 +185,7 @@ public class MainScreenControl : MonoBehaviour
     /// </summary>
     public void Show()
     {
-        Name.text = NameText;
+        Name.text = NameText = PlayerModelLocator.Instance.Name;
         CoinsLabel.text = Coins + Suffix;
         SoulLabel.text = Soul + Suffix;
         DiamondLabel.text = Diamond + Suffix;

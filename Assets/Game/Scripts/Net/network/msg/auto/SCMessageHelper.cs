@@ -21,7 +21,7 @@ namespace KXSGCodec
     {
         public static TBase createMessage(short type)
         {
-        	            if (type == MessageType.SC_BATTLE_PVE_START.GetHashCode())
+        	            if (type == MessageType.SC_BATTLE_PVE_START_MSG.GetHashCode())
             {
                 return new SCBattlePveStartMsg();
             }

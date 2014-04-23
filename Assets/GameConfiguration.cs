@@ -18,6 +18,8 @@ public class GameConfiguration : Singleton<GameConfiguration>
 
     public ClickEffectHandler ClickEffect;
 
+    public bool SingleMode;
+
     #endregion
 
     private void ReadFeatureConfigurationXml()

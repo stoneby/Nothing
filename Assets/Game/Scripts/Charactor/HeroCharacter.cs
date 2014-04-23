@@ -1,15 +1,16 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿
+/// <summary>
+/// Hero character.
+/// </summary>
+public class HeroCharacter : Character
+{
+    #region Mono
 
-public class HeroCharacter : MonoBehaviour {
+    // Use this for initialization
+    protected override void Start()
+    {
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    }
+
+    #endregion
 }

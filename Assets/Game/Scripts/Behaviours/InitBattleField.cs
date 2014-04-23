@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Assets.Game.Scripts.Common.Model;
 using UnityEngine;
 using System.Collections;
 using Random = UnityEngine.Random;
@@ -37,12 +38,12 @@ public class InitBattleField : MonoBehaviour
     private float characterMaxValue;
     private float characterValue;
 
-    private const int HorgapL = -130;
-    private const int HorgapR = 130;
+    private const int HorgapL = -170;
+    private const int HorgapR = 170;
     private const int Vergap = 160;
     private const int BaseLx = -150;
     private const int BaseRx = 150;
-    private const int Basey = 240 + 40 - 100;
+    private const int Basey = 240 + 40 - 60;
 
     private bool isDraging;
     private bool isPlaying;
@@ -52,8 +53,8 @@ public class InitBattleField : MonoBehaviour
 
     //开始一场战斗,attracks攻击的12个武将的数组,enemys敌人方n波敌人的数组
     private bool isInited;
-    private int[] attracks;
-    private int[] enemys;
+    //private int[] attracks;
+    //private int[] enemys;
     private ArrayList attrackWaitList;
     private readonly GameObject[,] charactersLeft = new GameObject[3, 3];
     private GameObject[] enemyList;	//当前敌方数组
@@ -109,10 +110,10 @@ public class InitBattleField : MonoBehaviour
         Debug.Log(Screen.height);
     }
 
-    public void StartBattle(int[] attrackArray, int[] enemyArray)
+    public void StartBattle()
     {
-        attracks = attrackArray;
-        enemys = enemyArray;
+        //attracks = attrackArray;
+        //enemys = enemyArray;
         if (!objHaveBeenStart)
         {
             needCallStartBattle = true;
@@ -129,16 +130,27 @@ public class InitBattleField : MonoBehaviour
 
         leftContainerObj = GameObject.Find("BattleFieldWidgetLeft");
 
-        foreach (var t in this.attracks)
+        foreach (var t in BattleModelLocator.Instance.FighterList)
         {
             var obj = NGUITools.AddChild(leftContainerObj, CharacterPrefab);
             attrackWaitList.Add(obj);
             obj.SetActive(false);
             var cc = obj.GetComponent<CharacterControl>();
 
-            cc.SetCharacter(t, Random.Range(2, 5), Random.Range(60, 150), Random.Range(100, 200));
+            cc.SetCharacter(t);
             cc.SetSelect(false);
         }
+
+//        foreach (var t in this.attracks)
+//        {
+//            var obj = NGUITools.AddChild(leftContainerObj, CharacterPrefab);
+//            attrackWaitList.Add(obj);
+//            obj.SetActive(false);
+//            var cc = obj.GetComponent<CharacterControl>();
+//
+//            cc.SetCharacter(t, Random.Range(2, 5), Random.Range(60, 150), Random.Range(100, 200));
+//            cc.SetSelect(false);
+//        }
 
         var bgObj = GameObject.Find("BackgroundTexture");
         var tp = bgObj.GetComponent<TweenPosition>();
@@ -163,7 +175,7 @@ public class InitBattleField : MonoBehaviour
     void CreateCurrentEnemys()
     {
         var rightcontainerobj = GameObject.Find("BattleFieldWidgetRight");
-        var enemycount = enemys[currEnemyGroupIndex];
+        var enemycount = BattleModelLocator.Instance.MonsterGroup[currEnemyGroupIndex];// enemys[currEnemyGroupIndex];
         enemyList = new GameObject[enemycount];
         float xx = BaseRx + HorgapR;
         float yy;
@@ -183,7 +195,7 @@ public class InitBattleField : MonoBehaviour
                 break;
         }
         var offsetx = (currEnemyGroupIndex == 0) ? 0 : 500;
-        for (var i = 0; i < enemys[currEnemyGroupIndex]; i++)
+        for (var i = 0; i < enemycount; i++)
         {
             var obj = NGUITools.AddChild(rightcontainerobj, EnemyPrefab);
             var ec = obj.GetComponent<EnemyControl>();
@@ -334,7 +346,7 @@ public class InitBattleField : MonoBehaviour
             if (needCallStartBattle)
             {
                 needCallStartBattle = false;
-                StartBattle(attracks, enemys);
+                StartBattle();
             }
         }
 
@@ -398,7 +410,7 @@ public class InitBattleField : MonoBehaviour
     private float centerY;
     private float BaseX;
     private float BaseY;
-    private const float OffsetX = -130;
+    private const float OffsetX = -170;
     private const float OffsetY = -160;
     private float minX;
     private float minY;
@@ -413,16 +425,19 @@ public class InitBattleField : MonoBehaviour
         if (isPlaying) return;
         if (!isBattling) return;
 
-        var xx = Input.mousePosition.x - centerX;
-        var yy = Input.mousePosition.y - centerY;
+        var mx = Input.mousePosition.x;
+        var my = Input.mousePosition.y;
+        var xx = mx - centerX;
+        var yy = my - centerY;
 
         if (Input.GetMouseButtonDown(0))
         {
-
+            Debug.Log("Mouse Value (" + mx + ", " + my + ")");
             prePoint = GetIndexByPlace(xx, yy);
             if (prePoint.x >= 0 && prePoint.y >= 0 && prePoint.x < 3 && prePoint.y < 3)
             {
                 isDraging = true;
+                Debug.Log("Nouse Down ------------------------------");
                 if (pointList == null) pointList = new ArrayList();
                 if (selectEffectList == null) selectEffectList = new ArrayList();
                 selectEffectList.Clear();
@@ -486,6 +501,11 @@ public class InitBattleField : MonoBehaviour
             {
                 DoAttrack();
             }
+            else
+            {
+                if (pointList != null) pointList.Clear();
+            }
+            Debug.Log("Nouse Up ------------------------------");
         }
 
         if (isDraging)
@@ -909,14 +929,14 @@ public class InitBattleField : MonoBehaviour
         if (k < 0)
         {
             //本回合战斗结束,如果有下一回合，准备下一回合，否则关卡战斗结束
-            if (currEnemyGroupIndex < enemys.Length - 1)
+            if (currEnemyGroupIndex < BattleModelLocator.Instance.MonsterGroup.Count - 1)
             {
                 yield return StartCoroutine(MakeUpOneByOne());
                 pointList.Clear();
 
                 currEnemyGroupIndex++;
 
-                if (currEnemyGroupIndex == enemys.Length - 1)
+                if (currEnemyGroupIndex == BattleModelLocator.Instance.MonsterGroup.Count - 1)
                 {
                     yield return new WaitForSeconds(.4f);
                     PlayWarning(0.2f);
@@ -1133,8 +1153,13 @@ public class InitBattleField : MonoBehaviour
         {
             for (var i = 0; i < 3; i++)
             {
-                var v = BaseX + OffsetX * i;
-                if (xx > v + OffsetX + 20 && xx <= v - 10)
+                var v = BaseX + OffsetX * i - 55;
+//                if (xx > v + OffsetX + 20 && xx <= v - 10)
+//                {
+//                    v2.x = i;
+//                    break;
+//                }
+                if (xx > v + OffsetX / 2 && xx <= v - OffsetX / 2)
                 {
                     v2.x = i;
                     break;
