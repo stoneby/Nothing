@@ -80,32 +80,6 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: buff_1
-    x: 112
-    y: 456
-    width: 34
-    height: 45
-    borderLeft: 0
-    borderRight: 0
-    borderTop: 0
-    borderBottom: 0
-    paddingLeft: 0
-    paddingRight: 0
-    paddingTop: 0
-    paddingBottom: 0
-  - name: buff_2
-    x: 108
-    y: 384
-    width: 34
-    height: 45
-    borderLeft: 0
-    borderRight: 0
-    borderTop: 0
-    borderBottom: 0
-    paddingLeft: 0
-    paddingRight: 0
-    paddingTop: 0
-    paddingBottom: 0
-  - name: buff_3
     x: 116
     y: 600
     width: 34
@@ -118,7 +92,20 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
-  - name: buff_4
+  - name: buff_2
+    x: 101
+    y: 649
+    width: 34
+    height: 45
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: buff_3
     x: 115
     y: 528
     width: 34
@@ -131,9 +118,22 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
+  - name: buff_4
+    x: 112
+    y: 456
+    width: 34
+    height: 45
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
   - name: buff_5
-    x: 101
-    y: 649
+    x: 108
+    y: 384
     width: 34
     height: 45
     borderLeft: 0
@@ -158,7 +158,7 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: cancel_up
-    x: 695
+    x: 895
     y: 899
     width: 99
     height: 40
@@ -184,7 +184,7 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: confirm_up
-    x: 895
+    x: 695
     y: 899
     width: 99
     height: 40
@@ -276,7 +276,7 @@ MonoBehaviour:
     paddingBottom: 0
   - name: HP_1
     x: 574
-    y: 986
+    y: 1012
     width: 446
     height: 12
     borderLeft: 0
@@ -289,7 +289,7 @@ MonoBehaviour:
     paddingBottom: 0
   - name: HP_2
     x: 574
-    y: 1012
+    y: 999
     width: 446
     height: 12
     borderLeft: 0
@@ -379,7 +379,7 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: job_1
-    x: 857
+    x: 832
     y: 945
     width: 24
     height: 24
@@ -405,7 +405,7 @@ MonoBehaviour:
     paddingTop: 3
     paddingBottom: 4
   - name: job_3
-    x: 807
+    x: 857
     y: 945
     width: 24
     height: 24
@@ -418,7 +418,7 @@ MonoBehaviour:
     paddingTop: 4
     paddingBottom: 4
   - name: job_4
-    x: 832
+    x: 807
     y: 945
     width: 24
     height: 24
@@ -536,7 +536,7 @@ MonoBehaviour:
     paddingBottom: 0
   - name: MP_1
     x: 574
-    y: 999
+    y: 986
     width: 446
     height: 12
     borderLeft: 0
@@ -587,45 +587,6 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: pck_1
-    x: 152
-    y: 819
-    width: 76
-    height: 75
-    borderLeft: 0
-    borderRight: 0
-    borderTop: 0
-    borderBottom: 0
-    paddingLeft: 2
-    paddingRight: 2
-    paddingTop: 2
-    paddingBottom: 3
-  - name: pck_2
-    x: 0
-    y: 130
-    width: 76
-    height: 75
-    borderLeft: 0
-    borderRight: 0
-    borderTop: 0
-    borderBottom: 0
-    paddingLeft: 2
-    paddingRight: 2
-    paddingTop: 2
-    paddingBottom: 3
-  - name: pck_3
-    x: 0
-    y: 282
-    width: 76
-    height: 75
-    borderLeft: 0
-    borderRight: 0
-    borderTop: 0
-    borderBottom: 0
-    paddingLeft: 2
-    paddingRight: 2
-    paddingTop: 2
-    paddingBottom: 3
-  - name: pck_4
     x: 0
     y: 206
     width: 76
@@ -638,9 +599,48 @@ MonoBehaviour:
     paddingRight: 2
     paddingTop: 2
     paddingBottom: 3
-  - name: pck_5
+  - name: pck_2
     x: 0
     y: 54
+    width: 76
+    height: 75
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 2
+    paddingRight: 2
+    paddingTop: 2
+    paddingBottom: 3
+  - name: pck_3
+    x: 0
+    y: 130
+    width: 76
+    height: 75
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 2
+    paddingRight: 2
+    paddingTop: 2
+    paddingBottom: 3
+  - name: pck_4
+    x: 0
+    y: 282
+    width: 76
+    height: 75
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 2
+    paddingRight: 2
+    paddingTop: 2
+    paddingBottom: 3
+  - name: pck_5
+    x: 152
+    y: 819
     width: 76
     height: 75
     borderLeft: 0

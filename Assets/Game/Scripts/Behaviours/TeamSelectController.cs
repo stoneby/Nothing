@@ -9,6 +9,10 @@ public class TeamSelectController : MonoBehaviour
     public PoolManager DragBarPool;
     public Camera CurrentCamera;
 
+    public bool AutoAdjustPosition;
+    public int Row;
+    public int Col;
+
     #endregion
 
     #region Public Properties
@@ -16,21 +20,30 @@ public class TeamSelectController : MonoBehaviour
     /// <summary>
     /// Selected character list.
     /// </summary>
-    public List<int> SelectedCharacterList { get; set; }
+    public List<Character> SelectedCharacterList { get; set; }
 
     /// <summary>
     /// Last character index which is always the last in SelectedCharacterList
-    /// -1 when the list is empty.
+    /// Return null when the list is empty.
     /// </summary>
-    public int LastCharacterIndex
+    public Character LastCharacter
     {
         get
         {
             return SelectedCharacterList.Count == 0
-                ? Utils.Invalid
+                ? null
                 : SelectedCharacterList[SelectedCharacterList.Count - 1];
         }
     }
+
+    #endregion
+
+    #region Private Fields
+
+    /// <summary>
+    /// Flag indicates if drag process is started.
+    /// </summary>
+    private bool dragStart;
 
     #endregion
 
@@ -49,45 +62,92 @@ public class TeamSelectController : MonoBehaviour
     {
         Debug.Log("On character press: " + sender.name + ", is pressed: " + isPressed);
     }
-
     private void OnCharacterDrag(GameObject sender, Vector2 delta)
     {
-        //Debug.Log("On character drag: " + sender.name + ", delata vector: " + delta);
-    }
+        Debug.Log("On character drag: " + sender.name + " with delta: " + delta);
 
-    private void OnCharacterDrop(GameObject sender, GameObject draggedObject)
-    {
-        Debug.Log("On character drop: " + sender.name + ", dragged game ojbect: " + draggedObject.name);
-    }
+        Debug.LogWarning("Last touch positon: " + UICamera.lastTouchPosition);
+        Debug.LogWarning("Current touch: " + UICamera.currentTouch);
 
-    private void OnCharacterHover(GameObject sender, bool isHover)
-    {
-        //Debug.Log("On character hover: " + sender.name + ", is hover: " + isHover);
-    }
+        var sourcePosition = UICamera.mainCamera.WorldToScreenPoint(sender.transform.position);
+        var targetPosition = UICamera.currentTouch.pos;
+        DragBarPool.CurrentObject.transform.rotation = Utils.GetRotation(
+            new Vector2(sourcePosition.x, sourcePosition.y), targetPosition);
+        //var targetPosition = UICamera.mainCamera.ScreenToWorldPoint(UICamera.currentTouch.pos);
+        //DragBarPool.CurrentObject.transform.rotation = Utils.GetRotation(sender.transform.position, targetPosition);
 
-    private void OnCharacterSelect(GameObject sender, bool isSelected)
-    {
-        Debug.Log("On character selected: " + sender.name + ", is selected: " + isSelected);   
+        Debug.LogWarning("Souce positioN: " + sourcePosition + ", target position: " + targetPosition);
+
+        var dragbarSprite = DragBarPool.CurrentObject.GetComponent<DragBarController>().Sprite;
+        Debug.Log("drag bar sprite before width: " + dragbarSprite.width + ", height: " + dragbarSprite.height);
+        var distance = (int)Mathf.Abs(Vector2.Distance(sourcePosition, targetPosition));
+        var newWidth = dragbarSprite.minWidth*1.0/2 + distance + Mathf.Abs(dragbarSprite.transform.localPosition.x);
+        Debug.Log("Distance : " + distance + ", minWidth: " + dragbarSprite.minWidth + ", new width: " + newWidth);
+        dragbarSprite.width = (int)newWidth;
+        Debug.Log("drag bar sprite after width: " + dragbarSprite.width + ", height: " + dragbarSprite.height);
     }
 
     private void OnCharacterDragStart(GameObject sender)
     {
         Debug.Log("On character drop start: " + sender.name);
+
+        dragStart = true;
+        SelectedCharacterList.Clear();
     }
 
     private void OnCharacterDragOver(GameObject sender, GameObject draggedObject)
     {
-        Debug.Log("On character drop over: " + sender.name + ", dragged game ojbect: " + draggedObject.name);
+        Debug.Log("On character drop over: " + sender.name + ", dragged started game ojbect: " + draggedObject.name);
+
+        if (!dragStart)
+        {
+            Debug.LogWarning("Drag over but drag is not started at one character.");
+            return;
+        }
+
+        var currentCharacter = sender.GetComponent<Character>();
+        var firstTime = (LastCharacter == null);
+        if (!firstTime && !LastCharacter.IsNeighborhood(currentCharacter))
+        {
+            Debug.LogWarning("Current character: " + currentCharacter + " is eithor not my neighbor: " + LastCharacter);
+            return;
+        }
+
+        var selectedObject = SelectedCharacterList.Find(character => character.Index == currentCharacter.Index);
+        if (selectedObject != null)
+        {
+            Debug.LogWarning("Current character: " + currentCharacter + " is already selected.");
+            return;
+        }
+
+        SelectedCharacterList.Add(currentCharacter);
+
+        DrawDragBar(sender);
+
+        Debug.Log("Add dragged character, which is neighbor - " + currentCharacter + ", to selected character list - " + SelectedCharacterList.Count);
     }
 
     private void OnCharacterDragOut(GameObject sender, GameObject draggedObject)
     {
-        Debug.Log("On character drop out: " + sender.name + ", dragged game ojbect: " + draggedObject.name);
+        //Debug.Log("On character drop out: " + sender.name + ", dragged game ojbect: " + draggedObject.name);
     }
 
     private void OnCharacterDragEnd(GameObject sender)
     {
         Debug.Log("On character drop end: " + sender.name);
+
+        Debug.LogWarning("Selected character list: " + SelectedCharacterList.Count);
+
+        dragStart = false;
+        SelectedCharacterList.Clear();
+    }
+
+    private void DrawDragBar(GameObject sender)
+    {
+        var dragBar = DragBarPool.Take();
+        dragBar.transform.position = sender.transform.position;
+        dragBar.transform.localScale = new Vector3(1f, 1f, 1f);
+        dragBar.SetActive(true);
     }
 
     #endregion
@@ -96,7 +156,24 @@ public class TeamSelectController : MonoBehaviour
 
     void Start()
     {
-        SelectedCharacterList = new List<int>(CharacterList.Count);
+        if (CharacterList.Count != Row*Col)
+        {
+            Debug.LogError("Please make sure character list count - " + CharacterList.Count + " is the same as Row * Col - " + Row * Col);
+            return;
+        }
+
+        for (var i = 0; i < CharacterList.Count; ++i)
+        {
+            var character = CharacterList[i];
+            character.Index = i;
+            if (AutoAdjustPosition)
+            {
+                character.Location.X = i/Col;
+                character.Location.Y = i%Row;
+            }
+        }
+
+        SelectedCharacterList = new List<Character>(CharacterList.Count);
 
         CharacterList.ForEach(character =>
         {
@@ -107,9 +184,6 @@ public class TeamSelectController : MonoBehaviour
             UIEventListener.Get(character.gameObject).onDragOver += OnCharacterDragOver;
             UIEventListener.Get(character.gameObject).onDragOut += OnCharacterDragOut;
             UIEventListener.Get(character.gameObject).onDragEnd += OnCharacterDragEnd;
-            UIEventListener.Get(character.gameObject).onDrop += OnCharacterDrop;
-            UIEventListener.Get(character.gameObject).onHover += OnCharacterHover;
-            UIEventListener.Get(character.gameObject).onSelect += OnCharacterSelect;
         });
     }
 

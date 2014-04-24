@@ -361,7 +361,7 @@ public class InitBattleField : MonoBehaviour
 
         GameObject obj = NGUITools.AddChild(containerobj, DragBarPrefab);
         UISprite sp = obj.GetComponent<UISprite>();
-        sp.spriteName = "drag_" + currentFootIndex.ToString();
+        sp.spriteName = BattleType.SelectLines[currentFootIndex];
         //NGUITools.AddSprite (containerobj, atlas, "drag_" + currentFootIndex.ToString ());
 
         Transform oldtrans = charactersLeft[Mathf.CeilToInt(oldi), Mathf.CeilToInt(oldj)].transform;
@@ -690,7 +690,7 @@ public class InitBattleField : MonoBehaviour
         CharacterControl cc;
         int k;
 
-        if (currentFootIndex == CharacterType.TypeBlood)
+        if (currentFootIndex == BattleType.FootPink)
         {
             characterValue = (characterValue + characterAttrackValue < characterMaxValue) ? characterValue + characterAttrackValue : characterMaxValue;
             CharacterLoseBlood(new Vector3(CharacterLabel.transform.localPosition.x - Screen.width / 2,

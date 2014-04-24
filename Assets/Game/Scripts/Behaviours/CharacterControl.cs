@@ -71,9 +71,10 @@ public class CharacterControl : MonoBehaviour
         var uisp = FootObj.GetComponent<UISprite>();
         uisp.spriteName = "pck_" + footindex;
         uisp = JobObj.GetComponent<UISprite>();
-        uisp.spriteName = (FootIndex == 5) ? "job_6" : "job_" + JobIndex;
+        uisp.spriteName = (FootIndex == BattleType.FootPink) ? "job_6" : "job_" + JobIndex;
         var uilb = AttrackObj.GetComponent<UILabel>();
-        uilb.text = (FootIndex == 5) ? ("" + Restore) : ("" + Attrack);
+        uilb.text = (FootIndex == BattleType.FootPink) ? ("" + Restore) : ("" + Attrack);
+        uilb.text += "-" + footindex.ToString();
     }
 
     public void SetCharacterAfter(float aftertime)
@@ -91,8 +92,8 @@ public class CharacterControl : MonoBehaviour
     public void SetCharacter(BattleMsgHero data)
     {
         Data = data;
-        CharacterIndex = (data.TemplateId % 2 == 0) ? 1 : 5;
-        JobIndex = Random.Range(1, 5);
+        CharacterIndex = data.TemplateId;
+        JobIndex = Random.Range(BattleType.FootMin, BattleType.FootMax);
         Attrack = Random.Range(60, 150);
         Restore = Random.Range(100, 200); 
 
@@ -100,9 +101,9 @@ public class CharacterControl : MonoBehaviour
         uisa.namePrefix = "c_" + CharacterIndex + "_0_";
         uisa.framesPerSecond = 8;
         var uisp = JobObj.GetComponent<UISprite>();
-        uisp.spriteName = (FootIndex == 5) ? "job_6" : "job_" + JobIndex;
+        uisp.spriteName = (FootIndex == BattleType.FootPink) ? "job_6" : "job_" + JobIndex;
         var uilb = AttrackObj.GetComponent<UILabel>();
-        uilb.text = (FootIndex == 5) ? Restore.ToString() : Attrack.ToString();
+        uilb.text = (FootIndex == BattleType.FootPink) ? Restore.ToString() : Attrack.ToString();
     }
 
     public string GetNamePrefix()
@@ -173,7 +174,7 @@ public class CharacterControl : MonoBehaviour
             }
             uilb.text = (selectindex == 0) ? "" : "X" + BattleType.MoreHitTimes[selectindex].ToString();
             uilb = TopAttrackObj.GetComponent<UILabel>();
-            AttrackValue = (FootIndex == 4) ? (int)(BattleType.MoreHitTimes[selectindex] * Restore) : (int)(BattleType.MoreHitTimes[selectindex] * Attrack);
+            AttrackValue = (FootIndex == BattleType.FootPink) ? (int)(BattleType.MoreHitTimes[selectindex] * Restore) : (int)(BattleType.MoreHitTimes[selectindex] * Attrack);
             uilb.text = AttrackValue.ToString();
             iTweenEvent.GetEvent(TopAttrackObj, "ShakeAttrackLabel").Play();
         }

@@ -79,6 +79,12 @@ public class UICamera : MonoBehaviour
 		public bool touchBegan = true;
 		public bool pressStarted = false;
 		public bool dragStarted = false;
+
+	    public override string ToString()
+	    {
+	        return string.Format("MouseOrTouch: current position-{0}, last position-{1}, delta-{2}, total delta-{3}", pos,
+	            lastPos, delta, totalDelta);
+	    }
 	}
 
 	/// <summary>

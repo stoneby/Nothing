@@ -1037,7 +1037,6 @@ GameObject:
   - 114: {fileID: 11400160}
   - 65: {fileID: 6500016}
   - 114: {fileID: 11400190}
-  - 114: {fileID: 11400172}
   m_Layer: 8
   m_Name: Character01
   m_TagString: Untagged
@@ -1124,6 +1123,41 @@ GameObject:
   - 114: {fileID: 11400194}
   m_Layer: 8
   m_Name: DragBarPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &100136
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 400136}
+  - 114: {fileID: 11400196}
+  - 114: {fileID: 11400172}
+  - 114: {fileID: 11400198}
+  - 114: {fileID: 11400200}
+  m_Layer: 8
+  m_Name: DragBar
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &100138
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 400138}
+  - 114: {fileID: 11400202}
+  m_Layer: 8
+  m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1921,6 +1955,7 @@ Transform:
   - {fileID: 400134}
   - {fileID: 400126}
   - {fileID: 400132}
+  - {fileID: 400136}
   m_Father: {fileID: 0}
 --- !u!4 &400132
 Transform:
@@ -1944,6 +1979,29 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400130}
+--- !u!4 &400136
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100136}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 400138}
+  m_Father: {fileID: 400130}
+--- !u!4 &400138
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100138}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -42.1639175, y: -3.03622437, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 400136}
 --- !u!54 &5400000
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -5963,7 +6021,7 @@ MonoBehaviour:
   alwaysOnScreen: 0
   anchorOffset: 0
   renderQueue: 0
-  startingRenderQueue: 3006
+  startingRenderQueue: 3007
   mAlpha: 1
   mClipping: 0
   mClipRange: {x: 0, y: 0, z: 300, w: 200}
@@ -5986,12 +6044,13 @@ MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100124}
+  m_GameObject: {fileID: 100136}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6dc5676606f19d47877c45733a579e1, type: 3}
+  m_Script: {fileID: 11500000, guid: 336b44fd646bdc64d90aa042687cb6f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Sprite: {fileID: 11400202}
 --- !u!114 &11400174
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6003,6 +6062,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6dc5676606f19d47877c45733a579e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Index: 0
+  Location:
+    X: 0
+    Y: 0
 --- !u!114 &11400176
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6014,6 +6077,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6dc5676606f19d47877c45733a579e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Index: 0
+  Location:
+    X: 0
+    Y: 0
 --- !u!114 &11400178
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6025,6 +6092,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6dc5676606f19d47877c45733a579e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Index: 0
+  Location:
+    X: 0
+    Y: 0
 --- !u!114 &11400180
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6036,6 +6107,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6dc5676606f19d47877c45733a579e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Index: 0
+  Location:
+    X: 0
+    Y: 0
 --- !u!114 &11400182
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6047,6 +6122,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6dc5676606f19d47877c45733a579e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Index: 0
+  Location:
+    X: 0
+    Y: 0
 --- !u!114 &11400184
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6058,6 +6137,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6dc5676606f19d47877c45733a579e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Index: 0
+  Location:
+    X: 0
+    Y: 0
 --- !u!114 &11400186
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6069,6 +6152,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6dc5676606f19d47877c45733a579e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Index: 0
+  Location:
+    X: 0
+    Y: 0
 --- !u!114 &11400188
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6080,6 +6167,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6dc5676606f19d47877c45733a579e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Index: 0
+  Location:
+    X: 0
+    Y: 0
 --- !u!114 &11400190
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6091,6 +6182,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6dc5676606f19d47877c45733a579e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Index: 0
+  Location:
+    X: 0
+    Y: 0
 --- !u!114 &11400192
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6114,6 +6209,9 @@ MonoBehaviour:
   - {fileID: 11400188}
   DragBarPool: {fileID: 11400194}
   CurrentCamera: {fileID: 0}
+  AutoAdjustPosition: 1
+  Row: 3
+  Col: 3
 --- !u!114 &11400194
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6126,7 +6224,93 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Capcity: 4
-  SpawnObject: {fileID: 100000, guid: 9f713e2373b1b8240baa37b0707affdf, type: 2}
+  SpawnObject: {fileID: 100000, guid: 49d0ad8dd77df9d448a4491f8f11ff82, type: 2}
+--- !u!114 &11400196
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100136}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10ba0e2404097d64a8ee987e8bcbe4b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MainCamera: {fileID: 0}
+  TurnOn: 0
+--- !u!114 &11400198
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100136}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10ba0e2404097d64a8ee987e8bcbe4b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MainCamera: {fileID: 0}
+  TurnOn: 0
+--- !u!114 &11400200
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 336b44fd646bdc64d90aa042687cb6f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Sprite: {fileID: 11400202}
+--- !u!114 &11400202
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100138}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 3
+  mWidth: 196
+  mHeight: 84
+  mDepth: 10
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: 2.33333325
+  mAtlas: {fileID: 11400000, guid: d1644367fbc8fce429697a19a22f5ba0, type: 2}
+  mSpriteName: new_drag_2
+  mType: 4
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFillCenter: 1
+  centerType: 1
+  leftType: 1
+  rightType: 0
+  bottomType: 1
+  topType: 1
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

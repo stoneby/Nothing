@@ -17,6 +17,7 @@ public class PoolManager : MonoBehaviour
     #region Public Properties
 
     public List<GameObject> ObjectList { get; set; }
+    public GameObject CurrentObject { get; set; }
 
     #endregion
 
@@ -24,21 +25,28 @@ public class PoolManager : MonoBehaviour
 
     public GameObject Take()
     {
-        var activeObjectEnum = ObjectList.Where(item => item.activeSelf);
-        var activeObjectList = activeObjectEnum as IList<GameObject> ?? activeObjectEnum.ToList();
-        if (!activeObjectList.Any())
+        var inactiveObjectEnum = ObjectList.Where(item => !item.activeSelf);
+        var inactiveObjectList = inactiveObjectEnum as IList<GameObject> ?? inactiveObjectEnum.ToList();
+        if (!inactiveObjectList.Any())
         {
             Debug.LogWarning("Take too more than Capacity as " + Capcity + ", make it twice more larger.");
             EnlargeCapacity();
             // return the last one.
             return ObjectList[Capcity - 1];
         }
-        return activeObjectList.First();
+
+        CurrentObject = inactiveObjectList.First();
+        return CurrentObject;
     }
 
     public void Return(GameObject returnObject)
     {
         returnObject.SetActive(false);
+
+        if (CurrentObject == returnObject)
+        {
+            CurrentObject = null;
+        }
     }
 
     #endregion

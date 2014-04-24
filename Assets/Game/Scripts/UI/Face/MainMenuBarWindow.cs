@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using KXSGCodec;
+using UnityEngine;
 using System.Collections;
 
 public class MainMenuBarWindow : Window
@@ -94,8 +95,15 @@ public class MainMenuBarWindow : Window
 
     private void OnHeroClicked(GameObject go)
     {
-        //This is just for testing.
-        WindowManager.Instance.Show(typeof(UIHerosDisplayWindow), true);
+        if(HeroModelLocator.Instance.SCHeroList == null)
+        {
+            var csmsg = new CSHeroList();
+            NetManager.SendMessage(csmsg);
+        }
+        else
+        {
+            WindowManager.Instance.Show(typeof(UIHerosDisplayWindow), true);
+        }
     }
 
     private void OnHomeClicked(GameObject go)

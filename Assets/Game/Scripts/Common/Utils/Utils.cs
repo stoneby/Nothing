@@ -89,6 +89,34 @@ public class Utils
 
     #endregion
 
+    #region Rotate
+
+    /// <summary>
+    /// Get rotation in between source and target.
+    /// </summary>
+    /// <param name="source">Source position</param>
+    /// <param name="target">Target position</param>
+    /// <returns>Rotation quaternion</returns>
+    public static Quaternion GetRotation(Vector3 source, Vector3 target)
+    {
+        var delta = target - source;
+        var angle = Mathf.Atan2(delta.y, delta.x) * Mathf.Rad2Deg;
+        return Quaternion.Euler(0, 0, angle);
+    }
+
+    /// <summary>
+    /// Get rotation in between source and target.
+    /// </summary>
+    /// <param name="source">Source position</param>
+    /// <param name="target">Target position</param>
+    /// <returns>Rotation quaternion</returns>
+    public static Quaternion GetRotation(Vector2 source, Vector2 target)
+    {
+        return GetRotation(new Vector3(source.x, source.y, 0), new Vector3(target.x, target.y, 0));
+    }
+
+    #endregion
+
     /// <summary>
     /// Find the child transform with special name. 
     /// </summary>

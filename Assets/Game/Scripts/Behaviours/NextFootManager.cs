@@ -21,6 +21,7 @@ public class NextFootManager : MonoBehaviour
         leftObjs = new ArrayList();
         for (var i = 0; i < leftFootIndexes.Length; i++)
         {
+            leftFootIndexes[i] = Random.Range(BattleType.FootMin, BattleType.FootMax);
             var obj = NGUITools.AddChild(leftContainer, NextPrefab);
             leftObjs.Add(obj);
         }
@@ -41,12 +42,12 @@ public class NextFootManager : MonoBehaviour
         for (int i = 0; i < leftFootIndexes.Length; i++)
         {
             yield return new WaitForSeconds(.5f);
-            leftFootIndexes[i] = Random.Range(0, 4);
+            leftFootIndexes[i] = Random.Range(BattleType.FootMin, BattleType.FootMax);
 
             var obj = leftObjs[i] as GameObject;
             obj.SetActive(true);
             var sp = obj.GetComponent<UISprite>();
-            sp.spriteName = "flag_" + leftFootIndexes[i].ToString();
+            sp.spriteName = "pck_" + leftFootIndexes[i].ToString();
             var tp = obj.GetComponent<TweenPosition>();
             tp.from = new Vector3(-100, -32, 0);
             tp.to = new Vector3(265 - 65 * i, -32, 0);
@@ -59,13 +60,13 @@ public class NextFootManager : MonoBehaviour
     {
         if (!haveInit || leftFootIndexes == null)
         {
-            return Random.Range(0, 4);
+            return Random.Range(BattleType.FootMin, BattleType.FootMax);
         }
         var theindex = leftFootIndexes[0];
 
         leftFootIndexes[0] = leftFootIndexes[1];
         leftFootIndexes[1] = leftFootIndexes[2];
-        leftFootIndexes[2] = Random.Range(0, 5);
+        leftFootIndexes[2] = Random.Range(BattleType.FootMin, BattleType.FootMax);
 
         var obj = leftObjs[1] as GameObject;
         var tp = obj.GetComponent<TweenPosition>();
@@ -87,7 +88,7 @@ public class NextFootManager : MonoBehaviour
         leftObjs.RemoveAt(0);
         leftObjs.Add(obj);
         var sp = obj.GetComponent<UISprite>();
-        sp.spriteName = "flag_" + leftFootIndexes[2].ToString();
+        sp.spriteName = "pck_" + leftFootIndexes[2].ToString();
         tp = obj.GetComponent<TweenPosition>();
         tp.ResetToBeginning();
         tp.from = new Vector3(-100, -32, 0);
@@ -97,7 +98,7 @@ public class NextFootManager : MonoBehaviour
 
         obj = NGUITools.AddChild(leftContainer, NextPrefab);
         sp = obj.GetComponent<UISprite>();
-        sp.spriteName = "flag_" + theindex.ToString();
+        sp.spriteName = "pck_" + theindex.ToString();
         tp = obj.GetComponent<TweenPosition>();
         float v = 100;//Random.Range (0, 150);
         tp.from = new Vector3(265, -32, 0);

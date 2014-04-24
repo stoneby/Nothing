@@ -34,6 +34,9 @@ public class NetworkControl : MonoBehaviour {
                     case (short)MessageType.SC_BATTLE_PVE_START_MSG:
                         BattleHandler.OnBattlePveStart(msg);
                         break;
+                    case (short)MessageType.SC_HERO_LIST:
+                        HeroHandler.OnHeroList(msg);
+                        break;
 
                 }
                 msg = NetManager.GetMessage();

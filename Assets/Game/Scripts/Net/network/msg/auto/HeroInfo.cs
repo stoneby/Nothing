@@ -31,6 +31,7 @@ namespace KXSGCodec
     private List<int> _skillId;
     private List<long> _equipUuid;
     private bool _bind;
+    private long _createTime;
 
     public long Uuid
     {
@@ -136,6 +137,19 @@ namespace KXSGCodec
       }
     }
 
+    public long CreateTime
+    {
+      get
+      {
+        return _createTime;
+      }
+      set
+      {
+        __isset.createTime = true;
+        this._createTime = value;
+      }
+    }
+
 
     public Isset __isset;
     #if !SILVERLIGHT
@@ -150,6 +164,7 @@ namespace KXSGCodec
       public bool skillId;
       public bool equipUuid;
       public bool bind;
+      public bool createTime;
     }
 
     public HeroInfo() {
@@ -240,6 +255,13 @@ namespace KXSGCodec
           case 8:
             if (field.Type == TType.Bool) {
               Bind = iprot.ReadBool();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 9:
+            if (field.Type == TType.I64) {
+              CreateTime = iprot.ReadI64();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
@@ -335,6 +357,14 @@ namespace KXSGCodec
         oprot.WriteBool(Bind);
         oprot.WriteFieldEnd();
       }
+      if (__isset.createTime) {
+        field.Name = "createTime";
+        field.Type = TType.I64;
+        field.ID = 9;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteI64(CreateTime);
+        oprot.WriteFieldEnd();
+      }
       oprot.WriteFieldStop();
       oprot.WriteStructEnd();
     }
@@ -357,6 +387,8 @@ namespace KXSGCodec
       sb.Append(EquipUuid);
       sb.Append(",Bind: ");
       sb.Append(Bind);
+      sb.Append(",CreateTime: ");
+      sb.Append(CreateTime);
       sb.Append(")");
       return sb.ToString();
     }

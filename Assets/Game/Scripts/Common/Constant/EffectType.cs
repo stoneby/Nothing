@@ -14,11 +14,12 @@ public class EffectType
 	public const string SwordEffect3 = "kxsg/particle/009_daoguang003";
     public const string Warning = "kxsg/particle/008_bossziti";
 
-    public static string[] SelectEffects = new string[5]
+    public static string[] SelectEffects = new string[6]
     {
-        "kxsg/particle/006_xuanzhongGreen",
+        "",
         "kxsg/particle/006_xuanzhongRed",
         "kxsg/particle/006_xuanzhongYellow",
+        "kxsg/particle/006_xuanzhongGreen",
         "kxsg/particle/006_xuanzhongBlue",
         "kxsg/particle/006_xuanzhongPink"
     };
