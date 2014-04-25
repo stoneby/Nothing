@@ -13,6 +13,9 @@ public class TeamSelectController : MonoBehaviour
     public int Row;
     public int Col;
 
+    public float Tune1;
+    public float Tune2;
+
     #endregion
 
     #region Public Properties
@@ -64,27 +67,29 @@ public class TeamSelectController : MonoBehaviour
     }
     private void OnCharacterDrag(GameObject sender, Vector2 delta)
     {
-        Debug.Log("On character drag: " + sender.name + " with delta: " + delta);
+        //Debug.Log("On character drag: " + sender.name + " with delta: " + delta);
 
-        Debug.LogWarning("Last touch positon: " + UICamera.lastTouchPosition);
-        Debug.LogWarning("Current touch: " + UICamera.currentTouch);
+        //Debug.LogWarning("Last touch positon: " + UICamera.lastTouchPosition);
+        //Debug.LogWarning("Current touch: " + UICamera.currentTouch);
 
-        var sourcePosition = UICamera.mainCamera.WorldToScreenPoint(sender.transform.position);
+        var sourcePosition = UICamera.mainCamera.WorldToScreenPoint(LastCharacter.transform.position);
         var targetPosition = UICamera.currentTouch.pos;
-        DragBarPool.CurrentObject.transform.rotation = Utils.GetRotation(
+        DragBarPool.CurrentObject.transform.localRotation = Utils.GetRotation(
             new Vector2(sourcePosition.x, sourcePosition.y), targetPosition);
-        //var targetPosition = UICamera.mainCamera.ScreenToWorldPoint(UICamera.currentTouch.pos);
-        //DragBarPool.CurrentObject.transform.rotation = Utils.GetRotation(sender.transform.position, targetPosition);
 
-        Debug.LogWarning("Souce positioN: " + sourcePosition + ", target position: " + targetPosition);
+        //Debug.LogWarning("Souce position: " + sourcePosition + ", target position: " + targetPosition);
 
-        var dragbarSprite = DragBarPool.CurrentObject.GetComponent<DragBarController>().Sprite;
-        Debug.Log("drag bar sprite before width: " + dragbarSprite.width + ", height: " + dragbarSprite.height);
-        var distance = (int)Mathf.Abs(Vector2.Distance(sourcePosition, targetPosition));
-        var newWidth = dragbarSprite.minWidth*1.0/2 + distance + Mathf.Abs(dragbarSprite.transform.localPosition.x);
-        Debug.Log("Distance : " + distance + ", minWidth: " + dragbarSprite.minWidth + ", new width: " + newWidth);
-        dragbarSprite.width = (int)newWidth;
-        Debug.Log("drag bar sprite after width: " + dragbarSprite.width + ", height: " + dragbarSprite.height);
+        SetDragbarWidth(sourcePosition, targetPosition);
+    }
+
+    private void SetDragbarWidth(Vector3 sourcePosition, Vector2 targetPosition)
+    {
+        var barSprite = DragBarPool.CurrentObject.GetComponent<DragBarController>().BarSprite;
+        var distance = Mathf.Abs(Vector2.Distance(sourcePosition, targetPosition));
+        var newWidth = (distance - Tune1)*2 + Tune2;
+        //Debug.Log("Distance : " + distance + ", minWidth: " + barSprite.minWidth + ", new width: " + newWidth);
+        barSprite.width = (int) newWidth;
+        Debug.Log("drag bar sprite after width: " + barSprite.width + ", height: " + barSprite.height);
     }
 
     private void OnCharacterDragStart(GameObject sender)
@@ -97,7 +102,7 @@ public class TeamSelectController : MonoBehaviour
 
     private void OnCharacterDragOver(GameObject sender, GameObject draggedObject)
     {
-        Debug.Log("On character drop over: " + sender.name + ", dragged started game ojbect: " + draggedObject.name);
+        Debug.Log("On character drag over: " + sender.name + ", dragged started game ojbect: " + draggedObject.name);
 
         if (!dragStart)
         {
@@ -120,9 +125,9 @@ public class TeamSelectController : MonoBehaviour
             return;
         }
 
-        SelectedCharacterList.Add(currentCharacter);
-
         DrawDragBar(sender);
+
+        SelectedCharacterList.Add(currentCharacter);
 
         Debug.Log("Add dragged character, which is neighbor - " + currentCharacter + ", to selected character list - " + SelectedCharacterList.Count);
     }
@@ -140,6 +145,7 @@ public class TeamSelectController : MonoBehaviour
 
         dragStart = false;
         SelectedCharacterList.Clear();
+        DragBarPool.ObjectList.ForEach(bar => DragBarPool.Return(bar));
     }
 
     private void DrawDragBar(GameObject sender)
@@ -148,6 +154,16 @@ public class TeamSelectController : MonoBehaviour
         dragBar.transform.position = sender.transform.position;
         dragBar.transform.localScale = new Vector3(1f, 1f, 1f);
         dragBar.SetActive(true);
+
+        if (LastCharacter != null)
+        {
+            var sourcePosition = UICamera.mainCamera.WorldToScreenPoint(LastCharacter.transform.position);
+            var targetPosition = UICamera.mainCamera.WorldToScreenPoint(sender.transform.position);
+            DragBarPool.CurrentObject.transform.localRotation = Utils.GetRotation(sourcePosition, targetPosition);
+            //SetDragbarWidth(sourcePosition, targetPosition);
+
+            Debug.LogWarning("Source position: " + sourcePosition + ", target position: " + targetPosition + ", rotation: " + DragBarPool.CurrentObject.transform.rotation);
+        }
     }
 
     #endregion

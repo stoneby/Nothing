@@ -61,7 +61,7 @@ public class WindowRootObjectManager : MonoBehaviour
             layerTrans.name = layerName;
             layerTrans.gameObject.layer = (int)layer;
 
-            Debug.Log("Game object is - " + layerTrans.name);
+            Debug.Log("Game object is - " + layerTrans.name + ", with layer - " + layerTrans.gameObject.layer);
 
             WindowObjectMap[layer] = layerTrans.gameObject;
         }

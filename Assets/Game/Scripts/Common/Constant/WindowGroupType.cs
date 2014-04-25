@@ -10,4 +10,5 @@ public enum WindowGroupType
     Face,
     Fill,
     Tip,
+    Page,
 }

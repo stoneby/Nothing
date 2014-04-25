@@ -4,7 +4,8 @@ public class DragBarController : MonoBehaviour
 {
     #region Public Fields
 
-    public UISprite Sprite;
+    public UISprite CeneterSprite;
+    public UISprite BarSprite;
 
     #endregion
 

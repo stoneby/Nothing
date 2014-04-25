@@ -8,9 +8,9 @@ public class GameInit : MonoBehaviour
     private static void GameStart(WindowManagerReady e)
     {
         EventManager.Instance.RemoveListener<WindowManagerReady>(GameStart);
-        
+
         Debug.Log("GameInit started after everything ready, all start later call.");
-        WindowManager.Instance.Show(typeof (LoadingWindow), true);
+        WindowManager.Instance.Show(typeof(LoadingWindow), true);
         WindowManager.Instance.Show(typeof(BackgroundFillsWindow), true);
     }
 
