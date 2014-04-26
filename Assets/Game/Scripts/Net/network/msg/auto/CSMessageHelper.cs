@@ -23,10 +23,11 @@ namespace KXSGCodec
         private  CSMessageHelper() 
         {
         	            MSG_TYPE_DICT[typeof(CSBattleFinishMsg)] = (short)MessageType.CS_BATTLE_FINISH_MSG.GetHashCode();
-			            MSG_TYPE_DICT[typeof(CSRaidBattleStartMsg)] = (short)MessageType.CS_RAID_BATTLE_START.GetHashCode();
+			            MSG_TYPE_DICT[typeof(CSRaidBattleStartMsg)] = (short)MessageType.CS_RAID_BATTLE_START_MSG.GetHashCode();
 			            MSG_TYPE_DICT[typeof(CSBagExtend)] = (short)MessageType.CS_BAG_EXTEND.GetHashCode();
 			            MSG_TYPE_DICT[typeof(CSHeroChangeOrder)] = (short)MessageType.CS_HERO_CHANGE_ORDER.GetHashCode();
 			            MSG_TYPE_DICT[typeof(CSHeroChangeTeam)] = (short)MessageType.CS_HERO_CHANGE_TEAM.GetHashCode();
+			            MSG_TYPE_DICT[typeof(CSHeroCreateOne)] = (short)MessageType.CS_HERO_CREATE_ONE.GetHashCode();
 			            MSG_TYPE_DICT[typeof(CSHeroList)] = (short)MessageType.CS_HERO_LIST.GetHashCode();
 			            MSG_TYPE_DICT[typeof(CSHeroLvlUp)] = (short)MessageType.CS_HERO_LVL_UP.GetHashCode();
 			            MSG_TYPE_DICT[typeof(CSHeroModifyTeam)] = (short)MessageType.CS_HERO_MODIFY_TEAM.GetHashCode();

@@ -47,12 +47,11 @@ public class WindowManager : Singleton<WindowManager>
     #region Puiblic Methods
 
     /// <summary>
-    /// Show by window type.
+    /// Get window with specific type.
     /// </summary>
     /// <param name="type">Window type</param>
-    /// <param name="show">Flag indicates if window to show or hide</param>
-    /// <returns>Window to show</returns>
-    public Window Show(Type type, bool show)
+    /// <returns>The window with specific type</returns>
+    public Window GetWindow(Type type)
     {
         var path = Mapping.TypePathMap[type];
         var layer = Mapping.PathLayerMap[path];
@@ -62,10 +61,10 @@ public class WindowManager : Singleton<WindowManager>
             windowMap[layer] = new List<Window>();
         }
 
-        var window = windowMap[layer].Find(win => win.Path.Equals(path));
+        var window = windowMap[layer].Find(win => win.Path == path);
         if (window == null)
         {
-            window = GetWindow(layer, path);
+            window = CreateWindow(layer, path);
             windowMap[layer].Add(window);
             Debug.Log("Create window with type - " + type + ", layer - " + layer + ", path - " + path);
         }
@@ -74,12 +73,20 @@ public class WindowManager : Singleton<WindowManager>
             Debug.Log("Find window with type - " + type + ", layer - " + layer + ", path - " + path);
         }
 
-        if (window == null)
-        {
-            Debug.LogError("Could not find window from type - " + type + ", layer - " + layer + ", path - " +
-                           path);
-            return null;
-        }
+        return window;
+    }
+
+    /// <summary>
+    /// Show by window type.
+    /// </summary>
+    /// <param name="type">Window type</param>
+    /// <param name="show">Flag indicates if window to show or hide</param>
+    /// <returns>Window to show</returns>
+    public Window Show(Type type, bool show)
+    {
+        var path = Mapping.TypePathMap[type];
+        var layer = Mapping.PathLayerMap[path];
+        var window = GetWindow(type);
 
         if (show)
         {
@@ -189,10 +196,16 @@ public class WindowManager : Singleton<WindowManager>
 
     #region Private Methods
 
-    private Window GetWindow(WindowGroupType layer, string path)
+    private Window CreateWindow(WindowGroupType layer, string path)
     {
         var root = WindowRootManager.WindowObjectMap[layer];
         var prefab = Resources.Load<GameObject>(path);
+        if (prefab == null)
+        {
+            Debug.LogError("Could not find window from layer - " + layer + ", path - " + path);
+            return null;
+        }
+
         var child = NGUITools.AddChild(root, prefab);
         var windowName = Utils.PrefabNameToWindow(Utils.GetNameFromPath(path));
         var component = child.GetComponent(windowName) ?? child.AddComponent(windowName);

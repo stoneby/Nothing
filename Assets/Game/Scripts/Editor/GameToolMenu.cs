@@ -11,13 +11,13 @@ public static class GameToolMenu
     [MenuItem("Tool/Window Mapping XML Generator", false, 0)]
     static public void OpenWindowConfigurator()
     {
-        EditorWindow.GetWindow<WindowMappingXmlGenerator>(false, "Window Mapping XML Generator", true);
+        EditorWindow.GetWindow<WindowMappingXmlGeneratorWindow>(false, "Window Mapping XML Generator", true);
     }
 
     [MenuItem("Tool/Window Prefab Generator", false, 0)]
     static public void OpenWindowPrefabGenerator()
     {
-        EditorWindow.GetWindow<WindowPrefabGenerator>(false, "Window Prefab Generator", true);
+        EditorWindow.GetWindow<WindowPrefabGeneratorWindow>(false, "Window Prefab Generator", true);
     }
 
     [MenuItem("Tool/Game Event Generator", false, 0)]

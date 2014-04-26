@@ -12,7 +12,7 @@ using UnityEngine;
 /// Write essential informations to xml, including:
 /// - Window path and layer configuration.
 /// </remarks>
-public class WindowMappingXmlGenerator : EditorWindow
+public class WindowMappingXmlGeneratorWindow : EditorWindow
 {
     #region Private Fields
 
@@ -25,9 +25,19 @@ public class WindowMappingXmlGenerator : EditorWindow
     private const string SvnFolder = ".svn";
     private const string WindowMapPath = "Game/Resources/Config/WindowMap.xml";
 
+    private WindnowMappingXmlGenerator xmlGenerator = new WindnowMappingXmlGenerator();
+
     #endregion
 
     #region Private Methods
+
+    private void GetFilePath()
+    {
+        if (string.IsNullOrEmpty(absolutePath))
+        {
+            absolutePath = string.Format("{0}/Game/Resources/{1}", Application.dataPath, Utils.UIBasePath);
+        }
+    }
 
     private bool IsValid()
     {
@@ -55,6 +65,8 @@ public class WindowMappingXmlGenerator : EditorWindow
             return;
         }
 
+        GetFilePath();
+        
         prefabDict.Clear();
         foreach (var folder in folderNameList)
         {
@@ -81,14 +93,6 @@ public class WindowMappingXmlGenerator : EditorWindow
 
     #region Mono
 
-    void OnEnable()
-    {
-        if (string.IsNullOrEmpty(absolutePath))
-        {
-            absolutePath = string.Format("{0}/Game/Resources/{1}", Application.dataPath, Utils.UIBasePath);
-        }
-    }
-
     void OnGUI()
     {
         GUILayout.TextArea(
@@ -97,7 +101,8 @@ public class WindowMappingXmlGenerator : EditorWindow
 
         if (GUILayout.Button("Generate"))
         {
-            GenerateMappingFile();
+            xmlGenerator.GenerateMappingFile();
+            AssetDatabase.Refresh();
         }
     }
 

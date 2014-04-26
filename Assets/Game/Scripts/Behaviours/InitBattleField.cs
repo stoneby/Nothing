@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Assets.Game.Scripts.Common.Model;
 using UnityEngine;
@@ -27,10 +28,9 @@ public class InitBattleField : MonoBehaviour
 	public GameObject TextBG91;
     public GameObject TexSwardBg91;
 	public GameObject Text91;
-    public GameObject[] heads;
+//    public GameObject[] heads;
 
-    public GameObject CharacterBloodBar;
-    public GameObject CharacterLabel;
+    
     public GameObject CharacterAttrackValueLabel;
 
     private int characterAttrackValue;
@@ -106,7 +106,10 @@ public class InitBattleField : MonoBehaviour
         TexSwardBg91.SetActive(false);
 
         //PopTextManager.Init(GameObject.Find("EffectPanel"), PopTextPrefab);
+        InitHpBar();
         InitLeaders();
+        InitTopDataBar();
+        
         Debug.Log(Screen.height);
     }
 
@@ -141,17 +144,6 @@ public class InitBattleField : MonoBehaviour
             cc.SetSelect(false);
         }
 
-//        foreach (var t in this.attracks)
-//        {
-//            var obj = NGUITools.AddChild(leftContainerObj, CharacterPrefab);
-//            attrackWaitList.Add(obj);
-//            obj.SetActive(false);
-//            var cc = obj.GetComponent<CharacterControl>();
-//
-//            cc.SetCharacter(t, Random.Range(2, 5), Random.Range(60, 150), Random.Range(100, 200));
-//            cc.SetSelect(false);
-//        }
-
         var bgObj = GameObject.Find("BackgroundTexture");
         var tp = bgObj.GetComponent<TweenPosition>();
         var tempv = 900 - 640;//(1800 - (Screen.width / + 500)) / 2;
@@ -161,15 +153,28 @@ public class InitBattleField : MonoBehaviour
 
         CreateCurrentEnemys();
 
+       
+
         characterValue = 15000;
         characterMaxValue = 15000;
-
-        ShowBlood();
 
         StartCoroutine(MakeUpOneByOne());
         lineList = new ArrayList();
         isBattling = true;
+        LeaderCD = 0;
+        LeaderCDMax = 50;
         ResetLeaderCd();
+
+        BoxCount = 0;
+        FPCount = 0;
+        EnergyCount = 0;
+        GoldCount = 0;
+
+        ShowHp();
+        ShowMp();
+        ShowTopData();
+
+        EventManager.Instance.AddListener<LeaderUseEvent>(OnLeaderUseHandler);
     }
 
     void CreateCurrentEnemys()
@@ -183,10 +188,10 @@ public class InitBattleField : MonoBehaviour
         switch (enemycount)
         {
             case 1:
-                yy = Basey - Vergap;
+                yy = Basey - Vergap - 50;
                 break;
             case 2:
-                yy = Basey;
+                yy = Basey - 50;
                 tempgap += Vergap / 2;
                 break;
             default:
@@ -251,6 +256,8 @@ public class InitBattleField : MonoBehaviour
                 pointList.RemoveAt(0);
             }
         }
+
+        EventManager.Instance.RemoveListener<LeaderUseEvent>(OnLeaderUseHandler);
     }
 
     //后面的武将补位
@@ -323,13 +330,7 @@ public class InitBattleField : MonoBehaviour
         }
     }
 
-    void ShowBlood()
-    {
-        var sd = CharacterBloodBar.GetComponent<UISlider>();
-        sd.value = characterValue / characterMaxValue;
-        var lb = CharacterLabel.GetComponent<UILabel>();
-        lb.text = characterValue + "/" + characterMaxValue;
-    }
+    
 
     // Update is called once per frame
     void Update()
@@ -503,7 +504,12 @@ public class InitBattleField : MonoBehaviour
             }
             else
             {
-                if (pointList != null) pointList.Clear();
+                if (pointList != null)
+                {
+                    pointList.Clear();
+                    ShowHp();
+                    ShowMp();
+                }
             }
             Debug.Log("Nouse Up ------------------------------");
         }
@@ -536,6 +542,11 @@ public class InitBattleField : MonoBehaviour
         characterAttrackValue = isadd ? characterAttrackValue + tempcc1.AttrackValue : characterAttrackValue - tempcc1.AttrackValue;
         var uilb = CharacterAttrackValueLabel.GetComponent<UILabel>();
         uilb.text = characterAttrackValue.ToString();
+        if (currentFootIndex == BattleType.FootPink)
+        {
+            ShowTempHp(characterAttrackValue);
+        }
+        ShowTempMp(pointList.Count);
     }
 
     //handle sth when mouse is picking characters
@@ -619,7 +630,7 @@ public class InitBattleField : MonoBehaviour
         {
             PopTextManager.ShowText("+" + characterAttrackValue, 0.6f, 80, 100, 50, pos);
         }
-        ShowBlood();
+        ShowHp();
     }
 
     void PlayBloodFullEffect()
@@ -693,8 +704,8 @@ public class InitBattleField : MonoBehaviour
         if (currentFootIndex == BattleType.FootPink)
         {
             characterValue = (characterValue + characterAttrackValue < characterMaxValue) ? characterValue + characterAttrackValue : characterMaxValue;
-            CharacterLoseBlood(new Vector3(CharacterLabel.transform.localPosition.x - Screen.width / 2,
-                                            CharacterLabel.transform.localPosition.y - Screen.height / 2, CharacterLabel.transform.localPosition.z), false);
+            CharacterLoseBlood(new Vector3(CharacterHPLabel.transform.localPosition.x - Screen.width / 2,
+                                            CharacterHPLabel.transform.localPosition.y - Screen.height / 2, CharacterHPLabel.transform.localPosition.z), false);
             foreach (var t in pointList)
             {
                 obj = t as GameObject;
@@ -921,11 +932,16 @@ public class InitBattleField : MonoBehaviour
                 {
                     Destroy(enemy, 1);
                     enemyList[k] = null;
+                    BoxCount++;
+                    GoldCount += Random.Range(5, 11);
                 }
             }
         }
 
         k = GetCurrentEnemyIndex();
+        LeaderCD += pointList.Count;
+        if (LeaderCD > LeaderCDMax) LeaderCD = LeaderCDMax;
+        ShowMp();
         if (k < 0)
         {
             //本回合战斗结束,如果有下一回合，准备下一回合，否则关卡战斗结束
@@ -957,7 +973,7 @@ public class InitBattleField : MonoBehaviour
             else
             {
                 yield return new WaitForSeconds(.8f);
-                ResetLeaderCd();
+                //ResetLeaderCd();
                 //SubWindowManager.CurrentWindow = SubWindowType.BattleEnd;
 
                 //WindowManager.Instance.Show(WindowType.BattleEnd, true);
@@ -1022,12 +1038,12 @@ public class InitBattleField : MonoBehaviour
             }
         }
 
-        WorseLeaderCd();
-
+        ResetLeaderCd();
+        ShowTopData();
         isPlaying = false;
         if (characterValue <= 0)
         {
-            ResetLeaderCd();
+            //ResetLeaderCd();
 
             //SubWindowManager.CurrentWindow = SubWindowType.BattleEnd;
 
@@ -1207,52 +1223,59 @@ public class InitBattleField : MonoBehaviour
     }
 
     //下面的函数用来处理队长
-    private ArrayList leaders;
+    private void OnLeaderUseHandler(LeaderUseEvent e)
+    {
+        LeaderCD -= e.CDCount;
+        if (LeaderCD >= 0)
+        {
+            InvokeLeaderSkill(e.SkillIndex);
+        }
+        else
+        {
+            LeaderCD = 0;
+        }
+        
+    }
+
+    private List<GameObject> leaders;
+    private int LeaderCD;
+    private int LeaderCDMax = 50;
 
     private void InitLeaders()
     {
-        GameObject ldContainer = GameObject.Find("Anchor-bottomright");
-        const int basex = -320;
-        const int basey = 50;
-        const int offsetx = 85;
+        LeaderCD = 0;
+        GameObject ldContainer = GameObject.Find("Anchor-bottomleft");
+        const int basex = -100;
+        const int basey = 40;
+        const int offsetx = 125;
         var i = 0;
-        leaders = new ArrayList();
+        leaders = new List<GameObject>();
         var obj = NGUITools.AddChild(ldContainer, LeaderPrefab);
         obj.transform.localPosition = new Vector3(basex + i * offsetx, basey, 0);
         var lc = obj.GetComponent<LeaderControl>();
-        lc.Init("head0", "head3_down", "head3_disable", 3, i);
+        lc.Init(1, 9, i + 1);
         leaders.Add(obj);
 
         i = 1;
         obj = NGUITools.AddChild(ldContainer, LeaderPrefab);
         obj.transform.localPosition = new Vector3(basex + i * offsetx, basey, 0);
         lc = obj.GetComponent<LeaderControl>();
-        lc.Init("head1", "head1_down", "head1_disable", 4, i);
+        lc.Init(2, 15, i + 1);
         leaders.Add(obj);
 
         i = 2;
         obj = NGUITools.AddChild(ldContainer, LeaderPrefab);
         obj.transform.localPosition = new Vector3(basex + i * offsetx, basey, 0);
         lc = obj.GetComponent<LeaderControl>();
-        lc.Init("head2", "head2_down", "head2_disable", 5, i);
+        lc.Init(3, 25, i + 1);
         leaders.Add(obj);
 
         i = 3;
         obj = NGUITools.AddChild(ldContainer, LeaderPrefab);
         obj.transform.localPosition = new Vector3(basex + i * offsetx, basey, 0);
         lc = obj.GetComponent<LeaderControl>();
-        lc.Init("head3", "head3_down", "head3_disable", 6, i);
+        lc.Init(0, 0, 0);
         leaders.Add(obj);
-    }
-
-    private void WorseLeaderCd()
-    {
-        foreach (var t in leaders)
-        {
-            var obj = t as GameObject;
-            var lc = obj.GetComponent<LeaderControl>();
-            lc.WorseCd();
-        }
     }
 
     private void ResetLeaderCd()
@@ -1260,9 +1283,8 @@ public class InitBattleField : MonoBehaviour
         if (leaders == null) return;
         foreach (var t in leaders)
         {
-            var obj = t as GameObject;
-            var lc = obj.GetComponent<LeaderControl>();
-            lc.Reset();
+            var lc = t.GetComponent<LeaderControl>();
+            lc.Reset(LeaderCD);
         }
     }
 
@@ -1347,7 +1369,8 @@ public class InitBattleField : MonoBehaviour
 		BreakObject.SetActive(false);
 		effectbg.SetActive (false);
 		TextBGObject.SetActive (false);
-
+        ResetLeaderCd();
+        ShowMp();
         EffectManager.PlayAllEffect(true);
     }
 
@@ -1568,4 +1591,100 @@ public class InitBattleField : MonoBehaviour
 		ts.PlayForward ();
 		Destroy (ts, playtime);
 	}
+
+    //处理progressbar
+    private GameObject CharacterMPLabel;
+    private GameObject CharacterHPLabel;
+    private GameObject SpriteHP1;
+    private GameObject SpriteHP2;
+    private GameObject SpriteMP1;
+    private GameObject SpriteMP2;
+
+    private void InitHpBar()
+    {
+        CharacterHPLabel = transform.FindChild("BattleUIPanel/Anchor-bottomleft/CharacterBloodLabel").gameObject;
+        CharacterMPLabel = transform.FindChild("BattleUIPanel/Anchor-bottomleft/CharacterCDLabel").gameObject;
+        SpriteHP1 = transform.FindChild("BattleUIPanel/Anchor-bottomleft/Sprite - hp1").gameObject;
+        SpriteHP2 = transform.FindChild("BattleUIPanel/Anchor-bottomleft/Sprite - hp2").gameObject;
+        SpriteMP1 = transform.FindChild("BattleUIPanel/Anchor-bottomleft/Sprite - mp1").gameObject;
+        SpriteMP2 = transform.FindChild("BattleUIPanel/Anchor-bottomleft/Sprite - mp2").gameObject;
+
+    }
+
+    private void ShowHp()
+    {
+        float xx = BattleType.PosHPMin + (BattleType.PosHPMax - BattleType.PosHPMin)*characterValue/characterMaxValue;
+        SpriteHP1.transform.localPosition = new Vector3(xx, BattleType.PosHPY, 0);
+        SpriteHP2.transform.localPosition = new Vector3(xx, BattleType.PosHPY, 0);
+        var lb = CharacterHPLabel.GetComponent<UILabel>();
+        lb.text = characterValue + "/" + characterMaxValue;
+    }
+
+    private void ShowTempHp(float offset)
+    {
+        if (offset < 0) return;
+        float value = characterValue + offset;
+        if (value > characterMaxValue) value = characterMaxValue;
+        float xx = BattleType.PosHPMin + (BattleType.PosHPMax - BattleType.PosHPMin) * value / characterMaxValue;
+        SpriteHP2.transform.localPosition = new Vector3(xx, BattleType.PosHPY, 0);
+    }
+
+    private void ShowMp()
+    {
+        float xx = BattleType.PosMPMin + (BattleType.PosMPMax - BattleType.PosMPMin) * LeaderCD / LeaderCDMax;
+        SpriteMP1.transform.localPosition = new Vector3(xx, BattleType.PosMPY, 0);
+        SpriteMP2.transform.localPosition = new Vector3(xx, BattleType.PosMPY, 0);
+        var lb = CharacterMPLabel.GetComponent<UILabel>();
+        lb.text = LeaderCD + "/" + LeaderCDMax;
+    }
+
+    private void ShowTempMp(int offset)
+    {
+        if (offset < 0) return;
+        int value = LeaderCD + offset;
+        if (value > LeaderCDMax) value = LeaderCDMax;
+        float xx = BattleType.PosMPMin + (BattleType.PosMPMax - BattleType.PosMPMin) * value / LeaderCDMax;
+        SpriteMP2.transform.localPosition = new Vector3(xx, BattleType.PosMPY, 0);
+    }
+
+    //显示上方获得数据
+    private GameObject BoxLabel;
+    private GameObject FPLabel;
+    private GameObject StepLabel;
+    private GameObject EnergyLabel;
+    private GameObject GoldLabel;
+    private int BoxCount;
+    private int FPCount;
+    private int EnergyCount;
+    private int GoldCount;
+    private void InitTopDataBar()
+    {
+        BoxLabel = transform.FindChild("BattleUIPanel/Anchor-topright/Sprite - topbar/Label - value1").gameObject;
+        FPLabel = transform.FindChild("BattleUIPanel/Anchor-topright/Sprite - topbar/Label - value2").gameObject;
+        StepLabel = transform.FindChild("BattleUIPanel/Anchor-topright/Sprite - topbar/Label - value3").gameObject;
+        EnergyLabel = transform.FindChild("BattleUIPanel/Anchor-topright/Sprite - topbar/Label - value4").gameObject;
+        GoldLabel = transform.FindChild("BattleUIPanel/Anchor-topright/Sprite - topbar/Label - value5").gameObject;
+        BoxCount = 0;
+        FPCount = 0;
+        EnergyCount = 0;
+        GoldCount = 0;
+    }
+
+    private void ShowTopData()
+    {
+        var lb = BoxLabel.GetComponent<UILabel>();
+        lb.text = BoxCount.ToString();
+
+        lb = FPLabel.GetComponent<UILabel>();
+        lb.text = FPCount.ToString();
+
+        lb = EnergyLabel.GetComponent<UILabel>();
+        lb.text = EnergyCount.ToString();
+
+        lb = GoldLabel.GetComponent<UILabel>();
+        lb.text = GoldCount.ToString();
+
+        lb = StepLabel.GetComponent<UILabel>();
+        lb.text = (currEnemyGroupIndex + 1).ToString() + "/" + BattleModelLocator.Instance.MonsterGroup.Count.ToString();
+    }
 }

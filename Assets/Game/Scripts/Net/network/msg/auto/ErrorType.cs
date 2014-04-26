@@ -25,28 +25,24 @@ namespace KXSGCodec
     /// </summary>
     NAME_EXISTS = 2,
     /// <summary>
-    /// 名字非法
-    /// </summary>
-    NAME_ILLEGAL = 3,
-    /// <summary>
     /// 创建角色失败
     /// </summary>
-    CREATE_CHAR_FAIL = 4,
+    CREATE_CHAR_FAIL = 3,
     /// <summary>
     /// 服务器未开放
     /// </summary>
-    SERVER_NOT_OPEN = 5,
+    SERVER_NOT_OPEN = 4,
     /// <summary>
     /// 解码异常
     /// </summary>
-    DECODE_EXCEPTION = 6,
+    DECODE_EXCEPTION = 5,
     /// <summary>
     /// 非法请求
     /// </summary>
-    ILLEGAL_REQUEST = 7,
+    ILLEGAL_REQUEST = 6,
     /// <summary>
     /// 消息执行异常
     /// </summary>
-    MSG_EXEC_EXCEPTION = 8,
+    MSG_EXEC_EXCEPTION = 7,
   }
 }

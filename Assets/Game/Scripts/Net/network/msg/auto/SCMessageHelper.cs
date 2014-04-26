@@ -29,6 +29,10 @@ namespace KXSGCodec
             {
                 return new SCBagExtend();
             }
+			            if (type == MessageType.SC_HERO_CREATE_ONE.GetHashCode())
+            {
+                return new SCHeroCreateOne();
+            }
 			            if (type == MessageType.SC_HERO_LIST.GetHashCode())
             {
                 return new SCHeroList();

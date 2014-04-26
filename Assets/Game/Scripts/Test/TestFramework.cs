@@ -1,11 +1,24 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEditor;
+using UnityEngine;
 
 /// <summary>
 /// Test framwork which come with a GUI menu feature testing system.
 /// </summary>
 public class TestFramework : MonoBehaviour
 {
+    #region Public Fields
+
     public BattleEndControl BattenEnd;
+
+    #endregion
+
+    #region Private Fields
+
+    private string assertType = "Ok";
+    private string assertMessage = "This is a assert message.";
+
+    #endregion
 
     #region Mono
 
@@ -18,6 +31,8 @@ public class TestFramework : MonoBehaviour
         EventTest();
 
         UIEventTest();
+
+        AssetWindowTest();
     }
 
     void Start()
@@ -110,6 +125,50 @@ public class TestFramework : MonoBehaviour
     private static void OnTestHandler(TestEvent e)
     {
         Debug.LogWarning("OnTestHandler get called back, with event-" + e.Message);
+    }
+
+    private void AssetWindowTest()
+    {
+        GUILayout.BeginHorizontal();
+        GUILayout.Label("Assert Message: ");
+        assertMessage = GUILayout.TextField(assertMessage);
+        GUILayout.EndHorizontal();
+
+        GUILayout.BeginHorizontal();
+        GUILayout.Label("Assert Type: ");
+        assertType = GUILayout.TextField(assertType);
+        GUILayout.EndHorizontal();
+
+        if (GUILayout.Button("Show Assert Window"))
+        {
+            var assertWindow = WindowManager.Instance.GetWindow(typeof(AssertionWindow)) as AssertionWindow;
+            assertWindow.AssertType = (AssertionWindow.Type)Enum.Parse(typeof(AssertionWindow.Type), assertType);
+            assertWindow.Message = assertMessage;
+            WindowManager.Instance.Show(typeof(AssertionWindow), true);
+
+            Debug.LogWarning("Show assert window.");
+
+            assertWindow.OkButtonClicked += OnOkButtonClicked;
+            assertWindow.CancelButtonClicked += OnCancelButtonClicked;
+        }
+
+        if (GUILayout.Button("Hide Assert Window"))
+        {
+            var assertWindow = WindowManager.Instance.Show(typeof(AssertionWindow), false) as AssertionWindow;
+
+            assertWindow.OkButtonClicked -= OnOkButtonClicked;
+            assertWindow.CancelButtonClicked -= OnCancelButtonClicked;
+        }
+    }
+
+    private void OnOkButtonClicked(GameObject sender)
+    {
+        Debug.LogWarning("Ok button is clicked. " + sender.name);
+    }
+
+    private void OnCancelButtonClicked(GameObject sender)
+    {
+        Debug.LogWarning("Cancel button is clicked. " + sender.name);
     }
 
     #endregion

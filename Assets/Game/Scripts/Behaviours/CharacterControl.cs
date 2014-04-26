@@ -74,7 +74,7 @@ public class CharacterControl : MonoBehaviour
         uisp.spriteName = (FootIndex == BattleType.FootPink) ? "job_6" : "job_" + JobIndex;
         var uilb = AttrackObj.GetComponent<UILabel>();
         uilb.text = (FootIndex == BattleType.FootPink) ? ("" + Restore) : ("" + Attrack);
-        uilb.text += "-" + footindex.ToString();
+        //uilb.text += "-" + footindex.ToString();
     }
 
     public void SetCharacterAfter(float aftertime)
@@ -92,7 +92,7 @@ public class CharacterControl : MonoBehaviour
     public void SetCharacter(BattleMsgHero data)
     {
         Data = data;
-        CharacterIndex = data.TemplateId;
+        CharacterIndex = (data.TemplateId % 2 == 0) ? 1 : 5;
         JobIndex = Random.Range(BattleType.FootMin, BattleType.FootMax);
         Attrack = Random.Range(60, 150);
         Restore = Random.Range(100, 200); 

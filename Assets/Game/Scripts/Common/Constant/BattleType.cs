@@ -20,4 +20,11 @@ public class BattleType
     public const int JobMaster = 5;     //
     public const int JobHeart = 6;      //回复
 
+    public const int PosHPMin = -303;
+    public const int PosHPMax = 128;
+    public const int PosHPY = 121;
+    public const int PosMPMin = -323;
+    public const int PosMPMax = 110;
+    public const int PosMPY = 101;
+
 }

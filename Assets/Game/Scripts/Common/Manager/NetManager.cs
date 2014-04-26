@@ -17,64 +17,46 @@ public class NetManager
     private const string METHOD = "POST";
     private static ClientSocket SocketClient = new ClientSocket("127.0.0.1", "8080");
 
-    private static Queue CSMsgQueue;
-    private static Queue SCMsgQueue;
-    private static Thread MsgThread;
-
-    private static Mutex CSMutex;
-    private static Mutex SCMutex;
+    private static Queue CSMsgQueue = new Queue();
+    private static Queue SCMsgQueue = new Queue();
+    private static Thread MsgThread = new Thread(new ThreadStart(DoSend));
 
     private static string SessionId = "";
 
     public static void SendMessage(TBase msg)
     {
-        if (CSMutex == null)
-        {
-            CSMutex = new Mutex();
-        }
-
-        CSMutex.WaitOne(500);
-
-        if (CSMsgQueue == null)
-        {
-            CSMsgQueue = new Queue();
-            SCMsgQueue = new Queue();
-        }
-        CSMsgQueue.Enqueue(msg);
-        CSMutex.ReleaseMutex();
-        if (MsgThread == null)
-        {
-            var entry = new ThreadStart(DoSend);
-            MsgThread = new Thread(entry);
-        }
-
-        //Debug.Log(MsgThread.ThreadState);
-        if (MsgThread.ThreadState == ThreadState.Unstarted)
-        {
-            MsgThread.Start();
-        }
+         lock (CSMsgQueue.SyncRoot)
+         {
+             CSMsgQueue.Enqueue(msg);
+         }
+           
+         if (MsgThread.ThreadState == ThreadState.Unstarted)
+         {
+             MsgThread.Start();
+         }       
     }
 
     public static ThriftSCMessage GetMessage()
     {
-        if (SCMutex == null)
-        {
-            SCMutex = new Mutex();
-        }
-
-        ThriftSCMessage msg;
-        SCMutex.WaitOne(500);
-
         if (SCMsgQueue == null || SCMsgQueue.Count <= 0)
         {
-            msg = null;
+            return null;
         }
-        else
+
+        ThriftSCMessage msg = null;
+        lock (SCMsgQueue.SyncRoot)
         {
-            msg = SCMsgQueue.Dequeue() as ThriftSCMessage;
+            try
+            {
+                msg = SCMsgQueue.Dequeue() as ThriftSCMessage;
+            }
+            catch (Exception e)
+            {
+
+                Debug.Log("An error occurred GetMessage: " + e.Message);
+            }         
         }
-        
-        SCMutex.ReleaseMutex();
+
         return msg;
     }
 
@@ -88,14 +70,24 @@ public class NetManager
                 continue;
             }
 
-            if (CSMutex == null)
-            {
-                CSMutex = new Mutex();
-            }
-
+            HttpWebRequest hwrequest = null;
+            Stream postStream = null;
+            HttpWebResponse hwresponse = null;
+            Stream responseStream = null;
             try
             {
-                var hwrequest = (HttpWebRequest)WebRequest.Create(ServiceManager.ServerData.Url);
+                TBase csMsg = null;
+                lock (CSMsgQueue.SyncRoot)
+                {
+                    csMsg = CSMsgQueue.Dequeue() as TBase;
+                }
+                if (csMsg == null)
+                {
+                    continue;
+                }
+                Debug.Log("Do send" + csMsg.GetType());
+
+                hwrequest = (HttpWebRequest) WebRequest.Create(ServiceManager.ServerData.Url);
                 hwrequest.Accept = "*/*";
                 hwrequest.AllowAutoRedirect = true;
                 hwrequest.UserAgent = "http_requester/0.1";
@@ -103,11 +95,7 @@ public class NetManager
                 hwrequest.Method = METHOD;
                 hwrequest.Headers.Add("ISESSION", SessionId);
                 hwrequest.ContentType = "multipart/form-data";
-                CSMutex.WaitOne(500);
-                //Debug.Log("Do send" + CSMsgQueue.Count.ToString());
-                var csMsg = CSMsgQueue.Dequeue() as TBase;
-                Debug.Log("Do send" + csMsg.GetType());
-                CSMutex.ReleaseMutex();
+
                 var msg = new ThriftCSMessage(csMsg);
                 byte[] postByteArray = msg.Encode();
                 if (postByteArray == null || postByteArray.Length <= 0)
@@ -115,64 +103,105 @@ public class NetManager
                     // ClientLog.Instance.LogError("send data is null or length is 0, msg type = " + csMsg.GetType().ToString());
                     continue;
                 }
-
                 hwrequest.ContentLength = postByteArray.Length;
 
-                Stream postStream = hwrequest.GetRequestStream();
+                postStream = hwrequest.GetRequestStream();
                 postStream.Write(postByteArray, 0, postByteArray.Length);
                 postStream.Close();
+                postStream = null;
 
-                var hwresponse = (HttpWebResponse)hwrequest.GetResponse();
+
+                // deal with receive sc msg
+                hwresponse = (HttpWebResponse) hwrequest.GetResponse();
                 Debug.Log("response status:" + hwresponse.StatusCode);
                 if (hwresponse.StatusCode == HttpStatusCode.OK)
                 {
 
-                    int respLen = (int)hwresponse.ContentLength;
+                    int respLen = (int) hwresponse.ContentLength;
                     Debug.Log("respLen:" + respLen);
                     if (respLen <= 0)
                     {
                         hwresponse.Close();
+                        hwresponse = null;
                         continue;
                     }
 
                     byte[] recDatas = new byte[respLen];
-                    Stream responseStream = hwresponse.GetResponseStream();
+                    responseStream = hwresponse.GetResponseStream();
                     responseStream.Read(recDatas, 0, respLen);
-
+                    responseStream.Close();
+                    responseStream = null;
                     ThriftSCMessage scMsg = SocketClient.DecodeMsg(recDatas, respLen);
-                    Debug.Log("Do receive" + scMsg.GetMsgType());
-                    SessionId = hwresponse.GetResponseHeader("ISESSION");
-                    if (SCMutex == null)
+                    if (scMsg == null)
                     {
-                        SCMutex = new Mutex();
+                        Debug.Log("Do not receive sc msg, csMsgType:" + csMsg.GetType());
+                        continue;
+                    }
+                    Debug.Log("Do receive" + scMsg.GetMsgType());
+
+                    lock (SCMsgQueue.SyncRoot)
+                    {
+                        SCMsgQueue.Enqueue(scMsg);
                     }
 
-                    SCMutex.WaitOne(500);
-
-                    SCMsgQueue.Enqueue(scMsg);
-
-                    SCMutex.ReleaseMutex();
-                    
-                    //Debug.Log(SCMsgQueue.Count);
+                    SessionId = hwresponse.GetResponseHeader("ISESSION");
                 }
+
                 hwresponse.Close();
+                hwresponse = null;
             }
             catch (Exception e)
             {
                 Debug.Log("An error occurred: " + e.Message);
-                var globalmessage = new ClientSCMessage((short)MessageType.SC_SYSTEM_INFO_MSG, e.Message);
-                if (SCMutex == null)
+                ThriftSCMessage globalmessage = new ClientSCMessage((short) MessageType.SC_SYSTEM_INFO_MSG, e.Message);
+                lock (SCMsgQueue.SyncRoot)
                 {
-                    SCMutex = new Mutex();
+                    SCMsgQueue.Enqueue(globalmessage);
                 }
+            }
+            finally
+            {
+                if (postStream != null)
+                {
+                    try
+                    {
+                        postStream.Close();
+                    }
+                    catch (Exception e)
+                    {
 
-                SCMutex.WaitOne(500);
+                        Debug.Log("An error occurred close postStream: " + e.Message);
+                    }
+                   
+                }
+                if (responseStream != null)
+                {
+                    try
+                    {
+                        responseStream.Close();
+                    }
+                    catch (Exception e)
+                    {
 
-                SCMsgQueue.Enqueue(globalmessage);
+                        Debug.Log("An error occurred close responseStream: " + e.Message);
+                    }
 
-                SCMutex.ReleaseMutex();
+                }
+                if (  hwresponse != null)
+                {
+                    
+                    try
+                    {
+                        hwresponse.Close();
+                    }
+                    catch (Exception e)
+                    {
+
+                        Debug.Log("An error occurred close hwresponse: " + e.Message);
+                    }
+                }
             }
 
         }
-    }  
+    }
 }

@@ -45,46 +45,54 @@ public class ServiceManager
     //初始化账号信息
     public static void InitAccount()
     {
-        
         AccountArray = new List<AccountVO>();
         //return;
         Debug.Log(GameConfig.CookieAddress);
-        var f = new FileInfo(GameConfig.CookieAddress);
-        if (!f.Exists)
+        try
         {
-            if (f.Directory == null || !f.Directory.Exists)
+            var f = new FileInfo(GameConfig.CookieAddress);
+            //return;
+            if (!f.Exists)
             {
-                if (f.DirectoryName != null) Directory.CreateDirectory(f.DirectoryName);
-            }
-           
-            f.Create();
-            //File.WriteAllText(GameConfig.CookieAddress, "");
-            //File.Create(GameConfig.CookieAddress);
-            
-            return;
-        }
-        var content = File.ReadAllText(GameConfig.CookieAddress);
-            
-        Debug.Log(content);
-		int index = content.IndexOf ("<GameAccount>");
-        string[] arr = null;
-        if (index >= 0)
-		{
-			arr = content.Split(new string[] {"<GameAccount>"}, StringSplitOptions.RemoveEmptyEntries);
-			Debug.Log(arr.Length);
-		}
-        else if (content != "")
-        {
-            arr = new string[1];
-            arr[0] = content;
-        }
+                if (f.Directory == null || !f.Directory.Exists)
+                {
+                    if (f.DirectoryName != null) Directory.CreateDirectory(f.DirectoryName);
+                }
 
-        if (arr == null) return;
-        for (int i = 0; i < arr.Length; i++)
-        {
-            var obj = AccountVO.CreateData(arr[i]);
-            AccountArray.Add(obj);
+                f.Create();
+                //File.WriteAllText(GameConfig.CookieAddress, "");
+                //File.Create(GameConfig.CookieAddress);
+
+                return;
+            }
+            var content = File.ReadAllText(GameConfig.CookieAddress);
+
+            Debug.Log(content);
+            int index = content.IndexOf("<GameAccount>");
+            string[] arr = null;
+            if (index >= 0)
+            {
+                arr = content.Split(new string[] { "<GameAccount>" }, StringSplitOptions.RemoveEmptyEntries);
+                Debug.Log(arr.Length);
+            }
+            else if (content != "")
+            {
+                arr = new string[1];
+                arr[0] = content;
+            }
+
+            if (arr == null) return;
+            for (int i = 0; i < arr.Length; i++)
+            {
+                var obj = AccountVO.CreateData(arr[i]);
+                AccountArray.Add(obj);
+            }
         }
+        catch (Exception e)
+        {
+            
+        }
+        
     }
 
     //本地保存账号信息

@@ -21,37 +21,9 @@ using Thrift.Transport;
 #endif
 public partial class Hero : TBase
 {
-  private string _templateName;
-  private string _version;
   private Dictionary<int, HeroTemplate> _heroTmpl;
   private Dictionary<int, HeroLevelUpTemplate> _lvlUpTmpl;
   private Dictionary<int, HeroBaseTemplate> _baseTmpl;
-
-  public string TemplateName
-  {
-    get
-    {
-      return _templateName;
-    }
-    set
-    {
-      __isset.templateName = true;
-      this._templateName = value;
-    }
-  }
-
-  public string Version
-  {
-    get
-    {
-      return _version;
-    }
-    set
-    {
-      __isset.version = true;
-      this._version = value;
-    }
-  }
 
   public Dictionary<int, HeroTemplate> HeroTmpl
   {
@@ -98,8 +70,6 @@ public partial class Hero : TBase
   [Serializable]
   #endif
   public struct Isset {
-    public bool templateName;
-    public bool version;
     public bool heroTmpl;
     public bool lvlUpTmpl;
     public bool baseTmpl;
@@ -121,20 +91,6 @@ public partial class Hero : TBase
       switch (field.ID)
       {
         case 1:
-          if (field.Type == TType.String) {
-            TemplateName = iprot.ReadString();
-          } else { 
-            TProtocolUtil.Skip(iprot, field.Type);
-          }
-          break;
-        case 2:
-          if (field.Type == TType.String) {
-            Version = iprot.ReadString();
-          } else { 
-            TProtocolUtil.Skip(iprot, field.Type);
-          }
-          break;
-        case 3:
           if (field.Type == TType.Map) {
             {
               HeroTmpl = new Dictionary<int, HeroTemplate>();
@@ -154,7 +110,7 @@ public partial class Hero : TBase
             TProtocolUtil.Skip(iprot, field.Type);
           }
           break;
-        case 4:
+        case 2:
           if (field.Type == TType.Map) {
             {
               LvlUpTmpl = new Dictionary<int, HeroLevelUpTemplate>();
@@ -174,7 +130,7 @@ public partial class Hero : TBase
             TProtocolUtil.Skip(iprot, field.Type);
           }
           break;
-        case 5:
+        case 3:
           if (field.Type == TType.Map) {
             {
               BaseTmpl = new Dictionary<int, HeroBaseTemplate>();
@@ -207,26 +163,10 @@ public partial class Hero : TBase
     TStruct struc = new TStruct("Hero");
     oprot.WriteStructBegin(struc);
     TField field = new TField();
-    if (TemplateName != null && __isset.templateName) {
-      field.Name = "templateName";
-      field.Type = TType.String;
-      field.ID = 1;
-      oprot.WriteFieldBegin(field);
-      oprot.WriteString(TemplateName);
-      oprot.WriteFieldEnd();
-    }
-    if (Version != null && __isset.version) {
-      field.Name = "version";
-      field.Type = TType.String;
-      field.ID = 2;
-      oprot.WriteFieldBegin(field);
-      oprot.WriteString(Version);
-      oprot.WriteFieldEnd();
-    }
     if (HeroTmpl != null && __isset.heroTmpl) {
       field.Name = "heroTmpl";
       field.Type = TType.Map;
-      field.ID = 3;
+      field.ID = 1;
       oprot.WriteFieldBegin(field);
       {
         oprot.WriteMapBegin(new TMap(TType.I32, TType.Struct, HeroTmpl.Count));
@@ -242,7 +182,7 @@ public partial class Hero : TBase
     if (LvlUpTmpl != null && __isset.lvlUpTmpl) {
       field.Name = "lvlUpTmpl";
       field.Type = TType.Map;
-      field.ID = 4;
+      field.ID = 2;
       oprot.WriteFieldBegin(field);
       {
         oprot.WriteMapBegin(new TMap(TType.I32, TType.Struct, LvlUpTmpl.Count));
@@ -258,7 +198,7 @@ public partial class Hero : TBase
     if (BaseTmpl != null && __isset.baseTmpl) {
       field.Name = "baseTmpl";
       field.Type = TType.Map;
-      field.ID = 5;
+      field.ID = 3;
       oprot.WriteFieldBegin(field);
       {
         oprot.WriteMapBegin(new TMap(TType.I32, TType.Struct, BaseTmpl.Count));
@@ -277,11 +217,7 @@ public partial class Hero : TBase
 
   public override string ToString() {
     StringBuilder sb = new StringBuilder("Hero(");
-    sb.Append("TemplateName: ");
-    sb.Append(TemplateName);
-    sb.Append(",Version: ");
-    sb.Append(Version);
-    sb.Append(",HeroTmpl: ");
+    sb.Append("HeroTmpl: ");
     sb.Append(HeroTmpl);
     sb.Append(",LvlUpTmpl: ");
     sb.Append(LvlUpTmpl);

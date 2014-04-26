@@ -134,12 +134,7 @@ public class Utils
 
     public static T Decode<T>(string path) where T :  TBase, new()
     {
-        path = path.Replace(@"/", @"//");
-        FileStream stream = new FileInfo(path).OpenRead();
-        Byte[] buffer = new Byte[stream.Length];
-        //从流中读取字节块并将该数据写入给定缓冲区buffer中
-        stream.Read(buffer, 0, Convert.ToInt32(stream.Length));
-        TMemoryBuffer membuffer = new TMemoryBuffer(buffer);
+        var membuffer = new TMemoryBuffer(Resources.Load<TextAsset>(path).bytes);
         TProtocol protocol = (new TCompactProtocol(membuffer));
         var temp = new T();
         temp.Read(protocol);

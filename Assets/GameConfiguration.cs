@@ -105,7 +105,9 @@ public class GameConfiguration : Singleton<GameConfiguration>
         var www = new WWW(GameConfig.ServicePath);
         yield return www;
         Debug.Log("加载Service.xml成功");
+        Debug.Log(www.text);
         var doc = XElement.Parse(www.text, LoadOptions.None);
+        
         ParseService(doc);
 
         WindowManager.Instance.Show(typeof(LoginWindow), true);

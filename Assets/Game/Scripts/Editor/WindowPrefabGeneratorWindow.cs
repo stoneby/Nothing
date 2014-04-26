@@ -6,7 +6,7 @@ using UnityEngine;
 /// <summary>
 /// Window prefab generator tool.
 /// </summary>
-public class WindowPrefabGenerator : EditorWindow
+public class WindowPrefabGeneratorWindow : EditorWindow
 {
     #region Private Fields
 
@@ -31,6 +31,8 @@ public class WindowPrefabGenerator : EditorWindow
 
     private bool buttonPressed;
     private GameObject generatedPrefab;
+
+    private WindnowMappingXmlGenerator xmlGenerator = new WindnowMappingXmlGenerator();
 
     #endregion
 
@@ -93,22 +95,33 @@ public class WindowPrefabGenerator : EditorWindow
     {
         var templateWindowPath = string.Format("{0}/Game/Scripts/Template/{1}{2}", Application.dataPath, TemplateWindow, Utils.ScriptExtension);
         var specificWindowName = Utils.PrefabNameToWindow(prefabName);
-        var generatedFilePath = string.Format("{0}/{1}/{2}{3}", UIScriptBasePath, windowGroup, specificWindowName, Utils.ScriptExtension);
+        var generatedFilePath = string.Format("{0}/{1}", UIScriptBasePath, windowGroup);
+        var generatedFile = string.Format("{0}/{1}{2}", generatedFilePath, specificWindowName, Utils.ScriptExtension);
 
         Debug.Log("template path: " + templateWindowPath);
         Debug.Log("generated file path: " + generatedFilePath);
 
         var fullText = File.ReadAllText(templateWindowPath).Replace(TemplateWindow, specificWindowName);
-        File.WriteAllText(generatedFilePath, fullText);
+        if (!Directory.Exists(generatedFilePath))
+        {
+            Directory.CreateDirectory(generatedFilePath);
+        }
+        File.WriteAllText(generatedFile, fullText);
 
         AssetDatabase.Refresh();
     }
 
     private void CreatePrefab()
     {
-        var prefabPath = string.Format("{0}/{1}/{2}{3}", UIBasePathByAsset, windowGroup, prefabName, Utils.PrefabExtension);
+        var prefabPath = string.Format("{0}/{1}", UIBasePathByAsset, windowGroup);
+        if (!Directory.Exists(prefabPath))
+        {
+            Directory.CreateDirectory(prefabPath);
+        }
+
+        var prefabPathFile = string.Format("{0}/{1}{2}", prefabPath, prefabName, Utils.PrefabExtension);
         // create prefab.
-        generatedPrefab = PrefabUtility.CreatePrefab(prefabPath, prefabGameObject, ReplacePrefabOptions.ReplaceNameBased);
+        generatedPrefab = PrefabUtility.CreatePrefab(prefabPathFile, prefabGameObject, ReplacePrefabOptions.ReplaceNameBased);
 
         log =
         string.Format("Generate prefab - {0}, to path - {1}, with game object in scene - {2}", prefabName,
@@ -153,6 +166,8 @@ public class WindowPrefabGenerator : EditorWindow
             buttonPressed = true;
 
             GeneratePrefab();
+
+            xmlGenerator.GenerateMappingFile();
         }
 
         if (buttonPressed && !EditorApplication.isCompiling)

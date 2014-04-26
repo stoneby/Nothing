@@ -40,6 +40,13 @@ public partial class HeroTemplate : TBase
   private int _MP;
   private int _MPAddtion;
   private int _price;
+  private int _leaderSkill;
+  private int _activeSkill;
+  private int _spSkill;
+  private int _passiveSkill1;
+  private int _passiveSkill2;
+  private int _passiveSkill3;
+  private int _passiveSkill4;
 
   public int Id
   {
@@ -342,6 +349,118 @@ public partial class HeroTemplate : TBase
     }
   }
 
+  /// <summary>
+  /// 队长技能
+  /// </summary>
+  public int LeaderSkill
+  {
+    get
+    {
+      return _leaderSkill;
+    }
+    set
+    {
+      __isset.leaderSkill = true;
+      this._leaderSkill = value;
+    }
+  }
+
+  /// <summary>
+  /// 主动技能
+  /// </summary>
+  public int ActiveSkill
+  {
+    get
+    {
+      return _activeSkill;
+    }
+    set
+    {
+      __isset.activeSkill = true;
+      this._activeSkill = value;
+    }
+  }
+
+  /// <summary>
+  /// sp技能
+  /// </summary>
+  public int SpSkill
+  {
+    get
+    {
+      return _spSkill;
+    }
+    set
+    {
+      __isset.spSkill = true;
+      this._spSkill = value;
+    }
+  }
+
+  /// <summary>
+  /// 被动技能1
+  /// </summary>
+  public int PassiveSkill1
+  {
+    get
+    {
+      return _passiveSkill1;
+    }
+    set
+    {
+      __isset.passiveSkill1 = true;
+      this._passiveSkill1 = value;
+    }
+  }
+
+  /// <summary>
+  /// 被动技能2
+  /// </summary>
+  public int PassiveSkill2
+  {
+    get
+    {
+      return _passiveSkill2;
+    }
+    set
+    {
+      __isset.passiveSkill2 = true;
+      this._passiveSkill2 = value;
+    }
+  }
+
+  /// <summary>
+  /// 被动技能3
+  /// </summary>
+  public int PassiveSkill3
+  {
+    get
+    {
+      return _passiveSkill3;
+    }
+    set
+    {
+      __isset.passiveSkill3 = true;
+      this._passiveSkill3 = value;
+    }
+  }
+
+  /// <summary>
+  /// 被动技能4
+  /// </summary>
+  public int PassiveSkill4
+  {
+    get
+    {
+      return _passiveSkill4;
+    }
+    set
+    {
+      __isset.passiveSkill4 = true;
+      this._passiveSkill4 = value;
+    }
+  }
+
 
   public Isset __isset;
   #if !SILVERLIGHT
@@ -367,6 +486,13 @@ public partial class HeroTemplate : TBase
     public bool MP;
     public bool MPAddtion;
     public bool price;
+    public bool leaderSkill;
+    public bool activeSkill;
+    public bool spSkill;
+    public bool passiveSkill1;
+    public bool passiveSkill2;
+    public bool passiveSkill3;
+    public bool passiveSkill4;
   }
 
   public HeroTemplate() {
@@ -513,6 +639,55 @@ public partial class HeroTemplate : TBase
         case 20:
           if (field.Type == TType.I32) {
             Price = iprot.ReadI32();
+          } else { 
+            TProtocolUtil.Skip(iprot, field.Type);
+          }
+          break;
+        case 21:
+          if (field.Type == TType.I32) {
+            LeaderSkill = iprot.ReadI32();
+          } else { 
+            TProtocolUtil.Skip(iprot, field.Type);
+          }
+          break;
+        case 22:
+          if (field.Type == TType.I32) {
+            ActiveSkill = iprot.ReadI32();
+          } else { 
+            TProtocolUtil.Skip(iprot, field.Type);
+          }
+          break;
+        case 23:
+          if (field.Type == TType.I32) {
+            SpSkill = iprot.ReadI32();
+          } else { 
+            TProtocolUtil.Skip(iprot, field.Type);
+          }
+          break;
+        case 24:
+          if (field.Type == TType.I32) {
+            PassiveSkill1 = iprot.ReadI32();
+          } else { 
+            TProtocolUtil.Skip(iprot, field.Type);
+          }
+          break;
+        case 25:
+          if (field.Type == TType.I32) {
+            PassiveSkill2 = iprot.ReadI32();
+          } else { 
+            TProtocolUtil.Skip(iprot, field.Type);
+          }
+          break;
+        case 26:
+          if (field.Type == TType.I32) {
+            PassiveSkill3 = iprot.ReadI32();
+          } else { 
+            TProtocolUtil.Skip(iprot, field.Type);
+          }
+          break;
+        case 27:
+          if (field.Type == TType.I32) {
+            PassiveSkill4 = iprot.ReadI32();
           } else { 
             TProtocolUtil.Skip(iprot, field.Type);
           }
@@ -682,6 +857,62 @@ public partial class HeroTemplate : TBase
       oprot.WriteI32(Price);
       oprot.WriteFieldEnd();
     }
+    if (__isset.leaderSkill) {
+      field.Name = "leaderSkill";
+      field.Type = TType.I32;
+      field.ID = 21;
+      oprot.WriteFieldBegin(field);
+      oprot.WriteI32(LeaderSkill);
+      oprot.WriteFieldEnd();
+    }
+    if (__isset.activeSkill) {
+      field.Name = "activeSkill";
+      field.Type = TType.I32;
+      field.ID = 22;
+      oprot.WriteFieldBegin(field);
+      oprot.WriteI32(ActiveSkill);
+      oprot.WriteFieldEnd();
+    }
+    if (__isset.spSkill) {
+      field.Name = "spSkill";
+      field.Type = TType.I32;
+      field.ID = 23;
+      oprot.WriteFieldBegin(field);
+      oprot.WriteI32(SpSkill);
+      oprot.WriteFieldEnd();
+    }
+    if (__isset.passiveSkill1) {
+      field.Name = "passiveSkill1";
+      field.Type = TType.I32;
+      field.ID = 24;
+      oprot.WriteFieldBegin(field);
+      oprot.WriteI32(PassiveSkill1);
+      oprot.WriteFieldEnd();
+    }
+    if (__isset.passiveSkill2) {
+      field.Name = "passiveSkill2";
+      field.Type = TType.I32;
+      field.ID = 25;
+      oprot.WriteFieldBegin(field);
+      oprot.WriteI32(PassiveSkill2);
+      oprot.WriteFieldEnd();
+    }
+    if (__isset.passiveSkill3) {
+      field.Name = "passiveSkill3";
+      field.Type = TType.I32;
+      field.ID = 26;
+      oprot.WriteFieldBegin(field);
+      oprot.WriteI32(PassiveSkill3);
+      oprot.WriteFieldEnd();
+    }
+    if (__isset.passiveSkill4) {
+      field.Name = "passiveSkill4";
+      field.Type = TType.I32;
+      field.ID = 27;
+      oprot.WriteFieldBegin(field);
+      oprot.WriteI32(PassiveSkill4);
+      oprot.WriteFieldEnd();
+    }
     oprot.WriteFieldStop();
     oprot.WriteStructEnd();
   }
@@ -726,6 +957,20 @@ public partial class HeroTemplate : TBase
     sb.Append(MPAddtion);
     sb.Append(",Price: ");
     sb.Append(Price);
+    sb.Append(",LeaderSkill: ");
+    sb.Append(LeaderSkill);
+    sb.Append(",ActiveSkill: ");
+    sb.Append(ActiveSkill);
+    sb.Append(",SpSkill: ");
+    sb.Append(SpSkill);
+    sb.Append(",PassiveSkill1: ");
+    sb.Append(PassiveSkill1);
+    sb.Append(",PassiveSkill2: ");
+    sb.Append(PassiveSkill2);
+    sb.Append(",PassiveSkill3: ");
+    sb.Append(PassiveSkill3);
+    sb.Append(",PassiveSkill4: ");
+    sb.Append(PassiveSkill4);
     sb.Append(")");
     return sb.ToString();
   }

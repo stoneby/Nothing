@@ -8,7 +8,8 @@ public sealed class HeroModelLocator
 
     private static volatile HeroModelLocator instance;
     private static readonly object SyncRoot = new Object();
-    private const string HeroTemlatePath = @"\Game\Scripts\Net\Hero\HeroBinaryFileToDecode";
+    private const string HeroTemlatePath = "Templates/HeroBinaryFileToDecode";
+    private const string SkillTemlatePath = "Templates/SkillBinaryFileToDecode";
 
     #endregion
 
@@ -46,7 +47,13 @@ public sealed class HeroModelLocator
     private Hero heroTemplates;
     public Hero HeroTemplates
     {
-        get { return heroTemplates ?? (heroTemplates = Utils.Decode<Hero>(Application.dataPath + HeroTemlatePath)); }
+        get { return heroTemplates ?? (heroTemplates = Utils.Decode<Hero>(HeroTemlatePath)); }
+    }
+
+    private Skill skillTemplates;
+    public Skill SkillTemplates
+    {
+        get { return skillTemplates ?? (skillTemplates = Utils.Decode<Skill>(SkillTemlatePath)); }
     }
 
     #endregion

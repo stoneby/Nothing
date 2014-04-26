@@ -9,18 +9,16 @@ namespace Assets.Game.Scripts.Net.handler
     {
         public static void OnBattlePveStart(ThriftSCMessage msg)
         {
-            PopTextManager.PopTip("返回战斗数据");
             var battlestartmsg = msg.getContent() as SCBattlePveStartMsg;
             if (battlestartmsg != null)
             {
+                PopTextManager.PopTip("返回战斗数据");
                 BattleModelLocator.Instance.BattleType = battlestartmsg.BattleType;
                 BattleModelLocator.Instance.FighterList = battlestartmsg.FighterList;
                 BattleModelLocator.Instance.MonsterGroup = battlestartmsg.MonsterGroup;
-                //Debug.LogWarning("Monster group: " + ((battlestartmsg.MonsterGroup == null) ? "Enemy" : "" + battlestartmsg.MonsterGroup.Count));
                 BattleModelLocator.Instance.MonsterList = battlestartmsg.MonsterList;
                 BattleModelLocator.Instance.RaidID = battlestartmsg.RaidID;
                 BattleModelLocator.Instance.Uuid = battlestartmsg.Uuid;
-                PopTextManager.PopTip("进入战斗");
 
                 var window = WindowManager.Instance.Show(typeof(BattleWindow), true).gameObject;
                 WindowManager.Instance.Show(typeof(MainMenuBarWindow), false);

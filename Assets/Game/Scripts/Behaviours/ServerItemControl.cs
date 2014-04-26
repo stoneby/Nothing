@@ -53,7 +53,11 @@ public class ServerItemControl : MonoBehaviour
     {
         if (ServiceManager.AccountData != null) ServiceManager.AccountData.AddServer(Data.Url);
         var obj = ServiceManager.GetDefaultAccount();
-        obj.AddServer(Data.Url);
+        if (obj != null)
+        {
+            obj.AddServer(Data.Url);
+        }
+        ServiceManager.ServerData = Data;
         WindowManager.Instance.Show(typeof(LoginMainWindow), true);
     }
 }

@@ -11,4 +11,5 @@ public enum WindowGroupType
     Fill,
     Tip,
     Page,
+    Assert,
 }

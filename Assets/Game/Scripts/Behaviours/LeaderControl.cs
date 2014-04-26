@@ -2,61 +2,72 @@
 
 public class LeaderControl : MonoBehaviour
 {
-    public GameObject CdLabel;
-    public GameObject HeadButton;
+    public GameObject SpriteBg;
+    public GameObject SpriteLight;
+    public GameObject SpriteHead;
+
     public int LeaderIndex;
 
+    public int HeadIndex;//0标识无效
+
     private GameObject shineObj;
-    private int baseCd;
+    private int baseCd;//需要气力值
+    private int currentCd;
     private int cd;
 
-    public void Init(string normalimage, string downimage, string disableimage, int basecd, int theindex)
+    private UIEventListener HeadUIEventListener;
+
+    void Start()
     {
-        var btn = HeadButton.GetComponent<UIImageButton>();
-        btn.normalSprite = btn.hoverSprite = normalimage;
-        btn.disabledSprite = disableimage;
-        btn.pressedSprite = downimage;
+        
+        
+    }
+
+    public void Init(int headindex, int basecd, int theindex = 0)
+    {
+        SpriteBg = transform.FindChild("Sprite - bg").gameObject;
+        SpriteHead = transform.FindChild("Sprite - head").gameObject;
+        SpriteLight = transform.FindChild("Sprite - light").gameObject;
+
+        HeadUIEventListener = UIEventListener.Get(SpriteHead);
+        if (HeadUIEventListener != null) HeadUIEventListener.onClick += OnHeadClick;
+
+        SpriteLight.SetActive(false);
+        HeadIndex = headindex;
         baseCd = basecd;
         LeaderIndex = theindex;
-        Reset();
+        var sp = SpriteHead.GetComponent<UISprite>();
+        sp.spriteName = "head_" + HeadIndex.ToString();
     }
 
-    public void Reset()
+    public void Reset(int currentcd)
     {
-        cd = baseCd;
-        var btn = HeadButton.GetComponent<UIImageButton>();
-        btn.isEnabled = (cd <= 0);
-        if (shineObj != null)
+        currentCd = currentcd;
+        if (HeadIndex > 0)
         {
-            Destroy(shineObj);
-            shineObj = null;
-        }
-        ShowCd();
-    }
-
-
-    public void WorseCd()
-    {
-        if (cd <= 0) return;
-
-        cd--;
-        if (cd <= 0)
-        {
-            cd = 0;
-            ShowCd();
-            var btn = HeadButton.GetComponent<UIImageButton>();
-            btn.isEnabled = true;
-            if (shineObj == null) shineObj = EffectManager.ShowEffect(EffectType.HeadFlash, 0, 0, transform.position);
+            if (currentcd >= baseCd)
+            {
+                SpriteLight.SetActive(true);
+            }
+            else
+            {
+                SpriteLight.SetActive(false);
+            }
         }
         else
         {
-            ShowCd();
+            SpriteLight.SetActive(false);
         }
     }
 
-    private void ShowCd()
+    private void OnHeadClick(GameObject game)
     {
-        var lb = CdLabel.GetComponent<UILabel>();
-        lb.text = (cd > 0) ? cd.ToString() : "";
+        if (HeadIndex > 0 && currentCd >= baseCd)
+        {
+            var e = new LeaderUseEvent();
+            e.CDCount = baseCd;
+            e.SkillIndex = LeaderIndex;
+            EventManager.Instance.Post(e);
+        }
     }
 }
