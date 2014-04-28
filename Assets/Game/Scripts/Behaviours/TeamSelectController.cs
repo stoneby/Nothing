@@ -48,6 +48,8 @@ public class TeamSelectController : MonoBehaviour
     /// </summary>
     private bool dragStart;
 
+    private int counter = 0;
+
     #endregion
 
     #region Public Methods
@@ -77,7 +79,7 @@ public class TeamSelectController : MonoBehaviour
         DragBarPool.CurrentObject.transform.localRotation = Utils.GetRotation(
             new Vector2(sourcePosition.x, sourcePosition.y), targetPosition);
 
-        //Debug.LogWarning("Souce position: " + sourcePosition + ", target position: " + targetPosition);
+        Debug.LogWarning("current drag bar: " + DragBarPool.CurrentObject.name);
 
         SetDragbarWidth(sourcePosition, targetPosition);
     }
@@ -86,10 +88,10 @@ public class TeamSelectController : MonoBehaviour
     {
         var barSprite = DragBarPool.CurrentObject.GetComponent<DragBarController>().BarSprite;
         var distance = Mathf.Abs(Vector2.Distance(sourcePosition, targetPosition));
-        var newWidth = (distance - Tune1)*2 + Tune2;
         //Debug.Log("Distance : " + distance + ", minWidth: " + barSprite.minWidth + ", new width: " + newWidth);
-        barSprite.width = (int) newWidth;
-        Debug.Log("drag bar sprite after width: " + barSprite.width + ", height: " + barSprite.height);
+        barSprite.width = (int) (distance * (720) / Screen.height * 720 / Screen.height);
+        barSprite.width = barSprite.width + (int)Tune1;
+        //Debug.Log("drag bar sprite after width: " + barSprite.width + ", height: " + barSprite.height);
     }
 
     private void OnCharacterDragStart(GameObject sender)
@@ -150,20 +152,25 @@ public class TeamSelectController : MonoBehaviour
 
     private void DrawDragBar(GameObject sender)
     {
-        var dragBar = DragBarPool.Take();
-        dragBar.transform.position = sender.transform.position;
-        dragBar.transform.localScale = new Vector3(1f, 1f, 1f);
-        dragBar.SetActive(true);
-
+        // fix last drag bar's width and rotation.
         if (LastCharacter != null)
         {
             var sourcePosition = UICamera.mainCamera.WorldToScreenPoint(LastCharacter.transform.position);
             var targetPosition = UICamera.mainCamera.WorldToScreenPoint(sender.transform.position);
             DragBarPool.CurrentObject.transform.localRotation = Utils.GetRotation(sourcePosition, targetPosition);
-            //SetDragbarWidth(sourcePosition, targetPosition);
+
+            SetDragbarWidth(sourcePosition, targetPosition);
 
             Debug.LogWarning("Source position: " + sourcePosition + ", target position: " + targetPosition + ", rotation: " + DragBarPool.CurrentObject.transform.rotation);
-        }
+        } 
+        
+        var dragBar = DragBarPool.Take();
+        dragBar.transform.position = sender.transform.position;
+        dragBar.transform.localScale = new Vector3(1f, 1f, 1f);
+        dragBar.name = dragBar.name + (++counter);
+        dragBar.SetActive(true);
+
+        Debug.LogWarning("Added drag bar with: " + dragBar.name);
     }
 
     #endregion

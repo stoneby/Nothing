@@ -110,7 +110,7 @@ public class GameConfiguration : Singleton<GameConfiguration>
         
         ParseService(doc);
 
-        WindowManager.Instance.Show(typeof(LoginWindow), true);
+        //WindowManager.Instance.Show(typeof(LoginWindow), true);
     }
 
     private static void ParseService(XContainer doc)

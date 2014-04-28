@@ -141,7 +141,12 @@ public class WindowManager : Singleton<WindowManager>
     {
         Debug.Log("Removing last window hold: " + windowMap[groupType][0]);
 
-        windowMap[groupType].RemoveAt(0);
+        var find = windowMap[groupType].Remove(lastWindow);
+        if (!find)
+        {
+            Debug.LogError("Trying to remove window - " + lastWindow.name +
+                           ", but we got nothing from window map of group - " + groupType);
+        }
         Destroy(lastWindow.gameObject);
         Resources.UnloadUnusedAssets();
     }

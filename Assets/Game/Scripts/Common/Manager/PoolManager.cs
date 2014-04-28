@@ -32,7 +32,8 @@ public class PoolManager : MonoBehaviour
             Debug.LogWarning("Take too more than Capacity as " + Capcity + ", make it twice more larger.");
             EnlargeCapacity();
             // return the last one.
-            return ObjectList[Capcity - 1];
+            CurrentObject = ObjectList[Capcity - 1];
+            return CurrentObject;
         }
 
         CurrentObject = inactiveObjectList.First();
