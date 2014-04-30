@@ -13,8 +13,9 @@ public class TeamSelectController : MonoBehaviour
     public int Row;
     public int Col;
 
-    public float Tune1;
-    public float Tune2;
+    public Vector3 OffSet;
+
+    public bool EditMode;
 
     #endregion
 
@@ -48,7 +49,7 @@ public class TeamSelectController : MonoBehaviour
     /// </summary>
     private bool dragStart;
 
-    private int counter = 0;
+    private int counter;
 
     #endregion
 
@@ -74,10 +75,20 @@ public class TeamSelectController : MonoBehaviour
         //Debug.LogWarning("Last touch positon: " + UICamera.lastTouchPosition);
         //Debug.LogWarning("Current touch: " + UICamera.currentTouch);
 
+        if (EditMode)
+        {
+            var target = UICamera.currentTouch.pos;
+            var targetWorld = UICamera.mainCamera.ScreenToWorldPoint(target);
+            sender.transform.position = targetWorld;
+
+            return;
+        }
+
         var sourcePosition = UICamera.mainCamera.WorldToScreenPoint(LastCharacter.transform.position);
         var targetPosition = UICamera.currentTouch.pos;
+
         DragBarPool.CurrentObject.transform.localRotation = Utils.GetRotation(
-            new Vector2(sourcePosition.x, sourcePosition.y), targetPosition);
+                new Vector2(sourcePosition.x, sourcePosition.y), targetPosition);
 
         Debug.LogWarning("current drag bar: " + DragBarPool.CurrentObject.name);
 
@@ -88,15 +99,17 @@ public class TeamSelectController : MonoBehaviour
     {
         var barSprite = DragBarPool.CurrentObject.GetComponent<DragBarController>().BarSprite;
         var distance = Mathf.Abs(Vector2.Distance(sourcePosition, targetPosition));
-        //Debug.Log("Distance : " + distance + ", minWidth: " + barSprite.minWidth + ", new width: " + newWidth);
-        barSprite.width = (int) (distance * (720) / Screen.height * 720 / Screen.height);
-        barSprite.width = barSprite.width + (int)Tune1;
-        //Debug.Log("drag bar sprite after width: " + barSprite.width + ", height: " + barSprite.height);
+        barSprite.width = (int)(distance * UICamera.mainCamera.orthographicSize);
     }
 
     private void OnCharacterDragStart(GameObject sender)
     {
         Debug.Log("On character drop start: " + sender.name);
+
+        if (EditMode)
+        {
+            return;
+        }
 
         dragStart = true;
         SelectedCharacterList.Clear();
@@ -105,6 +118,11 @@ public class TeamSelectController : MonoBehaviour
     private void OnCharacterDragOver(GameObject sender, GameObject draggedObject)
     {
         Debug.Log("On character drag over: " + sender.name + ", dragged started game ojbect: " + draggedObject.name);
+
+        if (EditMode)
+        {
+            return;
+        }
 
         if (!dragStart)
         {
@@ -143,6 +161,11 @@ public class TeamSelectController : MonoBehaviour
     {
         Debug.Log("On character drop end: " + sender.name);
 
+        if (EditMode)
+        {
+            return;
+        }
+
         Debug.LogWarning("Selected character list: " + SelectedCharacterList.Count);
 
         dragStart = false;
@@ -162,11 +185,14 @@ public class TeamSelectController : MonoBehaviour
             SetDragbarWidth(sourcePosition, targetPosition);
 
             Debug.LogWarning("Source position: " + sourcePosition + ", target position: " + targetPosition + ", rotation: " + DragBarPool.CurrentObject.transform.rotation);
-        } 
-        
+        }
+
         var dragBar = DragBarPool.Take();
-        dragBar.transform.position = sender.transform.position;
-        dragBar.transform.localScale = new Vector3(1f, 1f, 1f);
+        var t = dragBar.transform;
+        t.parent = sender.transform;
+        t.localPosition = Vector3.zero + OffSet;
+        t.localRotation = Quaternion.identity;
+        t.localScale = Vector3.one;
         dragBar.name = dragBar.name + (++counter);
         dragBar.SetActive(true);
 
@@ -179,7 +205,7 @@ public class TeamSelectController : MonoBehaviour
 
     void Start()
     {
-        if (CharacterList.Count != Row*Col)
+        if (CharacterList.Count != Row * Col)
         {
             Debug.LogError("Please make sure character list count - " + CharacterList.Count + " is the same as Row * Col - " + Row * Col);
             return;
@@ -191,8 +217,8 @@ public class TeamSelectController : MonoBehaviour
             character.Index = i;
             if (AutoAdjustPosition)
             {
-                character.Location.X = i/Col;
-                character.Location.Y = i%Row;
+                character.Location.X = i / Col;
+                character.Location.Y = i % Row;
             }
         }
 
