@@ -16,17 +16,17 @@ public class UnityLab : MonoBehaviour
 
     void Hello()
     {
-        //Debug.Log("Hello");
+        //Logger.Log("Hello");
     }
 
     #region Mono
 
     void Start()
     {
-        Debug.Log("Application path:\n" + Application.dataPath + "\n" + Application.persistentDataPath + "\n"
+        Logger.Log("Application path:\n" + Application.dataPath + "\n" + Application.persistentDataPath + "\n"
             + Application.streamingAssetsPath + "\n" + Application.temporaryCachePath);
 
-        Debug.Log("Layer:\n" + "Layer 0 to name: " + LayerMask.LayerToName(0) + "\nLayer 1 to name: " + LayerMask.LayerToName(1)
+        Logger.Log("Layer:\n" + "Layer 0 to name: " + LayerMask.LayerToName(0) + "\nLayer 1 to name: " + LayerMask.LayerToName(1)
             + "\nLayer 100 to name will be out of boundary." + "\nName xxx to layer: " + LayerMask.NameToLayer("xxx")
             + "\nName Screen to layer: " + LayerMask.NameToLayer("Screen"));
 

@@ -51,7 +51,7 @@ public class WindowManager : Singleton<WindowManager>
     /// </summary>
     /// <param name="type">Window type</param>
     /// <returns>The window with specific type</returns>
-    public Window GetWindow(Type type)
+    public T GetWindow<T>(Type type) where T : Window 
     {
         var path = Mapping.TypePathMap[type];
         var layer = Mapping.PathLayerMap[path];
@@ -66,14 +66,14 @@ public class WindowManager : Singleton<WindowManager>
         {
             window = CreateWindow(layer, path);
             windowMap[layer].Add(window);
-            Debug.Log("Create window with type - " + type + ", layer - " + layer + ", path - " + path);
+            Logger.Log("Create window with type - " + type + ", layer - " + layer + ", path - " + path);
         }
         else
         {
-            Debug.Log("Find window with type - " + type + ", layer - " + layer + ", path - " + path);
+            Logger.Log("Find window with type - " + type + ", layer - " + layer + ", path - " + path);
         }
 
-        return window;
+        return window as T;
     }
 
     /// <summary>
@@ -86,7 +86,7 @@ public class WindowManager : Singleton<WindowManager>
     {
         var path = Mapping.TypePathMap[type];
         var layer = Mapping.PathLayerMap[path];
-        var window = GetWindow(type);
+        var window = GetWindow<Window>(type);
 
         if (show)
         {
@@ -96,7 +96,7 @@ public class WindowManager : Singleton<WindowManager>
                 if (lastWindow.Active)
                 {
                     var groupType = (WindowGroupType) lastWindow.gameObject.layer;
-                    Debug.Log("Last window hide with type - " + lastWindow.GetType().Name + ", layer - " + groupType +
+                    Logger.Log("Last window hide with type - " + lastWindow.GetType().Name + ", layer - " + groupType +
                               ", path - " + lastWindow.Path);
 
                     if (DestroyLastWindow)
@@ -112,7 +112,7 @@ public class WindowManager : Singleton<WindowManager>
 
             if (lastWindow == window)
             {
-                Debug.Log("The window is currently showing already." + lastWindow.name);
+                Logger.Log("The window is currently showing already." + lastWindow.name);
             }
 
             currentWindowMap[layer] = window;
@@ -139,7 +139,7 @@ public class WindowManager : Singleton<WindowManager>
 
     private void DestroyWindow(WindowGroupType groupType, Window lastWindow)
     {
-        Debug.Log("Removing last window hold: " + windowMap[groupType][0]);
+        Logger.Log("Removing last window hold: " + windowMap[groupType][0]);
 
         var find = windowMap[groupType].Remove(lastWindow);
         if (!find)
@@ -223,10 +223,10 @@ public class WindowManager : Singleton<WindowManager>
     {
         foreach (var pair in windowMap)
         {
-            Debug.Log("Window map including : group - " + pair.Key);
+            Logger.Log("Window map including : group - " + pair.Key);
             foreach (var window in pair.Value)
             {
-                Debug.Log("Including window - " + window);
+                Logger.Log("Including window - " + window);
             }
         }
     }

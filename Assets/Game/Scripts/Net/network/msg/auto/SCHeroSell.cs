@@ -18,139 +18,116 @@ using Thrift.Transport;
 namespace KXSGCodec
 {
 
-  #if !SILVERLIGHT
-  [Serializable]
-  #endif
-  public partial class SCHeroSell : TBase
-  {
-    private List<long> _sellList;
-    private int _refreshSoul;
-
-    public List<long> SellList
-    {
-      get
-      {
-        return _sellList;
-      }
-      set
-      {
-        __isset.sellList = true;
-        this._sellList = value;
-      }
-    }
-
-    public int RefreshSoul
-    {
-      get
-      {
-        return _refreshSoul;
-      }
-      set
-      {
-        __isset.refreshSoul = true;
-        this._refreshSoul = value;
-      }
-    }
-
-
-    public Isset __isset;
-    #if !SILVERLIGHT
+#if !SILVERLIGHT
     [Serializable]
-    #endif
-    public struct Isset {
-      public bool sellList;
-      public bool refreshSoul;
-    }
-
-    public SCHeroSell() {
-    }
-
-    public void Read (TProtocol iprot)
+#endif
+    public partial class SCHeroSell : TBase
     {
-      TField field;
-      iprot.ReadStructBegin();
-      while (true)
-      {
-        field = iprot.ReadFieldBegin();
-        if (field.Type == TType.Stop) { 
-          break;
-        }
-        switch (field.ID)
+        private List<long> _sellList;
+
+        public List<long> SellList
         {
-          case 1:
-            if (field.Type == TType.List) {
-              {
-                SellList = new List<long>();
-                TList _list12 = iprot.ReadListBegin();
-                for( int _i13 = 0; _i13 < _list12.Count; ++_i13)
+            get
+            {
+                return _sellList;
+            }
+            set
+            {
+                __isset.sellList = true;
+                this._sellList = value;
+            }
+        }
+
+
+        public Isset __isset;
+#if !SILVERLIGHT
+        [Serializable]
+#endif
+        public struct Isset
+        {
+            public bool sellList;
+        }
+
+        public SCHeroSell()
+        {
+        }
+
+        public void Read(TProtocol iprot)
+        {
+            TField field;
+            iprot.ReadStructBegin();
+            while (true)
+            {
+                field = iprot.ReadFieldBegin();
+                if (field.Type == TType.Stop)
                 {
-                  long _elem14 = 0;
-                  _elem14 = iprot.ReadI64();
-                  SellList.Add(_elem14);
+                    break;
                 }
-                iprot.ReadListEnd();
-              }
-            } else { 
-              TProtocolUtil.Skip(iprot, field.Type);
+                switch (field.ID)
+                {
+                    case 1:
+                        if (field.Type == TType.List)
+                        {
+                            {
+                                SellList = new List<long>();
+                                TList _list12 = iprot.ReadListBegin();
+                                for (int _i13 = 0; _i13 < _list12.Count; ++_i13)
+                                {
+                                    long _elem14 = 0;
+                                    _elem14 = iprot.ReadI64();
+                                    SellList.Add(_elem14);
+                                }
+                                iprot.ReadListEnd();
+                            }
+                        }
+                        else
+                        {
+                            TProtocolUtil.Skip(iprot, field.Type);
+                        }
+                        break;
+                    default:
+                        TProtocolUtil.Skip(iprot, field.Type);
+                        break;
+                }
+                iprot.ReadFieldEnd();
             }
-            break;
-          case 2:
-            if (field.Type == TType.I32) {
-              RefreshSoul = iprot.ReadI32();
-            } else { 
-              TProtocolUtil.Skip(iprot, field.Type);
-            }
-            break;
-          default: 
-            TProtocolUtil.Skip(iprot, field.Type);
-            break;
+            iprot.ReadStructEnd();
         }
-        iprot.ReadFieldEnd();
-      }
-      iprot.ReadStructEnd();
-    }
 
-    public void Write(TProtocol oprot) {
-      TStruct struc = new TStruct("SCHeroSell");
-      oprot.WriteStructBegin(struc);
-      TField field = new TField();
-      if (SellList != null && __isset.sellList) {
-        field.Name = "sellList";
-        field.Type = TType.List;
-        field.ID = 1;
-        oprot.WriteFieldBegin(field);
+        public void Write(TProtocol oprot)
         {
-          oprot.WriteListBegin(new TList(TType.I64, SellList.Count));
-          foreach (long _iter15 in SellList)
-          {
-            oprot.WriteI64(_iter15);
-          }
-          oprot.WriteListEnd();
+            TStruct struc = new TStruct("SCHeroSell");
+            oprot.WriteStructBegin(struc);
+            TField field = new TField();
+            if (SellList != null && __isset.sellList)
+            {
+                field.Name = "sellList";
+                field.Type = TType.List;
+                field.ID = 1;
+                oprot.WriteFieldBegin(field);
+                {
+                    oprot.WriteListBegin(new TList(TType.I64, SellList.Count));
+                    foreach (long _iter15 in SellList)
+                    {
+                        oprot.WriteI64(_iter15);
+                    }
+                    oprot.WriteListEnd();
+                }
+                oprot.WriteFieldEnd();
+            }
+            oprot.WriteFieldStop();
+            oprot.WriteStructEnd();
         }
-        oprot.WriteFieldEnd();
-      }
-      if (__isset.refreshSoul) {
-        field.Name = "refreshSoul";
-        field.Type = TType.I32;
-        field.ID = 2;
-        oprot.WriteFieldBegin(field);
-        oprot.WriteI32(RefreshSoul);
-        oprot.WriteFieldEnd();
-      }
-      oprot.WriteFieldStop();
-      oprot.WriteStructEnd();
-    }
 
-    public override string ToString() {
-      StringBuilder sb = new StringBuilder("SCHeroSell(");
-      sb.Append("SellList: ");
-      sb.Append(SellList);
-      sb.Append(",RefreshSoul: ");
-      sb.Append(RefreshSoul);
-      sb.Append(")");
-      return sb.ToString();
-    }
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder("SCHeroSell(");
+            sb.Append("SellList: ");
+            sb.Append(SellList);
+            sb.Append(")");
+            return sb.ToString();
+        }
 
-  }
+    }
 
 }

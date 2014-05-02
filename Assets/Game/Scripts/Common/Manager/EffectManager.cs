@@ -80,7 +80,7 @@ public class EffectManager
 
     public static void PlayMoreEffect(string effecttype, float showtime, Vector3 pos, float offsetx = 0, float offsety = 0)
     {
-        Debug.Log(pos);
+        Logger.Log(pos);
         const float offset = 0.2f;
 
         PlayEffect(effecttype, showtime, offsetx, offsety, new Vector3(pos.x + offset, pos.y - offset, pos.z));

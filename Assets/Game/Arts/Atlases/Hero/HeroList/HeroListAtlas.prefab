@@ -40,9 +40,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   material: {fileID: 2100000, guid: 04125c355d298b44c994c394400c7223, type: 2}
   mSprites:
+  - name: ATK
+    x: 131
+    y: 21
+    width: 79
+    height: 30
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
   - name: BackD
-    x: 1343
-    y: 1800
+    x: 393
+    y: 231
     width: 131
     height: 82
     borderLeft: 0
@@ -54,8 +67,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: BackN
-    x: 1343
-    y: 1717
+    x: 532
+    y: 101
     width: 131
     height: 82
     borderLeft: 0
@@ -66,9 +79,35 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
-  - name: BG
+  - name: Bar
+    x: 1025
+    y: 372
+    width: 238
+    height: 13
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 6
+    paddingRight: 6
+    paddingTop: 5
+    paddingBottom: 6
+  - name: BarBG
+    x: 714
+    y: 179
+    width: 250
+    height: 24
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: BBG
     x: 0
-    y: 1472
+    y: 448
     width: 1024
     height: 576
     borderLeft: 0
@@ -79,9 +118,35 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
+  - name: BG
+    x: 0
+    y: 314
+    width: 531
+    height: 133
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: Break
+    x: 925
+    y: 107
+    width: 69
+    height: 71
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
   - name: BtnD
-    x: 1156
-    y: 1621
+    x: 532
+    y: 350
     width: 161
     height: 97
     borderLeft: 0
@@ -93,8 +158,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: BtnN
-    x: 1156
-    y: 1523
+    x: 694
+    y: 350
     width: 161
     height: 97
     borderLeft: 0
@@ -105,9 +170,87 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
-  - name: FrameB
+  - name: CBG
+    x: 1473
+    y: 440
+    width: 393
+    height: 584
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: CFrame
     x: 1025
-    y: 1850
+    y: 386
+    width: 447
+    height: 638
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: EFrame
+    x: 613
+    y: 20
+    width: 80
+    height: 80
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: EFrame2
+    x: 532
+    y: 20
+    width: 80
+    height: 80
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: Frame
+    x: 714
+    y: 249
+    width: 100
+    height: 100
+    borderLeft: 6
+    borderRight: 6
+    borderTop: 6
+    borderBottom: 6
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: Frame1
+    x: 815
+    y: 249
+    width: 100
+    height: 100
+    borderLeft: 3
+    borderRight: 3
+    borderTop: 1
+    borderBottom: 1
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: FrameB
+    x: 131
+    y: 183
     width: 130
     height: 130
     borderLeft: 0
@@ -119,8 +262,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: FrameG
-    x: 1156
-    y: 1850
+    x: 0
+    y: 52
     width: 130
     height: 130
     borderLeft: 0
@@ -132,8 +275,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: FrameO
-    x: 1025
-    y: 1719
+    x: 0
+    y: 183
     width: 130
     height: 130
     borderLeft: 0
@@ -145,8 +288,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: FrameP
-    x: 1156
-    y: 1719
+    x: 262
+    y: 183
     width: 130
     height: 130
     borderLeft: 0
@@ -158,8 +301,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: FrameW
-    x: 1025
-    y: 1588
+    x: 131
+    y: 52
     width: 130
     height: 130
     borderLeft: 0
@@ -170,9 +313,22 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
+  - name: Groud
+    x: 856
+    y: 355
+    width: 166
+    height: 92
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
   - name: Hero
-    x: 1343
-    y: 1644
+    x: 714
+    y: 34
     width: 69
     height: 72
     borderLeft: 0
@@ -184,8 +340,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: HeroMix
-    x: 1413
-    y: 1645
+    x: 855
+    y: 107
     width: 69
     height: 71
     borderLeft: 0
@@ -197,8 +353,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: HeroSell
-    x: 1343
-    y: 1572
+    x: 785
+    y: 34
     width: 69
     height: 71
     borderLeft: 0
@@ -209,9 +365,22 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
+  - name: HP
+    x: 935
+    y: 218
+    width: 78
+    height: 30
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 1
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
   - name: LabelFrame
-    x: 1156
-    y: 1487
+    x: 0
+    y: 16
     width: 130
     height: 35
     borderLeft: 0
@@ -222,10 +391,153 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
-  - name: Sort
+  - name: Limit
+    x: 131
+    y: 5
+    width: 15
+    height: 15
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: LimitBG
+    x: 473
+    y: 207
+    width: 23
+    height: 23
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: Line
+    x: 1473
+    y: 434
+    width: 470
+    height: 2
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: Lvl
+    x: 916
+    y: 277
+    width: 70
+    height: 72
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: Mix
+    x: 855
+    y: 35
+    width: 69
+    height: 71
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: MP
+    x: 393
+    y: 200
+    width: 79
+    height: 30
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: Recover
+    x: 925
+    y: 11
+    width: 78
+    height: 30
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 1
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: SelSblD
+    x: 925
+    y: 42
+    width: 64
+    height: 64
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: SelSblN
     x: 1025
-    y: 1981
-    width: 317
+    y: 317
+    width: 54
+    height: 54
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 5
+    paddingRight: 5
+    paddingTop: 5
+    paddingBottom: 5
+  - name: SepLine
+    x: 1473
+    y: 437
+    width: 470
+    height: 2
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: Skill
+    x: 785
+    y: 106
+    width: 69
+    height: 72
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: SortD
+    x: 262
+    y: 47
+    width: 252
     height: 67
     borderLeft: 0
     borderRight: 0
@@ -235,11 +547,50 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
-  - name: SortSym
-    x: 1287
-    y: 1928
-    width: 43
-    height: 52
+  - name: SortN
+    x: 262
+    y: 115
+    width: 252
+    height: 67
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: Star
+    x: 211
+    y: 18
+    width: 31
+    height: 33
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: TabD
+    x: 262
+    y: 2
+    width: 220
+    height: 44
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: TabN
+    x: 714
+    y: 204
+    width: 220
+    height: 44
     borderLeft: 0
     borderRight: 0
     borderTop: 0
@@ -249,8 +600,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: TapD
-    x: 1343
-    y: 1966
+    x: 532
+    y: 267
     width: 181
     height: 82
     borderLeft: 0
@@ -262,8 +613,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: TapN
-    x: 1343
-    y: 1883
+    x: 532
+    y: 184
     width: 181
     height: 82
     borderLeft: 0
@@ -275,8 +626,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: Team
-    x: 1025
-    y: 1516
+    x: 714
+    y: 107
     width: 70
     height: 71
     borderLeft: 0

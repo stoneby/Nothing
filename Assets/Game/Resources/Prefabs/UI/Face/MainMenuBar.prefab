@@ -211,6 +211,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &100024
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 400024}
+  - 114: {fileID: 11400042}
+  m_Layer: 15
+  m_Name: Horn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!4 &400000
 Transform:
   m_ObjectHideFlags: 1
@@ -349,11 +365,23 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100022}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -561.5, y: -226.5, z: 0}
+  m_LocalPosition: {x: -637.5, y: -229.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400020}
+  - {fileID: 400024}
   m_Father: {fileID: 400016}
+--- !u!4 &400024
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100024}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 49.3798828, y: -27.439209, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 400022}
 --- !u!54 &5400000
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -475,8 +503,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1179, y: 63, z: 0}
-  m_Center: {x: 589.5, y: -31.5, z: 0}
+  m_Size: {x: 1275, y: 90, z: 0}
+  m_Center: {x: 637.5, y: -45, z: 0}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1070,13 +1098,13 @@ MonoBehaviour:
     absolute: -8
   mColor: {r: 1, g: 1, b: 1, a: .403921574}
   mPivot: 0
-  mWidth: 1163
-  mHeight: 47
+  mWidth: 1259
+  mHeight: 74
   mDepth: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
-  aspectRatio: 24.7446804
+  aspectRatio: 17.0135136
   keepCrispWhenShrunk: 1
   mTrueTypeFont: {fileID: 0}
   mFont: {fileID: 11400000, guid: 29056518aafb01b49a5b08faf8e30cff, type: 2}
@@ -1139,31 +1167,79 @@ MonoBehaviour:
   leftAnchor:
     target: {fileID: 400000}
     relative: 0
-    absolute: -1044
+    absolute: -1120
   rightAnchor:
     target: {fileID: 400000}
     relative: 1
-    absolute: -20
+    absolute: 0
   bottomAnchor:
     target: {fileID: 400000}
     relative: 1
-    absolute: 0
+    absolute: -30
   topAnchor:
     target: {fileID: 400000}
     relative: 1
-    absolute: 63
+    absolute: 60
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 0
-  mWidth: 1179
-  mHeight: 63
-  mDepth: 0
+  mWidth: 1275
+  mHeight: 90
+  mDepth: 1
   autoResizeBoxCollider: 1
   hideIfOffScreen: 0
   keepAspectRatio: 0
-  aspectRatio: 18.7142849
+  aspectRatio: 14.166667
   mAtlas: {fileID: 11400000, guid: 2e5f36b2f1b529d4e9cfe99802d4dcb6, type: 2}
   mSpriteName: LogFrame
   mType: 1
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFillCenter: 1
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+--- !u!114 &11400042
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 62
+  mHeight: 56
+  mDepth: 2
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: 1.10714281
+  mAtlas: {fileID: 11400000, guid: 2e5f36b2f1b529d4e9cfe99802d4dcb6, type: 2}
+  mSpriteName: Horn
+  mType: 0
   mFillDirection: 4
   mFillAmount: 1
   mInvert: 0

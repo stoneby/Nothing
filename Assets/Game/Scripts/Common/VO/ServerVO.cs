@@ -20,11 +20,11 @@ public class ServerVO
         app.ServerName = data.Attribute("ServerName").Value;
         app.Url = data.Attribute("Url").Value;
 
-        Debug.Log(app.ID);
-        Debug.Log(app.RequestClientVersion);
-        Debug.Log(app.ServerState);
-        Debug.Log(app.ServerName);
-        Debug.Log(app.Url);
+        Logger.Log(app.ID);
+        Logger.Log(app.RequestClientVersion);
+        Logger.Log(app.ServerState);
+        Logger.Log(app.ServerName);
+        Logger.Log(app.Url);
 
         return app;
     }

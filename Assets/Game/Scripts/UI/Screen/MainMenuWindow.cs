@@ -7,12 +7,12 @@ public class MainMenuWindow : Window
 
     public override void OnEnter()
     {
-        Debug.Log("I am OnEnter with type - " + GetType().Name);
+        Logger.Log("I am OnEnter with type - " + GetType().Name);
     }
 
     public override void OnExit()
     {
-        Debug.Log("I am OnExit with type - " + GetType().Name);
+        Logger.Log("I am OnExit with type - " + GetType().Name);
     }
 
     #endregion

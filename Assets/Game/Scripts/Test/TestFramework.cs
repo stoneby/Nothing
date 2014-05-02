@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using UnityEngine;
 
 /// <summary>
@@ -32,6 +33,8 @@ public class TestFramework : MonoBehaviour
         UIEventTest();
 
         AssetWindowTest();
+
+        MultithreadTest();
     }
 
     void Start()
@@ -140,7 +143,7 @@ public class TestFramework : MonoBehaviour
 
         if (GUILayout.Button("Show Assert Window"))
         {
-            var assertWindow = WindowManager.Instance.GetWindow(typeof(AssertionWindow)) as AssertionWindow;
+            var assertWindow = WindowManager.Instance.GetWindow<AssertionWindow>(typeof(AssertionWindow));
             assertWindow.AssertType = (AssertionWindow.Type)Enum.Parse(typeof(AssertionWindow.Type), assertType);
             assertWindow.Message = assertMessage;
             WindowManager.Instance.Show(typeof(AssertionWindow), true);
@@ -168,6 +171,23 @@ public class TestFramework : MonoBehaviour
     private void OnCancelButtonClicked(GameObject sender)
     {
         Debug.LogWarning("Cancel button is clicked. " + sender.name);
+    }
+
+    private void MultithreadTest()
+    {
+        if (GUILayout.Button("Test Multithread"))
+        {
+            Loom.Instance.enabled = true;
+            Loom.RunAsync(() =>
+            {
+                Debug.LogWarning("i am in another thread " + GlobalVars.IsMainThread());
+                Loom.QueueOnMainThread(() =>
+                {
+                    Debug.LogWarning("---------------I am back to main thread: " + Thread.CurrentThread.ManagedThreadId);
+                    Loom.Instance.enabled = false;
+                });
+            });
+        }
     }
 
     #endregion

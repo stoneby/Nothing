@@ -27,7 +27,7 @@ namespace KXSGCodec
     private int _templateId;
     private short _lvl;
     private sbyte _breakTimes;
-    private Property _prop;
+    private Dictionary<int, int> _prop;
     private List<int> _skillId;
     private List<long> _equipUuid;
     private bool _bind;
@@ -85,7 +85,7 @@ namespace KXSGCodec
       }
     }
 
-    public Property Prop
+    public Dictionary<int, int> Prop
     {
       get
       {
@@ -211,9 +211,20 @@ namespace KXSGCodec
             }
             break;
           case 5:
-            if (field.Type == TType.Struct) {
-              Prop = new Property();
-              Prop.Read(iprot);
+            if (field.Type == TType.Map) {
+              {
+                Prop = new Dictionary<int, int>();
+                TMap _map0 = iprot.ReadMapBegin();
+                for( int _i1 = 0; _i1 < _map0.Count; ++_i1)
+                {
+                  int _key2;
+                  int _val3;
+                  _key2 = iprot.ReadI32();
+                  _val3 = iprot.ReadI32();
+                  Prop[_key2] = _val3;
+                }
+                iprot.ReadMapEnd();
+              }
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
@@ -222,12 +233,12 @@ namespace KXSGCodec
             if (field.Type == TType.List) {
               {
                 SkillId = new List<int>();
-                TList _list0 = iprot.ReadListBegin();
-                for( int _i1 = 0; _i1 < _list0.Count; ++_i1)
+                TList _list4 = iprot.ReadListBegin();
+                for( int _i5 = 0; _i5 < _list4.Count; ++_i5)
                 {
-                  int _elem2 = 0;
-                  _elem2 = iprot.ReadI32();
-                  SkillId.Add(_elem2);
+                  int _elem6 = 0;
+                  _elem6 = iprot.ReadI32();
+                  SkillId.Add(_elem6);
                 }
                 iprot.ReadListEnd();
               }
@@ -239,12 +250,12 @@ namespace KXSGCodec
             if (field.Type == TType.List) {
               {
                 EquipUuid = new List<long>();
-                TList _list3 = iprot.ReadListBegin();
-                for( int _i4 = 0; _i4 < _list3.Count; ++_i4)
+                TList _list7 = iprot.ReadListBegin();
+                for( int _i8 = 0; _i8 < _list7.Count; ++_i8)
                 {
-                  long _elem5 = 0;
-                  _elem5 = iprot.ReadI64();
-                  EquipUuid.Add(_elem5);
+                  long _elem9 = 0;
+                  _elem9 = iprot.ReadI64();
+                  EquipUuid.Add(_elem9);
                 }
                 iprot.ReadListEnd();
               }
@@ -313,10 +324,18 @@ namespace KXSGCodec
       }
       if (Prop != null && __isset.prop) {
         field.Name = "prop";
-        field.Type = TType.Struct;
+        field.Type = TType.Map;
         field.ID = 5;
         oprot.WriteFieldBegin(field);
-        Prop.Write(oprot);
+        {
+          oprot.WriteMapBegin(new TMap(TType.I32, TType.I32, Prop.Count));
+          foreach (int _iter10 in Prop.Keys)
+          {
+            oprot.WriteI32(_iter10);
+            oprot.WriteI32(Prop[_iter10]);
+          }
+          oprot.WriteMapEnd();
+        }
         oprot.WriteFieldEnd();
       }
       if (SkillId != null && __isset.skillId) {
@@ -326,9 +345,9 @@ namespace KXSGCodec
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.I32, SkillId.Count));
-          foreach (int _iter6 in SkillId)
+          foreach (int _iter11 in SkillId)
           {
-            oprot.WriteI32(_iter6);
+            oprot.WriteI32(_iter11);
           }
           oprot.WriteListEnd();
         }
@@ -341,9 +360,9 @@ namespace KXSGCodec
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.I64, EquipUuid.Count));
-          foreach (long _iter7 in EquipUuid)
+          foreach (long _iter12 in EquipUuid)
           {
-            oprot.WriteI64(_iter7);
+            oprot.WriteI64(_iter12);
           }
           oprot.WriteListEnd();
         }
@@ -380,7 +399,7 @@ namespace KXSGCodec
       sb.Append(",BreakTimes: ");
       sb.Append(BreakTimes);
       sb.Append(",Prop: ");
-      sb.Append(Prop== null ? "<null>" : Prop.ToString());
+      sb.Append(Prop);
       sb.Append(",SkillId: ");
       sb.Append(SkillId);
       sb.Append(",EquipUuid: ");

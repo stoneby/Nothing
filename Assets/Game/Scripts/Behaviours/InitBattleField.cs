@@ -110,7 +110,7 @@ public class InitBattleField : MonoBehaviour
         InitLeaders();
         InitTopDataBar();
         
-        Debug.Log(Screen.height);
+        Logger.Log(Screen.height);
     }
 
     public void StartBattle()
@@ -433,12 +433,12 @@ public class InitBattleField : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            Debug.Log("Mouse Value (" + mx + ", " + my + ")");
+            Logger.Log("Mouse Value (" + mx + ", " + my + ")");
             prePoint = GetIndexByPlace(xx, yy);
             if (prePoint.x >= 0 && prePoint.y >= 0 && prePoint.x < 3 && prePoint.y < 3)
             {
                 isDraging = true;
-                Debug.Log("Nouse Down ------------------------------");
+                Logger.Log("Nouse Down ------------------------------");
                 if (pointList == null) pointList = new ArrayList();
                 if (selectEffectList == null) selectEffectList = new ArrayList();
                 selectEffectList.Clear();
@@ -511,7 +511,7 @@ public class InitBattleField : MonoBehaviour
                     ShowMp();
                 }
             }
-            Debug.Log("Nouse Up ------------------------------");
+            Logger.Log("Nouse Up ------------------------------");
         }
 
         if (isDraging)
@@ -1059,7 +1059,7 @@ public class InitBattleField : MonoBehaviour
         var k = Random.Range(min, max);
         if (k < min) k = min;
         if (k > max - 1) k = max - 1;
-        Debug.Log(k);
+        Logger.Log(k);
         return k;
     }
 
@@ -1160,10 +1160,10 @@ public class InitBattleField : MonoBehaviour
     //get character indexplace by the mouse place
     private Vector2 GetIndexByPlace(float xx, float yy)
     {
-        Debug.Log("1. xx:" + xx.ToString() + ",yy: " + yy.ToString());
+        Logger.Log("1. xx:" + xx.ToString() + ",yy: " + yy.ToString());
         xx = xx / CameraAdjuster.CameraScale;
         yy = yy / CameraAdjuster.CameraScale;
-        Debug.Log("2. xx:" + xx.ToString() + ",yy: " + yy.ToString());
+        Logger.Log("2. xx:" + xx.ToString() + ",yy: " + yy.ToString());
         Vector2 v2 = new Vector2(-1, -1);
         if (xx > minX && xx < BaseX && yy > minY && yy < BaseY)
         {
@@ -1192,7 +1192,7 @@ public class InitBattleField : MonoBehaviour
                 }
             }
         }
-        Debug.Log("1. i:" + v2.x.ToString() + ",j: " + v2.y.ToString());
+        Logger.Log("1. i:" + v2.x.ToString() + ",j: " + v2.y.ToString());
         return v2;
     }
 
@@ -1391,7 +1391,7 @@ public class InitBattleField : MonoBehaviour
         var cantiner = GameObject.Find("Anchor-left");
 
         var basey = thecount * 160 / 2 - 300;
-        Debug.Log(basey);
+        Logger.Log(basey);
         const int offsety = -160;
         float delay = 0;
         for (var i = 0; i < thecount; i++)

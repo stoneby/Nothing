@@ -58,6 +58,6 @@ public class ServerItemControl : MonoBehaviour
             obj.AddServer(Data.Url);
         }
         ServiceManager.ServerData = Data;
-        //WindowManager.Instance.Show(typeof(LoginMainWindow), true);
+        WindowManager.Instance.Show(typeof(LoginMainWindow), true);
     }
 }

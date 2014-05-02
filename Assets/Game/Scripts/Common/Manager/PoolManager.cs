@@ -23,6 +23,10 @@ public class PoolManager : MonoBehaviour
 
     #region Public Methods
 
+    /// <summary>
+    /// Take one game object from pool.
+    /// </summary>
+    /// <returns>Pooled game object</returns>
     public GameObject Take()
     {
         var inactiveObjectEnum = ObjectList.Where(item => !item.activeSelf);
@@ -40,9 +44,14 @@ public class PoolManager : MonoBehaviour
         return CurrentObject;
     }
 
+    /// <summary>
+    /// Return back game object to pool manager.
+    /// </summary>
+    /// <param name="returnObject">Pooled back game object</param>
     public void Return(GameObject returnObject)
     {
         returnObject.SetActive(false);
+        returnObject.transform.parent = gameObject.transform;
 
         if (CurrentObject == returnObject)
         {

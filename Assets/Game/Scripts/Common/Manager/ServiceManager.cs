@@ -47,7 +47,7 @@ public class ServiceManager
     {
         AccountArray = new List<AccountVO>();
         //return;
-        Debug.Log(GameConfig.CookieAddress);
+        Logger.Log(GameConfig.CookieAddress);
         try
         {
             var f = new FileInfo(GameConfig.CookieAddress);
@@ -67,13 +67,13 @@ public class ServiceManager
             }
             var content = File.ReadAllText(GameConfig.CookieAddress);
 
-            Debug.Log(content);
+            Logger.Log(content);
             int index = content.IndexOf("<GameAccount>");
             string[] arr = null;
             if (index >= 0)
             {
                 arr = content.Split(new string[] { "<GameAccount>" }, StringSplitOptions.RemoveEmptyEntries);
-                Debug.Log(arr.Length);
+                Logger.Log(arr.Length);
             }
             else if (content != "")
             {
@@ -142,7 +142,7 @@ public class ServiceManager
     public static void AddAccount(AccountVO obj)
     {
         var flag = true;
-        Debug.Log(AccountArray.Count);
+        Logger.Log(AccountArray.Count);
         for (int i = 0; i < AccountArray.Count; i++)
         {
             if (AccountArray[i].Account == obj.Account)
@@ -195,7 +195,7 @@ public class ServiceManager
     //设置服务器列表
     public static void SetServers(XElement serverMap)
     {
-        Debug.Log(serverMap);
+        Logger.Log(serverMap);
         var servers = serverMap.Elements("server");
         ServiceManager.AllServerArray = new List<ServerVO>();
         ServiceManager.UsedServerArray = new List<ServerVO>();

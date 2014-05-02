@@ -65,25 +65,25 @@ public class AutoPathLayerMapping : AbstractPathLayerMapping
     {
         foreach (var pair in PathLayerMap)
         {
-            Debug.Log("pair: key-" + pair.Key + ", value-" + pair.Value);
+            Logger.Log("pair: key-" + pair.Key + ", value-" + pair.Value);
         }
 
         foreach (var pair in LayerPathMap)
         {
             foreach (var value in pair.Value)
             {
-                Debug.Log("pair: key-" + pair.Key + ", value-" + value);
+                Logger.Log("pair: key-" + pair.Key + ", value-" + value);
             }
         }
 
         foreach (var pair in PathTypeMap)
         {
-            Debug.Log("pair: key-" + pair.Key + ", value-" + pair.Value);
+            Logger.Log("pair: key-" + pair.Key + ", value-" + pair.Value);
         }
 
         foreach (var pair in TypePathMap)
         {
-            Debug.Log("pair: key-" + pair.Key + ", value-" + pair.Value);
+            Logger.Log("pair: key-" + pair.Key + ", value-" + pair.Value);
         }
     }
 
@@ -111,7 +111,7 @@ public class AutoPathLayerMapping : AbstractPathLayerMapping
         }
         doc.Save(filePath);
 
-        Debug.Log("Save window map file to " + filePath);
+        Logger.Log("Save window map file to " + filePath);
     }
 
     /// <summary>

@@ -72,14 +72,12 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 400008}
+  - 114: {fileID: 11400008}
   - 114: {fileID: 11400022}
   - 114: {fileID: 11400024}
   - 114: {fileID: 11400028}
   - 114: {fileID: 11400030}
   - 114: {fileID: 11400012}
-  - 33: {fileID: 3300000}
-  - 23: {fileID: 2300000}
-  - 114: {fileID: 11400014}
   m_Layer: 8
   m_Name: SpriteEnemy
   m_TagString: Untagged
@@ -104,27 +102,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &100012
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 400012}
-  - 114: {fileID: 11400008}
-  - 114: {fileID: 11400036}
-  - 114: {fileID: 11400034}
-  - 114: {fileID: 11400032}
-  - 114: {fileID: 11400020}
-  - 114: {fileID: 11400016}
-  m_Layer: 8
-  m_Name: SpriteEnemy
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
 --- !u!1 &100014
 GameObject:
   m_ObjectHideFlags: 0
@@ -194,8 +171,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100008}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: .422207355, y: .844423413, z: 0}
-  m_LocalScale: {x: 170, y: 220, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400010}
 --- !u!4 &400010
@@ -205,26 +182,14 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100010}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -.119999997}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400006}
   - {fileID: 400000}
-  - {fileID: 400012}
-  - {fileID: 400014}
   - {fileID: 400008}
+  - {fileID: 400014}
   m_Father: {fileID: 0}
---- !u!4 &400012
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100012}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 400010}
 --- !u!4 &400014
 Transform:
   m_ObjectHideFlags: 1
@@ -236,34 +201,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400010}
---- !u!23 &2300000
-Renderer:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100008}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_LightmapIndex: 255
-  m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
-  m_Materials:
-  - {fileID: 2100000, guid: 7ca71f7e5af415d4997401fdd7662bf3, type: 2}
-  m_SubsetIndices: 
-  m_StaticBatchRoot: {fileID: 0}
-  m_UseLightProbes: 0
-  m_LightProbeAnchor: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_SortingLayerID: 0
---- !u!33 &3300000
-MeshFilter:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100008}
-  m_Mesh: {fileID: 0}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -447,7 +384,7 @@ MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100012}
+  m_GameObject: {fileID: 100008}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
@@ -537,31 +474,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35bf19002dfba914292777ad767f6cdf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &11400014
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100008}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0be4e0f4c46a2f34ea71fe72c1b5ce16, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Color: {r: 1, g: 1, b: 1, a: 1}
-  Highlight: 0
-  Saturation: 1
---- !u!114 &11400016
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100012}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35bf19002dfba914292777ad767f6cdf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &11400018
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -577,47 +489,6 @@ MonoBehaviour:
   BloodBar: {fileID: 100006}
   BloodLabel: {fileID: 100000}
   CdLabel: {fileID: 100014}
---- !u!114 &11400020
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100012}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0401554a0e6f9466db3c1a798d358b8c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tweenName: ScallEndTween
-  playAutomatically: 0
-  delay: 0
-  type: 30
-  showIconInInspector: 0
-  keys:
-  - scale
-  - time
-  indexes: 0000000000000000
-  metadatas:
-  - v
-  - 
-  ints: 
-  floats:
-  - .300000012
-  bools: 
-  strings: []
-  vector3s:
-  - {x: 1, y: 1, z: 0}
-  colors: []
-  spaces: 
-  easeTypes: 
-  loopTypes: 
-  gameObjects: []
-  transforms: []
-  audioClips: []
-  audioSources: []
-  vector3Arrays: []
-  transformArrays: []
-  paths: []
 --- !u!114 &11400022
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -834,132 +705,6 @@ MonoBehaviour:
   strings: []
   vector3s:
   - {x: 1, y: 1, z: 0}
-  colors: []
-  spaces: 
-  easeTypes: 
-  loopTypes: 
-  gameObjects: []
-  transforms: []
-  audioClips: []
-  audioSources: []
-  vector3Arrays: []
-  transformArrays: []
-  paths: []
---- !u!114 &11400032
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100012}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0401554a0e6f9466db3c1a798d358b8c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tweenName: ScallTween
-  playAutomatically: 0
-  delay: 0
-  type: 30
-  showIconInInspector: 0
-  keys:
-  - scale
-  - time
-  - oncomplete
-  indexes: 000000000000000000000000
-  metadatas:
-  - v
-  - 
-  - 
-  ints: 
-  floats:
-  - .200000003
-  bools: 
-  strings:
-  - OnScallComplete
-  vector3s:
-  - {x: 1.5, y: 1.5, z: 0}
-  colors: []
-  spaces: 
-  easeTypes: 
-  loopTypes: 
-  gameObjects: []
-  transforms: []
-  audioClips: []
-  audioSources: []
-  vector3Arrays: []
-  transformArrays: []
-  paths: []
---- !u!114 &11400034
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100012}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0401554a0e6f9466db3c1a798d358b8c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tweenName: ShakeBigTween
-  playAutomatically: 0
-  delay: 0
-  type: 32
-  showIconInInspector: 0
-  keys:
-  - amount
-  - time
-  indexes: 0000000000000000
-  metadatas:
-  - 
-  - 
-  ints: 
-  floats:
-  - .200000003
-  bools: 
-  strings: []
-  vector3s:
-  - {x: .159999996, y: .159999996, z: 0}
-  colors: []
-  spaces: 
-  easeTypes: 
-  loopTypes: 
-  gameObjects: []
-  transforms: []
-  audioClips: []
-  audioSources: []
-  vector3Arrays: []
-  transformArrays: []
-  paths: []
---- !u!114 &11400036
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100012}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0401554a0e6f9466db3c1a798d358b8c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tweenName: ShakeTween
-  playAutomatically: 0
-  delay: 0
-  type: 32
-  showIconInInspector: 0
-  keys:
-  - amount
-  - time
-  indexes: 0000000000000000
-  metadatas:
-  - 
-  - 
-  ints: 
-  floats:
-  - .200000003
-  bools: 
-  strings: []
-  vector3s:
-  - {x: .129999995, y: .129999995, z: 0}
   colors: []
   spaces: 
   easeTypes: 

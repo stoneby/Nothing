@@ -32,7 +32,7 @@ public class PopTextManager
     {
         
         //var now = DateTime.Now;
-        //Debug.Log(Time.time);
+        //Logger.Log(Time.time);
         ShowText(str, 3, 0, 0, 100, new Vector3(0,250,0));
     }
 }

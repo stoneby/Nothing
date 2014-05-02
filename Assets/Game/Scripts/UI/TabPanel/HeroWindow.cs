@@ -22,7 +22,7 @@ public class HeroWindow : Window
     // Use this for initialization
     public override void OnEnter()
     {
-        Debug.Log("I am OnEnter. " + GetType().Name);
+        Logger.Log("I am OnEnter. " + GetType().Name);
 
         button1UIEventListener.onClick += OnButtonClick;
         button1UIEventListener.onDoubleClick += OnDoubleClick;
@@ -30,7 +30,7 @@ public class HeroWindow : Window
 
     public override void OnExit()
     {
-        Debug.Log("I am OnExit. " + GetType().Name);
+        Logger.Log("I am OnExit. " + GetType().Name);
 
         button1UIEventListener.onClick -= OnButtonClick;
         button1UIEventListener.onDoubleClick -= OnDoubleClick;
@@ -56,7 +56,7 @@ public class HeroWindow : Window
 
     void Awake()
     {
-        Debug.Log("Awake" + " framerate:  " + Time.frameCount);
+        Logger.Log("Awake" + " framerate:  " + Time.frameCount);
         button1UIEventListener = UIEventListener.Get(Button1);
     }
 

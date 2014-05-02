@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using KXSGCodec;
+using Property;
 using UnityEngine;
 
 /// <summary>
@@ -15,9 +16,12 @@ public class UITeamBuildWindow : Window
     private UIEventListener curTeamBtnLis;
 
     private GameObject teamButtons;
-    private GameObject properties;
+    private Transform properties;
+    private Transform firstSkill;
+    private Transform secondSkill;
+    private Transform thirdSkill;
 
-    private List<Transform> heros = new List<Transform>();
+    private readonly List<Transform> heros = new List<Transform>();
 
     //This is just for demo.
     private const string TeamPrefix = "∂”ŒÈ";
@@ -29,9 +33,9 @@ public class UITeamBuildWindow : Window
     public override void OnEnter()
     {
         InstallHandlers();
-        curTeamBtnLis.transform.FindChild("Label").GetComponent<UILabel>().text
-            = TeamPrefix + HeroModelLocator.Instance.SCHeroList.CurrentTeamIndex;
-        Refresh();
+        var curTeamIndex = HeroModelLocator.Instance.SCHeroList.CurrentTeamIndex;
+        var curTeam = HeroModelLocator.Instance.SCHeroList.TeamList[curTeamIndex];
+        Refresh(curTeamIndex, curTeam.ListHeroUuid);
     }
 
     public override void OnExit()
@@ -50,61 +54,101 @@ public class UITeamBuildWindow : Window
         curTeamBtnLis = UIEventListener.Get(Utils.FindChild(transform, "Button-CurTeam").gameObject);
 
         teamButtons = Utils.FindChild(transform, "TeamButtons").gameObject;
-        properties = Utils.FindChild(transform, "Properties").gameObject;
+        properties = Utils.FindChild(transform, "Properties");
+        var leaderSkill = Utils.FindChild(transform, "LeaderSkills");
+        firstSkill = leaderSkill.FindChild("1st-Skill");
+        secondSkill = leaderSkill.FindChild("2nd-Skill");
+        thirdSkill = leaderSkill.FindChild("3th-Skill");
 
         var leaders = Utils.FindChild(transform, "Leaders");
-        for (int i = 0; i < leaders.childCount; i++)
+        for (int index = 0; index < leaders.childCount; index++)
         {
-            heros.Add(leaders.GetChild(i));
+            heros.Add(leaders.GetChild(index));
         }
-        var members = Utils.FindChild(transform, "1stMembers");
-        for (int i = 0; i < members.childCount; i++)
+        var members = Utils.FindChild(transform, "Members");
+        for (int index = 0; index < members.childCount; index++)
         {
-            heros.Add(members.GetChild(i));
-        }
-        members = Utils.FindChild(transform, "2ndMembers");
-        for (int i = 0; i < members.childCount; i++)
-        {
-            heros.Add(members.GetChild(i));
+            heros.Add(members.GetChild(index));
         }
     }
 
-    private void Refresh()
+    public void Refresh(int currentTeamIndex, List<long> heroUuids)
     {
-        var curTeamList =
-            HeroModelLocator.Instance.SCHeroList.TeamList[HeroModelLocator.Instance.SCHeroList.CurrentTeamIndex];
+        curTeamBtnLis.transform.FindChild("Label").GetComponent<UILabel>().text =
+                                    TeamPrefix + currentTeamIndex;
         var attack = 0;
         var hp = 0;
         var recover = 0;
         var mp = 0;
-        for (int i = 0; i < heros.Count; i++)
+        for (int index = 0; index < heros.Count; index++)
         {
-            if(i < curTeamList.ListHeroUuid.Count)
+            if (index < heroUuids.Count  && heroUuids[index] == UITeamEditWindow.DefaultNonHero)
             {
-                heros[i].gameObject.SetActive(true);
-                var uUid = curTeamList.ListHeroUuid[i];
-                var heroInfo = HeroModelLocator.Instance.SCHeroList.HeroList.Find(info => info.Uuid == uUid);
-                var jobSymobl = Utils.FindChild(heros[i], "JobSymbol").GetComponent<UISprite>();
-                var attackLabel = Utils.FindChild(heros[i], "Attack").GetComponent<UILabel>();
+                heros[index].gameObject.SetActive(false);
+                continue;
+            }
+            if (index < heroUuids.Count)
+            {
+                heros[index].gameObject.SetActive(true);
+                heros[index].GetComponent<HeroInfoPack>().Uuid = heroUuids[index];
+                var heroInfo = HeroModelLocator.Instance.FindHero(heroUuids[index]);
+                var jobSymobl = Utils.FindChild(heros[index], "JobSymbol").GetComponent<UISprite>();
+                var attackLabel = Utils.FindChild(heros[index], "Attack").GetComponent<UILabel>();
 
                 var heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpl[heroInfo.TemplateId];
                 jobSymobl.spriteName = "icon_zhiye_" + heroTemplate.Job;
-                attackLabel.text = heroTemplate.Attack.ToString(CultureInfo.InvariantCulture);
+                attackLabel.text = heroInfo.Prop[RoleProperties.HERO_ATK].ToString(CultureInfo.InvariantCulture);
                 
                 attack += heroTemplate.Attack;
                 hp += heroTemplate.HP;
                 recover += heroTemplate.Recover;
                 mp += heroTemplate.MP;
             }
-            else
+        }
+        if (heroUuids.Count < UITeamEditWindow.MaxHeroCount)
+        {
+            for (int index = heroUuids.Count; index < UITeamEditWindow.MaxHeroCount; index++)
             {
-                heros[i].gameObject.SetActive(false);
+                heros[index].gameObject.SetActive(false);
             }
         }
-        Utils.FindChild(properties.transform, "Attack-Value").GetComponent<UILabel>().text = attack.ToString(CultureInfo.InvariantCulture);
-        Utils.FindChild(properties.transform, "HP-Value").GetComponent<UILabel>().text = hp.ToString(CultureInfo.InvariantCulture);
-        Utils.FindChild(properties.transform, "Recover-Value").GetComponent<UILabel>().text = recover.ToString(CultureInfo.InvariantCulture);
-        Utils.FindChild(properties.transform, "MP-Value").GetComponent<UILabel>().text = mp.ToString(CultureInfo.InvariantCulture);
+        var firstInfo = HeroModelLocator.Instance.FindHero(heroUuids[0]);
+        var secondInfo = HeroModelLocator.Instance.FindHero(heroUuids[1]);
+        var thirdInfo = HeroModelLocator.Instance.FindHero(heroUuids[2]);
+        RefreshBaseInfo(firstSkill, firstInfo);
+        RefreshBaseInfo(secondSkill, secondInfo);
+        RefreshBaseInfo(thirdSkill, thirdInfo);
+
+        Utils.FindChild(properties, "Attack-Value").GetComponent<UILabel>().text = attack.ToString(CultureInfo.InvariantCulture);
+        Utils.FindChild(properties, "HP-Value").GetComponent<UILabel>().text = hp.ToString(CultureInfo.InvariantCulture);
+        Utils.FindChild(properties, "Recover-Value").GetComponent<UILabel>().text = recover.ToString(CultureInfo.InvariantCulture);
+        Utils.FindChild(properties, "MP-Value").GetComponent<UILabel>().text = mp.ToString(CultureInfo.InvariantCulture);
+    }
+
+    private void RefreshBaseInfo(Transform parent, HeroInfo heroInfo)
+    {
+        Utils.FindChild(parent, "Attack-Value").GetComponent<UILabel>().text = heroInfo.Prop[RoleProperties.HERO_ATK].ToString(CultureInfo.InvariantCulture);
+        Utils.FindChild(parent, "HP-Value").GetComponent<UILabel>().text = heroInfo.Prop[RoleProperties.HERO_HP].ToString(CultureInfo.InvariantCulture);
+        Utils.FindChild(parent, "Recover-Value").GetComponent<UILabel>().text = heroInfo.Prop[RoleProperties.HERO_RECOVER].ToString(CultureInfo.InvariantCulture);
+        Utils.FindChild(parent, "MP-Value").GetComponent<UILabel>().text = heroInfo.Prop[RoleProperties.HERO_MP].ToString(CultureInfo.InvariantCulture);
+        
+        var activeSkill = Utils.FindChild(parent, "Active-Skill");
+        var leaderSkill = Utils.FindChild(parent, "Leader-Skill");
+        if (activeSkill || leaderSkill)
+        {
+            var skillTmp = HeroModelLocator.Instance.SkillTemplates.SkillTmpl;
+            var heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpl[heroInfo.TemplateId];
+            var leaderSkillTemp = skillTmp[heroTemplate.LeaderSkill];
+            var activeSkillTemp = skillTmp[heroTemplate.ActiveSkill];
+            if(leaderSkill)
+            {
+                Utils.FindChild(leaderSkill, "Leader-Value").GetComponent<UILabel>().text = leaderSkillTemp.Desc;
+            }
+            if(activeSkill)
+            {
+                Utils.FindChild(activeSkill, "Active-Value").GetComponent<UILabel>().text = activeSkillTemp.Desc;
+            }
+        }
     }
 
     private void InstallHandlers()
@@ -127,11 +171,10 @@ public class UITeamBuildWindow : Window
             return;
         }
         var teamCount = HeroModelLocator.Instance.SCHeroList.TeamList.Count;
-        for (int i = 0; i < teamCount; i++)
+        for (int index = 0; index < teamCount; index++)
         {
-            var obj = Instantiate(go) as GameObject;
-            obj.transform.parent = teamButtons.transform;
-            obj.transform.Find("Label").GetComponent<UILabel>().text = TeamPrefix + i;
+            var obj = NGUITools.AddChild(teamButtons, go);
+            obj.transform.Find("Label").GetComponent<UILabel>().text = TeamPrefix + index;
             UIEventListener.Get(obj).onClick += OnTeamBtnClicked;
         }
         teamButtons.GetComponent<UIGrid>().Reposition();
@@ -141,26 +184,24 @@ public class UITeamBuildWindow : Window
     private void OnTeamBtnClicked(GameObject go)
     {
         var index = 0;
-        for(var i = 0; i < teamButtons.transform.childCount; i++)
+        for(var buttonIndex = 0; buttonIndex < teamButtons.transform.childCount; buttonIndex++)
         {
-            var tran = teamButtons.transform.GetChild(i);
-            index = i;
+            var tran = teamButtons.transform.GetChild(buttonIndex);
+            index = buttonIndex;
             if(tran == go.transform)
             {
                 break;
             }
         }
-        var csmsg = new CSHeroChangeTeam { TeamIndex = (sbyte)index };
-        NetManager.SendMessage(csmsg);
-
-        HeroModelLocator.Instance.SCHeroList.CurrentTeamIndex = (sbyte) index;
         backBtnLis.gameObject.SetActive(true);
         properties.gameObject.SetActive(true);
         curTeamBtnLis.gameObject.SetActive(true);
         curTeamBtnLis.transform.FindChild("Label").GetComponent<UILabel>().text
             = go.transform.FindChild("Label").GetComponent<UILabel>().text;
         teamButtons.SetActive(false);
-        Refresh();
+        HeroModelLocator.Instance.SCHeroList.CurrentTeamIndex = (sbyte)index;
+        var uUids = HeroModelLocator.Instance.SCHeroList.TeamList[index].ListHeroUuid;
+        Refresh(index, uUids);
     }
 
     private void UnInstallHandlers()
@@ -171,14 +212,15 @@ public class UITeamBuildWindow : Window
 
     private void OnEditBtnClicked(GameObject go)
     {
-        
+        WindowManager.Instance.Show(typeof(UITeamEditWindow), true);
     }
 
     private void OnBackBtnClicked(GameObject go)
     {
         //Just for demo.
-        //WindowManager.Instance.Show(typeof (UITeamBuildWindow), false);
-        gameObject.SetActive(false);
+        WindowManager.Instance.Show(typeof(UIHeroItemsPageWindow), true);
+        var csmsg = new CSHeroChangeTeam { TeamIndex = HeroModelLocator.Instance.SCHeroList.CurrentTeamIndex };
+        NetManager.SendMessage(csmsg);
     }
 
     #endregion

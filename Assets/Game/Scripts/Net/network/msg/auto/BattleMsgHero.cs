@@ -28,6 +28,7 @@ namespace KXSGCodec
   {
     private int _index;
     private int _templateId;
+    private int _heroType;
     private Dictionary<int, int> _fighteProp;
     private Dictionary<int, int> _otherProp;
     private List<int> _leaderSkill;
@@ -65,6 +66,22 @@ namespace KXSGCodec
       {
         __isset.templateId = true;
         this._templateId = value;
+      }
+    }
+
+    /// <summary>
+    /// 武将类型，1：普通武将，2：好友武将，3：guest武将
+    /// </summary>
+    public int HeroType
+    {
+      get
+      {
+        return _heroType;
+      }
+      set
+      {
+        __isset.heroType = true;
+        this._heroType = value;
       }
     }
 
@@ -188,6 +205,7 @@ namespace KXSGCodec
     public struct Isset {
       public bool index;
       public bool templateId;
+      public bool heroType;
       public bool fighteProp;
       public bool otherProp;
       public bool leaderSkill;
@@ -227,6 +245,13 @@ namespace KXSGCodec
             }
             break;
           case 3:
+            if (field.Type == TType.I32) {
+              HeroType = iprot.ReadI32();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 4:
             if (field.Type == TType.Map) {
               {
                 FighteProp = new Dictionary<int, int>();
@@ -245,7 +270,7 @@ namespace KXSGCodec
               TProtocolUtil.Skip(iprot, field.Type);
             }
             break;
-          case 4:
+          case 5:
             if (field.Type == TType.Map) {
               {
                 OtherProp = new Dictionary<int, int>();
@@ -264,7 +289,7 @@ namespace KXSGCodec
               TProtocolUtil.Skip(iprot, field.Type);
             }
             break;
-          case 5:
+          case 6:
             if (field.Type == TType.List) {
               {
                 LeaderSkill = new List<int>();
@@ -281,7 +306,7 @@ namespace KXSGCodec
               TProtocolUtil.Skip(iprot, field.Type);
             }
             break;
-          case 6:
+          case 7:
             if (field.Type == TType.List) {
               {
                 ActiveSkill = new List<int>();
@@ -298,7 +323,7 @@ namespace KXSGCodec
               TProtocolUtil.Skip(iprot, field.Type);
             }
             break;
-          case 7:
+          case 8:
             if (field.Type == TType.List) {
               {
                 GiftSkill = new List<int>();
@@ -315,7 +340,7 @@ namespace KXSGCodec
               TProtocolUtil.Skip(iprot, field.Type);
             }
             break;
-          case 8:
+          case 9:
             if (field.Type == TType.List) {
               {
                 WarriorsSkill = new List<int>();
@@ -332,7 +357,7 @@ namespace KXSGCodec
               TProtocolUtil.Skip(iprot, field.Type);
             }
             break;
-          case 9:
+          case 10:
             if (field.Type == TType.List) {
               {
                 WeaponSkill = new List<int>();
@@ -378,10 +403,18 @@ namespace KXSGCodec
         oprot.WriteI32(TemplateId);
         oprot.WriteFieldEnd();
       }
+      if (__isset.heroType) {
+        field.Name = "heroType";
+        field.Type = TType.I32;
+        field.ID = 3;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteI32(HeroType);
+        oprot.WriteFieldEnd();
+      }
       if (FighteProp != null && __isset.fighteProp) {
         field.Name = "fighteProp";
         field.Type = TType.Map;
-        field.ID = 3;
+        field.ID = 4;
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteMapBegin(new TMap(TType.I32, TType.I32, FighteProp.Count));
@@ -397,7 +430,7 @@ namespace KXSGCodec
       if (OtherProp != null && __isset.otherProp) {
         field.Name = "otherProp";
         field.Type = TType.Map;
-        field.ID = 4;
+        field.ID = 5;
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteMapBegin(new TMap(TType.I32, TType.I32, OtherProp.Count));
@@ -413,7 +446,7 @@ namespace KXSGCodec
       if (LeaderSkill != null && __isset.leaderSkill) {
         field.Name = "leaderSkill";
         field.Type = TType.List;
-        field.ID = 5;
+        field.ID = 6;
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.I32, LeaderSkill.Count));
@@ -428,7 +461,7 @@ namespace KXSGCodec
       if (ActiveSkill != null && __isset.activeSkill) {
         field.Name = "activeSkill";
         field.Type = TType.List;
-        field.ID = 6;
+        field.ID = 7;
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.I32, ActiveSkill.Count));
@@ -443,7 +476,7 @@ namespace KXSGCodec
       if (GiftSkill != null && __isset.giftSkill) {
         field.Name = "giftSkill";
         field.Type = TType.List;
-        field.ID = 7;
+        field.ID = 8;
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.I32, GiftSkill.Count));
@@ -458,7 +491,7 @@ namespace KXSGCodec
       if (WarriorsSkill != null && __isset.warriorsSkill) {
         field.Name = "warriorsSkill";
         field.Type = TType.List;
-        field.ID = 8;
+        field.ID = 9;
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.I32, WarriorsSkill.Count));
@@ -473,7 +506,7 @@ namespace KXSGCodec
       if (WeaponSkill != null && __isset.weaponSkill) {
         field.Name = "weaponSkill";
         field.Type = TType.List;
-        field.ID = 9;
+        field.ID = 10;
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.I32, WeaponSkill.Count));
@@ -495,6 +528,8 @@ namespace KXSGCodec
       sb.Append(Index);
       sb.Append(",TemplateId: ");
       sb.Append(TemplateId);
+      sb.Append(",HeroType: ");
+      sb.Append(HeroType);
       sb.Append(",FighteProp: ");
       sb.Append(FighteProp);
       sb.Append(",OtherProp: ");

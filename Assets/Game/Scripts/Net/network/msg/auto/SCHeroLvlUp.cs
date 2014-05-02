@@ -25,7 +25,6 @@ namespace KXSGCodec
   {
     private long _uuid;
     private short _targetLvl;
-    private int _refreshSoul;
 
     public long Uuid
     {
@@ -53,19 +52,6 @@ namespace KXSGCodec
       }
     }
 
-    public int RefreshSoul
-    {
-      get
-      {
-        return _refreshSoul;
-      }
-      set
-      {
-        __isset.refreshSoul = true;
-        this._refreshSoul = value;
-      }
-    }
-
 
     public Isset __isset;
     #if !SILVERLIGHT
@@ -74,7 +60,6 @@ namespace KXSGCodec
     public struct Isset {
       public bool uuid;
       public bool targetLvl;
-      public bool refreshSoul;
     }
 
     public SCHeroLvlUp() {
@@ -102,13 +87,6 @@ namespace KXSGCodec
           case 2:
             if (field.Type == TType.I16) {
               TargetLvl = iprot.ReadI16();
-            } else { 
-              TProtocolUtil.Skip(iprot, field.Type);
-            }
-            break;
-          case 3:
-            if (field.Type == TType.I32) {
-              RefreshSoul = iprot.ReadI32();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
@@ -142,14 +120,6 @@ namespace KXSGCodec
         oprot.WriteI16(TargetLvl);
         oprot.WriteFieldEnd();
       }
-      if (__isset.refreshSoul) {
-        field.Name = "refreshSoul";
-        field.Type = TType.I32;
-        field.ID = 3;
-        oprot.WriteFieldBegin(field);
-        oprot.WriteI32(RefreshSoul);
-        oprot.WriteFieldEnd();
-      }
       oprot.WriteFieldStop();
       oprot.WriteStructEnd();
     }
@@ -160,8 +130,6 @@ namespace KXSGCodec
       sb.Append(Uuid);
       sb.Append(",TargetLvl: ");
       sb.Append(TargetLvl);
-      sb.Append(",RefreshSoul: ");
-      sb.Append(RefreshSoul);
       sb.Append(")");
       return sb.ToString();
     }

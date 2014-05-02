@@ -35,9 +35,13 @@ public class BattleFieldWindow : Window
 
     private void OnGUI()
     {
+        var x = Screen.width / 20;
+        var y = Screen.height / 20;
+        var width = Screen.width / 8;
+        var height = Screen.height / 10;
         if (!EditMode)
         {
-            if (GUI.Button(new Rect(100, 100, 200, 200), "Edit Mode On"))
+            if (GUI.Button(new Rect(x, y, width, height), "Edit Mode On"))
             {
                 EditMode = true;
                 TeamLeft.EditMode = true;
@@ -46,7 +50,7 @@ public class BattleFieldWindow : Window
         }
         else
         {
-            if (GUI.Button(new Rect(100, 100, 200, 200), "Edit Mode Off"))
+            if (GUI.Button(new Rect(x, y, width, height), "Edit Mode Off"))
             {
                 EditMode = false;
                 TeamLeft.EditMode = false;

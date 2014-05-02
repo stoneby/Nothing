@@ -98,8 +98,8 @@ public class WindowPrefabGeneratorWindow : EditorWindow
         var generatedFilePath = string.Format("{0}/{1}", UIScriptBasePath, windowGroup);
         var generatedFile = string.Format("{0}/{1}{2}", generatedFilePath, specificWindowName, Utils.ScriptExtension);
 
-        Debug.Log("template path: " + templateWindowPath);
-        Debug.Log("generated file path: " + generatedFilePath);
+        Logger.Log("template path: " + templateWindowPath);
+        Logger.Log("generated file path: " + generatedFilePath);
 
         var fullText = File.ReadAllText(templateWindowPath).Replace(TemplateWindow, specificWindowName);
         if (!Directory.Exists(generatedFilePath))

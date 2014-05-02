@@ -41,8 +41,8 @@ MonoBehaviour:
   material: {fileID: 2100000, guid: 64767b1ba97368749b2730a10bdfbb2c, type: 2}
   mSprites:
   - name: 0
-    x: 1451
-    y: 1515
+    x: 1097
+    y: 1477
     width: 16
     height: 19
     borderLeft: 0
@@ -54,8 +54,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: 1
-    x: 1464
-    y: 1495
+    x: 1213
+    y: 1477
     width: 11
     height: 19
     borderLeft: 0
@@ -67,8 +67,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: 2
-    x: 1413
-    y: 1495
+    x: 1148
+    y: 1477
     width: 16
     height: 19
     borderLeft: 0
@@ -80,8 +80,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: 3
-    x: 1447
-    y: 1475
+    x: 1165
+    y: 1477
     width: 15
     height: 19
     borderLeft: 0
@@ -93,8 +93,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: 4
-    x: 1413
-    y: 1475
+    x: 1080
+    y: 1477
     width: 16
     height: 19
     borderLeft: 0
@@ -106,8 +106,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: 5
-    x: 1430
-    y: 1475
+    x: 1114
+    y: 1477
     width: 16
     height: 19
     borderLeft: 0
@@ -119,8 +119,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: 6
-    x: 1430
-    y: 1495
+    x: 1063
+    y: 1477
     width: 16
     height: 19
     borderLeft: 0
@@ -132,8 +132,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: 7
-    x: 1463
-    y: 1475
+    x: 1197
+    y: 1477
     width: 15
     height: 19
     borderLeft: 0
@@ -145,8 +145,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: 8
-    x: 1950
-    y: 2029
+    x: 1181
+    y: 1477
     width: 15
     height: 19
     borderLeft: 0
@@ -158,8 +158,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: 9
-    x: 1447
-    y: 1495
+    x: 1131
+    y: 1477
     width: 16
     height: 19
     borderLeft: 0
@@ -170,102 +170,76 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
-  - name: ActiveDown
-    x: 0
-    y: 539
-    width: 331
-    height: 96
+  - name: Active1
+    x: 1950
+    y: 1838
+    width: 79
+    height: 103
     borderLeft: 0
     borderRight: 0
     borderTop: 0
     borderBottom: 0
-    paddingLeft: 0
-    paddingRight: 2
-    paddingTop: 0
-    paddingBottom: 0
-  - name: ActiveUp
-    x: 1025
-    y: 1472
-    width: 333
-    height: 96
-    borderLeft: 0
-    borderRight: 0
-    borderTop: 0
-    borderBottom: 0
-    paddingLeft: 0
-    paddingRight: 0
-    paddingTop: 0
-    paddingBottom: 0
-  - name: AdventureDown
-    x: 1447
-    y: 1250
-    width: 252
-    height: 221
-    borderLeft: 0
-    borderRight: 0
-    borderTop: 0
-    borderBottom: 0
-    paddingLeft: 0
-    paddingRight: 0
-    paddingTop: 0
-    paddingBottom: 0
-  - name: AdventureUp
-    x: 1700
-    y: 1250
-    width: 252
-    height: 221
-    borderLeft: 0
-    borderRight: 0
-    borderTop: 0
-    borderBottom: 0
-    paddingLeft: 0
-    paddingRight: 0
-    paddingTop: 0
-    paddingBottom: 0
-  - name: BarBack
-    x: 332
-    y: 615
-    width: 207
-    height: 20
-    borderLeft: 0
-    borderRight: 0
-    borderTop: 0
-    borderBottom: 0
-    paddingLeft: 0
-    paddingRight: 0
-    paddingTop: 0
-    paddingBottom: 0
-  - name: BarGreenFore
-    x: 540
-    y: 623
-    width: 193
-    height: 12
-    borderLeft: 0
-    borderRight: 0
-    borderTop: 0
-    borderBottom: 0
-    paddingLeft: 5
-    paddingRight: 9
+    paddingLeft: 21
+    paddingRight: 21
     paddingTop: 3
-    paddingBottom: 5
-  - name: BarRedFore
+    paddingBottom: 3
+  - name: Active2
+    x: 1337
+    y: 1473
+    width: 98
+    height: 95
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 12
+    paddingRight: 11
+    paddingTop: 7
+    paddingBottom: 7
+  - name: Active3
+    x: 481
+    y: 875
+    width: 106
+    height: 101
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 8
+    paddingRight: 7
+    paddingTop: 4
+    paddingBottom: 4
+  - name: Active4
+    x: 326
+    y: 61
+    width: 102
+    height: 107
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 10
+    paddingRight: 9
+    paddingTop: 1
+    paddingBottom: 1
+  - name: Active5
+    x: 1950
+    y: 1942
+    width: 97
+    height: 106
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 12
+    paddingRight: 12
+    paddingTop: 2
+    paddingBottom: 1
+  - name: Ad
     x: 1479
-    y: 1475
-    width: 193
-    height: 12
-    borderLeft: 0
-    borderRight: 0
-    borderTop: 0
-    borderBottom: 0
-    paddingLeft: 5
-    paddingRight: 9
-    paddingTop: 3
-    paddingBottom: 5
-  - name: BGWoods
-    x: 0
-    y: 1057
-    width: 1024
-    height: 414
+    y: 1476
+    width: 541
+    height: 143
     borderLeft: 0
     borderRight: 0
     borderTop: 0
@@ -274,11 +248,11 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
-  - name: BottomFill
-    x: 0
-    y: 896
-    width: 1024
-    height: 160
+  - name: AddMp
+    x: 1950
+    y: 1671
+    width: 62
+    height: 55
     borderLeft: 0
     borderRight: 0
     borderTop: 0
@@ -287,98 +261,7 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
-  - name: Buy
-    x: 1446
-    y: 1540
-    width: 28
-    height: 28
-    borderLeft: 0
-    borderRight: 0
-    borderTop: 0
-    borderBottom: 0
-    paddingLeft: 0
-    paddingRight: 0
-    paddingTop: 0
-    paddingBottom: 0
-  - name: Coins
-    x: 1359
-    y: 1529
-    width: 53
-    height: 39
-    borderLeft: 0
-    borderRight: 0
-    borderTop: 0
-    borderBottom: 0
-    paddingLeft: 0
-    paddingRight: 0
-    paddingTop: 0
-    paddingBottom: 0
-  - name: Diamond
-    x: 1359
-    y: 1498
-    width: 42
-    height: 30
-    borderLeft: 0
-    borderRight: 0
-    borderTop: 0
-    borderBottom: 0
-    paddingLeft: 0
-    paddingRight: 0
-    paddingTop: 0
-    paddingBottom: 0
-  - name: Equip_D
-    x: 156
-    y: 395
-    width: 155
-    height: 71
-    borderLeft: 0
-    borderRight: 0
-    borderTop: 0
-    borderBottom: 0
-    paddingLeft: 0
-    paddingRight: 0
-    paddingTop: 0
-    paddingBottom: 0
-  - name: Equip_N
-    x: 0
-    y: 323
-    width: 155
-    height: 71
-    borderLeft: 0
-    borderRight: 0
-    borderTop: 0
-    borderBottom: 0
-    paddingLeft: 0
-    paddingRight: 0
-    paddingTop: 0
-    paddingBottom: 0
-  - name: Friend_D
-    x: 156
-    y: 323
-    width: 155
-    height: 71
-    borderLeft: 0
-    borderRight: 0
-    borderTop: 0
-    borderBottom: 0
-    paddingLeft: 0
-    paddingRight: 0
-    paddingTop: 0
-    paddingBottom: 0
-  - name: Friend_N
-    x: 0
-    y: 251
-    width: 155
-    height: 71
-    borderLeft: 0
-    borderRight: 0
-    borderTop: 0
-    borderBottom: 0
-    paddingLeft: 0
-    paddingRight: 0
-    paddingTop: 0
-    paddingBottom: 0
-  - name: GlobalBG
+  - name: BG
     x: 0
     y: 1472
     width: 1024
@@ -391,9 +274,126 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
+  - name: BottomFill
+    x: 481
+    y: 1311
+    width: 1024
+    height: 160
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: Coins
+    x: 422
+    y: 829
+    width: 53
+    height: 39
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: Diamond
+    x: 1436
+    y: 1538
+    width: 42
+    height: 30
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: Equip_D
+    x: 1662
+    y: 1239
+    width: 155
+    height: 71
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: Equip_N
+    x: 1662
+    y: 1167
+    width: 155
+    height: 71
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: Flip
+    x: 1950
+    y: 1624
+    width: 46
+    height: 46
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: Friend_D
+    x: 1818
+    y: 1239
+    width: 155
+    height: 71
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: Friend_N
+    x: 1025
+    y: 1497
+    width: 155
+    height: 71
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: Ground
+    x: 1026
+    y: 1012
+    width: 563
+    height: 73
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
   - name: Hero_D
-    x: 156
-    y: 251
+    x: 1181
+    y: 1497
     width: 155
     height: 71
     borderLeft: 0
@@ -406,7 +406,7 @@ MonoBehaviour:
     paddingBottom: 0
   - name: Hero_N
     x: 0
-    y: 179
+    y: 215
     width: 155
     height: 71
     borderLeft: 0
@@ -418,8 +418,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: Home_D
-    x: 156
-    y: 179
+    x: 0
+    y: 143
     width: 155
     height: 71
     borderLeft: 0
@@ -432,9 +432,22 @@ MonoBehaviour:
     paddingBottom: 0
   - name: Home_N
     x: 0
-    y: 107
+    y: 71
     width: 155
     height: 71
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: Horn
+    x: 1997
+    y: 1627
+    width: 46
+    height: 43
     borderLeft: 0
     borderRight: 0
     borderTop: 0
@@ -470,8 +483,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: Human3
-    x: 1025
-    y: 1060
+    x: 0
+    y: 457
     width: 421
     height: 411
     borderLeft: 0
@@ -482,11 +495,11 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
-  - name: InfoBar
-    x: 1479
-    y: 1488
-    width: 241
-    height: 34
+  - name: InfoBg
+    x: 481
+    y: 977
+    width: 544
+    height: 108
     borderLeft: 0
     borderRight: 0
     borderTop: 0
@@ -495,11 +508,24 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
-  - name: InfoLAndR
-    x: 1813
-    y: 1534
-    width: 213
-    height: 85
+  - name: InfoBg2
+    x: 1506
+    y: 1373
+    width: 539
+    height: 98
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: Leader
+    x: 0
+    y: 869
+    width: 480
+    height: 602
     borderLeft: 0
     borderRight: 0
     borderTop: 0
@@ -509,8 +535,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: LogD
-    x: 0
-    y: 35
+    x: 170
+    y: 385
     width: 155
     height: 71
     borderLeft: 0
@@ -522,8 +548,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: LogFrame
-    x: 0
-    y: 671
+    x: 481
+    y: 1086
     width: 1024
     height: 63
     borderLeft: 0
@@ -535,8 +561,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: LogN
-    x: 1447
-    y: 1178
+    x: 170
+    y: 313
     width: 155
     height: 71
     borderLeft: 0
@@ -548,8 +574,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: LV
-    x: 1413
-    y: 1515
+    x: 1025
+    y: 1477
     width: 37
     height: 19
     borderLeft: 0
@@ -561,8 +587,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: Menu_D
-    x: 1447
-    y: 1106
+    x: 1506
+    y: 1167
     width: 155
     height: 71
     borderLeft: 0
@@ -574,8 +600,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: Menu_N
-    x: 1700
-    y: 1081
+    x: 170
+    y: 241
     width: 155
     height: 71
     borderLeft: 0
@@ -586,9 +612,35 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
-  - name: MilitarySoul
-    x: 1413
-    y: 1535
+  - name: New
+    x: 1950
+    y: 1727
+    width: 57
+    height: 60
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: ReCharge
+    x: 1950
+    y: 1788
+    width: 80
+    height: 49
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: Soul
+    x: 1436
+    y: 1504
     width: 32
     height: 33
     borderLeft: 0
@@ -599,24 +651,11 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
-  - name: SearchDown
-    x: 1700
-    y: 1153
-    width: 333
-    height: 96
-    borderLeft: 0
-    borderRight: 0
-    borderTop: 0
-    borderBottom: 0
-    paddingLeft: 0
-    paddingRight: 0
-    paddingTop: 0
-    paddingBottom: 0
-  - name: SearchUp
-    x: 1479
-    y: 1523
-    width: 333
-    height: 96
+  - name: Start
+    x: 0
+    y: 287
+    width: 169
+    height: 169
     borderLeft: 0
     borderRight: 0
     borderTop: 0
@@ -626,8 +665,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: Summon_D
-    x: 1856
-    y: 1081
+    x: 170
+    y: 169
     width: 155
     height: 71
     borderLeft: 0
@@ -639,8 +678,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: Summon_N
-    x: 0
-    y: 467
+    x: 170
+    y: 97
     width: 155
     height: 71
     borderLeft: 0
@@ -651,22 +690,9 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
-  - name: Tag
-    x: 1813
-    y: 1490
-    width: 153
-    height: 43
-    borderLeft: 0
-    borderRight: 0
-    borderTop: 0
-    borderBottom: 0
-    paddingLeft: 0
-    paddingRight: 0
-    paddingTop: 0
-    paddingBottom: 0
   - name: Team_D
-    x: 156
-    y: 467
+    x: 170
+    y: 25
     width: 155
     height: 71
     borderLeft: 0
@@ -678,8 +704,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: Team_N
-    x: 0
-    y: 395
+    x: 1506
+    y: 1239
     width: 155
     height: 71
     borderLeft: 0
@@ -690,37 +716,11 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
-  - name: TOP
-    x: 0
-    y: 636
-    width: 1024
-    height: 34
-    borderLeft: 0
-    borderRight: 0
-    borderTop: 0
-    borderBottom: 0
-    paddingLeft: 0
-    paddingRight: 0
-    paddingTop: 0
-    paddingBottom: 0
   - name: TopFill
-    x: 0
-    y: 735
+    x: 481
+    y: 1150
     width: 1024
     height: 160
-    borderLeft: 0
-    borderRight: 0
-    borderTop: 0
-    borderBottom: 0
-    paddingLeft: 0
-    paddingRight: 0
-    paddingTop: 0
-    paddingBottom: 0
-  - name: vip
-    x: 1359
-    y: 1475
-    width: 42
-    height: 22
     borderLeft: 0
     borderRight: 0
     borderTop: 0

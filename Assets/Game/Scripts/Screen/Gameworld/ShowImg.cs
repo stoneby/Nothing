@@ -21,13 +21,13 @@ public class ShowImg : MonoBehaviour {
         var msg = NetManager.GetMessage() as ThriftSCMessage;
 	    if (msg != null)
 	    {
-            Debug.Log(msg);
+            Logger.Log(msg);
 	    }
 	}
 
 	void OnClick()
 	{
-        Debug.Log("on click");
+        Logger.Log("on click");
         CSPasswdLoginMsg csMsg = new CSPasswdLoginMsg();
         csMsg.DeviceId = "1";
         csMsg.DeviceType = 2;

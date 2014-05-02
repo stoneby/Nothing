@@ -372,7 +372,7 @@ namespace KXSGCodec
 				if( _recSize > 0 )
 				{
                 	_receiveHelper = (MsgReceiveHelper)receiveRes.AsyncState;
-                	this.DecodeMsg(_receiveHelper.buffer, _recSize);
+                	this.DecodeMsg(_receiveHelper.buffer, _recSize, null);
 				}
 				// < 0, the remote socket is close...
 				else
@@ -453,11 +453,11 @@ namespace KXSGCodec
         /// </summary>
         /// <param name="receiveBytes"></param>
         /// <param name="size"></param>
-        public ThriftSCMessage DecodeMsg(byte[] receiveBytes, int size)
+        public void DecodeMsg(byte[] receiveBytes, int size, Queue msgQueue)
         {
             if (size <= 0)
             {
-                return null;
+                return;
             }			
 
             recMsgBuf.Put(receiveBytes, size);
@@ -501,9 +501,19 @@ namespace KXSGCodec
                     {
 
                         _msg.Decode(_msgData);
+                        // FIXME fangyong 短连接使用消息queue， 不必要再存到list了， 做长连接时需要再修改
+                        /**
                         lock (this.recMsgs)
                         {
                             this.recMsgs.Add(_msg);
+                        }
+                        */
+                        if (msgQueue != null)
+                        {
+                            lock (msgQueue.SyncRoot)
+                            {
+                                msgQueue.Enqueue(_msg);
+                            }
                         }
                     }
                 }
@@ -527,8 +537,6 @@ namespace KXSGCodec
             {
                 recMsgBuf.SetPosition(recMsgBuf.Length());
             }
-
-            return _msg;
         }
 
         public void HandleReceiveMsgs()

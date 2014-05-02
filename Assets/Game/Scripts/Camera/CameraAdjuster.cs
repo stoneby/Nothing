@@ -67,7 +67,7 @@ public class CameraAdjuster : MonoBehaviour
         CameraScale = 1/r1;
         //camera.orthographicSize = 1/CameraScale;
 
-        Debug.Log("Scale " + CameraScale.ToString());
+        Logger.Log("Scale " + CameraScale.ToString());
     }
 
     #endregion

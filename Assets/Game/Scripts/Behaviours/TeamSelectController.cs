@@ -49,8 +49,6 @@ public class TeamSelectController : MonoBehaviour
     /// </summary>
     private bool dragStart;
 
-    private int counter;
-
     #endregion
 
     #region Public Methods
@@ -66,14 +64,11 @@ public class TeamSelectController : MonoBehaviour
 
     private void OnCharacterPress(GameObject sender, bool isPressed)
     {
-        Debug.Log("On character press: " + sender.name + ", is pressed: " + isPressed);
+        Logger.Log("On character press: " + sender.name + ", is pressed: " + isPressed);
     }
     private void OnCharacterDrag(GameObject sender, Vector2 delta)
     {
-        //Debug.Log("On character drag: " + sender.name + " with delta: " + delta);
-
-        //Debug.LogWarning("Last touch positon: " + UICamera.lastTouchPosition);
-        //Debug.LogWarning("Current touch: " + UICamera.currentTouch);
+        //Logger.Log("On character drag: " + sender.name + " with delta: " + delta);
 
         if (EditMode)
         {
@@ -90,7 +85,7 @@ public class TeamSelectController : MonoBehaviour
         DragBarPool.CurrentObject.transform.localRotation = Utils.GetRotation(
                 new Vector2(sourcePosition.x, sourcePosition.y), targetPosition);
 
-        Debug.LogWarning("current drag bar: " + DragBarPool.CurrentObject.name);
+        Debug.LogWarning("current drag bar to parent: " + DragBarPool.CurrentObject.transform.parent.name);
 
         SetDragbarWidth(sourcePosition, targetPosition);
     }
@@ -104,7 +99,7 @@ public class TeamSelectController : MonoBehaviour
 
     private void OnCharacterDragStart(GameObject sender)
     {
-        Debug.Log("On character drop start: " + sender.name);
+        Logger.Log("On character drop start: " + sender.name);
 
         if (EditMode)
         {
@@ -117,7 +112,7 @@ public class TeamSelectController : MonoBehaviour
 
     private void OnCharacterDragOver(GameObject sender, GameObject draggedObject)
     {
-        Debug.Log("On character drag over: " + sender.name + ", dragged started game ojbect: " + draggedObject.name);
+        Logger.Log("On character drag over: " + sender.name + ", dragged started game ojbect: " + draggedObject.name);
 
         if (EditMode)
         {
@@ -134,32 +129,50 @@ public class TeamSelectController : MonoBehaviour
         var firstTime = (LastCharacter == null);
         if (!firstTime && !LastCharacter.IsNeighborhood(currentCharacter))
         {
-            Debug.LogWarning("Current character: " + currentCharacter + " is eithor not my neighbor: " + LastCharacter);
+            Debug.LogWarning("Current character: " + currentCharacter + " is not my neighbor: " + LastCharacter);
             return;
         }
 
         var selectedObject = SelectedCharacterList.Find(character => character.Index == currentCharacter.Index);
         if (selectedObject != null)
         {
+            var oneBeforeLastIndex = SelectedCharacterList.Count - 2;
+            // condition of cancel last select character.
+            if (oneBeforeLastIndex >= 0 && SelectedCharacterList[oneBeforeLastIndex] == selectedObject)
+            {
+                SelectedCharacterList.RemoveAt(SelectedCharacterList.Count - 1);
+
+                Debug.LogWarning("Return drag bar to parent: " + DragBarPool.CurrentObject.transform.parent.name);
+
+                DragBarPool.Return(DragBarPool.CurrentObject);
+
+                var t = selectedObject.transform;
+                DragBarPool.CurrentObject = t.FindChild("DragBar(Clone)").gameObject;
+
+                Debug.LogWarning("Current drag bar to parent is: " + selectedObject.name);
+            }
+
             Debug.LogWarning("Current character: " + currentCharacter + " is already selected.");
-            return;
         }
+        else
+        {
+            DrawDragBar(sender);
 
-        DrawDragBar(sender);
+            SelectedCharacterList.Add(currentCharacter);
 
-        SelectedCharacterList.Add(currentCharacter);
-
-        Debug.Log("Add dragged character, which is neighbor - " + currentCharacter + ", to selected character list - " + SelectedCharacterList.Count);
+            Logger.Log("Add dragged character, which is neighbor - " + currentCharacter +
+                      ", to selected character list - " + SelectedCharacterList.Count);
+        }
     }
 
     private void OnCharacterDragOut(GameObject sender, GameObject draggedObject)
     {
-        //Debug.Log("On character drop out: " + sender.name + ", dragged game ojbect: " + draggedObject.name);
+        //Logger.Log("On character drop out: " + sender.name + ", dragged game ojbect: " + draggedObject.name);
     }
 
     private void OnCharacterDragEnd(GameObject sender)
     {
-        Debug.Log("On character drop end: " + sender.name);
+        Logger.Log("On character drop end: " + sender.name);
 
         if (EditMode)
         {
@@ -188,15 +201,19 @@ public class TeamSelectController : MonoBehaviour
         }
 
         var dragBar = DragBarPool.Take();
+        AddChild(sender, dragBar);
+
+        Debug.LogWarning("Added drag bar to parent: " + sender.name);
+    }
+
+    private void AddChild(GameObject sender, GameObject dragBar)
+    {
         var t = dragBar.transform;
         t.parent = sender.transform;
         t.localPosition = Vector3.zero + OffSet;
         t.localRotation = Quaternion.identity;
         t.localScale = Vector3.one;
-        dragBar.name = dragBar.name + (++counter);
         dragBar.SetActive(true);
-
-        Debug.LogWarning("Added drag bar with: " + dragBar.name);
     }
 
     #endregion

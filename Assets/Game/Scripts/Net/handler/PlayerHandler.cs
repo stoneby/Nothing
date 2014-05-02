@@ -8,7 +8,7 @@ namespace Assets.Game.Scripts.Net.handler
     {
         public static void OnCreatePlayer(ThriftSCMessage msg)
         {
-            Debug.Log("MessageType.SC_CREATE_PLAYER");
+            Logger.Log("MessageType.SC_CREATE_PLAYER");
             var csMsg = new CSCreatePlayerMsg();
             var act = ServiceManager.AccountData ?? ServiceManager.GetDefaultAccount();
             csMsg.Name = act.Account + act.Account;
@@ -31,7 +31,8 @@ namespace Assets.Game.Scripts.Net.handler
                 PlayerModelLocator.Instance.Gold = themsg.Gold;
             }
             EventManager.Instance.Post(new LoginEvent() { Message = "This is login event." });
-            WindowManager.Instance.Show(typeof(MainMenuWindow), true);
+            //WindowManager.Instance.Show(typeof(MainMenuWindow), true);
+            WindowManager.Instance.Show(typeof(UIMainScreenWindow), true);
             WindowManager.Instance.Show(typeof(MainMenuBarWindow), true);
             WindowManager.Instance.Show(WindowGroupType.Popup, false);
         }

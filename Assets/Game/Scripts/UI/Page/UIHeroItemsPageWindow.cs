@@ -1,3 +1,5 @@
+using System.Globalization;
+using Property;
 using UnityEngine;
 using System.Collections;
 
@@ -60,15 +62,19 @@ public class UIHeroItemsPageWindow : Window
     private IEnumerator FillHeroList()
     {
         var heroCount = HeroModelLocator.Instance.SCHeroList.HeroList.Count;
-        HeroPrefab.SetActive(true);
         for (int i = 0; i < heroCount; i++)
         {
-            var item = Instantiate(HeroPrefab) as GameObject;
-            item.transform.parent = grid.transform;
+            var item = NGUITools.AddChild(grid.gameObject, HeroPrefab);
+            UIEventListener.Get(item).onClick += OnHeroInfoClicked;
         }
-        HeroPrefab.SetActive(false);
         grid.Reposition();
         yield return new WaitForEndOfFrame();
+    }
+
+    private void OnHeroInfoClicked(GameObject go)
+    {
+        UIHeroInfoWindow.Uuid = go.GetComponent<HeroInfoPack>().Uuid;
+        WindowManager.Instance.Show(typeof(UIHeroInfoWindow), true);
     }
 
     /// <summary>
@@ -81,8 +87,9 @@ public class UIHeroItemsPageWindow : Window
         for (int i = 0; i < HeroModelLocator.Instance.SCHeroList.HeroList.Count; i++)
         {
             var item = grid.transform.GetChild(i);
-            item.GetComponent<HeroInfoPack>().TemplateId = HeroModelLocator.Instance.SCHeroList.HeroList[i].TemplateId;
-            ShowHero(orderType, item, item.GetComponent<HeroInfoPack>().TemplateId);
+            var uUid = HeroModelLocator.Instance.SCHeroList.HeroList[i].Uuid;
+            item.GetComponent<HeroInfoPack>().Uuid = uUid;
+            ShowHero(orderType, item, uUid);
         }
     }
 
@@ -91,15 +98,15 @@ public class UIHeroItemsPageWindow : Window
     /// </summary>
     /// <param name="orderType">The order type of </param>
     /// <param name="heroTran">The transform of hero.</param>
-    /// <param name="temId">The template id of hero.</param>
-    private void ShowHero(short orderType, Transform heroTran, int temId)
+    /// <param name="uUid">The template id of hero.</param>
+    private void ShowHero(short orderType, Transform heroTran, long uUid)
     {
-        var heroInfo = HeroModelLocator.Instance.SCHeroList.HeroList.Find(info => info.TemplateId == temId);
-        var heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpl[temId];
+        var heroInfo = HeroModelLocator.Instance.FindHero(uUid);
+        var heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpl[heroInfo.TemplateId];
         var jobSymobl = Utils.FindChild(heroTran, "JobSymbol").GetComponent<UISprite>();
         var attack = Utils.FindChild(heroTran, "Attack").GetComponent<UILabel>();
         jobSymobl.spriteName = UIHerosDisplayWindow.JobPrefix + heroTemplate.Job;
-        attack.text = heroInfo.Prop.ATK.ToString();
+        attack.text = heroInfo.Prop[RoleProperties.HERO_ATK].ToString(CultureInfo.InvariantCulture);
         switch (orderType)
         {
             //»Î ÷À≥–Ú≈≈–Ú

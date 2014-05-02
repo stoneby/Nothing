@@ -6,16 +6,16 @@ public class GameManager : Singleton<GameManager>
 
     public void Play()
     {
-        Debug.Log("Play");    
+        Logger.Log("Play");    
     }
 
     public void Print()
     {
-        Debug.Log("Counter: " + Counter);
+        Logger.Log("Counter: " + Counter);
     }
 
     void Awake()
     {
-        Debug.Log("I am singleton." + name);
+        Logger.Log("I am singleton." + name);
     }
 }

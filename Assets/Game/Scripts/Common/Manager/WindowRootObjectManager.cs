@@ -55,13 +55,13 @@ public class WindowRootObjectManager : MonoBehaviour
                 layerObject.transform.parent = trans;
                 layerTrans = layerObject.transform;
 
-                Debug.Log("Adding game object to root - " + trans.name);
+                Logger.Log("Adding game object to root - " + trans.name);
             }
 
             layerTrans.name = layerName;
             layerTrans.gameObject.layer = (int)layer;
 
-            Debug.Log("Game object is - " + layerTrans.name + ", with layer - " + layerTrans.gameObject.layer);
+            Logger.Log("Game object is - " + layerTrans.name + ", with layer - " + layerTrans.gameObject.layer);
 
             WindowObjectMap[layer] = layerTrans.gameObject;
         }

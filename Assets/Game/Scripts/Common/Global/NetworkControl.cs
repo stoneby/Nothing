@@ -19,7 +19,7 @@ public class NetworkControl : MonoBehaviour {
             var msg = NetManager.GetMessage();
             while (msg != null)
             {
-                Debug.Log(msg.GetMsgType());
+                Logger.Log(msg.GetMsgType());
                 switch (msg.GetMsgType())
                 {
                     case (short)MessageType.SC_SYSTEM_INFO_MSG:
@@ -35,7 +35,12 @@ public class NetworkControl : MonoBehaviour {
                         BattleHandler.OnBattlePveStart(msg);
                         break;
                     case (short)MessageType.SC_HERO_LIST:
-                        HeroHandler.OnHeroList(msg);
+                    case (short)MessageType.SC_HERO_MODIFY_TEAM:
+                    case (short)MessageType.SC_HERO_SELL:
+                    case (short)MessageType.SC_HERO_LVL_UP:
+                    case (short)MessageType.SC_PROPERTY_CHANGED_NUMBER:
+                    case (short)MessageType.SC_HERO_CREATE_ONE:
+                        HeroHandler.OnHeroMessage(msg);
                         break;
 
                 }

@@ -24,7 +24,7 @@ namespace Assets.Game.Scripts.Net.handler
                 WindowManager.Instance.Show(typeof(MainMenuBarWindow), false);
 
                 //GameObject obj = GameObject.Find("Battle(Clone)");
-                Debug.Log(window);
+                Logger.Log(window);
                 var battlemanager = window.GetComponent<InitBattleField>();
 //                var attracks = new int[12];
 //                for (var i = 0; i < attracks.Length; i++)

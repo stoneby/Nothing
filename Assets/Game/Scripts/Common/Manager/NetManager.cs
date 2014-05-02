@@ -53,7 +53,7 @@ public class NetManager
             catch (Exception e)
             {
 
-                Debug.Log("An error occurred GetMessage: " + e.Message);
+                Logger.ThreadLog("An error occurred GetMessage: " + e.Message);
             }         
         }
 
@@ -85,7 +85,7 @@ public class NetManager
                 {
                     continue;
                 }
-                Debug.Log("Do send" + csMsg.GetType());
+                Logger.ThreadLog("Do send" + csMsg.GetType());
 
                 hwrequest = (HttpWebRequest) WebRequest.Create(ServiceManager.ServerData.Url);
                 hwrequest.Accept = "*/*";
@@ -113,12 +113,12 @@ public class NetManager
 
                 // deal with receive sc msg
                 hwresponse = (HttpWebResponse) hwrequest.GetResponse();
-                Debug.Log("response status:" + hwresponse.StatusCode);
+                Logger.ThreadLog("response status:" + hwresponse.StatusCode);
                 if (hwresponse.StatusCode == HttpStatusCode.OK)
                 {
 
                     int respLen = (int) hwresponse.ContentLength;
-                    Debug.Log("respLen:" + respLen);
+                    Logger.ThreadLog("respLen:" + respLen);
                     if (respLen <= 0)
                     {
                         hwresponse.Close();
@@ -131,18 +131,7 @@ public class NetManager
                     responseStream.Read(recDatas, 0, respLen);
                     responseStream.Close();
                     responseStream = null;
-                    ThriftSCMessage scMsg = SocketClient.DecodeMsg(recDatas, respLen);
-                    if (scMsg == null)
-                    {
-                        Debug.Log("Do not receive sc msg, csMsgType:" + csMsg.GetType());
-                        continue;
-                    }
-                    Debug.Log("Do receive" + scMsg.GetMsgType());
-
-                    lock (SCMsgQueue.SyncRoot)
-                    {
-                        SCMsgQueue.Enqueue(scMsg);
-                    }
+                    SocketClient.DecodeMsg(recDatas, respLen, SCMsgQueue);                   
 
                     SessionId = hwresponse.GetResponseHeader("ISESSION");
                 }
@@ -152,7 +141,7 @@ public class NetManager
             }
             catch (Exception e)
             {
-                Debug.Log("An error occurred: " + e.Message);
+                Logger.ThreadLog("An error occurred: " + e.Message);
                 ThriftSCMessage globalmessage = new ClientSCMessage((short) MessageType.SC_SYSTEM_INFO_MSG, e.Message);
                 lock (SCMsgQueue.SyncRoot)
                 {
@@ -170,7 +159,7 @@ public class NetManager
                     catch (Exception e)
                     {
 
-                        Debug.Log("An error occurred close postStream: " + e.Message);
+                        Logger.ThreadLog("An error occurred close postStream: " + e.Message);
                     }
                    
                 }
@@ -183,7 +172,7 @@ public class NetManager
                     catch (Exception e)
                     {
 
-                        Debug.Log("An error occurred close responseStream: " + e.Message);
+                        Logger.ThreadLog("An error occurred close responseStream: " + e.Message);
                     }
 
                 }
@@ -197,7 +186,7 @@ public class NetManager
                     catch (Exception e)
                     {
 
-                        Debug.Log("An error occurred close hwresponse: " + e.Message);
+                        Logger.ThreadLog("An error occurred close hwresponse: " + e.Message);
                     }
                 }
             }
