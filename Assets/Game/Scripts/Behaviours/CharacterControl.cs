@@ -1,4 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using com.kx.sglm.gs.battle;
+using com.kx.sglm.gs.battle.data;
+using com.kx.sglm.gs.battle.utils;
 using KXSGCodec;
 using UnityEngine;
 
@@ -15,8 +19,10 @@ public class CharacterControl : MonoBehaviour
     public GameObject SpriteObj;
     public GameObject PoisonPrefab;
     public GameObject BuffObj;
+    public GameObject FriendLabelObj;
 
-    private BattleMsgHero Data;
+    public FighterInfo Data;
+    private HeroTemplate TemplateData;
 
     public int CharacterIndex;
     public int FootIndex;
@@ -67,13 +73,14 @@ public class CharacterControl : MonoBehaviour
 
     public void SetFootIndex(int footindex)
     {
+        Debug.Log("Foot ===== " + footindex);
         FootIndex = footindex;
         var uisp = FootObj.GetComponent<UISprite>();
         uisp.spriteName = "pck_" + footindex;
         uisp = JobObj.GetComponent<UISprite>();
-        uisp.spriteName = (FootIndex == BattleType.FootPink) ? "job_6" : "job_" + JobIndex;
+        uisp.spriteName = (FootIndex == BattleTypeConstant.FootPink) ? "job_6" : "job_" + JobIndex;
         var uilb = AttrackObj.GetComponent<UILabel>();
-        uilb.text = (FootIndex == BattleType.FootPink) ? ("" + Restore) : ("" + Attrack);
+        uilb.text = (FootIndex == BattleTypeConstant.FootPink) ? ("" + Restore) : ("" + Attrack);
         //uilb.text += "-" + footindex.ToString();
     }
 
@@ -89,21 +96,43 @@ public class CharacterControl : MonoBehaviour
         PlayCharacter(0);
     }
 
-    public void SetCharacter(BattleMsgHero data)
+    public void SetCharacter(FighterInfo data, int isfriend = BattleTypeConstant.IsHero)
     {
         Data = data;
-        CharacterIndex = (data.TemplateId % 2 == 0) ? 1 : 5;
-        JobIndex = Random.Range(BattleType.FootMin, BattleType.FootMax);
-        Attrack = Random.Range(60, 150);
-        Restore = Random.Range(100, 200); 
+        var tempid = Int32.Parse(Data.getProp(BattleKeyConstants.BATTLE_KEY_HERO_TEMPLATE));
+        Debug.Log(tempid);
+        TemplateData = HeroModelLocator.Instance.GetHeroByTemplateId(tempid);
+
+        CharacterIndex = (tempid % 2 == 0) ? 1 : 5;
+        JobIndex = TemplateData.Job;
+        Attrack = Data.BattleProperty.get(FighterAProperty.ATK);
+        Restore = Data.BattleProperty.get(FighterAProperty.RECOVER);
 
         var uisa = AnimObj.GetComponent<UISpriteAnimation>();
         uisa.namePrefix = "c_" + CharacterIndex + "_0_";
         uisa.framesPerSecond = 8;
         var uisp = JobObj.GetComponent<UISprite>();
-        uisp.spriteName = (FootIndex == BattleType.FootPink) ? "job_6" : "job_" + JobIndex;
+        uisp.spriteName = (FootIndex == BattleTypeConstant.FootPink) ? "job_6" : "job_" + JobIndex;
         var uilb = AttrackObj.GetComponent<UILabel>();
-        uilb.text = (FootIndex == BattleType.FootPink) ? Restore.ToString() : Attrack.ToString();
+        uilb.text = (FootIndex == BattleTypeConstant.FootPink) ? Restore.ToString() : Attrack.ToString();
+
+        if (isfriend == BattleTypeConstant.IsHero)
+        {
+            FriendLabelObj.SetActive(false);
+        }
+        else 
+        {
+            FriendLabelObj.SetActive(true);
+            uilb = FriendLabelObj.GetComponent<UILabel>();
+            if (isfriend == BattleTypeConstant.IsFriend)
+            {
+                uilb.text = "Friend";
+            }
+            else
+            {
+                uilb.text = "Guest";
+            }
+        }
     }
 
     public string GetNamePrefix()
@@ -172,9 +201,9 @@ public class CharacterControl : MonoBehaviour
             {
                 uilb.color = new Color(234, 240, 240);
             }
-            uilb.text = (selectindex == 0) ? "" : "X" + BattleType.MoreHitTimes[selectindex].ToString();
+            uilb.text = (selectindex == 0) ? "" : "X" + BattleTypeConstant.MoreHitTimes[selectindex].ToString();
             uilb = TopAttrackObj.GetComponent<UILabel>();
-            AttrackValue = (FootIndex == BattleType.FootPink) ? (int)(BattleType.MoreHitTimes[selectindex] * Restore) : (int)(BattleType.MoreHitTimes[selectindex] * Attrack);
+            AttrackValue = (FootIndex == BattleTypeConstant.FootPink) ? (int)(BattleTypeConstant.MoreHitTimes[selectindex] * Restore) : (int)(BattleTypeConstant.MoreHitTimes[selectindex] * Attrack);
             uilb.text = AttrackValue.ToString();
             iTweenEvent.GetEvent(TopAttrackObj, "ShakeAttrackLabel").Play();
         }

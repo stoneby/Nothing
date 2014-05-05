@@ -1,4 +1,6 @@
 ﻿using System.Collections;
+using com.kx.sglm.gs.battle.data;
+using com.kx.sglm.gs.battle.utils;
 using UnityEngine;
 
 public class EnemyControl : MonoBehaviour
@@ -9,11 +11,13 @@ public class EnemyControl : MonoBehaviour
     public GameObject CdLabel;
     //public GameObject Enemy;
 
+    public FighterInfo Data;
+
     private float value;
     private float maxValue;
-    private int baseCd;
+//    private int baseCd;
     private int cd;
-    private int spcd;
+//    private int spcd;
 
     //Boss sprite name of different states.
     private const string BossNormal = "BossNormal";
@@ -38,52 +42,51 @@ public class EnemyControl : MonoBehaviour
         Destroy(tc, 2);
     }
 
-    public void SetValue(float thevalue, float themaxvalue, int thecd)
+    public void SetValue(FighterInfo data)
     {
-        value = thevalue;
-        maxValue = themaxvalue;
-        cd = baseCd = thecd;
-        spcd = 2 * baseCd;
+        Data = data;
+        value = Data.BattleProperty.get(FighterAProperty.HP); ;
+        maxValue = value;
+//        cd = baseCd = 3;//Data.BattleProperty.get(FighterAProperty.);
+//        spcd = 2 * baseCd;
         ShowValue();
     }
 
-    public bool CanSpAttrack()
+    public  float HP
     {
-        spcd--;
-        if (spcd > 0)
+        get
         {
-            return false;
+            return value;
         }
-        spcd = 2 * baseCd;
-        cd = baseCd;
-        ShowValue();
-        return true;
     }
 
-    public bool CanAttrack()
+    public void SetRoundCount(int thecd)
     {
-        cd--;
-        if (cd > 0)
-        {
-            ShowValue();
-            return false;
-        }
-        cd = baseCd;
+        cd = thecd;
         ShowValue();
-        return true;
+    }
+
+    public void SetHP(int thehp)
+    {
+        var lose = value - thehp;
+        value = thehp;
+
+        if (lose > 0) PopTextManager.ShowText("-" + lose, 0.6f, 0, 40, 120, gameObject.transform.localPosition);
+
+        ShowValue();
     }
 
     //处理掉血，返回是否死亡
-    public bool LoseBlood(int lose)
-    {
-
-        value = (value - lose > 0) ? value - lose : 0;
-
-        if (lose != 0) PopTextManager.ShowText("-" + lose, 0.6f, 0, 40, 120, gameObject.transform.localPosition);
-
-        ShowValue();
-        return value <= 0;
-    }
+//    public bool LoseBlood(int lose)
+//    {
+//
+//        value = (value - lose > 0) ? value - lose : 0;
+//
+//        if (lose != 0) PopTextManager.ShowText("-" + lose, 0.6f, 0, 40, 120, gameObject.transform.localPosition);
+//
+//        ShowValue();
+//        return value <= 0;
+//    }
 
     void ShowValue()
     {

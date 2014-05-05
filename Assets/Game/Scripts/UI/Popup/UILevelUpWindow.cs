@@ -131,7 +131,7 @@ public class UILevelUpWindow : Window
 
     private void RefreshData()
     {
-        ownedSoul.text = "150000";
+        ownedSoul.text = PlayerModelLocator.Instance.Sprit.ToString();
         heroName.text = heroTemplate.Name;
         var spriteWidth = StarPrefab.GetComponent<UISprite>().width;
         for (int index = 0; index < heroTemplate.Star; index++)
@@ -255,7 +255,7 @@ public class UILevelUpWindow : Window
         {
             return;
         }
-        totalCostSoul += HeroModelLocator.Instance.HeroTemplates.LvlUpTmpl[up ? curLvl + 1 : curLvl].CostSoul;
+        totalCostSoul += (up ? HeroModelLocator.Instance.HeroTemplates.LvlUpTmpl[curLvl].CostSoul : HeroModelLocator.Instance.HeroTemplates.LvlUpTmpl[curLvl - 1].CostSoul) * flag;
         curLvl += (short)flag;
         additions[0] += flag;
         additions[1] += heroTemplate.AttackAddtion * flag;

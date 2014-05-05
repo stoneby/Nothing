@@ -12,12 +12,22 @@ public class UIMainScreenWindow : Window
     private UIEventListener filpLeftLis;
     //private UIEventListener flipRightLis;
 
+	private UILabel gold ;
+	private UILabel diamond ;
+	private UILabel sprit ;
     #region Window
 
     public override void OnEnter()
     {
         InstallHandlers();
+		refreshData ();
     }
+
+	public void refreshData(){
+		diamond.text = PlayerModelLocator.Instance.Diamond.ToString ();
+		gold.text = PlayerModelLocator.Instance.Gold.ToString ();
+		sprit.text = PlayerModelLocator.Instance.Sprit.ToString ();
+	}
 
     public override void OnExit()
     {
@@ -36,6 +46,11 @@ public class UIMainScreenWindow : Window
         startGameLis = UIEventListener.Get(Utils.FindChild(transform, "Button-Start").gameObject);
         filpLeftLis = UIEventListener.Get(Utils.FindChild(transform, "Button-FlipL").gameObject);
         //flipRightLis = UIEventListener.Get(Utils.FindChild(transform, "Button-FlipR").gameObject);
+
+		diamond = transform.FindChild("Fortune/Diamond/Coins-Value").gameObject.GetComponent<UILabel>();
+		gold = transform.FindChild("Fortune/Coins/Coins-Value").gameObject.GetComponent<UILabel>();
+		sprit = transform.FindChild("Fortune/Souls/Coins-Value").gameObject.GetComponent<UILabel>();
+
     }
 
     private void InstallHandlers()

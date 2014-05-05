@@ -95,7 +95,7 @@ public class MainMenuBarWindow : Window
 
     private void OnHeroClicked(GameObject go)
     {
-        if(HeroModelLocator.Instance.SCHeroList == null)
+        if (HeroModelLocator.Instance.SCHeroList == null || UIHerosDisplayWindow.IsCreateOne)
         {
             var csmsg = new CSHeroList();
             NetManager.SendMessage(csmsg);

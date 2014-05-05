@@ -100,7 +100,7 @@ namespace KXSGCodec
     /// <summary>
     /// 怪物分组
     /// </summary>
-    public List<int> MonsterGroup
+    public IList<int> MonsterGroup
     {
       get
       {
@@ -109,7 +109,7 @@ namespace KXSGCodec
       set
       {
         __isset.monsterGroup = true;
-        this._monsterGroup = value;
+        this._monsterGroup = (List<int>) value;
       }
     }
 

@@ -103,13 +103,27 @@ namespace com.kx.sglm.gs.battle.actor.impl
 			{
 				if (getHeroPoint(_i).Empty)
 				{
-					int _toFillIndex = PointDirection.LEFT.getChangedIndex(_i);
-					if (!HeroArrLogicHelper.isRightPointIndex(_toFillIndex))
-					{
-						continue;
-					}
-					ArrayUtils.switchArray(battlingHeroArr, _i, _toFillIndex);
+					fillSinglePointInside(_i);
 				}
+			}
+		}
+
+		protected internal virtual void fillSinglePointInside(int emptyPointIndex)
+		{
+			int _toFillIndex = emptyPointIndex;
+			bool _needSwitch = true;
+			do
+			{
+				_toFillIndex = PointDirection.LEFT.getChangedIndex(_toFillIndex);
+				if (!HeroArrLogicHelper.isRightPointIndex(_toFillIndex))
+				{
+					_needSwitch = false;
+					break;
+				}
+			} while (getHeroPoint(_toFillIndex).Empty);
+			if (_needSwitch)
+			{
+				ArrayUtils.switchArray(battlingHeroArr, emptyPointIndex, _toFillIndex);
 			}
 		}
 
@@ -131,9 +145,9 @@ namespace com.kx.sglm.gs.battle.actor.impl
 		public virtual void createNextWatingHero()
 		{
 			List<BattleFighter> _fighterList = new List<BattleFighter>();
-			foreach (int _index in CurActionArr)
+			for (int _i = 0; _i < curActionArr.Length; _i++)
 			{
-				_fighterList.Add(getActor(_index));
+				_fighterList.Add(getFighterFromCurActArr(_i));
 			}
 			joinWatingHeroList(_fighterList);
 		}
@@ -176,7 +190,6 @@ namespace com.kx.sglm.gs.battle.actor.impl
 				return;
 			}
 			battlingHeroArr[index] = point;
-			point.TeamIndex = index;
 			point.InBattle = true;
 		}
 
@@ -194,8 +207,13 @@ namespace com.kx.sglm.gs.battle.actor.impl
 		{
 			get
 			{
-				return getFighterByIndex(curFightIndex);
+				return getFighterFromCurActArr(curFightIndex);
 			}
+		}
+
+		protected internal virtual int getRealIndex(int arrIndex)
+		{
+			return curActionArr[arrIndex];
 		}
 
 		public override void doResetReset()
@@ -340,9 +358,15 @@ namespace com.kx.sglm.gs.battle.actor.impl
 			}
 		}
 
+		public virtual BattleFighter getFighterFromCurActArr(int fighterIndex)
+		{
+			int _realIndex = getRealIndex(fighterIndex);
+			return getFighterByIndex(_realIndex);
+		}
+
 		public override BattleFighter getFighterByIndex(int fighterIndex)
 		{
-			return battlingHeroArr[curActionArr[fighterIndex]].Fighter;
+			return battlingHeroArr[fighterIndex].Fighter;
 		}
 
 		public virtual int TotalSp

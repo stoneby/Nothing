@@ -11,6 +11,14 @@ namespace com.kx.sglm.core.util
 
 		public const float EPSILON = 0.00004f; // 再把误差调得大一点,现在这样,在150级时百万次检查大概会出现8次超出误差值
 
+		private static readonly Random RANDOM = new Random();
+
+
+		public static double random()
+		{
+			return RANDOM.NextDouble();
+		}
+
 		/// <summary>
 		/// 返回>=low, <=hi的整数随机数，均匀分布
 		/// </summary>
@@ -19,7 +27,7 @@ namespace com.kx.sglm.core.util
 		/// @return </param>
 		public static int random(int low, int hi)
 		{
-			return (int)(low + (hi - low + 0.9) * new Random(1).NextDouble());
+			return (int)(low + (hi - low + 0.9) * random());
 		}
 
 		/// <summary>
@@ -30,7 +38,7 @@ namespace com.kx.sglm.core.util
 		/// @return </param>
 		public static float random(float low, float hi)
 		{
-			float result = (float)(low + (hi - low) * new Random(1).NextDouble());
+			float result = (float)(low + (hi - low) * random());
 			if (result >= hi || result < low)
 			{
 				result = low;
@@ -55,9 +63,10 @@ namespace com.kx.sglm.core.util
 				return false;
 			}
 
-			double a = new Random(1).NextDouble();
+			double a = random();
 			return a < shakeNum;
 		}
+
 
 		/// <summary>
 		/// 从概率数组中挑选一个概率
@@ -153,7 +162,7 @@ namespace com.kx.sglm.core.util
 				itemListPer[i] = itemListPer[i - 1] + rateAry[i];
 			}
 			int maxper = itemListPer[itemListPer.Length - 1];
-			int per = MathUtils.random(0, maxper - 1);
+			int per = random(0, maxper - 1);
 			if ((per >= 0) && (per < itemListPer[0]))
 			{
 				return 0;

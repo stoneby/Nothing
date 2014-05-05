@@ -123,8 +123,18 @@ public class UITeamEditWindow : Window
 
     private void OnSortClicked(GameObject go)
     {
-        scHeroList.OrderType = (sbyte)((scHeroList.OrderType + 1) % sortContents.Count);
+        var orderType = HeroModelLocator.Instance.SCHeroList.OrderType;
+        orderType = (sbyte)((orderType + 1) % sortContents.Count);
+        scHeroList.OrderType = orderType;
         sortLabel.text = sortContents[scHeroList.OrderType];
+        HeroModelLocator.Instance.SortHeroList(orderType, scHeroList.HeroList);
+        for (int i = 0; i < scHeroList.HeroList.Count; i++)
+        {
+            var item = herosGrid.transform.GetChild(i);
+            var uUid = scHeroList.HeroList[i].Uuid;
+            item.GetComponent<HeroInfoPack>().Uuid = uUid;
+            ShowHero(orderType, item, uUid);
+        }
     }
 
     private void OnCancelClick(GameObject go)
@@ -335,48 +345,96 @@ public class UITeamEditWindow : Window
     {
         var heroInfo = HeroModelLocator.Instance.FindHero(uUid);
         var heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpl[heroInfo.TemplateId];
-        var jobSymobl = Utils.FindChild(heroTran, "JobSymbol").GetComponent<UISprite>();
-        var attack = Utils.FindChild(heroTran, "Attack").GetComponent<UILabel>();
-        jobSymobl.spriteName = UIHerosDisplayWindow.JobPrefix + heroTemplate.Job;
-        attack.text = heroInfo.Prop[RoleProperties.HERO_ATK].ToString(CultureInfo.InvariantCulture);
+        var sortRelated = Utils.FindChild(heroTran, "SortRelated");
+        var stars = Utils.FindChild(heroTran, "Rarity");
+        for (int index = 0; index < heroTemplate.Star; index++)
+        {
+            NGUITools.SetActive(stars.GetChild(index).gameObject, true);
+        }
+        for (int index = heroTemplate.Star; index < stars.transform.childCount; index++)
+        {
+            NGUITools.SetActive(stars.GetChild(index).gameObject, false);
+        }
         switch (orderType)
         {
             //ÈëÊÖË³ÐòÅÅÐò
             case 0:
+                ShowByLvl(sortRelated, heroInfo);
                 break;
 
             //Îä½«Ö°ÒµÅÅÐò
             case 1:
+                ShowByJob(sortRelated, heroInfo, heroTemplate);
                 break;
 
             //Îä½«Ï¡ÓÐ¶ÈÅÅÐò
-            case 3:
-
+            case 2:
+                ShowByLvl(sortRelated, heroInfo);
                 break;
 
             //ÕÕ¶ÓÎéË³ÐòÅÅÐò
-            case 4:
+            case 3:
+                ShowByLvl(sortRelated, heroInfo);
                 break;
 
             //¹¥»÷Á¦ÅÅÐò
-            case 5:
-
+            case 4:
+                ShowByJob(sortRelated, heroInfo, heroTemplate);
                 break;
 
             //HPÅÅÐò
-            case 6:
-
+            case 5:
+                ShowByHp(sortRelated, heroInfo);
                 break;
 
             //»Ø¸´Á¦ÅÅÐò
-            case 7:
-
+            case 6:
+                ShowByRecover(sortRelated, heroInfo);
                 break;
 
             //µÈ¼¶ÅÅÐò
-            case 8:
+            case 7:
+                ShowByLvl(sortRelated, heroInfo);
                 break;
         }
+    }
+
+    private void ShowByJob(Transform sortRelated, HeroInfo heroInfo, HeroTemplate heroTemplate)
+    {
+        var jobSymobl = Utils.FindChild(sortRelated, "JobSymbol").GetComponent<UISprite>();
+        var attack = Utils.FindChild(sortRelated, "Attack").GetComponent<UILabel>();
+        jobSymobl.spriteName = UIHerosDisplayWindow.JobPrefix + heroTemplate.Job;
+        attack.text = heroInfo.Prop[RoleProperties.HERO_ATK].ToString(CultureInfo.InvariantCulture);
+        NGUITools.SetActiveChildren(sortRelated.gameObject, false);
+        NGUITools.SetActive(jobSymobl.gameObject, true);
+        NGUITools.SetActive(attack.gameObject, true);
+    }
+    private void ShowByHp(Transform sortRelated, HeroInfo heroInfo)
+    {
+        var hp = Utils.FindChild(sortRelated, "HP-Title");
+        var hpValue = Utils.FindChild(sortRelated, "HP-Value").GetComponent<UILabel>();
+        hpValue.text = heroInfo.Prop[RoleProperties.HERO_HP].ToString(CultureInfo.InvariantCulture);
+        NGUITools.SetActiveChildren(sortRelated.gameObject, false);
+        NGUITools.SetActive(hp.gameObject, true);
+        NGUITools.SetActive(hpValue.gameObject, true);
+    }
+    private void ShowByRecover(Transform sortRelated, HeroInfo heroInfo)
+    {
+        var recover = Utils.FindChild(sortRelated, "Recover-Title");
+        var recoverValue = Utils.FindChild(sortRelated, "Recover-Value").GetComponent<UILabel>();
+        recoverValue.text = heroInfo.Prop[RoleProperties.HERO_RECOVER].ToString(CultureInfo.InvariantCulture);
+        NGUITools.SetActiveChildren(sortRelated.gameObject, false);
+        NGUITools.SetActive(recover.gameObject, true);
+        NGUITools.SetActive(recoverValue.gameObject, true);
+    }
+    private void ShowByLvl(Transform sortRelated, HeroInfo heroInfo)
+    {
+        var lvTitle = Utils.FindChild(sortRelated, "LV-Title");
+        var lvValue = Utils.FindChild(sortRelated, "LV-Value").GetComponent<UILabel>();
+        lvValue.text = heroInfo.Lvl.ToString(CultureInfo.InvariantCulture);
+        NGUITools.SetActiveChildren(sortRelated.gameObject, false);
+        NGUITools.SetActive(lvTitle.gameObject, true);
+        NGUITools.SetActive(lvValue.gameObject, true);
     }
 
     #endregion

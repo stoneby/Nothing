@@ -16,20 +16,20 @@ namespace com.kx.sglm.gs.battle.actor.impl
 
 		public override bool hasFightFighter()
 		{
-			// TODO Auto-generated method stub
-			return false;
+			return actorSize() > curFightIndex;
 		}
 
 		public override BattleFighter CurFighter
 		{
 			get
 			{
-				return CurActor;
+				return getActor(curFightIndex);
 			}
 		}
 
 		public override void doResetReset()
 		{
+			curFightIndex = 0;
 		}
 
 		public override bool Alive
@@ -48,8 +48,7 @@ namespace com.kx.sglm.gs.battle.actor.impl
 				_fighter.tryDead();
 				if (_fighter.Alive)
 				{
-					_isDead = false;
-					break;
+					_isDead = false; //这里不能Break，因为需要将所有fighter尝试死亡
 				}
 			}
 			Deadth = _isDead;

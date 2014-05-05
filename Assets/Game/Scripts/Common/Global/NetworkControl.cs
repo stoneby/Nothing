@@ -52,4 +52,29 @@ public class NetworkControl : MonoBehaviour {
         
 
     }
+
+    private float realTime = -10;
+    void Update()
+    {
+        //返回键
+        if (Application.platform == RuntimePlatform.Android && (Input.GetKeyDown(KeyCode.Escape)))
+        {
+            //....
+            if (Time.realtimeSinceStartup - realTime < 3)
+            {
+                Application.Quit();
+            }
+            else
+            {
+                realTime = Time.realtimeSinceStartup;
+                PopTextManager.PopTip("再按一次退出游戏");
+            }
+        }
+
+        // Home键
+        if (Application.platform == RuntimePlatform.Android && (Input.GetKeyDown(KeyCode.Home)))
+        {
+            Application.Quit();
+        }
+    } 
 }

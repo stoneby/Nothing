@@ -28,11 +28,23 @@ public class PopTextManager
         Object.Destroy(obj, showtime);
     }
 
+    private static float LastTime = -10;
+    private static float LastPos = 0;
     public static void PopTip(string str)
     {
-        
+        var t = Time.time;
+        if (t - LastTime < 3 && LastPos < 300)
+        {
+            LastPos += 40;
+        }
+        else
+        {
+            LastPos = 0;
+        }
+        LastTime = t;
+        Debug.Log("time = " + Time.time);
         //var now = DateTime.Now;
         //Logger.Log(Time.time);
-        ShowText(str, 3, 0, 0, 100, new Vector3(0,250,0));
+        ShowText(str, 3, 0, 0, 100, new Vector3(0, 250 - LastPos, 0));
     }
 }

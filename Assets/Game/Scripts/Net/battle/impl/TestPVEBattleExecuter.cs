@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace com.kx.sglm.gs.battle.executer.impl
 {
@@ -137,6 +138,7 @@ namespace com.kx.sglm.gs.battle.executer.impl
 
 		public override BattleScene createNextBattleScene()
 		{
+			Console.WriteLine("#TestPVEBattleExecuter.createNextBattleScene");
 			return new BattleScene(Battle, createSceneBattleArmy());
 		}
 
@@ -161,16 +163,16 @@ namespace com.kx.sglm.gs.battle.executer.impl
 		protected internal virtual HeroColor randomColor()
 		{
 			// TODO: 增加正式逻辑
-			// int _index = MathUtils.random(HeroColor.RED.getIndex(), HeroColor.PINK.getIndex());
-			int _index = MathUtils.random(HeroColor.RED.Index, HeroColor.RED.Index);
+		    int _index = MathUtils.random(HeroColor.RED.Index, HeroColor.PINK.Index);
+			//int _index = MathUtils.random(HeroColor.RED.Index, HeroColor.RED.Index);
 			return HeroColor.Values[_index];
 		}
 
 		public override BattleArmy createSceneBattleArmy()
 		{
 			BattleArmy _army = new BattleArmy(Battle);
-			_army.addActor(attackerTeam());
 			_army.addActor(MonsterTeam);
+			_army.addActor(attackerTeam());
 			return _army;
 		}
 
@@ -191,14 +193,20 @@ namespace com.kx.sglm.gs.battle.executer.impl
 		public override void beforeBattleStart(BattleScene battleScene, BattleRoundCountRecord record)
 		{
 			BattleArmy _army = battleScene.CurAttacker;
+	//		initSkill(attackerTeam(), record);
 			foreach (BattleTeam _team in _army.ActorList)
 			{
-				foreach (BattleFighter _fighter in _team.ActorList)
-				{
-					_fighter.SkillManager.beforeBattleStart(record);
-				}
+				initSkill(_team, record);
 			}
 
+		}
+
+		protected internal virtual void initSkill(BattleTeam team, BattleRoundCountRecord record)
+		{
+			foreach (BattleFighter _fighter in team.ActorList)
+			{
+				_fighter.SkillManager.beforeBattleStart(record);
+			}
 		}
 
 	}

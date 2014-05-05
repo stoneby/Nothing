@@ -1,4 +1,6 @@
-﻿namespace com.kx.sglm.gs.battle.input
+﻿using com.kx.sglm.gs.battle.enums;
+
+namespace com.kx.sglm.gs.battle.input
 {
 
 	using BattleTeam = com.kx.sglm.gs.battle.actor.impl.BattleTeam;
@@ -8,7 +10,7 @@
 	{
 
 		private int[] heroIndex;
-		private int sideIndex;
+		private int sideIndex = BattleSideEnum.SIDEA.index;
 		private int targetIndex;
 
 

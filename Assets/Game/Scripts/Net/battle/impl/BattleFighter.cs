@@ -114,7 +114,7 @@ namespace com.kx.sglm.gs.battle.actor.impl
 
 		public virtual void afterAttack(BattleFightRecord record)
 		{
-
+			skillManager.afterAttack(record);
 		}
 
 		public virtual void afterDefence(BattleFightRecord record)

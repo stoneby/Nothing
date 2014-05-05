@@ -10,7 +10,7 @@
 
 		private class BattleSideEnumAnonymousInnerClassHelper : BattleSideEnum
 		{
-			public BattleSideEnumAnonymousInnerClassHelper() : base(0)
+			public BattleSideEnumAnonymousInnerClassHelper() : base(1)
 			{
 			}
 
@@ -26,7 +26,7 @@
 
 		private class BattleSideEnumAnonymousInnerClassHelper2 : BattleSideEnum
 		{
-			public BattleSideEnumAnonymousInnerClassHelper2() : base(1)
+			public BattleSideEnumAnonymousInnerClassHelper2() : base(0)
 			{
 			}
 
@@ -69,7 +69,7 @@
 			return VALUES[index];
 		}
 
-		private static readonly BattleSideEnum[] VALUES = new BattleSideEnum[] {SIDEA, SIDEB};
+		private static readonly BattleSideEnum[] VALUES = new BattleSideEnum[] {SIDEB, SIDEA};
 
 	}
 }

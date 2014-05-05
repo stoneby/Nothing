@@ -17,27 +17,19 @@ public class UIHerosDisplayWindow : Window
     private UIEventListener teamBuildLis;
     private UIEventListener heroSellLis;
     private UIEventListener backBtnLis;
-    private UIEventListener sortBtnLis;
     private UIEventListener createOneLis;
     private Transform heroViewPage;
     private Transform teamBuildPage;
     private Transform heroMixPage;
     private Transform heroSellPage;
-    public const string JobPrefix = "icon_zhiye_";
     private SCHeroList scHeroList;
-    private readonly List<string> sortContents = new List<string>
-                                                     {
-                                                         "入手排序",
-                                                         "职业排序",
-                                                         "稀有度排序",
-                                                         "队伍排序",
-                                                         "攻击力排序",
-                                                         "HP排序",
-                                                         "回复力排序",
-                                                         "等级排序",
-                                                     };
+    private sbyte cachedOrderType;
+
     //Just for demo.
+    public static bool IsCreateOne;
     public static int CurTemplateId;
+    public const string JobPrefix = "icon_zhiye_";
+
 
     #endregion
 
@@ -45,21 +37,21 @@ public class UIHerosDisplayWindow : Window
 
     public override void OnEnter()
     {
+        IsCreateOne = false;
         HideOtherExceptMe(heroViewPage);
+        cachedOrderType = HeroModelLocator.Instance.SCHeroList.OrderType;
         InstallHandlers(); 
-        scHeroList = HeroModelLocator.Instance.SCHeroList;
-        sortLabel.text = sortContents[scHeroList.OrderType];
-        //为外网demo.
-        heroNums.text = string.Format("{0}/{1}", scHeroList.HeroList.Count, 100);
-        var heroItemsPage = WindowManager.Instance.Show(typeof(UIHeroItemsPageWindow), true);
-        heroItemsPage.GetComponent<UIHeroItemsPageWindow>().RowToShow = 3;
+        WindowManager.Instance.Show(typeof(UIHeroItemsPageWindow), true);
     }
 
     public override void OnExit()
     {
         UnInstallHandlers();
-        var csmsg = new CSHeroChangeOrder {OrderType = scHeroList.OrderType};
-        NetManager.SendMessage(csmsg);
+        if (HeroModelLocator.Instance.SCHeroList.OrderType != cachedOrderType)
+        {
+            var csmsg = new CSHeroChangeOrder {OrderType = scHeroList.OrderType};
+            NetManager.SendMessage(csmsg);
+        }
     }
 
     #endregion
@@ -71,6 +63,7 @@ public class UIHerosDisplayWindow : Window
     /// </summary>
     private void Awake()
     {
+        scHeroList = HeroModelLocator.Instance.SCHeroList;
         heroViewLis = UIEventListener.Get(Utils.FindChild(transform, "Button-HeroView").gameObject);
         teamBuildLis = UIEventListener.Get(Utils.FindChild(transform, "Button-TeamBuild").gameObject);
         heroSellLis = UIEventListener.Get(Utils.FindChild(transform, "Button-HeroSell").gameObject);
@@ -81,9 +74,6 @@ public class UIHerosDisplayWindow : Window
         teamBuildPage = Utils.FindChild(transform, "Page-TeamBuild");
         heroMixPage = Utils.FindChild(transform, "Page-HeroMix");
         heroSellPage = Utils.FindChild(transform, "Page-HeroSell");
-        heroNums = Utils.FindChild(heroViewPage.transform, "HeroNums").GetComponent<UILabel>();
-        sortBtnLis = UIEventListener.Get(Utils.FindChild(heroViewPage.transform, "Button-Sort").gameObject);
-        sortLabel = sortBtnLis.GetComponentInChildren<UILabel>();
     }
 
     /// <summary>
@@ -95,7 +85,6 @@ public class UIHerosDisplayWindow : Window
         teamBuildLis.onClick += OnTeamBuildClicked;
         heroSellLis.onClick += OnHeroSellClicked;
         backBtnLis.onClick += OnBackClicked;
-        sortBtnLis.onClick += OnSortClicked;
         createOneLis.onClick += OnCreateOne;
     }
 
@@ -113,14 +102,9 @@ public class UIHerosDisplayWindow : Window
 
     private void OnCreateOne(GameObject go)
     {
+        IsCreateOne = true;
         var csmsg = new CSHeroCreateOne();
         NetManager.SendMessage(csmsg);
-    }
-
-    private void OnSortClicked(GameObject go)
-    {
-        scHeroList.OrderType = (sbyte)((scHeroList.OrderType + 1) % sortContents.Count);
-        sortLabel.text = sortContents[scHeroList.OrderType];
     }
 
     /// <summary>

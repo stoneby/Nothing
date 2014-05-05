@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using UnityEngine;
 
 namespace com.kx.sglm.gs.battle.data.record
 {
@@ -115,6 +118,15 @@ namespace com.kx.sglm.gs.battle.data.record
 
 		public virtual void finishIndexRecord()
 		{
+			StringBuilder _sb = new StringBuilder();
+		    int i = 0;
+			foreach (PointRecord _point in curIndexRecord.AllPointList)
+			{
+				_sb.Append(string.Format("({0:D})index:{1:D}; color:{2:D}", i, _point.Index, _point.Color));
+			    i++;
+			}
+			//Console.WriteLine(_sb.ToString());
+            Debug.Log(_sb.ToString());
 			curIndexRecord = null;
 		}
 

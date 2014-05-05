@@ -20,9 +20,6 @@ public class UIHeroInfoWindow : Window
     private UIEventListener skillTabLis;
     private UIEventListener talentTabLis;
 
-    public GameObject StarPrefab;
-    public GameObject LimitFillPrefab;
-    public GameObject LimitEmptyPrefab;
     private GameObject skillContent;
     private GameObject talentContent;
     private GameObject stars;
@@ -46,6 +43,9 @@ public class UIHeroInfoWindow : Window
     #region Public Fields
 
     public static long Uuid;
+    public GameObject StarPrefab;
+    public GameObject LimitFillPrefab;
+    public GameObject LimitEmptyPrefab;
 
     #endregion
 

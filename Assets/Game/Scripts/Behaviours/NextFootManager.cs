@@ -1,4 +1,7 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
+using Assets.Game.Scripts.Common.Model;
+using com.kx.sglm.gs.battle.data.record;
 using UnityEngine;
 
 public class NextFootManager : MonoBehaviour
@@ -6,9 +9,9 @@ public class NextFootManager : MonoBehaviour
     public GameObject NextPrefab;
 
     private GameObject leftContainer;
-    private ArrayList leftObjs;
+    private List<GameObject> leftObjs;
     private ArrayList rightObjs;
-    private int[] leftFootIndexes;
+    private PointRecord[] leftFootIndexes;
     private bool haveInit;
 
     // Use this for initialization
@@ -17,11 +20,11 @@ public class NextFootManager : MonoBehaviour
         leftContainer = GameObject.Find("Anchor-topleft");
         GameObject.Find("Anchor-topright");
 
-        leftFootIndexes = new int[3];
-        leftObjs = new ArrayList();
+        leftFootIndexes = new PointRecord[3];
+        leftObjs = new List<GameObject>();
         for (var i = 0; i < leftFootIndexes.Length; i++)
         {
-            leftFootIndexes[i] = Random.Range(BattleType.FootMin, BattleType.FootMax);
+            leftFootIndexes[i] = null;
             var obj = NGUITools.AddChild(leftContainer, NextPrefab);
             leftObjs.Add(obj);
         }
@@ -32,22 +35,21 @@ public class NextFootManager : MonoBehaviour
     {
         if (!haveInit)
         {
-            StartCoroutine(Init());
+            InitTest();
             haveInit = true;
         }
     }
 
-    IEnumerator Init()
+    private void InitTest()
     {
         for (int i = 0; i < leftFootIndexes.Length; i++)
         {
-            yield return new WaitForSeconds(.5f);
-            leftFootIndexes[i] = Random.Range(BattleType.FootMin, BattleType.FootMax);
+            leftFootIndexes[i] = null;//BattleModelLocator.Instance.GetNextFromNextList();
 
             var obj = leftObjs[i] as GameObject;
             obj.SetActive(true);
             var sp = obj.GetComponent<UISprite>();
-            sp.spriteName = "pck_" + leftFootIndexes[i].ToString();
+            //sp.spriteName = "pck_" + leftFootIndexes[i].ToString();
             var tp = obj.GetComponent<TweenPosition>();
             tp.from = new Vector3(-100, -32, 0);
             tp.to = new Vector3(265 - 65 * i, -32, 0);
@@ -58,15 +60,17 @@ public class NextFootManager : MonoBehaviour
 
     public int GetNext()
     {
+
         if (!haveInit || leftFootIndexes == null)
         {
-            return Random.Range(BattleType.FootMin, BattleType.FootMax);
+            return BattleModelLocator.Instance.GetNextFromNextList(0).Color;
         }
-        var theindex = leftFootIndexes[0];
 
-        leftFootIndexes[0] = leftFootIndexes[1];
-        leftFootIndexes[1] = leftFootIndexes[2];
-        leftFootIndexes[2] = Random.Range(BattleType.FootMin, BattleType.FootMax);
+        var theindex = (leftFootIndexes[0] == null) ? BattleModelLocator.Instance.GetNextFromNextList(1).Color : leftFootIndexes[0].Color;
+
+        leftFootIndexes[0] = (leftFootIndexes[1] == null) ? BattleModelLocator.Instance.GetNextFromNextList(2) : leftFootIndexes[1];
+        leftFootIndexes[1] = (leftFootIndexes[2] == null) ? BattleModelLocator.Instance.GetNextFromNextList(3) : leftFootIndexes[2];
+        leftFootIndexes[2] = BattleModelLocator.Instance.GetNextFromNextList(4);
 
         var obj = leftObjs[1] as GameObject;
         var tp = obj.GetComponent<TweenPosition>();
@@ -88,7 +92,7 @@ public class NextFootManager : MonoBehaviour
         leftObjs.RemoveAt(0);
         leftObjs.Add(obj);
         var sp = obj.GetComponent<UISprite>();
-        sp.spriteName = "pck_" + leftFootIndexes[2].ToString();
+        sp.spriteName = "pck_" + leftFootIndexes[2].Color.ToString();
         tp = obj.GetComponent<TweenPosition>();
         tp.ResetToBeginning();
         tp.from = new Vector3(-100, -32, 0);

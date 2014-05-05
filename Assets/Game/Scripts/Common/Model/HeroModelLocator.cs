@@ -92,36 +92,45 @@ public sealed class HeroModelLocator
                 break;
 
             //按武将稀有度排序
-            case 3:
+            case 2:
                 heros.Sort(CompareHeroByRarity);
                 break;
 
             //按照队伍顺序排序
-            case 4:
+            case 3:
                 break;
 
             //按攻击力排序
-            case 5:
+            case 4:
                 heros.Sort(CompareHeroByAttack);
                 break;
 
             //按HP排序
-            case 6:
+            case 5:
                 heros.Sort(CompareHeroByHp);
                 break;
 
             //按回复力排序
-            case 7:
+            case 6:
                 heros.Sort(CompareHeroByRecover);
                 break;
 
             //按等级排序
-            case 8:
-                heros.Sort(CompareHeroByMp);
+            case 7:
+                heros.Sort(CompareHeroByLv);
                 break;
         }
     }
 
+    public HeroTemplate GetHeroByTemplateId(int templateid)
+    {
+        var hero = HeroTemplates;
+        if (hero != null && hero.HeroTmpl != null && hero.HeroTmpl.ContainsKey(templateid))
+        {
+            return hero.HeroTmpl[templateid];
+        }
+        return null;
+    }
     #endregion
 
     #region Private Methods
@@ -216,7 +225,7 @@ public sealed class HeroModelLocator
     /// <returns>The result of the comparation</returns>
     private int CompareHeroByRecover(HeroInfo p1, HeroInfo p2)
     {
-        int compareResult = p1.Prop[RoleProperties.HERO_HP].CompareTo(p2.Prop[RoleProperties.HERO_HP]);
+        int compareResult = p1.Prop[RoleProperties.HERO_RECOVER].CompareTo(p2.Prop[RoleProperties.HERO_RECOVER]);
         if (compareResult == 0)
         {
             return p1.TemplateId.CompareTo(p2.TemplateId);
@@ -225,14 +234,14 @@ public sealed class HeroModelLocator
     }
 
     /// <summary>
-    /// The comparation of hero info by mp.
+    /// The comparation of hero info by level.
     /// </summary>
     /// <param name="p1">The left hero info.</param>
     /// <param name="p2">The right hero info.</param>
     /// <returns>The result of the comparation</returns>
-    private int CompareHeroByMp(HeroInfo p1, HeroInfo p2)
+    private int CompareHeroByLv(HeroInfo p1, HeroInfo p2)
     {
-        int compareResult = p1.Prop[RoleProperties.HERO_MP].CompareTo(p2.Prop[RoleProperties.HERO_MP]);
+        int compareResult = p1.Lvl.CompareTo(p2.Lvl);
         if (compareResult == 0)
         {
             return p1.TemplateId.CompareTo(p2.TemplateId);

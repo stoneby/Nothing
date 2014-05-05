@@ -25,7 +25,7 @@ namespace com.kx.sglm.gs.battle.factory.creater
 			return _fighterList;
 		}
 
-		public static IList<FighterInfo> createListFormMsgMonster(BattleSideEnum side, IList<int?> monsterGroup, IList<BattleMsgMonster> msgMonsterList)
+		public static IList<FighterInfo> createListFormMsgMonster(BattleSideEnum side, IList<int> monsterGroup, IList<BattleMsgMonster> msgMonsterList)
 		{
 			IList<FighterInfo> _monsterList = new List<FighterInfo>();
 
@@ -70,19 +70,48 @@ namespace com.kx.sglm.gs.battle.factory.creater
 			return _prop;
 		}
 
-		public static FighterInfo createFighterFromMsgMonster(BattleSideEnum side, BattleMsgMonster msgMonster)
-		{
-			FighterInfo _info = new FighterInfo();
-			_info.Index = msgMonster.Index;
-			_info.BattleSide = side;
-			_info.addFighterProp(BattleKeyConstants.BATTLE_KEY_HERO_TEMPLATE, msgMonster.TemplateId);
-			_info.FighterType = FighterType.MONSTER;
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final com.kx.sglm.gs.battle.utils.FighterAProperty _prop = createFighterAProp(msgMonster.getFighteProp());
+        public static FighterInfo createFighterFromMsgMonster(BattleSideEnum side, BattleMsgMonster msgMonster)
+        {
+            FighterInfo _info = new FighterInfo();
+            _info.Index = msgMonster.Index;
+            _info.BattleSide = side;
+            _info.addNormalProp(BattleKeyConstants.BATTLE_KEY_HERO_TEMPLATE, msgMonster.TemplateId);
+            _info.FighterType = FighterType.MONSTER;
+            createMonsterDropIntDic(_info, msgMonster.DropMap);
+            //JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
+            //ORIGINAL LINE: final com.kx.sglm.gs.battle.utils.FighterAProperty _prop = createFighterAProp(msgMonster.getFighteProp());
             FighterAProperty _prop = createFighterAPropInt(msgMonster.FighteProp);
-			_info.BattleProperty = _prop;
-			return _info;
-		}
+            _info.BattleProperty = _prop;
+            return _info;
+        }
+
+	    protected static void createMonsterDropIntDic(FighterInfo info, IDictionary<sbyte, int> dropMap)
+	    {
+	        Dictionary<sbyte?, int?> _dropNullableDic = new Dictionary<sbyte?, int?>();
+	        foreach (KeyValuePair<sbyte, int> _dropInfo in dropMap)
+	        {
+	            _dropNullableDic.Add(_dropInfo.Key, _dropInfo.Value);
+	        }
+            createMonsterDrop(info, _dropNullableDic);
+
+	    }
+
+        protected internal static void createMonsterDrop(FighterInfo info, IDictionary<sbyte?, int?> dropMap)
+        {
+            setMonsterDrop(BattleKeyConstants.BATTLE_PROP_MONSTER_DROP_COIN, info, dropMap);
+            setMonsterDrop(BattleKeyConstants.BATTLE_PROP_MONSTER_DROP_HERO, info, dropMap);
+            setMonsterDrop(BattleKeyConstants.BATTLE_PROP_MONSTER_DROP_ITEM, info, dropMap);
+        }
+
+        protected internal static void setMonsterDrop(int key, FighterInfo info, IDictionary<sbyte?, int?> dropMap)
+        {
+            sbyte? _byteKey = (sbyte)key;
+            if (dropMap.ContainsKey(_byteKey))
+            {
+                int? _dropHero = dropMap[_byteKey];
+                info.addNormalProp(key, _dropHero);
+            }
+        }
 
         public static FighterAProperty createFighterAPropInt(IDictionary<int, int> fighterDictionary)
         {

@@ -1,4 +1,6 @@
-﻿namespace com.kx.sglm.gs.battle.logic
+﻿using System;
+
+namespace com.kx.sglm.gs.battle.logic
 {
 
 	using IBattleActor = com.kx.sglm.gs.battle.actor.IBattleActor;
@@ -102,7 +104,6 @@
 			{
 				setFinish();
 				onFinish();
-				loopCount++; // 每生成一个新动作就会增加一回合
 			}
 		}
 
@@ -117,6 +118,8 @@
 				onStart();
 				createNewSubAction();
 				firstEnter = false;
+//JAVA TO C# CONVERTER WARNING: The .NET Type.FullName property will not always yield results identical to the Java Class.getName method:
+				Console.WriteLine("First enter: " + this.GetType().FullName);
 			}
 		}
 
@@ -145,6 +148,7 @@
 				return;
 			}
 			curSubAction = createSubActionByType();
+			loopCount++; // 每生成一个新动作就会增加一回合
 			initOnCreateSubAction();
 	//		if (curSubAction == null) {
 	//			// TODO: do you need log?

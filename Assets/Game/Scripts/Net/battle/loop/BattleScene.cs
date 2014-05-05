@@ -4,6 +4,7 @@
 	using BattleArmy = com.kx.sglm.gs.battle.actor.impl.BattleArmy;
 	using BattleEndRecord = com.kx.sglm.gs.battle.data.record.BattleEndRecord;
 	using BattleRecordConstants = com.kx.sglm.gs.battle.data.record.BattleRecordConstants;
+	using BattleRoundCountRecord = com.kx.sglm.gs.battle.data.record.BattleRoundCountRecord;
 	using BattleState = com.kx.sglm.gs.battle.enums.BattleState;
 	using com.kx.sglm.gs.battle.logic;
 
@@ -74,8 +75,9 @@
 
 		public override void onStart()
 		{
-			// TODO Auto-generated method stub
-
+			BattleRoundCountRecord _record = Record.OrCreateRoundCountRecord;
+			Battle.BattleExcuter.beforeBattleStart(this, _record);
+			Record.finishCurRoundCountRecord();
 		}
 
 	}

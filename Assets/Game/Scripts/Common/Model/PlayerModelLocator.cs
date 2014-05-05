@@ -29,4 +29,10 @@ public sealed class PlayerModelLocator
     public int Exp;
     public long Diamond;
     public long Gold;
+	public int Sprit;
+//    public 
+	public int HeroMax;
+	public int ItemMax;
+	public int ExtendHeroTimes;
+	public int ExtendItemTimes;
 }

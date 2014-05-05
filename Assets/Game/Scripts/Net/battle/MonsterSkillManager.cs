@@ -1,4 +1,6 @@
-﻿namespace com.kx.sglm.gs.battle.skill
+﻿using System;
+
+namespace com.kx.sglm.gs.battle.skill
 {
 
 	using BattleFighter = com.kx.sglm.gs.battle.actor.impl.BattleFighter;
@@ -25,14 +27,7 @@
 
 		public override void countDownRound(BattleRoundCountRecord roundRecord)
 		{
-			if (needAttack())
-			{
-				resetLeftRound();
-			}
-			else
-			{
-				countDownRound();
-			}
+			countDownRound();
 			recordRoundCount(roundRecord);
 		}
 
@@ -45,9 +40,14 @@
 		protected internal virtual void recordRoundCount(BattleRoundCountRecord roundRecord)
 		{
 			SingleActionRecord _record = roundRecord.OrCreateRecord;
-			BattleRecordHelper.initFighterSingleRecord(Fighter, _record);
-			_record.addState(BattleKeyConstants.BATTLE_STATE_MONSTER_SKILL_ROUND, LeftRound);
+			recordRound(_record);
 			roundRecord.finishCurRecord();
+		}
+
+		protected internal virtual void recordRound(SingleActionRecord singleRecord)
+		{
+			BattleRecordHelper.initFighterSingleRecord(Fighter, singleRecord);
+			singleRecord.addState(BattleKeyConstants.BATTLE_STATE_MONSTER_SKILL_ROUND, LeftRound);
 		}
 
 		public virtual bool needAttack()
@@ -84,6 +84,7 @@
 		protected internal virtual void countDownRound()
 		{
 			leftRound--;
+			Console.WriteLine("cur left round is " + leftRound + ", index is " + Fighter.Index);
 		}
 
 		public override void beforeAttack(BattleFightRecord record)
@@ -94,6 +95,8 @@
 		public override void afterAttack(BattleFightRecord record)
 		{
 			// 也许会更换技能
+			resetLeftRound();
+			recordRound(record.AttackAction);
 		}
 
 	}

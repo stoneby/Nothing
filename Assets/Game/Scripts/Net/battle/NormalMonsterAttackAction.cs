@@ -35,7 +35,6 @@ namespace com.kx.sglm.gs.battle.singleton
 		public override void onAddBuff(BattleFighter attacker, BattleTeam defencerTeam)
 		{
 			// cur nothing
-
 		}
 
 		public override int getAttackRatio(BattleFighter attacker)
@@ -55,9 +54,10 @@ namespace com.kx.sglm.gs.battle.singleton
 		{
 			IList<BattleFighter> _fighterList = new List<BattleFighter>();
 			int _index = MathUtils.random(0, BattleConstants.HERO_BATTLE_ARR_LENGTH - 1);
-			_fighterList.Add(defencerTeam.getActor(_index));
+			_fighterList.Add(defencerTeam.getFighterByIndex(_index));
 			return _fighterList;
 		}
+
 	}
 
 }

@@ -47,16 +47,14 @@ namespace com.kx.sglm.gs.battle.singleton
 		{
 			IList<BattleFighter> _defencerList = new List<BattleFighter>();
 			int _curTargetIndex = attacker.OwnerTeam.getIntProp(BattleKeyConstants.BATTLE_KEY_HERO_TEAM_TARGET);
-			int _monsterSize = defencerTeam.actorSize();
+	//		int _monsterSize = defencerTeam.actorSize();
 			BattleFighter _defencer = defencerTeam.getActor(_curTargetIndex);
-			for (int _i = 0; _i < _monsterSize; _i++)
-			{
-				if (!_defencer.Alive) // TODO: 这里可能还会有其他情况不能被打
-				{
-					break;
-				}
-				_defencer = defencerTeam.getActor(_i);
-			}
+	//		for (int _i = 0; _i < _monsterSize; _i++) {
+	//			if (_defencer.isAlive()) {// TODO: 这里可能还会有其他情况不能被打
+	//				break;
+	//			}
+	//			_defencer = defencerTeam.getActor(_i);
+	//		}
 			_defencerList.Add(_defencer);
 			return _defencerList;
 		}

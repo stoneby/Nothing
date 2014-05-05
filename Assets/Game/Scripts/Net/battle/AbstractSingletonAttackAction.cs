@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace com.kx.sglm.gs.battle.singleton
 {
@@ -41,6 +42,7 @@ namespace com.kx.sglm.gs.battle.singleton
 
 			fightRecord.finishCurDefecner();
 
+			Console.WriteLine("Fighter fight costHp " + _costHp);
 		}
 
 		protected internal virtual void initAttackRecord(BattleFighter attacker, BattleFightRecord fightRecord)

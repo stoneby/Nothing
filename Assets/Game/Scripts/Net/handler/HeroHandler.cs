@@ -1,4 +1,5 @@
 ﻿using KXSGCodec;
+using Property;
 
 namespace Assets.Game.Scripts.Net.handler
 {
@@ -42,6 +43,19 @@ namespace Assets.Game.Scripts.Net.handler
                         WindowManager.Instance.GetWindow<UILevelUpWindow>(typeof(UILevelUpWindow)).PropertyChangedNumber
                             =msg.getContent() as SCPropertyChangedNumber;
                     }
+					if(propertyChangedMsg.RoleType == 1){
+					//WindowManager.Instance.GetWindow<UIMainScreenWindow>(typeof(UIMainScreenWindow)).PropertyChangedNumber
+					//		=msg.getContent() as SCPropertyChangedNumber;
+
+					SCPropertyChangedNumber PropertyChangedNumber=msg.getContent() as SCPropertyChangedNumber;
+
+					PlayerModelLocator.Instance.Diamond=PropertyChangedNumber.PropertyChanged[RoleProperties.ROLEBASE_DIAMOND];
+					PlayerModelLocator.Instance.Sprit=PropertyChangedNumber.PropertyChanged[RoleProperties.ROLEBASE_HERO_SPIRIT];
+					PlayerModelLocator.Instance.Gold=PropertyChangedNumber.PropertyChanged[RoleProperties.ROLEBASE_GOLD];
+
+					var mainWindow = WindowManager.Instance.Show(typeof(UIMainScreenWindow), true);
+					mainWindow.GetComponent<UIMainScreenWindow>().refreshData();
+					}
                     break;
             }
         }

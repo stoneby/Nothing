@@ -29,6 +29,11 @@ namespace Assets.Game.Scripts.Net.handler
                 PlayerModelLocator.Instance.Exp = themsg.Exp;
                 PlayerModelLocator.Instance.Diamond = themsg.Diamond;
                 PlayerModelLocator.Instance.Gold = themsg.Gold;
+				PlayerModelLocator.Instance.Sprit = themsg.Spirit;
+				PlayerModelLocator.Instance.ExtendHeroTimes = themsg.HeroExtendTimes;
+				PlayerModelLocator.Instance.ExtendItemTimes = themsg.ItemExtendTimes;
+				PlayerModelLocator.Instance.HeroMax = themsg.HeroMax;
+				PlayerModelLocator.Instance.ItemMax = themsg.ItemMax;
             }
             EventManager.Instance.Post(new LoginEvent() { Message = "This is login event." });
             //WindowManager.Instance.Show(typeof(MainMenuWindow), true);

@@ -1,4 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Security.Permissions;
+using com.kx.sglm.gs.battle;
+using com.kx.sglm.gs.battle.data;
+using com.kx.sglm.gs.battle.data.record;
+using com.kx.sglm.gs.battle.logic.loop;
 using KXSGCodec;
 using UnityEngine;
 using System.Collections;
@@ -28,10 +33,27 @@ namespace Assets.Game.Scripts.Common.Model
 
         //PVE战斗数据
         public sbyte BattleType;
-        public List<BattleMsgHero> FighterList;
+        //public List<BattleMsgHero> FighterList;
         public List<int> MonsterGroup;
-        public List<BattleMsgMonster> MonsterList;
+        //public List<BattleMsgMonster> MonsterList;
         public int RaidID;
         public long Uuid;
+
+        public BattleSource Source;
+        public IList<FighterInfo> HeroList;
+        public IList<FighterInfo> MonsterList;
+        public int MonsterIndex;
+        public Battle MainBattle;
+        public List<PointRecord> NextList;
+
+        public PointRecord GetNextFromNextList(int f)
+        {
+            Debug.Log("Get Next ===== " + f);
+            if (MainBattle == null || NextList.Count == 0) return null;
+            var k = NextList[0];
+            NextList.RemoveAt(0);
+            
+            return k;
+        }
     }
 }

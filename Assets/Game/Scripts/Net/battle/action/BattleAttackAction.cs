@@ -1,4 +1,6 @@
-﻿namespace com.kx.sglm.gs.battle.logic.action
+﻿using System;
+
+namespace com.kx.sglm.gs.battle.logic.action
 {
 
 	using BattleFighter = com.kx.sglm.gs.battle.actor.impl.BattleFighter;
@@ -49,9 +51,12 @@
 				//TODO: 可能有其他的逻辑处理
 				return;
 			}
+			Console.WriteLine("#BattleAttackAction.onAction, hero type is " + attacker.OwnerTeam.FighterType.Index);
+			Console.WriteLine("#BattleAttackAction.onAction, hero index is " + attacker.Index);
 //JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
 //ORIGINAL LINE: final com.kx.sglm.gs.battle.data.record.BattleTeamFightRecord _teamReocrd = getBattle().getRecord().getOrCreateTeamFighterRecord();
 			BattleTeamFightRecord _teamReocrd = Battle.Record.OrCreateTeamFighterRecord;
+			_teamReocrd.TeamSide = attacker.Side;
 			BattleFightRecord _figherRecord = _teamReocrd.OrCreateRecord;
 			AbstractSingletonAttackAction _fightAction = attacker.FightAction;
 			_fightAction.onAction(attacker, defencerTeam, _figherRecord);

@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.Globalization;
+using KXSGCodec;
 using Property;
 using UnityEngine;
 using System.Collections;
@@ -8,8 +10,24 @@ public class UIHeroItemsPageWindow : Window
     private UIPanel panel;
     private UIGrid grid;
     private GameObject offset;
+    private UIEventListener sortBtnLis;
+    private readonly List<string> sortContents = new List<string>
+                                                     {
+                                                         "»Î ÷≈≈–Ú",
+                                                         "÷∞“µ≈≈–Ú",
+                                                         "œ°”–∂»≈≈–Ú",
+                                                         "∂”ŒÈ≈≈–Ú",
+                                                         "π•ª˜¡¶≈≈–Ú",
+                                                         "HP≈≈–Ú",
+                                                         "ªÿ∏¥¡¶≈≈–Ú",
+                                                         "µ»º∂≈≈–Ú",
+                                                     };
+    private UILabel heroNums;
+    private UILabel sortLabel;
+    private SCHeroList scHeroList;
 
     public GameObject HeroPrefab;
+    public GameObject StarPrefab;
 
     private int rowToShow;
     public int RowToShow
@@ -37,13 +55,17 @@ public class UIHeroItemsPageWindow : Window
 
     public override void OnEnter()
     {
+        scHeroList = HeroModelLocator.Instance.SCHeroList;
+        sortLabel.text = sortContents[scHeroList.OrderType];
+		heroNums.text = string.Format("{0}/{1}", scHeroList.HeroList.Count, PlayerModelLocator.Instance.HeroMax);
         StartCoroutine(FillHeroList());
         Refresh();
+        InstallHandlers();
     }
 
     public override void OnExit()
     {
-
+        UnInstallHandlers();
     }
 
     #endregion
@@ -54,6 +76,26 @@ public class UIHeroItemsPageWindow : Window
         panel = GetComponentInChildren<UIPanel>();
         grid = GetComponentInChildren<UIGrid>();
         offset = Utils.FindChild(transform, "Offset").gameObject;
+        heroNums = Utils.FindChild(transform, "HeroNums").GetComponent<UILabel>();
+        sortBtnLis = UIEventListener.Get(Utils.FindChild(transform, "Button-Sort").gameObject);
+        sortLabel = sortBtnLis.GetComponentInChildren<UILabel>();
+    }
+
+    private void InstallHandlers()
+    {
+        sortBtnLis.onClick += OnSortClicked;
+    }
+
+    private void UnInstallHandlers()
+    {
+        sortBtnLis.onClick -= OnSortClicked;
+    }
+
+    private void OnSortClicked(GameObject go)
+    {
+        scHeroList.OrderType = (sbyte)((scHeroList.OrderType + 1) % sortContents.Count);
+        sortLabel.text = sortContents[scHeroList.OrderType];
+        Refresh();
     }
 
     /// <summary>
@@ -82,8 +124,8 @@ public class UIHeroItemsPageWindow : Window
     /// </summary>
     private void Refresh()
     {
-        var orderType = HeroModelLocator.Instance.SCHeroList.OrderType;
-        HeroModelLocator.Instance.SortHeroList(orderType, HeroModelLocator.Instance.SCHeroList.HeroList);
+        var orderType = scHeroList.OrderType;
+        HeroModelLocator.Instance.SortHeroList(orderType, scHeroList.HeroList);
         for (int i = 0; i < HeroModelLocator.Instance.SCHeroList.HeroList.Count; i++)
         {
             var item = grid.transform.GetChild(i);
@@ -103,47 +145,95 @@ public class UIHeroItemsPageWindow : Window
     {
         var heroInfo = HeroModelLocator.Instance.FindHero(uUid);
         var heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpl[heroInfo.TemplateId];
-        var jobSymobl = Utils.FindChild(heroTran, "JobSymbol").GetComponent<UISprite>();
-        var attack = Utils.FindChild(heroTran, "Attack").GetComponent<UILabel>();
-        jobSymobl.spriteName = UIHerosDisplayWindow.JobPrefix + heroTemplate.Job;
-        attack.text = heroInfo.Prop[RoleProperties.HERO_ATK].ToString(CultureInfo.InvariantCulture);
+        var sortRelated = Utils.FindChild(heroTran, "SortRelated");
+        var stars = Utils.FindChild(heroTran, "Rarity");
+        for (int index = 0; index < heroTemplate.Star; index++)
+        {
+            NGUITools.SetActive(stars.GetChild(index).gameObject, true);
+        }
+        for (int index = heroTemplate.Star; index < stars.transform.childCount; index++)
+        {
+            NGUITools.SetActive(stars.GetChild(index).gameObject, false);
+        }
         switch (orderType)
         {
             //»Î ÷À≥–Ú≈≈–Ú
             case 0:
+                ShowByLvl(sortRelated, heroInfo);
                 break;
 
             //Œ‰Ω´÷∞“µ≈≈–Ú
             case 1:
+                ShowByJob(sortRelated, heroInfo, heroTemplate);
                 break;
 
             //Œ‰Ω´œ°”–∂»≈≈–Ú
-            case 3:
-
+            case 2:
+                ShowByLvl(sortRelated, heroInfo);
                 break;
 
             //’’∂”ŒÈÀ≥–Ú≈≈–Ú
-            case 4:
+            case 3:
+                ShowByLvl(sortRelated, heroInfo);
                 break;
 
             //π•ª˜¡¶≈≈–Ú
-            case 5:
-
+            case 4:
+                ShowByJob(sortRelated, heroInfo, heroTemplate);
                 break;
 
             //HP≈≈–Ú
-            case 6:
-
+            case 5:
+                ShowByHp(sortRelated, heroInfo);
                 break;
 
             //ªÿ∏¥¡¶≈≈–Ú
-            case 7:
-
+            case 6:
+                ShowByRecover(sortRelated, heroInfo);
                 break;
 
             //µ»º∂≈≈–Ú
-            case 8:
+            case 7:
+                ShowByLvl(sortRelated, heroInfo);
                 break;
         }
+    }
+
+    private void ShowByJob(Transform sortRelated, HeroInfo heroInfo, HeroTemplate heroTemplate)
+    {
+        var jobSymobl = Utils.FindChild(sortRelated, "JobSymbol").GetComponent<UISprite>();
+        var attack = Utils.FindChild(sortRelated, "Attack").GetComponent<UILabel>();
+        jobSymobl.spriteName = UIHerosDisplayWindow.JobPrefix + heroTemplate.Job;
+        attack.text = heroInfo.Prop[RoleProperties.HERO_ATK].ToString(CultureInfo.InvariantCulture);
+        NGUITools.SetActiveChildren(sortRelated.gameObject, false);
+        NGUITools.SetActive(jobSymobl.gameObject, true);
+        NGUITools.SetActive(attack.gameObject, true);
+    }
+    private void ShowByHp(Transform sortRelated, HeroInfo heroInfo)
+    {
+        var hp = Utils.FindChild(sortRelated, "HP-Title");
+        var hpValue = Utils.FindChild(sortRelated, "HP-Value").GetComponent<UILabel>();
+        hpValue.text = heroInfo.Prop[RoleProperties.HERO_HP].ToString(CultureInfo.InvariantCulture);
+        NGUITools.SetActiveChildren(sortRelated.gameObject, false);
+        NGUITools.SetActive(hp.gameObject, true);
+        NGUITools.SetActive(hpValue.gameObject, true);
+    }
+    private void ShowByRecover(Transform sortRelated, HeroInfo heroInfo)
+    {
+        var recover = Utils.FindChild(sortRelated, "Recover-Title");
+        var recoverValue = Utils.FindChild(sortRelated, "Recover-Value").GetComponent<UILabel>();
+        recoverValue.text = heroInfo.Prop[RoleProperties.HERO_RECOVER].ToString(CultureInfo.InvariantCulture);
+        NGUITools.SetActiveChildren(sortRelated.gameObject, false);
+        NGUITools.SetActive(recover.gameObject, true);
+        NGUITools.SetActive(recoverValue.gameObject, true);
+    } 
+    private void ShowByLvl(Transform sortRelated, HeroInfo heroInfo)
+    {
+        var lvTitle = Utils.FindChild(sortRelated, "LV-Title");
+        var lvValue = Utils.FindChild(sortRelated, "LV-Value").GetComponent<UILabel>();
+        lvValue.text = heroInfo.Lvl.ToString(CultureInfo.InvariantCulture);
+        NGUITools.SetActiveChildren(sortRelated.gameObject, false);
+        NGUITools.SetActive(lvTitle.gameObject, true);
+        NGUITools.SetActive(lvValue.gameObject, true);
     }
 }
