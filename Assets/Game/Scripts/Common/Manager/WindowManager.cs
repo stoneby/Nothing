@@ -137,6 +137,11 @@ public class WindowManager : Singleton<WindowManager>
         return window;
     }
 
+    /// <summary>
+    /// Destroy window
+    /// </summary>
+    /// <param name="groupType">Window group type</param>
+    /// <param name="lastWindow">Last window to destroy</param>
     private void DestroyWindow(WindowGroupType groupType, Window lastWindow)
     {
         Logger.Log("Removing last window hold: " + windowMap[groupType][0]);
@@ -201,6 +206,12 @@ public class WindowManager : Singleton<WindowManager>
 
     #region Private Methods
 
+    /// <summary>
+    /// Create window by group type and prefab path
+    /// </summary>
+    /// <param name="layer">Window group type</param>
+    /// <param name="path">Prefab path</param>
+    /// <returns>The window handle</returns>
     private Window CreateWindow(WindowGroupType layer, string path)
     {
         var root = WindowRootManager.WindowObjectMap[layer];
@@ -219,6 +230,9 @@ public class WindowManager : Singleton<WindowManager>
         return window;
     }
 
+    /// <summary>
+    /// Debug display
+    /// </summary>
     private void Display()
     {
         foreach (var pair in windowMap)

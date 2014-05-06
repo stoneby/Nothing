@@ -26,5 +26,11 @@ public static class GameToolMenu
         EditorWindow.GetWindow<GameEventGenerator>(false, "Game Event Generator", true);
     }
 
+    [MenuItem("Tool/Code Analyzer", false, 0)]
+    static public void OpenCodeAnalyzer()
+    {
+        EditorWindow.GetWindow<CodeAnalyzerEditorWindow>(false, "Code analyzer", true);
+    }
+
     #endregion
 }

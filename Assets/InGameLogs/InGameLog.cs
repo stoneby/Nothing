@@ -258,7 +258,12 @@ public class InGameLog : MonoBehaviour {
 			{
 				GUILayout.Label( "fps = " + fps );
 			}
-			
+
+            if (GUI.Button(new Rect(0, 0, Screen.width / 8, Screen.height / 8), "Show Log"))
+		    {
+                show = true;
+		    }
+
 			return ;
 		}
 		logsRect.x = 0f ;
@@ -648,7 +653,7 @@ public class InGameLog : MonoBehaviour {
 		calculateStartIndex();
 		if( !show && isGestureDone() )
 		{
-			show = true;
+			//show = true;
 		}
 		elapsed += Time.deltaTime ;
 		if( elapsed > 1)
