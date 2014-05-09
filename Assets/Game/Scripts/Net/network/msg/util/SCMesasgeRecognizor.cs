@@ -1,8 +1,5 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
 using Thrift.Protocol;
-using KXSGLog;
 
 namespace KXSGCodec
 {
@@ -22,7 +19,7 @@ namespace KXSGCodec
         /// <param name="bytes"></param>
         /// <returns></returns>
 	    public short RecognizeMsgLen(byte[] bytes) {
-		    if (bytes.Length < BaseMessage.MIN_MSG_LEN) {
+		    if (bytes.Length < BaseMessage.MinMsgLen) {
 			    return -1;
 		    }
 
@@ -38,7 +35,7 @@ namespace KXSGCodec
         /// <returns></returns>
          public short RecognizeMsgType(byte[] bytes) {
 		    // 
-		    if (bytes.Length < BaseMessage.MIN_MSG_LEN) {
+		    if (bytes.Length < BaseMessage.MinMsgLen) {
 			    return -1;
 		    }
 
@@ -54,7 +51,7 @@ namespace KXSGCodec
         /// <returns></returns>
         public ThriftSCMessage RecognizeMsg(byte[] bytes)
         {
-		    if (bytes.Length < BaseMessage.MIN_MSG_LEN) {
+		    if (bytes.Length < BaseMessage.MinMsgLen) {
 			    return null;
 		    }
 		    //
@@ -66,10 +63,10 @@ namespace KXSGCodec
                 }
 
 			    short _type = RecognizeMsgType(bytes);
-                ClientLog.Instance.LogWarn("msg type : " + _type.ToString());
+                Logger.LogWarning("msg type : " + _type.ToString());
 			    return CreateMessage(_type);
 		    } catch (Exception le) {
-                ClientLog.Instance.LogError(le.ToString());
+                Logger.LogError(le.ToString());
                 return null;
 		    }
 	    }
@@ -82,7 +79,7 @@ namespace KXSGCodec
         public ThriftSCMessage CreateMessage(short type) 
 		{
             KXSGCodec.ThriftSCMessage msg = new KXSGCodec.ThriftSCMessage(type);
-            TBase msgContent = msg.getContent();
+            TBase msgContent = msg.GetContent();
             if (msgContent == null)
             {
                 return null;

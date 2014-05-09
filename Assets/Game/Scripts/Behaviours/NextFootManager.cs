@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Assets.Game.Scripts.Common.Model;
-using com.kx.sglm.gs.battle.data.record;
+using com.kx.sglm.gs.battle.share.data.record;
 using UnityEngine;
 
 public class NextFootManager : MonoBehaviour

@@ -21,11 +21,6 @@ public class ServerItemControl : MonoBehaviour
             Reset();
 	    }
     }
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 
     public void SetData(ServerVO server)
     {

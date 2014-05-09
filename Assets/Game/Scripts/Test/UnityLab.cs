@@ -30,13 +30,13 @@ public class UnityLab : MonoBehaviour
             + "\nLayer 100 to name will be out of boundary." + "\nName xxx to layer: " + LayerMask.NameToLayer("xxx")
             + "\nName Screen to layer: " + LayerMask.NameToLayer("Screen"));
 
-        //Debug.LogWarning("Object asset path: " + AssetDatabase.GetAssetPath(Object));
-        //Debug.LogWarning("Object asset scene path: " + AssetDatabase.GetAssetOrScenePath(Object));
+        //Logger.LogWarning("Object asset path: " + AssetDatabase.GetAssetPath(Object));
+        //Logger.LogWarning("Object asset scene path: " + AssetDatabase.GetAssetOrScenePath(Object));
 
         SendMessage();
 
-        Debug.LogWarning("type-gettype() - " + Type.GetType("Window"));
-        Debug.LogWarning("type-gettype() - " + Type.GetType("TemplateWindow"));
+        Logger.LogWarning("type-gettype() - " + Type.GetType("Window"));
+        Logger.LogWarning("type-gettype() - " + Type.GetType("TemplateWindow"));
 
         gameObject.AddComponent(Type.GetType("TemplateWindow"));
         gameObject.AddComponent("TemplateWindow");

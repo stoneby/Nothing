@@ -33,22 +33,14 @@ public class WindowRootObjectManager : MonoBehaviour
 
     #region Mono
 
-    void Awake()
-    {
-        if (Root == null)
-        {
-            Debug.LogError("Root game object should not be null.");
-        }
-    }
-
     void Start()
     {
         var trans = Root.transform;
 
         foreach (var layer in Mapping.LayerPathMap.Keys)
         {
-            var layerName = LayerMask.LayerToName((int)layer);
-            var layerTrans = trans.Find(layerName);
+            var windowGroup = layer.ToString();
+            var layerTrans = trans.Find(windowGroup);
             if (layerTrans == null)
             {
                 var layerObject = new GameObject();
@@ -58,10 +50,9 @@ public class WindowRootObjectManager : MonoBehaviour
                 Logger.Log("Adding game object to root - " + trans.name);
             }
 
-            layerTrans.name = layerName;
-            layerTrans.gameObject.layer = (int)layer;
+            layerTrans.name = windowGroup;
 
-            Logger.Log("Game object is - " + layerTrans.name + ", with layer - " + layerTrans.gameObject.layer);
+            Logger.Log("Game object is - " + layerTrans.name + ", with window group - " + windowGroup);
 
             WindowObjectMap[layer] = layerTrans.gameObject;
         }

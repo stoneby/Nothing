@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.IO;
 using Thrift.Protocol;
 using Thrift.Transport;
-using System.IO;
-using KXSGLog;
 
 namespace KXSGCodec
 {
@@ -93,7 +90,7 @@ namespace KXSGCodec
             }
             catch (Exception e)
             {
-                ClientLog.Instance.LogError("SerializeToBase64String is exception, error : " + e.ToString());
+                Logger.LogError("SerializeToBase64String is exception, error : " + e.ToString());
             }
             return szMsg;
         }
@@ -112,7 +109,7 @@ namespace KXSGCodec
             }
             catch (Exception e)
             {
-                ClientLog.Instance.LogError("DeSerializeFromBase64String is exception, error : " + e.ToString());
+                Logger.LogError("DeSerializeFromBase64String is exception, error : " + e.ToString());
             }
         }
     }

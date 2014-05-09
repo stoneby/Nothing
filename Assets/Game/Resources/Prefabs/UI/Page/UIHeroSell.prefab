@@ -220,13 +220,14 @@ GameObject:
   - 4: {fileID: 400026}
   - 114: {fileID: 11400032}
   - 114: {fileID: 11400066}
+  - 65: {fileID: 6500016}
   m_Layer: 8
   m_Name: UIHeroSell
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &100028
 GameObject:
   m_ObjectHideFlags: 1
@@ -1040,8 +1041,20 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 790, y: 630, z: 0}
-  m_Center: {x: 1, y: -1, z: 0}
+  m_Size: {x: 800, y: 640, z: 0}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!65 &6500016
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100026}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1280, y: 720, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1619,7 +1632,7 @@ MonoBehaviour:
   movement: 1
   dragEffect: 2
   restrictWithinPanel: 1
-  disableDragIfFits: 0
+  disableDragIfFits: 1
   smoothDragStart: 1
   iOSDragEmulation: 1
   scrollWheelFactor: .25
@@ -2291,6 +2304,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Path: 
+  WindowGroup: 0
   HeroPrefab: {fileID: 100000, guid: 26b0d15cfa69d2247b276d2a15724be9, type: 2}
   SellHeroPic: {fileID: 100002, guid: 6aa86c002fa70df4db12385a56bf0d9f, type: 2}
 --- !u!114 &11400068

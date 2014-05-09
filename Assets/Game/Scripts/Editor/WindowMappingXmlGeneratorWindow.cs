@@ -18,7 +18,6 @@ public class WindowMappingXmlGeneratorWindow : EditorWindow
 
     private string absolutePath;
     private List<string> folderNameList = new List<string>();
-    private List<int> layerList = new List<int>();
 
     private Dictionary<string, List<string>> prefabDict = new Dictionary<string, List<string>>();
 
@@ -47,12 +46,12 @@ public class WindowMappingXmlGeneratorWindow : EditorWindow
                 .ToList();
         folderNameList.Remove(SvnFolder);
 
-        layerList = folderNameList.Select(folderName => LayerMask.NameToLayer(folderName)).Where(layer => layer != Utils.Invalid).ToList();
-        if (folderNameList.Count != layerList.Count())
+        var windowGroupTypeCount = Enum.GetNames(typeof(WindowGroupType)).Length;
+        if (folderNameList.Count != windowGroupTypeCount)
         {
             Debug.LogError("Subfolder in path - " + absolutePath +
-                           " does not match layer exactly from layer manager. Folder count - " + folderNameList.Count +
-                           ", layer count - " + layerList.Count);
+                           " does not match window group types from WindowGroupType class. Folder count - " + folderNameList.Count +
+                           ", window group count - " + windowGroupTypeCount);
             return false;
         }
         return true;

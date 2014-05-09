@@ -18,7 +18,6 @@ public class WindnowMappingXmlGenerator
 
     private string absolutePath = string.Format("{0}/Game/Resources/{1}", Application.dataPath, Utils.UIBasePath);
     private List<string> folderNameList = new List<string>();
-    private List<int> layerList = new List<int>();
 
     private Dictionary<string, List<string>> prefabDict = new Dictionary<string, List<string>>();
 
@@ -45,12 +44,12 @@ public class WindnowMappingXmlGenerator
                 .ToList();
         folderNameList.Remove(SvnFolder);
 
-        layerList = folderNameList.Select(folderName => LayerMask.NameToLayer(folderName)).Where(layer => layer != Utils.Invalid).ToList();
-        if (folderNameList.Count != layerList.Count())
+        var windowGroupCount = Enum.GetNames(typeof(WindowGroupType)).Length;
+        if (folderNameList.Count != windowGroupCount)
         {
-            Debug.LogError("Subfolder in path - " + absolutePath +
-                           " does not match layer exactly from layer manager. Folder count - " + folderNameList.Count +
-                           ", layer count - " + layerList.Count);
+            Logger.LogError("Subfolder in path - " + absolutePath +
+                           " does not match window group type exactly from WindowGroupType class. Folder count - " + folderNameList.Count +
+                           ", window group count - " + windowGroupCount);
             return false;
         }
         return true;

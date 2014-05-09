@@ -1,4 +1,5 @@
-﻿using KXSGCodec;
+﻿using System.Linq;
+using KXSGCodec;
 using System.Collections.Generic;
 using Property;
 using UnityEngine;
@@ -143,10 +144,10 @@ public sealed class HeroModelLocator
     /// <returns>The result of the comparation</returns>
     private int CompareHeroByTime(HeroInfo p1, HeroInfo p2)
     {
-        int compareResult = p1.CreateTime.CompareTo(p2.CreateTime);
+        int compareResult = p2.CreateTime.CompareTo(p1.CreateTime);
         if (compareResult == 0)
         {
-            return p1.TemplateId.CompareTo(p2.TemplateId);
+            return p2.TemplateId.CompareTo(p1.TemplateId);
         }
         return compareResult;
     }
@@ -160,10 +161,10 @@ public sealed class HeroModelLocator
     private int CompareHeroByJob(HeroInfo p1, HeroInfo p2)
     {
         var heroTemp = HeroTemplates.HeroTmpl;
-        int compareResult = heroTemp[p1.TemplateId].Job.CompareTo(heroTemp[p2.TemplateId].Job);
+        int compareResult = heroTemp[p2.TemplateId].Job.CompareTo(heroTemp[p1.TemplateId].Job);
         if (compareResult == 0)
         {
-            return p1.TemplateId.CompareTo(p2.TemplateId);
+            return p2.TemplateId.CompareTo(p1.TemplateId);
         }
         return compareResult;
     }
@@ -177,10 +178,10 @@ public sealed class HeroModelLocator
     private int CompareHeroByRarity(HeroInfo p1, HeroInfo p2)
     {
         var heroTemp = HeroTemplates.HeroTmpl;
-        int compareResult = heroTemp[p1.TemplateId].Star.CompareTo(heroTemp[p2.TemplateId].Star);
+        int compareResult = heroTemp[p2.TemplateId].Star.CompareTo(heroTemp[p1.TemplateId].Star);
         if (compareResult == 0)
         {
-            return p1.TemplateId.CompareTo(p2.TemplateId);
+            return p2.TemplateId.CompareTo(p1.TemplateId);
         }
         return compareResult;
     }
@@ -193,10 +194,10 @@ public sealed class HeroModelLocator
     /// <returns>The result of the comparation</returns>
     private int CompareHeroByAttack(HeroInfo p1, HeroInfo p2)
     {
-        int compareResult = p1.Prop[RoleProperties.HERO_ATK].CompareTo(p2.Prop[RoleProperties.HERO_ATK]);
+        int compareResult = p2.Prop[RoleProperties.HERO_ATK].CompareTo(p1.Prop[RoleProperties.HERO_ATK]);
         if (compareResult == 0)
         {
-            return p1.TemplateId.CompareTo(p2.TemplateId);
+            return p2.TemplateId.CompareTo(p1.TemplateId);
         }
         return compareResult;
     }
@@ -209,10 +210,10 @@ public sealed class HeroModelLocator
     /// <returns>The result of the comparation</returns>
     private int CompareHeroByHp(HeroInfo p1, HeroInfo p2)
     {
-        int compareResult = p1.Prop[RoleProperties.HERO_HP].CompareTo(p2.Prop[RoleProperties.HERO_HP]);
+        int compareResult = p2.Prop[RoleProperties.HERO_HP].CompareTo(p1.Prop[RoleProperties.HERO_HP]);
         if (compareResult == 0)
         {
-            return p1.TemplateId.CompareTo(p2.TemplateId);
+            return p2.TemplateId.CompareTo(p1.TemplateId);
         }
         return compareResult;
     }
@@ -225,10 +226,10 @@ public sealed class HeroModelLocator
     /// <returns>The result of the comparation</returns>
     private int CompareHeroByRecover(HeroInfo p1, HeroInfo p2)
     {
-        int compareResult = p1.Prop[RoleProperties.HERO_RECOVER].CompareTo(p2.Prop[RoleProperties.HERO_RECOVER]);
+        int compareResult = p2.Prop[RoleProperties.HERO_RECOVER].CompareTo(p1.Prop[RoleProperties.HERO_RECOVER]);
         if (compareResult == 0)
         {
-            return p1.TemplateId.CompareTo(p2.TemplateId);
+            return p2.TemplateId.CompareTo(p1.TemplateId);
         }
         return compareResult;
     }
@@ -241,12 +242,17 @@ public sealed class HeroModelLocator
     /// <returns>The result of the comparation</returns>
     private int CompareHeroByLv(HeroInfo p1, HeroInfo p2)
     {
-        int compareResult = p1.Lvl.CompareTo(p2.Lvl);
+        int compareResult = p2.Lvl.CompareTo(p1.Lvl);
         if (compareResult == 0)
         {
-            return p1.TemplateId.CompareTo(p2.TemplateId);
+            return p2.TemplateId.CompareTo(p1.TemplateId);
         }
         return compareResult;
+    }
+
+    public List<HeroInfo> FilterByJob(sbyte job, List<HeroInfo> heros)
+    {
+        return job == -1 ? heros : heros.Where(t => heroTemplates.HeroTmpl[t.TemplateId].Job == job).ToList();
     }
 
     #endregion

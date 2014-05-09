@@ -20,6 +20,8 @@ public class GameConfiguration : Singleton<GameConfiguration>
 
     public bool SingleMode;
 
+    private const float LoadingTestTime = 1f;
+
     #endregion
 
     private void ReadFeatureConfigurationXml()
@@ -70,6 +72,11 @@ public class GameConfiguration : Singleton<GameConfiguration>
                 GameConfig.ServicePath = node["ServicePath"].InnerText;
             }
 
+            if (node["BattleConfig"] != null)
+            {
+                GameConfig.BattleConfig = node["BattleConfig"].InnerText;
+            }
+
             if (node["LocalServicePath"] != null)
             {
                 // Warning: DO NOT USE THIS PATH. Currently we do not need local service path, which will be used as local testing usage.
@@ -110,7 +117,10 @@ public class GameConfiguration : Singleton<GameConfiguration>
         
         ParseService(doc);
 
-        //WindowManager.Instance.Show(typeof(LoginWindow), true);
+        yield return new WaitForSeconds(LoadingTestTime);
+
+        WindowManager.Instance.Show(typeof(LoginWindow), true);
+        WindowManager.Instance.Show(typeof(LoadingWaitWindow), false);
     }
 
     private static void ParseService(XContainer doc)
@@ -181,6 +191,70 @@ public class GameConfiguration : Singleton<GameConfiguration>
         }
     }
 
+    private IEnumerator DoReadBattleConfigXml()
+    {
+        Logger.Log("加载BattleConfig.xml=" + GameConfig.BattleConfig);
+        var www = new WWW(GameConfig.BattleConfig);
+        yield return www;
+        Logger.Log("加载BattleConfig.xml成功");
+        Logger.Log(www.text);
+        var doc = XElement.Parse(www.text, LoadOptions.PreserveWhitespace);
+
+        ParseBattleConfig(doc);
+
+        yield return new WaitForSeconds(LoadingTestTime);
+
+        WindowManager.Instance.Show(typeof(LoginWindow), true);
+        WindowManager.Instance.Show(typeof(LoadingWaitWindow), false);
+    }
+
+    private static void ParseBattleConfig(XContainer doc)
+    {
+        Logger.Log("解析BattleConfig.xml");
+        if (doc != null)
+        {
+            GameConfig.HeroRunReturnTime = GetValueByName(doc, "HeroRunReturnTime");
+            GameConfig.ShortTime = GetValueByName(doc, "ShortTime");
+            GameConfig.PlayAttrackTime = GetValueByName(doc, "PlayAttrackTime");
+            GameConfig.RunStepNeedTime = GetValueByName(doc, "RunStepNeedTime");
+            GameConfig.NextRunWaitTime = GetValueByName(doc, "NextRunWaitTime");
+
+            GameConfig.PlayRecoverEffectTime = GetValueByName(doc, "PlayRecoverEffectTime");
+            GameConfig.RunRoNextMonstersTime = GetValueByName(doc, "RunRoNextMonstersTime");
+            GameConfig.RunToAttrackPosTime = GetValueByName(doc, "RunToAttrackPosTime");
+            GameConfig.NextAttrackWaitTime = GetValueByName(doc, "NextAttrackWaitTime");
+            GameConfig.TotalHeroAttrackTime = GetValueByName(doc, "TotalHeroAttrackTime");
+
+            GameConfig.MoveCameraTime = GetValueByName(doc, "MoveCameraTime");
+            GameConfig.Attrack9PlayEffectTime = GetValueByName(doc, "Attrack9PlayEffectTime");
+            GameConfig.Attrack9HeroInTime = GetValueByName(doc, "Attrack9HeroInTime");
+            GameConfig.Attrack9TextInTime = GetValueByName(doc, "Attrack9TextInTime");
+            GameConfig.Attrack9TextShowTime = GetValueByName(doc, "Attrack9TextShowTime");
+
+            GameConfig.Attrack9TextFadeTime = GetValueByName(doc, "Attrack9TextFadeTime");
+            GameConfig.Attrack9HeroFadeTime = GetValueByName(doc, "Attrack9HeroFadeTime");
+            GameConfig.Attrack9SwardEffectTime = GetValueByName(doc, "Attrack9SwardEffectTime");
+            GameConfig.Attrack9SwardWaitTime = GetValueByName(doc, "Attrack9SwardWaitTime");
+            GameConfig.Attrack9TotalSwardTime = GetValueByName(doc, "Attrack9TotalSwardTime");
+
+            GameConfig.PlayMonsterEffectTime = GetValueByName(doc, "PlayMonsterEffectTime");
+            GameConfig.MonsterAttrackStepTime = GetValueByName(doc, "MonsterAttrackStepTime");
+            GameConfig.HeroBeenAttrackTime = GetValueByName(doc, "HeroBeenAttrackTime");
+
+            Logger.Log("解析BattleConfig.xml成功");
+        }
+    }
+
+	private static float GetValueByName(XContainer doc, string name)
+	{
+		var value = doc.Element(name);
+		if (value != null) 
+        {
+			return Convert.ToSingle (value.Value);
+		}
+		return 0.01f;
+	}
+
     #region Mono
 
     private void Start()
@@ -188,6 +262,7 @@ public class GameConfiguration : Singleton<GameConfiguration>
         ReadFeatureConfigurationXml();
         ReadGameConfigurationXml();
         ReadServiceConfigurationXml();
+        StartCoroutine(DoReadBattleConfigXml());
     }
 
     #endregion

@@ -9,6 +9,9 @@ using UnityEngine;
 /// - TabPanel (tab based pop up window)
 /// - Face (toppest window)
 /// </summary>
+/// <remarks>
+/// More please refers to WindowGroupType.
+/// </remarks>
 public class WindowManager : Singleton<WindowManager>
 {
     #region Public Fields
@@ -24,12 +27,12 @@ public class WindowManager : Singleton<WindowManager>
     #region Private Fields
 
     /// <summary>
-    /// Window map between layer and list of windows.
+    /// Window map between window group type and list of windows.
     /// </summary>
     private readonly Dictionary<WindowGroupType, List<Window>> windowMap = new Dictionary<WindowGroupType, List<Window>>();
 
     /// <summary>
-    /// Current window map between layer and current window.
+    /// Current window map between window group type and current window.
     /// </summary>
     private readonly Dictionary<WindowGroupType, Window> currentWindowMap = new Dictionary<WindowGroupType, Window>();
 
@@ -54,23 +57,23 @@ public class WindowManager : Singleton<WindowManager>
     public T GetWindow<T>(Type type) where T : Window 
     {
         var path = Mapping.TypePathMap[type];
-        var layer = Mapping.PathLayerMap[path];
+        var windowGroupType = Mapping.PathLayerMap[path];
 
-        if (!windowMap.ContainsKey(layer))
+        if (!windowMap.ContainsKey(windowGroupType))
         {
-            windowMap[layer] = new List<Window>();
+            windowMap[windowGroupType] = new List<Window>();
         }
 
-        var window = windowMap[layer].Find(win => win.Path == path);
+        var window = windowMap[windowGroupType].Find(win => win.Path == path);
         if (window == null)
         {
-            window = CreateWindow(layer, path);
-            windowMap[layer].Add(window);
-            Logger.Log("Create window with type - " + type + ", layer - " + layer + ", path - " + path);
+            window = CreateWindow(windowGroupType, path);
+            windowMap[windowGroupType].Add(window);
+            Logger.Log("Create window with type - " + type + ", groupType - " + windowGroupType + ", path - " + path);
         }
         else
         {
-            Logger.Log("Find window with type - " + type + ", layer - " + layer + ", path - " + path);
+            Logger.Log("Find window with type - " + type + ", groupType - " + windowGroupType + ", path - " + path);
         }
 
         return window as T;
@@ -85,18 +88,18 @@ public class WindowManager : Singleton<WindowManager>
     public Window Show(Type type, bool show)
     {
         var path = Mapping.TypePathMap[type];
-        var layer = Mapping.PathLayerMap[path];
+        var windowGroupType = Mapping.PathLayerMap[path];
         var window = GetWindow<Window>(type);
 
         if (show)
         {
-            var lastWindow = currentWindowMap.ContainsKey(layer) ? currentWindowMap[layer] : null;
+            var lastWindow = currentWindowMap.ContainsKey(windowGroupType) ? currentWindowMap[windowGroupType] : null;
             if (lastWindow != null && (lastWindow != window))
             {
                 if (lastWindow.Active)
                 {
-                    var groupType = (WindowGroupType) lastWindow.gameObject.layer;
-                    Logger.Log("Last window hide with type - " + lastWindow.GetType().Name + ", layer - " + groupType +
+                    var groupType = lastWindow.WindowGroup;
+                    Logger.Log("Last window hide with type - " + lastWindow.GetType().Name + ", groupType - " + groupType +
                               ", path - " + lastWindow.Path);
 
                     if (DestroyLastWindow)
@@ -115,15 +118,15 @@ public class WindowManager : Singleton<WindowManager>
                 Logger.Log("The window is currently showing already." + lastWindow.name);
             }
 
-            currentWindowMap[layer] = window;
+            currentWindowMap[windowGroupType] = window;
             window.gameObject.SetActive(true);
         }
         else
         {
-            currentWindowMap[layer] = window;
+            currentWindowMap[windowGroupType] = window;
             if (DestroyLastWindow)
             {
-                var groupType = (WindowGroupType) window.gameObject.layer;
+                var groupType = window.WindowGroup;
                 DestroyWindow(groupType, window);
             }
             else
@@ -149,7 +152,7 @@ public class WindowManager : Singleton<WindowManager>
         var find = windowMap[groupType].Remove(lastWindow);
         if (!find)
         {
-            Debug.LogError("Trying to remove window - " + lastWindow.name +
+            Logger.LogError("Trying to remove window - " + lastWindow.name +
                            ", but we got nothing from window map of group - " + groupType);
         }
         Destroy(lastWindow.gameObject);
@@ -157,31 +160,20 @@ public class WindowManager : Singleton<WindowManager>
     }
 
     /// <summary>
-    /// Show windows by layer name.
+    /// Show windows by group type.
     /// </summary>
-    /// <param name="layerName">Layer name</param>
+    /// <param name="groupType">Group type</param>
     /// <param name="show">Flag indicates if show or hide</param>
-    public void Show(string layerName, bool show)
+    public void Show(WindowGroupType groupType, bool show)
     {
-        var layer = LayerMask.NameToLayer(layerName);
-        Show((WindowGroupType)layer, show);
-    }
-
-    /// <summary>
-    /// Show windows by layer value.
-    /// </summary>
-    /// <param name="layer">Layer name</param>
-    /// <param name="show">Flag indicates if show or hide</param>
-    public void Show(WindowGroupType layer, bool show)
-    {
-        if ((int)layer == Utils.Invalid || !Mapping.LayerPathMap.ContainsKey(layer))
+        if ((int)groupType == Utils.Invalid || !Mapping.LayerPathMap.ContainsKey(groupType))
         {
-            Debug.LogError("Could not contain layer name - " + LayerMask.LayerToName((int)layer) +
-                           ", please double check with layer manager of unity.");
+            Logger.LogError("Could not contain group type - " + groupType +
+                           ", please double check with WindowGroupType, that's all we have.");
             return;
         }
 
-        windowMap[layer].ForEach(win =>
+        windowMap[groupType].ForEach(win =>
         {
             if (win.gameObject.activeSelf != show)
             {
@@ -196,9 +188,9 @@ public class WindowManager : Singleton<WindowManager>
     /// <param name="show">Flag indicates if show or hide</param>
     public void Show(bool show)
     {
-        foreach (var layer in Mapping.LayerPathMap.Keys)
+        foreach (var windowGroupType in Mapping.LayerPathMap.Keys)
         {
-            Show(layer, show);
+            Show(windowGroupType, show);
         }
     }
 
@@ -209,24 +201,27 @@ public class WindowManager : Singleton<WindowManager>
     /// <summary>
     /// Create window by group type and prefab path
     /// </summary>
-    /// <param name="layer">Window group type</param>
+    /// <param name="groupType">Window group type</param>
     /// <param name="path">Prefab path</param>
     /// <returns>The window handle</returns>
-    private Window CreateWindow(WindowGroupType layer, string path)
+    private Window CreateWindow(WindowGroupType groupType, string path)
     {
-        var root = WindowRootManager.WindowObjectMap[layer];
+        var root = WindowRootManager.WindowObjectMap[groupType];
         var prefab = Resources.Load<GameObject>(path);
         if (prefab == null)
         {
-            Debug.LogError("Could not find window from layer - " + layer + ", path - " + path);
+            Logger.LogError("Could not find window from groupType - " + groupType + ", path - " + path);
             return null;
         }
 
+        // This is importance, Awake / OnEnable should not be called until Show is get called.
+        prefab.SetActive(false);
         var child = NGUITools.AddChild(root, prefab);
         var windowName = Utils.PrefabNameToWindow(Utils.GetNameFromPath(path));
         var component = child.GetComponent(windowName) ?? child.AddComponent(windowName);
         var window = component.GetComponent<Window>();
         window.Path = path;
+        window.WindowGroup = groupType;
         return window;
     }
 

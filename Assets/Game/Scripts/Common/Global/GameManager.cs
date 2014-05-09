@@ -14,7 +14,7 @@ public class GameManager : Singleton<GameManager>
         Logger.Log("Counter: " + Counter);
     }
 
-    void Awake()
+    void Start()
     {
         Logger.Log("I am singleton." + name);
     }

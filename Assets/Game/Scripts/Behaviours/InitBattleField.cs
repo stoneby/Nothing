@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using Assets.Game.Scripts.Common.Model;
-using com.kx.sglm.gs.battle;
-using com.kx.sglm.gs.battle.data.record;
-using com.kx.sglm.gs.battle.enums;
-using com.kx.sglm.gs.battle.input;
+//using com.kx.sglm.gs.battle;
+//using com.kx.sglm.gs.battle.data.record;
+//using com.kx.sglm.gs.battle.enums;
+//using com.kx.sglm.gs.battle.input;
+using com.kx.sglm.gs.battle.share;
+using com.kx.sglm.gs.battle.share.data.record;
+using com.kx.sglm.gs.battle.share.input;
 using UnityEngine;
 using System.Collections;
 using Random = UnityEngine.Random;
@@ -23,7 +26,8 @@ public class InitBattleField : MonoBehaviour, IBattleView
     public GameObject WarningBg1;
     public GameObject WarningBg2;
     public GameObject WarningText;
-//    public GameObject PopTextPrefab;
+
+    private GameObject BattleBG;
 
 	public GameObject BreakObject;
 	public GameObject TextBGObject;
@@ -107,13 +111,16 @@ public class InitBattleField : MonoBehaviour, IBattleView
         Text91.SetActive(false);
         TexSwardBg91.SetActive(false);
 
+        BattleBG = gameObject.transform.FindChild("BattleFieldPanel/BattleBg").gameObject;
+
         InitHpBar();
         InitLeaders();
         InitTopDataBar();
         
-        Debug.Log(Screen.height);
+        Logger.Log(Screen.height);
     }
 
+    private static int bgIndex = 0;
     //开始战斗
     public void StartBattle()
     {
@@ -128,8 +135,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
             isInited = true;
             attrackWaitList = new List<GameObject>();
         }
-
-        currEnemyGroupIndex = 0;
 
         leftContainerObj = GameObject.Find("BattleFieldWidgetLeft");
 
@@ -152,14 +157,11 @@ public class InitBattleField : MonoBehaviour, IBattleView
             cc.SetSelect(false);
         }
 
-        var bgObj = GameObject.Find("BackgroundTexture");
-        var tp = bgObj.GetComponent<TweenPosition>();
-        var tempv = 900 - 640;//(1800 - (Screen.width / + 500)) / 2;
-        tp.from = new Vector3(tempv, 0, 0);
-        tp.to = new Vector3(tempv, 0, 0);
-        tp.PlayForward();
-
-        CreateCurrentEnemys();
+        var bg = BattleBG.GetComponent<BattleBGControl>();
+        bgIndex++;
+        bg.SetData("00" + bgIndex);
+        bgIndex = bgIndex%3;
+        //PopTextManager.PopTip("Bg Index = " + bgIndex);
 
         characterValue = 0;
         characterMaxValue = 0;
@@ -178,52 +180,50 @@ public class InitBattleField : MonoBehaviour, IBattleView
         ShowTopData();
 
         EventManager.Instance.AddListener<LeaderUseEvent>(OnLeaderUseHandler);
+        currEnemyGroupIndex = 0;
+        CreateCurrentEnemys();
         RequestRecords();
-        StartCoroutine(MakeUpOneByOne());
+        StartCoroutine(InitBattleFighters());
+    }
+
+    IEnumerator InitBattleFighters()
+    {
+        
+        yield return StartCoroutine(MakeUpOneByOne(false));
+        RunToNextEnemys();
+        
     }
 
     //创建本关的怪
     void CreateCurrentEnemys()
     {
-        Debug.Log("怪物关卡数：" + BattleModelLocator.Instance.MonsterGroup.Count + ",当前关卡索引：" + currEnemyGroupIndex + ",总怪物数：" + BattleModelLocator.Instance.MonsterList.Count);
+        Logger.Log("怪物关卡数：" + BattleModelLocator.Instance.MonsterGroup.Count + ",当前关卡索引：" + currEnemyGroupIndex + ",总怪物数：" + BattleModelLocator.Instance.MonsterList.Count);
         var rightcontainerobj = GameObject.Find("BattleFieldWidgetRight");
 
         var enemycount = BattleModelLocator.Instance.MonsterGroup[currEnemyGroupIndex];// enemys[currEnemyGroupIndex];
-        Debug.Log("当前关卡怪物数：" + enemycount);
+        Logger.Log("当前关卡怪物数：" + enemycount);
         enemyList = new GameObject[enemycount];
-        float xx = BaseRx + HorgapR;
-        float yy;
-        float tempgap = Vergap;
-        switch (enemycount)
-        {
-            case 1:
-                yy = Basey - Vergap - 50;
-                break;
-            case 2:
-                yy = Basey - 50;
-                tempgap += Vergap / 2;
-                break;
-            default:
-                yy = Basey;
-                tempgap = 3 * Vergap / 4;
-                break;
-        }
-        var offsetx = (currEnemyGroupIndex == 0) ? 0 : 500;
+        float xx = (enemycount > 2) ? BaseRx + HorgapR - 70 : BaseRx + HorgapR;
+        float y1 = Basey - Vergap - 40;
+        float y2 = Basey - 50;
+        float tempgap = Vergap * 1.6f;
+
+        var offsetx = 640;//(currEnemyGroupIndex == 0) ? 0 : 640;
         for (var i = 0; i < enemycount; i++)
         {
             var obj = NGUITools.AddChild(rightcontainerobj, EnemyPrefab);
+            if (currEnemyGroupIndex == BattleModelLocator.Instance.MonsterGroup.Count - 1)obj.SetActive(false);
             var ec = obj.GetComponent<EnemyControl>();
             ec.SetValue(BattleModelLocator.Instance.MonsterList[BattleModelLocator.Instance.MonsterIndex + i]);//3000, 3000, 2 + i);
             enemyList[i] = obj;
-            if (enemycount == 3 && i == 1)
+            var k = (int) Math.Floor((decimal) (i / 2));
+            if (i == enemycount - 1 && i % 2 == 0)
             {
-                obj.transform.localPosition =
-                    new Vector3(xx + HorgapR + offsetx, yy - tempgap * i, 0);
+                obj.transform.localPosition = new Vector3(xx + HorgapR * k + offsetx, y1, 0);
             }
             else
             {
-                obj.transform.localPosition =
-                    new Vector3(xx + offsetx, yy - tempgap * i, 0);
+                obj.transform.localPosition = new Vector3(xx + offsetx + HorgapR * k, y2 - tempgap * (i % 2), 0);
             }
         }
         BattleModelLocator.Instance.MonsterIndex += enemycount;
@@ -272,10 +272,10 @@ public class InitBattleField : MonoBehaviour, IBattleView
     }
 
     //后面的武将补位
-    IEnumerator MakeUpOneByOne()
+    IEnumerator MakeUpOneByOne(bool needresetcharacter = true)
     {
-        var tempi = Random.Range(0, 3);
-        int tempj = Random.Range(0, 3);
+        float runStepTime = (needresetcharacter) ? GameConfig.RunStepNeedTime : GameConfig.ShortTime;
+        float runWaitTime = (needresetcharacter) ? GameConfig.NextRunWaitTime : GameConfig.ShortTime;
         GameObject obj;
         CharacterControl cc;
         TweenPosition tp;
@@ -295,7 +295,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
                             cc = obj.GetComponent<CharacterControl>();
                             cc.PlayCharacter(CharacterType.ActionRun);
                             cc.SetIndex(i, j);
-                            var t = (k - i) * 0.2f;
+                            var t = (k - i) * runStepTime;
                             cc.SetCharacterAfter(t);
                             tp = obj.GetComponent<TweenPosition>();
                             tp.ResetToBeginning();
@@ -320,13 +320,13 @@ public class InitBattleField : MonoBehaviour, IBattleView
 
                         cc.SetIndex(i, j);
                         cc.SetFootIndex(footManager.GetNext());
-                        cc.PlayCharacter(2);
-                        var t = (2 - i) * 0.2f + 0.2f;
-                        if (i == tempi && j == tempj)
-                        {
-                            cc.ShowSpEffect(true);
-                        }
-                        cc.SetCharacterAfter(t);
+                        cc.PlayCharacter(CharacterType.ActionRun);
+                        var t = (2 - i) * GameConfig.RunStepNeedTime + GameConfig.RunStepNeedTime;
+//                        if (i == tempi && j == tempj)
+//                        {
+//                            cc.ShowSpEffect(true);
+//                        }
+                        if (needresetcharacter) cc.SetCharacterAfter(t);
 
                         tp = charactersLeft[i, j].GetComponent<TweenPosition>();
                         tp.ResetToBeginning();
@@ -335,7 +335,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
                         tp.duration = t;
                         tp.PlayForward();
                     }
-                    yield return new WaitForSeconds(.15f);
+                    yield return new WaitForSeconds(runWaitTime);
                 }
             }
         }
@@ -444,12 +444,12 @@ public class InitBattleField : MonoBehaviour, IBattleView
 
         if (Input.GetMouseButtonDown(0))
         {
-            Debug.Log("Mouse Value (" + mx + ", " + my + ")");
+            Logger.Log("Mouse Value (" + mx + ", " + my + ")");
             prePoint = GetIndexByPlace(xx, yy);
             if (prePoint.x >= 0 && prePoint.y >= 0 && prePoint.x < 3 && prePoint.y < 3)
             {
                 isDraging = true;
-                Debug.Log("Nouse Down ------------------------------");
+                Logger.Log("Nouse Down ------------------------------");
                 if (pointList == null) pointList = new List<GameObject>();
                 if (selectEffectList == null) selectEffectList = new ArrayList();
                 selectEffectList.Clear();
@@ -509,7 +509,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
                 //DoAttrack();
                 //调取服务器战斗
                 var _action = new ProduceFighterIndexAction();
-               
                 _action.HeroIndex = _indexArr;
                 var enemyindex = GetCurrentEnemyIndex();
                 if (enemyindex >= 0)
@@ -533,7 +532,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
                 }
                 //PopTextManager.PopTip("取消攻击");
             }
-            Debug.Log("Mouse Up ------------------------------");
+            Logger.Log("Mouse Up ------------------------------");
         }
 
         if (isDraging)
@@ -552,7 +551,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
             pointList.Add(obj);
             tempcc1.SetSelect(true, pointList.Count - 1);
             selectEffectList.Add(EffectManager.ShowEffect(EffectType.SelectEffects[currentFootIndex], -25, -30, obj.transform.position));
-            PopTextManager.ShowText(tempcc1.AttrackValue.ToString(), 0.6f, -25, 60, 50, obj.transform.localPosition);
+            //PopTextManager.ShowText(tempcc1.AttrackValue.ToString(), 0.6f, -25, 60, 50, obj.transform.localPosition);
         }
         else
         {
@@ -673,7 +672,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
             for (var j = 0; j < 3; j++)
             {
                 var obj = charactersLeft[i, j];
-                EffectManager.PlayEffect(EffectType.BloodFull, .6f, -20, 0, obj.transform.position);
+                EffectManager.PlayEffect(EffectType.BloodFull, GameConfig.PlayRecoverEffectTime, -20, 0, obj.transform.position);
             }
         }
     }
@@ -703,26 +702,19 @@ public class InitBattleField : MonoBehaviour, IBattleView
                 var obj = charactersLeft[i, j];
                 var cc = obj.GetComponent<CharacterControl>();
                 cc.PlayCharacter(CharacterType.ActionRun);
-                cc.SetCharacterAfter(0.8f);
+                cc.SetCharacterAfter(GameConfig.RunRoNextMonstersTime);
             }
         }
-        GameObject bgObj = GameObject.Find("BackgroundTexture");
-        var tp = bgObj.GetComponent<TweenPosition>();
-        tp.ResetToBeginning();
-        tp.duration = 0.8f;
-        //float tempv = 900 - 640;
-        var tempv1 = 900 - 640 - 500 * (currEnemyGroupIndex - 1);//900 - (Screen.width / 2 + 500 * (_currEnemyGroupIndex - 1)) / MainViewController.cameraScale;
-        var tempv2 = 900 - 640 - 500 * currEnemyGroupIndex;//900 - (Screen.width / 2 + 500 * _currEnemyGroupIndex) / MainViewController.cameraScale;
-        tp.from = new Vector3(tempv1, 0, 0);
-        tp.to = new Vector3(tempv2, 0, 0);
-        tp.PlayForward();
+        var bg = BattleBG.GetComponent<BattleBGControl>();
+        bg.MoveToNext();
+        
         for (int i = 0; i < enemyList.Length; i++)
         {
             var obj = enemyList[i];
             var temptp = obj.AddComponent<TweenPosition>();
-            temptp.duration = 0.8f;
+            temptp.duration = GameConfig.RunRoNextMonstersTime;
             temptp.from = new Vector3(obj.transform.localPosition.x, obj.transform.localPosition.y, 0);
-            temptp.to = new Vector3(obj.transform.localPosition.x - 500, obj.transform.localPosition.y, 0);
+            temptp.to = new Vector3(obj.transform.localPosition.x - 640, obj.transform.localPosition.y, 0);
             temptp.PlayForward();
         }
     }
@@ -742,7 +734,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
         return null;
     }
 
-    private const float AttrackTime = 0.3f;
+    //private const float AttrackTime = 0.3f;
     //播放武将的一次出手动作
     private IEnumerator PlayOneAction(BattleFightRecord record)
     {
@@ -750,43 +742,46 @@ public class InitBattleField : MonoBehaviour, IBattleView
         GameObject monster;
         TweenPosition tp;
         CharacterControl cc;
-        obj = GetCharacterByAction(record.AttackAction);
+        obj = GetCharacterByAction(record.getAttackAction());
         if (obj == null)
         {
-            Debug.Log("没有获取到武将，传入的index="+record.AttackAction.Index);
+            Logger.Log("没有获取到武将，传入的index=" + record.getAttackAction().Index);
         }
         else
         {
             cc = obj.GetComponent<CharacterControl>();
-            monster = GetMonsterObject(record.ActionList[0]);
-            if (record.AttackAction.ActType == BattleRecordConstants.SINGLE_ACTION_TYPE_SP_ATTACK)
+            
+            if (record.getAttackAction().ActType == BattleRecordConstants.SINGLE_ACTION_TYPE_SP_ATTACK)
             {
-                RunReturn(obj, 0.01f);
+                monster = GetMonsterObject(record.ActionList[0]);
+                RunReturn(obj, GameConfig.ShortTime);
                 yield return new WaitForSeconds(AddMoveCharacter(obj, monster));
                 PlayEnemyBeenAttrack(cc, record.ActionList);
             }
-            else if (record.AttackAction.ActType == BattleRecordConstants.SINGLE_ACTION_TYPE_RECOVER)
+            else if (record.getAttackAction().ActType == BattleRecordConstants.SINGLE_ACTION_TYPE_RECOVER)
             {
                 IsRecover = true;
                 cc.PlayCharacter(CharacterType.ActionAttrack);
-                yield return new WaitForSeconds(.4f);
+                yield return new WaitForSeconds(GameConfig.PlayAttrackTime);
                 cc.PlayCharacter(CharacterType.ActionWait);
-                RunReturn(obj);
+                CharacterLoseBlood(obj.transform.localPosition, record.getAttackAction().getIntProp(BattleRecordConstants.SINGLE_ACTION_PROP_HP));
+                //RunReturn(obj);
             }
-            else if (record.AttackAction.ActType == BattleRecordConstants.SINGLE_ACTION_TYPE_RECOVERED)
+            else if (record.getAttackAction().ActType == BattleRecordConstants.SINGLE_ACTION_TYPE_RECOVERED)
             {
             }
-            else if (record.AttackAction.ActType == BattleRecordConstants.SINGLE_ACTION_TYPE_DEFENCE)
+            else if (record.getAttackAction().ActType == BattleRecordConstants.SINGLE_ACTION_TYPE_DEFENCE)
             {
             }
             else
             {
+                monster = GetMonsterObject(record.ActionList[0]);
                 RunToAttrackPlace(obj, monster);
-                yield return new WaitForSeconds(AttrackTime);
-                cc.PlayCharacter(3);
-                yield return new WaitForSeconds(.4f);
+                yield return new WaitForSeconds(GameConfig.RunToAttrackPosTime);
+                cc.PlayCharacter(CharacterType.ActionAttrack);
+                yield return new WaitForSeconds(GameConfig.PlayAttrackTime);
                 PlayEnemyBeenAttrack(cc, record.ActionList);
-                RunReturn(obj);
+                RunReturn(obj, GameConfig.HeroRunReturnTime);
             }
         }
     }
@@ -811,7 +806,15 @@ public class InitBattleField : MonoBehaviour, IBattleView
         if (battleTeamRecord.RecordList.Count > 0)
         {
             record = battleTeamRecord.RecordList[0];
-            yield return StartCoroutine(PlayOneAction(record));
+            if (record.getAttackAction().ActType == BattleRecordConstants.SINGLE_ACTION_TYPE_RECOVER)
+            {
+                StartCoroutine(PlayOneAction(record));
+            }
+            else
+            {
+                yield return StartCoroutine(PlayOneAction(record));
+            }
+            
         }
 
         if (battleTeamRecord.RecordList.Count > 1)
@@ -821,13 +824,13 @@ public class InitBattleField : MonoBehaviour, IBattleView
             {
                 record = battleTeamRecord.RecordList[i];
                 StartCoroutine(PlayOneAction(record));
-                yield return new WaitForSeconds(0.3f);
+                if (!IsRecover) yield return new WaitForSeconds(GameConfig.NextAttrackWaitTime);
             }
         }
         
         if (battleTeamRecord.RecordList.Count == 9 && !IsRecover)
         {
-            yield return new WaitForSeconds(0.7f);
+            yield return new WaitForSeconds(GameConfig.TotalHeroAttrackTime);
             record = battleTeamRecord.RecordList[battleTeamRecord.RecordList.Count - 1];
             monster = GetMonsterObject(record.ActionList[0]);
             var ec = monster.GetComponent<EnemyControl>();
@@ -836,11 +839,13 @@ public class InitBattleField : MonoBehaviour, IBattleView
             //yield return new WaitForSeconds (0.5f);//镜头拉近
             PlayMoveCamera(obj);
             cc.Stop();
-            yield return new WaitForSeconds(0.2f);//显示遮罩
+            yield return new WaitForSeconds(GameConfig.MoveCameraTime);//显示遮罩
             Picture91.SetActive(true);
-            yield return new WaitForSeconds(0.1f);//播放角色特效
-            EffectManager.PlayEffect(EffectType.NineAttrack, 0.9f, -25, 0, obj.transform.position);
-            yield return new WaitForSeconds(0.9f);//人物大图飞入
+            //yield return new WaitForSeconds(0.1f);
+            //播放角色特效
+            EffectManager.PlayEffect(EffectType.NineAttrack, GameConfig.Attrack9PlayEffectTime, -25, 0, obj.transform.position);
+            yield return new WaitForSeconds(GameConfig.Attrack9PlayEffectTime);
+            //人物大图飞入
             UITexture tt = EffectObject.GetComponent<UITexture>();
             tt.mainTexture = (Texture2D)Resources.Load(EffectType.LeaderTextures[Random.Range(0, 11)], typeof(Texture2D));
             tt.alpha = 1;
@@ -848,90 +853,105 @@ public class InitBattleField : MonoBehaviour, IBattleView
             EffectObject.transform.localScale = new Vector3(1, 1, 1);
             EffectObject.SetActive(true);
 
-            PlayTweenPosition(EffectObject, 0.3f, new Vector3(Screen.width / 2 + 300, -80, 0), new Vector3(0, -80, 0));
-            yield return new WaitForSeconds(0.3f);//显示文字背景
+            PlayTweenPosition(EffectObject, GameConfig.Attrack9HeroInTime, new Vector3(Screen.width / 2 + 300, -80, 0), new Vector3(0, -80, 0));
+            yield return new WaitForSeconds(GameConfig.Attrack9HeroInTime);
+            //显示文字背景
             PlayTweenPosition(EffectObject, 1.2f, new Vector3(0, -80, 0), new Vector3(-25, -80, 0));
             TextBG91.SetActive(true);
             tt = TextBG91.GetComponent<UITexture>();
             tt.alpha = 1;
-            yield return new WaitForSeconds(0.1f);//文字一出现
+            yield return new WaitForSeconds(0.1f);
+            //文字出现
             Text91.SetActive(true);
             Text91.transform.localScale = new Vector3(5, 5, 1);
-            PlayTweenScale(Text91, 0.2f, new Vector3(5, 5, 1), new Vector3(1, 1, 1));
+            PlayTweenScale(Text91, GameConfig.Attrack9TextInTime, new Vector3(5, 5, 1), new Vector3(1, 1, 1));
             UILabel lb = Text91.GetComponent<UILabel>();
             lb.alpha = 1;
-            yield return new WaitForSeconds(1.0f);//文字消失
-            PlayTweenScale(Text91, 0.2f, new Vector3(1, 1, 1), new Vector3(5, 5, 1));
-            PlayTweenAlpha(Text91, 0.2f, 1, 0);
-            PlayTweenAlpha(TextBG91, 0.2f, 1, 0);
-            yield return new WaitForSeconds(0.1f);//遮罩和大图消失
+            yield return new WaitForSeconds(GameConfig.Attrack9TextShowTime);
+            //文字消失
+            PlayTweenScale(Text91, GameConfig.Attrack9TextFadeTime, new Vector3(1, 1, 1), new Vector3(5, 5, 1));
+            PlayTweenAlpha(Text91, GameConfig.Attrack9TextFadeTime, 1, 0);
+            PlayTweenAlpha(TextBG91, GameConfig.Attrack9TextFadeTime, 1, 0);
+            yield return new WaitForSeconds(GameConfig.Attrack9TextFadeTime / 2);
+            //遮罩和大图消失
             Picture91.SetActive(false);
-            PlayTweenAlpha(EffectObject, 0.2f, 1, 0);
-            PlayTweenScale(EffectObject, 0.2f, new Vector3(1, 1, 1), new Vector3(5, 5, 1));
-            yield return new WaitForSeconds(0.2f);//镜头拉回
+            PlayTweenAlpha(EffectObject, GameConfig.Attrack9HeroFadeTime, 1, 0);
+            PlayTweenScale(EffectObject, GameConfig.Attrack9HeroFadeTime, new Vector3(1, 1, 1), new Vector3(5, 5, 1));
+            yield return new WaitForSeconds(GameConfig.Attrack9HeroFadeTime);
+            //镜头拉回
             Text91.SetActive(false);
             TextBG91.SetActive(false);
             PlayMoveCameraEnd();
-            yield return new WaitForSeconds(0.3f);//攻击动作
+            yield return new WaitForSeconds(GameConfig.MoveCameraTime);
+            //攻击动作
             cc.Play();
 
             RunToAttrackPlace(obj, monster);
-            yield return new WaitForSeconds(AttrackTime);
+            yield return new WaitForSeconds(GameConfig.RunToAttrackPosTime);
 
             cc.PlayCharacter(3);
-            yield return new WaitForSeconds(AttrackTime);
+            yield return new WaitForSeconds(GameConfig.PlayAttrackTime);
 
             //9连击播放刀光
             TexSwardBg91.SetActive(true);
-            //var eftt = EffectBg.GetComponent<UITexture>();
-            //eftt.alpha = 0.1f;
-
             cc.Stop();
             var offset = 0.5f;
             //Vector3 pos = enemy.transform.position;
             var pos = new Vector3(0, 0, monster.transform.position.z);
-            EffectManager.PlayEffect(EffectType.SwordEffect3, 0.5f, 0, 0, new Vector3(pos.x + offset, pos.y - offset, pos.z), 0, true);
-            yield return new WaitForSeconds(.1f);
+            EffectManager.PlayEffect(EffectType.SwordEffect3, GameConfig.Attrack9SwardEffectTime, 0, 0, new Vector3(pos.x + offset, pos.y - offset, pos.z), 0, true);
+            yield return new WaitForSeconds(GameConfig.Attrack9SwardWaitTime);
 
             ec.PlayBeen();
-            EffectManager.PlayEffect(EffectType.SwordEffect2, 0.5f, 0, 0, new Vector3(pos.x - offset, pos.y + offset, pos.z), 0, true);
-            yield return new WaitForSeconds(.1f);
+            EffectManager.PlayEffect(EffectType.SwordEffect2, GameConfig.Attrack9SwardEffectTime, 0, 0, new Vector3(pos.x - offset, pos.y + offset, pos.z), 0, true);
+            yield return new WaitForSeconds(GameConfig.Attrack9SwardWaitTime);
 
-            EffectManager.PlayEffect(EffectType.SwordEffect3, 0.5f, 0, 0, new Vector3(pos.x + offset, pos.y + offset, pos.z), 90, true);
-            yield return new WaitForSeconds(.1f);
+            EffectManager.PlayEffect(EffectType.SwordEffect3, GameConfig.Attrack9SwardEffectTime, 0, 0, new Vector3(pos.x + offset, pos.y + offset, pos.z), 90, true);
+            yield return new WaitForSeconds(GameConfig.Attrack9SwardWaitTime);
 
             ec.PlayBeen();
-            EffectManager.PlayEffect(EffectType.SwordEffect2, 0.5f, 0, 0, new Vector3(pos.x - offset, pos.y - offset, pos.z), 90, true);
-            yield return new WaitForSeconds(.2f);
+            EffectManager.PlayEffect(EffectType.SwordEffect2, GameConfig.Attrack9SwardEffectTime, 0, 0, new Vector3(pos.x - offset, pos.y - offset, pos.z), 90, true);
+            yield return new WaitForSeconds(GameConfig.Attrack9SwardWaitTime);
 
             offset = 0.3f;
-            EffectManager.PlayEffect(EffectType.SwordEffect2, 0.5f, 0, 0, new Vector3(pos.x + offset, pos.y - offset, pos.z), 0, true);
-            yield return new WaitForSeconds(.1f);
+            EffectManager.PlayEffect(EffectType.SwordEffect2, GameConfig.Attrack9SwardEffectTime, 0, 0, new Vector3(pos.x + offset, pos.y - offset, pos.z), 0, true);
+            yield return new WaitForSeconds(GameConfig.Attrack9SwardWaitTime);
 
             ec.PlayBeen();
-            EffectManager.PlayEffect(EffectType.SwordEffect3, 0.5f, 0, 0, new Vector3(pos.x - offset, pos.y + offset, pos.z), 0, true);
-            yield return new WaitForSeconds(.1f);
+            EffectManager.PlayEffect(EffectType.SwordEffect3, GameConfig.Attrack9SwardEffectTime, 0, 0, new Vector3(pos.x - offset, pos.y + offset, pos.z), 0, true);
+            yield return new WaitForSeconds(GameConfig.Attrack9SwardWaitTime);
 
-            EffectManager.PlayEffect(EffectType.SwordEffect3, 0.5f, 0, 0, new Vector3(pos.x + offset, pos.y + offset, pos.z), 90, true);
-            yield return new WaitForSeconds(.1f);
+            EffectManager.PlayEffect(EffectType.SwordEffect3, GameConfig.Attrack9SwardEffectTime, 0, 0, new Vector3(pos.x + offset, pos.y + offset, pos.z), 90, true);
+            yield return new WaitForSeconds(GameConfig.Attrack9SwardWaitTime);
 
-            EffectManager.PlayEffect(EffectType.SwordEffect2, 0.5f, 0, 0, new Vector3(pos.x - offset, pos.y - offset, pos.z), 90, true);
-            yield return new WaitForSeconds(1.0f);
+            EffectManager.PlayEffect(EffectType.SwordEffect2, GameConfig.Attrack9SwardEffectTime, 0, 0, new Vector3(pos.x - offset, pos.y - offset, pos.z), 90, true);
+            yield return new WaitForSeconds(GameConfig.Attrack9TotalSwardTime);
             TexSwardBg91.SetActive(false);
-            // PlayTweenAlpha(EffectBg, 0.2f, 0.8f, 0);
             PlayEnemyBeenAttrack(cc, record.ActionList, true);
 
             yield return new WaitForSeconds(.4f);
 
             cc.Play();
-            RunReturn(obj);
+            RunReturn(obj, GameConfig.HeroRunReturnTime);
         }
         
         if (IsRecover)
         {
+            yield return new WaitForSeconds(GameConfig.PlayAttrackTime);
             PlayBloodFullEffect();
+            yield return new WaitForSeconds(GameConfig.PlayRecoverEffectTime);
+            if (battleTeamRecord.RecordList.Count > 0)
+            {
+                for (var i = 0; i < battleTeamRecord.RecordList.Count; i++)
+                {
+                    
+                    record = battleTeamRecord.RecordList[i];
+                    obj = GetCharacterByAction(record.getAttackAction());
+                    if (obj != null) RunReturn(obj, GameConfig.HeroRunReturnTime);
+           
+                }
+            }
         }
-        yield return new WaitForSeconds(0.7f);
+        yield return new WaitForSeconds(GameConfig.TotalHeroAttrackTime);
         CheckMonsterDead();
         yield return StartCoroutine(MakeUpOneByOne());
         pointList.Clear();
@@ -952,8 +972,12 @@ public class InitBattleField : MonoBehaviour, IBattleView
             var ec = enemyList[i].GetComponent<EnemyControl>();
             if (ec.HP <= 0)
             {
+                GoldCount += ec.Data.getIntProp(BattleKeyConstants.BATTLE_PROP_MONSTER_DROP_COIN);
+                EnergyCount += ec.Data.getIntProp(BattleKeyConstants.BATTLE_PROP_MONSTER_DROP_HERO);
+                BoxCount += ec.Data.getIntProp(BattleKeyConstants.BATTLE_PROP_MONSTER_DROP_ITEM);
                 Destroy(enemyList[i]);
                 enemyList[i] = null;
+                ShowTopData();
             }
         }
     }
@@ -961,37 +985,38 @@ public class InitBattleField : MonoBehaviour, IBattleView
     //播放右边怪物攻击动作
     private IEnumerator RightAttrackCoroutineHandler()
     {
+        SetCharacterCanSelect(false);
         if (battleTeamRecord.RecordList.Count > 0)
         {
             BattleFightRecord record;
             for (int i = 0; i < battleTeamRecord.RecordList.Count; i++)
             {
                 record = battleTeamRecord.RecordList[i];
-                var enemy = GetMonsterObject(record.AttackAction);
+                var enemy = GetMonsterObject(record.getAttackAction());
                 if (enemy == null) continue;
                 var ec = enemy.GetComponent<EnemyControl>();
 
-                if (record.AttackAction.ActType == BattleRecordConstants.SINGLE_ACTION_TYPE_SP_ATTACK)
+                if (record.getAttackAction().ActType == BattleRecordConstants.SINGLE_ACTION_TYPE_SP_ATTACK)
                 {
                     PlayMoveCamera(enemy);
 
-                    yield return new WaitForSeconds(0.25f);
+                    yield return new WaitForSeconds(GameConfig.MoveCameraTime);
 
-                    EffectManager.PlayEffect(EffectType.EnemySprite, 0.7f, 0, 0, enemy.transform.position);
+                    EffectManager.PlayEffect(EffectType.EnemySprite, GameConfig.PlayMonsterEffectTime, 0, 0, enemy.transform.position);
 
-                    yield return new WaitForSeconds(0.9f);
+                    yield return new WaitForSeconds(GameConfig.PlayMonsterEffectTime);
                     PlayMoveCameraEnd();
 
-                    yield return new WaitForSeconds(0.4f);
+                    yield return new WaitForSeconds(GameConfig.MoveCameraTime);
                     yield return StartCoroutine(PlayCharacterBeenAttrack(record.ActionList));
                 }
-                else if (record.AttackAction.ActType == BattleRecordConstants.SINGLE_ACTION_TYPE_RECOVER)
+                else if (record.getAttackAction().ActType == BattleRecordConstants.SINGLE_ACTION_TYPE_RECOVER)
                 {
                 }
-                else if (record.AttackAction.ActType == BattleRecordConstants.SINGLE_ACTION_TYPE_RECOVERED)
+                else if (record.getAttackAction().ActType == BattleRecordConstants.SINGLE_ACTION_TYPE_RECOVERED)
                 {
                 }
-                else if (record.AttackAction.ActType == BattleRecordConstants.SINGLE_ACTION_TYPE_DEFENCE)
+                else if (record.getAttackAction().ActType == BattleRecordConstants.SINGLE_ACTION_TYPE_DEFENCE)
                 {
                 }
                 else
@@ -1000,14 +1025,15 @@ public class InitBattleField : MonoBehaviour, IBattleView
                     yield return StartCoroutine(PlayCharacterBeenAttrack(record.ActionList));
                 }
 
-                yield return new WaitForSeconds(0.8f);
-                ResetMonsterStates(ec, record.AttackAction.StateUpdateList);
+                //yield return new WaitForSeconds(GameConfig.TotalHeroAttrackTime);
+                ResetMonsterStates(ec, record.getAttackAction().StateUpdateList);
             }
         }
         isPlaying = false;
         isPlayingRecord = false;
         recordIndex++;
         dealWithRecord();
+        SetCharacterCanSelect(true);
     }
 
     //设置怪的状态参数显示
@@ -1060,7 +1086,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
             }
         }
 
-        yield return new WaitForSeconds(.8f);
+        yield return new WaitForSeconds(GameConfig.HeroBeenAttrackTime);
         for (var j = 0; j < actionlist.Count; j++)
         {
             var action = actionlist[j];
@@ -1084,7 +1110,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
         float tox = Random.Range(-80, 0);
         tp.to = new Vector3(enemy.transform.localPosition.x - 80 + tox, enemy.transform.localPosition.y + toy, 0);
 
-        tp.duration = .3f;
+        tp.duration = GameConfig.RunToAttrackPosTime;
         tp.PlayForward();
     }
 
@@ -1095,7 +1121,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
         {
             var action = enemylist[i];
             var enemy = GetMonsterObject(action);
-
+            if (enemy == null) continue;
             if (showbig)
             {
                 EffectManager.PlayEffect(EffectType.SpriteCollection, 0.8f, 0, -20, enemy.transform.position);
@@ -1128,13 +1154,14 @@ public class InitBattleField : MonoBehaviour, IBattleView
     }
 
     //武将攻击后返回等待队列
-    private void RunReturn(GameObject obj, float runtime = 0.5f)
+    private void RunReturn(GameObject obj, float runtime)
     {
-        CharacterControl cc = obj.GetComponent<CharacterControl>();
+        var cc = obj.GetComponent<CharacterControl>();
         cc.PlayCharacter(0);
         var tp = obj.GetComponent<TweenPosition>();
         tp.ResetToBeginning();
-        tp.from = new Vector3(50, obj.transform.localPosition.y, 0);
+        tp.from = IsRecover ? new Vector3(obj.transform.localPosition.x, obj.transform.localPosition.y, 0) : 
+            new Vector3(50, obj.transform.localPosition.y, 0);
         tp.to = new Vector3(-Screen.width / 2 - 300, obj.transform.localPosition.y, 0);
         tp.duration = runtime;
         tp.PlayForward();
@@ -1153,13 +1180,13 @@ public class InitBattleField : MonoBehaviour, IBattleView
         tp.ResetToBeginning();
         tp.from = new Vector3(0, 0, 0);
         tp.to = new Vector3(-tempGameObj.transform.localPosition.x * 2.5f, -tempGameObj.transform.localPosition.y * 2.5f, 0);
-        tp.duration = 0.25f;
+        tp.duration = GameConfig.MoveCameraTime;
         tp.PlayForward();
         var ts = containerobj.GetComponent<TweenScale>();
         ts.ResetToBeginning();
         ts.from = new Vector3(1, 1, 1);
         ts.to = new Vector3(2.5f, 2.5f, 1);
-        ts.duration = 0.25f;
+        ts.duration = GameConfig.MoveCameraTime;
         ts.PlayForward();
     }
 
@@ -1170,24 +1197,24 @@ public class InitBattleField : MonoBehaviour, IBattleView
         tp.ResetToBeginning();
         tp.from = new Vector3(-tempGameObj.transform.localPosition.x * 2.5f, -tempGameObj.transform.localPosition.y * 2.5f, 0);
         tp.to = new Vector3(0, 0, 0);
-        tp.duration = 0.1f;
+        tp.duration = GameConfig.MoveCameraTime / 2.5f;
         tp.PlayForward();
         var ts = containerobj.GetComponent<TweenScale>();
         while (ts.onFinished.Count > 0) ts.onFinished.RemoveAt(0);
         ts.ResetToBeginning();
         ts.from = new Vector3(2.5f, 2.5f, 1);
         ts.to = new Vector3(1, 1, 1);
-        ts.duration = 0.1f;
+        ts.duration = GameConfig.MoveCameraTime / 2.5f;
         ts.PlayForward();
     }
 
     //get character indexplace by the mouse place
     private Vector2 GetIndexByPlace(float xx, float yy)
     {
-        Debug.Log("1. xx:" + xx.ToString() + ",yy: " + yy.ToString());
+        Logger.Log("1. xx:" + xx.ToString() + ",yy: " + yy.ToString());
         xx = xx / CameraAdjuster.CameraScale;
         yy = yy / CameraAdjuster.CameraScale;
-        Debug.Log("2. xx:" + xx.ToString() + ",yy: " + yy.ToString());
+        Logger.Log("2. xx:" + xx.ToString() + ",yy: " + yy.ToString());
         Vector2 v2 = new Vector2(-1, -1);
         if (xx > minX && xx < BaseX && yy > minY && yy < BaseY)
         {
@@ -1211,7 +1238,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
                 }
             }
         }
-        Debug.Log("1. i:" + v2.x.ToString() + ",j: " + v2.y.ToString());
+        Logger.Log("1. i:" + v2.x.ToString() + ",j: " + v2.y.ToString());
         return v2;
     }
 
@@ -1369,7 +1396,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
 
     //播放sp技能特效
     private ArrayList spStartList;
-    private void PlaySpEffect(List<int?> theList)
+    private void PlaySpEffect(List<int> theList)
     {
         var thecount = (theList.Count > 4) ? 4 : theList.Count;
 
@@ -1381,7 +1408,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
         var cantiner = GameObject.Find("Anchor-left");
 
         var basey = thecount * 160 / 2 - 300;
-        Debug.Log(basey);
+        Logger.Log(basey);
         const int offsety = -160;
         float delay = 0;
         for (var i = 0; i < thecount; i++)
@@ -1688,21 +1715,27 @@ public class InitBattleField : MonoBehaviour, IBattleView
         currEnemyGroupIndex++;
         if (currEnemyGroupIndex < BattleModelLocator.Instance.MonsterGroup.Count)
         {
+            CreateCurrentEnemys();
+
+            RunToNextEnemys();
+            yield return new WaitForSeconds(GameConfig.RunRoNextMonstersTime);
             if (currEnemyGroupIndex == BattleModelLocator.Instance.MonsterGroup.Count - 1)
             {
                 yield return new WaitForSeconds(.4f);
                 PlayWarning(0.2f);
                 yield return new WaitForSeconds(0.6f);
+                for (int i = 0; i < enemyList.Length; i++)
+                {
+                    var obj = enemyList[i] as GameObject;
+                    obj.SetActive(true);
+                }
                 warningObj = EffectManager.ShowEffect(EffectType.Warning, 0, 0, new Vector3(0, 0, 0));
                 yield return new WaitForSeconds(1.8f);
                 PlayWarningEnd();
                 yield return new WaitForSeconds(.4f);
                 HideWaring();
             }
-
-            CreateCurrentEnemys();
-
-            RunToNextEnemys();
+            ShowTopData();
         }
         recordIndex++;
         dealWithRecord();
@@ -1721,7 +1754,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
     public void showBattleTeamFightRecord(BattleTeamFightRecord battleTeamFightRecord)
     {
         //throw new NotImplementedException();
-        Debug.Log("战斗过程 = " + battleTeamFightRecord.RecordList.Count);
+        Logger.Log("战斗过程 = " + battleTeamFightRecord.RecordList.Count);
         isPlayingRecord = true;
         battleTeamRecord = battleTeamFightRecord;
         if (battleTeamRecord.TeamSide == BattleRecordConstants.TARGET_SIDE_A)
@@ -1739,7 +1772,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
     {
         //throw new NotImplementedException();
         isPlayingRecord = false;
-        Debug.Log("CD等状态 = " + roundCountRecord.RecordList.Count);
+        Logger.Log("CD等状态 = " + roundCountRecord.RecordList.Count);
         if (roundCountRecord != null && roundCountRecord.RecordList != null && roundCountRecord.RecordList.Count > 0)
         {
             for (int i = 0; i < roundCountRecord.RecordList.Count; i++)
@@ -1768,11 +1801,8 @@ public class InitBattleField : MonoBehaviour, IBattleView
                         var ec = monster.GetComponent<EnemyControl>();
                         ResetMonsterStates(ec, action.StateUpdateList);
                     }
-                    
                 }
-               
             }
-            
         }
         recordIndex++;
         dealWithRecord();
@@ -1803,14 +1833,14 @@ public class InitBattleField : MonoBehaviour, IBattleView
         }
 
         //battleIndexRecord.getIntProp(BattleRecordConstants.BATTLE_HERO_TOTAL_HP)
-        Debug.Log("脚下标志 = " + str);
+        Logger.Log("脚下标志 = " + str);
         if (battleIndexRecord.prop.ContainsKey(BattleRecordConstants.BATTLE_HERO_TOTAL_HP))
         {
             characterValue = battleIndexRecord.getIntProp(BattleRecordConstants.BATTLE_HERO_TOTAL_HP);
         }
-        if (battleIndexRecord.prop.ContainsKey(BattleRecordConstants.BATTLE_HERO_TOTAL_SP))
+        if (battleIndexRecord.prop.ContainsKey(BattleRecordConstants.BATTLE_HERO_TOTAL_MP))
         {
-            LeaderCD = battleIndexRecord.getIntProp(BattleRecordConstants.BATTLE_HERO_TOTAL_SP);
+            LeaderCD = battleIndexRecord.getIntProp(BattleRecordConstants.BATTLE_HERO_TOTAL_MP);
         }
         ShowHp();
         ShowMp();
@@ -1822,7 +1852,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
     public void showBattleEndRecord(BattleEndRecord battleEndRecord)
     {
         //throw new NotImplementedException();
-        Debug.Log("战斗结束 = " + battleEndRecord.EndType);
+        Logger.Log("战斗结束 = " + battleEndRecord.EndType);
         if (battleEndRecord.EndType == BattleRecordConstants.BATTLE_SCENE_END)
         {
             StartCoroutine(GotoNextScene());
@@ -1850,20 +1880,44 @@ public class InitBattleField : MonoBehaviour, IBattleView
     private bool isPlayingRecord = false;
     private void RequestRecords()
     {
-        Debug.Log("Call RequestRecords");
+        //Logger.Log("Call RequestRecords");
         recordList = (List<IBattleViewRecord>)BattleModelLocator.Instance.MainBattle.Record.reportRecordListAndClear();
         recordIndex = 0;
-        Debug.Log("Return Count = " + recordList.Count);
+        //Logger.Log("Return Count = " + recordList.Count);
         dealWithRecord();
     }
 
     private void dealWithRecord()
     {
-        Debug.LogWarning("dealWithRecord called " + recordIndex);
         if (recordIndex < recordList.Count)
         {
             var record = recordList[recordIndex];
             record.show(this);
+        }
+    }
+
+    private void SetCharacterCanSelect(bool flag)
+    {
+        for (var i = 0; i < 3; i++)
+        {
+            for (var j = 0; j < 3; j++)
+            {
+                var obj = charactersLeft[i, j];
+                if (obj != null)
+                {
+                    var cc = obj.GetComponent<CharacterControl>();
+                    cc.SetCanSelect(flag);
+                }
+            }
+        }
+        for (var i = 0; i < attrackWaitList.Count; i++)
+        {
+            var obj = attrackWaitList[i];
+            if (obj != null)
+            {
+                var cc = obj.GetComponent<CharacterControl>();
+                cc.SetCanSelect(flag);
+            }
         }
     }
 }

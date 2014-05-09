@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using KXSGCodec;
-using Thrift.Protocol;
+﻿using KXSGCodec;
 
 namespace Assets.Game.Scripts.Net.network
 {
@@ -11,7 +6,8 @@ namespace Assets.Game.Scripts.Net.network
     {
         public string Info;
 
-        public ClientSCMessage(short type, string info) : base(type)
+        public ClientSCMessage(short type, string info)
+            : base(type)
         {
             Info = info;
         }

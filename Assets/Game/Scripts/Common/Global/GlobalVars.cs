@@ -10,10 +10,10 @@ public class GlobalVars : Singleton<GlobalVars>
         return (Thread.CurrentThread.ManagedThreadId == mainThreadId);
     }
 
-    private void Awake()
+    private void Start()
     {
         mainThreadId = Thread.CurrentThread.ManagedThreadId;
 
-        Debug.Log("Main thread id: " + mainThreadId);
+        Logger.Log("Main thread id: " + mainThreadId);
     }
 }

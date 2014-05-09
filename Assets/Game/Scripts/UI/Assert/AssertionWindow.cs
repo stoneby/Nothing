@@ -30,6 +30,7 @@ public class AssertionWindow : Window
 
     public Type AssertType;
     public string Message;
+    public string Title;
 
     #endregion
 
@@ -42,16 +43,13 @@ public class AssertionWindow : Window
     private Vector2 positionCancel;
     private Vector2 positionSingleOkay;
 
-    private Type assertType;
-    private string message;
-
     #endregion
 
     #region Window
 
     public override void OnEnter()
     {
-        Debug.LogWarning("========================= OnEnter Assertion Window.");
+        Logger.LogWarning("========================= OnEnter Assertion Window.");
 
         AdjustUI();
     }
@@ -93,8 +91,6 @@ public class AssertionWindow : Window
                 Button2.gameObject.SetActive(false);
                 Button1.transform.localPosition = positionSingleOkay;
                 label1.text = "Ok";
-
-                Debug.LogWarning("---- position: " + Button1.transform.localPosition);
                 break;
 
             case Type.OkCancel:
@@ -103,8 +99,6 @@ public class AssertionWindow : Window
                 Button1.transform.localPosition = positionOkay;
                 label1.text = "Ok";
                 label2.text = "Cancel";
-
-                Debug.LogWarning("---- position: " + Button1.transform.localPosition);
                 break;
 
             case Type.YesNo:
@@ -115,6 +109,8 @@ public class AssertionWindow : Window
                 label2.text = "No";
                 break;
         }
+        TitleLabel.text = Title;
+        MessageLabel.text = Message;
     }
 
     #endregion

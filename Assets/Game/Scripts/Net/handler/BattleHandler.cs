@@ -1,11 +1,9 @@
-﻿using System.Collections.Generic;
-using Assets.Game.Scripts.Common.Model;
-using Assets.Game.Scripts.Net.network;
-using com.kx.sglm.gs.battle.data;
-using com.kx.sglm.gs.battle.enums;
-using com.kx.sglm.gs.battle.factory.creater;
+﻿using Assets.Game.Scripts.Common.Model;
+using com.kx.sglm.gs.battle.share.data;
+using com.kx.sglm.gs.battle.share.enums;
+using com.kx.sglm.gs.battle.share.factory.creater;
 using KXSGCodec;
-using UnityEngine;
+using System.Collections.Generic;
 
 namespace Assets.Game.Scripts.Net.handler
 {
@@ -13,15 +11,15 @@ namespace Assets.Game.Scripts.Net.handler
     {
         public static void OnBattlePveStart(ThriftSCMessage msg)
         {
-            var battlestartmsg = msg.getContent() as SCBattlePveStartMsg;
+            var battlestartmsg = msg.GetContent() as SCBattlePveStartMsg;
             if (battlestartmsg != null)
             {
                 PopTextManager.PopTip("返回战斗数据");
                 BattleModelLocator.Instance.BattleType = battlestartmsg.BattleType;
-                BattleModelLocator.Instance.MonsterGroup = (List<int>) battlestartmsg.MonsterGroup;
+                BattleModelLocator.Instance.MonsterGroup = (List<int>)battlestartmsg.MonsterGroup;
                 BattleModelLocator.Instance.RaidID = battlestartmsg.RaidID;
                 BattleModelLocator.Instance.Uuid = battlestartmsg.Uuid;
-                
+
                 //构建服务器开始战斗逻辑
                 var type = BattleType.getValue(battlestartmsg.BattleType);
                 BattleModelLocator.Instance.Source = new BattleSource(type);
@@ -29,7 +27,7 @@ namespace Assets.Game.Scripts.Net.handler
 
                 BattleModelLocator.Instance.HeroList = FighterInfoCreater.createListFromMsgHero(BattleSideEnum.SIDEA, battlestartmsg.FighterList);
                 BattleModelLocator.Instance.MonsterList = FighterInfoCreater.createListFormMsgMonster(BattleSideEnum.SIDEB, battlestartmsg.MonsterGroup, battlestartmsg.MonsterList);
-		        var _allFighterList = new List<FighterInfo>();
+                var _allFighterList = new List<FighterInfo>();
                 _allFighterList.AddRange(BattleModelLocator.Instance.HeroList);
                 _allFighterList.AddRange(BattleModelLocator.Instance.MonsterList);
                 BattleModelLocator.Instance.Source.FighterProp = _allFighterList;

@@ -1,8 +1,5 @@
 using System;
-using System.Collections;
-using System.Text;
 using Thrift.Protocol;
-using KXSGLog;
 
 namespace KXSGCodec
 {
@@ -13,47 +10,46 @@ namespace KXSGCodec
     {
         // real msg content, exclude msg header
         private TBase content;
-        private short msgType;
+        private readonly short msgType;
 
         public ThriftSCMessage(short msgType)
         {
             this.msgType = msgType;
             content = SCMessageHelper.createMessage(msgType);
-            //content = SCMessageHelper.createMessage(msgType);
-            
         }
 
-        public TBase getContent() 
+        public TBase GetContent()
         {
-            return this.content;
+            return content;
         }
 
         protected override void ReadImpl()
         {
             try
             {
-                int _contentLen = this.getMsgLength() - BaseMessage.MIN_MSG_LEN;
-                if (_contentLen <= 0)
+                var contentLen = GetMsgLength() - MinMsgLen;
+                if (contentLen <= 0)
                 {
                     return;
                 }
 
-                byte[] _contentBytes = this.ReadBytes(_contentLen);
-                ThriftMsgSerialize.DeSerialize(content, _contentBytes);
+                var contentBytes = ReadBytes(contentLen);
+                ThriftMsgSerialize.DeSerialize(content, contentBytes);
             }
             catch (Exception ex)
             {
-                this.content = null;
-                ClientLog.Instance.LogError(ex.ToString());
+                content = null;
+                Logger.LogError(ex.ToString());
             }
         }
 
         public override short GetMsgType()
         {
-            return this.msgType;
+            return msgType;
         }
 
-        protected override void WriteImpl() {
+        protected override void WriteImpl()
+        {
             throw new UnauthorizedAccessException();
         }
 

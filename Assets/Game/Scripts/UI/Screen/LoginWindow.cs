@@ -23,7 +23,7 @@ public class LoginWindow : Window
 
 //    private void OnFallThroughClick(GameObject sender)
 //    {
-//        Debug.LogWarning("This is a fall through event.");
+//        Logger.LogWarning("This is a fall through event.");
 //    }
 
     #region Mono

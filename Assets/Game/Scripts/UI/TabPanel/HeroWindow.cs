@@ -42,12 +42,12 @@ public class HeroWindow : Window
 
     private void OnButtonClick(GameObject game)
     {
-        Debug.LogWarning("XXXXXXXXXXXXXXXXXXXX I got clicked. " + game.name);
+        Logger.LogWarning("XXXXXXXXXXXXXXXXXXXX I got clicked. " + game.name);
     }
 
     private void OnDoubleClick(GameObject game)
     {
-        Debug.LogWarning("XXXXXXXXXXXXXXXXXXXX I got double clicked. " + game.name);
+        Logger.LogWarning("XXXXXXXXXXXXXXXXXXXX I got double clicked. " + game.name);
     }
 
     #endregion

@@ -126,7 +126,7 @@ public class TestFramework : MonoBehaviour
 
     private static void OnTestHandler(TestEvent e)
     {
-        Debug.LogWarning("OnTestHandler get called back, with event-" + e.Message);
+        Logger.LogWarning("OnTestHandler get called back, with event-" + e.Message);
     }
 
     private void AssetWindowTest()
@@ -148,7 +148,7 @@ public class TestFramework : MonoBehaviour
             assertWindow.Message = assertMessage;
             WindowManager.Instance.Show(typeof(AssertionWindow), true);
 
-            Debug.LogWarning("Show assert window.");
+            Logger.LogWarning("Show assert window.");
 
             assertWindow.OkButtonClicked += OnOkButtonClicked;
             assertWindow.CancelButtonClicked += OnCancelButtonClicked;
@@ -165,12 +165,12 @@ public class TestFramework : MonoBehaviour
 
     private void OnOkButtonClicked(GameObject sender)
     {
-        Debug.LogWarning("Ok button is clicked. " + sender.name);
+        Logger.LogWarning("Ok button is clicked. " + sender.name);
     }
 
     private void OnCancelButtonClicked(GameObject sender)
     {
-        Debug.LogWarning("Cancel button is clicked. " + sender.name);
+        Logger.LogWarning("Cancel button is clicked. " + sender.name);
     }
 
     private void MultithreadTest()
@@ -180,10 +180,10 @@ public class TestFramework : MonoBehaviour
             Loom.Instance.enabled = true;
             Loom.RunAsync(() =>
             {
-                Debug.LogWarning("i am in another thread " + GlobalVars.IsMainThread());
+                Logger.LogWarning("i am in another thread " + GlobalVars.IsMainThread());
                 Loom.QueueOnMainThread(() =>
                 {
-                    Debug.LogWarning("---------------I am back to main thread: " + Thread.CurrentThread.ManagedThreadId);
+                    Logger.LogWarning("---------------I am back to main thread: " + Thread.CurrentThread.ManagedThreadId);
                     Loom.Instance.enabled = false;
                 });
             });

@@ -236,7 +236,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100004}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -180.04483, y: 67.5187988, z: 0}
+  m_LocalPosition: {x: -180.000015, y: 67.5000076, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400000}
@@ -1039,6 +1039,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Path: 
+  WindowGroup: 0
   BackgroundDimmer: {fileID: 100022}
   TitleLabel: {fileID: 11400004}
   MessageLabel: {fileID: 11400006}
@@ -1046,6 +1047,7 @@ MonoBehaviour:
   Button2: {fileID: 11400028}
   AssertType: 0
   Message: 
+  Title: 
 --- !u!114 &11400036
 MonoBehaviour:
   m_ObjectHideFlags: 1

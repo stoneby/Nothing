@@ -6,12 +6,14 @@ public class PopTextManager
 {
     static GameObject textContainer;
     static GameObject textPrefab;
+    static GameObject shakePrefab;
     private static bool haveInit = false;
 
     public static void Init()
     {
         textContainer = GameObject.Find("Tip");
         textPrefab = Resources.Load("Prefabs/Component/PopLabel") as GameObject;
+        shakePrefab = Resources.Load("Prefabs/Component/ShakeLabel") as GameObject;
     }
 
     public static void ShowText(string str, float showtime, float offsetx, float offsety, float popheight, Vector3 pos)
@@ -42,9 +44,24 @@ public class PopTextManager
             LastPos = 0;
         }
         LastTime = t;
-        Debug.Log("time = " + Time.time);
+        Logger.Log("time = " + Time.time);
         //var now = DateTime.Now;
         //Logger.Log(Time.time);
         ShowText(str, 3, 0, 0, 100, new Vector3(0, 250 - LastPos, 0));
+    }
+
+    public static GameObject ShakeText(string str, float offsetx, float offsety, Vector3 pos)
+    {
+        if (!haveInit)
+        {
+            Init();
+            haveInit = true;
+        }
+        var obj = NGUITools.AddChild(textContainer, shakePrefab);
+        var lb = obj.GetComponent<UILabel>();
+        lb.text = str;
+        iTweenEvent.GetEvent(obj, "ShakeAttrackLabel").Play();
+        obj.transform.localPosition = new Vector3(pos.x + offsetx, pos.y + offsety, pos.z);
+        return obj;
     }
 }

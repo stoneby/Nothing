@@ -1,14 +1,8 @@
-//#define	USE_THREAD_RECEIVE_MSG
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
-using System.Net.Sockets;
 using System.Net;
-using System.IO;
-using System.Threading;
-using KXSGLog;
+using System.Net.Sockets;
 using Thrift.Protocol;
 
 namespace KXSGCodec
@@ -18,53 +12,55 @@ namespace KXSGCodec
     /// </summary>
     public class ClientSocket
     {
-        private const int MAX_MSG_PER_LOOP = 16;
-        private const int DEFAULT_RECEIVE_SIZE = 64 * 1024;
-		private const int DEFAULT_SEND_SIZE = 32 * 1024;
+        private const int MaxMsgPerLoop = 16;
+        private const int DefaultReceiveSize = 64 * 1024;
+        private const int DefaultSendSize = 32 * 1024;
 
-        private EClientConnectState ConnectState = EClientConnectState.CONNECT_STATE_NONE;
+        private EClientConnectState connectState = EClientConnectState.ConnectStateNone;
 
         // server address info
-        private IPaddressWrapper[] ipAddressArry;
+        private IpAddressWrapper[] ipAddressArry;
 
-        private Socket socketClient;
-        
+        private readonly Socket socketClient;
+
         // receive msg list
-        private IList<ThriftSCMessage> recMsgs;
+        private readonly IList<ThriftSCMessage> recMsgs;
         // receive msg copy, process from this list
-        private IList<ThriftSCMessage> msgCopy;
+        private readonly IList<ThriftSCMessage> msgCopy;
 
-        private ByteBuffer recMsgBuf;
+        private readonly ByteBuffer recMsgBuf;
 
-        private SCMessageRecognizor msgRecognizer;
+        private readonly SCMessageRecognizor msgRecognizer;
 
 #if USE_THREAD_RECEIVE_MSG
 		Thread	mRecvThread =	null;
 		bool	mThreadWork	=	false;
 #endif
-		
-		private bool	m_bSecurityPolicy	=	false;
 
-		static	private	object		_ErrorLock	=	new object();
-		static	private	int			_ShowErrorIndex = 0;
-		static	private	int			_ErrorCode	=	0;
-		static	private	SocketError	_SocketError;
+        private const bool SecurityPolicy = false;
+
+        static private int showErrorIndex = 0;
+        static private int errorCode = 0;
+        static private SocketError socketError;
 
         public ClientSocket(String serverIp, String serverPorts)
         {
-            socketClient = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            socketClient = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp)
+            {
+                Blocking = false,
+                ReceiveBufferSize = DefaultReceiveSize,
+                SendBufferSize = DefaultSendSize,
+                ReceiveTimeout = 30000,
+                SendTimeout = 30000
+            };
+
             // Set to no blocking
-            socketClient.Blocking = false;
-			socketClient.ReceiveBufferSize	=	DEFAULT_RECEIVE_SIZE;
-			socketClient.SendBufferSize		=	DEFAULT_SEND_SIZE;
-			socketClient.ReceiveTimeout		=	30000;
-			socketClient.SendTimeout		=	30000;
             recMsgs = new List<ThriftSCMessage>();
             msgCopy = new List<ThriftSCMessage>();
             msgRecognizer = new SCMessageRecognizor();
-            this.InitIpAddressArry(serverIp, serverPorts);
+            InitIpAddressArry(serverIp, serverPorts);
 
-            recMsgBuf = new ByteBuffer(BaseMessage.MAX_MSG_LEN);
+            recMsgBuf = new ByteBuffer(BaseMessage.MaxMsgLen);
         }
 
         /// <summary>
@@ -76,11 +72,10 @@ namespace KXSGCodec
             {
                 return;
             }
-			
+
 #if USE_THREAD_RECEIVE_MSG
 			mThreadWork	=	false;
 #endif
-
             socketClient.Close();
         }
 
@@ -95,72 +90,67 @@ namespace KXSGCodec
         {
             try
             {
-                IPEndPoint _ep = null;
+                IPEndPoint ep;
 
-                if (m_bSecurityPolicy)
+                if (SecurityPolicy)
                 {
                     while (true)
                     {
-                        _ep = this.GetServerAddress();
-                        if (null == _ep)
+                        ep = this.GetServerAddress();
+                        if (null == ep)
                         {
-                            ConnectState = EClientConnectState.CONNECT_STATE_TIME_OUT;
-                            ClientLog.Instance.LogError("Connect timeout : no valid server ip or port");
+                            connectState = EClientConnectState.ConnectStateTimeOut;
+                            Logger.LogError("Connect timeout : no valid server ip or port");
                             return;
                         }
-                        
-                        //if (Security.PrefetchSocketPolicy(_ep.Address.ToString(), _ep.Port, 5000))
-                        //    break;
-						
-                        ClientLog.Instance.LogError("WebPlayer : Security Prefetch Socket Policy Failed : IP = " + _ep.Address.ToString() + " Port = " + _ep.Port.ToString() + ". To next port...");
+                        Logger.LogError("WebPlayer : Security Prefetch Socket Policy Failed : IP = " + ep.Address.ToString() + " Port = " + ep.Port.ToString() + ". To next port...");
                     }
                 }
                 else
                 {
-                    _ep = this.GetServerAddress();
-                    if (null == _ep)
+                    ep = GetServerAddress();
+                    if (null == ep)
                     {
-                        ConnectState = EClientConnectState.CONNECT_STATE_TIME_OUT;
-                        ClientLog.Instance.LogError("Connect timeout : no valid server ip or port");
-						
+                        connectState = EClientConnectState.ConnectStateTimeOut;
+                        Logger.LogError("Connect timeout : no valid server ip or port");
+
                         return;
                     }
                 }
-				
-                
-                ConnectState = EClientConnectState.CONNECT_STATE_TRY_CONNECT;
-                socketClient.BeginConnect(_ep, new AsyncCallback(ConnectCallback), socketClient);
-				ClientLog.Instance.LogError("Connect server : " + _ep.Address.ToString() + ":" + _ep.Port.ToString() );
+
+                connectState = EClientConnectState.ConnectStateTryConnect;
+                socketClient.BeginConnect(ep, ConnectCallback, socketClient);
+                Logger.LogError("Connect server : " + ep.Address + ":" + ep.Port);
             }
             catch (Exception ex)
             {
-                ClientLog.Instance.LogError(ex.ToString());
+                Logger.LogError(ex.ToString());
             }
         }
-		
-		public	void	DoRetryConnect()
-		{
-			ConnectState = EClientConnectState.CONNECT_STATE_DO_TRY_CONNECT;
-		}
-   
+
+        public void DoRetryConnect()
+        {
+            connectState = EClientConnectState.ConnectStateDoTryConnect;
+        }
+
         /// <summary>
         /// get server address which has not choiced
         /// </summary>
         /// <returns></returns>
         private IPEndPoint GetServerAddress()
         {
-            for (int i = 0; i < ipAddressArry.Length; i++)
+            for (var i = 0; i < ipAddressArry.Length; i++)
             {
-                IPaddressWrapper _wrapper = ipAddressArry[i];       
-                if (_wrapper.isTried)
+                var wrapper = ipAddressArry[i];
+                if (wrapper.IsTried)
                 {
                     continue;
                 }
-                _wrapper.isTried = true;
+                wrapper.IsTried = true;
                 // FIXME why
-                ipAddressArry[i] = _wrapper;
-                ClientLog.Instance.LogInfo("Try to connect : " + _wrapper.ipPoint);
-                return _wrapper.ipPoint;
+                ipAddressArry[i] = wrapper;
+                Logger.Log("Try to connect : " + wrapper.IpPoint);
+                return wrapper.IpPoint;
             }
 
             return null;
@@ -168,29 +158,29 @@ namespace KXSGCodec
 
         public void ResetServerAddressStatus()
         {
-            ConnectState = EClientConnectState.CONNECT_STATE_NONE;
-            for (int i = 0; i < ipAddressArry.Length; i++)
+            connectState = EClientConnectState.ConnectStateNone;
+            for (var i = 0; i < ipAddressArry.Length; i++)
             {
-                IPaddressWrapper _wrapper = ipAddressArry[i];
-                _wrapper.isTried = false;
-                ipAddressArry[i] = _wrapper;
-
+                var wrapper = ipAddressArry[i];
+                wrapper.IsTried = false;
+                ipAddressArry[i] = wrapper;
             }
         }
 
         private void InitIpAddressArry(String serverIp, String ports)
         {
-            IPAddress _ipAddress = IPAddress.Parse(serverIp);
-            string[] _tempArray = ports.Split(',');
-            int _portSize = _tempArray.Length;
-            ipAddressArry = new IPaddressWrapper[_portSize];
-            for (int i = 0; i < _portSize; i++)
+            var ipAddress = IPAddress.Parse(serverIp);
+            var tempArray = ports.Split(',');
+            var portSize = tempArray.Length;
+            ipAddressArry = new IpAddressWrapper[portSize];
+            for (var i = 0; i < portSize; i++)
             {
-                int _port = Convert.ToInt32(_tempArray[i].Trim());
-                IPaddressWrapper _addressWrapper = new IPaddressWrapper();
-                _addressWrapper.ipPoint = new IPEndPoint(_ipAddress, _port);
-                _addressWrapper.isTried = false;
-                ipAddressArry[i] = _addressWrapper;
+                var port = Convert.ToInt32(tempArray[i].Trim());
+                var addressWrapper = new IpAddressWrapper
+                {
+                    IpPoint = new IPEndPoint(ipAddress, port), IsTried = false
+                };
+                ipAddressArry[i] = addressWrapper;
             }
         }
 
@@ -202,28 +192,25 @@ namespace KXSGCodec
         {
             try
             {
-                Socket _socket = (Socket)ar.AsyncState;
-                if (!_socket.Connected)
+                var socket = (Socket)ar.AsyncState;
+                if (!socket.Connected)
                 {
-                    ClientLog.Instance.LogError(_socket.LocalEndPoint + " connect failed!, try connect again");
-                    this.DoRetryConnect();
+                    Logger.LogError(socket.LocalEndPoint + " connect failed!, try connect again");
+                    DoRetryConnect();
                 }
                 else
                 {
-                    ConnectState = EClientConnectState.CONNECT_STATE_CONNECTED;
-                    _socket.EndConnect(ar);
-                    ClientLog.Instance.LogError(_socket.LocalEndPoint + " connect successful!");
-                    this.StartRecevieMsg();
+                    connectState = EClientConnectState.ConnectStateConnected;
+                    socket.EndConnect(ar);
+                    Logger.LogError(socket.LocalEndPoint + " connect successful!");
+                    StartRecevieMsg();
                 }
             }
             catch (Exception e)
             {
-
-                ConnectState = EClientConnectState.CONNECT_STATE_TIME_OUT;
-                // do something
-                ClientLog.Instance.LogError(e.ToString());
+                connectState = EClientConnectState.ConnectStateTimeOut;
+                Logger.LogError(e.ToString());
             }
-
         }
 
         /// <summary>
@@ -232,27 +219,26 @@ namespace KXSGCodec
         /// <param name="msgContent"></param>
         public void SendMessage(TBase msgContent)
         {
-            ThriftCSMessage msg = new ThriftCSMessage(msgContent);
-            byte[] _bytes = msg.Encode();
-            if (_bytes == null || _bytes.Length <= 0)
+            var msg = new ThriftCSMessage(msgContent);
+            var bytes = msg.Encode();
+            if (bytes == null || bytes.Length <= 0)
             {
-                ClientLog.Instance.LogError("send data is null or length is 0, msg type = " + msgContent.GetType().ToString());
-				return;
+                Logger.LogError("send data is null or length is 0, msg type = " + msgContent.GetType().ToString());
+                return;
             }
 
             // TODO Encrypt Message Data
-
-            this.StartSendMsg(_bytes);
+            StartSendMsg(bytes);
         }
 
         public bool IsConnected()
         {
-            return (null != this.socketClient && this.socketClient.Connected);
+            return (null != socketClient && socketClient.Connected);
         }
 
         public bool CanTryConnect()
         {
-            return (!IsConnected() && ConnectState < EClientConnectState.CONNECT_STATE_CAN_RECONNECT);
+            return (!IsConnected() && connectState < EClientConnectState.ConnectStateCanReconnect);
         }
 
 
@@ -264,26 +250,26 @@ namespace KXSGCodec
         {
             try
             {
-                if (!this.IsConnected())
+                if (!IsConnected())
                 {
-                    ClientLog.Instance.LogError("server is not connected!");
+                    Logger.LogError("server is not connected!");
                 }
                 else
                 {
-                    socketClient.BeginSend(bytes, 0, bytes.Length, SocketFlags.None, new AsyncCallback(SendMsgCallback), socketClient);
+                    socketClient.BeginSend(bytes, 0, bytes.Length, SocketFlags.None, SendMsgCallback, socketClient);
                 }
             }
             catch (Exception ex)
             {
-                ClientLog.Instance.LogError(ex.ToString());
+                Logger.LogError(ex.ToString());
             }
         }
-		
-		/// <summary>
-		/// start async receive msg
-		/// </summary>
-		private void StartRecevieMsg()
-        {			
+
+        /// <summary>
+        /// start async receive msg
+        /// </summary>
+        private void StartRecevieMsg()
+        {
 #if USE_THREAD_RECEIVE_MSG
 			if( null == mRecvThread )
 				mRecvThread = new Thread( RecvThreadDoWork );
@@ -294,14 +280,16 @@ namespace KXSGCodec
 				mRecvThread.Start();
 			}
 #else
-			MsgReceiveHelper _receiveHelper = new MsgReceiveHelper();
-            _receiveHelper.socket = this.socketClient;
-            _receiveHelper.buffer = new byte[DEFAULT_RECEIVE_SIZE];
-			
-            this.socketClient.BeginReceive(_receiveHelper.buffer, 0, _receiveHelper.buffer.Length, SocketFlags.None, new AsyncCallback(ReceiveMsgCallback), _receiveHelper);
+            var receiveHelper = new MsgReceiveHelper
+            {
+                Socket = socketClient,
+                Buffer = new byte[DefaultReceiveSize]
+            };
+
+            socketClient.BeginReceive(receiveHelper.Buffer, 0, receiveHelper.Buffer.Length, SocketFlags.None, ReceiveMsgCallback, receiveHelper);
 #endif
         }
-		
+
 
 #if USE_THREAD_RECEIVE_MSG
 		void	RecvThreadDoWork()
@@ -320,7 +308,7 @@ namespace KXSGCodec
 					else
 					{
 						SetShowNetworkError( 1, 0, SocketError.SocketError );					
-						ClientLog.Instance.LogError("Socket EndReceive failed, the size is 0. The remote socket is closed. Disconnect...");
+						Logger.LogError("Socket EndReceive failed, the size is 0. The remote socket is closed. Disconnect...");
 						this.Close();
 						break;
 					}
@@ -337,9 +325,9 @@ namespace KXSGCodec
 					else
 					{
 						SetShowNetworkError( 2, se.ErrorCode, se.SocketErrorCode );							
-						ClientLog.Instance.LogError("receive msg failed : " + se.ToString());
-						ClientLog.Instance.LogError("Socket EndReceive Exception, ErrorCode = " + se.ErrorCode.ToString() + ", SocketErrorCode = " + se.SocketErrorCode.ToString());
-						ClientLog.Instance.LogError("Socket fatal exception, disconnect...");
+						Logger.LogError("receive msg failed : " + se.ToString());
+						Logger.LogError("Socket EndReceive Exception, ErrorCode = " + se.ErrorCode.ToString() + ", SocketErrorCode = " + se.SocketErrorCode.ToString());
+						Logger.LogError("Socket fatal exception, disconnect...");
 						this.Close();
 						break;
 					}
@@ -359,95 +347,79 @@ namespace KXSGCodec
         /// <param name="receiveRes"></param>
         private void ReceiveMsgCallback(IAsyncResult receiveRes)
         {
-			if( !IsConnected() )
-			{
-				ClientLog.Instance.LogError("ReceiveMsgCallback : the socket is not connected!!!");
-				return;
-			}
-			
-            MsgReceiveHelper _receiveHelper = null;
+            if (!IsConnected())
+            {
+                Logger.LogError("ReceiveMsgCallback : the socket is not connected!!!");
+                return;
+            }
+
+            MsgReceiveHelper receiveHelper = null;
             try
             {
-                int _recSize = this.socketClient.EndReceive(receiveRes);
-				if( _recSize > 0 )
-				{
-                	_receiveHelper = (MsgReceiveHelper)receiveRes.AsyncState;
-                	this.DecodeMsg(_receiveHelper.buffer, _recSize, null);
-				}
-				// < 0, the remote socket is close...
-				else
-				{			
-					ClientLog.Instance.LogError("Socket EndReceive failed, the size is 0. The remote socket is closed. Disconnect...");
-					this.Close();
-					return;
-				}
-            }
-			//
-			catch( SocketException se )
-			{			
-				ClientLog.Instance.LogError("receive msg failed : " + se.ToString());
-				ClientLog.Instance.LogError("Socket EndReceive Exception, ErrorCode = " + se.ErrorCode.ToString() + ", SocketErrorCode = " + se.SocketErrorCode.ToString());
-				
-				// Disconnect, WSAEWOULDBLOCK
-				if( !se.SocketErrorCode.Equals( SocketError.WouldBlock ) )
-				{					
-					ClientLog.Instance.LogError("Socket fatal exception, disconnect...");
-					this.Close();
-					return;
-				}
-			}
-            catch (Exception e)
-            {			
-                ClientLog.Instance.LogError("receive msg failed : " + e.ToString());
-            }
-			//
-            finally
-            {
-                if (_receiveHelper != null)
+                var recSize = socketClient.EndReceive(receiveRes);
+                if (recSize > 0)
                 {
-                    _receiveHelper.socket.BeginReceive(_receiveHelper.buffer, 0, _receiveHelper.buffer.Length, SocketFlags.None, new AsyncCallback(ReceiveMsgCallback), _receiveHelper);
+                    receiveHelper = (MsgReceiveHelper)receiveRes.AsyncState;
+                    DecodeMsg(receiveHelper.Buffer, recSize, null);
                 }
                 else
                 {
-                    this.StartRecevieMsg();
+                    Logger.LogError("Socket EndReceive failed, the size is 0. The remote socket is closed. Disconnect...");
+                    Close();
                 }
             }
-        }
-
-        private void SendMsgCallback(IAsyncResult sendRes)
-        {
-            try
+            catch (SocketException se)
             {
-                Socket _socket = (Socket)sendRes.AsyncState;
-                int nSentByte = _socket.EndSend(sendRes);
+                Logger.LogError("receive msg failed : " + se);
+                Logger.LogError("Socket EndReceive Exception, ErrorCode = " + se.ErrorCode + ", SocketErrorCode = " + se.SocketErrorCode);
 
-                if (nSentByte <= 0)
-                {			
-                    ClientLog.Instance.LogError("send msg failed!");
+                // Disconnect, WSAEWOULDBLOCK
+                if (!se.SocketErrorCode.Equals(SocketError.WouldBlock))
+                {
+                    Logger.LogError("Socket fatal exception, disconnect...");
+                    Close();
                 }
             }
             catch (Exception e)
             {
-                ClientLog.Instance.LogError("send msg failed : " + e.ToString());
-				//
-				SocketException	se = e as SocketException;
-				if( null != se )
-				{				
-					ClientLog.Instance.LogError("Socket EndSend Exception, ErrorCode = " + se.ErrorCode.ToString() + ", SocketErrorCode = " + se.SocketErrorCode.ToString());
-				}
+                Logger.LogError("receive msg failed : " + e);
+            }
+            finally
+            {
+                if (receiveHelper != null)
+                {
+                    receiveHelper.Socket.BeginReceive(receiveHelper.Buffer, 0, receiveHelper.Buffer.Length, SocketFlags.None, ReceiveMsgCallback, receiveHelper);
+                }
+                else
+                {
+                    StartRecevieMsg();
+                }
             }
         }
 
-        private byte[] encrytData(byte[] sendData)
+        private static void SendMsgCallback(IAsyncResult sendRes)
         {
-            return sendData;
+            try
+            {
+                var socket = (Socket)sendRes.AsyncState;
+                var nSentByte = socket.EndSend(sendRes);
+
+                if (nSentByte <= 0)
+                {
+                    Logger.LogError("send msg failed!");
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.LogError("send msg failed : " + e.ToString());
+                var se = e as SocketException;
+                if (null != se)
+                {
+                    Logger.LogError("Socket EndSend Exception, ErrorCode = " + se.ErrorCode + ", SocketErrorCode = " + se.SocketErrorCode);
+                }
+            }
         }
 
-        private byte[] decrytData(byte[] receiveData)
-        {
-            return receiveData;
-        }
-		
         /// <summary>
         /// decode bytes msg data to msg object
         /// </summary>
@@ -458,49 +430,47 @@ namespace KXSGCodec
             if (size <= 0)
             {
                 return;
-            }			
+            }
 
             recMsgBuf.Put(receiveBytes, size);
             recMsgBuf.Flip();
-			
-			//
-			ClientLog.Instance.LogError("DecodeMsg Buf size : " + recMsgBuf.Remaining() );
 
-            ThriftSCMessage _msg = null;
-            while (recMsgBuf.Remaining() >= BaseMessage.MIN_MSG_LEN)
+            Logger.Log("DecodeMsg Buf size : " + recMsgBuf.Remaining());
+
+            while (recMsgBuf.Remaining() >= BaseMessage.MinMsgLen)
             {
-                long _curPosition = recMsgBuf.Position();
-                byte[] _arry = new byte[BaseMessage.MSG_SIZE_LEN];
-                recMsgBuf.Get(_arry);
-                Array.Reverse(_arry);
-                short _msgLen = BitConverter.ToInt16(_arry, 0);
-                if (_msgLen <= 0)
+                var curPosition = recMsgBuf.Position();
+                var arry = new byte[BaseMessage.MsgSizeLen];
+                recMsgBuf.Get(arry);
+                Array.Reverse(arry);
+                var msgLen = BitConverter.ToInt16(arry, 0);
+                if (msgLen <= 0)
                 {
                     continue;
                 }
-                recMsgBuf.SetPosition(_curPosition);
-				
+                recMsgBuf.SetPosition(curPosition);
+
                 // msg not receive complete
-                if (_msgLen > recMsgBuf.Remaining())
+                if (msgLen > recMsgBuf.Remaining())
                 {
                     break;
                 }
 
-                byte[] _msgData = new byte[_msgLen];
-                recMsgBuf.Get(_msgData);
+                var msgData = new byte[msgLen];
+                recMsgBuf.Get(msgData);
 
                 try
                 {
                     // TODO key msg exception handle
-                    _msg = this.msgRecognizer.RecognizeMsg(_msgData);
-                    if (_msg == null)
+                    var msg = msgRecognizer.RecognizeMsg(msgData);
+                    if (msg == null)
                     {
-                        ClientLog.Instance.LogError("rec msg fail: " + _msgData);
+                        Logger.LogError("rec msg fail: " + msgData);
                     }
                     else
                     {
 
-                        _msg.Decode(_msgData);
+                        msg.Decode(msgData);
                         // FIXME fangyong 短连接使用消息queue， 不必要再存到list了， 做长连接时需要再修改
                         /**
                         lock (this.recMsgs)
@@ -512,14 +482,14 @@ namespace KXSGCodec
                         {
                             lock (msgQueue.SyncRoot)
                             {
-                                msgQueue.Enqueue(_msg);
+                                msgQueue.Enqueue(msg);
                             }
                         }
                     }
                 }
                 catch (Exception e)
                 {
-                    ClientLog.Instance.LogError(e.ToString());
+                    Logger.LogError(e.ToString());
                 }
 
                 // data finish
@@ -528,7 +498,7 @@ namespace KXSGCodec
                     recMsgBuf.Clear();
                 }
             }
-               
+
             if (recMsgBuf.Position() != 0)
             {
                 recMsgBuf.Compact();
@@ -541,10 +511,10 @@ namespace KXSGCodec
 
         public void HandleReceiveMsgs()
         {
-            lock (this.recMsgs)
+            lock (recMsgs)
             {
-                int iMsgCount = Math.Min(this.recMsgs.Count, MAX_MSG_PER_LOOP);
-                for (int iLoop = 0; iLoop < iMsgCount; ++iLoop)
+                var iMsgCount = Math.Min(recMsgs.Count, MaxMsgPerLoop);
+                for (var iLoop = 0; iLoop < iMsgCount; ++iLoop)
                 {
                     msgCopy.Add(recMsgs[0]);
                     recMsgs.RemoveAt(0);
@@ -559,58 +529,54 @@ namespace KXSGCodec
 
         public ThriftSCMessage PopHandleMsg()
         {
-            if (msgCopy.Count > 0)
+            if (msgCopy.Count <= 0)
             {
-                ThriftSCMessage Msg = msgCopy[0];
-                msgCopy.RemoveAt(0);
-
-                return Msg;
+                return null;
             }
+            var msg = msgCopy[0];
+            msgCopy.RemoveAt(0);
 
-            return null;
-        }  
-		
-		public EClientConnectState ClientConnectState
-		{
-			get{ return ConnectState; }
-			set
-			{
-				ConnectState = value;
-			}
-		}
+            return msg;
+        }
 
-	}
+        public EClientConnectState ClientConnectState
+        {
+            get { return connectState; }
+            set
+            {
+                connectState = value;
+            }
+        }
+
+    }
 
 
     public enum EClientConnectState
     {
-        CONNECT_STATE_NONE,
-        CONNECT_STATE_TIME_OUT,
-
-        CONNECT_STATE_CAN_RECONNECT,
-
-        CONNECT_STATE_TRY_CONNECT,
-        CONNECT_STATE_CONNECTED,
-        CONNECT_STATE_DO_TRY_CONNECT
+        ConnectStateNone,
+        ConnectStateTimeOut,
+        ConnectStateCanReconnect,
+        ConnectStateTryConnect,
+        ConnectStateConnected,
+        ConnectStateDoTryConnect
     }
 
     /// <summary>
     /// server address wrapper
     /// </summary>
-    struct IPaddressWrapper
+    struct IpAddressWrapper
     {
-        public IPEndPoint ipPoint;
+        public IPEndPoint IpPoint;
         // has try connect tag
-        public bool isTried;
+        public bool IsTried;
     };
-    
+
     /// <summary>
     /// temp save object when msg received
     /// </summary>
     class MsgReceiveHelper
     {
-        public Socket socket;
-        public byte[] buffer;
+        public Socket Socket;
+        public byte[] Buffer;
     }
-
 }

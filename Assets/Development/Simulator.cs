@@ -12,7 +12,7 @@ public class Simulator : MonoBehaviour
 
     private void CallbackFunction()
     {
-        Debug.Log("updating...");
+        Logger.Log("updating...");
 
         if (Open)
         {
@@ -35,30 +35,30 @@ public class Simulator : MonoBehaviour
     [ContextMenu("Play")]
     public void Play()
     {
-        Debug.Log("Play");
+        Logger.Log("Play");
         //Particle.Play(true);
         Particle.Simulate(10f);
-        Debug.Log(Particle.time);
-        Debug.Log("" + Particle.duration);
+        Logger.Log(Particle.time);
+        Logger.Log("" + Particle.duration);
     }
 
     public void OnGUI()
     {
         if (GUILayout.Button("test"))
         {
-            Debug.Log("Hi");
+            Logger.Log("Hi");
         }
     }
 
     void DoUpdate()
     {
-        Debug.Log("hi");
+        Logger.Log("hi");
         if (time > Particle.duration)
         {
             time = 0f;
         }
         time += Time.fixedDeltaTime;
-        Debug.Log("Time : " + time);
+        Logger.Log("Time : " + time);
         Particle.Simulate(time + Time.deltaTime);
     }
 }

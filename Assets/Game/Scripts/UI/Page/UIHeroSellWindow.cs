@@ -33,25 +33,14 @@ public class UIHeroSellWindow : Window
     private readonly Color disableColor = Color.gray;
     private long totalSoul;
     private Hero hero;
-
-    private readonly List<string> sortContents = new List<string>
-                                                     {
-                                                         "»Î ÷≈≈–Ú",
-                                                         "÷∞“µ≈≈–Ú",
-                                                         "œ°”–∂»≈≈–Ú",
-                                                         "∂”ŒÈ≈≈–Ú",
-                                                         "π•ª˜¡¶≈≈–Ú",
-                                                         "HP≈≈–Ú",
-                                                         "ªÿ∏¥¡¶≈≈–Ú",
-                                                         "µ»º∂≈≈–Ú",
-                                                     };
+    private const int MaxHeroCountCanSell = 10;
     private UILabel sortLabel;
 
     #region Window
 
     public override void OnEnter()
     {
-        sortLabel.text = sortContents[scHeroList.OrderType];
+        sortLabel.text = StringTable.SortStrings[scHeroList.OrderType];
         InstallHandlers();
         FillHeroList();
         InitData();
@@ -99,7 +88,7 @@ public class UIHeroSellWindow : Window
 
     private void InitData()
     {
-        heroNums.text = string.Format("{0}/{1}", scHeroList.HeroList.Count, 100);
+        heroNums.text = string.Format("{0}/{1}", scHeroList.HeroList.Count, PlayerModelLocator.Instance.HeroMax);
         var count = scHeroList.TeamList.Count;
         for (int teamIndex = 0; teamIndex < count; teamIndex++)
         {
@@ -138,7 +127,7 @@ public class UIHeroSellWindow : Window
 
     public void SellOverUpdate()
     {
-        heroNums.text = string.Format("{0}/{1}", scHeroList.HeroList.Count, 100);
+        heroNums.text = string.Format("{0}/{1}", scHeroList.HeroList.Count, PlayerModelLocator.Instance.HeroMax);
         var count = herosGrid.transform.childCount;
         var uuids = scHeroList.HeroList.Select(item => item.Uuid).ToList();
         for (int index = 0; index < count; index++)
@@ -275,9 +264,9 @@ public class UIHeroSellWindow : Window
     private void OnSortClicked(GameObject go)
     {
         var orderType = HeroModelLocator.Instance.SCHeroList.OrderType;
-        orderType = (sbyte)((orderType + 1) % sortContents.Count);
+        orderType = (sbyte)((orderType + 1) % StringTable.SortStrings.Count);
         scHeroList.OrderType = orderType;
-        sortLabel.text = sortContents[scHeroList.OrderType];
+        sortLabel.text = StringTable.SortStrings[scHeroList.OrderType];
         HeroModelLocator.Instance.SortHeroList(orderType, scHeroList.HeroList);
         for (int i = 0; i < scHeroList.HeroList.Count; i++)
         {
@@ -306,13 +295,47 @@ public class UIHeroSellWindow : Window
     private void OnHeroItemClicked(GameObject go)
     {
         var uUid = go.GetComponent<HeroInfoPack>().Uuid;
+        if (csHeroSell.SellList.Count >= MaxHeroCountCanSell && !csHeroSell.SellList.Contains(uUid))
+        {
+            return;
+        }
         var heroInfo = HeroModelLocator.Instance.FindHero(uUid);
         var baseSoul = hero.HeroTmpl[heroInfo.TemplateId].Price;
         long costSoul = 0;
         var level = heroInfo.Lvl;
-        for (int index = 1; index < level; index++)
+        var stars = hero.HeroTmpl[heroInfo.TemplateId].Star;
+        switch (stars)
         {
-            costSoul += hero.LvlUpTmpl[index].CostSoul;
+            case 1:
+                for (int index = 1; index < level; index++)
+                {
+                    costSoul += hero.LvlUpTmpl[index].CostSoulStar1;
+                }
+                break;
+            case 2:
+                for (int index = 1; index < level; index++)
+                {
+                    costSoul += hero.LvlUpTmpl[index].CostSoulStar2;
+                }
+                break;
+            case 3:
+                for (int index = 1; index < level; index++)
+                {
+                    costSoul += hero.LvlUpTmpl[index].CostSoulStar3;
+                }
+                break;
+            case 4:
+                for (int index = 1; index < level; index++)
+                {
+                    costSoul += hero.LvlUpTmpl[index].CostSoulStar4;
+                }
+                break;
+            case 5:
+                for (int index = 1; index < level; index++)
+                {
+                    costSoul += hero.LvlUpTmpl[index].CostSoulStar5;
+                }
+                break;
         }
         if(!csHeroSell.SellList.Contains(uUid))
         {

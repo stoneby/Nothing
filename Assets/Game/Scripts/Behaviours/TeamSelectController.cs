@@ -59,7 +59,7 @@ public class TeamSelectController : MonoBehaviour
 
     private void OnCharacterClick(GameObject sender)
     {
-        Debug.LogWarning("On character click: " + sender.name);
+        Logger.LogWarning("On character click: " + sender.name);
     }
 
     private void OnCharacterPress(GameObject sender, bool isPressed)
@@ -85,7 +85,7 @@ public class TeamSelectController : MonoBehaviour
         DragBarPool.CurrentObject.transform.localRotation = Utils.GetRotation(
                 new Vector2(sourcePosition.x, sourcePosition.y), targetPosition);
 
-        Debug.LogWarning("current drag bar to parent: " + DragBarPool.CurrentObject.transform.parent.name);
+        Logger.LogWarning("current drag bar to parent: " + DragBarPool.CurrentObject.transform.parent.name);
 
         SetDragbarWidth(sourcePosition, targetPosition);
     }
@@ -121,7 +121,7 @@ public class TeamSelectController : MonoBehaviour
 
         if (!dragStart)
         {
-            Debug.LogWarning("Drag over but drag is not started at one character.");
+            Logger.LogWarning("Drag over but drag is not started at one character.");
             return;
         }
 
@@ -129,7 +129,7 @@ public class TeamSelectController : MonoBehaviour
         var firstTime = (LastCharacter == null);
         if (!firstTime && !LastCharacter.IsNeighborhood(currentCharacter))
         {
-            Debug.LogWarning("Current character: " + currentCharacter + " is not my neighbor: " + LastCharacter);
+            Logger.LogWarning("Current character: " + currentCharacter + " is not my neighbor: " + LastCharacter);
             return;
         }
 
@@ -142,17 +142,17 @@ public class TeamSelectController : MonoBehaviour
             {
                 SelectedCharacterList.RemoveAt(SelectedCharacterList.Count - 1);
 
-                Debug.LogWarning("Return drag bar to parent: " + DragBarPool.CurrentObject.transform.parent.name);
+                Logger.LogWarning("Return drag bar to parent: " + DragBarPool.CurrentObject.transform.parent.name);
 
                 DragBarPool.Return(DragBarPool.CurrentObject);
 
                 var t = selectedObject.transform;
                 DragBarPool.CurrentObject = t.FindChild("DragBar(Clone)").gameObject;
 
-                Debug.LogWarning("Current drag bar to parent is: " + selectedObject.name);
+                Logger.LogWarning("Current drag bar to parent is: " + selectedObject.name);
             }
 
-            Debug.LogWarning("Current character: " + currentCharacter + " is already selected.");
+            Logger.LogWarning("Current character: " + currentCharacter + " is already selected.");
         }
         else
         {
@@ -179,7 +179,7 @@ public class TeamSelectController : MonoBehaviour
             return;
         }
 
-        Debug.LogWarning("Selected character list: " + SelectedCharacterList.Count);
+        Logger.LogWarning("Selected character list: " + SelectedCharacterList.Count);
 
         dragStart = false;
         SelectedCharacterList.Clear();
@@ -197,13 +197,13 @@ public class TeamSelectController : MonoBehaviour
 
             SetDragbarWidth(sourcePosition, targetPosition);
 
-            Debug.LogWarning("Source position: " + sourcePosition + ", target position: " + targetPosition + ", rotation: " + DragBarPool.CurrentObject.transform.rotation);
+            Logger.LogWarning("Source position: " + sourcePosition + ", target position: " + targetPosition + ", rotation: " + DragBarPool.CurrentObject.transform.rotation);
         }
 
         var dragBar = DragBarPool.Take();
         AddChild(sender, dragBar);
 
-        Debug.LogWarning("Added drag bar to parent: " + sender.name);
+        Logger.LogWarning("Added drag bar to parent: " + sender.name);
     }
 
     private void AddChild(GameObject sender, GameObject dragBar)

@@ -1,7 +1,7 @@
-﻿namespace com.kx.sglm.gs.battle
+namespace com.kx.sglm.gs.battle.share
 {
 
-	using BattleRoundCountRecord = com.kx.sglm.gs.battle.data.record.BattleRoundCountRecord;
+	using BattleRoundCountRecord = com.kx.sglm.gs.battle.share.data.record.BattleRoundCountRecord;
 
 	public interface IRoundCounter : IBattle
 	{

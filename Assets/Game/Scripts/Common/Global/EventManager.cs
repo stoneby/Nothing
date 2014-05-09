@@ -90,7 +90,7 @@ public class EventManager
         Delegate d;
         if (!delegates.TryGetValue(typeof (T), out d))
         {
-            Debug.LogWarning("There is no listeners registered with event - " + e.GetType().Name);
+            Logger.LogWarning("There is no listeners registered with event - " + e.GetType().Name);
             return;
         }
 

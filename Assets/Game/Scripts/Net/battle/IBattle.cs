@@ -1,4 +1,4 @@
-﻿namespace com.kx.sglm.gs.battle
+namespace com.kx.sglm.gs.battle.share
 {
 
 

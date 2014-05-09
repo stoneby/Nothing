@@ -50,7 +50,7 @@ public class Utils
     {
         if (string.IsNullOrEmpty(path))
         {
-            Debug.LogError("path should not be null or empty.");
+            Logger.LogError("path should not be null or empty.");
             return string.Empty;
         }
 

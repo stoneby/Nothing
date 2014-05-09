@@ -21,7 +21,7 @@ public class UITeamEditWindow : Window
 
     #region Private Fields
 
-    private UIEventListener cancelLis;
+    private UIEventListener backLis;
     private UIEventListener canceAlllLis;
     private UIEventListener okLis;
     private UIEventListener sortBtnLis;
@@ -44,18 +44,6 @@ public class UITeamEditWindow : Window
     private readonly Vector3 maskOffset = new Vector3(0, 10, 0);
     private readonly List<int> minHeroIndex = new List<int> { 1, 2, 3 };
     private readonly Color greyOkColor = new Color(0.3f, 0.3f, 0.3f, 1.0f);
-
-    private readonly List<string> sortContents = new List<string>
-                                                     {
-                                                         "»Î ÷≈≈–Ú",
-                                                         "÷∞“µ≈≈–Ú",
-                                                         "œ°”–∂»≈≈–Ú",
-                                                         "∂”ŒÈ≈≈–Ú",
-                                                         "π•ª˜¡¶≈≈–Ú",
-                                                         "HP≈≈–Ú",
-                                                         "ªÿ∏¥¡¶≈≈–Ú",
-                                                         "µ»º∂≈≈–Ú",
-                                                     };
     private UILabel sortLabel;
 
     #endregion
@@ -64,7 +52,7 @@ public class UITeamEditWindow : Window
 
     public override void OnEnter()
     {
-        sortLabel.text = sortContents[scHeroList.OrderType];
+        sortLabel.text = StringTable.SortStrings[scHeroList.OrderType];
         InstallHandlers();
         Reset();
         FillHeroList();
@@ -83,7 +71,7 @@ public class UITeamEditWindow : Window
     // Use this for initialization
     void Awake()
     {
-        cancelLis = UIEventListener.Get(Utils.FindChild(transform, "Button-Cancel").gameObject);
+        backLis = UIEventListener.Get(Utils.FindChild(transform, "Button-Back").gameObject);
         canceAlllLis = UIEventListener.Get(Utils.FindChild(transform, "Button-CancelAll").gameObject);
         okLis = UIEventListener.Get(Utils.FindChild(transform, "Button-Ok").gameObject); 
         sortBtnLis = UIEventListener.Get(Utils.FindChild(transform, "Button-Sort").gameObject);
@@ -107,7 +95,7 @@ public class UITeamEditWindow : Window
 
     private void InstallHandlers()
     {
-        cancelLis.onClick += OnCancelClick;
+        backLis.onClick += OnBackClick;
         canceAlllLis.onClick += OnCancelAllClick;
         okLis.onClick += OnOkClick;
         sortBtnLis.onClick += OnSortClicked;
@@ -115,7 +103,7 @@ public class UITeamEditWindow : Window
 
     private void UnInstallHandlers()
     {
-        cancelLis.onClick -= OnCancelClick;
+        backLis.onClick -= OnBackClick;
         canceAlllLis.onClick -= OnCancelAllClick;
         okLis.onClick -= OnOkClick;
         sortBtnLis.onClick -= OnSortClicked;
@@ -124,9 +112,9 @@ public class UITeamEditWindow : Window
     private void OnSortClicked(GameObject go)
     {
         var orderType = HeroModelLocator.Instance.SCHeroList.OrderType;
-        orderType = (sbyte)((orderType + 1) % sortContents.Count);
+        orderType = (sbyte)((orderType + 1) % StringTable.SortStrings.Count);
         scHeroList.OrderType = orderType;
-        sortLabel.text = sortContents[scHeroList.OrderType];
+        sortLabel.text = StringTable.SortStrings[scHeroList.OrderType];
         HeroModelLocator.Instance.SortHeroList(orderType, scHeroList.HeroList);
         for (int i = 0; i < scHeroList.HeroList.Count; i++)
         {
@@ -137,7 +125,7 @@ public class UITeamEditWindow : Window
         }
     }
 
-    private void OnCancelClick(GameObject go)
+    private void OnBackClick(GameObject go)
     {
         OnCancelAllClick(null);
         WindowManager.Instance.Show(typeof(UITeamEditWindow), false);
@@ -156,7 +144,7 @@ public class UITeamEditWindow : Window
             Destroy(smallHero.gameObject);
         }
         selectedItems.Clear();
-        okLis.GetComponent<UISprite>().color = greyOkColor;
+        okLis.GetComponent<UISprite>().color = Color.white;
         okLis.enabled = false;
         Reset();
     }
@@ -224,17 +212,17 @@ public class UITeamEditWindow : Window
             }
             var list = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
             var values = selectedItems.Values.ToList();
+            var firstValue = list.Except(values).ToList()[0];
 
             var maskToShow = NGUITools.AddChild(go, mask);
             maskToShow.SetActive(true);
             maskToShow.transform.localPosition = maskOffset;
-            maskToShow.GetComponentInChildren<UILabel>().text =
-                list.Except(values).ToList()[0].ToString(CultureInfo.InvariantCulture);
+            maskToShow.transform.GetChild(0).GetComponent<UISprite>().spriteName = firstValue.ToString(CultureInfo.InvariantCulture);
 
-            var item = items.transform.FindChild("Item" + list.Except(values).ToList()[0]);
+            var item = items.transform.FindChild("Item" + firstValue);
             var child = NGUITools.AddChild(item.gameObject, smallHero);
             child.SetActive(true);
-            AddSelectedItem(go, list.Except(values).ToList()[0]);
+            AddSelectedItem(go, firstValue);
             RefreshProperty(uUid, true);
         }
 
@@ -258,7 +246,7 @@ public class UITeamEditWindow : Window
     /// </summary>
     private void Refresh()
     {
-        heroNums.text = string.Format("{0}/{1}", scHeroList.HeroList.Count, 100);
+        heroNums.text = string.Format("{0}/{1}", scHeroList.HeroList.Count, PlayerModelLocator.Instance.HeroMax);
         selectedItems.Clear();
         var index = scHeroList.CurrentTeamIndex;
         var uUids = scHeroList.TeamList[index].ListHeroUuid;
@@ -276,7 +264,7 @@ public class UITeamEditWindow : Window
                 var maskToShow = NGUITools.AddChild(item.gameObject, mask);
                 maskToShow.SetActive(true);
                 maskToShow.transform.localPosition = maskOffset;
-                maskToShow.GetComponentInChildren<UILabel>().text = numIndex.ToString(CultureInfo.InvariantCulture);
+                maskToShow.transform.GetChild(0).GetComponent<UISprite>().spriteName = numIndex.ToString(CultureInfo.InvariantCulture);
 
                 var smallItem = items.transform.FindChild("Item" + numIndex);
                 var child = NGUITools.AddChild(smallItem.gameObject, smallHero);
@@ -316,7 +304,7 @@ public class UITeamEditWindow : Window
         if (selectedItems.Values.ToList().Intersect(minHeroIndex).Count() == minHeroIndex.Count)
         {
             okLis.GetComponent<UISprite>().color = Color.white;
-            okLis.enabled = true;
+            okLis.GetComponent<BoxCollider>().enabled = true;
         }
     }
 
@@ -331,7 +319,7 @@ public class UITeamEditWindow : Window
         if (selectedItems.Values.ToList().Intersect(minHeroIndex).Count() < minHeroIndex.Count)
         {
             okLis.GetComponent<UISprite>().color = greyOkColor;
-            okLis.enabled = false;
+            okLis.GetComponent<BoxCollider>().enabled = false;
         }
     }
 

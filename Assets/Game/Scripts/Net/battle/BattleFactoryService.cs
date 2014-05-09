@@ -1,7 +1,7 @@
-﻿namespace com.kx.sglm.gs.battle
+namespace com.kx.sglm.gs.battle.share
 {
 
-	using TestBattleFactory = com.kx.sglm.gs.battle.factory.TestBattleFactory;
+	using TestBattleFactory = com.kx.sglm.gs.battle.share.factory.TestBattleFactory;
 
 
 	public class BattleFactoryService

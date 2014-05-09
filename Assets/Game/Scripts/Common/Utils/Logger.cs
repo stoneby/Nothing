@@ -1,5 +1,4 @@
-﻿using System.Threading;
-using UnityEngine;
+﻿using UnityEngine;
 
 /// <summary>
 /// Logger wrapper of unity log, which will take care of removing log from release build.
@@ -7,20 +6,24 @@ using UnityEngine;
 public static class Logger
 {
     /// <summary>
+    /// Flag indicates if current build is debug build.
+    /// </summary>
+    /// <remarks>
+    /// If set, this flag should be the very beginning of game start in main thread.
+    /// Currently it will be set when the first time get used.
+    /// </remarks>
+    public static bool IsDebugBuild = Debug.isDebugBuild;
+
+    /// <summary>
     /// Wrapper Debug.Log
     /// </summary>
     /// <param name="message">Message to log</param>
     public static void Log(object message)
     {
-        if (Debug.isDebugBuild)
+        if (IsDebugBuild)
         {
             Debug.Log(message);
         }
-    }
-
-    public static void ThreadLog(object message)
-    {
-        Loom.QueueOnMainThread(() => Log(message));
     }
 
     /// <summary>
@@ -29,15 +32,10 @@ public static class Logger
     /// <param name="message">Message to log</param>
     public static void LogWarning(object message)
     {
-        if (Debug.isDebugBuild)
+        if (IsDebugBuild)
         {
             Debug.LogWarning(message);
         }
-    }
-
-    public static void ThreadLogWarning(object message)
-    {
-        Loom.QueueOnMainThread(() => LogWarning(message));
     }
 
     /// <summary>
@@ -46,14 +44,9 @@ public static class Logger
     /// <param name="message">Message to log</param>
     public static void LogError(object message)
     {
-        if (Debug.isDebugBuild)
+        if (IsDebugBuild)
         {
             Debug.LogError(message);
         }
-    }
-
-    public static void ThreadLogError(object message)
-    {
-        Loom.QueueOnMainThread(() => LogError(message));
     }
 }

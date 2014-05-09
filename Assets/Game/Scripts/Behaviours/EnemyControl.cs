@@ -1,6 +1,6 @@
 ﻿using System.Collections;
-using com.kx.sglm.gs.battle.data;
-using com.kx.sglm.gs.battle.utils;
+using com.kx.sglm.gs.battle.share.data;
+using com.kx.sglm.gs.battle.share.utils;
 using UnityEngine;
 
 public class EnemyControl : MonoBehaviour
@@ -113,19 +113,19 @@ public class EnemyControl : MonoBehaviour
     public float PlayAttrack()
     {
         StartCoroutine(DoPlayAttarck());
-        return 0.9f;
+        return GameConfig.MonsterAttrackStepTime * 3;
     }
 
     IEnumerator DoPlayAttarck()
     {
         var sp = EnemySprite.GetComponent<UISprite>();
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(GameConfig.MonsterAttrackStepTime);
         sp.spriteName = BossWhite;
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(GameConfig.MonsterAttrackStepTime);
         sp.spriteName = BossBlack;
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(GameConfig.MonsterAttrackStepTime);
         sp.spriteName = BossWhite;
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(GameConfig.MonsterAttrackStepTime);
         sp.spriteName = BossNormal;
     }
 }

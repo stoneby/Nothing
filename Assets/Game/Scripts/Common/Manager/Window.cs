@@ -14,6 +14,11 @@ public abstract class Window : MonoBehaviour
     /// </summary>
     public string Path;
 
+    /// <summary>
+    /// Window group that this window belongs to.
+    /// </summary>
+    public WindowGroupType WindowGroup;
+
     #endregion
 
     #region Public Properties

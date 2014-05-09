@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Security.Permissions;
-using com.kx.sglm.gs.battle;
-using com.kx.sglm.gs.battle.data;
-using com.kx.sglm.gs.battle.data.record;
-using com.kx.sglm.gs.battle.logic.loop;
+using com.kx.sglm.gs.battle.share;
+using com.kx.sglm.gs.battle.share.data;
+using com.kx.sglm.gs.battle.share.data.record;
+using com.kx.sglm.gs.battle.share.logic.loop;
 using KXSGCodec;
 using UnityEngine;
 using System.Collections;
@@ -48,7 +48,7 @@ namespace Assets.Game.Scripts.Common.Model
 
         public PointRecord GetNextFromNextList(int f)
         {
-            Debug.Log("Get Next ===== " + f);
+            Logger.Log("Get Next ===== " + f);
             if (MainBattle == null || NextList.Count == 0) return null;
             var k = NextList[0];
             NextList.RemoveAt(0);

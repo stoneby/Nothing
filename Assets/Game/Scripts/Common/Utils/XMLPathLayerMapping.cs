@@ -39,7 +39,7 @@ public class XMLPathLayerMapping : AbstractPathLayerMapping
     {
         if (!IsValid)
         {
-            Debug.LogError("Text should not be null or empty, please drag xml generated from Window Configurator.");
+            Logger.LogError("Text should not be null or empty, please drag xml generated from Window Configurator.");
         }
     }
 

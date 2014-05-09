@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using KXSGCodec;
-using Property;
 using UnityEngine;
 
 /// <summary>
@@ -10,10 +8,7 @@ using UnityEngine;
 /// </summary>
 public class UILevelUpWindow : Window
 {
-    public GameObject StarPrefab;
-    private UIEventListener skillBtnLis;
-    private UIEventListener lvBtnLis;
-    private UIEventListener limitBtnLis;
+    public GameObject LevelUpEffect;
     private UIEventListener backBtnLis;
     private UIEventListener addLis;
     private UIEventListener subLis;
@@ -34,38 +29,40 @@ public class UILevelUpWindow : Window
     private UILabel nextSoul;
     private UILabel ownedSoul;
     private UILabel usedSoul;
-    private UILabel heroName;
-    private GameObject stars;
 
-    private GameObject property;
     private HeroInfo heroInfo;
     private HeroTemplate heroTemplate;
-    private GameObject levelOver;
     private UIEventListener overOkLis;
+    private Transform smallHero;
+    private Transform title;
+    private Transform levelUp;
+    private Transform soulCost;
 
     private short curLvl;
     private long totalCostSoul;
     public static readonly Color NonChangedColor = Color.white;
     public static readonly Color ChangedColor = Color.cyan;
     public SCPropertyChangedNumber PropertyChangedNumber;
+    private const int MinLvl = 1;
 
     private readonly int[] additions = new int[5];
+    private bool isLevelOver;
 
     #region Window
 
     public override void OnEnter()
     {
-        heroInfo = HeroModelLocator.Instance.FindHero(UIHeroInfoWindow.Uuid);
+        heroInfo = HeroModelLocator.Instance.FindHero(HeroBaseInfoWindow.CurUuid);
         heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpl[heroInfo.TemplateId];
         curLvl = heroInfo.Lvl;
         InstallHandlers();
         RefreshData();
+        isLevelOver = false;
     }
 
     public override void OnExit()
     {
         UnInstallHandlers();
-        CleanUp();
     }
 
     #endregion
@@ -75,14 +72,10 @@ public class UILevelUpWindow : Window
     // Use this for initialization
     void Awake()
     {
-        skillBtnLis = UIEventListener.Get(Utils.FindChild(transform, "Button-Skill").gameObject);
-        lvBtnLis = UIEventListener.Get(Utils.FindChild(transform, "Button-LV").gameObject);
-        limitBtnLis = UIEventListener.Get(Utils.FindChild(transform, "Button-Limit").gameObject);
         backBtnLis = UIEventListener.Get(Utils.FindChild(transform, "Button-Back").gameObject);
         addLis = UIEventListener.Get(Utils.FindChild(transform, "Button-Add").gameObject);
         subLis = UIEventListener.Get(Utils.FindChild(transform, "Button-Sub").gameObject);
         okLis = UIEventListener.Get(Utils.FindChild(transform, "Button-OK").gameObject);
-        property = Utils.FindChild(transform, "Property").gameObject;
         var baseup = Utils.FindChild(transform, "BaseUp");
         baseLvl = Utils.FindChild(baseup, "Level-Original").GetComponent<UILabel>();
         baseAtk = Utils.FindChild(baseup, "Attack-Original").GetComponent<UILabel>();
@@ -95,58 +88,46 @@ public class UILevelUpWindow : Window
         adjHp = Utils.FindChild(baseup, "HP-Later").GetComponent<UILabel>();
         adjRec = Utils.FindChild(baseup, "Recover-Later").GetComponent<UILabel>();
         adjMp = Utils.FindChild(baseup, "MP-Later").GetComponent<UILabel>();
-        heroName = Utils.FindChild(transform, "Name").GetComponent<UILabel>();
-        stars = Utils.FindChild(transform, "Stars").gameObject;
 
         nextSoul = Utils.FindChild(transform, "NextSoul").FindChild("Value").GetComponent<UILabel>();
         ownedSoul = Utils.FindChild(transform, "OwnedSoul").FindChild("Value").GetComponent<UILabel>();
         usedSoul = Utils.FindChild(transform, "UsedSoul").FindChild("Value").GetComponent<UILabel>();
-        levelOver = Utils.FindChild(transform, "LevelOver").gameObject;
-        overOkLis = UIEventListener.Get(Utils.FindChild(levelOver.transform, "Button-OK").gameObject);
-        NGUITools.SetActiveChildren(levelOver, false);
+        smallHero = transform.FindChild("SmallHero");
+        title = Utils.FindChild(baseup, "Title");
+        levelUp = Utils.FindChild(baseup, "LevelUp");
+        soulCost = transform.FindChild("SoulCost");
+        NGUITools.SetActive(smallHero.gameObject, false);
+        NGUITools.SetActive(levelUp.gameObject, false);
     }
 
     private void InstallHandlers()
     {
-        skillBtnLis.onClick += OnSkillBtnClicked;
-        lvBtnLis.onClick += OnLvBtnClicked;
-        limitBtnLis.onClick += OnLimitBtnClicked;
         backBtnLis.onClick += OnBackBtnClicked;
         addLis.onClick += OnAddBtnClicked;
         subLis.onClick += OnSubLisClicked;
         okLis.onClick += OnOkBtnClicked;
-        overOkLis.onClick += OnOverOkBtnClicked;
     }
 
     private void UnInstallHandlers()
     {
-        skillBtnLis.onClick -= OnSkillBtnClicked;
-        lvBtnLis.onClick -= OnLvBtnClicked;
-        limitBtnLis.onClick -= OnLimitBtnClicked;
         backBtnLis.onClick -= OnBackBtnClicked;
         addLis.onClick -= OnAddBtnClicked;
         subLis.onClick -= OnSubLisClicked;
-        overOkLis.onClick -= OnOverOkBtnClicked;
     }
 
     private void RefreshData()
     {
-        ownedSoul.text = PlayerModelLocator.Instance.Sprit.ToString();
-        heroName.text = heroTemplate.Name;
-        var spriteWidth = StarPrefab.GetComponent<UISprite>().width;
-        for (int index = 0; index < heroTemplate.Star; index++)
+        if (curLvl == heroTemplate.LvlLimit)
         {
-            var starObj = NGUITools.AddChild(stars, StarPrefab);
-            starObj.transform.localPosition = new Vector3((index + 1) * spriteWidth, 0, 0);
+            addLis.GetComponent<UISprite>().color = Color.gray;
+            addLis.GetComponent<BoxCollider>().enabled = false;
         }
-        var atkLabel = Utils.FindChild(property.transform, "Attack-Value").GetComponent<UILabel>();
-        var hpLabel = Utils.FindChild(property.transform, "HP-Value").GetComponent<UILabel>();
-        var recLabel = Utils.FindChild(property.transform, "Recover-Value").GetComponent<UILabel>();
-        var mpLabel = Utils.FindChild(property.transform, "MP-Value").GetComponent<UILabel>();
-        atkLabel.text = heroInfo.Prop[RoleProperties.HERO_ATK].ToString(CultureInfo.InvariantCulture);
-        hpLabel.text = heroInfo.Prop[RoleProperties.HERO_HP].ToString(CultureInfo.InvariantCulture);
-        recLabel.text = heroInfo.Prop[RoleProperties.HERO_RECOVER].ToString(CultureInfo.InvariantCulture);
-        mpLabel.text = heroInfo.Prop[RoleProperties.HERO_MP].ToString(CultureInfo.InvariantCulture);
+        if (curLvl == heroInfo.Lvl)
+        {
+            subLis.GetComponent<UISprite>().color = Color.gray;
+            subLis.GetComponent<BoxCollider>().enabled = false;
+        }
+        ownedSoul.text = PlayerModelLocator.Instance.Sprit.ToString();
 
         baseLvl.text = string.Format("{0}/{1}", curLvl, heroTemplate.LvlLimit);
         baseAtk.text = heroTemplate.Attack.ToString(CultureInfo.InvariantCulture);
@@ -173,79 +154,96 @@ public class UILevelUpWindow : Window
                 labelList[index].text = string.Format("{0}(+{1})", additions[index] + list[index], additions[index]);
             }
         }
-        nextSoul.text = HeroModelLocator.Instance.HeroTemplates.LvlUpTmpl[curLvl].CostSoul.ToString(CultureInfo.InvariantCulture);
+        nextSoul.text = GetCostSoul(curLvl, heroTemplate.Star).ToString(CultureInfo.InvariantCulture);
         usedSoul.text = totalCostSoul.ToString(CultureInfo.InvariantCulture);
+    }
+
+    private long GetCostSoul(short lvl, int starNum)
+    {
+        long soulValue = 0;
+        switch (starNum)
+        {
+            case 1:
+                soulValue = HeroModelLocator.Instance.HeroTemplates.LvlUpTmpl[lvl].CostSoulStar1;
+                break;
+            case 2:
+                soulValue = HeroModelLocator.Instance.HeroTemplates.LvlUpTmpl[lvl].CostSoulStar2;
+                break;
+            case 3:
+                soulValue = HeroModelLocator.Instance.HeroTemplates.LvlUpTmpl[lvl].CostSoulStar3;
+                break;
+            case 4:
+                soulValue = HeroModelLocator.Instance.HeroTemplates.LvlUpTmpl[lvl].CostSoulStar4;
+                break;
+            case 5:
+                soulValue = HeroModelLocator.Instance.HeroTemplates.LvlUpTmpl[lvl].CostSoulStar5;
+                break;
+        }
+        return soulValue;
     }
 
     public void ShowLevelOver()
     {
-        var overLvl = Utils.FindChild(levelOver.transform, "Level-Later").GetComponent<UILabel>();
-        var overAtk = Utils.FindChild(levelOver.transform, "Attack-Later").GetComponent<UILabel>();
-        var overHp = Utils.FindChild(levelOver.transform, "HP-Later").GetComponent<UILabel>();
-        var overRec = Utils.FindChild(levelOver.transform, "Recover-Later").GetComponent<UILabel>();
-        var overMp = Utils.FindChild(levelOver.transform, "MP-Later").GetComponent<UILabel>();
-        var list = new List<int> { heroInfo.Lvl, heroTemplate.Attack, heroTemplate.HP, heroTemplate.Recover, heroTemplate.MP };
-        var labelList = new List<UILabel> { overLvl, overAtk, overHp, overRec, overMp };
-        for (int index = 0; index < list.Count; index++)
-        {
-            if (additions[index] == 0)
-            {
-                labelList[index].color = NonChangedColor;
-                labelList[index].text = list[index].ToString(CultureInfo.InvariantCulture);
-            }
-            else
-            {
-                labelList[index].color = ChangedColor;
-                labelList[index].text = string.Format("{0}         (+{1})", additions[index] + list[index], additions[index]);
-            }
-        }
-        NGUITools.SetActiveChildren(levelOver, true);
-    }
-
-    private void OnOverOkBtnClicked(GameObject go)
-    {
-        var heroInfoWindow = WindowManager.Instance.Show(typeof(UIHeroInfoWindow), true);
-        heroInfoWindow.GetComponent<UIHeroInfoWindow>().ShowLevelUp(PropertyChangedNumber);
+        isLevelOver = true;
+        WindowManager.Instance.GetWindow<HeroBaseInfoWindow>(typeof(HeroBaseInfoWindow)).ShowButtons(false);
+        NGUITools.SetActive(title.gameObject, false);
+        NGUITools.SetActive(smallHero.gameObject, true);
+        NGUITools.SetActive(levelUp.gameObject, true);
+        NGUITools.SetActive(soulCost.gameObject, false);
+        var levelUpEffect = Instantiate(LevelUpEffect, new Vector3(0.6f, 1.0f, 0f), Quaternion.identity) as GameObject;
+        var ps = levelUpEffect.GetComponent<ParticleSystem>();
+        ps.Play();
+        Destroy(levelUpEffect, 1f);
     }
 
     private void OnOkBtnClicked(GameObject go)
     {
         if(curLvl > heroInfo.Lvl)
         {
-            var csmsg = new CSHeroLvlUp { TargetLvl = curLvl, Uuid = UIHeroInfoWindow.Uuid };
+            var csmsg = new CSHeroLvlUp { TargetLvl = curLvl, Uuid = HeroBaseInfoWindow.CurUuid };
             NetManager.SendMessage(csmsg);
         }
     }
 
-    private void OnSkillBtnClicked(GameObject go)
-    {
-        
-    }
-
-    private void OnLvBtnClicked(GameObject go)
-    {
-        
-    }
-
-    private void OnLimitBtnClicked(GameObject go)
-    {
-
-    }
-
     private void OnBackBtnClicked(GameObject go)
     {
-        CleanUp();
         WindowManager.Instance.Show(typeof(UIHeroInfoWindow), true);
+        WindowManager.Instance.GetWindow<HeroBaseInfoWindow>(typeof(HeroBaseInfoWindow)).Toggle(1);
+        if(isLevelOver)
+        {
+            WindowManager.Instance.GetWindow<UIHeroInfoWindow>(typeof(UIHeroInfoWindow)).ShowLevelUp(PropertyChangedNumber);
+            WindowManager.Instance.GetWindow<HeroBaseInfoWindow>(typeof(HeroBaseInfoWindow)).ShowButtons(true);
+        }
     }
 
     private void OnAddBtnClicked(GameObject go)
     {
         LevelUp(true);
+        if(curLvl == heroTemplate.LvlLimit)
+        {
+            addLis.GetComponent<UISprite>().color = Color.gray;
+            addLis.GetComponent<BoxCollider>().enabled = false;
+        }
+        if (curLvl == heroInfo.Lvl + 1)
+        {
+            subLis.GetComponent<UISprite>().color = Color.white;
+            subLis.GetComponent<BoxCollider>().enabled = true;
+        }
     }
 
     private void OnSubLisClicked(GameObject go)
     {
         LevelUp(false);
+        if (curLvl == heroTemplate.LvlLimit - 1)
+        {
+            addLis.GetComponent<UISprite>().color = Color.white;
+            addLis.GetComponent<BoxCollider>().enabled = true;
+        }
+        if (curLvl == heroInfo.Lvl)
+        {
+            subLis.GetComponent<UISprite>().color = Color.gray;
+            subLis.GetComponent<BoxCollider>().enabled = false;
+        }
     }
 
     private void LevelUp(bool up)
@@ -255,7 +253,7 @@ public class UILevelUpWindow : Window
         {
             return;
         }
-        totalCostSoul += (up ? HeroModelLocator.Instance.HeroTemplates.LvlUpTmpl[curLvl].CostSoul : HeroModelLocator.Instance.HeroTemplates.LvlUpTmpl[curLvl - 1].CostSoul) * flag;
+        totalCostSoul += (up ? GetCostSoul(curLvl, heroTemplate.Star) : GetCostSoul((short)(curLvl - 1), heroTemplate.Star)) * flag;
         curLvl += (short)flag;
         additions[0] += flag;
         additions[1] += heroTemplate.AttackAddtion * flag;
@@ -263,18 +261,6 @@ public class UILevelUpWindow : Window
         additions[3] += heroTemplate.RecoverAddtion * flag;
         additions[4] += heroTemplate.MPAddtion * flag;
         RefreshLevelData();
-    }
-
-    /// <summary>
-    /// Do some clean up work before leaving this window.
-    /// </summary>
-    private void CleanUp()
-    {
-        var list = stars.transform.Cast<Transform>().ToList();
-        for (int index = list.Count - 1; index >= 0; index--)
-        {
-            Destroy(list[index].gameObject);
-        }
     }
 
     #endregion

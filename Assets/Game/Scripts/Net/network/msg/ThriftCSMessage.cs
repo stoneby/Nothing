@@ -1,8 +1,5 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
 using Thrift.Protocol;
-using KXSGLog;
 
 namespace KXSGCodec
 {
@@ -12,7 +9,7 @@ namespace KXSGCodec
     public class ThriftCSMessage : BaseMessage
     {
         // real msg content, exclude msg header
-        private TBase content;
+        private readonly TBase content;
 
         public ThriftCSMessage(TBase content)
         {
@@ -23,15 +20,15 @@ namespace KXSGCodec
         {
             try
             {
-                byte[] _contentBytes = ThriftMsgSerialize.Serialize(content);
-                if (_contentBytes != null)
+                var contentBytes = ThriftMsgSerialize.Serialize(content);
+                if (contentBytes != null)
                 {
-                    WriteBytes(_contentBytes);
+                    WriteBytes(contentBytes);
                 }
             }
             catch (Exception ex)
             {
-                ClientLog.Instance.LogError(ex.ToString());
+                Logger.LogError(ex.ToString());
             }
         }
 

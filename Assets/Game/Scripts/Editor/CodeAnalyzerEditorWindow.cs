@@ -26,7 +26,7 @@ public class CodeAnalyzerEditorWindow : EditorWindow
         codeDict.Clear();
 
         var root = Application.dataPath + "/Game";
-        Debug.Log("Root: " + root);
+        Logger.Log("Root: " + root);
         foreach (var file in Directory.GetFiles(root, "*", SearchOption.AllDirectories))
         {
             var fileInfor = new FileInfo(file);
@@ -61,9 +61,9 @@ public class CodeAnalyzerEditorWindow : EditorWindow
                 fileCount++;
             }
         }
-        Debug.Log(text);
-        Debug.Log("Total file count: " + fileCount);
-        Debug.Log("Total code lines: " + totalCount);
+        Logger.Log(text);
+        Logger.Log("Total file count: " + fileCount);
+        Logger.Log("Total code lines: " + totalCount);
         //GUILayout.TextArea(text.ToString(), 100);
     }
 }

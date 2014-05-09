@@ -47,9 +47,9 @@ public class UIMainScreenWindow : Window
         filpLeftLis = UIEventListener.Get(Utils.FindChild(transform, "Button-FlipL").gameObject);
         //flipRightLis = UIEventListener.Get(Utils.FindChild(transform, "Button-FlipR").gameObject);
 
-		diamond = transform.FindChild("Fortune/Diamond/Coins-Value").gameObject.GetComponent<UILabel>();
-		gold = transform.FindChild("Fortune/Coins/Coins-Value").gameObject.GetComponent<UILabel>();
-		sprit = transform.FindChild("Fortune/Souls/Coins-Value").gameObject.GetComponent<UILabel>();
+		diamond = transform.FindChild("Fortune/Diamond/Coins-Value").GetComponent<UILabel>();
+		gold = transform.FindChild("Fortune/Coins/Coins-Value").GetComponent<UILabel>();
+		sprit = transform.FindChild("Fortune/Souls/Coins-Value").GetComponent<UILabel>();
 
     }
 

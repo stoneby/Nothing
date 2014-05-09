@@ -112,8 +112,8 @@ public class LoginAccountWindow : Window
 
     private static void OnSCPlayerInfoHandler(LoginEvent e)
     {
-        Debug.LogWarning("OnSCPlayerInfoHandler get called back, with event-" + e.Message);
-        Debug.LogWarning("Account data: " + ServiceManager.AccountData);
+        Logger.LogWarning("OnSCPlayerInfoHandler get called back, with event-" + e.Message);
+        Logger.LogWarning("Account data: " + ServiceManager.AccountData);
         ServiceManager.AddAccount(ServiceManager.AccountData);
         ServiceManager.SaveAccount();
     }

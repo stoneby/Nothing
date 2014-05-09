@@ -1,6 +1,4 @@
-﻿using Assets.Game.Scripts.Net.network;
-using KXSGCodec;
-using UnityEngine;
+﻿using KXSGCodec;
 
 namespace Assets.Game.Scripts.Net.handler
 {
@@ -19,7 +17,7 @@ namespace Assets.Game.Scripts.Net.handler
         public static void OnPlayerInfo(ThriftSCMessage msg)
         {
             PopTextManager.PopTip("登录成功，返回玩家角色信息");
-            var themsg = msg.getContent() as SCPlayerInfoMsg;
+            var themsg = msg.GetContent() as SCPlayerInfoMsg;
             if (themsg != null)
             {
                 PlayerModelLocator.Instance.HeroId = themsg.HeroId;
@@ -36,7 +34,6 @@ namespace Assets.Game.Scripts.Net.handler
 				PlayerModelLocator.Instance.ItemMax = themsg.ItemMax;
             }
             EventManager.Instance.Post(new LoginEvent() { Message = "This is login event." });
-            //WindowManager.Instance.Show(typeof(MainMenuWindow), true);
             WindowManager.Instance.Show(typeof(UIMainScreenWindow), true);
             WindowManager.Instance.Show(typeof(MainMenuBarWindow), true);
             WindowManager.Instance.Show(WindowGroupType.Popup, false);

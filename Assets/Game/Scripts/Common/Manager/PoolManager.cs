@@ -33,7 +33,7 @@ public class PoolManager : MonoBehaviour
         var inactiveObjectList = inactiveObjectEnum as IList<GameObject> ?? inactiveObjectEnum.ToList();
         if (!inactiveObjectList.Any())
         {
-            Debug.LogWarning("Take too more than Capacity as " + Capcity + ", make it twice more larger.");
+            Logger.LogWarning("Take too more than Capacity as " + Capcity + ", make it twice more larger.");
             EnlargeCapacity();
             // return the last one.
             CurrentObject = ObjectList[Capcity - 1];

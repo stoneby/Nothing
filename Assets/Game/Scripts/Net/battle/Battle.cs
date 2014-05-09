@@ -1,22 +1,38 @@
-﻿namespace com.kx.sglm.gs.battle
+namespace com.kx.sglm.gs.battle.share
 {
 
-	using BattleArmy = com.kx.sglm.gs.battle.actor.impl.BattleArmy;
-	using BattleSource = com.kx.sglm.gs.battle.data.BattleSource;
-	using BattleRecord = com.kx.sglm.gs.battle.data.record.BattleRecord;
-	using BattleState = com.kx.sglm.gs.battle.enums.BattleState;
-	using BattleType = com.kx.sglm.gs.battle.enums.BattleType;
-	using IBattleExecuter = com.kx.sglm.gs.battle.executer.IBattleExecuter;
-	using IBattleInputEvent = com.kx.sglm.gs.battle.input.IBattleInputEvent;
-	using BattleField = com.kx.sglm.gs.battle.logic.loop.BattleField;
+	using BattleArmy = com.kx.sglm.gs.battle.share.actor.impl.BattleArmy;
+	using BattleSource = com.kx.sglm.gs.battle.share.data.BattleSource;
+	using BattleRecord = com.kx.sglm.gs.battle.share.data.record.BattleRecord;
+	using BattleState = com.kx.sglm.gs.battle.share.enums.BattleState;
+	using BattleType = com.kx.sglm.gs.battle.share.enums.BattleType;
+	using IBattleExecuter = com.kx.sglm.gs.battle.share.executer.IBattleExecuter;
+	using IBattleInputEvent = com.kx.sglm.gs.battle.share.input.IBattleInputEvent;
+	using BattleField = com.kx.sglm.gs.battle.share.logic.loop.BattleField;
 
+	/// <summary>
+	/// 战斗入口
+	/// 
+	/// @author liyuan2
+	/// 
+	/// </summary>
 	public class Battle
 	{
 
+		/// <summary>
+		/// 战斗数据�? </summary>
 		private BattleSource battleSource;
+		/// <summary>
+		/// 战斗场地 </summary>
 		private BattleField battleField;
+		/// <summary>
+		/// 战斗执行器，根据类型不同具体逻辑处理不同 </summary>
 		private IBattleExecuter battleExcuter;
+		/// <summary>
+		/// 战斗类型 </summary>
 		private BattleType battleType;
+		/// <summary>
+		/// 战报 </summary>
 		private BattleRecord record;
 
 		public Battle(BattleType battleType, BattleSource source)
@@ -26,48 +42,60 @@
 			this.record = new BattleRecord();
 		}
 
-
+		/// <summary>
+		/// 战斗开始触�?
+		/// </summary>
 		public virtual void start()
 		{
 			if (!canStartBattle())
 			{
-				//TODO: loggers.error
+				// TODO: loggers.error
 				return;
 			}
 			battleField = new BattleField(this);
-	//		battleField.createNewSubAction();
 			battleField.onAction();
 		}
 
+		/// <summary>
+		/// 战斗动作
+		/// </summary>
 		public virtual void onAction()
 		{
 			battleField.onAction();
 		}
 
+		/// <summary>
+		/// 目前逻辑不多，之后会增加
+		/// 
+		/// @return
+		/// </summary>
 		protected internal virtual bool canStartBattle()
 		{
-	//		if (isBattleArmyCurrect()) {
-	//			return false;
-	//		}
 			return true;
 		}
 
+		/// <summary>
+		/// 循环更新战斗状�?
+		/// </summary>
+		/// <param name="state"> </param>
 		public virtual void updateBattleState(BattleState state)
 		{
-			 battleField.updateBattleState(state, true);
+			battleField.updateBattleState(state, true);
 		}
 
-
-
+		/// <summary>
+		/// 接收战斗输入数据
+		/// </summary>
+		/// <param name="event"> </param>
 		public virtual void handleBattleEvent(IBattleInputEvent @event)
 		{
-			if (battleField.CurState == BattleState.STOP)
+			if (battleField.CurState.Stoped)
 			{
-				return; //TODO: 改成直接判断
+				//TODO loggers.error
+				return;
 			}
 			@event.fireEvent(this);
 		}
-
 
 		public virtual BattleArmy BattleArmy
 		{
@@ -109,15 +137,21 @@
 			}
 		}
 
-
+		/// <summary>
+		/// 战斗结束
+		/// </summary>
 		public virtual void finish()
 		{
-			// TODO Auto-generated method stub
+			// TODO 增加其他逻辑
 			BattleExcuter.onBattleFinish();
-
 
 		}
 
+		/// <summary>
+		/// 获取当前推图index
+		/// 
+		/// @return
+		/// </summary>
 		public virtual int CurSceneIndex
 		{
 			get
@@ -143,7 +177,6 @@
 				return record;
 			}
 		}
-
 
 	}
 

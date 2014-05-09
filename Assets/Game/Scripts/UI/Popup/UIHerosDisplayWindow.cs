@@ -39,6 +39,7 @@ public class UIHerosDisplayWindow : Window
     {
         IsCreateOne = false;
         HideOtherExceptMe(heroViewPage);
+        heroViewLis.GetComponent<UISprite>().spriteName = "BtnD";
         cachedOrderType = HeroModelLocator.Instance.SCHeroList.OrderType;
         InstallHandlers(); 
         WindowManager.Instance.Show(typeof(UIHeroItemsPageWindow), true);

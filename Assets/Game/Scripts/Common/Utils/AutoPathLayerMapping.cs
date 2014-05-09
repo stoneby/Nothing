@@ -40,7 +40,7 @@ public class AutoPathLayerMapping : AbstractPathLayerMapping
                 var className = Utils.GetNameFromPath(prefabPath);
                 var windowType = Type.GetType(Utils.PrefabNameToWindow(className));
 
-                Debug.LogWarning("Window type - " + windowType + " with name " + className);
+                Logger.LogWarning("Window type - " + windowType + " with name " + className);
 
                 PathTypeMap[prefabPath] = windowType;
                 TypePathMap[windowType] = prefabPath;

@@ -11,23 +11,13 @@ public class UIHeroItemsPageWindow : Window
     private UIGrid grid;
     private GameObject offset;
     private UIEventListener sortBtnLis;
-    private readonly List<string> sortContents = new List<string>
-                                                     {
-                                                         "»Î ÷≈≈–Ú",
-                                                         "÷∞“µ≈≈–Ú",
-                                                         "œ°”–∂»≈≈–Ú",
-                                                         "∂”ŒÈ≈≈–Ú",
-                                                         "π•ª˜¡¶≈≈–Ú",
-                                                         "HP≈≈–Ú",
-                                                         "ªÿ∏¥¡¶≈≈–Ú",
-                                                         "µ»º∂≈≈–Ú",
-                                                     };
     private UILabel heroNums;
     private UILabel sortLabel;
     private SCHeroList scHeroList;
 
     public GameObject HeroPrefab;
     public GameObject StarPrefab;
+    private UIToggle[] toggles; 
 
     private int rowToShow;
     public int RowToShow
@@ -56,7 +46,7 @@ public class UIHeroItemsPageWindow : Window
     public override void OnEnter()
     {
         scHeroList = HeroModelLocator.Instance.SCHeroList;
-        sortLabel.text = sortContents[scHeroList.OrderType];
+        sortLabel.text = StringTable.SortStrings[scHeroList.OrderType];
 		heroNums.text = string.Format("{0}/{1}", scHeroList.HeroList.Count, PlayerModelLocator.Instance.HeroMax);
         StartCoroutine(FillHeroList());
         Refresh();
@@ -79,22 +69,59 @@ public class UIHeroItemsPageWindow : Window
         heroNums = Utils.FindChild(transform, "HeroNums").GetComponent<UILabel>();
         sortBtnLis = UIEventListener.Get(Utils.FindChild(transform, "Button-Sort").gameObject);
         sortLabel = sortBtnLis.GetComponentInChildren<UILabel>();
+        toggles = GetComponentsInChildren<UIToggle>();
     }
 
     private void InstallHandlers()
     {
         sortBtnLis.onClick += OnSortClicked;
+        for (int i = 0; i < toggles.Length; i++)
+        {
+            EventDelegate.Add(toggles[i].onChange, ExcuteFilter);
+        }
     }
 
     private void UnInstallHandlers()
     {
         sortBtnLis.onClick -= OnSortClicked;
+        for (int i = 0; i < toggles.Length; i++)
+        {
+            EventDelegate.Remove(toggles[i].onChange, ExcuteFilter);
+        }
+    }
+
+    public void ExcuteFilter()
+    {
+        bool val = UIToggle.current.value;
+        if (val)
+        {
+            var job = (sbyte)UIToggle.current.GetComponent<JobFilterInfo>().Job;
+            var heros = HeroModelLocator.Instance.FilterByJob(job, scHeroList.HeroList);
+            for (int i = 0; i < scHeroList.HeroList.Count; i++)
+            {
+                if (i < heros.Count)
+                {
+                    var item = grid.transform.GetChild(i);
+                    NGUITools.SetActiveChildren(item.gameObject, true);
+                    item.GetComponent<BoxCollider>().enabled = true;
+                    var uUid = heros[i].Uuid;
+                    item.GetComponent<HeroInfoPack>().Uuid = uUid;
+                    ShowHero(scHeroList.OrderType, item, uUid);
+                }
+                else
+                {
+                    var item = grid.transform.GetChild(i);
+                    NGUITools.SetActiveChildren(item.gameObject, false);
+                    item.GetComponent<BoxCollider>().enabled = false;
+                }
+            }
+        }
     }
 
     private void OnSortClicked(GameObject go)
     {
-        scHeroList.OrderType = (sbyte)((scHeroList.OrderType + 1) % sortContents.Count);
-        sortLabel.text = sortContents[scHeroList.OrderType];
+        scHeroList.OrderType = (sbyte)((scHeroList.OrderType + 1) % StringTable.SortStrings.Count);
+        sortLabel.text = StringTable.SortStrings[scHeroList.OrderType];
         Refresh();
     }
 
@@ -115,7 +142,8 @@ public class UIHeroItemsPageWindow : Window
 
     private void OnHeroInfoClicked(GameObject go)
     {
-        UIHeroInfoWindow.Uuid = go.GetComponent<HeroInfoPack>().Uuid;
+        HeroBaseInfoWindow.CurUuid = go.GetComponent<HeroInfoPack>().Uuid;
+        WindowManager.Instance.Show(typeof(HeroBaseInfoWindow), true);
         WindowManager.Instance.Show(typeof(UIHeroInfoWindow), true);
     }
 
@@ -126,14 +154,15 @@ public class UIHeroItemsPageWindow : Window
     {
         var orderType = scHeroList.OrderType;
         HeroModelLocator.Instance.SortHeroList(orderType, scHeroList.HeroList);
-        for (int i = 0; i < HeroModelLocator.Instance.SCHeroList.HeroList.Count; i++)
+        for (int i = 0; i < scHeroList.HeroList.Count; i++)
         {
             var item = grid.transform.GetChild(i);
-            var uUid = HeroModelLocator.Instance.SCHeroList.HeroList[i].Uuid;
+            var uUid = scHeroList.HeroList[i].Uuid;
             item.GetComponent<HeroInfoPack>().Uuid = uUid;
             ShowHero(orderType, item, uUid);
         }
     }
+
 
     /// <summary>
     /// Show the info of the hero.

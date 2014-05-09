@@ -10,22 +10,24 @@ namespace Assets.Game.Scripts.Net.handler
             switch (msg.GetMsgType())
             {
                 case (short)MessageType.SC_HERO_LIST:
-                    HeroModelLocator.Instance.SCHeroList = msg.getContent() as SCHeroList;
+                    HeroModelLocator.Instance.SCHeroList = msg.GetContent() as SCHeroList;
                     WindowManager.Instance.Show(typeof(UIHerosDisplayWindow), true);
                     break;
+
                 case (short)MessageType.SC_HERO_MODIFY_TEAM:
-                    var md5msg = msg.getContent() as SCHeroModifyTeam;
+                    var md5Msg = msg.GetContent() as SCHeroModifyTeam;
                     WindowManager.Instance.GetWindow<UITeamBuildWindow>(typeof(UITeamBuildWindow)).Refresh(
-                        md5msg.TeamIndex, md5msg.NewTeamInfo);
-                    HeroModelLocator.Instance.SCHeroList.TeamList[md5msg.TeamIndex].ListHeroUuid = md5msg.NewTeamInfo;
+                        md5Msg.TeamIndex, md5Msg.NewTeamInfo);
+                    HeroModelLocator.Instance.SCHeroList.TeamList[md5Msg.TeamIndex].ListHeroUuid = md5Msg.NewTeamInfo;
                     WindowManager.Instance.Show(typeof(UITeamEditWindow), false);
                     break;
+
                 case (short)MessageType.SC_HERO_SELL:
-                    var sellList = (msg.getContent() as SCHeroSell).SellList;
+                    var sellList = (msg.GetContent() as SCHeroSell).SellList;
                     var heroList = HeroModelLocator.Instance.SCHeroList.HeroList;
-                    for (int index = 0; index < heroList.Count; index++)
+                    for (var index = 0; index < heroList.Count; index++)
                     {
-                        if(sellList.Contains(heroList[index].Uuid))
+                        if (sellList.Contains(heroList[index].Uuid))
                         {
                             heroList.Remove(heroList[index]);
                             index--;
@@ -33,29 +35,37 @@ namespace Assets.Game.Scripts.Net.handler
                     }
                     WindowManager.Instance.GetWindow<UIHeroSellWindow>(typeof(UIHeroSellWindow)).SellOverUpdate();
                     break;
+
                 case (short)MessageType.SC_HERO_LVL_UP:
                     WindowManager.Instance.GetWindow<UILevelUpWindow>(typeof(UILevelUpWindow)).ShowLevelOver();
-                    break; 
+                    break;
+
                 case (short)MessageType.SC_PROPERTY_CHANGED_NUMBER:
-                    var propertyChangedMsg = msg.getContent() as SCPropertyChangedNumber;
+                    var propertyChangedMsg = msg.GetContent() as SCPropertyChangedNumber;
                     if (propertyChangedMsg.RoleType == 2)
                     {
                         WindowManager.Instance.GetWindow<UILevelUpWindow>(typeof(UILevelUpWindow)).PropertyChangedNumber
-                            =msg.getContent() as SCPropertyChangedNumber;
+                            = msg.GetContent() as SCPropertyChangedNumber;
                     }
-					if(propertyChangedMsg.RoleType == 1){
-					//WindowManager.Instance.GetWindow<UIMainScreenWindow>(typeof(UIMainScreenWindow)).PropertyChangedNumber
-					//		=msg.getContent() as SCPropertyChangedNumber;
+                    if (propertyChangedMsg.RoleType == 1)
+                    {
+                        var propertyChangedNumber = msg.GetContent() as SCPropertyChangedNumber;
 
-					SCPropertyChangedNumber PropertyChangedNumber=msg.getContent() as SCPropertyChangedNumber;
-
-					PlayerModelLocator.Instance.Diamond=PropertyChangedNumber.PropertyChanged[RoleProperties.ROLEBASE_DIAMOND];
-					PlayerModelLocator.Instance.Sprit=PropertyChangedNumber.PropertyChanged[RoleProperties.ROLEBASE_HERO_SPIRIT];
-					PlayerModelLocator.Instance.Gold=PropertyChangedNumber.PropertyChanged[RoleProperties.ROLEBASE_GOLD];
-
-					var mainWindow = WindowManager.Instance.Show(typeof(UIMainScreenWindow), true);
-					mainWindow.GetComponent<UIMainScreenWindow>().refreshData();
-					}
+                        if (propertyChangedNumber.PropertyChanged.ContainsKey(RoleProperties.ROLEBASE_DIAMOND))
+                        {
+                            PlayerModelLocator.Instance.Diamond = propertyChangedNumber.PropertyChanged[RoleProperties.ROLEBASE_DIAMOND];
+                        }
+                        if (propertyChangedNumber.PropertyChanged.ContainsKey(RoleProperties.ROLEBASE_HERO_SPIRIT))
+                        {
+                            PlayerModelLocator.Instance.Sprit = propertyChangedNumber.PropertyChanged[RoleProperties.ROLEBASE_HERO_SPIRIT];
+                        }
+                        if (propertyChangedNumber.PropertyChanged.ContainsKey(RoleProperties.ROLEBASE_GOLD))
+                        {
+                            PlayerModelLocator.Instance.Sprit = propertyChangedNumber.PropertyChanged[RoleProperties.ROLEBASE_GOLD];
+                        }
+                        var mainWindow = WindowManager.Instance.Show(typeof(UIMainScreenWindow), true);
+                        mainWindow.GetComponent<UIMainScreenWindow>().refreshData();
+                    }
                     break;
             }
         }

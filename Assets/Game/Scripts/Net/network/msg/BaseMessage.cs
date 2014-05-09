@@ -1,7 +1,6 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.IO;
+using System.Text;
 
 namespace KXSGCodec
 {
@@ -10,12 +9,12 @@ namespace KXSGCodec
     /// </summary>
     public abstract class BaseMessage
     {
-        public const int MSG_TYPE_LEN = 2;
-        public const int MSG_SIZE_LEN = 2;
-        public const int MIN_MSG_LEN = MSG_TYPE_LEN + MSG_SIZE_LEN;
-		public const int MAX_MSG_LEN = 1024 * 32;
-        
-        private static Encoding DEFAULT_ENCODING = Encoding.UTF8;
+        public const int MsgTypeLen = 2;
+        public const int MsgSizeLen = 2;
+        public const int MinMsgLen = MsgTypeLen + MsgSizeLen;
+        public const int MaxMsgLen = 1024 * 32;
+
+        private static readonly Encoding DefaultEncoding = Encoding.UTF8;
 
         /** reader */
         private BinaryReader reader;
@@ -33,25 +32,25 @@ namespace KXSGCodec
         public byte[] Encode()
         {
             writeStream = new MemoryStream();
-            writer = new BinaryWriter(writeStream, DEFAULT_ENCODING);
+            writer = new BinaryWriter(writeStream, DefaultEncoding);
 
             // Header, length + MsgId
-            this.WriteShort(0);
-            this.WriteShort(GetMsgType());
+            WriteShort(0);
+            WriteShort(GetMsgType());
 
             // Write message...
-            this.WriteImpl();
+            WriteImpl();
 
-            byte[] bytes = writeStream.ToArray();
+            var bytes = writeStream.ToArray();
             // Rewrite message length
-            this.msgLen = (short)bytes.Length;
-            byte[] _lenBytes = this.ConvertLenToArry(this.msgLen);
-            bytes[0] = _lenBytes[0];
-            bytes[1] = _lenBytes[1];
+            msgLen = (short)bytes.Length;
+            var lenBytes = ConvertLenToArry(msgLen);
+            bytes[0] = lenBytes[0];
+            bytes[1] = lenBytes[1];
 
             ResetWriter();
 
-            return bytes;        
+            return bytes;
         }
 
         /// <summary>
@@ -61,20 +60,20 @@ namespace KXSGCodec
         public void Decode(byte[] bytes)
         {
             readStream = new MemoryStream();
-            reader = new BinaryReader(readStream, DEFAULT_ENCODING);
+            reader = new BinaryReader(readStream, DefaultEncoding);
 
             readStream.Write(bytes, 0, bytes.Length);
             readStream.Position = 0;
 
-            this.msgLen = this.ReadShort();
+            msgLen = ReadShort();
             //skip type
-            this.ReadShort();
+            ReadShort();
 
             // Read message
             ReadImpl();
 
             ResetReader();
-            
+
         }
 
         protected virtual int GetReadPos()
@@ -82,9 +81,9 @@ namespace KXSGCodec
             return (int)readStream.Position;
         }
 
-        protected short getMsgLength()
+        protected short GetMsgLength()
         {
-            return this.msgLen;
+            return msgLen;
         }
 
         protected virtual int GetWritePos()
@@ -94,12 +93,12 @@ namespace KXSGCodec
 
         private void ResetWriter()
         {
-            this.writer.Close();
+            writer.Close();
         }
 
         private void ResetReader()
         {
-            this.reader.Close();
+            reader.Close();
         }
 
         protected abstract void WriteImpl();
@@ -130,62 +129,62 @@ namespace KXSGCodec
 
         protected void WriteInt(int data)
         {
-            byte[] _bytes = BitConverter.GetBytes(data);
-            Array.Reverse(_bytes);
-            writer.Write(_bytes);
+            var bytes = BitConverter.GetBytes(data);
+            Array.Reverse(bytes);
+            writer.Write(bytes);
         }
 
         protected int ReadInt()
         {
-            byte[] _arry = reader.ReadBytes(4);
-            Array.Reverse(_arry);
-            return BitConverter.ToInt32(_arry, 0);
+            var arry = reader.ReadBytes(4);
+            Array.Reverse(arry);
+            return BitConverter.ToInt32(arry, 0);
         }
 
         protected void WriteString(String data)
         {
-            if (data == null || data.Length == 0)
+            if (string.IsNullOrEmpty(data))
             {
-                this.WriteShort(0);
+                WriteShort(0);
                 return;
             }
 
-            byte[] _bytes = DEFAULT_ENCODING.GetBytes(data);
-            int _len = _bytes.Length;
-            byte[] _lenBytes = this.ConvertLenToArry((short)_len);
-            writer.Write(_lenBytes);
-            writer.Write(_bytes);
+            var bytes = DefaultEncoding.GetBytes(data);
+            var len = bytes.Length;
+            var lenBytes = ConvertLenToArry((short)len);
+            writer.Write(lenBytes);
+            writer.Write(bytes);
         }
 
         protected string ReadString()
         {
-            byte[] _lenArry = reader.ReadBytes(2);
-            int _len = (_lenArry[0] << 8) | _lenArry[1];
-            if (_len <= 0)
+            var lenArry = reader.ReadBytes(2);
+            var len = (lenArry[0] << 8) | lenArry[1];
+            if (len <= 0)
             {
                 return "";
             }
-            byte[] _bytes = reader.ReadBytes(_len);
-            return DEFAULT_ENCODING.GetString(_bytes);
+            var bytes = reader.ReadBytes(len);
+            return DefaultEncoding.GetString(bytes);
         }
 
         protected void WriteDouble(double data)
         {
-            byte[] _bytes = BitConverter.GetBytes(data);
-            ReverseWrite(_bytes);
+            var bytes = BitConverter.GetBytes(data);
+            ReverseWrite(bytes);
         }
 
         protected double ReadDouble()
         {
-            byte[] _arry = reader.ReadBytes(8);
-            Array.Reverse(_arry);
-            return BitConverter.ToDouble(_arry, 0);
+            var arry = reader.ReadBytes(8);
+            Array.Reverse(arry);
+            return BitConverter.ToDouble(arry, 0);
         }
 
         protected void WriteBoolean(bool data)
         {
-            byte[] _bytes = BitConverter.GetBytes(data);
-            ReverseWrite(_bytes);
+            var bytes = BitConverter.GetBytes(data);
+            ReverseWrite(bytes);
         }
 
         protected bool ReadBoolean()
@@ -195,28 +194,28 @@ namespace KXSGCodec
 
         protected void WriteLong(Int64 data)
         {
-            byte[] _bytes = BitConverter.GetBytes(data);
-            ReverseWrite(_bytes);
+            var bytes = BitConverter.GetBytes(data);
+            ReverseWrite(bytes);
         }
 
         protected long ReadLong()
         {
-            byte[] _arry = reader.ReadBytes(8);
-            Array.Reverse(_arry);
-            return BitConverter.ToInt64(_arry, 0);
+            var arry = reader.ReadBytes(8);
+            Array.Reverse(arry);
+            return BitConverter.ToInt64(arry, 0);
         }
 
         protected void WriteShort(Int16 data)
         {
-            byte[] _bytes = BitConverter.GetBytes(data);
-            ReverseWrite(_bytes);
+            var bytes = BitConverter.GetBytes(data);
+            ReverseWrite(bytes);
         }
 
         protected short ReadShort()
         {
-            byte[] _arry = reader.ReadBytes(2);
-            Array.Reverse(_arry);
-            return BitConverter.ToInt16(_arry, 0);
+            var arry = reader.ReadBytes(2);
+            Array.Reverse(arry);
+            return BitConverter.ToInt16(arry, 0);
         }
 
         private void ReverseWrite(byte[] bytes)
@@ -227,10 +226,10 @@ namespace KXSGCodec
 
         private byte[] ConvertLenToArry(short len)
         {
-            byte[] _lenArry = new byte[2];
-            _lenArry[0] = (byte)(len >> 8);
-            _lenArry[1] = (byte)(len & 0x00FF);
-            return _lenArry;
+            var lenArry = new byte[2];
+            lenArry[0] = (byte)(len >> 8);
+            lenArry[1] = (byte)(len & 0x00FF);
+            return lenArry;
         }
     }
 }

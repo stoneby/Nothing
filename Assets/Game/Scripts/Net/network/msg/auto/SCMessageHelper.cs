@@ -5,12 +5,7 @@
  *  @generated
  */
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.IO;
 using Thrift.Protocol;
-using KXSGLog;
 
 namespace KXSGCodec
 {
@@ -73,7 +68,7 @@ namespace KXSGCodec
             {
                 return new SCSystemInfoMsg();
             }
-            ClientLog.Instance.LogError("Unknown sc msg type: " + type.ToString());
+            Logger.LogError("Unknown sc msg type: " + type.ToString());
             return null;
 
         }

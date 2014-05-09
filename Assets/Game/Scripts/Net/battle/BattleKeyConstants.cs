@@ -1,4 +1,4 @@
-﻿namespace com.kx.sglm.gs.battle
+namespace com.kx.sglm.gs.battle.share
 {
 
 	/// <summary>
@@ -28,7 +28,7 @@
 		public static readonly int BATTLE_KEY_HERO_TEMPLATE = BATTLE_KEY_BASE++;
 
 		/// <summary>
-		/// 怪物所在场景 </summary>
+		/// 怪物所在场�? </summary>
 		public static readonly int BATTLE_KEY_MONSTER_SCENE = BATTLE_KEY_BASE++;
 
 		public static readonly int BATTLE_KEY_HERO_TYPE = BATTLE_KEY_BASE++;
@@ -40,6 +40,8 @@
 		public static readonly int BATTLE_PROP_MONSTER_DROP_HERO = BATTLE_KEY_BASE++;
 
 		public static readonly int BATTLE_PROP_MONSTER_DROP_COIN = BATTLE_KEY_BASE++;
+
+
 
 		////////////////////////////////战斗状态key//////////////////////////////////////
 		private static sbyte BATTLE_STATE_KEY_BASE = 0;

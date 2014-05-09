@@ -11,6 +11,7 @@ public class GameInit : MonoBehaviour
 
         Logger.Log("GameInit started after everything ready, all start later call.");
         WindowManager.Instance.Show(typeof(LoadingWindow), true);
+        WindowManager.Instance.Show(typeof(LoadingWaitWindow), true);
         WindowManager.Instance.Show(typeof(BackgroundFillsWindow), true);
     }
 
@@ -20,6 +21,7 @@ public class GameInit : MonoBehaviour
 
     void Awake()
     {
+        // This is importance in AddListener in Awake, PostEvent() is in Start, keep the sequence.
         EventManager.Instance.AddListener<WindowManagerReady>(GameStart);
     }
 

@@ -1,6 +1,5 @@
 ﻿using Assets.Game.Scripts.Net.network;
 using KXSGCodec;
-using UnityEngine;
 
 namespace Assets.Game.Scripts.Net.handler
 {
@@ -8,7 +7,7 @@ namespace Assets.Game.Scripts.Net.handler
     {
         public static void OnSystemInfo(ThriftSCMessage msg)
         {
-            var sysmsg = msg.getContent() as SCSystemInfoMsg;
+            var sysmsg = msg.GetContent() as SCSystemInfoMsg;
             if (sysmsg != null && sysmsg.Info != null && sysmsg.Info != "")
             {
                 Logger.Log("服务端系统消息1：" + sysmsg.Info);

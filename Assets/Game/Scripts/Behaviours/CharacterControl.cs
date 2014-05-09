@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections;
-using com.kx.sglm.gs.battle;
-using com.kx.sglm.gs.battle.data;
-using com.kx.sglm.gs.battle.utils;
+using com.kx.sglm.gs.battle.share;
+using com.kx.sglm.gs.battle.share.data;
+using com.kx.sglm.gs.battle.share.utils;
 using KXSGCodec;
 using UnityEngine;
 
@@ -14,7 +14,7 @@ public class CharacterControl : MonoBehaviour
     public GameObject JobObj;
     public GameObject AttrackObj;
     public GameObject TopTimesObj;
-    public GameObject TopAttrackObj;
+    private GameObject TopAttrackObj;
     public GameObject SpritePrefab;
     public GameObject SpriteObj;
     public GameObject PoisonPrefab;
@@ -38,6 +38,8 @@ public class CharacterControl : MonoBehaviour
     public bool HaveSp;
 
     public int AnimationIndex;
+
+    private bool isSelected = false;
 
     private float afterTime;
 
@@ -73,7 +75,7 @@ public class CharacterControl : MonoBehaviour
 
     public void SetFootIndex(int footindex)
     {
-        Debug.Log("Foot ===== " + footindex);
+        Logger.Log("Foot ===== " + footindex);
         FootIndex = footindex;
         var uisp = FootObj.GetComponent<UISprite>();
         uisp.spriteName = "pck_" + footindex;
@@ -82,6 +84,13 @@ public class CharacterControl : MonoBehaviour
         var uilb = AttrackObj.GetComponent<UILabel>();
         uilb.text = (FootIndex == BattleTypeConstant.FootPink) ? ("" + Restore) : ("" + Attrack);
         //uilb.text += "-" + footindex.ToString();
+    }
+
+    public void SetCanSelect(bool flag)
+    {
+        if (FootObj == null) return;
+        var uisp = FootObj.GetComponent<UISprite>();
+        uisp.alpha = flag ? 1 : 0.3f;
     }
 
     public void SetCharacterAfter(float aftertime)
@@ -100,7 +109,7 @@ public class CharacterControl : MonoBehaviour
     {
         Data = data;
         var tempid = Int32.Parse(Data.getProp(BattleKeyConstants.BATTLE_KEY_HERO_TEMPLATE));
-        Debug.Log(tempid);
+        Logger.Log(tempid);
         TemplateData = HeroModelLocator.Instance.GetHeroByTemplateId(tempid);
 
         CharacterIndex = (tempid % 2 == 0) ? 1 : 5;
@@ -185,10 +194,11 @@ public class CharacterControl : MonoBehaviour
 
     public void SetSelect(bool isselected, int selectindex = -1)
     {
-        UILabel uilb;
+        isSelected = isselected;
+        var uilb = TopTimesObj.GetComponent<UILabel>();
         if (isselected)
         {
-            uilb = TopTimesObj.GetComponent<UILabel>();
+            
             if (selectindex > 6)
             {
                 uilb.color = new Color(255, 0, 248);
@@ -202,18 +212,20 @@ public class CharacterControl : MonoBehaviour
                 uilb.color = new Color(234, 240, 240);
             }
             uilb.text = (selectindex == 0) ? "" : "X" + BattleTypeConstant.MoreHitTimes[selectindex].ToString();
-            uilb = TopAttrackObj.GetComponent<UILabel>();
             AttrackValue = (FootIndex == BattleTypeConstant.FootPink) ? (int)(BattleTypeConstant.MoreHitTimes[selectindex] * Restore) : (int)(BattleTypeConstant.MoreHitTimes[selectindex] * Attrack);
-            uilb.text = AttrackValue.ToString();
-            iTweenEvent.GetEvent(TopAttrackObj, "ShakeAttrackLabel").Play();
+            StartCoroutine(PopPlay());
         }
         else
         {
-            uilb = TopTimesObj.GetComponent<UILabel>();
             uilb.text = "";
-            uilb = TopAttrackObj.GetComponent<UILabel>();
-            uilb.text = "";
-            iTweenEvent.GetEvent(TopAttrackObj, "ShakeAttrackLabel").Stop();
+            if (TopAttrackObj != null) Destroy(TopAttrackObj);
         }
+    }
+
+    private IEnumerator PopPlay()
+    {
+        PopTextManager.ShowText(AttrackValue.ToString(), 0.5f, -25, 0, 70, transform.localPosition);
+        yield return new WaitForSeconds(0.5f);
+        if (isSelected)TopAttrackObj = PopTextManager.ShakeText(AttrackValue.ToString(), -25, 25, transform.localPosition);
     }
 }

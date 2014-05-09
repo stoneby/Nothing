@@ -23,9 +23,6 @@ public class UITeamBuildWindow : Window
 
     private readonly List<Transform> heros = new List<Transform>();
 
-    //This is just for demo.
-    private const string TeamPrefix = "∂”ŒÈ";
-
     #endregion
 
     #region Window
@@ -75,7 +72,7 @@ public class UITeamBuildWindow : Window
     public void Refresh(int currentTeamIndex, List<long> heroUuids)
     {
         curTeamBtnLis.transform.FindChild("Label").GetComponent<UILabel>().text =
-                                    TeamPrefix + currentTeamIndex;
+                                    StringTable.TeamPrefix + currentTeamIndex;
         var attack = 0;
         var hp = 0;
         var recover = 0;
@@ -174,7 +171,7 @@ public class UITeamBuildWindow : Window
         for (int index = 0; index < teamCount; index++)
         {
             var obj = NGUITools.AddChild(teamButtons, go);
-            obj.transform.Find("Label").GetComponent<UILabel>().text = TeamPrefix + index;
+            obj.transform.Find("Label").GetComponent<UILabel>().text = StringTable.TeamPrefix + index;
             UIEventListener.Get(obj).onClick += OnTeamBtnClicked;
         }
         teamButtons.GetComponent<UIGrid>().Reposition();
