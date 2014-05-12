@@ -6,7 +6,7 @@ public class TeamSelectController : MonoBehaviour
     #region Public Fields
 
     public List<Character> CharacterList;
-    public PoolManager DragBarPool;
+    public MyPoolManager DragBarPool;
     public Camera CurrentCamera;
 
     public bool AutoAdjustPosition;

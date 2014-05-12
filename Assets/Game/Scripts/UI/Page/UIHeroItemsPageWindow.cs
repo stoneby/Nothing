@@ -1,12 +1,17 @@
-using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using KXSGCodec;
 using Property;
 using UnityEngine;
 using System.Collections;
 
+/// <summary>
+/// The hero list window to show all heros.
+/// </summary>
 public class UIHeroItemsPageWindow : Window
 {
+    #region Private Fields
+
     private UIPanel panel;
     private UIGrid grid;
     private GameObject offset;
@@ -14,12 +19,16 @@ public class UIHeroItemsPageWindow : Window
     private UILabel heroNums;
     private UILabel sortLabel;
     private SCHeroList scHeroList;
-
-    public GameObject HeroPrefab;
-    public GameObject StarPrefab;
     private UIToggle[] toggles; 
-
     private int rowToShow;
+
+    #endregion
+
+    #region Public Fields
+
+    /// <summary>
+    /// The rows the hero visible area on the current window.
+    /// </summary>
     public int RowToShow
     {
         get
@@ -41,6 +50,13 @@ public class UIHeroItemsPageWindow : Window
         }
     }
 
+    /// <summary>
+    /// The prefab of the hero item.
+    /// </summary>
+    public GameObject HeroPrefab;
+
+    #endregion
+
     #region Window
 
     public override void OnEnter()
@@ -56,9 +72,22 @@ public class UIHeroItemsPageWindow : Window
     public override void OnExit()
     {
         UnInstallHandlers();
+        if (PoolManager.Pools.ContainsKey("Heros"))
+        {
+            var list = grid.transform.Cast<Transform>().ToList();
+            for(int index = 0; index < list.Count; index++)
+            {
+                var item = list[index];
+                UIEventListener.Get(item.gameObject).onClick -= OnHeroInfoClicked;
+                item.parent = PoolManager.Pools["Heros"].transform;
+                PoolManager.Pools["Heros"].Despawn(item);
+            }
+        }
     }
 
     #endregion
+
+    #region Private Methods
 
     // Use this for initialization
     void Awake()
@@ -72,6 +101,26 @@ public class UIHeroItemsPageWindow : Window
         toggles = GetComponentsInChildren<UIToggle>();
     }
 
+    /// <summary>
+    /// Fill in the hero game objects.
+    /// </summary> 
+    private IEnumerator FillHeroList()
+    {
+        var heroCount = HeroModelLocator.Instance.SCHeroList.HeroList.Count;
+        for (int i = 0; i < heroCount; i++)
+        {
+            var item = PoolManager.Pools["Heros"].Spawn(HeroPrefab.transform);
+            Utils.MoveToParent(grid.transform, item);
+            NGUITools.SetActive(item.gameObject, true);
+            UIEventListener.Get(item.gameObject).onClick += OnHeroInfoClicked;
+        }
+        grid.repositionNow = true;
+        yield return new WaitForEndOfFrame();
+    }
+
+    /// <summary>
+    /// Install all handlers.
+    /// </summary>
     private void InstallHandlers()
     {
         sortBtnLis.onClick += OnSortClicked;
@@ -81,6 +130,9 @@ public class UIHeroItemsPageWindow : Window
         }
     }
 
+    /// <summary>
+    /// Uninstall all handlers.
+    /// </summary>
     private void UnInstallHandlers()
     {
         sortBtnLis.onClick -= OnSortClicked;
@@ -90,7 +142,50 @@ public class UIHeroItemsPageWindow : Window
         }
     }
 
-    public void ExcuteFilter()
+    /// <summary>
+    /// The callback of clicking sort button.
+    /// </summary>
+    private void OnSortClicked(GameObject go)
+    {
+        scHeroList.OrderType = (sbyte)((scHeroList.OrderType + 1) % StringTable.SortStrings.Count);
+        sortLabel.text = StringTable.SortStrings[scHeroList.OrderType];
+        Refresh();
+    }
+
+    /// <summary>
+    /// The callback of clicking each hero item.
+    /// </summary>
+    private void OnHeroInfoClicked(GameObject go)
+    {
+        HeroBaseInfoWindow.CurUuid = go.GetComponent<HeroInfoPack>().Uuid;
+        WindowManager.Instance.Show(typeof(HeroBaseInfoWindow), true);
+        WindowManager.Instance.Show(typeof(UIHeroInfoWindow), true);
+    }
+
+    /// <summary>
+    /// Refresh the hero list.
+    /// </summary>
+    private void Refresh()
+    {
+        var orderType = scHeroList.OrderType;
+        HeroModelLocator.Instance.SortHeroList(orderType, scHeroList.HeroList);
+        for (int i = 0; i < scHeroList.HeroList.Count; i++)
+        {
+            var item = grid.transform.GetChild(i);
+            var uUid = scHeroList.HeroList[i].Uuid;
+            item.GetComponent<HeroInfoPack>().Uuid = uUid;
+            ShowHero(orderType, item, uUid);
+        }
+    }
+
+    /// <summary>
+    /// Filtering hero items with special job. 
+    /// </summary>
+    /// <remarks>
+    /// This function can only be called in the callback of uitoggle's onChange, 
+    /// as the UIToggle.current will be null in other places.
+    /// </remarks>
+    private void ExcuteFilter()
     {
         bool val = UIToggle.current.value;
         if (val)
@@ -117,52 +212,6 @@ public class UIHeroItemsPageWindow : Window
             }
         }
     }
-
-    private void OnSortClicked(GameObject go)
-    {
-        scHeroList.OrderType = (sbyte)((scHeroList.OrderType + 1) % StringTable.SortStrings.Count);
-        sortLabel.text = StringTable.SortStrings[scHeroList.OrderType];
-        Refresh();
-    }
-
-    /// <summary>
-    /// Fill in the hero game objects.
-    /// </summary> 
-    private IEnumerator FillHeroList()
-    {
-        var heroCount = HeroModelLocator.Instance.SCHeroList.HeroList.Count;
-        for (int i = 0; i < heroCount; i++)
-        {
-            var item = NGUITools.AddChild(grid.gameObject, HeroPrefab);
-            UIEventListener.Get(item).onClick += OnHeroInfoClicked;
-        }
-        grid.Reposition();
-        yield return new WaitForEndOfFrame();
-    }
-
-    private void OnHeroInfoClicked(GameObject go)
-    {
-        HeroBaseInfoWindow.CurUuid = go.GetComponent<HeroInfoPack>().Uuid;
-        WindowManager.Instance.Show(typeof(HeroBaseInfoWindow), true);
-        WindowManager.Instance.Show(typeof(UIHeroInfoWindow), true);
-    }
-
-    /// <summary>
-    /// Refresh the hero list.
-    /// </summary>
-    private void Refresh()
-    {
-        var orderType = scHeroList.OrderType;
-        HeroModelLocator.Instance.SortHeroList(orderType, scHeroList.HeroList);
-        for (int i = 0; i < scHeroList.HeroList.Count; i++)
-        {
-            var item = grid.transform.GetChild(i);
-            var uUid = scHeroList.HeroList[i].Uuid;
-            item.GetComponent<HeroInfoPack>().Uuid = uUid;
-            ShowHero(orderType, item, uUid);
-        }
-    }
-
 
     /// <summary>
     /// Show the info of the hero.
@@ -228,6 +277,9 @@ public class UIHeroItemsPageWindow : Window
         }
     }
 
+    /// <summary>
+    /// Show each hero items with the job info.
+    /// </summary>
     private void ShowByJob(Transform sortRelated, HeroInfo heroInfo, HeroTemplate heroTemplate)
     {
         var jobSymobl = Utils.FindChild(sortRelated, "JobSymbol").GetComponent<UISprite>();
@@ -238,6 +290,10 @@ public class UIHeroItemsPageWindow : Window
         NGUITools.SetActive(jobSymobl.gameObject, true);
         NGUITools.SetActive(attack.gameObject, true);
     }
+
+    /// <summary>
+    /// Show each hero items with the hp info.
+    /// </summary>
     private void ShowByHp(Transform sortRelated, HeroInfo heroInfo)
     {
         var hp = Utils.FindChild(sortRelated, "HP-Title");
@@ -247,6 +303,10 @@ public class UIHeroItemsPageWindow : Window
         NGUITools.SetActive(hp.gameObject, true);
         NGUITools.SetActive(hpValue.gameObject, true);
     }
+
+    /// <summary>
+    /// Show each hero items with the recover info.
+    /// </summary>
     private void ShowByRecover(Transform sortRelated, HeroInfo heroInfo)
     {
         var recover = Utils.FindChild(sortRelated, "Recover-Title");
@@ -255,7 +315,11 @@ public class UIHeroItemsPageWindow : Window
         NGUITools.SetActiveChildren(sortRelated.gameObject, false);
         NGUITools.SetActive(recover.gameObject, true);
         NGUITools.SetActive(recoverValue.gameObject, true);
-    } 
+    }
+
+    /// <summary>
+    /// Show each hero items with the level info.
+    /// </summary>
     private void ShowByLvl(Transform sortRelated, HeroInfo heroInfo)
     {
         var lvTitle = Utils.FindChild(sortRelated, "LV-Title");
@@ -265,4 +329,6 @@ public class UIHeroItemsPageWindow : Window
         NGUITools.SetActive(lvTitle.gameObject, true);
         NGUITools.SetActive(lvValue.gameObject, true);
     }
+
+    #endregion
 }

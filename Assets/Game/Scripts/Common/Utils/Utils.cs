@@ -132,6 +132,15 @@ public class Utils
         return (from Transform item in parent select FindChild(item, objName)).FirstOrDefault(child => null != child);
     }
 
+    public static void MoveToParent(Transform parent, Transform instance)
+    {
+        instance.parent = parent.transform;
+        instance.localPosition = Vector3.zero;
+        instance.localRotation = Quaternion.identity;
+        instance.localScale = Vector3.one;
+        instance.gameObject.layer = parent.gameObject.layer;
+    }
+
     public static T Decode<T>(string path) where T :  TBase, new()
     {
         var membuffer = new TMemoryBuffer(Resources.Load<TextAsset>(path).bytes);

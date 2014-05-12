@@ -5,7 +5,7 @@ using Property;
 using UnityEngine;
 
 /// <summary>
-/// Specific window controller.
+/// The window to show the detail info of single hero.
 /// </summary>
 public class UIHeroInfoWindow : Window
 {
@@ -23,7 +23,14 @@ public class UIHeroInfoWindow : Window
 
     #region Public Fields
 
+    /// <summary>
+    /// The game object which needs to be shown when click skill tab.
+    /// </summary>
     public GameObject SkillContent;
+
+    /// <summary>
+    /// The game object which needs to be shown when click talent tab.
+    /// </summary>
     public GameObject TalentContent;
 
     #endregion
@@ -48,17 +55,25 @@ public class UIHeroInfoWindow : Window
 
     #region Private Methods
 
+    /// <summary>
+    /// Install all handlers.
+    /// </summary>
     private void InstallHandlers()
     {
         backBtnLis.onClick += OnBackBtnClicked;
     }
 
+    /// <summary>
+    /// Uninstall all handlers.
+    /// </summary>
     private void UnInstallHandlers()
     {
         backBtnLis.onClick -= OnBackBtnClicked;
     }
 
-    // Use this for initialization
+    /// <summary>
+    /// Use this for initialization.
+    /// </summary>
     void Awake()
     {
         backBtnLis = UIEventListener.Get(Utils.FindChild(transform, "Button-Back").gameObject);
@@ -69,6 +84,9 @@ public class UIHeroInfoWindow : Window
         mp = Utils.FindChild(property, "MPValue").GetComponent<UILabel>();
     }
 
+    /// <summary>
+    /// Update ui data.
+    /// </summary>
     public void RefreshData()
     {
         attack.text = heroInfo.Prop[RoleProperties.HERO_ATK].ToString(CultureInfo.InvariantCulture);
@@ -101,17 +119,26 @@ public class UIHeroInfoWindow : Window
         NGUITools.SetActive(TalentContent, false);
     }
 
+    /// <summary>
+    /// The callback of clicking back button.
+    /// </summary>
     private void OnBackBtnClicked(GameObject go)
     {
         WindowManager.Instance.Show(typeof(UIHerosDisplayWindow), true);
         WindowManager.Instance.Show(typeof(UIHeroInfoWindow), false);
     }
 
+    /// <summary>
+    /// Show the effect of level up over.
+    /// </summary>
     public void ShowLevelUp(SCPropertyChangedNumber changedNumber)
     {
         StartCoroutine("ShowLevelUpEffect", changedNumber);
     }
 
+    /// <summary>
+    /// The coroutine to show the effect of the result of level up.
+    /// </summary>
     private IEnumerator ShowLevelUpEffect(object obj)
     {
         var changedNumber = obj as SCPropertyChangedNumber;
@@ -133,7 +160,7 @@ public class UIHeroInfoWindow : Window
             SetHeroInfo(changedNumber, RoleProperties.HERO_RECOVER);
             SetHeroInfo(changedNumber, RoleProperties.HERO_MP);
             var changedLvl = heroInfo.Lvl - lvlBefore;
-            var changedATK = changedNumber.PropertyChanged[RoleProperties.HERO_ATK] - atkBefore;
+            var changedAtk = changedNumber.PropertyChanged[RoleProperties.HERO_ATK] - atkBefore;
             var changedHp = changedNumber.PropertyChanged[RoleProperties.HERO_HP] - hpBefore;
             var changedRecover = changedNumber.PropertyChanged[RoleProperties.HERO_RECOVER] - recoverBefore;
             var changedMp = changedNumber.PropertyChanged[RoleProperties.HERO_MP] - mpBefore;
@@ -157,7 +184,7 @@ public class UIHeroInfoWindow : Window
                 lvLabel.color = UILevelUpWindow.ChangedColor;
                 lvLabel.text = string.Format("(+{0})", changedLvl);
                 attack.color = UILevelUpWindow.ChangedColor;
-                attack.text = string.Format("(+{0})", changedATK);
+                attack.text = string.Format("(+{0})", changedAtk);
                 hp.color = UILevelUpWindow.ChangedColor;
                 hp.text = string.Format("(+{0})", changedHp);
                 recover.color = UILevelUpWindow.ChangedColor;
@@ -169,6 +196,11 @@ public class UIHeroInfoWindow : Window
         }   
     }
 
+    /// <summary>
+    /// Set the hero info with special key.
+    /// </summary>
+    /// <param name="changedNumber">The property changed number.</param>
+    /// <param name="key">The key which reprent special property of hero.</param>
     private void SetHeroInfo(SCPropertyChangedNumber changedNumber, int key)
     {
         if(changedNumber.PropertyChanged.ContainsKey(key))

@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEngine;
 using System.Collections;
 
-public class PoolManager : MonoBehaviour
+public class MyPoolManager : MonoBehaviour
 {
     #region Public Fields
 

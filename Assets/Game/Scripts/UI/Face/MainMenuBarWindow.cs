@@ -17,7 +17,6 @@ public class MainMenuBarWindow : Window
 
     #endregion
 
-
     #region Window
 
     public override void OnEnter()
@@ -108,7 +107,6 @@ public class MainMenuBarWindow : Window
 
     private void OnHomeClicked(GameObject go)
     {
-
     }
 
     #endregion

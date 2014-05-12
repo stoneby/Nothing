@@ -20,7 +20,7 @@ public class GameConfiguration : Singleton<GameConfiguration>
 
     public bool SingleMode;
 
-    private const float LoadingTestTime = 1f;
+    private const float LoadingTestTime = 5f;
 
     #endregion
 
@@ -72,6 +72,8 @@ public class GameConfiguration : Singleton<GameConfiguration>
                 GameConfig.ServicePath = node["ServicePath"].InnerText;
             }
 
+            GameConfig.ServerIpAddress = node["ServerIpAddress"].InnerText;
+
             if (node["BattleConfig"] != null)
             {
                 GameConfig.BattleConfig = node["BattleConfig"].InnerText;
@@ -87,7 +89,7 @@ public class GameConfiguration : Singleton<GameConfiguration>
             if (node["CookieAddress"] != null)
             {
                 GameConfig.CookieAddress = string.Format("{0}/{1}", Application.persistentDataPath, node["CookieAddress"].InnerText);
-                Debug.LogWarning("cookie path" + GameConfig.CookieAddress);
+                Logger.LogWarning("cookie path" + GameConfig.CookieAddress);
                 if (!File.Exists(GameConfig.CookieAddress))
                 {
                     var path = new FileInfo(GameConfig.CookieAddress).DirectoryName;
@@ -97,13 +99,14 @@ public class GameConfiguration : Singleton<GameConfiguration>
                     }
                     File.Create(GameConfig.CookieAddress);
                 }
-            } 
+            }
         }
     }
 
-    private void ReadServiceConfigurationXml()
-    {        
-        StartCoroutine(DoReadRemoteServiceXml());
+    private IEnumerator DoReadConfigXml()
+    {
+        DoReadRemoteServiceXml();
+        DoReadBattleConfigXml();
     }
 
     private IEnumerator DoReadRemoteServiceXml()
@@ -111,16 +114,22 @@ public class GameConfiguration : Singleton<GameConfiguration>
         Logger.Log("加载Service.xml=" + GameConfig.ServicePath);
         var www = new WWW(GameConfig.ServicePath);
         yield return www;
-        Logger.Log("加载Service.xml成功");
-        Logger.Log(www.text);
-        var doc = XElement.Parse(www.text, LoadOptions.None);
-        
-        ParseService(doc);
 
-        yield return new WaitForSeconds(LoadingTestTime);
+        if (!String.IsNullOrEmpty(www.error))
+        {
+            Logger.LogWarning(www.error);
+        }
+        else
+        {
+            Logger.Log("加载Service.xml成功");
+            Logger.Log(www.text);
 
-        WindowManager.Instance.Show(typeof(LoginWindow), true);
-        WindowManager.Instance.Show(typeof(LoadingWaitWindow), false);
+            var doc = XElement.Parse(www.text, LoadOptions.None);
+
+            ParseService(doc);
+
+            WindowManager.Instance.Show(typeof(LoginWindow), true);
+        }
     }
 
     private static void ParseService(XContainer doc)
@@ -205,7 +214,6 @@ public class GameConfiguration : Singleton<GameConfiguration>
         yield return new WaitForSeconds(LoadingTestTime);
 
         WindowManager.Instance.Show(typeof(LoginWindow), true);
-        WindowManager.Instance.Show(typeof(LoadingWaitWindow), false);
     }
 
     private static void ParseBattleConfig(XContainer doc)
@@ -245,15 +253,45 @@ public class GameConfiguration : Singleton<GameConfiguration>
         }
     }
 
-	private static float GetValueByName(XContainer doc, string name)
-	{
-		var value = doc.Element(name);
-		if (value != null) 
+    private static float GetValueByName(XContainer doc, string name)
+    {
+        var value = doc.Element(name);
+        if (value != null)
         {
-			return Convert.ToSingle (value.Value);
-		}
-		return 0.01f;
-	}
+            return Convert.ToSingle(value.Value);
+        }
+        return 0.01f;
+    }
+
+    private void HandleAsyncOperation()
+    {
+        StartCoroutine(DoAsyncOperation());
+    }
+
+    private IEnumerator DoAsyncOperation()
+    {
+        yield return StartCoroutine(PingTest.Instance.TestConnection(GameConfig.ServerIpAddress));
+        if (PingTest.Instance.HasConnection)
+        {
+            StartCoroutine(DoReadRemoteServiceXml());
+            StartCoroutine(DoReadBattleConfigXml());
+        }
+        else
+        {
+            // Show assert window.
+            var assertWindow = WindowManager.Instance.GetWindow<AssertionWindow>(typeof(AssertionWindow));
+            assertWindow.AssertType = AssertionWindow.Type.Ok;
+            assertWindow.Title = "Warning";
+            assertWindow.Message = "Network connection fail, please check your network setting.";
+            WindowManager.Instance.Show(typeof(AssertionWindow), true);
+            assertWindow.OkButtonClicked += OnAssertButtonClicked;
+        }
+    }
+
+    private void OnAssertButtonClicked(GameObject sender)
+    {
+        HandleAsyncOperation();
+    }
 
     #region Mono
 
@@ -261,8 +299,7 @@ public class GameConfiguration : Singleton<GameConfiguration>
     {
         ReadFeatureConfigurationXml();
         ReadGameConfigurationXml();
-        ReadServiceConfigurationXml();
-        StartCoroutine(DoReadBattleConfigXml());
+        HandleAsyncOperation();
     }
 
     #endregion

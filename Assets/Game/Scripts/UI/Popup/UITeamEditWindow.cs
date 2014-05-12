@@ -6,14 +6,13 @@ using Property;
 using UnityEngine;
 
 /// <summary>
-/// Specific window controller. Need optimized in the future.
+/// The window to edit the hero team.
 /// </summary>
 public class UITeamEditWindow : Window
 {
     #region Public Fields
 
     public GameObject HeroPrefab;
-
     public const long DefaultNonHero = -1;
     public const int MaxHeroCount = 9;
 
@@ -39,12 +38,11 @@ public class UITeamEditWindow : Window
     private int totalHp;
     private int totalRecover;
     private int totalMp;
-
-    private readonly Dictionary<GameObject, int> selectedItems = new Dictionary<GameObject, int>();
+    private UILabel sortLabel;
+    private readonly Color greyOkColor = Color.gray;
     private readonly Vector3 maskOffset = new Vector3(0, 10, 0);
     private readonly List<int> minHeroIndex = new List<int> { 1, 2, 3 };
-    private readonly Color greyOkColor = new Color(0.3f, 0.3f, 0.3f, 1.0f);
-    private UILabel sortLabel;
+    private readonly Dictionary<GameObject, int> selectedItems = new Dictionary<GameObject, int>();
 
     #endregion
 
@@ -62,13 +60,16 @@ public class UITeamEditWindow : Window
     public override void OnExit()
     {
         UnInstallHandlers();
+        DespawnHeros();
     }
 
     #endregion
 
     #region Private Methods
 
-    // Use this for initialization
+    /// <summary>
+    /// Use this for initialization.
+    /// </summary>
     void Awake()
     {
         backLis = UIEventListener.Get(Utils.FindChild(transform, "Button-Back").gameObject);
@@ -93,6 +94,25 @@ public class UITeamEditWindow : Window
         scHeroList = HeroModelLocator.Instance.SCHeroList;
     }
 
+    /// <summary>
+    /// Reset back of some variables.
+    /// </summary>
+    private void Reset()
+    {
+        attack.text = "0";
+        hp.text = "0";
+        recover.text = "0";
+        mp.text = "0";
+
+        totalAttack = 0;
+        totalHp = 0;
+        totalRecover = 0;
+        totalMp = 0;
+    }
+
+    /// <summary>
+    /// Install all handlers.
+    /// </summary>
     private void InstallHandlers()
     {
         backLis.onClick += OnBackClick;
@@ -101,6 +121,9 @@ public class UITeamEditWindow : Window
         sortBtnLis.onClick += OnSortClicked;
     }
 
+    /// <summary>
+    /// Uninstall all handlers.
+    /// </summary>
     private void UnInstallHandlers()
     {
         backLis.onClick -= OnBackClick;
@@ -109,6 +132,9 @@ public class UITeamEditWindow : Window
         sortBtnLis.onClick -= OnSortClicked;
     }
 
+    /// <summary>
+    /// The callback of clicking sort button.
+    /// </summary>
     private void OnSortClicked(GameObject go)
     {
         var orderType = HeroModelLocator.Instance.SCHeroList.OrderType;
@@ -125,23 +151,29 @@ public class UITeamEditWindow : Window
         }
     }
 
+    /// <summary>
+    /// The callback of clicking back button.
+    /// </summary>
     private void OnBackClick(GameObject go)
     {
         OnCancelAllClick(null);
         WindowManager.Instance.Show(typeof(UITeamEditWindow), false);
     }
 
+    /// <summary>
+    /// The callback of clicking cancel all button.
+    /// </summary>
     private void OnCancelAllClick(GameObject go)
     {
         var objList = selectedItems.Keys.ToList();
         for (int index = 0; index < objList.Count; index++)
         {
-            var mask = objList[index].transform.FindChild("Mask(Clone)");
-            Destroy(mask.gameObject);
+            var maskToDel = objList[index].transform.FindChild("Mask(Clone)");
+            Destroy(maskToDel.gameObject);
 
             var item = items.transform.FindChild("Item" + selectedItems[objList[index]]);
-            var smallHero = item.FindChild("SmallHero(Clone)");
-            Destroy(smallHero.gameObject);
+            var smallHeroToDel = item.FindChild("SmallHero(Clone)");
+            Destroy(smallHeroToDel.gameObject);
         }
         selectedItems.Clear();
         okLis.GetComponent<UISprite>().color = Color.white;
@@ -149,6 +181,9 @@ public class UITeamEditWindow : Window
         Reset();
     }
 
+    /// <summary>
+    /// The callback of clicking ok button.
+    /// </summary>
     private void OnOkClick(GameObject go)
     {
         Dictionary<int, GameObject> temp = selectedItems.ToDictionary(item => item.Value, item => item.Key);
@@ -186,13 +221,17 @@ public class UITeamEditWindow : Window
         var heroCount = scHeroList.HeroList.Count;
         for (int index = 0; index < heroCount; index++)
         {
-            var item = NGUITools.AddChild(herosGrid.gameObject, HeroPrefab);
-            item.name = item.name + index;
-            UIEventListener.Get(item).onClick += OnHeroItemClicked;
+            var item = PoolManager.Pools["Heros"].Spawn(HeroPrefab.transform);
+            Utils.MoveToParent(herosGrid.transform, item);
+            NGUITools.SetActive(item.gameObject, true);
+            UIEventListener.Get(item.gameObject).onClick += OnHeroItemClicked;
         }
         herosGrid.Reposition();
     }
 
+    /// <summary>
+    /// The callback of clicking ok each hero item.
+    /// </summary>
     private void OnHeroItemClicked(GameObject go)
     {
         var uUid = go.GetComponent<HeroInfoPack>().Uuid;
@@ -226,19 +265,6 @@ public class UITeamEditWindow : Window
             RefreshProperty(uUid, true);
         }
 
-    }
-
-    private void Reset()
-    {
-        attack.text = "0";
-        hp.text = "0";
-        recover.text = "0";
-        mp.text = "0";
-
-        totalAttack = 0;
-        totalHp = 0;
-        totalRecover = 0;
-        totalMp = 0;
     }
 
     /// <summary>
@@ -275,6 +301,11 @@ public class UITeamEditWindow : Window
         }
     }
 
+    /// <summary>
+    /// Refresh the property of heros.
+    /// </summary>
+    /// <param name="uUid">The uUid of the hero to be used to update the property.</param>
+    /// <param name="add">If true, all properties will be increased with corresponding attribute values of the special hero.</param>
     private void RefreshProperty(long uUid, bool add)
     {
         var heroInfo = HeroModelLocator.Instance.FindHero(uUid);
@@ -320,6 +351,29 @@ public class UITeamEditWindow : Window
         {
             okLis.GetComponent<UISprite>().color = greyOkColor;
             okLis.GetComponent<BoxCollider>().enabled = false;
+        }
+    }
+
+    /// <summary>
+    /// Despawn hero instance to the hero pool.
+    /// </summary>
+    private void DespawnHeros()
+    {
+        if (PoolManager.Pools.ContainsKey("Heros"))
+        {
+            var list = herosGrid.transform.Cast<Transform>().ToList();
+            for(int index = 0; index < list.Count; index++)
+            {
+                var item = list[index];
+                var maskToDel = item.FindChild("Mask(Clone)");
+                if(maskToDel != null)
+                {
+                    Destroy(maskToDel.gameObject);
+                }
+                UIEventListener.Get(item.gameObject).onClick -= OnHeroItemClicked;
+                item.parent = PoolManager.Pools["Heros"].transform;
+                PoolManager.Pools["Heros"].Despawn(item);
+            }
         }
     }
 
@@ -387,6 +441,9 @@ public class UITeamEditWindow : Window
         }
     }
 
+    /// <summary>
+    /// Show each hero items with the job info.
+    /// </summary>
     private void ShowByJob(Transform sortRelated, HeroInfo heroInfo, HeroTemplate heroTemplate)
     {
         var jobSymobl = Utils.FindChild(sortRelated, "JobSymbol").GetComponent<UISprite>();
@@ -397,6 +454,10 @@ public class UITeamEditWindow : Window
         NGUITools.SetActive(jobSymobl.gameObject, true);
         NGUITools.SetActive(attack.gameObject, true);
     }
+
+    /// <summary>
+    /// Show each hero items with the hp info.
+    /// </summary>
     private void ShowByHp(Transform sortRelated, HeroInfo heroInfo)
     {
         var hp = Utils.FindChild(sortRelated, "HP-Title");
@@ -406,6 +467,10 @@ public class UITeamEditWindow : Window
         NGUITools.SetActive(hp.gameObject, true);
         NGUITools.SetActive(hpValue.gameObject, true);
     }
+
+    /// <summary>
+    /// Show each hero items with the recover info.
+    /// </summary>
     private void ShowByRecover(Transform sortRelated, HeroInfo heroInfo)
     {
         var recover = Utils.FindChild(sortRelated, "Recover-Title");
@@ -415,6 +480,10 @@ public class UITeamEditWindow : Window
         NGUITools.SetActive(recover.gameObject, true);
         NGUITools.SetActive(recoverValue.gameObject, true);
     }
+
+    /// <summary>
+    /// Show each hero items with the level info.
+    /// </summary>
     private void ShowByLvl(Transform sortRelated, HeroInfo heroInfo)
     {
         var lvTitle = Utils.FindChild(sortRelated, "LV-Title");

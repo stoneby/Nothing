@@ -4,32 +4,38 @@ using KXSGCodec;
 using UnityEngine;
 
 /// <summary>
-/// Specific window controller.
+/// The window to show level up.
 /// </summary>
 public class UILevelUpWindow : Window
 {
+    #region Public Fields
+
+    /// <summary>
+    /// The particle system to show the level up.
+    /// </summary>
     public GameObject LevelUpEffect;
+
+    #endregion
+
+    #region Private Fields
+
     private UIEventListener backBtnLis;
     private UIEventListener addLis;
     private UIEventListener subLis;
     private UIEventListener okLis;
-
     private UILabel baseLvl;
     private UILabel baseAtk;
     private UILabel baseHp;
     private UILabel baseRec;
-    private UILabel baseMp;  
-    
+    private UILabel baseMp;    
     private UILabel adjLvl;
     private UILabel adjAtk;
     private UILabel adjHp;
     private UILabel adjRec;
     private UILabel adjMp;
-   
     private UILabel nextSoul;
     private UILabel ownedSoul;
     private UILabel usedSoul;
-
     private HeroInfo heroInfo;
     private HeroTemplate heroTemplate;
     private UIEventListener overOkLis;
@@ -37,16 +43,16 @@ public class UILevelUpWindow : Window
     private Transform title;
     private Transform levelUp;
     private Transform soulCost;
-
     private short curLvl;
     private long totalCostSoul;
+    private const int MinLvl = 1;
+    private bool isLevelOver;
+    private readonly int[] additions = new int[5];
     public static readonly Color NonChangedColor = Color.white;
     public static readonly Color ChangedColor = Color.cyan;
     public SCPropertyChangedNumber PropertyChangedNumber;
-    private const int MinLvl = 1;
 
-    private readonly int[] additions = new int[5];
-    private bool isLevelOver;
+    #endregion
 
     #region Window
 
@@ -69,7 +75,9 @@ public class UILevelUpWindow : Window
 
     #region Mono
 
-    // Use this for initialization
+    /// <summary>
+    /// Use this for initialization.
+    /// </summary>
     void Awake()
     {
         backBtnLis = UIEventListener.Get(Utils.FindChild(transform, "Button-Back").gameObject);
@@ -100,6 +108,9 @@ public class UILevelUpWindow : Window
         NGUITools.SetActive(levelUp.gameObject, false);
     }
 
+    /// <summary>
+    /// Install all handlers.
+    /// </summary>
     private void InstallHandlers()
     {
         backBtnLis.onClick += OnBackBtnClicked;
@@ -108,6 +119,9 @@ public class UILevelUpWindow : Window
         okLis.onClick += OnOkBtnClicked;
     }
 
+    /// <summary>
+    /// UnInstall all handlers.
+    /// </summary>
     private void UnInstallHandlers()
     {
         backBtnLis.onClick -= OnBackBtnClicked;
@@ -115,6 +129,9 @@ public class UILevelUpWindow : Window
         subLis.onClick -= OnSubLisClicked;
     }
 
+    /// <summary>
+    /// Update ui data.
+    /// </summary>
     private void RefreshData()
     {
         if (curLvl == heroTemplate.LvlLimit)
@@ -137,6 +154,9 @@ public class UILevelUpWindow : Window
         RefreshLevelData();
     }
 
+    /// <summary>
+    /// Update level data.
+    /// </summary>
     private void RefreshLevelData()
     {
         var list = new List<int> { heroInfo.Lvl, heroTemplate.Attack, heroTemplate.HP, heroTemplate.Recover, heroTemplate.MP };
@@ -158,6 +178,12 @@ public class UILevelUpWindow : Window
         usedSoul.text = totalCostSoul.ToString(CultureInfo.InvariantCulture);
     }
 
+    /// <summary>
+    /// Get the hero's cost soul with special level and rarity.
+    /// </summary>
+    /// <param name="lvl">The level of the hero.</param>
+    /// <param name="starNum">The rarity of the hero.</param>
+    /// <returns>The cost soul of the hero.</returns>
     private long GetCostSoul(short lvl, int starNum)
     {
         long soulValue = 0;
@@ -182,20 +208,9 @@ public class UILevelUpWindow : Window
         return soulValue;
     }
 
-    public void ShowLevelOver()
-    {
-        isLevelOver = true;
-        WindowManager.Instance.GetWindow<HeroBaseInfoWindow>(typeof(HeroBaseInfoWindow)).ShowButtons(false);
-        NGUITools.SetActive(title.gameObject, false);
-        NGUITools.SetActive(smallHero.gameObject, true);
-        NGUITools.SetActive(levelUp.gameObject, true);
-        NGUITools.SetActive(soulCost.gameObject, false);
-        var levelUpEffect = Instantiate(LevelUpEffect, new Vector3(0.6f, 1.0f, 0f), Quaternion.identity) as GameObject;
-        var ps = levelUpEffect.GetComponent<ParticleSystem>();
-        ps.Play();
-        Destroy(levelUpEffect, 1f);
-    }
-
+    /// <summary>
+    /// The callback of clicking ok button.
+    /// </summary>
     private void OnOkBtnClicked(GameObject go)
     {
         if(curLvl > heroInfo.Lvl)
@@ -205,6 +220,9 @@ public class UILevelUpWindow : Window
         }
     }
 
+    /// <summary>
+    /// The callback of clicking back button.
+    /// </summary>
     private void OnBackBtnClicked(GameObject go)
     {
         WindowManager.Instance.Show(typeof(UIHeroInfoWindow), true);
@@ -216,6 +234,9 @@ public class UILevelUpWindow : Window
         }
     }
 
+    /// <summary>
+    /// The callback of clicking increase level button.
+    /// </summary>
     private void OnAddBtnClicked(GameObject go)
     {
         LevelUp(true);
@@ -231,6 +252,9 @@ public class UILevelUpWindow : Window
         }
     }
 
+    /// <summary>
+    /// The callback of clicking decrease level button.
+    /// </summary>
     private void OnSubLisClicked(GameObject go)
     {
         LevelUp(false);
@@ -246,6 +270,10 @@ public class UILevelUpWindow : Window
         }
     }
 
+    /// <summary>
+    /// Update the array of addition when level up or down.
+    /// </summary>
+    /// <param name="up">If true, it will level up one level.</param>
     private void LevelUp(bool up)
     {
         var flag = up ? 1 : -1;
@@ -261,6 +289,31 @@ public class UILevelUpWindow : Window
         additions[3] += heroTemplate.RecoverAddtion * flag;
         additions[4] += heroTemplate.MPAddtion * flag;
         RefreshLevelData();
+    }
+
+    #endregion
+
+    #region Public Methods
+
+    /// <summary>
+    /// Show level over result.
+    /// </summary>
+    public void ShowLevelOver()
+    {
+        isLevelOver = true;
+        WindowManager.Instance.GetWindow<HeroBaseInfoWindow>(typeof(HeroBaseInfoWindow)).ShowButtons(false);
+        NGUITools.SetActive(title.gameObject, false);
+        NGUITools.SetActive(smallHero.gameObject, true);
+        NGUITools.SetActive(levelUp.gameObject, true);
+        NGUITools.SetActive(soulCost.gameObject, false);
+        var levelUpEffect = Instantiate(LevelUpEffect, new Vector3(0.6f, 1.0f, 0f), Quaternion.identity) as GameObject;
+        if(levelUpEffect == null)
+        {
+            return;
+        }
+        var ps = levelUpEffect.GetComponent<ParticleSystem>();
+        ps.Play();
+        Destroy(levelUpEffect, 1f);
     }
 
     #endregion
