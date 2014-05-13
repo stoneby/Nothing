@@ -14,7 +14,8 @@ public class UIMainScreenWindow : Window
 
 	private UILabel gold ;
 	private UILabel diamond ;
-	private UILabel sprit ;
+    private UILabel sprit;
+    private UILabel nameLabel;
     #region Window
 
     public override void OnEnter()
@@ -27,6 +28,7 @@ public class UIMainScreenWindow : Window
 		diamond.text = PlayerModelLocator.Instance.Diamond.ToString ();
 		gold.text = PlayerModelLocator.Instance.Gold.ToString ();
 		sprit.text = PlayerModelLocator.Instance.Sprit.ToString ();
+	    nameLabel.text = PlayerModelLocator.Instance.Name;
 	}
 
     public override void OnExit()
@@ -50,7 +52,7 @@ public class UIMainScreenWindow : Window
 		diamond = transform.FindChild("Fortune/Diamond/Coins-Value").GetComponent<UILabel>();
 		gold = transform.FindChild("Fortune/Coins/Coins-Value").GetComponent<UILabel>();
 		sprit = transform.FindChild("Fortune/Souls/Coins-Value").GetComponent<UILabel>();
-
+        nameLabel = transform.FindChild("Info/Name - Label").GetComponent<UILabel>();
     }
 
     private void InstallHandlers()

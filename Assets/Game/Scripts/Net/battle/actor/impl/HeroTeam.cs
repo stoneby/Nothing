@@ -270,7 +270,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 		{
 			if (!isRightActionArr(battleIndexes))
 			{
-				// TODO: add log
+				Logger.LogError("#HeroTeam.isRightFightInfo action error");
 				return false;
 			}
 			if (!battle.BattleType.canSelectTarget())
@@ -400,7 +400,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 		public virtual int changeValue(int baseValue, int changeValue, int maxValue)
 		{
 			int _result = baseValue + changeValue;
-			_result = _result > maxValue ? baseValue : _result;
+			_result = _result > maxValue ? maxValue : _result;
 			_result = _result < 0 ? 0 : _result;
 			return _result;
 		}

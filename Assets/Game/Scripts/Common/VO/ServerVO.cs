@@ -10,6 +10,7 @@ public class ServerVO
     public string RequestClientVersion;
     public string ServerName;
     public string Url;
+    public bool IsTest;
 
     public static ServerVO Parse(XElement data)
     {
@@ -19,12 +20,13 @@ public class ServerVO
         app.ServerState = data.Attribute("ServerState").Value;
         app.ServerName = data.Attribute("ServerName").Value;
         app.Url = data.Attribute("Url").Value;
+        app.IsTest = bool.Parse(data.Attribute("IsTest").Value);
 
-        Logger.Log(app.ID);
-        Logger.Log(app.RequestClientVersion);
-        Logger.Log(app.ServerState);
-        Logger.Log(app.ServerName);
-        Logger.Log(app.Url);
+//        Logger.Log(app.ID);
+//        Logger.Log(app.RequestClientVersion);
+//        Logger.Log(app.ServerState);
+//        Logger.Log(app.ServerName);
+//        Logger.Log(app.Url);
 
         return app;
     }

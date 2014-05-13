@@ -1071,6 +1071,7 @@ GameObject:
   - 4: {fileID: 400128}
   - 114: {fileID: 11400164}
   - 65: {fileID: 6500036}
+  - 114: {fileID: 11400168}
   m_Layer: 8
   m_Name: Background
   m_TagString: Untagged
@@ -12490,7 +12491,7 @@ Transform:
   m_GameObject: {fileID: 100130}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: .99992007, y: .99992007, z: .99992007}
   m_Children:
   - {fileID: 400128}
   - {fileID: 400134}
@@ -25666,12 +25667,23 @@ MonoBehaviour:
   alwaysOnScreen: 0
   anchorOffset: 0
   renderQueue: 0
-  startingRenderQueue: 3001
+  startingRenderQueue: 3000
   mAlpha: 1
   mClipping: 0
   mClipRange: {x: 0, y: 0, z: 300, w: 200}
   mClipSoftness: {x: 4, y: 4}
   mDepth: 10
+--- !u!114 &11400168
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1bd99dcf43f97d48bb6215c70f0cd40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11400170
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -25919,7 +25931,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 100134}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6f8d094c42d0d64fbeffd73d49e7be2, type: 3}
+  m_Script: {fileID: 11500000, guid: 001e61051d6f80745b2136990fa053a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Capcity: 4

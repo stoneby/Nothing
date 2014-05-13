@@ -20,7 +20,7 @@ public class GameConfiguration : Singleton<GameConfiguration>
 
     public bool SingleMode;
 
-    private const float LoadingTestTime = 5f;
+    public float LoadingTestTime = 1f;
 
     #endregion
 
@@ -105,8 +105,11 @@ public class GameConfiguration : Singleton<GameConfiguration>
 
     private IEnumerator DoReadConfigXml()
     {
-        DoReadRemoteServiceXml();
-        DoReadBattleConfigXml();
+        yield return new WaitForSeconds(LoadingTestTime);
+        WindowManager.Instance.Show(typeof(LoginWindow), true);
+
+        yield return StartCoroutine(DoReadRemoteServiceXml());
+        yield return StartCoroutine(DoReadBattleConfigXml());
     }
 
     private IEnumerator DoReadRemoteServiceXml()
@@ -117,18 +120,16 @@ public class GameConfiguration : Singleton<GameConfiguration>
 
         if (!String.IsNullOrEmpty(www.error))
         {
-            Logger.LogWarning(www.error);
+            Logger.LogError(www.error);
         }
         else
         {
             Logger.Log("加载Service.xml成功");
-            Logger.Log(www.text);
+            //Logger.Log(www.text);
 
             var doc = XElement.Parse(www.text, LoadOptions.None);
 
             ParseService(doc);
-
-            WindowManager.Instance.Show(typeof(LoginWindow), true);
         }
     }
 
@@ -206,14 +207,10 @@ public class GameConfiguration : Singleton<GameConfiguration>
         var www = new WWW(GameConfig.BattleConfig);
         yield return www;
         Logger.Log("加载BattleConfig.xml成功");
-        Logger.Log(www.text);
+        //Logger.Log(www.text);
         var doc = XElement.Parse(www.text, LoadOptions.PreserveWhitespace);
 
         ParseBattleConfig(doc);
-
-        yield return new WaitForSeconds(LoadingTestTime);
-
-        WindowManager.Instance.Show(typeof(LoginWindow), true);
     }
 
     private static void ParseBattleConfig(XContainer doc)
@@ -273,8 +270,7 @@ public class GameConfiguration : Singleton<GameConfiguration>
         yield return StartCoroutine(PingTest.Instance.TestConnection(GameConfig.ServerIpAddress));
         if (PingTest.Instance.HasConnection)
         {
-            StartCoroutine(DoReadRemoteServiceXml());
-            StartCoroutine(DoReadBattleConfigXml());
+            StartCoroutine(DoReadConfigXml());
         }
         else
         {

@@ -3,7 +3,7 @@ using UnityEngine;
 /// <summary>
 /// Specific window controller.
 /// </summary>
-public class LoadingWindow : Window
+public class UIEquipInfoWindowWindow : Window
 {
     #region Window
 

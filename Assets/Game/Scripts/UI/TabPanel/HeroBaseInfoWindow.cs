@@ -53,7 +53,7 @@ public class HeroBaseInfoWindow : Window
 
     #endregion
 
-    #region Mono
+    #region Private Methods
 
     /// <summary>
     /// Use this for initialization.
@@ -131,6 +131,10 @@ public class HeroBaseInfoWindow : Window
         Toggle(1);
         WindowManager.Instance.Show(typeof(UIHeroInfoWindow), true);
     }
+
+    #endregion
+
+    #region Public Methods
 
     /// <summary>
     /// Show or hide all buttons.

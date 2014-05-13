@@ -101,6 +101,11 @@ public class UIHerosDisplayWindow : Window
         createOneLis.onClick -= OnCreateOne;
     }
 
+
+    /// <summary>
+    /// The create one button click handler.
+    /// </summary>
+    /// <param name="go">The sender of click event.</param>
     private void OnCreateOne(GameObject go)
     {
         IsCreateOne = true;

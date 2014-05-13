@@ -179,7 +179,7 @@ namespace com.kx.sglm.gs.battle.share.executer.impl
 		protected internal virtual HeroColor randomColor()
 		{
 			// TODO: 增加正式逻辑
-			 int _index = MathUtils.random(HeroColor.RED.Index, HeroColor.PINK.Index);
+            int _index = MathUtils.random(HeroColor.RED.Index, HeroColor.PINK.Index);
 		//	int _index = MathUtils.random(HeroColor.RED.getIndex(), HeroColor.RED.getIndex());
 			return HeroColor.Values[_index];
 		}

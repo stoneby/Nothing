@@ -11,12 +11,12 @@ using System.Collections.Generic;
 
 
 /// <description>
-/// MyPoolManager v2.0
-///  - MyPoolManager.Pools is not a complete implimentation of the IDictionary interface
+/// PoolManager v2.0
+///  - PoolManager.Pools is not a complete implimentation of the IDictionary interface
 ///    Which enabled:
 ///        * Much more acurate and clear error handling
 ///        * Member access protection so you can't run anything you aren't supposed to.
-///  - Moved all functions for working with Pools from MyPoolManager to MyPoolManager.Pools
+///  - Moved all functions for working with Pools from PoolManager to PoolManager.Pools
 ///    which enabled shorter names to reduces the length of lines of code.
 /// Online Docs: http://docs.poolmanager2.path-o-logical.com
 /// </description>
@@ -54,8 +54,8 @@ public class SpawnPoolsDict : IDictionary<string, SpawnPool>
     #region Public Custom Memebers
     /// <summary>
     /// Creates a new GameObject with a SpawnPool Component which registers itself
-    /// with the MyPoolManager.Pools dictionary. The SpawnPool can then be accessed 
-    /// directly via the return value of this function or by via the MyPoolManager.Pools 
+    /// with the PoolManager.Pools dictionary. The SpawnPool can then be accessed 
+    /// directly via the return value of this function or by via the PoolManager.Pools 
     /// dictionary using a 'key' (string : the name of the pool, SpawnPool.poolName).
     /// </summary>
     /// <param name="poolName">
@@ -74,9 +74,9 @@ public class SpawnPoolsDict : IDictionary<string, SpawnPool>
 
     /// <summary>
     ///Creates a SpawnPool Component on an 'owner' GameObject which registers 
-    /// itself with the MyPoolManager.Pools dictionary. The SpawnPool can then be 
+    /// itself with the PoolManager.Pools dictionary. The SpawnPool can then be 
     /// accessed directly via the return value of this function or via the
-    /// MyPoolManager.Pools dictionary.
+    /// PoolManager.Pools dictionary.
     /// </summary>
     /// <param name="poolName">
     /// The name for the new SpawnPool. The GameObject will have the word "Pool"
@@ -175,7 +175,7 @@ public class SpawnPoolsDict : IDictionary<string, SpawnPool>
         if (!this._pools.TryGetValue(poolName, out spawnPool))
         {
             Debug.LogError(
-                string.Format("MyPoolManager: Unable to destroy '{0}'. Not in MyPoolManager",
+                string.Format("PoolManager: Unable to destroy '{0}'. Not in PoolManager",
                               poolName));
             return false;
         }
@@ -206,7 +206,7 @@ public class SpawnPoolsDict : IDictionary<string, SpawnPool>
 
     /// <summary>
     /// Used internally by SpawnPools to add themseleves on Awake().
-    /// Use MyPoolManager.CreatePool() to create an entirely new SpawnPool GameObject
+    /// Use PoolManager.CreatePool() to create an entirely new SpawnPool GameObject
     /// </summary>
     /// <param name="spawnPool"></param>
     internal void Add(SpawnPool spawnPool)
@@ -227,9 +227,9 @@ public class SpawnPoolsDict : IDictionary<string, SpawnPool>
     // Keeping here so I remember we have a NotImplimented overload (original signature)
     public void Add(string key, SpawnPool value)
     {
-        string msg = "SpawnPools add themselves to MyPoolManager.Pools when created, so " + 
+        string msg = "SpawnPools add themselves to PoolManager.Pools when created, so " + 
                      "there is no need to Add() them explicitly. Create pools using " +
-                     "MyPoolManager.Pools.Create() or add a SpawnPool component to a " +
+                     "PoolManager.Pools.Create() or add a SpawnPool component to a " +
                      "GameObject.";
         throw new System.NotImplementedException(msg);
     }
@@ -237,15 +237,15 @@ public class SpawnPoolsDict : IDictionary<string, SpawnPool>
 
     /// <summary>
     /// Used internally by SpawnPools to remove themseleves on Destroy().
-    /// Use MyPoolManager.DestroyPool() to destroy an entire SpawnPool GameObject.
+    /// Use PoolManager.DestroyPool() to destroy an entire SpawnPool GameObject.
     /// </summary>
     /// <param name="spawnPool"></param>
     internal bool Remove(SpawnPool spawnPool)
     {
         if (!this.ContainsKey(spawnPool.poolName))
         {
-            Debug.LogError(string.Format("MyPoolManager: Unable to remove '{0}'. " +
-                                            "Pool not in MyPoolManager",
+            Debug.LogError(string.Format("PoolManager: Unable to remove '{0}'. " +
+                                            "Pool not in PoolManager",
                                         spawnPool.poolName));
             return false;
         }
@@ -258,14 +258,14 @@ public class SpawnPoolsDict : IDictionary<string, SpawnPool>
     public bool Remove(string poolName)
     {
         string msg = "SpawnPools can only be destroyed, not removed and kept alive" +
-                     " outside of MyPoolManager. There are only 2 legal ways to destroy " +
+                     " outside of PoolManager. There are only 2 legal ways to destroy " +
                      "a SpawnPool: Destroy the GameObject directly, if you have a " +
-                     "reference, or use MyPoolManager.Destroy(string poolName).";
+                     "reference, or use PoolManager.Destroy(string poolName).";
         throw new System.NotImplementedException(msg);
     }
 
     /// <summary>
-    /// Get the number of SpawnPools in MyPoolManager
+    /// Get the number of SpawnPools in PoolManager
     /// </summary>
     public int Count { get { return this._pools.Count; } }
 
@@ -296,7 +296,7 @@ public class SpawnPoolsDict : IDictionary<string, SpawnPool>
     #region Not Implimented
     public bool Contains(KeyValuePair<string, SpawnPool> item)
     {
-        string msg = "Use MyPoolManager.Pools.Contains(string poolName) instead.";
+        string msg = "Use PoolManager.Pools.Contains(string poolName) instead.";
         throw new System.NotImplementedException(msg);
     }
 
@@ -321,10 +321,10 @@ public class SpawnPoolsDict : IDictionary<string, SpawnPool>
         }
         set
         {
-            string msg = "Cannot set MyPoolManager.Pools[key] directly. " +
-                "SpawnPools add themselves to MyPoolManager.Pools when created, so " +
+            string msg = "Cannot set PoolManager.Pools[key] directly. " +
+                "SpawnPools add themselves to PoolManager.Pools when created, so " +
                 "there is no need to set them explicitly. Create pools using " +
-                "MyPoolManager.Pools.Create() or add a SpawnPool component to a " +
+                "PoolManager.Pools.Create() or add a SpawnPool component to a " +
                 "GameObject.";
             throw new System.NotImplementedException(msg);
         }
@@ -356,38 +356,38 @@ public class SpawnPoolsDict : IDictionary<string, SpawnPool>
 
     public void Add(KeyValuePair<string, SpawnPool> item)
     {
-        string msg = "SpawnPools add themselves to MyPoolManager.Pools when created, so " +
+        string msg = "SpawnPools add themselves to PoolManager.Pools when created, so " +
                      "there is no need to Add() them explicitly. Create pools using " +
-                     "MyPoolManager.Pools.Create() or add a SpawnPool component to a " +
+                     "PoolManager.Pools.Create() or add a SpawnPool component to a " +
                      "GameObject.";
         throw new System.NotImplementedException(msg);
     }
 
     public void Clear()
     {
-        string msg = "Use MyPoolManager.Pools.DestroyAll() instead.";
+        string msg = "Use PoolManager.Pools.DestroyAll() instead.";
         throw new System.NotImplementedException(msg);
 
     }
 
     private void CopyTo(KeyValuePair<string, SpawnPool>[] array, int arrayIndex)
     {
-        string msg = "MyPoolManager.Pools cannot be copied";
+        string msg = "PoolManager.Pools cannot be copied";
         throw new System.NotImplementedException(msg);
     }
 
     void ICollection<KeyValuePair<string, SpawnPool>>.CopyTo(KeyValuePair<string, SpawnPool>[] array, int arrayIndex)
     {
-        string msg = "MyPoolManager.Pools cannot be copied";
+        string msg = "PoolManager.Pools cannot be copied";
         throw new System.NotImplementedException(msg);
     }
 
     public bool Remove(KeyValuePair<string, SpawnPool> item)
     {
         string msg = "SpawnPools can only be destroyed, not removed and kept alive" +
-                     " outside of MyPoolManager. There are only 2 legal ways to destroy " +
+                     " outside of PoolManager. There are only 2 legal ways to destroy " +
                      "a SpawnPool: Destroy the GameObject directly, if you have a " +
-                     "reference, or use MyPoolManager.Destroy(string poolName).";
+                     "reference, or use PoolManager.Destroy(string poolName).";
         throw new System.NotImplementedException(msg);
     }
     #endregion ICollection<KeyValuePair<string, SpawnPool>> Members

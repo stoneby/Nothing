@@ -38,14 +38,14 @@ using System.Collections.Generic;
 ///		 2) When reactivated, a BroadcastMessage("OnRespawned()") is sent. 
 ///		    This 
 /// </description>
-[AddComponentMenu("Path-o-logical/MyPoolManager/SpawnPool")]
+[AddComponentMenu("Path-o-logical/PoolManager/SpawnPool")]
 public sealed class SpawnPool : MonoBehaviour, IList<Transform>
 {
     #region Inspector Parameters
     /// <summary>
-    /// Returns the name of this pool used by MyPoolManager. This will always be the
+    /// Returns the name of this pool used by PoolManager. This will always be the
     /// same as the name in Unity, unless the name contains the work "Pool", which
-    /// MyPoolManager will strip out. This is done so you can name a prefab or
+    /// PoolManager will strip out. This is done so you can name a prefab or
     /// GameObject in a way that is development friendly. For example, "EnemiesPool" 
     /// is easier to understand than just "Enemies" when looking through a project.
     /// </summary>
@@ -172,7 +172,7 @@ public sealed class SpawnPool : MonoBehaviour, IList<Transform>
             this.CreatePrefabPool(prefabPool);
         }
 
-        // Add this SpawnPool to MyPoolManager for use. This is done last to lower the 
+        // Add this SpawnPool to PoolManager for use. This is done last to lower the 
         //   possibility of adding a badly init pool.
         PoolManager.Pools.Add(this);
     }
@@ -228,10 +228,10 @@ public sealed class SpawnPool : MonoBehaviour, IList<Transform>
     ///     prefabPool.cullDelay = 30;
     ///     
     ///     // Enemies is just an example. Any pool is fine.
-    ///     MyPoolManager.Pools["Enemies"].CreatePrefabPool(prefabPool);
+    ///     PoolManager.Pools["Enemies"].CreatePrefabPool(prefabPool);
     ///     
     ///     // Then, just use as normal...
-    ///     MyPoolManager.Pools["Enemies"].Spawn(myPrefabReference);
+    ///     PoolManager.Pools["Enemies"].Spawn(myPrefabReference);
     /// </summary>
     /// <param name="prefabPool">A PrefabPool object</param>
     /// <returns>A List of instances spawned or an empty List</returns>
@@ -241,8 +241,8 @@ public sealed class SpawnPool : MonoBehaviour, IList<Transform>
         //   This will rarely be needed and will almost Always run at game start, 
         //   even if user-executed. This really only fails If a user tries to create 
         //   a PrefabPool using a prefab which already has a PrefabPool in the same
-        //   SpawnPool. Either user created twice or MyPoolManager went first or even 
-        //   second in cases where a user-script beats out MyPoolManager's init during 
+        //   SpawnPool. Either user created twice or PoolManager went first or even 
+        //   second in cases where a user-script beats out PoolManager's init during 
         //   Awake();
         bool isAlreadyPool = this.GetPrefab(prefabPool.prefab) == null ? false : true;
         if (!isAlreadyPool)
@@ -527,8 +527,8 @@ public sealed class SpawnPool : MonoBehaviour, IList<Transform>
         var emitter = inst.GetComponent<ParticleEmitter>();
         emitter.emit = true;
 
-        // Coroutines MUST be run on a MonoBehaviour. Use MyPoolManager.
-        //   This will not affect MyPoolManager in any way. It is just used
+        // Coroutines MUST be run on a MonoBehaviour. Use PoolManager.
+        //   This will not affect PoolManager in any way. It is just used
         //   to host the coroutine
         this.StartCoroutine(this.ListenForEmitDespawn(emitter));
 
@@ -549,8 +549,8 @@ public sealed class SpawnPool : MonoBehaviour, IList<Transform>
         var emitter = inst.GetComponent<ParticleSystem>();
         //emitter.Play(true);  // Seems to auto-play on activation so this may not be needed
 
-        // Coroutines MUST be run on a MonoBehaviour. Use MyPoolManager.
-        //   This will not affect MyPoolManager in any way. It is just used
+        // Coroutines MUST be run on a MonoBehaviour. Use PoolManager.
+        //   This will not affect PoolManager in any way. It is just used
         //   to host the coroutine
         this.StartCoroutine(this.ListenForEmitDespawn(emitter));
 
@@ -616,8 +616,8 @@ public sealed class SpawnPool : MonoBehaviour, IList<Transform>
         emitter.renderer.material.SetColor(colorPropertyName, color);
         emitter.emit = true;
 
-        // Coroutines MUST be run on a MonoBehaviour. Use MyPoolManager.
-        //   This will not affect MyPoolManager in any way. It is just used
+        // Coroutines MUST be run on a MonoBehaviour. Use PoolManager.
+        //   This will not affect PoolManager in any way. It is just used
         //   to host the coroutine
         this.StartCoroutine(ListenForEmitDespawn(emitter));
 
@@ -1725,7 +1725,7 @@ public class PrefabsDict : IDictionary<string, Transform>
     private Dictionary<string, Transform> _prefabs = new Dictionary<string, Transform>();
 
     /// <summary>
-    /// Get the number of SpawnPools in MyPoolManager
+    /// Get the number of SpawnPools in PoolManager
     /// </summary>
     public int Count { get { return this._prefabs.Count; } }
 

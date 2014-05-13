@@ -9,6 +9,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 400000}
   - 114: {fileID: 11400000}
+  - 114: {fileID: 11400048}
   m_Layer: 8
   m_Name: Sprite
   m_TagString: Untagged
@@ -59,6 +60,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 400006}
   - 114: {fileID: 11400006}
+  - 114: {fileID: 11400046}
   m_Layer: 8
   m_Name: Label - select
   m_TagString: Untagged
@@ -75,6 +77,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 400008}
   - 114: {fileID: 11400008}
+  - 114: {fileID: 11400044}
   m_Layer: 8
   m_Name: Label - server
   m_TagString: Untagged
@@ -91,6 +94,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 400010}
   - 114: {fileID: 11400010}
+  - 114: {fileID: 11400050}
   m_Layer: 8
   m_Name: Label - account
   m_TagString: Untagged
@@ -263,7 +267,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &100032
 GameObject:
   m_ObjectHideFlags: 1
@@ -1477,6 +1481,54 @@ MonoBehaviour:
   customMovement: {x: 1, y: 0}
   relativePositionOnReset: {x: 0, y: 0}
   scale: {x: 0, y: 0, z: 0}
+--- !u!114 &11400044
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bac732c5500c25a45968da93c1d5678f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Key: LoginMain.Server
+--- !u!114 &11400046
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bac732c5500c25a45968da93c1d5678f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Key: LoginMain.Select
+--- !u!114 &11400048
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bac732c5500c25a45968da93c1d5678f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Key: LoginMain.Play
+--- !u!114 &11400050
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bac732c5500c25a45968da93c1d5678f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Key: LoginMain.Login
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

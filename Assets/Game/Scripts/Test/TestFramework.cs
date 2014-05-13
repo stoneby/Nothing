@@ -35,6 +35,8 @@ public class TestFramework : MonoBehaviour
         AssetWindowTest();
 
         MultithreadTest();
+
+        LanguageTest();
     }
 
     void Start()
@@ -187,6 +189,17 @@ public class TestFramework : MonoBehaviour
                     Loom.Instance.enabled = false;
                 });
             });
+        }
+    }
+
+    private void LanguageTest()
+    {
+        foreach (var availableLanguage in LanguageManager.Instance.AvailableLanguages)
+        {
+            if (GUILayout.Button(availableLanguage))
+            {
+                LanguageManager.Instance.ChangeLanguage(availableLanguage);
+            }
         }
     }
 

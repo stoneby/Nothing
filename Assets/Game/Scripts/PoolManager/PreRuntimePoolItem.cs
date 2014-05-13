@@ -15,7 +15,7 @@ using System.Collections.Generic;
 /// 
 /// Online Docs: http://docs.poolmanager.path-o-logical.com
 /// </description>
-[AddComponentMenu("Path-o-logical/MyPoolManager/Pre-Runtime Pool Item")]
+[AddComponentMenu("Path-o-logical/PoolManager/Pre-Runtime Pool Item")]
 public class PreRuntimePoolItem : MonoBehaviour
 {
     #region Public Properties
@@ -63,7 +63,7 @@ public class PreRuntimePoolItem : MonoBehaviour
 
             string msg = "PreRuntimePoolItem Error ('{0}'): " +
                     "No pool with the name '{1}' exists! Create one using the " +
-                    "MyPoolManager Inspector interface or MyPoolManager.CreatePool()." +
+                    "PoolManager Inspector interface or PoolManager.CreatePool()." +
                     "See the online docs for more information at " +
                     "http://docs.poolmanager.path-o-logical.com";
 

@@ -6,12 +6,14 @@ namespace Assets.Game.Scripts.Net.handler
     {
         public static void OnCreatePlayer(ThriftSCMessage msg)
         {
-            Logger.Log("MessageType.SC_CREATE_PLAYER");
-            var csMsg = new CSCreatePlayerMsg();
-            var act = ServiceManager.AccountData ?? ServiceManager.GetDefaultAccount();
-            csMsg.Name = act.Account + act.Account;
-            PopTextManager.PopTip("登录成功，正在创建角色(" + csMsg.Name + ")");
-            NetManager.SendMessage(csMsg);
+            if (ServiceManager.AccountData != null)
+            {
+                ServiceManager.AddAccount(ServiceManager.AccountData);
+                ServiceManager.SaveAccount();
+            }
+           
+            WindowManager.Instance.Show(typeof(LoginCreateRoleWindow), true);
+            
         }
 
         public static void OnPlayerInfo(ThriftSCMessage msg)

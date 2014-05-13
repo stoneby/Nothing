@@ -25,7 +25,8 @@ GameObject:
   - 4: {fileID: 400002}
   - 198: {fileID: 19800000}
   - 199: {fileID: 19900000}
-  m_Layer: 9
+  - 114: {fileID: 11400008}
+  m_Layer: 8
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -86,7 +87,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100002}
   m_LocalRotation: {x: -.707106829, y: 0, z: 0, w: .707106829}
-  m_LocalPosition: {x: -177.819611, y: 107.395073, z: -.370368361}
+  m_LocalPosition: {x: -108.890778, y: 72.8927689, z: -.370453119}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400000}
@@ -164,7 +165,7 @@ MonoBehaviour:
     target: {fileID: 0}
     relative: 1
     absolute: 0
-  mColor: {r: .29411763, g: .29411763, b: .29411763, a: .58431375}
+  mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
   mWidth: 1280
   mHeight: 768
@@ -232,6 +233,18 @@ MonoBehaviour:
   Path: 
   WindowGroup: 0
   LoadingParticle: {fileID: 19800000}
+--- !u!114 &11400008
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aabd647bc85cea34d95fbdb0d5dac848, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  renderQueue: 4000
 --- !u!198 &19800000
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -243,7 +256,7 @@ ParticleSystem:
   speed: 1
   randomSeed: 0
   looping: 1
-  prewarm: 0
+  prewarm: 1
   playOnAwake: 1
   moveWithTransform: 1
   InitialModule:
@@ -409,7 +422,7 @@ ParticleSystem:
         rgba: 4294967295
       minMaxState: 0
     startSize:
-      scalar: .280000001
+      scalar: .200000003
       maxCurve:
         serializedVersion: 2
         m_Curve:

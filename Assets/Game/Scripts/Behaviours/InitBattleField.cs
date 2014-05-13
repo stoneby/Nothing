@@ -279,6 +279,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
         GameObject obj;
         CharacterControl cc;
         TweenPosition tp;
+        float t = GameConfig.ShortTime;
         for (var i = 0; i < 3; i++)
         {
             for (var j = 0; j < 3; j++)
@@ -295,7 +296,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
                             cc = obj.GetComponent<CharacterControl>();
                             cc.PlayCharacter(CharacterType.ActionRun);
                             cc.SetIndex(i, j);
-                            var t = (k - i) * runStepTime;
+                            t = (k - i) * runStepTime;
                             cc.SetCharacterAfter(t);
                             tp = obj.GetComponent<TweenPosition>();
                             tp.ResetToBeginning();
@@ -321,7 +322,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
                         cc.SetIndex(i, j);
                         cc.SetFootIndex(footManager.GetNext());
                         cc.PlayCharacter(CharacterType.ActionRun);
-                        var t = (2 - i) * GameConfig.RunStepNeedTime + GameConfig.RunStepNeedTime;
+                        t = (2 - i) * GameConfig.RunStepNeedTime + GameConfig.RunStepNeedTime;
 //                        if (i == tempi && j == tempj)
 //                        {
 //                            cc.ShowSpEffect(true);
@@ -339,6 +340,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
                 }
             }
         }
+        if (needresetcharacter) yield return new WaitForSeconds(t); ;
     }
 
     // Update is called once per frame
@@ -1856,16 +1858,25 @@ public class InitBattleField : MonoBehaviour, IBattleView
         if (battleEndRecord.EndType == BattleRecordConstants.BATTLE_SCENE_END)
         {
             StartCoroutine(GotoNextScene());
+            Logger.Log("战斗结束 =推推推推推推推平 ");
         }
         else if (battleEndRecord.EndType == BattleRecordConstants.BATTLE_ALL_END)
         {
-            //if (battleEndRecord.)
-            WindowManager.Instance.Show(typeof(BattleWinWindow), true);
+            int k = battleEndRecord.getIntProp(BattleRecordConstants.BATTLE_END_WIN_SIDE);
+            if (k == BattleRecordConstants.TARGET_SIDE_A)
+            {
+                WindowManager.Instance.Show(typeof(BattleWinWindow), true);
+            }
+            else
+            {
+                WindowManager.Instance.Show(typeof(BattleLoseWindow), true);
+            }
 
             isBattling = false;
             recordIndex++;
             dealWithRecord();
             BattleModelLocator.Instance.NextList = null;
+            Logger.Log("战斗结束 = 结结结结结结结结结结结束 ");
         }
         else
         {

@@ -90,7 +90,7 @@ public class ServiceManager
         }
         catch (Exception e)
         {
-            
+            Logger.LogWarning("InitAccount Exception ===============");
         }
         
     }
@@ -202,7 +202,15 @@ public class ServiceManager
         foreach (XElement node in servers)
         {
             var server = ServerVO.Parse(node);
-            ServiceManager.AllServerArray.Add(server);
+            //Logger.Log("SystemInfo.deviceType" + SystemInfo.deviceType);
+            if (SystemInfo.deviceType == DeviceType.Desktop)
+            {
+                ServiceManager.AllServerArray.Add(server);
+            }
+            else if (!server.IsTest)
+            {
+                ServiceManager.AllServerArray.Add(server);
+            }
         }
         ServerData = AllServerArray[0];
     }

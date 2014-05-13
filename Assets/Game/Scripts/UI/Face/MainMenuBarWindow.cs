@@ -84,7 +84,7 @@ public class MainMenuBarWindow : Window
 
     private void OnEquipClicked(GameObject go)
     {
-       
+        WindowManager.Instance.Show(typeof(UIEquipsDisplayWindowWindow), true);
     }
 
     private void OnTeamClicked(GameObject go)
