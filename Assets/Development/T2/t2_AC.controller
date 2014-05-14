@@ -12,7 +12,7 @@ AnimatorController:
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
-    m_DefaultBool: 1
+    m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
   - m_Name: Run
     m_Type: 9
@@ -91,10 +91,10 @@ Transition:
   m_TransitionDuration: .31249997
   m_TransitionOffset: 0
   m_Conditions:
-  - m_ConditionMode: 1
+  - m_ConditionMode: 5
     m_ConditionEvent: Run
     m_EventTreshold: 0
-    m_ExitTime: .6875
+    m_ExitTime: .689999998
   m_Atomic: 1
   m_Solo: 0
   m_Mute: 0
@@ -130,7 +130,7 @@ Transition:
   - m_ConditionMode: 1
     m_ConditionEvent: Idle
     m_EventTreshold: 0
-    m_ExitTime: .6875
+    m_ExitTime: .689999998
   m_Atomic: 1
   m_Solo: 0
   m_Mute: 0
@@ -145,10 +145,10 @@ Transition:
   m_TransitionDuration: .371160179
   m_TransitionOffset: 0
   m_Conditions:
-  - m_ConditionMode: 1
+  - m_ConditionMode: 5
     m_ConditionEvent: Idle
     m_EventTreshold: 0
-    m_ExitTime: .619330227
+    m_ExitTime: .620000005
   m_Atomic: 1
   m_Solo: 0
   m_Mute: 0
@@ -196,13 +196,13 @@ Transition:
   m_Name: 
   m_SrcState: {fileID: 110200000}
   m_DstState: {fileID: 110268649}
-  m_TransitionDuration: .31249997
+  m_TransitionDuration: .291071475
   m_TransitionOffset: 0
   m_Conditions:
   - m_ConditionMode: 1
     m_ConditionEvent: Attack
     m_EventTreshold: 0
-    m_ExitTime: .6875
+    m_ExitTime: .689999998
   m_Atomic: 1
   m_Solo: 0
   m_Mute: 0
@@ -253,7 +253,7 @@ State:
   m_Motions:
   - {fileID: 7400000, guid: 4c8709c1f37763c49b001daa7b538f64, type: 3}
   m_ParentStateMachine: {fileID: 110700000}
-  m_Position: {x: 300, y: -144, z: 0}
+  m_Position: {x: 216, y: -144, z: 0}
   m_IKOnFeet: 0
   m_Mirror: 0
   m_Tag: 
@@ -268,7 +268,7 @@ State:
   m_Motions:
   - {fileID: 7400000, guid: cd0833b3acb751040b23943b23c55f1a, type: 3}
   m_ParentStateMachine: {fileID: 110700000}
-  m_Position: {x: 480, y: -264, z: 0}
+  m_Position: {x: 396, y: -264, z: 0}
   m_IKOnFeet: 0
   m_Mirror: 0
   m_Tag: 
@@ -283,7 +283,7 @@ State:
   m_Motions:
   - {fileID: 7400000, guid: a0b517a0518d75c4bb697c77ad78e753, type: 3}
   m_ParentStateMachine: {fileID: 110700000}
-  m_Position: {x: 480, y: -36, z: 0}
+  m_Position: {x: 396, y: -48, z: 0}
   m_IKOnFeet: 0
   m_Mirror: 0
   m_Tag: 
@@ -298,7 +298,7 @@ State:
   m_Motions:
   - {fileID: 7400002, guid: 79fc778e5ac17b24691b7b01430798a3, type: 3}
   m_ParentStateMachine: {fileID: 110700000}
-  m_Position: {x: 684, y: -144, z: 0}
+  m_Position: {x: 600, y: -144, z: 0}
   m_IKOnFeet: 0
   m_Mirror: 0
   m_Tag: 

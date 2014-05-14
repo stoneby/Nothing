@@ -1156,8 +1156,8 @@ public class UIPanel : UIRect
 			t.rotation = rot;
 			t.localScale = scale;
 
-			dc.renderQueue = startingRenderQueue + i;
-			dc.clipping = clipping;
+            dc.renderQueue = (renderQueue == RenderQueue.Explicit) ? startingRenderQueue : startingRenderQueue + i; 
+            dc.clipping = clipping;
 			dc.clipRange = range;
 			dc.clipSoftness = mClipSoftness;
 			dc.alwaysOnScreen = alwaysOnScreen &&

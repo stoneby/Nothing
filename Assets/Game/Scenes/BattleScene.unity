@@ -378,7 +378,7 @@ MonoBehaviour:
     type: 3}
   ClickEffect: {fileID: 581642773}
   SingleMode: 0
-  LoadingTestTime: 1
+  LoadingTestTime: 10
 --- !u!114 &383751337
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2302,6 +2302,7 @@ GameObject:
   - 81: {fileID: 1662307369}
   - 114: {fileID: 1662307368}
   - 114: {fileID: 1662307371}
+  - 114: {fileID: 1662307370}
   m_Layer: 8
   m_Name: NguiCamera
   m_TagString: MainCamera
@@ -2401,6 +2402,26 @@ AudioListener:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1662307365}
   m_Enabled: 1
+--- !u!114 &1662307370
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1662307365}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a8622425a97b41e998bc9362adf6050, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  androidMaterial: {fileID: 0}
+  audioFeedback: 1
+  audioFeedbackVolume: .5
+  graphMultiply: 2
+  graphPosition: {x: 0, y: 0}
+  frameHistoryLength: 120
+  CpuColor: {r: .20784314, g: .533333361, b: .654901981, a: 1}
+  RenderColor: {r: .43921569, g: .611764729, b: .0235294122, a: 1}
+  OtherColor: {r: .75686276, g: .423529416, b: .00392156886, a: 1}
 --- !u!114 &1662307371
 MonoBehaviour:
   m_ObjectHideFlags: 0

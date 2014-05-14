@@ -11,6 +11,8 @@ public class Character : MonoBehaviour
 
     //private CharacterStateMachine stateMachine;
 
+    public Animator Animator;
+
     public int Index;
 
     public Position Location;
@@ -43,6 +45,10 @@ public class Character : MonoBehaviour
 
     protected virtual void Start()
     {
+        if (Animator == null)
+        {
+            Logger.LogError("Null");
+        }
     }
 
     #endregion

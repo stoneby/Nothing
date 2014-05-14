@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class TeamSelectController : MonoBehaviour
@@ -16,6 +18,13 @@ public class TeamSelectController : MonoBehaviour
     public Vector3 OffSet;
 
     public bool EditMode;
+
+    public float RunTime;
+    public float ReturnTime;
+
+    public delegate void AttackHandler(GameObject attackedObject);
+
+    public AttackHandler OnAttack;
 
     #endregion
 
@@ -48,6 +57,8 @@ public class TeamSelectController : MonoBehaviour
     /// Flag indicates if drag process is started.
     /// </summary>
     private bool dragStart;
+
+    private GameObject targetObject;
 
     #endregion
 
@@ -85,7 +96,7 @@ public class TeamSelectController : MonoBehaviour
         DragBarPool.CurrentObject.transform.localRotation = Utils.GetRotation(
                 new Vector2(sourcePosition.x, sourcePosition.y), targetPosition);
 
-        Logger.LogWarning("current drag bar to parent: " + DragBarPool.CurrentObject.transform.parent.name);
+        //Logger.LogWarning("current drag bar to parent: " + DragBarPool.CurrentObject.transform.parent.name);
 
         SetDragbarWidth(sourcePosition, targetPosition);
     }
@@ -121,7 +132,13 @@ public class TeamSelectController : MonoBehaviour
 
         if (!dragStart)
         {
-            Logger.LogWarning("Drag over but drag is not started at one character.");
+            Logger.LogWarning("Drag over but drag is not started at current TeamSelectController with name: " + name);
+
+            targetObject = sender;
+            if (OnAttack != null)
+            {
+                OnAttack(targetObject);
+            } 
             return;
         }
 
@@ -172,14 +189,29 @@ public class TeamSelectController : MonoBehaviour
 
     private void OnCharacterDragEnd(GameObject sender)
     {
-        Logger.Log("On character drop end: " + sender.name);
+        Logger.Log("On character drop end: " + sender.name + ", name:" + name);
 
         if (EditMode)
         {
             return;
         }
 
+        // PVP attach is on going.
+        if (targetObject != null)
+        {
+            DragBarPool.ObjectList.ForEach(bar => DragBarPool.Return(bar));
+
+            StartCoroutine(Attack(targetObject));
+            return;
+        }
+
         Logger.LogWarning("Selected character list: " + SelectedCharacterList.Count);
+        Reset();
+    }
+
+    private void Reset()
+    {
+        targetObject = null;
 
         dragStart = false;
         SelectedCharacterList.Clear();
@@ -214,6 +246,48 @@ public class TeamSelectController : MonoBehaviour
         t.localRotation = Quaternion.identity;
         t.localScale = Vector3.one;
         dragBar.SetActive(true);
+    }
+
+    private IEnumerator Attack(GameObject target)
+    {
+        Logger.Log("Attack target: " + target.name);
+        var targetAnimator = target.GetComponent<Character>().Animator;
+        foreach (var selectCharacter in SelectedCharacterList)
+        {
+            Logger.Log("Figher: " + selectCharacter.name);
+            var animator = selectCharacter.Animator;
+            animator.SetTrigger("Run");
+
+            yield return StartCoroutine(DoRun(animator, targetAnimator));
+        }
+
+        // reset all.
+        Reset();
+    }
+
+    public void OnAttackHandler(GameObject target)
+    {
+        Logger.Log("Ready to attack target: " + target.name);
+        targetObject = target;
+    }
+
+    private IEnumerator DoRun(Animator selectAnimator, Animator targetAnimator)
+    {
+        // remember the original position to get back.
+        var originalPosition = selectAnimator.transform.position;
+
+        // move to target and attack.
+        iTween.MoveTo(selectAnimator.gameObject, targetAnimator.transform.position, RunTime);
+        yield return new WaitForSeconds(RunTime / 3);
+        selectAnimator.SetTrigger("Attack");
+        targetAnimator.SetTrigger("Hurt");
+
+        yield return new WaitForSeconds(0.5f);
+
+        // move back to original position and idle.
+        iTween.MoveTo(selectAnimator.gameObject, originalPosition, ReturnTime);
+        yield return new WaitForSeconds(ReturnTime / 2);
+        selectAnimator.SetTrigger("Idle");
     }
 
     #endregion

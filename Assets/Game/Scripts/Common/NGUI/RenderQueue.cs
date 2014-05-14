@@ -25,6 +25,7 @@ public static class RenderQueue
 
     public const int Geometry = 2000;
 
+    public const int AlphaTest = 2450;
 
     public const int Transparent = 3000;
 

@@ -31,6 +31,8 @@ public class BattleFieldWindow : Window
     // Use this for initialization
     private void Start()
     {
+        TeamLeft.OnAttack += TeamRight.OnAttackHandler;
+        TeamRight.OnAttack += TeamLeft.OnAttackHandler;
     }
 
     private void OnGUI()
