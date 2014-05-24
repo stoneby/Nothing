@@ -101,13 +101,13 @@ public class InfiniteListPopulator : MonoBehaviour {
 	void Start () {
 		// check prefabs
 		if(itemPrefab == null)
-			Debug.LogError("InfiniteListPopulator:: itemPrefab is not assigned");
+			Logger.Log("InfiniteListPopulator:: itemPrefab is not assigned");
 		else if(!itemPrefab.tag.Equals(listItemTag))
-			Debug.LogError("InfiniteListPopulator:: itemPrefab tag should be "+listItemTag);
+			Logger.Log("InfiniteListPopulator:: itemPrefab tag should be "+listItemTag);
 		if(sectionPrefab == null)
-			Debug.LogError("InfiniteListPopulator:: sectionPrefab is not assigned");
+			Logger.Log("InfiniteListPopulator:: sectionPrefab is not assigned");
 		else if(!sectionPrefab.tag.Equals(listSectionTag))
-			Debug.LogError("InfiniteListPopulator:: sectionPrefab tag should be "+listSectionTag);
+			Logger.Log("InfiniteListPopulator:: sectionPrefab tag should be "+listSectionTag);
 	
 		// for the demo
 		StartDemo();
@@ -186,7 +186,7 @@ public class InfiniteListPopulator : MonoBehaviour {
 		if(enableLog)
 		{
 			if(originalData == null || originalData.Count == 0)
-				Debug.LogWarning("InfiniteListPopulator.InitTableView() trying to refresh with no data");
+				Logger.LogWarning("InfiniteListPopulator.InitTableView() trying to refresh with no data");
 		}
 		InitTableView(originalData,sectionsIndices,startIndex);
 	}
@@ -229,7 +229,7 @@ public class InfiniteListPopulator : MonoBehaviour {
 				{
 					if(enableLog)
 					{
-						Debug.LogWarning("InfiniteListPopulator.InitTableView() section index "+(sectionsIndices[i] - i)+" value is larger than last data index and is ignored");
+						Logger.LogWarning("InfiniteListPopulator.InitTableView() section index "+(sectionsIndices[i] - i)+" value is larger than last data index and is ignored");
 					}
 					sectionsIndices.RemoveAt(i);
 					numberOfSections--;
@@ -255,7 +255,7 @@ public class InfiniteListPopulator : MonoBehaviour {
 				}
 				if(enableLog)
 				{
-					Debug.Log(item.name+"::"+item.tag);
+					Logger.Log(item.name+"::"+item.tag);
 				}
 				j++;
 				
@@ -542,7 +542,7 @@ public class InfiniteListPopulator : MonoBehaviour {
 		itemDataIndex = GetRealIndexForItem(itemDataIndex);
 		if(enableLog)
 		{
-			Debug.Log("Pressed down item "+ itemDataIndex +" "+isDown);
+			Logger.Log("Pressed down item "+ itemDataIndex +" "+isDown);
 		}
 		if(InfiniteItemIsPressedEvent!=null)
 			InfiniteItemIsPressedEvent(itemDataIndex,isDown);
@@ -552,7 +552,7 @@ public class InfiniteListPopulator : MonoBehaviour {
 		itemDataIndex = GetRealIndexForItem(itemDataIndex);
 		if(enableLog)
 		{
-			Debug.Log("Clicked item "+ itemDataIndex);
+			Logger.Log("Clicked item "+ itemDataIndex);
 		}
 		if(InfiniteItemIsClickedEvent!=null)
 			InfiniteItemIsClickedEvent(itemDataIndex);
@@ -576,7 +576,7 @@ public class InfiniteListPopulator : MonoBehaviour {
 		poolSize = (int)(draggablePanel.panel.baseClipRegion.w/cellHeight) + extraBuffer;
 		if(enableLog)
 		{
-			Debug.Log("REFRESH POOL SIZE:::"+poolSize);
+			Logger.Log("REFRESH POOL SIZE:::"+poolSize);
 		}
 		// destroy current items
 		for(int i=0; i< itemsPool.Count; i++) 

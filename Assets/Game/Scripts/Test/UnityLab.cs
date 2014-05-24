@@ -38,8 +38,8 @@ public class UnityLab : MonoBehaviour
         Logger.LogWarning("type-gettype() - " + Type.GetType("Window"));
         Logger.LogWarning("type-gettype() - " + Type.GetType("TemplateWindow"));
 
-        gameObject.AddComponent(Type.GetType("TemplateWindow"));
-        gameObject.AddComponent("TemplateWindow");
+        //gameObject.AddComponent(Type.GetType("TemplateWindow"));
+        //gameObject.AddComponent("TemplateWindow");
     }
 
     #endregion

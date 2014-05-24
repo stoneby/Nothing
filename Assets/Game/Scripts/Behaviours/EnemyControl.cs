@@ -17,6 +17,7 @@ public class EnemyControl : MonoBehaviour
     private float maxValue;
 //    private int baseCd;
     private int cd;
+    private bool isShowBlood = true;
 //    private int spcd;
 
     //Boss sprite name of different states.
@@ -24,6 +25,30 @@ public class EnemyControl : MonoBehaviour
     private const string BossWhite = "BossWhite";
     private const string BossBlack = "BossBlack";
 
+    private UIEventListener MonsterClickUIEventListener;
+
+    public delegate void OnClickDelegate(FighterInfo data);
+
+    private OnClickDelegate OnClickFunc;
+
+    public void Init(OnClickDelegate onclickfunc, FighterInfo data)
+    {
+        SetValue(data);
+        OnClickFunc = onclickfunc;
+        MonsterClickUIEventListener = UIEventListener.Get(gameObject);
+        MonsterClickUIEventListener.onClick += OnClickHandler;
+    }
+
+    private void OnClickHandler(GameObject game = null)
+    {
+        OnClickFunc(Data);
+        //WindowManager.Instance.Show(typeof(LoginMainWindow), true);
+    }
+
+    public void OnDestory()
+    {
+        if (MonsterClickUIEventListener != null) MonsterClickUIEventListener.onClick -= OnClickHandler;
+    }
 
     public void playBigAttrack()
     {
@@ -127,5 +152,15 @@ public class EnemyControl : MonoBehaviour
         sp.spriteName = BossWhite;
         yield return new WaitForSeconds(GameConfig.MonsterAttrackStepTime);
         sp.spriteName = BossNormal;
+    }
+
+    public void ShowBlood(bool flag)
+    {
+        if (isShowBlood != flag)
+        {
+            isShowBlood = flag;
+            BloodBar.SetActive(isShowBlood);
+            BloodLabel.SetActive(isShowBlood);
+        }
     }
 }

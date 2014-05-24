@@ -1,11 +1,15 @@
 //----------------------------------------------
 //            NGUI: Next-Gen UI kit
-// Copyright © 2011-2013 Tasharen Entertainment
+// Copyright © 2011-2014 Tasharen Entertainment
 //----------------------------------------------
 
+#if !UNITY_3_5 && !UNITY_4_0 && !UNITY_4_1 && !UNITY_4_2
+#define USE_MECANIM
+#endif
+
 using UnityEngine;
-using AnimationOrTween;
 using System.Collections.Generic;
+using AnimationOrTween;
 
 /// <summary>
 /// Play the specified animation on click.
@@ -15,12 +19,21 @@ using System.Collections.Generic;
 [AddComponentMenu("NGUI/Interaction/Play Animation")]
 public class UIPlayAnimation : MonoBehaviour
 {
+	static public UIPlayAnimation current = null;
+
 	/// <summary>
 	/// Target animation to activate.
 	/// </summary>
 
 	public Animation target;
 
+#if USE_MECANIM
+	/// <summary>
+	/// Target animator system.
+	/// </summary>
+
+	public Animator animator;
+#endif
 	/// <summary>
 	/// Optional clip name, if the animation has more than one clip.
 	/// </summary>
@@ -75,31 +88,64 @@ public class UIPlayAnimation : MonoBehaviour
 
 	bool mStarted = false;
 	bool mActivated = false;
+	bool dragHighlight = false;
+
+	bool dualState { get { return trigger == Trigger.OnPress || trigger == Trigger.OnHover; } }
 
 	void Awake ()
 	{
+		UIButton btn = GetComponent<UIButton>();
+		if (btn != null) dragHighlight = btn.dragHighlight;
+
 		// Remove deprecated functionality if new one is used
 		if (eventReceiver != null && EventDelegate.IsValid(onFinished))
 		{
 			eventReceiver = null;
 			callWhenFinished = null;
 #if UNITY_EDITOR
-			UnityEditor.EditorUtility.SetDirty(this);
+			NGUITools.SetDirty(this);
 #endif
 		}
 	}
+
+	/// <summary>
+	/// Automatically find the necessary components.
+	/// </summary>
 
 	void Start ()
 	{
 		mStarted = true;
 
+#if USE_MECANIM
+		// Automatically try to find the animator
+		if (target == null && animator == null)
+		{
+			animator = GetComponentInChildren<Animator>();
+#if UNITY_EDITOR
+			if (animator != null) NGUITools.SetDirty(this);
+#endif
+		}
+
+		if (animator != null)
+		{
+			// Ensure that the animator is disabled as we will be sampling it manually
+			if (animator.enabled) animator.enabled = false;
+
+			// Don't continue since we already have an animator to work with
+			return;
+		}
+#endif // USE_MECANIM
+
 		if (target == null)
 		{
 			target = GetComponentInChildren<Animation>();
 #if UNITY_EDITOR
-			UnityEditor.EditorUtility.SetDirty(this);
+			if (target != null) NGUITools.SetDirty(this);
 #endif
 		}
+
+		if (target != null && target.enabled)
+			target.enabled = false;
 	}
 
 	void OnEnable ()
@@ -108,111 +154,132 @@ public class UIPlayAnimation : MonoBehaviour
 		if (!Application.isPlaying) return;
 #endif
 		if (mStarted) OnHover(UICamera.IsHighlighted(gameObject));
+
+		if (UICamera.currentTouch != null)
+		{
+			if (trigger == Trigger.OnPress || trigger == Trigger.OnPressTrue)
+				mActivated = (UICamera.currentTouch.pressed == gameObject);
+
+			if (trigger == Trigger.OnHover || trigger == Trigger.OnHoverTrue)
+				mActivated = (UICamera.currentTouch.current == gameObject);
+		}
+
+		UIToggle toggle = GetComponent<UIToggle>();
+		if (toggle != null) EventDelegate.Add(toggle.onChange, OnToggle);
+	}
+
+	void OnDisable ()
+	{
+#if UNITY_EDITOR
+		if (!Application.isPlaying) return;
+#endif
+		UIToggle toggle = GetComponent<UIToggle>();
+		if (toggle != null) EventDelegate.Remove(toggle.onChange, OnToggle);
 	}
 
 	void OnHover (bool isOver)
 	{
-		if (enabled)
+		if (!enabled) return;
+		if ( trigger == Trigger.OnHover ||
+			(trigger == Trigger.OnHoverTrue && isOver) ||
+			(trigger == Trigger.OnHoverFalse && !isOver))
+			Play(isOver, dualState);
+	}
+
+	void OnPress (bool isPressed)
+	{
+		if (!enabled) return;
+		if ( trigger == Trigger.OnPress ||
+			(trigger == Trigger.OnPressTrue && isPressed) ||
+			(trigger == Trigger.OnPressFalse && !isPressed))
+			Play(isPressed, dualState);
+	}
+
+	void OnClick () { if (enabled && trigger == Trigger.OnClick) Play(true, false); }
+
+	void OnDoubleClick () { if (enabled && trigger == Trigger.OnDoubleClick) Play(true, false); }
+
+	void OnSelect (bool isSelected)
+	{
+		if (!enabled) return;
+		if (trigger == Trigger.OnSelect ||
+			(trigger == Trigger.OnSelectTrue && isSelected) ||
+			(trigger == Trigger.OnSelectFalse && !isSelected))
+			Play(isSelected, dualState);
+	}
+
+	void OnToggle ()
+	{
+		if (!enabled || UIToggle.current == null) return;
+		if (trigger == Trigger.OnActivate ||
+			(trigger == Trigger.OnActivateTrue && UIToggle.current.value) ||
+			(trigger == Trigger.OnActivateFalse && !UIToggle.current.value))
+			Play(UIToggle.current.value, dualState);
+	}
+
+	void OnDragOver ()
+	{
+		if (enabled && dualState)
 		{
-			if ( trigger == Trigger.OnHover ||
-				(trigger == Trigger.OnHoverTrue && isOver) ||
-				(trigger == Trigger.OnHoverFalse && !isOver))
-			{
-				mActivated = isOver && (trigger == Trigger.OnHover);
-				Play(isOver);
-			}
+			if (UICamera.currentTouch.dragged == gameObject) Play(true, true);
+			else if (dragHighlight && trigger == Trigger.OnPress) Play(true, true);
 		}
 	}
 
 	void OnDragOut ()
 	{
-		if (enabled && mActivated)
-		{
-			mActivated = false;
-			Play(false);
-		}
+		if (enabled && dualState && UICamera.hoveredObject != gameObject)
+			Play(false, true);
 	}
 
-	void OnPress (bool isPressed)
+	void OnDrop (GameObject go)
 	{
-		if (enabled)
-		{
-			if ( trigger == Trigger.OnPress ||
-				(trigger == Trigger.OnPressTrue && isPressed) ||
-				(trigger == Trigger.OnPressFalse && !isPressed))
-			{
-				mActivated = isPressed && (trigger == Trigger.OnPress);
-				Play(isPressed);
-			}
-		}
+		if (enabled && trigger == Trigger.OnPress && UICamera.currentTouch.dragged != gameObject)
+			Play(false, true);
 	}
+	
+	/// <summary>
+	/// Start playing the animation.
+	/// </summary>
 
-	void OnClick ()
-	{
-		if (enabled && trigger == Trigger.OnClick)
-		{
-			Play(true);
-		}
-	}
-
-	void OnDoubleClick ()
-	{
-		if (enabled && trigger == Trigger.OnDoubleClick)
-		{
-			Play(true);
-		}
-	}
-
-	void OnSelect (bool isSelected)
-	{
-		if (enabled)
-		{
-			if (trigger == Trigger.OnSelect ||
-				(trigger == Trigger.OnSelectTrue && isSelected) ||
-				(trigger == Trigger.OnSelectFalse && !isSelected))
-			{
-				mActivated = isSelected && (trigger == Trigger.OnSelect);
-				Play(isSelected);
-			}
-		}
-	}
-
-	void OnActivate (bool isActive)
-	{
-		if (enabled)
-		{
-			if (trigger == Trigger.OnActivate ||
-				(trigger == Trigger.OnActivateTrue && isActive) ||
-				(trigger == Trigger.OnActivateFalse && !isActive))
-			{
-				Play(isActive);
-			}
-		}
-	}
+	public void Play (bool forward) { Play(forward, true); }
 
 	/// <summary>
 	/// Start playing the animation.
 	/// </summary>
 
-	public void Play (bool forward)
+	public void Play (bool forward, bool onlyIfDifferent)
 	{
+#if USE_MECANIM
+		if (target || animator)
+#else
 		if (target)
+#endif
 		{
+			if (onlyIfDifferent)
+			{
+				if (mActivated == forward) return;
+				mActivated = forward;
+			}
+
 			if (clearSelection && UICamera.selectedObject == gameObject)
 				UICamera.selectedObject = null;
 
 			int pd = -(int)playDirection;
 			Direction dir = forward ? playDirection : ((Direction)pd);
+#if USE_MECANIM
+			ActiveAnimation anim = target ?
+				ActiveAnimation.Play(target, clipName, dir, ifDisabledOnPlay, disableWhenFinished) :
+				ActiveAnimation.Play(animator, clipName, dir, ifDisabledOnPlay, disableWhenFinished);
+#else
 			ActiveAnimation anim = ActiveAnimation.Play(target, clipName, dir, ifDisabledOnPlay, disableWhenFinished);
+#endif
 
 			if (anim != null)
 			{
 				if (resetOnPlay) anim.Reset();
-
 				for (int i = 0; i < onFinished.Count; ++i)
-				{
 					EventDelegate.Add(anim.onFinished, OnFinished, true);
-				}
 			}
 		}
 	}
@@ -223,12 +290,17 @@ public class UIPlayAnimation : MonoBehaviour
 
 	void OnFinished ()
 	{
-		EventDelegate.Execute(onFinished);
+		if (current == null)
+		{
+			current = this;
+			EventDelegate.Execute(onFinished);
 
-		// Legacy functionality
-		if (eventReceiver != null && !string.IsNullOrEmpty(callWhenFinished))
-			eventReceiver.SendMessage(callWhenFinished, SendMessageOptions.DontRequireReceiver);
+			// Legacy functionality
+			if (eventReceiver != null && !string.IsNullOrEmpty(callWhenFinished))
+				eventReceiver.SendMessage(callWhenFinished, SendMessageOptions.DontRequireReceiver);
 
-		eventReceiver = null;
+			eventReceiver = null;
+			current = null;
+		}
 	}
 }

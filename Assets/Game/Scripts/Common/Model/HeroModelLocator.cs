@@ -44,8 +44,8 @@ public sealed class HeroModelLocator
         }
     }
 
+    public int GetHeroPos;//获取武将编队列表的位置标识
     public SCHeroList SCHeroList;
-    public static UIHeroItemsPageWindow HerosWindow;
 
     private Hero heroTemplates;
     public Hero HeroTemplates
@@ -57,6 +57,11 @@ public sealed class HeroModelLocator
     public Skill SkillTemplates
     {
         get { return skillTemplates ?? (skillTemplates = Utils.Decode<Skill>(SkillTemlatePath)); }
+    }
+
+    public SkillTemplate GetLeaderSkillTemplateById(int templateid)
+    {
+        return SkillTemplates.SkillTmpl[templateid];
     }
 
     #endregion

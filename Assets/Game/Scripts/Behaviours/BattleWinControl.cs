@@ -87,15 +87,15 @@ public class BattleWinControl : MonoBehaviour
     /// </summary>
     private IEnumerator ShowBattleWin()
     {
-        var tweenPosition = GetComponent<TweenPosition>();
-        if(tweenPosition == null)
-        {
-            tweenPosition = gameObject.AddComponent<TweenPosition>();
-        }
-        tweenPosition.from = From.position;
-        tweenPosition.to = To.position;
-        tweenPosition.PlayForward();
-        yield return new WaitForSeconds(tweenPosition.duration);
+//        var tweenPosition = GetComponent<TweenPosition>();
+//        if(tweenPosition == null)
+//        {
+//            tweenPosition = gameObject.AddComponent<TweenPosition>();
+//        }
+//        tweenPosition.from = From.position;
+//        tweenPosition.to = To.position;
+//        tweenPosition.PlayForward();
+        yield return new WaitForSeconds(0.1f);
         Int2Sprite.Show(CoinValues, Template, 25000);
         yield return new WaitForSeconds(Delay);
         Int2Sprite.Show(SoulValues, Template, 3600);

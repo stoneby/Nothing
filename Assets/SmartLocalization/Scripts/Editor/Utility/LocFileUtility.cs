@@ -681,7 +681,7 @@ public class LocFileUtility
 					count++;
 				}
 			}
-			Debug.Log("Duplicate keys in dictionary was found! - renaming key:" + desiredKey + " to:" + newKeyName);
+			Logger.Log("Duplicate keys in dictionary was found! - renaming key:" + desiredKey + " to:" + newKeyName);
 			return newKeyName;
 		}
 	}
@@ -711,7 +711,7 @@ public class LocFileUtility
 					count++;
 				}
 			}
-			Debug.LogWarning("Duplicate keys in dictionary was found! - renaming key:" + desiredKey + " to:" + (desiredKey + count));
+			Logger.LogWarning("Duplicate keys in dictionary was found! - renaming key:" + desiredKey + " to:" + (desiredKey + count));
 			return (desiredKey + count);
 		}
 	}

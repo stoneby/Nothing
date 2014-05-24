@@ -94,7 +94,7 @@ public class GameEventGenerator : EditorWindow
         {
             if (string.IsNullOrEmpty(fieldValue))
             {
-                Debug.LogError("Field value should not be null. please double check it out.");
+                Logger.Log("Field value should not be null. please double check it out.");
                 return;
             }
             fieldPairList.Add(new KeyValuePair<KeyType, string>(fieldKey, fieldValue));

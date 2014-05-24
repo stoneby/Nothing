@@ -1,6 +1,6 @@
 //----------------------------------------------
 //            NGUI: Next-Gen UI kit
-// Copyright © 2011-2013 Tasharen Entertainment
+// Copyright © 2011-2014 Tasharen Entertainment
 //----------------------------------------------
 
 using UnityEditor;
@@ -28,7 +28,23 @@ public class UIPanelTool : EditorWindow
 		public bool widgetsEnabled = false;
 		public List<UIWidget> widgets = new List<UIWidget>();
 	}
-	static int Compare (Entry a, Entry b) { return UIPanel.CompareFunc(a.panel, b.panel); }
+
+	/// <summary>
+	/// First sort by depth, then alphabetically, then by instance ID.
+	/// </summary>
+
+	static int Compare (Entry a, Entry b)
+	{
+		if (a != b && a != null && b != null)
+		{
+			if (a.panel.depth < b.panel.depth) return -1;
+			if (a.panel.depth > b.panel.depth) return 1;
+			int val = string.Compare(a.panel.name, b.panel.name);
+			if (val != 0) return val;
+			return (a.panel.GetInstanceID() < b.panel.GetInstanceID()) ? -1 : 1;
+		}
+		return 0;
+	}
 
 	Vector2 mScroll = Vector2.zero;
 
@@ -81,50 +97,6 @@ public class UIPanelTool : EditorWindow
 	}
 
 	/// <summary>
-	/// Activate or deactivate the children of the specified transform recursively.
-	/// </summary>
-
-	static void SetActiveState (Transform t, bool state)
-	{
-		for (int i = 0; i < t.childCount; ++i)
-		{
-			Transform child = t.GetChild(i);
-			//if (child.GetComponent<UIPanel>() != null) continue;
-
-			if (state)
-			{
-				NGUITools.SetActiveSelf(child.gameObject, true);
-				SetActiveState(child, true);
-			}
-			else
-			{
-				SetActiveState(child, false);
-				NGUITools.SetActiveSelf(child.gameObject, false);
-			}
-			EditorUtility.SetDirty(child.gameObject);
-		}
-	}
-
-	/// <summary>
-	/// Activate or deactivate the specified panel and all of its children.
-	/// </summary>
-
-	static void SetActiveState (UIPanel panel, bool state)
-	{
-		if (state)
-		{
-			NGUITools.SetActiveSelf(panel.gameObject, true);
-			SetActiveState(panel.transform, true);
-		}
-		else
-		{
-			SetActiveState(panel.transform, false);
-			NGUITools.SetActiveSelf(panel.gameObject, false);
-		}
-		EditorUtility.SetDirty(panel.gameObject);
-	}
-
-	/// <summary>
 	/// Draw the custom wizard.
 	/// </summary>
 
@@ -165,7 +137,7 @@ public class UIPanelTool : EditorWindow
 				entries.Add(ent);
 			}
 
-			// Sort the list alphabetically
+			// Sort the list by depth
 			entries.Sort(Compare);
 
 			mScroll = GUILayout.BeginScrollView(mScroll);
@@ -188,12 +160,12 @@ public class UIPanelTool : EditorWindow
 			{
 				foreach (Entry ent in entries)
 				{
-					SetActiveState(ent.panel, !allEnabled);
+					NGUITools.SetActive(ent.panel.gameObject, !allEnabled);
 				}
 			}
 			else if (selectedEntry != null)
 			{
-				SetActiveState(selectedEntry.panel, !selectedEntry.widgetsEnabled);
+				NGUITools.SetActive(selectedEntry.panel.gameObject, !selectedEntry.widgetsEnabled);
 			}
 		}
 		else

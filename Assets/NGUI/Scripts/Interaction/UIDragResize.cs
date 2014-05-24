@@ -1,6 +1,6 @@
 //----------------------------------------------
 //            NGUI: Next-Gen UI kit
-// Copyright © 2011-2013 Tasharen Entertainment
+// Copyright © 2011-2014 Tasharen Entertainment
 //----------------------------------------------
 
 using UnityEngine;
@@ -35,6 +35,18 @@ public class UIDragResize : MonoBehaviour
 	/// </summary>
 
 	public int minHeight = 100;
+
+	/// <summary>
+	/// Maximum width the widget will be allowed to expand to when resizing.
+	/// </summary>
+
+	public int maxWidth = 100000;
+
+	/// <summary>
+	/// Maximum height the widget will be allowed to expand to when resizing.
+	/// </summary>
+
+	public int maxHeight = 100000;
 
 	Plane mPlane;
 	Vector3 mRayPos;
@@ -96,7 +108,7 @@ public class UIDragResize : MonoBehaviour
 				t.localPosition = mLocalPos;
 
 				// Adjust the widget
-				NGUIMath.ResizeWidget(target, pivot, localDelta.x, localDelta.y, minWidth, minHeight);
+				NGUIMath.ResizeWidget(target, pivot, localDelta.x, localDelta.y, minWidth, minHeight, maxWidth, maxHeight);
 			}
 		}
 	}

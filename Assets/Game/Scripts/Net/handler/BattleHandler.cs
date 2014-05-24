@@ -14,6 +14,7 @@ namespace Assets.Game.Scripts.Net.handler
             var battlestartmsg = msg.GetContent() as SCBattlePveStartMsg;
             if (battlestartmsg != null)
             {
+                WindowManager.Instance.Show(typeof(MissionTabWindow), false);
                 PopTextManager.PopTip("返回战斗数据");
                 BattleModelLocator.Instance.BattleType = battlestartmsg.BattleType;
                 BattleModelLocator.Instance.MonsterGroup = (List<int>)battlestartmsg.MonsterGroup;
@@ -39,6 +40,7 @@ namespace Assets.Game.Scripts.Net.handler
                 //客户端显示战斗
                 var window = WindowManager.Instance.Show(typeof(BattleWindow), true).gameObject;
                 WindowManager.Instance.Show(typeof(MainMenuBarWindow), false);
+                WindowManager.Instance.Show(typeof (BattleConfirmTabWindow), false);
 
                 var battlemanager = window.GetComponent<InitBattleField>();
                 battlemanager.StartBattle();

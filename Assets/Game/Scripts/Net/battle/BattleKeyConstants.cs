@@ -41,7 +41,7 @@ namespace com.kx.sglm.gs.battle.share
 
 		public static readonly int BATTLE_PROP_MONSTER_DROP_COIN = BATTLE_KEY_BASE++;
 
-
+		public static readonly int BATTLE_PROP_MONSTER_DROP_SPRIT = BATTLE_KEY_BASE++;
 
 		////////////////////////////////战斗状态key//////////////////////////////////////
 		private static sbyte BATTLE_STATE_KEY_BASE = 0;

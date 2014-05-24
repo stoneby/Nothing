@@ -61,28 +61,15 @@ public class UIHeroItemsPageWindow : Window
 
     public override void OnEnter()
     {
-        scHeroList = HeroModelLocator.Instance.SCHeroList;
         sortLabel.text = StringTable.SortStrings[scHeroList.OrderType];
-		heroNums.text = string.Format("{0}/{1}", scHeroList.HeroList.Count, PlayerModelLocator.Instance.HeroMax);
-        StartCoroutine(FillHeroList());
-        Refresh();
+        heroNums.text = string.Format("{0}/{1}", scHeroList.HeroList.Count, PlayerModelLocator.Instance.HeroMax);
+        StartCoroutine(UpdateHeroList());
         InstallHandlers();
     }
 
     public override void OnExit()
     {
         UnInstallHandlers();
-        if (PoolManager.Pools.ContainsKey("Heros"))
-        {
-            var list = grid.transform.Cast<Transform>().ToList();
-            for(int index = 0; index < list.Count; index++)
-            {
-                var item = list[index];
-                UIEventListener.Get(item.gameObject).onClick -= OnHeroInfoClicked;
-                item.parent = PoolManager.Pools["Heros"].transform;
-                PoolManager.Pools["Heros"].Despawn(item);
-            }
-        }
     }
 
     #endregion
@@ -99,23 +86,25 @@ public class UIHeroItemsPageWindow : Window
         sortBtnLis = UIEventListener.Get(Utils.FindChild(transform, "Button-Sort").gameObject);
         sortLabel = sortBtnLis.GetComponentInChildren<UILabel>();
         toggles = GetComponentsInChildren<UIToggle>();
+        scHeroList = HeroModelLocator.Instance.SCHeroList;
     }
 
     /// <summary>
     /// Fill in the hero game objects.
     /// </summary> 
-    private IEnumerator FillHeroList()
+    private IEnumerator UpdateHeroList()
     {
         var heroCount = HeroModelLocator.Instance.SCHeroList.HeroList.Count;
-        for (int i = 0; i < heroCount; i++)
+        var childCount = grid.transform.childCount;
+        if (childCount != heroCount)
         {
-            var item = PoolManager.Pools["Heros"].Spawn(HeroPrefab.transform);
-            Utils.MoveToParent(grid.transform, item);
-            NGUITools.SetActive(item.gameObject, true);
-            UIEventListener.Get(item.gameObject).onClick += OnHeroInfoClicked;
+            var isAdd = childCount < heroCount;
+            Utils.AddOrDelItems(grid.transform, HeroPrefab.transform, isAdd, Mathf.Abs(heroCount - childCount), "Heros",
+                                OnHeroInfoClicked);
+            grid.repositionNow = true;
+            yield return new WaitForEndOfFrame();
+            Refresh();
         }
-        grid.repositionNow = true;
-        yield return new WaitForEndOfFrame();
     }
 
     /// <summary>

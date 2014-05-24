@@ -1,6 +1,6 @@
 //----------------------------------------------
 //            NGUI: Next-Gen UI kit
-// Copyright © 2011-2013 Tasharen Entertainment
+// Copyright © 2011-2014 Tasharen Entertainment
 //----------------------------------------------
 
 using UnityEngine;
@@ -12,8 +12,8 @@ using System.Collections.Generic;
 /// </summary>
 
 [CanEditMultipleObjects]
-[CustomEditor(typeof(UITexture))]
-public class UITextureInspector : UIWidgetInspector
+[CustomEditor(typeof(UITexture), true)]
+public class UITextureInspector : UIBasicSpriteEditor
 {
 	UITexture mTex;
 
@@ -25,29 +25,23 @@ public class UITextureInspector : UIWidgetInspector
 
 	protected override bool ShouldDrawProperties ()
 	{
+		if (target == null) return false;
 		SerializedProperty sp = NGUIEditorTools.DrawProperty("Texture", serializedObject, "mTexture");
 		NGUIEditorTools.DrawProperty("Material", serializedObject, "mMat");
 
-		NGUISettings.texture = sp.objectReferenceValue as Texture;
+		if (sp != null) NGUISettings.texture = sp.objectReferenceValue as Texture;
 
-		if (mTex.material == null || serializedObject.isEditingMultipleObjects)
+		if (mTex != null && (mTex.material == null || serializedObject.isEditingMultipleObjects))
 		{
 			NGUIEditorTools.DrawProperty("Shader", serializedObject, "mShader");
 		}
 
-		EditorGUI.BeginDisabledGroup(serializedObject.isEditingMultipleObjects);
-		if (mTex.mainTexture != null)
-		{
-			Rect rect = EditorGUILayout.RectField("UV Rectangle", mTex.uvRect);
+		EditorGUI.BeginDisabledGroup(mTex == null || mTex.mainTexture == null || serializedObject.isEditingMultipleObjects);
 
-			if (rect != mTex.uvRect)
-			{
-				NGUIEditorTools.RegisterUndo("UV Rectangle Change", mTex);
-				mTex.uvRect = rect;
-			}
-		}
+		NGUIEditorTools.DrawRectProperty("UV Rect", serializedObject, "mRect");
+
 		EditorGUI.EndDisabledGroup();
-		return (sp.objectReferenceValue != null);
+		return true;
 	}
 
 	/// <summary>
@@ -56,7 +50,8 @@ public class UITextureInspector : UIWidgetInspector
 
 	public override bool HasPreviewGUI ()
 	{
-		return (mTex != null) && (mTex.mainTexture as Texture2D != null);
+		return (Selection.activeGameObject == null || Selection.gameObjects.Length == 1) &&
+			(mTex != null) && (mTex.mainTexture as Texture2D != null);
 	}
 
 	/// <summary>
@@ -66,6 +61,15 @@ public class UITextureInspector : UIWidgetInspector
 	public override void OnPreviewGUI (Rect rect, GUIStyle background)
 	{
 		Texture2D tex = mTex.mainTexture as Texture2D;
-		if (tex != null) NGUIEditorTools.DrawTexture(tex, rect, mTex.uvRect, mTex.color);
+
+		if (tex != null)
+		{
+			Rect tc = mTex.uvRect;
+			tc.xMin *= tex.width;
+			tc.xMax *= tex.width;
+			tc.yMin *= tex.height;
+			tc.yMax *= tex.height;
+			NGUIEditorTools.DrawSprite(tex, rect, mTex.color, tc, mTex.border);
+		}
 	}
 }

@@ -58,6 +58,7 @@ public class UILevelUpWindow : Window
 
     public override void OnEnter()
     {
+        //WindowManager.Instance.GetComponent<HeroBaseInfoWindow>().EnableSwipeEffect(false);
         heroInfo = HeroModelLocator.Instance.FindHero(HeroBaseInfoWindow.CurUuid);
         heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpl[heroInfo.TemplateId];
         curLvl = heroInfo.Lvl;
@@ -226,11 +227,11 @@ public class UILevelUpWindow : Window
     private void OnBackBtnClicked(GameObject go)
     {
         WindowManager.Instance.Show(typeof(UIHeroInfoWindow), true);
-        WindowManager.Instance.GetWindow<HeroBaseInfoWindow>(typeof(HeroBaseInfoWindow)).Toggle(1);
+        WindowManager.Instance.GetWindow<HeroBaseInfoWindow>().Toggle(1);
         if(isLevelOver)
         {
-            WindowManager.Instance.GetWindow<UIHeroInfoWindow>(typeof(UIHeroInfoWindow)).ShowLevelUp(PropertyChangedNumber);
-            WindowManager.Instance.GetWindow<HeroBaseInfoWindow>(typeof(HeroBaseInfoWindow)).ShowButtons(true);
+            WindowManager.Instance.GetWindow<UIHeroInfoWindow>().ShowLevelUp(PropertyChangedNumber);
+            WindowManager.Instance.GetWindow<HeroBaseInfoWindow>().ShowButtons(true);
         }
     }
 
@@ -301,7 +302,7 @@ public class UILevelUpWindow : Window
     public void ShowLevelOver()
     {
         isLevelOver = true;
-        WindowManager.Instance.GetWindow<HeroBaseInfoWindow>(typeof(HeroBaseInfoWindow)).ShowButtons(false);
+        WindowManager.Instance.GetWindow<HeroBaseInfoWindow>().ShowButtons(false);
         NGUITools.SetActive(title.gameObject, false);
         NGUITools.SetActive(smallHero.gameObject, true);
         NGUITools.SetActive(levelUp.gameObject, true);

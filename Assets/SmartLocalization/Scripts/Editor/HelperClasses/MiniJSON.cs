@@ -53,16 +53,16 @@ namespace MiniJSON {
     //
     //          var dict = Json.Deserialize(jsonString) as Dictionary<string,object>;
     //
-    //          Debug.Log("deserialized: " + dict.GetType());
-    //          Debug.Log("dict['array'][0]: " + ((List<object>) dict["array"])[0]);
-    //          Debug.Log("dict['string']: " + (string) dict["string"]);
-    //          Debug.Log("dict['float']: " + (double) dict["float"]); // floats come out as doubles
-    //          Debug.Log("dict['int']: " + (long) dict["int"]); // ints come out as longs
-    //          Debug.Log("dict['unicode']: " + (string) dict["unicode"]);
+    //          Logger.Log("deserialized: " + dict.GetType());
+    //          Logger.Log("dict['array'][0]: " + ((List<object>) dict["array"])[0]);
+    //          Logger.Log("dict['string']: " + (string) dict["string"]);
+    //          Logger.Log("dict['float']: " + (double) dict["float"]); // floats come out as doubles
+    //          Logger.Log("dict['int']: " + (long) dict["int"]); // ints come out as longs
+    //          Logger.Log("dict['unicode']: " + (string) dict["unicode"]);
     //
     //          var str = Json.Serialize(dict);
     //
-    //          Debug.Log("serialized: " + str);
+    //          Logger.Log("serialized: " + str);
     //      }
     //  }
 

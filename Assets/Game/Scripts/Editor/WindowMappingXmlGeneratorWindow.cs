@@ -49,7 +49,7 @@ public class WindowMappingXmlGeneratorWindow : EditorWindow
         var windowGroupTypeCount = Enum.GetNames(typeof(WindowGroupType)).Length;
         if (folderNameList.Count != windowGroupTypeCount)
         {
-            Debug.LogError("Subfolder in path - " + absolutePath +
+            Logger.LogError("Subfolder in path - " + absolutePath +
                            " does not match window group types from WindowGroupType class. Folder count - " + folderNameList.Count +
                            ", window group count - " + windowGroupTypeCount);
             return false;

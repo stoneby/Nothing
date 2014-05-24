@@ -8,7 +8,22 @@ public class HeroBaseInfoWindow : Window
 {
     #region Private Fields
 
+    private EndlessSwipeEffect endlessSwipeEffect;
+    private int curHeroIndex;
     private HeroInfo heroInfo;
+    private HeroInfo HeroInfo
+    {
+        get { return heroInfo; }
+        set
+        {
+            if(heroInfo != value)
+            {
+                heroInfo = value;
+                heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpl[heroInfo.TemplateId];
+                CurUuid = heroInfo.Uuid;
+            }
+        }
+    }
     private UIEventListener skillBtnLis;
     private UIEventListener lvBtnLis;
     private UIEventListener limitBtnLis;
@@ -39,10 +54,6 @@ public class HeroBaseInfoWindow : Window
 
     public override void OnEnter()
     {
-        Toggle(1);
-        heroInfo = HeroModelLocator.Instance.FindHero(CurUuid);
-        heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpl[heroInfo.TemplateId];
-        Refresh();
         InstallHandlers();
     }
 
@@ -63,6 +74,31 @@ public class HeroBaseInfoWindow : Window
         skillBtnLis = UIEventListener.Get(Utils.FindChild(transform, "Button-Skill").gameObject);
         lvBtnLis = UIEventListener.Get(Utils.FindChild(transform, "Button-LV").gameObject);
         limitBtnLis = UIEventListener.Get(Utils.FindChild(transform, "Button-Limit").gameObject);
+        endlessSwipeEffect = GetComponentInChildren<EndlessSwipeEffect>();
+        endlessSwipeEffect.UpdateData += UpdateData;
+    }
+
+    /// <summary>
+    /// Update the current data.
+    /// </summary>
+    private void UpdateData()
+    {
+        curHeroIndex = endlessSwipeEffect.CurCustomIndex;
+        HeroInfo = HeroModelLocator.Instance.SCHeroList.HeroList[curHeroIndex];
+        Refresh();
+        WindowManager.Instance.GetWindow<UIHeroInfoWindow>().RefreshData(HeroInfo);
+    }
+
+    /// <summary>
+    /// Initialize the endless swipe effect in case it has dependence.
+    /// </summary>
+    private void Start()
+    {
+        Toggle(1);
+        HeroInfo = HeroModelLocator.Instance.FindHero(CurUuid);
+        curHeroIndex = HeroModelLocator.Instance.SCHeroList.HeroList.IndexOf(HeroInfo);
+        endlessSwipeEffect.InitCustomData(curHeroIndex, HeroModelLocator.Instance.SCHeroList.HeroList.Count);
+        Refresh();
     }
 
     /// <summary>
@@ -90,8 +126,8 @@ public class HeroBaseInfoWindow : Window
     /// </summary>
     private void Refresh()
     {
-        transform.FindChild("Name").GetComponent<UILabel>().text = heroTemplate.Name;
-        var stars = transform.FindChild("Stars");
+        Utils.FindChild(transform, "Name").GetComponent<UILabel>().text = heroTemplate.Name;
+        var stars = Utils.FindChild(transform, "Stars");
         for (int index = 0; index < heroTemplate.Star; index++)
         {
             NGUITools.SetActive(stars.GetChild(index).gameObject, true);
@@ -100,8 +136,8 @@ public class HeroBaseInfoWindow : Window
         {
             NGUITools.SetActive(stars.GetChild(index).gameObject, false);
         }
-        Utils.FindChild(transform, "LV-Value").GetComponent<UILabel>().text = string.Format("{0}/{1}", heroInfo.Lvl, heroTemplate.LvlLimit);
-        Utils.FindChild(transform, "Limit-Value").GetComponent<UILabel>().text = string.Format("{0}/{1}", heroInfo.BreakTimes, heroTemplate.BreakLimit);
+        Utils.FindChild(transform, "LV-Value").GetComponent<UILabel>().text = string.Format("{0}/{1}", HeroInfo.Lvl, heroTemplate.LvlLimit);
+        Utils.FindChild(transform, "Limit-Value").GetComponent<UILabel>().text = string.Format("{0}/{1}", HeroInfo.BreakTimes, heroTemplate.BreakLimit);
         Utils.FindChild(transform, "Luck-Value").GetComponent<UILabel>().text = heroTemplate.Lucky.ToString();
         Utils.FindChild(transform, "Job-Value").GetComponent<UISprite>().spriteName = UIHerosDisplayWindow.JobPrefix + heroTemplate.Job;
     }
@@ -171,6 +207,11 @@ public class HeroBaseInfoWindow : Window
                 lvBtnLis.GetComponent<UISprite>().spriteName = NormalBtnSpriteName;
                 break;
         }
+    }
+
+    public void EnableSwipeEffect(bool enable)
+    {
+        endlessSwipeEffect.enabled = enable;
     }
 
     #endregion

@@ -145,7 +145,7 @@ public class TestFramework : MonoBehaviour
 
         if (GUILayout.Button("Show Assert Window"))
         {
-            var assertWindow = WindowManager.Instance.GetWindow<AssertionWindow>(typeof(AssertionWindow));
+            var assertWindow = WindowManager.Instance.GetWindow<AssertionWindow>();
             assertWindow.AssertType = (AssertionWindow.Type)Enum.Parse(typeof(AssertionWindow.Type), assertType);
             assertWindow.Message = assertMessage;
             WindowManager.Instance.Show(typeof(AssertionWindow), true);

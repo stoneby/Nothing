@@ -67,7 +67,7 @@ public class PreRuntimePoolItem : MonoBehaviour
                     "See the online docs for more information at " +
                     "http://docs.poolmanager.path-o-logical.com";
 
-            Debug.LogError(string.Format(msg, this.name, this.poolName));
+            Logger.Log(string.Format(msg, this.name, this.poolName));
             return;
         }
 

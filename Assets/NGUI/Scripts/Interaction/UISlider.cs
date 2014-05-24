@@ -1,6 +1,6 @@
 //----------------------------------------------
 //            NGUI: Next-Gen UI kit
-// Copyright © 2011-2013 Tasharen Entertainment
+// Copyright © 2011-2014 Tasharen Entertainment
 //----------------------------------------------
 
 using UnityEngine;
@@ -22,7 +22,7 @@ public class UISlider : UIProgressBar
 	}
 
 	// Deprecated functionality. Use 'foregroundWidget' instead.
-	[HideInInspector][SerializeField] Transform foreground;
+	[HideInInspector][SerializeField] Transform foreground = null;
 
 	// Deprecated functionality
 	[HideInInspector][SerializeField] float rawValue = 1f; // Use 'value'
@@ -58,7 +58,7 @@ public class UISlider : UIProgressBar
 			}
 			direction = Direction.Upgraded;
 #if UNITY_EDITOR
-			UnityEditor.EditorUtility.SetDirty(this);
+			NGUITools.SetDirty(this);
 #endif
 		}
 	}

@@ -1,6 +1,6 @@
 //----------------------------------------------
 //            NGUI: Next-Gen UI kit
-// Copyright © 2011-2013 Tasharen Entertainment
+// Copyright © 2011-2014 Tasharen Entertainment
 //----------------------------------------------
 
 using UnityEngine;
@@ -123,7 +123,7 @@ static public class NGUIMath
 
 	[System.Diagnostics.DebuggerHidden]
 	[System.Diagnostics.DebuggerStepThrough]
-	static public string DecimalToHex (int num)
+	static public string DecimalToHex24 (int num)
 	{
 		num &= 0xFFFFFF;
 #if UNITY_FLASH
@@ -137,6 +137,32 @@ static public class NGUIMath
 		return sb.ToString();
 #else
 		return num.ToString("X6");
+#endif
+	}
+
+	/// <summary>
+	/// Convert a decimal value to its hex representation.
+	/// It's coded because num.ToString("X6") syntax doesn't seem to be supported by Unity's Flash. It just silently crashes.
+	/// string.Format("{0,6:X}", num).Replace(' ', '0') doesn't work either. It returns the format string, not the formatted value.
+	/// </summary>
+
+	[System.Diagnostics.DebuggerHidden]
+	[System.Diagnostics.DebuggerStepThrough]
+	static public string DecimalToHex32 (int num)
+	{
+#if UNITY_FLASH
+		StringBuilder sb = new StringBuilder();
+		sb.Append(DecimalToHexChar((num >> 28) & 0xF));
+		sb.Append(DecimalToHexChar((num >> 24) & 0xF));
+		sb.Append(DecimalToHexChar((num >> 20) & 0xF));
+		sb.Append(DecimalToHexChar((num >> 16) & 0xF));
+		sb.Append(DecimalToHexChar((num >> 12) & 0xF));
+		sb.Append(DecimalToHexChar((num >> 8) & 0xF));
+		sb.Append(DecimalToHexChar((num >> 4) & 0xF));
+		sb.Append(DecimalToHexChar(num & 0xF));
+		return sb.ToString();
+#else
+		return num.ToString("X8");
 #endif
 	}
 
@@ -366,56 +392,95 @@ static public class NGUIMath
 	/// Calculate the combined bounds of all widgets attached to the specified game object or its children (in relative-to-object space).
 	/// </summary>
 
-	static public Bounds CalculateRelativeWidgetBounds (Transform root, Transform child)
+	static public Bounds CalculateRelativeWidgetBounds (Transform relativeTo, Transform content)
 	{
-		return CalculateRelativeWidgetBounds(root, child, false);
+		return CalculateRelativeWidgetBounds(relativeTo, content, false);
 	}
 
 	/// <summary>
 	/// Calculate the combined bounds of all widgets attached to the specified game object or its children (in relative-to-object space).
 	/// </summary>
 
-	static public Bounds CalculateRelativeWidgetBounds (Transform root, Transform child, bool considerInactive)
+	static public Bounds CalculateRelativeWidgetBounds (Transform relativeTo, Transform content, bool considerInactive)
 	{
-		if (child != null)
+		Bounds b = new Bounds(Vector3.zero, Vector3.zero);
+
+		if (content != null)
 		{
-			UIWidget[] widgets = child.GetComponentsInChildren<UIWidget>(considerInactive);
+			bool isSet = false;
+			Matrix4x4 toLocal = relativeTo.worldToLocalMatrix;
+			CalculateRelativeWidgetBounds(content, considerInactive, true, ref toLocal, ref b, ref isSet);
+			if (isSet) return b;
+		}
+		return b;
+	}
 
-			if (widgets.Length > 0)
+	/// <summary>
+	/// Recursive function used to calculate the widget bounds.
+	/// </summary>
+
+	[System.Diagnostics.DebuggerHidden]
+	[System.Diagnostics.DebuggerStepThrough]
+	static void CalculateRelativeWidgetBounds (Transform content, bool considerInactive, bool isRoot, ref Matrix4x4 toLocal, ref Bounds b, ref bool isSet)
+	{
+		if (content == null) return;
+		if (!considerInactive && !NGUITools.GetActive(content.gameObject)) return;
+
+		// If this isn't a root node, check to see if there is a panel present
+		UIPanel p = isRoot ? null : content.GetComponent<UIPanel>();
+
+		// Ignore disabled panels as a disabled panel means invisible children
+		if (p != null && !p.enabled) return;
+
+		// If there is a clipped panel present simply include its dimensions
+		if (p != null && p.clipping != UIDrawCall.Clipping.None)
+		{
+			Vector3[] corners = p.worldCorners;
+
+			for (int j = 0; j < 4; ++j)
 			{
-				Vector3 vMin = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
-				Vector3 vMax = new Vector3(float.MinValue, float.MinValue, float.MinValue);
-
-				Matrix4x4 toLocal = root.worldToLocalMatrix;
-				bool isSet = false;
-				Vector3 v;
-
-				for (int i = 0, imax = widgets.Length; i < imax; ++i)
-				{
-					UIWidget w = widgets[i];
-					if (!considerInactive && !w.enabled) continue;
-
-					Vector3[] corners = w.worldCorners;
-
-					for (int j = 0; j < 4; ++j)
-					{
-						//v = root.InverseTransformPoint(corners[j]);
-						v = toLocal.MultiplyPoint3x4(corners[j]);
-						vMax = Vector3.Max(v, vMax);
-						vMin = Vector3.Min(v, vMin);
-					}
-					isSet = true;
-				}
+				Vector3 v = toLocal.MultiplyPoint3x4(corners[j]);
 
 				if (isSet)
 				{
-					Bounds b = new Bounds(vMin, Vector3.zero);
-					b.Encapsulate(vMax);
-					return b;
+					b.Encapsulate(v);
+				}
+				else
+				{
+					b = new Bounds(v, Vector3.zero);
+					isSet = true;
 				}
 			}
 		}
-		return new Bounds(Vector3.zero, Vector3.zero);
+		else // No panel present
+		{
+			// If there is a widget present, include its bounds
+			UIWidget w = content.GetComponent<UIWidget>();
+
+			if (w != null && w.enabled)
+			{
+				Vector3[] corners = w.worldCorners;
+
+				for (int j = 0; j < 4; ++j)
+				{
+					Vector3 v = toLocal.MultiplyPoint3x4(corners[j]);
+
+					if (isSet)
+					{
+						b.Encapsulate(v);
+					}
+					else
+					{
+						b = new Bounds(v, Vector3.zero);
+						isSet = true;
+					}
+				}
+			}
+
+			// Iterate through children including their bounds in turn
+			for (int i = 0, imax = content.childCount; i < imax; ++i)
+				CalculateRelativeWidgetBounds(content.GetChild(i), considerInactive, false, ref toLocal, ref b, ref isSet);
+		}
 	}
 
 	/// <summary>
@@ -638,41 +703,51 @@ static public class NGUIMath
 	/// Adjust the widget's position using the specified local delta coordinates.
 	/// </summary>
 
-	static public void MoveWidget (UIWidget w, float x, float y)
+	static public void MoveWidget (UIRect w, float x, float y) { MoveRect(w, x, y); }
+
+	/// <summary>
+	/// Adjust the rectangle's position using the specified local delta coordinates.
+	/// </summary>
+
+	static public void MoveRect (UIRect rect, float x, float y)
 	{
 		int ix = Mathf.FloorToInt(x + 0.5f);
 		int iy = Mathf.FloorToInt(y + 0.5f);
 
-		Transform t = w.cachedTransform;
+		Transform t = rect.cachedTransform;
 		t.localPosition += new Vector3(ix, iy);
 		int anchorCount = 0;
 
-		if (w.leftAnchor.target)
+		if (rect.leftAnchor.target)
 		{
 			++anchorCount;
-			w.leftAnchor.absolute += ix;
+			rect.leftAnchor.absolute += ix;
 		}
 
-		if (w.rightAnchor.target)
+		if (rect.rightAnchor.target)
 		{
 			++anchorCount;
-			w.rightAnchor.absolute += ix;
+			rect.rightAnchor.absolute += ix;
 		}
 
-		if (w.bottomAnchor.target)
+		if (rect.bottomAnchor.target)
 		{
 			++anchorCount;
-			w.bottomAnchor.absolute += iy;
+			rect.bottomAnchor.absolute += iy;
 		}
 
-		if (w.topAnchor.target)
+		if (rect.topAnchor.target)
 		{
 			++anchorCount;
-			w.topAnchor.absolute += iy;
+			rect.topAnchor.absolute += iy;
 		}
+
+#if UNITY_EDITOR
+		NGUITools.SetDirty(rect);
+#endif
 
 		// If all sides were anchored, we're done
-		if (anchorCount != 0) w.UpdateAnchors();
+		if (anchorCount != 0) rect.UpdateAnchors();
 	}
 
 	/// <summary>
@@ -681,9 +756,29 @@ static public class NGUIMath
 
 	static public void ResizeWidget (UIWidget w, UIWidget.Pivot pivot, float x, float y, int minWidth, int minHeight)
 	{
+		ResizeWidget(w, pivot, x, y, 2, 2, 100000, 100000);
+	}
+
+	/// <summary>
+	/// Given the specified dragged pivot point, adjust the widget's dimensions.
+	/// </summary>
+
+	static public void ResizeWidget (UIWidget w, UIWidget.Pivot pivot, float x, float y, int minWidth, int minHeight, int maxWidth, int maxHeight)
+	{
 		if (pivot == UIWidget.Pivot.Center)
 		{
-			MoveWidget(w, x, y);
+			int diffX = Mathf.RoundToInt(x - w.width);
+			int diffY = Mathf.RoundToInt(y - w.height);
+
+			diffX = diffX - (diffX & 1);
+			diffY = diffY - (diffY & 1);
+
+			if ((diffX | diffY) != 0)
+			{
+				diffX >>= 1;
+				diffY >>= 1;
+				AdjustWidget(w, -diffX, -diffY, diffX, diffY, minWidth, minHeight);
+			}
 			return;
 		}
 
@@ -693,35 +788,35 @@ static public class NGUIMath
 		switch (pivot)
 		{
 			case UIWidget.Pivot.BottomLeft:
-			AdjustWidget(w, v.x, v.y, 0, 0, minWidth, minHeight);
+			AdjustWidget(w, v.x, v.y, 0, 0, minWidth, minHeight, maxWidth, maxHeight);
 			break;
 
 			case UIWidget.Pivot.Left:
-			AdjustWidget(w, v.x, 0, 0, 0, minWidth, minHeight);
+			AdjustWidget(w, v.x, 0, 0, 0, minWidth, minHeight, maxWidth, maxHeight);
 			break;
 
 			case UIWidget.Pivot.TopLeft:
-			AdjustWidget(w, v.x, 0, 0, v.y, minWidth, minHeight);
+			AdjustWidget(w, v.x, 0, 0, v.y, minWidth, minHeight, maxWidth, maxHeight);
 			break;
 
 			case UIWidget.Pivot.Top:
-			AdjustWidget(w, 0, 0, 0, v.y, minWidth, minHeight);
+			AdjustWidget(w, 0, 0, 0, v.y, minWidth, minHeight, maxWidth, maxHeight);
 			break;
 
 			case UIWidget.Pivot.TopRight:
-			AdjustWidget(w, 0, 0, v.x, v.y, minWidth, minHeight);
+			AdjustWidget(w, 0, 0, v.x, v.y, minWidth, minHeight, maxWidth, maxHeight);
 			break;
 
 			case UIWidget.Pivot.Right:
-			AdjustWidget(w, 0, 0, v.x, 0, minWidth, minHeight);
+			AdjustWidget(w, 0, 0, v.x, 0, minWidth, minHeight, maxWidth, maxHeight);
 			break;
 
 			case UIWidget.Pivot.BottomRight:
-			AdjustWidget(w, 0, v.y, v.x, 0, minWidth, minHeight);
+			AdjustWidget(w, 0, v.y, v.x, 0, minWidth, minHeight, maxWidth, maxHeight);
 			break;
 
 			case UIWidget.Pivot.Bottom:
-			AdjustWidget(w, 0, v.y, 0, 0, minWidth, minHeight);
+			AdjustWidget(w, 0, v.y, 0, 0, minWidth, minHeight, maxWidth, maxHeight);
 			break;
 		}
 	}
@@ -730,7 +825,26 @@ static public class NGUIMath
 	/// Adjust the widget's rectangle based on the specified modifier values.
 	/// </summary>
 
+	static public void AdjustWidget (UIWidget w, float left, float bottom, float right, float top)
+	{
+		AdjustWidget(w, left, bottom, right, top, 2, 2, 100000, 100000);
+	}
+
+	/// <summary>
+	/// Adjust the widget's rectangle based on the specified modifier values.
+	/// </summary>
+
 	static public void AdjustWidget (UIWidget w, float left, float bottom, float right, float top, int minWidth, int minHeight)
+	{
+		AdjustWidget(w, left, bottom, right, top, minWidth, minHeight, 100000, 100000);
+	}
+
+	/// <summary>
+	/// Adjust the widget's rectangle based on the specified modifier values.
+	/// </summary>
+
+	static public void AdjustWidget (UIWidget w, float left, float bottom, float right, float top,
+		int minWidth, int minHeight, int maxWidth, int maxHeight)
 	{
 		Vector2 piv = w.pivotOffset;
 		Transform t = w.cachedTransform;
@@ -743,13 +857,13 @@ static public class NGUIMath
 		int iTop = Mathf.FloorToInt(top + 0.5f);
 
 		// Centered pivot should mean having to perform even number adjustments
-		if (piv.x == 0.5f)
+		if (piv.x == 0.5f && (iLeft == 0 || iRight == 0))
 		{
 			iLeft = ((iLeft >> 1) << 1);
 			iRight = ((iRight >> 1) << 1);
 		}
 
-		if (piv.y == 0.5f)
+		if (piv.y == 0.5f && (iBottom == 0 || iTop == 0))
 		{
 			iBottom = ((iBottom >> 1) << 1);
 			iTop = ((iTop >> 1) << 1);
@@ -814,8 +928,8 @@ static public class NGUIMath
 			offset.y = (rotatedT.y + rotatedB.y + rotatedL.y + rotatedR.y) * 0.5f;
 		}
 
-		int minx = Mathf.Max(minWidth, w.minWidth);
-		int miny = Mathf.Max(minHeight, w.minHeight);
+		minWidth = Mathf.Max(minWidth, w.minWidth);
+		minHeight = Mathf.Max(minHeight, w.minHeight);
 
 		// Calculate the widget's width and height after the requested adjustments
 		int finalWidth = w.width + iRight - iLeft;
@@ -824,45 +938,36 @@ static public class NGUIMath
 		// Now it's time to constrain the width and height so that they can't go below min values
 		Vector3 constraint = Vector3.zero;
 
-		if (finalWidth < minx)
+		int limitWidth = finalWidth;
+		if (finalWidth < minWidth) limitWidth = minWidth;
+		else if (finalWidth > maxWidth) limitWidth = maxWidth;
+
+		if (finalWidth != limitWidth)
 		{
-			if (iLeft != 0)
-			{
-				constraint.x -= Mathf.Lerp(minx - finalWidth, 0f, piv.x);
-			}
-			else
-			{
-				constraint.x += Mathf.Lerp(0f, minx - finalWidth, piv.x);
-			}
-			finalWidth = minx;
+			if (iLeft != 0) constraint.x -= Mathf.Lerp(limitWidth - finalWidth, 0f, piv.x);
+			else constraint.x += Mathf.Lerp(0f, limitWidth - finalWidth, piv.x);
+			finalWidth = limitWidth;
 		}
 
-		if (finalHeight < miny)
-		{
-			if (iBottom != 0)
-			{
-				constraint.y -= Mathf.Lerp(miny - finalHeight, 0f, piv.y);
-			}
-			else
-			{
-				constraint.y += Mathf.Lerp(0f, miny - finalHeight, piv.y);
-			}
-			finalHeight = miny;
-		}
+		int limitHeight = finalHeight;
+		if (finalHeight < minHeight) limitHeight = minHeight;
+		else if (finalHeight > maxHeight) limitHeight = maxHeight;
 
-		// Constrain the rect
-		if (finalWidth < minWidth) finalWidth = minWidth;
-		if (finalHeight < minHeight) finalHeight = minHeight;
+		if (finalHeight != limitHeight)
+		{
+			if (iBottom != 0) constraint.y -= Mathf.Lerp(limitHeight - finalHeight, 0f, piv.y);
+			else constraint.y += Mathf.Lerp(0f, limitHeight - finalHeight, piv.y);
+			finalHeight = limitHeight;
+		}
 
 		// Centered pivot requires power-of-two dimensions
-		if (piv.x == 0.5f) finalWidth = ((finalWidth >> 1) << 1);
+		if (piv.x == 0.5f) finalWidth  = ((finalWidth  >> 1) << 1);
 		if (piv.y == 0.5f) finalHeight = ((finalHeight >> 1) << 1);
 
 		// Update the position, width and height
 		Vector3 pos = t.localPosition + offset + rot * constraint;
 		t.localPosition = pos;
-		w.width = finalWidth;
-		w.height = finalHeight;
+		w.SetDimensions(finalWidth, finalHeight);
 
 		// If the widget is anchored, we should update the anchors as well
 		if (w.isAnchored)
@@ -876,5 +981,77 @@ static public class NGUIMath
 			if (w.bottomAnchor.target) w.bottomAnchor.SetVertical(t, y);
 			if (w.topAnchor.target) w.topAnchor.SetVertical(t, y + finalHeight);
 		}
+
+#if UNITY_EDITOR
+		NGUITools.SetDirty(w);
+#endif
+	}
+
+	/// <summary>
+	/// Adjust the specified value by DPI: height * 96 / DPI.
+	/// This will result in in a smaller value returned for higher pixel density devices.
+	/// </summary>
+
+	static public int AdjustByDPI (float height)
+	{
+		float dpi = Screen.dpi;
+
+		RuntimePlatform platform = Application.platform;
+
+		if (dpi == 0f)
+		{
+			dpi = (platform == RuntimePlatform.Android || platform == RuntimePlatform.IPhonePlayer) ? 160f : 96f;
+#if UNITY_BLACKBERRY
+			if (platform == RuntimePlatform.BB10Player) dpi = 160f;
+#elif UNITY_WP8
+			if (platform == RuntimePlatform.WP8Player) dpi = 160f;
+#endif
+		}
+
+		int h = Mathf.RoundToInt(height * (96f / dpi));
+		if ((h & 1) == 1) ++h;
+		return h;
+	}
+
+	/// <summary>
+	/// Convert the specified position, making it relative to the specified object.
+	/// </summary>
+
+	static public Vector2 ScreenToPixels (Vector2 pos, Transform relativeTo)
+	{
+		int layer = relativeTo.gameObject.layer;
+		Camera cam = NGUITools.FindCameraForLayer(layer);
+
+		if (cam == null)
+		{
+			Debug.LogWarning("No camera found for layer " + layer);
+			return pos;
+		}
+
+		Vector3 wp = cam.ScreenToWorldPoint(pos);
+		return relativeTo.InverseTransformPoint(wp);
+	}
+
+	/// <summary>
+	/// Convert the specified position, making it relative to the specified object's parent.
+	/// Useful if you plan on positioning the widget using the specified value (think mouse cursor).
+	/// </summary>
+
+	static public Vector2 ScreenToParentPixels (Vector2 pos, Transform relativeTo)
+	{
+		int layer = relativeTo.gameObject.layer;
+		if (relativeTo.parent != null)
+			relativeTo = relativeTo.parent;
+
+		Camera cam = NGUITools.FindCameraForLayer(layer);
+
+		if (cam == null)
+		{
+			Debug.LogWarning("No camera found for layer " + layer);
+			return pos;
+		}
+
+		Vector3 wp = cam.ScreenToWorldPoint(pos);
+		return (relativeTo != null) ? relativeTo.InverseTransformPoint(wp) : wp;
 	}
 }

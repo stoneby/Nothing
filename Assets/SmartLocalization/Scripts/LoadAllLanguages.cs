@@ -34,7 +34,7 @@ public class LoadAllLanguages : MonoBehaviour
 		}
 		else
 		{
-			Debug.LogError("No languages are created!, Open the Smart Localization plugin at Window->Smart Localization and create your language!");
+			Logger.Log("No languages are created!, Open the Smart Localization plugin at Window->Smart Localization and create your language!");
 		}
 	}
 	

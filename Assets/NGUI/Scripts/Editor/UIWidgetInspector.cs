@@ -1,6 +1,6 @@
 //----------------------------------------------
 //            NGUI: Next-Gen UI kit
-// Copyright © 2011-2013 Tasharen Entertainment
+// Copyright © 2011-2014 Tasharen Entertainment
 //----------------------------------------------
 
 using UnityEngine;
@@ -12,7 +12,11 @@ using System.Collections.Generic;
 /// </summary>
 
 [CanEditMultipleObjects]
+#if UNITY_3_5
 [CustomEditor(typeof(UIWidget))]
+#else
+[CustomEditor(typeof(UIWidget), true)]
+#endif
 public class UIWidgetInspector : UIRectEditor
 {
 	static public UIWidgetInspector instance;
@@ -295,7 +299,7 @@ public class UIWidgetInspector : UIRectEditor
 	/// Draw the specified anchor point.
 	/// </summary>
 
-	static public void DrawAnchor (UIRect.AnchorPoint anchor, Transform myTrans, Vector3[] myCorners, int side, int id)
+	static public void DrawAnchorHandle (UIRect.AnchorPoint anchor, Transform myTrans, Vector3[] myCorners, int side, int id)
 	{
 		if (!anchor.target) return;
 
@@ -444,10 +448,10 @@ public class UIWidgetInspector : UIRectEditor
 		// If the widget is anchored, draw the anchors
 		if (mWidget.isAnchored)
 		{
-			DrawAnchor(mWidget.leftAnchor, mWidget.cachedTransform, handles, 0, id);
-			DrawAnchor(mWidget.topAnchor, mWidget.cachedTransform, handles, 1, id);
-			DrawAnchor(mWidget.rightAnchor, mWidget.cachedTransform, handles, 2, id);
-			DrawAnchor(mWidget.bottomAnchor, mWidget.cachedTransform, handles, 3, id);
+			DrawAnchorHandle(mWidget.leftAnchor, mWidget.cachedTransform, handles, 0, id);
+			DrawAnchorHandle(mWidget.topAnchor, mWidget.cachedTransform, handles, 1, id);
+			DrawAnchorHandle(mWidget.rightAnchor, mWidget.cachedTransform, handles, 2, id);
+			DrawAnchorHandle(mWidget.bottomAnchor, mWidget.cachedTransform, handles, 3, id);
 		}
 
 		if (type == EventType.Repaint)
@@ -462,14 +466,28 @@ public class UIWidgetInspector : UIRectEditor
 		bool canResize = (mWidget.GetComponent<UIStretch>() == null);
 		bool[] resizable = new bool[8];
 
-		UILabel lbl = mWidget as UILabel;
-		bool autoResized = (lbl != null) && (lbl.overflowMethod == UILabel.Overflow.ResizeFreely);
-		bool autoHeight = autoResized || ((lbl != null) && (lbl.overflowMethod == UILabel.Overflow.ResizeHeight));
+		resizable[4] = canResize;	// left
+		resizable[5] = canResize;	// top
+		resizable[6] = canResize;	// right
+		resizable[7] = canResize;	// bottom
 
-		resizable[4] = canResize && !autoResized;	// left
-		resizable[5] = canResize && !autoHeight;	// top
-		resizable[6] = canResize && !autoResized;	// right
-		resizable[7] = canResize && !autoHeight;	// bottom
+		UILabel lbl = mWidget as UILabel;
+		
+		if (lbl != null)
+		{
+			if (lbl.overflowMethod == UILabel.Overflow.ResizeFreely)
+			{
+				resizable[4] = false;	// left
+				resizable[5] = false;	// top
+				resizable[6] = false;	// right
+				resizable[7] = false;	// bottom
+			}
+			else if (lbl.overflowMethod == UILabel.Overflow.ResizeHeight)
+			{
+				resizable[5] = false;	// top
+				resizable[7] = false;	// bottom
+			}
+		}
 
 		if (mWidget.keepAspectRatio == UIWidget.AspectRatioSource.BasedOnHeight)
 		{
@@ -531,38 +549,41 @@ public class UIWidgetInspector : UIRectEditor
 
 			case EventType.MouseDown:
 			{
-				mStartMouse = e.mousePosition;
-				mAllowSelection = true;
-
-				if (e.button == 1)
+				if (actionUnderMouse != Action.None)
 				{
-					if (e.modifiers == 0)
+					mStartMouse = e.mousePosition;
+					mAllowSelection = true;
+
+					if (e.button == 1)
 					{
+						if (e.modifiers == 0)
+						{
+							GUIUtility.hotControl = GUIUtility.keyboardControl = id;
+							e.Use();
+						}
+					}
+					else if (e.button == 0 && actionUnderMouse != Action.None && Raycast(handles, out mStartDrag))
+					{
+						mWorldPos = t.position;
+						mLocalPos = t.localPosition;
+						mStartRot = t.localRotation.eulerAngles;
+						mStartDir = mStartDrag - t.position;
+						mStartWidth = mWidget.width;
+						mStartHeight = mWidget.height;
+						mStartLeft.x = mWidget.leftAnchor.relative;
+						mStartLeft.y = mWidget.leftAnchor.absolute;
+						mStartRight.x = mWidget.rightAnchor.relative;
+						mStartRight.y = mWidget.rightAnchor.absolute;
+						mStartBottom.x = mWidget.bottomAnchor.relative;
+						mStartBottom.y = mWidget.bottomAnchor.absolute;
+						mStartTop.x = mWidget.topAnchor.relative;
+						mStartTop.y = mWidget.topAnchor.absolute;
+
+						mDragPivot = pivotUnderMouse;
+						mActionUnderMouse = actionUnderMouse;
 						GUIUtility.hotControl = GUIUtility.keyboardControl = id;
 						e.Use();
 					}
-				}
-				else if (e.button == 0 && actionUnderMouse != Action.None && Raycast(handles, out mStartDrag))
-				{
-					mWorldPos = t.position;
-					mLocalPos = t.localPosition;
-					mStartRot = t.localRotation.eulerAngles;
-					mStartDir = mStartDrag - t.position;
-					mStartWidth = mWidget.width;
-					mStartHeight = mWidget.height;
-					mStartLeft.x = mWidget.leftAnchor.relative;
-					mStartLeft.y = mWidget.leftAnchor.absolute;
-					mStartRight.x = mWidget.rightAnchor.relative;
-					mStartRight.y = mWidget.rightAnchor.absolute;
-					mStartBottom.x = mWidget.bottomAnchor.relative;
-					mStartBottom.y = mWidget.bottomAnchor.absolute;
-					mStartTop.x = mWidget.topAnchor.relative;
-					mStartTop.y = mWidget.topAnchor.absolute;
-
-					mDragPivot = pivotUnderMouse;
-					mActionUnderMouse = actionUnderMouse;
-					GUIUtility.hotControl = GUIUtility.keyboardControl = id;
-					e.Use();
 				}
 			}
 			break;
@@ -591,21 +612,17 @@ public class UIWidgetInspector : UIRectEditor
 									if (mActionUnderMouse == Action.Move)
 									{
 										NGUISnap.Recalculate(mWidget);
-										NGUIEditorTools.RegisterUndo("Move widget", t);
 									}
 									else if (mActionUnderMouse == Action.Rotate)
 									{
 										mStartRot = t.localRotation.eulerAngles;
 										mStartDir = mStartDrag - t.position;
-										NGUIEditorTools.RegisterUndo("Rotate widget", t);
 									}
 									else if (mActionUnderMouse == Action.Scale)
 									{
 										mStartWidth = mWidget.width;
 										mStartHeight = mWidget.height;
 										mDragPivot = pivotUnderMouse;
-										NGUIEditorTools.RegisterUndo("Scale widget", t);
-										NGUIEditorTools.RegisterUndo("Scale widget", mWidget);
 									}
 									mAction = actionUnderMouse;
 								}
@@ -613,6 +630,9 @@ public class UIWidgetInspector : UIRectEditor
 
 							if (mAction != Action.None)
 							{
+								NGUIEditorTools.RegisterUndo("Change Rect", t);
+								NGUIEditorTools.RegisterUndo("Change Rect", mWidget);
+
 								// Reset the widget before adjusting anything
 								t.position = mWorldPos;
 								mWidget.width = mStartWidth;
@@ -637,7 +657,7 @@ public class UIWidgetInspector : UIRectEditor
 									t.position = mWorldPos;
 
 									// Adjust the widget by the delta
-									NGUIMath.MoveWidget(mWidget, localDelta.x, localDelta.y);
+									NGUIMath.MoveRect(mWidget, localDelta.x, localDelta.y);
 								}
 								else if (mAction == Action.Rotate)
 								{
@@ -678,6 +698,7 @@ public class UIWidgetInspector : UIRectEditor
 
 			case EventType.MouseUp:
 			{
+				if (e.button == 2) break;
 				if (GUIUtility.hotControl == id)
 				{
 					GUIUtility.hotControl = 0;
@@ -733,30 +754,30 @@ public class UIWidgetInspector : UIRectEditor
 			{
 				if (e.keyCode == KeyCode.UpArrow)
 				{
-					Vector3 pos = t.localPosition;
-					pos.y += 1f;
-					t.localPosition = pos;
+					NGUIEditorTools.RegisterUndo("Nudge Rect", t);
+					NGUIEditorTools.RegisterUndo("Nudge Rect", mWidget);
+					NGUIMath.MoveRect(mWidget, 0f, 1f);
 					e.Use();
 				}
 				else if (e.keyCode == KeyCode.DownArrow)
 				{
-					Vector3 pos = t.localPosition;
-					pos.y -= 1f;
-					t.localPosition = pos;
+					NGUIEditorTools.RegisterUndo("Nudge Rect", t);
+					NGUIEditorTools.RegisterUndo("Nudge Rect", mWidget);
+					NGUIMath.MoveRect(mWidget, 0f, -1f);
 					e.Use();
 				}
 				else if (e.keyCode == KeyCode.LeftArrow)
 				{
-					Vector3 pos = t.localPosition;
-					pos.x -= 1f;
-					t.localPosition = pos;
+					NGUIEditorTools.RegisterUndo("Nudge Rect", t);
+					NGUIEditorTools.RegisterUndo("Nudge Rect", mWidget);
+					NGUIMath.MoveRect(mWidget, -1f, 0f);
 					e.Use();
 				}
 				else if (e.keyCode == KeyCode.RightArrow)
 				{
-					Vector3 pos = t.localPosition;
-					pos.x += 1f;
-					t.localPosition = pos;
+					NGUIEditorTools.RegisterUndo("Nudge Rect", t);
+					NGUIEditorTools.RegisterUndo("Nudge Rect", mWidget);
+					NGUIMath.MoveRect(mWidget, 1f, 0f);
 					e.Use();
 				}
 				else if (e.keyCode == KeyCode.Escape)
@@ -764,22 +785,7 @@ public class UIWidgetInspector : UIRectEditor
 					if (GUIUtility.hotControl == id)
 					{
 						if (mAction != Action.None)
-						{
-							if (mAction == Action.Move)
-							{
-								t.position = mWorldPos;
-							}
-							else if (mAction == Action.Rotate)
-							{
-								t.localRotation = Quaternion.Euler(mStartRot);
-							}
-							else if (mAction == Action.Scale)
-							{
-								t.position = mWorldPos;
-								mWidget.width = mStartWidth;
-								mWidget.height = mStartHeight;
-							}
-						}
+							Undo.PerformUndo();
 
 						GUIUtility.hotControl = 0;
 						GUIUtility.keyboardControl = 0;
@@ -908,19 +914,57 @@ public class UIWidgetInspector : UIRectEditor
 	{
 		GUILayout.BeginHorizontal();
 		{
-			EditorGUI.BeginDisabledGroup(!serializedObject.isEditingMultipleObjects && mWidget.isAnchoredHorizontally);
-			{
-				NGUIEditorTools.DrawProperty("Dimensions", serializedObject, "mWidth", GUILayout.MinWidth(100f));
-			}
-			EditorGUI.EndDisabledGroup();
+			bool freezeSize = serializedObject.isEditingMultipleObjects;
 
-			EditorGUI.BeginDisabledGroup(!serializedObject.isEditingMultipleObjects && mWidget.isAnchoredVertically);
+			UILabel lbl = mWidget as UILabel;
+
+			if (!freezeSize && lbl) freezeSize = (lbl.overflowMethod == UILabel.Overflow.ResizeFreely);
+
+			if (freezeSize)
 			{
-				NGUIEditorTools.SetLabelWidth(12f);
-				NGUIEditorTools.DrawProperty("x", serializedObject, "mHeight", GUILayout.MinWidth(30f));
-				NGUIEditorTools.SetLabelWidth(80f);
+				EditorGUI.BeginDisabledGroup(true);
+				NGUIEditorTools.DrawProperty("Dimensions", serializedObject, "mWidth", GUILayout.MinWidth(100f));
+				EditorGUI.EndDisabledGroup();
 			}
-			EditorGUI.EndDisabledGroup();
+			else
+			{
+				GUI.changed = false;
+				int val = EditorGUILayout.IntField("Dimensions", mWidget.width, GUILayout.MinWidth(100f));
+
+				if (GUI.changed)
+				{
+					NGUIEditorTools.RegisterUndo("Dimensions Change", mWidget);
+					mWidget.width = val;
+				}
+			}
+
+			if (!freezeSize && lbl)
+			{
+				UILabel.Overflow ov = lbl.overflowMethod;
+				freezeSize = (ov == UILabel.Overflow.ResizeFreely || ov == UILabel.Overflow.ResizeHeight);
+			}
+
+			NGUIEditorTools.SetLabelWidth(12f);
+
+			if (freezeSize)
+			{
+				EditorGUI.BeginDisabledGroup(true);
+				NGUIEditorTools.DrawProperty("x", serializedObject, "mHeight", GUILayout.MinWidth(30f));
+				EditorGUI.EndDisabledGroup();
+			}
+			else
+			{
+				GUI.changed = false;
+				int val = EditorGUILayout.IntField("x", mWidget.height, GUILayout.MinWidth(30f));
+
+				if (GUI.changed)
+				{
+					NGUIEditorTools.RegisterUndo("Dimensions Change", mWidget);
+					mWidget.height = val;
+				}
+			}
+
+			NGUIEditorTools.SetLabelWidth(80f);
 
 			if (isPrefab)
 			{
@@ -928,7 +972,7 @@ public class UIWidgetInspector : UIRectEditor
 			}
 			else
 			{
-				EditorGUI.BeginDisabledGroup(!serializedObject.isEditingMultipleObjects && mWidget.isFullyAnchored);
+				EditorGUI.BeginDisabledGroup(serializedObject.isEditingMultipleObjects);
 
 				if (GUILayout.Button("Snap", GUILayout.Width(68f)))
 				{
@@ -938,8 +982,8 @@ public class UIWidgetInspector : UIRectEditor
 
 						if (w != null)
 						{
-							NGUIEditorTools.RegisterUndo("Widget Change", w);
-							NGUIEditorTools.RegisterUndo("Make Pixel-Perfect", w.transform);
+							NGUIEditorTools.RegisterUndo("Snap Dimensions", w);
+							NGUIEditorTools.RegisterUndo("Snap Dimensions", w.transform);
 							w.MakePixelPerfect();
 						}
 					}
@@ -1029,7 +1073,7 @@ public class UIWidgetInspector : UIRectEditor
 			Toggle("\u25BA", "ButtonRight", UIWidget.Pivot.Right, true);
 #else
 			Toggle("<", "ButtonLeft", UIWidget.Pivot.Left, true);
-			Toggle("|", "ButtonMid", UIWidget.Pivot.Center, true);
+			Toggle("--", "ButtonMid", UIWidget.Pivot.Center, true);
 			Toggle(">", "ButtonRight", UIWidget.Pivot.Right, true);
 #endif
 			Toggle("\u25B2", "ButtonLeft", UIWidget.Pivot.Top, false);

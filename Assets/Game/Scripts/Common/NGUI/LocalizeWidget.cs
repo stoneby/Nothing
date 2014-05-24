@@ -1,13 +1,11 @@
 ﻿using UnityEngine;
 
-
 [RequireComponent(typeof(UIWidget))]
 [AddComponentMenu("NGUI/UI/LocalizeWidget")]
 public class LocalizeWidget : MonoBehaviour
 {
     public string Key;
 
-    private string mLanguage;
     private LanguageManager loc;
 
     private void Awake()
@@ -29,6 +27,15 @@ public class LocalizeWidget : MonoBehaviour
 
         // Initial localize run
         Localize();
+    }
+
+    private void OnDestroy()
+    {
+        // Hook up a delegate to run the localize script whenever a language was changed
+        if (enabled)
+        {
+            loc.OnChangeLanguage -= Localize;
+        }
     }
 
     // Force-localize the widget.
@@ -62,8 +69,5 @@ public class LocalizeWidget : MonoBehaviour
             sp.spriteName = val;
             sp.MakePixelPerfect();
         }
-
-        // Set this widget's current language
-        mLanguage = loc.language;
     }
 }

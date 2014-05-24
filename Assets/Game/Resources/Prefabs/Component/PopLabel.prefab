@@ -11,6 +11,7 @@ GameObject:
   - 114: {fileID: 11400002}
   - 114: {fileID: 11400000}
   - 114: {fileID: 11400004}
+  - 114: {fileID: 11400006}
   m_Layer: 8
   m_Name: PopLabel
   m_TagString: Untagged
@@ -67,6 +68,7 @@ MonoBehaviour:
   callWhenFinished: 
   from: {x: .554921925, y: .200000003, z: 0}
   to: {x: .554921925, y: .200000003, z: 0}
+  worldSpace: 0
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -94,6 +96,7 @@ MonoBehaviour:
     target: {fileID: 0}
     relative: 1
     absolute: 0
+  updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
   mWidth: 1200
@@ -109,6 +112,7 @@ MonoBehaviour:
   mText: New Label
   mFontSize: 35
   mFontStyle: 1
+  mAlignment: 0
   mEncoding: 1
   mMaxLineCount: 0
   mEffectStyle: 2
@@ -138,6 +142,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a50daadde9065f4aac533f6a75ac048, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &11400006
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bac732c5500c25a45968da93c1d5678f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Key: PopLabel.
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

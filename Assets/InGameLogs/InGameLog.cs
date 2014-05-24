@@ -145,7 +145,7 @@ public class InGameLog : MonoBehaviour {
 		}
 		else 
 		{
-			Debug.LogWarning("tow manager is exists delete the second");
+			Logger.LogWarning("tow manager is exists delete the second");
 			DestroyImmediate( gameObject );
 		}
 	}

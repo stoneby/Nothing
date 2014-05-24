@@ -105,11 +105,12 @@ public class GameConfiguration : Singleton<GameConfiguration>
 
     private IEnumerator DoReadConfigXml()
     {
-        yield return new WaitForSeconds(LoadingTestTime);
-        WindowManager.Instance.Show(typeof(LoginWindow), true);
-
         yield return StartCoroutine(DoReadRemoteServiceXml());
         yield return StartCoroutine(DoReadBattleConfigXml());
+
+        yield return new WaitForSeconds(LoadingTestTime);
+
+        WindowManager.Instance.Show(typeof(LoginWindow), true);
     }
 
     private IEnumerator DoReadRemoteServiceXml()
@@ -121,6 +122,7 @@ public class GameConfiguration : Singleton<GameConfiguration>
         if (!String.IsNullOrEmpty(www.error))
         {
             Logger.LogError(www.error);
+            Alert.Show(AssertionWindow.Type.Ok, "系统提示", "网络连接失败，请您接入网络后再试", OnAssertButtonClicked);
         }
         else
         {
@@ -275,12 +277,7 @@ public class GameConfiguration : Singleton<GameConfiguration>
         else
         {
             // Show assert window.
-            var assertWindow = WindowManager.Instance.GetWindow<AssertionWindow>(typeof(AssertionWindow));
-            assertWindow.AssertType = AssertionWindow.Type.Ok;
-            assertWindow.Title = "Warning";
-            assertWindow.Message = "Network connection fail, please check your network setting.";
-            WindowManager.Instance.Show(typeof(AssertionWindow), true);
-            assertWindow.OkButtonClicked += OnAssertButtonClicked;
+            Alert.Show(AssertionWindow.Type.Ok, "系统提示", "网络连接失败，请您接入网络后再试", OnAssertButtonClicked);
         }
     }
 

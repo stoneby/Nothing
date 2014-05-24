@@ -130,13 +130,13 @@ public class SpawnPoolsDict : IDictionary<string, SpawnPool>
                    "The pool name has been changed to '{1}'", 
                    poolName, tmpPoolName);
 
-            Debug.LogWarning(msg);
+            Logger.LogWarning(msg);
             poolName = tmpPoolName;
         }
 
         if (this.ContainsKey(poolName))
         {
-            Debug.Log(string.Format("A pool with the name '{0}' already exists", 
+            Logger.Log(string.Format("A pool with the name '{0}' already exists", 
                                     poolName));
             return false;
         }
@@ -174,7 +174,7 @@ public class SpawnPoolsDict : IDictionary<string, SpawnPool>
         SpawnPool spawnPool;
         if (!this._pools.TryGetValue(poolName, out spawnPool))
         {
-            Debug.LogError(
+            Logger.LogError(
                 string.Format("PoolManager: Unable to destroy '{0}'. Not in PoolManager",
                               poolName));
             return false;
@@ -214,7 +214,7 @@ public class SpawnPoolsDict : IDictionary<string, SpawnPool>
         // Don't let two pools with the same name be added. See error below for details
         if (this.ContainsKey(spawnPool.poolName))
         {
-            Debug.LogError(string.Format("A pool with the name '{0}' already exists. " +
+            Logger.LogError(string.Format("A pool with the name '{0}' already exists. " +
                                             "This should only happen if a SpawnPool with " +
                                             "this name is added to a scene twice.",
                                          spawnPool.poolName));
@@ -244,7 +244,7 @@ public class SpawnPoolsDict : IDictionary<string, SpawnPool>
     {
         if (!this.ContainsKey(spawnPool.poolName))
         {
-            Debug.LogError(string.Format("PoolManager: Unable to remove '{0}'. " +
+            Logger.LogError(string.Format("PoolManager: Unable to remove '{0}'. " +
                                             "Pool not in PoolManager",
                                         spawnPool.poolName));
             return false;

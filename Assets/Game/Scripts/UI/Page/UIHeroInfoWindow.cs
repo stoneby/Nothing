@@ -87,7 +87,7 @@ public class UIHeroInfoWindow : Window
     /// <summary>
     /// Update ui data.
     /// </summary>
-    public void RefreshData()
+    private void RefreshData()
     {
         attack.text = heroInfo.Prop[RoleProperties.HERO_ATK].ToString(CultureInfo.InvariantCulture);
         hp.text = heroInfo.Prop[RoleProperties.HERO_HP].ToString(CultureInfo.InvariantCulture);
@@ -117,6 +117,14 @@ public class UIHeroInfoWindow : Window
         Utils.FindChild(skillOne, "Name").GetComponent<UILabel>().text = passiveSkill.Name;
         Utils.FindChild(skillOne, "Desc").GetComponent<UILabel>().text = passiveSkill.Desc;  
         NGUITools.SetActive(TalentContent, false);
+    }
+
+    public void RefreshData(HeroInfo info)
+    {
+        heroInfo = info;
+        HeroBaseInfoWindow.CurUuid = info.Uuid;
+        heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpl[heroInfo.TemplateId];
+        RefreshData();
     }
 
     /// <summary>
@@ -165,7 +173,7 @@ public class UIHeroInfoWindow : Window
             var changedRecover = changedNumber.PropertyChanged[RoleProperties.HERO_RECOVER] - recoverBefore;
             var changedMp = changedNumber.PropertyChanged[RoleProperties.HERO_MP] - mpBefore;
 
-            var heroBase = WindowManager.Instance.GetWindow<HeroBaseInfoWindow>(typeof(HeroBaseInfoWindow));
+            var heroBase = WindowManager.Instance.GetWindow<HeroBaseInfoWindow>();
             var lvLabel = Utils.FindChild(heroBase.transform, "LV-Value").GetComponent<UILabel>();
 
             while (true)

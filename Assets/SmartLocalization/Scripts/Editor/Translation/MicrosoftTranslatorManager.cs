@@ -168,11 +168,11 @@ public class MicrosoftTranslatorManager
             {
 				//Error
                 HttpWebResponse httpResponse = (HttpWebResponse) response;
-                Debug.Log("Error code:" +  httpResponse.StatusCode.ToString());
+                Logger.Log("Error code:" +  httpResponse.StatusCode.ToString());
                 using (Stream data = response.GetResponseStream())
                 {
                     string text = new StreamReader(data).ReadToEnd();
-                    Debug.Log(text);
+                    Logger.Log(text);
                 }
             }
         }
@@ -208,13 +208,13 @@ public class MicrosoftTranslatorManager
 			headerValue = "Bearer " + token.access_token;
 			
 			//Set the translator manager to initialized
-			Debug.Log("Microsoft Translator is authenticated");
+			Logger.Log("Microsoft Translator is authenticated");
 			isInitialized = true;
 			GetAllTranslationLanguages();
 	  }
 	  catch (Exception ex)
 	  {
-		 Debug.LogError("MicrosoftTranslatorManager.cs:" + ex.Message);
+		 Logger.Log("MicrosoftTranslatorManager.cs:" + ex.Message);
 	  }
 	  finally
       {
@@ -350,7 +350,7 @@ public class MicrosoftTranslatorManager
 		}
 		else
 		{
-			Debug.LogError("MicrosoftTranslatorManager is not authenticated, use the GetAccessToken to authenticate");
+			Logger.Log("MicrosoftTranslatorManager is not authenticated, use the GetAccessToken to authenticate");
 		}
 	}
 	

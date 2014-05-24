@@ -17,27 +17,56 @@ public class NetworkControl : MonoBehaviour
                 Logger.Log(msg.GetMsgType());
                 switch (msg.GetMsgType())
                 {
-                    case (short)MessageType.SC_SYSTEM_INFO_MSG:
+                    case (short) MessageType.SC_SYSTEM_INFO_MSG:
                         SystemHandler.OnSystemInfo(msg);
                         break;
-                    case (short)MessageType.SC_CREATE_PLAYER_MSG:
+                    case (short) MessageType.SC_ERROR_INFO_MSG:
+                        SystemHandler.OnErrorInfo(msg);
+                        break;
+                    case (short) MessageType.SC_CREATE_PLAYER_MSG:
                         PlayerHandler.OnCreatePlayer(msg);
                         break;
-                    case (short)MessageType.SC_PLAYER_INFO_MSG:
+                    case (short) MessageType.SC_PLAYER_INFO_MSG:
                         PlayerHandler.OnPlayerInfo(msg);
                         break;
-                    case (short)MessageType.SC_BATTLE_PVE_START_MSG:
+                    case (short) MessageType.SC_BATTLE_PVE_START_MSG:
                         BattleHandler.OnBattlePveStart(msg);
                         break;
-                    case (short)MessageType.SC_HERO_LIST:
-                    case (short)MessageType.SC_HERO_MODIFY_TEAM:
-                    case (short)MessageType.SC_HERO_SELL:
-                    case (short)MessageType.SC_HERO_LVL_UP:
-                    case (short)MessageType.SC_PROPERTY_CHANGED_NUMBER:
-                    case (short)MessageType.SC_HERO_CREATE_ONE:
+                    case (short) MessageType.SC_HERO_LIST:
+                    case (short) MessageType.SC_HERO_MODIFY_TEAM:
+                    case (short) MessageType.SC_HERO_SELL:
+                    case (short) MessageType.SC_HERO_LVL_UP:
+                    case (short) MessageType.SC_PROPERTY_CHANGED_NUMBER:
+                    case (short) MessageType.SC_HERO_CREATE_ONE:
                         HeroHandler.OnHeroMessage(msg);
                         break;
-
+                    case (short) MessageType.SC_RAID_ADDTION:
+                        RaidHandler.OnRaidAddition(msg);
+                        break;
+                    case (short) MessageType.SC_RAID_LOADING_ALL:
+                        RaidHandler.OnRaidLoadingAll(msg);
+                        break;
+                    case (short) MessageType.SC_RAID_QUERY_FRIEND:
+                        RaidHandler.OnRaidQueryFriend(msg);
+                        break;
+                    case (short) MessageType.SC_RAID_REWARD:
+                        RaidHandler.OnRaidReward(msg);
+                        break;
+                    case (short) MessageType.SC_RAID_CLEAR_DAILY_TIMES:
+                        RaidHandler.OnRaidClearDailyTimes(msg);
+                        break;
+                    case (short) MessageType.SC_RAID_ENTER_FAIL:
+                        RaidHandler.OnRaidEnterFail(msg);
+                        break;
+                    case (short) MessageType.SC_ALL_ITEM_INFOS:
+                        ItemHandler.OnAllItemInfos(msg);
+                        break; 
+                    case (short) MessageType.SC_ADD_ITEM:
+                        ItemHandler.OnAddItem(msg);
+                        break;
+                    case (short)MessageType.SC_ITEM_DETAIL:
+                        ItemHandler.OnItemDetail(msg);
+                        break;
                 }
                 msg = NetManager.GetMessage();
             }

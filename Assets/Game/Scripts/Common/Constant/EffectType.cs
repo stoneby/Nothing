@@ -13,6 +13,8 @@ public class EffectType
 	public const string SwordEffect2 = "kxsg/particle/009_daoguang002";
 	public const string SwordEffect3 = "kxsg/particle/009_daoguang003";
     public const string Warning = "kxsg/particle/008_bossziti";
+    public const string GetMoney = "kxsg/particle/011_yuanbaodiaoluo";
+    
 
     public static string[] SelectEffects = new string[6]
     {

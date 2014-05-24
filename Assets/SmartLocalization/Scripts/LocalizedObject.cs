@@ -180,7 +180,7 @@ public class LocalizedObject
 			}
 			else //Something is wrong with the syntax
 			{
-				Debug.LogError("LocalizedObject.cs: ERROR IN SYNTAX of key:" + key + ", setting object type to STRING");
+				Logger.Log("LocalizedObject.cs: ERROR IN SYNTAX of key:" + key + ", setting object type to STRING");
 				return LocalizedObjectType.STRING;
 			}
 		}
@@ -215,7 +215,7 @@ public class LocalizedObject
 			return key.Substring(identifierLength);	
 		}
 		//if none of the above, return the key and send error message
-		Debug.LogError("LocalizedObject.GetCleanKey(key) error!, object type is unknown! objectType:" + (int)objectType);
+		Logger.Log("LocalizedObject.GetCleanKey(key) error!, object type is unknown! objectType:" + (int)objectType);
 		return key;
 	}
 	/// <summary>

@@ -23,8 +23,8 @@ public class TestInGameLogs : MonoBehaviour {
 		for( int i = 0 ; i < 10 ; i ++ )
 		{
 			Logger.Log("Test Collapsed log");
-			Debug.LogWarning("Test Collapsed Warning");
-			Debug.LogError("Test Collapsed Error");
+			Logger.LogWarning("Test Collapsed Warning");
+			Logger.Log("Test Collapsed Error");
 		}
 	}
 	
@@ -35,8 +35,8 @@ public class TestInGameLogs : MonoBehaviour {
 		while ( currentLogTestCount < logTestCount && drawn < 10)
 		{
 			Logger.Log("Test Log " + currentLogTestCount );
-			Debug.LogError("Test LogError " + currentLogTestCount );
-			Debug.LogWarning("Test LogWarning " + currentLogTestCount );
+			Logger.Log("Test LogError " + currentLogTestCount );
+			Logger.LogWarning("Test LogWarning " + currentLogTestCount );
 			drawn++;
 			currentLogTestCount++;
 		}

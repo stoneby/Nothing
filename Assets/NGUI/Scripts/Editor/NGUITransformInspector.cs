@@ -1,6 +1,6 @@
 //----------------------------------------------
 //			  NGUI: Next-Gen UI kit
-// Copyright © 2011-2013 Tasharen Entertainment
+// Copyright © 2011-2014 Tasharen Entertainment
 //----------------------------------------------
 
 #if UNITY_3_5
@@ -152,7 +152,7 @@ using UnityEngine;
 using UnityEditor;
 
 [CanEditMultipleObjects]
-[CustomEditor(typeof(Transform))]
+[CustomEditor(typeof(Transform), true)]
 public class NGUITransformInspector : Editor
 {
 	static public NGUITransformInspector instance;
@@ -330,6 +330,11 @@ public class NGUITransformInspector : Editor
 			bool reset = GUILayout.Button("R", GUILayout.Width(20f));
 
 			Vector3 visible = (serializedObject.targetObject as Transform).localEulerAngles;
+
+			visible.x = NGUIMath.WrapAngle(visible.x);
+			visible.y = NGUIMath.WrapAngle(visible.y);
+			visible.z = NGUIMath.WrapAngle(visible.z);
+
 			Axes changed = CheckDifference(mRot);
 			Axes altered = Axes.None;
 

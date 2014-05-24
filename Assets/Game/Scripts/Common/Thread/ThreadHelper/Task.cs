@@ -266,9 +266,9 @@ namespace UnityThreading
                     this.Abort();
 #if !NO_UNITY
                     if (string.IsNullOrEmpty(Name))
-                        UnityEngine.Debug.LogError("Error while processing task:\n" + exception.ToString());
+                        Logger.Log("Error while processing task:\n" + exception.ToString());
                     else
-                        UnityEngine.Debug.LogError("Error while processing task '" + Name +"':\n" + exception.ToString());
+                        Logger.Log("Error while processing task '" + Name + "':\n" + exception.ToString());
 #endif
                 }
             }

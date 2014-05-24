@@ -21,7 +21,6 @@ public class UIHeroSellWindow : Window
 
     private UIEventListener okLis;
     private UIEventListener cancelLis;
-    private UIEventListener backLis;  
     private UIEventListener sellOkLis;
     private UIEventListener sellCancelLis;
     private UIEventListener sortBtnLis;
@@ -72,7 +71,6 @@ public class UIHeroSellWindow : Window
     {
         okLis = UIEventListener.Get(Utils.FindChild(transform, "Button-Ok").gameObject);
         cancelLis = UIEventListener.Get(Utils.FindChild(transform, "Button-Cancel").gameObject);
-        backLis = UIEventListener.Get(Utils.FindChild(transform, "Button-Back").gameObject);
         sortBtnLis = UIEventListener.Get(Utils.FindChild(transform, "Button-Sort").gameObject);
         sortLabel = sortBtnLis.GetComponentInChildren<UILabel>();
 
@@ -98,7 +96,6 @@ public class UIHeroSellWindow : Window
     {
         okLis.onClick += OnOkClicked;
         cancelLis.onClick += OnCancelClicked;
-        backLis.onClick += OnBackClicked;
         sellOkLis.onClick += OnSellOkClicked;
         sellCancelLis.onClick += OnSellCancelClicked;
         sortBtnLis.onClick += OnSortClicked;
@@ -111,7 +108,6 @@ public class UIHeroSellWindow : Window
     {
         okLis.onClick -= OnOkClicked;
         cancelLis.onClick -= OnCancelClicked;
-        backLis.onClick -= OnBackClicked;
         sellOkLis.onClick -= OnSellOkClicked;
         sellCancelLis.onClick -= OnSellCancelClicked;
         sortBtnLis.onClick -= OnSortClicked;
@@ -435,14 +431,6 @@ public class UIHeroSellWindow : Window
         {
             Destroy(sellHeros[index].transform.FindChild("Mask(Clone)").gameObject);
         }
-    }
-
-    /// <summary>
-    /// The callback of clicking back button.
-    /// </summary>
-    private void OnBackClicked(GameObject go)
-    {
-        WindowManager.Instance.Show(typeof(UIHeroItemsPageWindow), true);
     }
 
     /// <summary>

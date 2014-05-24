@@ -27,8 +27,11 @@ public class WindowPrefabGeneratorWindow : EditorWindow
     private static readonly string UIBasePathBySystem = string.Format("{0}/Game/Resources/{1}", Application.dataPath, Utils.UIBasePath);
     private static readonly string UIScriptBasePath = string.Format("{0}/Game/Scripts/UI", Application.dataPath);
 
+    private const string TemplateBasePath = "Assets/Game/Scripts/Template";
     private const string TemplateWindow = "TemplateWindow";
+    private const string TemplateTabWindow = "TabTemplateWindow";
 
+    private string templateName;
     private bool buttonPressed;
     private GameObject generatedPrefab;
 
@@ -93,7 +96,7 @@ public class WindowPrefabGeneratorWindow : EditorWindow
 
     private void GenerateWindowScript()
     {
-        var templateWindowPath = string.Format("{0}/Game/Scripts/Template/{1}{2}", Application.dataPath, TemplateWindow, Utils.ScriptExtension);
+        var templateWindowPath = string.Format("{0}/Game/Scripts/Template/{1}{2}", Application.dataPath, template.name, Utils.ScriptExtension);
         var specificWindowName = Utils.PrefabNameToWindow(prefabName);
         var generatedFilePath = string.Format("{0}/{1}", UIScriptBasePath, windowGroup);
         var generatedFile = string.Format("{0}/{1}{2}", generatedFilePath, specificWindowName, Utils.ScriptExtension);
@@ -101,7 +104,7 @@ public class WindowPrefabGeneratorWindow : EditorWindow
         Logger.Log("template path: " + templateWindowPath);
         Logger.Log("generated file path: " + generatedFilePath);
 
-        var fullText = File.ReadAllText(templateWindowPath).Replace(TemplateWindow, specificWindowName);
+        var fullText = File.ReadAllText(templateWindowPath).Replace(template.name, specificWindowName);
         if (!Directory.Exists(generatedFilePath))
         {
             Directory.CreateDirectory(generatedFilePath);
@@ -132,32 +135,24 @@ public class WindowPrefabGeneratorWindow : EditorWindow
 
     #region Mono
 
-    void OnEnable()
-    {
-        // template path.
-        var templatePath = EditorPrefs.GetString("TemplatePath");
-        if (!string.IsNullOrEmpty(templatePath))
-        {
-            template = AssetDatabase.LoadMainAssetAtPath(templatePath) as TextAsset;
-        }
-    }
-
-    void OnDisable()
-    {
-        var templatePath = AssetDatabase.GetAssetPath(template);
-        EditorPrefs.SetString("TemplatePath", !string.IsNullOrEmpty(templatePath) ? templatePath : string.Empty);
-    }
-
     void OnGUI()
     {
         userManual = GUILayout.TextArea(userManual, "Label");
         
         EditorGUILayout.Space();
 
+        GUI.enabled = false;
         template = EditorGUILayout.ObjectField("Template: ", template, typeof(TextAsset), false) as TextAsset;
+        GUI.enabled = true;
 
         prefabName = EditorGUILayout.TextField("Name: ", prefabName);
         windowGroup = (WindowGroupType)EditorGUILayout.EnumPopup("Window Group: ", windowGroup);
+        var templatePath = string.Format("{0}/{1}{2}", TemplateBasePath,
+            (windowGroup == WindowGroupType.TabPanel) ? TemplateTabWindow : TemplateWindow, Utils.ScriptExtension);
+
+        template = AssetDatabase.LoadMainAssetAtPath(templatePath) as TextAsset;
+        Debug.Log(templatePath);
+
         const bool allowSceneObjects = true;
         prefabGameObject = EditorGUILayout.ObjectField("Game Object: ", prefabGameObject, typeof(GameObject), allowSceneObjects) as GameObject;
 

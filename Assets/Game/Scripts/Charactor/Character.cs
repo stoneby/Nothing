@@ -47,7 +47,7 @@ public class Character : MonoBehaviour
     {
         if (Animator == null)
         {
-            Logger.LogError("Null");
+            Logger.LogWarning("Animator is null.");
         }
     }
 

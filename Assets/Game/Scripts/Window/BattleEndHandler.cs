@@ -17,5 +17,6 @@ public class BattleEndHandler : MonoBehaviour
         //WindowManager.Instance.Show(typeof(MainMenuWindow), true);
         WindowManager.Instance.Show(typeof(UIMainScreenWindow), true);
         WindowManager.Instance.Show(typeof(MainMenuBarWindow), true);
+        WindowManager.Instance.Show(typeof(MissionTabWindow), true);
     }
 }

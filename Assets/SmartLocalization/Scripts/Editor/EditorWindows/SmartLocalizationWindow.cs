@@ -250,7 +250,7 @@ public class SmartLocalizationWindow : EditorWindow
 		
 		if(languageName == "ERROR")
 		{
-			Debug.Log("ERROR:Couldn't create the language: " + englishName);
+			Logger.Log("ERROR:Couldn't create the language: " + englishName);
 			return;
 		}	
 		LocFileUtility.CreateNewLanguage(languageName);

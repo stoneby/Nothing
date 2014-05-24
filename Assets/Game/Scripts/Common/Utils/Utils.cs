@@ -141,6 +141,17 @@ public class Utils
         instance.gameObject.layer = parent.gameObject.layer;
     }
 
+    // Convert from screen-space coordinates to world-space coordinates on the Z = 0 plane
+    public static Vector3 GetWorldPos(Camera cam, Vector2 screenPos)
+    {
+        Ray ray = cam.ScreenPointToRay(screenPos);
+
+        // we solve for intersection with z = 0 plane
+        float t = -ray.origin.z / ray.direction.z;
+
+        return ray.GetPoint(t);
+    }
+
     public static T Decode<T>(string path) where T :  TBase, new()
     {
         var membuffer = new TMemoryBuffer(Resources.Load<TextAsset>(path).bytes);
@@ -148,5 +159,55 @@ public class Utils
         var temp = new T();
         temp.Read(protocol);
         return temp;
+    }
+
+
+    /// <summary>
+    /// Deactive the last tab window then open the current window. 
+    /// </summary>
+    /// <param name="type">The type of current window to be opened.</param>
+    public static void ShowWithoutDestory(Type type)
+    {
+        var destroyLastWindow = WindowManager.Instance.DestroyLastWindow;
+        WindowManager.Instance.DestroyLastWindow = false;
+        WindowManager.Instance.Show(type, true);
+        WindowManager.Instance.DestroyLastWindow = destroyLastWindow;
+    }
+
+    /// <summary>
+    /// Spawn or despawn the new game object, and install or uninstall handler. 
+    /// </summary>
+    /// <param name="parent">The parent of all items.</param>
+    /// <param name="childPrefab">The prefab of child item.</param>
+    /// <param name="isAdd">If true, add child to the parent.</param>
+    /// <param name="count">The number of item to be added or deleted.</param>
+    /// <param name="poolName">The name of pool.</param>
+    /// <param name="dDelegate">The handler to install or uninstall.</param>
+    public static void AddOrDelItems(Transform parent, Transform childPrefab, bool isAdd, int count, string poolName, UIEventListener.VoidDelegate dDelegate)
+    {
+        if (isAdd)
+        {
+            for (int i = 0; i < count; i++)
+            {
+                var item = PoolManager.Pools[poolName].Spawn(childPrefab);
+                MoveToParent(parent, item);
+                NGUITools.SetActive(item.gameObject, true);
+                UIEventListener.Get(item.gameObject).onClick += dDelegate;
+            }
+        }
+        else
+        {
+            if (PoolManager.Pools.ContainsKey(poolName))
+            {
+                var list = parent.Cast<Transform>().ToList();
+                for (int index = 0; index < count; index++)
+                {
+                    var item = list[index];
+                    UIEventListener.Get(item.gameObject).onClick -= dDelegate;
+                    item.parent = PoolManager.Pools[poolName].transform;
+                    PoolManager.Pools[poolName].Despawn(item);
+                }
+            }
+        }
     }
 }

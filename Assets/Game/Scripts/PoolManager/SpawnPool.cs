@@ -152,14 +152,14 @@ public sealed class SpawnPool : MonoBehaviour, IList<Transform>
 
 
         if (this.logMessages)
-            Debug.Log(string.Format("SpawnPool {0}: Initializing..", this.poolName));
+            Logger.Log(string.Format("SpawnPool {0}: Initializing..", this.poolName));
 
         // Only used on items defined in the Inspector
         foreach (PrefabPool prefabPool in this._perPrefabPoolOptions)
         {
             if (prefabPool.prefab == null)
             {
-                Debug.LogWarning(string.Format("Initialization Warning: Pool '{0}' "+
+                Logger.LogWarning(string.Format("Initialization Warning: Pool '{0}' "+
                           "contains a PrefabPool with no prefab reference. Skipping.",
                            this.poolName));
                 continue;
@@ -184,7 +184,7 @@ public sealed class SpawnPool : MonoBehaviour, IList<Transform>
     private void OnDestroy()
     {
         if (this.logMessages)
-            Debug.Log(string.Format("SpawnPool {0}: Destroying...", this.poolName));
+            Logger.Log(string.Format("SpawnPool {0}: Destroying...", this.poolName));
 
         PoolManager.Pools.Remove(this);
 
@@ -261,7 +261,7 @@ public sealed class SpawnPool : MonoBehaviour, IList<Transform>
         if (prefabPool.preloaded != true)
         {
             if (this.logMessages)
-                Debug.Log(string.Format("SpawnPool {0}: Preloading {1} {2}",
+                Logger.Log(string.Format("SpawnPool {0}: Preloading {1} {2}",
                                            this.poolName,
                                            prefabPool.preloadAmount,
                                            prefabPool.prefab.name));
@@ -287,7 +287,7 @@ public sealed class SpawnPool : MonoBehaviour, IList<Transform>
         {
             if (prefabPool.prefabGO == null)
             {
-                Debug.LogError("Unexpected Error: PrefabPool.prefabGO is null");
+                Logger.LogError("Unexpected Error: PrefabPool.prefabGO is null");
                 return;
             }
 
@@ -296,7 +296,7 @@ public sealed class SpawnPool : MonoBehaviour, IList<Transform>
                 prefabPool.AddUnpooled(instance, despawn);
 
                 if (this.logMessages)
-                    Debug.Log(string.Format(
+                    Logger.Log(string.Format(
                             "SpawnPool {0}: Adding previously unpooled instance {1}",
                                             this.poolName, 
                                             instance.name));
@@ -311,7 +311,7 @@ public sealed class SpawnPool : MonoBehaviour, IList<Transform>
         }
 
         // Log an error if a PrefabPool with the given name was not found
-        Debug.LogError(string.Format("SpawnPool {0}: PrefabPool {1} not found.",
+        Logger.LogError(string.Format("SpawnPool {0}: PrefabPool {1} not found.",
                                      this.poolName,
                                      prefabName));
 
@@ -646,7 +646,7 @@ public sealed class SpawnPool : MonoBehaviour, IList<Transform>
             }  // Protection - Already despawned?
             else if (prefabPool._despawned.Contains(xform))
             {
-                Debug.LogError(
+                Logger.LogError(
                     string.Format("SpawnPool {0}: {1} has already been despawned. " +
                                    "You cannot despawn something more than once!",
                                     this.poolName,
@@ -658,7 +658,7 @@ public sealed class SpawnPool : MonoBehaviour, IList<Transform>
         // If still false, then the instance wasn't found anywhere in the pool
         if (!despawned)
         {
-            Debug.LogError(string.Format("SpawnPool {0}: {1} not found in SpawnPool",
+            Logger.LogError(string.Format("SpawnPool {0}: {1} not found in SpawnPool",
                            this.poolName,
                            xform.name));
            return;
@@ -729,7 +729,7 @@ public sealed class SpawnPool : MonoBehaviour, IList<Transform>
         foreach (PrefabPool prefabPool in this._prefabPools)
         {
             if (prefabPool.prefabGO == null)
-                Debug.LogError(string.Format("SpawnPool {0}: PrefabPool.prefabGO is null",
+                Logger.LogError(string.Format("SpawnPool {0}: PrefabPool.prefabGO is null",
                                              this.poolName));
 
             if (prefabPool.prefabGO == prefab.gameObject) 
@@ -752,7 +752,7 @@ public sealed class SpawnPool : MonoBehaviour, IList<Transform>
         foreach (PrefabPool prefabPool in this._prefabPools)
         {
             if (prefabPool.prefabGO == null)
-                Debug.LogError(string.Format("SpawnPool {0}: PrefabPool.prefabGO is null",
+                Logger.LogError(string.Format("SpawnPool {0}: PrefabPool.prefabGO is null",
                                              this.poolName));
 
             if (prefabPool.prefabGO == prefab)
@@ -785,7 +785,7 @@ public sealed class SpawnPool : MonoBehaviour, IList<Transform>
         {
             safetimer += Time.deltaTime;
             if (safetimer > this.maxParticleDespawnTime)
-                Debug.LogWarning
+                Logger.LogWarning
                 (
                     string.Format
                     (
@@ -824,7 +824,7 @@ public sealed class SpawnPool : MonoBehaviour, IList<Transform>
             }
             safetimer += Time.deltaTime;
             if (safetimer > this.maxParticleDespawnTime)
-                Debug.LogWarning
+                Logger.LogWarning
                 (
                     string.Format
                     (
@@ -1205,7 +1205,7 @@ public class PrefabPool
     internal bool DespawnInstance(Transform xform)
     {
         if (this.logMessages)
-            Debug.Log(string.Format("SpawnPool {0} ({1}): Despawning '{2}'",
+            Logger.Log(string.Format("SpawnPool {0} ({1}): Despawning '{2}'",
                                    this.spawnPool.poolName,
                                    this.prefab.name,
                                    xform.name));
@@ -1248,7 +1248,7 @@ public class PrefabPool
     internal IEnumerator CullDespawned()
     {
         if (this.logMessages)
-            Debug.Log(string.Format("SpawnPool {0} ({1}): CULLING TRIGGERED! " +
+            Logger.Log(string.Format("SpawnPool {0} ({1}): CULLING TRIGGERED! " +
                                       "Waiting {2}sec to begin checking for despawns...",
                                     this.spawnPool.poolName,
                                     this.prefab.name,
@@ -1275,7 +1275,7 @@ public class PrefabPool
                     MonoBehaviour.Destroy(inst.gameObject);
 
                     if (this.logMessages)
-                        Debug.Log(string.Format("SpawnPool {0} ({1}): " +
+                        Logger.Log(string.Format("SpawnPool {0} ({1}): " +
                                                 "CULLING to {2} instances. Now at {3}.",
                                             this.spawnPool.poolName,
                                             this.prefab.name,
@@ -1284,7 +1284,7 @@ public class PrefabPool
                 }
                 else if (this.logMessages)
                 {
-                    Debug.Log(string.Format("SpawnPool {0} ({1}): " +
+                    Logger.Log(string.Format("SpawnPool {0} ({1}): " +
                                                 "CULLING waiting for despawn. " + 
                                                 "Checking again in {2}sec",
                                             this.spawnPool.poolName,
@@ -1300,7 +1300,7 @@ public class PrefabPool
         }
 
         if (this.logMessages)
-            Debug.Log(string.Format("SpawnPool {0} ({1}): CULLING FINISHED! Stopping",
+            Logger.Log(string.Format("SpawnPool {0} ({1}): CULLING FINISHED! Stopping",
                                     this.spawnPool.poolName,
                                     this.prefab.name));
 
@@ -1335,7 +1335,7 @@ public class PrefabPool
 
             if (this.logMessages)
             {
-                Debug.Log(string.Format
+                Logger.Log(string.Format
                 (
                     "SpawnPool {0} ({1}): " +
                         "LIMIT REACHED! FIFO=True. Calling despawning for {2}...",
@@ -1376,7 +1376,7 @@ public class PrefabPool
             }
 
             if (this.logMessages)
-                Debug.Log(string.Format("SpawnPool {0} ({1}): respawning '{2}'.",
+                Logger.Log(string.Format("SpawnPool {0} ({1}): respawning '{2}'.",
                                         this.spawnPool.poolName,
                                         this.prefab.name,
                                         inst.name));
@@ -1422,7 +1422,7 @@ public class PrefabPool
         {
             if (this.logMessages)
             {
-                Debug.Log(string.Format
+                Logger.Log(string.Format
                 (
                     "SpawnPool {0} ({1}): " +
                             "LIMIT REACHED! Not creating new instances! (Returning null)",
@@ -1452,7 +1452,7 @@ public class PrefabPool
         this._spawned.Add(inst);
 
         if (this.logMessages)
-            Debug.Log(string.Format("SpawnPool {0} ({1}): Spawned new instance '{2}'.",
+            Logger.Log(string.Format("SpawnPool {0} ({1}): Spawned new instance '{2}'.",
                                     this.spawnPool.poolName,
                                     this.prefab.name,
                                     inst.name));
@@ -1510,7 +1510,7 @@ public class PrefabPool
         //   wrong!
         if (this.preloaded)
         {
-            Debug.Log(string.Format("SpawnPool {0} ({1}): " +
+            Logger.Log(string.Format("SpawnPool {0} ({1}): " +
                                       "Already preloaded! You cannot preload twice. " +
                                       "If you are running this through code, make sure " +
                                       "it isn't also defined in the Inspector.",
@@ -1522,7 +1522,7 @@ public class PrefabPool
 
         if (this.prefab == null)
         {
-            Debug.LogError(string.Format("SpawnPool {0} ({1}): Prefab cannot be null.",
+            Logger.LogError(string.Format("SpawnPool {0} ({1}): Prefab cannot be null.",
                                          this.spawnPool.poolName,
                                          this.prefab.name));
 
@@ -1533,7 +1533,7 @@ public class PrefabPool
         //   This prevents an infinite loop on load if FIFO is used.
         if (this.limitInstances && this.preloadAmount > this.limitAmount)
         {
-            Debug.LogWarning
+            Logger.LogWarning
             (
                 string.Format
                 (
@@ -1553,7 +1553,7 @@ public class PrefabPool
         //   (First check is cheap)
         if (this.cullDespawned && this.preloadAmount > this.cullAbove)
         {
-            Debug.LogWarning(string.Format("SpawnPool {0} ({1}): " +
+            Logger.LogWarning(string.Format("SpawnPool {0} ({1}): " +
                 "You turned ON Culling and entered a 'Cull Above' threshold " +
                 "greater than the 'Preload Amount'! This will cause the " +
                 "culling feature to trigger immediatly, which is wrong " +
@@ -1568,7 +1568,7 @@ public class PrefabPool
         {
             if (this.preloadFrames > this.preloadAmount)
             {
-                Debug.LogWarning(string.Format("SpawnPool {0} ({1}): " +
+                Logger.LogWarning(string.Format("SpawnPool {0} ({1}): " +
                     "Preloading over-time is on but the frame duration is greater " +
                     "than the number of instances to preload. The minimum spawned " +
                     "per frame is 1, so the maximum time is the same as the number " +

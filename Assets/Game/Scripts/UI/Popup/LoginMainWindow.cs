@@ -20,7 +20,7 @@ public class LoginMainWindow : Window
 
     private GameObject AccountItemPrefab;
 
-    private List<GameObject> AccountList; 
+//    private List<GameObject> AccountList; 
 
     private UIEventListener AccountUIEventListener;
     private UIEventListener ServiceUIEventListener;
@@ -52,53 +52,71 @@ public class LoginMainWindow : Window
 
         EventManager.Instance.AddListener<LoginEvent>(OnSCPlayerInfoHandler);
         EventManager.Instance.AddListener<SelectAccountEvent>(OnSelectAccountHandler);
-
-        GlobalUIEventManager.Instance.EventListener.onClick += OnFallThroughClick;
     }
 
     private void ResetAccountList()
     {
-        if (AccountList == null)
-        {
-            AccountList = new List<GameObject>();
-        }
-        else
-        {
-            while (AccountList.Count > 0)
-            {
-                var col = AccountList[0].GetComponent<AccountItemControl>();
-                col.Destory();
-                Destroy(AccountList[0]);
-                AccountList.RemoveAt(0);
-            }
-        }
         var obj = ServiceManager.GetDefaultAccount();
         if (obj != null)
         {
             var aclabel = AccountLabel.GetComponent<UILabel>();
             aclabel.text = obj.Account;
+            aclabel.GetComponent<LocalizeWidget>().enabled = false;
             aclabel = LabelDefault.GetComponent<UILabel>();
             aclabel.text = obj.Account;
             ServiceManager.ServerData = ServiceManager.GetServerByUrl(obj.Servers[obj.Servers.Count - 1]);
         }
 
         var lb = ServerLabel.GetComponent<UILabel>();
-        if (ServiceManager.ServerData != null) lb.text = ServiceManager.ServerData.ServerName;
-
-        if (ServiceManager.AccountArray != null && ServiceManager.AccountArray.Count > 1)
+        if (ServiceManager.ServerData != null)
         {
+            lb.text = ServiceManager.ServerData.ServerName;
+            lb.GetComponent<LocalizeWidget>().enabled = false;
+        }
+
+        if (ServiceManager.AccountArray != null)
+        {
+            int theindex = 0;
+            var table = SelectAccountContainer.GetComponent<UITable>();
+            GameObject item;
             for (int i = ServiceManager.AccountArray.Count - 1; i >= 0; i--)
             {
                 if (ServiceManager.AccountArray[i].Account != obj.Account)
                 {
-                    var item = NGUITools.AddChild(SelectAccountContainer, AccountItemPrefab);
+                    if (theindex < table.children.Count)
+                    {
+                        item = table.children[theindex].gameObject;
+                        item.SetActive(true);
+                    }
+                    else
+                    {
+                        item = NGUITools.AddChild(SelectAccountContainer, AccountItemPrefab);
+                    }
                     var col = item.GetComponent<AccountItemControl>();
                     col.SetData(ServiceManager.AccountArray[i]);
-                    AccountList.Add(item);
+                    //AccountList.Add(item);
+                    theindex++;
                 }
+            }
+
+            while (theindex < table.children.Count)
+            {
+                item = table.children[theindex].gameObject;
+                item.SetActive(false);
+                theindex++;
             }
         }
     }
+
+    private bool CheckDeleteAccount(Transform obj)
+    {
+        //throw new System.NotImplementedException();
+        //var item = obj.gameObject.GetComponent<AccountItemControl>();
+        //item
+        return true;
+    }
+
+    
 
     public override void OnExit()
     {
@@ -110,13 +128,6 @@ public class LoginMainWindow : Window
         EventManager.Instance.RemoveListener<LoginEvent>(OnSCPlayerInfoHandler);
         EventManager.Instance.RemoveListener<SelectAccountEvent>(OnSelectAccountHandler);
 
-        while (AccountList.Count > 0)
-        {
-            var col = AccountList[0].GetComponent<AccountItemControl>();
-            col.Destory();
-            Destroy(AccountList[0]);
-            AccountList.RemoveAt(0);
-        }
 
         GlobalUIEventManager.Instance.EventListener.onClick -= OnFallThroughClick;
     }
@@ -126,7 +137,7 @@ public class LoginMainWindow : Window
     #region Mono
 
     // Use this for initialization
-    void Awake()
+    private void Awake()
     {
         AccountLabel = transform.FindChild("Sprite - account/Label - account").gameObject;
 
@@ -144,7 +155,7 @@ public class LoginMainWindow : Window
         BtnOpenSelectAccount = transform.FindChild("Sprite - account/Button - down").gameObject;
         SpriteSelectAccount = transform.FindChild("Sprite - select account").gameObject;
         LabelDefault = transform.FindChild("Sprite - select account/Label - default").gameObject;
-        SelectAccountContainer = transform.FindChild("Sprite - select account/Scroll View/Grid").gameObject;
+        SelectAccountContainer = transform.FindChild("Sprite - select account/Scroll View/Table").gameObject;
 
         AccountItemPrefab = Resources.Load("Prefabs/Component/AccountItem") as GameObject;
 
@@ -152,6 +163,11 @@ public class LoginMainWindow : Window
         AccountUIEventListener = UIEventListener.Get(SpriteAccount);
         ServiceUIEventListener = UIEventListener.Get(SpriteServers);
         BtnSelectAccountUIEventListener = UIEventListener.Get(BtnOpenSelectAccount);
+    }
+
+    private void Start()
+    {
+        GlobalUIEventManager.Instance.EventListener.onClick += OnFallThroughClick;
     }
 
     #endregion
@@ -209,8 +225,8 @@ public class LoginMainWindow : Window
             
         }
 
-        var grid = SelectAccountContainer.GetComponent<UIGrid>();
-        grid.Reposition();
+//        var grid = SelectAccountContainer.GetComponent<UIGrid>();
+//        grid.Reposition();
     }
 
     private void OnSelectAccountClick(GameObject game = null)

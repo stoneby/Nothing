@@ -27,6 +27,19 @@ public static class Logger
     }
 
     /// <summary>
+    /// Wrapper Debug.Log.
+    /// </summary>
+    /// <param name="message">Message to log</param>
+    /// <param name="content">Content to log</param>
+    public static void Log(object message, Object content)
+    {
+        if (IsDebugBuild)
+        {
+            Debug.Log(message, content);
+        }
+    }
+
+    /// <summary>
     /// Wrapper Debug.LogWarning.
     /// </summary>
     /// <param name="message">Message to log</param>
@@ -39,6 +52,19 @@ public static class Logger
     }
 
     /// <summary>
+    /// Wrapper Debug.LogWarning.
+    /// </summary>
+    /// <param name="message">Message to log</param>
+    /// <param name="content">Content to log</param>
+    public static void LogWarning(object message, Object content)
+    {
+        if (IsDebugBuild)
+        {
+            Debug.LogWarning(message, content);
+        }
+    }
+
+    /// <summary>
     /// Wrapper Debug.LogError
     /// </summary>
     /// <param name="message">Message to log</param>
@@ -47,6 +73,19 @@ public static class Logger
         if (IsDebugBuild)
         {
             Debug.LogError(message);
+        }
+    }
+
+    /// <summary>
+    /// Wrapper Debug.LogError.
+    /// </summary>
+    /// <param name="message">Message to log</param>
+    /// <param name="content">Content to log</param>
+    public static void LogError(object message, Object content)
+    {
+        if (IsDebugBuild)
+        {
+            Debug.LogError(message, content);
         }
     }
 }

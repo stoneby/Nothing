@@ -1,6 +1,6 @@
 //----------------------------------------------
 //            NGUI: Next-Gen UI kit
-// Copyright © 2011-2013 Tasharen Entertainment
+// Copyright © 2011-2014 Tasharen Entertainment
 //----------------------------------------------
 
 using UnityEngine;
@@ -58,6 +58,9 @@ public class UICenterOnChild : MonoBehaviour
 
 	public void Recenter ()
 	{
+		Transform trans = transform;
+		if (trans.childCount == 0) return;
+
 		if (mScrollView == null)
 		{
 			mScrollView = NGUITools.FindInParents<UIScrollView>(gameObject);
@@ -91,7 +94,6 @@ public class UICenterOnChild : MonoBehaviour
 
 		float min = float.MaxValue;
 		Transform closest = null;
-		Transform trans = transform;
 		int index = 0;
 
 		// Determine the closest child
@@ -114,15 +116,36 @@ public class UICenterOnChild : MonoBehaviour
 			// If we're still on the same object
 			if (mCenteredObject != null && mCenteredObject.transform == trans.GetChild(index))
 			{
-				Vector2 delta = UICamera.currentTouch.totalDelta;
+				Vector2 totalDelta = UICamera.currentTouch.totalDelta;
 
-				if (delta.x > nextPageThreshold)
+				float delta = 0f;
+
+				switch (mScrollView.movement)
+				{
+					case UIScrollView.Movement.Horizontal:
+					{
+						delta = totalDelta.x;
+						break;
+					}
+					case UIScrollView.Movement.Vertical:
+					{
+						delta = totalDelta.y;
+						break;
+					}
+					default:
+					{
+						delta = totalDelta.magnitude;
+						break;
+					}
+				}
+
+				if (delta > nextPageThreshold)
 				{
 					// Next page
 					if (index > 0)
 						closest = trans.GetChild(index - 1);
 				}
-				else if (delta.x < -nextPageThreshold)
+				else if (delta < -nextPageThreshold)
 				{
 					// Previous page
 					if (index < trans.childCount - 1)

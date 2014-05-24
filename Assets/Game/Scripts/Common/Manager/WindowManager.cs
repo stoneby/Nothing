@@ -52,10 +52,31 @@ public class WindowManager : Singleton<WindowManager>
     /// <summary>
     /// Get window with specific type.
     /// </summary>
+    /// <returns>The window with specific type</returns>
+    public T GetWindow<T>() where T : Window
+    {
+        var window = GetWindow(typeof(T));
+        return window as T;
+    }
+
+    /// <summary>
+    /// Get window by name
+    /// </summary>
+    /// <param name="windowName">Window type name</param>
+    /// <returns>The window with specific type name</returns>
+    public Window GetWindow(string windowName)
+    {
+        return GetWindow(Type.GetType(windowName));
+    }
+
+    /// <summary>
+    /// Get window by type
+    /// </summary>
     /// <param name="type">Window type</param>
     /// <returns>The window with specific type</returns>
-    public T GetWindow<T>(Type type) where T : Window 
+    public Window GetWindow(Type type)
     {
+        Logger.Log("GetWindow: type - " + type);
         var path = Mapping.TypePathMap[type];
         var windowGroupType = Mapping.PathLayerMap[path];
 
@@ -75,8 +96,31 @@ public class WindowManager : Singleton<WindowManager>
         {
             Logger.Log("Find window with type - " + type + ", groupType - " + windowGroupType + ", path - " + path);
         }
+        return window;
+    }
 
-        return window as T;
+    /// <summary>
+    /// Show by generic type.
+    /// </summary>
+    /// <typeparam name="T">Generic window type</typeparam>
+    /// <param name="show">Flag indicates if window to show or hide</param>
+    /// <returns>Window to show</returns>
+    public T Show<T>(bool show) where T : Window
+    {
+        var type = typeof(T);
+        return Show(type, show) as T;
+    }
+
+    /// <summary>
+    /// Show by window type name.
+    /// </summary>
+    /// <param name="windowName">Window name</param>
+    /// <param name="show">Flag indicates if window to show or hide</param>
+    /// <returns>Window to show</returns>
+    public Window Show(string windowName, bool show)
+    {
+        var type = Type.GetType(windowName);
+        return Show(type, show);
     }
 
     /// <summary>
@@ -89,7 +133,7 @@ public class WindowManager : Singleton<WindowManager>
     {
         var path = Mapping.TypePathMap[type];
         var windowGroupType = Mapping.PathLayerMap[path];
-        var window = GetWindow<Window>(type);
+        var window = GetWindow(type);
 
         if (show)
         {

@@ -1,6 +1,6 @@
 //----------------------------------------------
 //            NGUI: Next-Gen UI kit
-// Copyright © 2011-2013 Tasharen Entertainment
+// Copyright © 2011-2014 Tasharen Entertainment
 //----------------------------------------------
 
 #if UNITY_IPHONE || UNITY_ANDROID || UNITY_WP8 || UNITY_BLACKBERRY
@@ -11,7 +11,11 @@ using UnityEngine;
 using UnityEditor;
 
 [CanEditMultipleObjects]
+#if UNITY_3_5
 [CustomEditor(typeof(UIInput))]
+#else
+[CustomEditor(typeof(UIInput), true)]
+#endif
 public class UIInputEditor : UIWidgetContainerEditor
 {
 	public override void OnInspectorGUI ()
@@ -54,6 +58,8 @@ public class UIInputEditor : UIWidgetContainerEditor
 			NGUIEditorTools.DrawPaddedProperty(serializedObject, "inputType");
 #if MOBILE
 			NGUIEditorTools.DrawPaddedProperty(serializedObject, "keyboardType");
+#else
+			NGUIEditorTools.DrawPaddedProperty(serializedObject, "onReturnKey");
 #endif
 			NGUIEditorTools.DrawPaddedProperty(serializedObject, "validation");
 
@@ -76,6 +82,7 @@ public class UIInputEditor : UIWidgetContainerEditor
 			NGUIEditorTools.SetLabelWidth(80f);
 			EditorGUI.BeginDisabledGroup(serializedObject.isEditingMultipleObjects);
 			NGUIEditorTools.DrawEvents("On Submit", input, input.onSubmit);
+			NGUIEditorTools.DrawEvents("On Change", input, input.onChange);
 			EditorGUI.EndDisabledGroup();
 		}
 		EditorGUI.EndDisabledGroup();

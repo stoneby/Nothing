@@ -140,6 +140,7 @@ public class NetManager
                 {
                     SCMsgQueue.Enqueue(globalmessage);
                 }
+                
             }
             finally
             {

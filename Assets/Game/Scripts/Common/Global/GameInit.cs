@@ -11,7 +11,6 @@ public class GameInit : MonoBehaviour
 
         Logger.Log("GameInit started after everything ready, all start later call.");
         WindowManager.Instance.Show(typeof(LoadingWaitWindow), true);
-        WindowManager.Instance.Show(typeof(BackgroundFillsWindow), true);
     }
 
     #endregion

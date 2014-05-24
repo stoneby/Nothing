@@ -17,7 +17,7 @@ public class FPSGraphC : MonoBehaviour
 	public void CreateLineMaterial() {
 	     #if UNITY_ANDROID
 	        if(androidMaterial==null)
-	            Debug.LogError("You must attach the FPSGraph-AndroidMaterial for FPS graph to work on Android");
+	            Logger.LogError("You must attach the FPSGraph-AndroidMaterial for FPS graph to work on Android");
 	        mat = androidMaterial;
 	    #else
 	        if( !mat ) {
@@ -89,7 +89,7 @@ public class FPSGraphC : MonoBehaviour
 
 	void Awake(){
 		if(gameObject.GetComponent<Camera>()==null)
-			Debug.LogWarning("FPS Graph needs to be attached to a Camera object");
+			Logger.LogWarning("FPS Graph needs to be attached to a Camera object");
 
 		CreateLineMaterial();
 
@@ -213,13 +213,13 @@ public class FPSGraphC : MonoBehaviour
 		dt = eTotalSeconds - lastElapsed;
 		lastElapsed = eTotalSeconds;
 		if(Time.frameCount>4){
-			//Debug.Log("Update seconds:"+stopWatch.Elapsed.TotalSeconds);
-			//Debug.Log("Update lastElapsed:"+lastElapsed);
+			//Logger.Log("Update seconds:"+stopWatch.Elapsed.TotalSeconds);
+			//Logger.Log("Update lastElapsed:"+lastElapsed);
 			
 		    dtHistory[0, frameIter] = dt;
 
-			//Debug.Log('frameIter:'+frameIter);
-			//Debug.Log("dt:"+dt);
+			//Logger.Log('frameIter:'+frameIter);
+			//Logger.Log("dt:"+dt);
 			frameIter++;
 
 			if(audioFeedback){
@@ -236,7 +236,7 @@ public class FPSGraphC : MonoBehaviour
 				audioSource.pitch = Mathf.Clamp( dt * 90.0f - 0.7f, 0.1f, 50.0f );
 				audioSource.volume = audioFeedbackVolume;
 			}
-			//Debug.Log("audioSource.pitch:"+audioSource.pitch);
+			//Logger.Log("audioSource.pitch:"+audioSource.pitch);
 
 			if(frameIter>=frameHistoryLength)
 				frameIter = 0;
@@ -244,15 +244,15 @@ public class FPSGraphC : MonoBehaviour
 			beforeRender = (float)stopWatch.Elapsed.TotalSeconds;
 		}
 
-		//Debug.Log("yMulti:"+yMulti + " maxFrame:"+maxFrame);
+		//Logger.Log("yMulti:"+yMulti + " maxFrame:"+maxFrame);
 	}
 
 	void LateUpdate(){
-		//Debug.Log("LateUpdate seconds:"+stopWatch.Elapsed.TotalSeconds);
+		//Logger.Log("LateUpdate seconds:"+stopWatch.Elapsed.TotalSeconds);
 
 		eTotalSeconds = (float)stopWatch.Elapsed.TotalSeconds;
 		dt = (eTotalSeconds - beforeRender);
-		//Debug.Log("OnPostRender time:"+dt);
+		//Logger.Log("OnPostRender time:"+dt);
 
 		dtHistory[2, frameIter] = dt;
 
@@ -275,8 +275,8 @@ public class FPSGraphC : MonoBehaviour
 	int second;
 
 	void OnPostRender(){
-		//Debug.Log("OnPostRender seconds:"+stopWatch.Elapsed.TotalSeconds);
-		//Debug.Log("OnPostRender lastElapsed:"+lastElapsed);
+		//Logger.Log("OnPostRender seconds:"+stopWatch.Elapsed.TotalSeconds);
+		//Logger.Log("OnPostRender lastElapsed:"+lastElapsed);
 
 		//CreateLineMaterial();
 
@@ -325,7 +325,7 @@ public class FPSGraphC : MonoBehaviour
 				y1 = j < fpsVals.Length - 1 ? fpsVals[j+1] * graphMultiply + yOff : yOff;
 				y2 = fpsVals[j] * graphMultiply + yOff;
 
-				//Debug.Log("x:"+x1+ x+" y:"+y1);
+				//Logger.Log("x:"+x1+ x+" y:"+y1);
 
 				GL.Color(fpsColorsTo[j]);
 				GL.Vertex3(x1,y1,0);
@@ -335,7 +335,7 @@ public class FPSGraphC : MonoBehaviour
 				GL.Vertex3(x1,y2,0);
 			}
 
-	      //Debug.Log("x:"+(x-frameIter));
+	      //Logger.Log("x:"+(x-frameIter));
 	    }
 
 	  	// Round to nearest relevant FPS
@@ -493,18 +493,18 @@ public class FPSGraphC : MonoBehaviour
 
 
 		dt = ((float)stopWatch.Elapsed.TotalSeconds - beforeRender);
-		//Debug.Log("OnPostRender time:"+dt);
+		//Logger.Log("OnPostRender time:"+dt);
 
 		dtHistory[1, frameIter] = dt;
 
 		eTotalSeconds = (float)stopWatch.Elapsed.TotalSeconds;
 
 		dt = (eTotalSeconds - lastElapsed);
-		//Debug.Log("Update time:"+dt*1000 + " Time.delta:"+Time.deltaTime*1000);
+		//Logger.Log("Update time:"+dt*1000 + " Time.delta:"+Time.deltaTime*1000);
 	}
 
 	void OnGUI(){
-		//Debug.Log("OnGUI time:"+stopWatch.Elapsed);
+		//Logger.Log("OnGUI time:"+stopWatch.Elapsed);
 		if(Time.frameCount>4)
 			GUI.DrawTexture( new Rect(graphPosition.x*(Screen.width-graphMultiply*frameHistoryLength), graphPosition.y*(Screen.height-graphMultiply*107) + 100*graphMultiply, graphSizeGUI.width, graphSizeGUI.height), graphTexture );
 	}

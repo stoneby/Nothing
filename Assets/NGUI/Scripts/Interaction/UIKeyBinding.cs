@@ -1,6 +1,6 @@
 //----------------------------------------------
 //            NGUI: Next-Gen UI kit
-// Copyright © 2011-2013 Tasharen Entertainment
+// Copyright © 2011-2014 Tasharen Entertainment
 //----------------------------------------------
 
 using UnityEngine;
@@ -9,7 +9,7 @@ using UnityEngine;
 /// This class makes it possible to activate or select something by pressing a key (such as space bar for example).
 /// </summary>
 
-[AddComponentMenu("Game/UI/Key Binding")]
+[AddComponentMenu("NGUI/Interaction/Key Binding")]
 public class UIKeyBinding : MonoBehaviour
 {
 	public enum Action
@@ -102,16 +102,21 @@ public class UIKeyBinding : MonoBehaviour
 		{
 			if (UICamera.inputHasFocus) return;
 
+			UICamera.currentTouch = UICamera.controller;
+			UICamera.currentScheme = UICamera.ControlScheme.Mouse;
+			UICamera.currentTouch.current = gameObject;
+
 			if (Input.GetKeyDown(keyCode))
 			{
-				SendMessage("OnPress", true, SendMessageOptions.DontRequireReceiver);
+				UICamera.Notify(gameObject, "OnPress", true);
 			}
 
 			if (Input.GetKeyUp(keyCode))
 			{
-				SendMessage("OnPress", false, SendMessageOptions.DontRequireReceiver);
-				SendMessage("OnClick", SendMessageOptions.DontRequireReceiver);
+				UICamera.Notify(gameObject, "OnPress", false);
+				UICamera.Notify(gameObject, "OnClick", null);
 			}
+			UICamera.currentTouch.current = null;
 		}
 		else if (action == Action.Select)
 		{

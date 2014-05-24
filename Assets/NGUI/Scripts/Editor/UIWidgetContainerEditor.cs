@@ -1,6 +1,6 @@
 //----------------------------------------------
 //            NGUI: Next-Gen UI kit
-// Copyright © 2011-2013 Tasharen Entertainment
+// Copyright © 2011-2014 Tasharen Entertainment
 //----------------------------------------------
 
 using UnityEngine;
@@ -11,7 +11,11 @@ using UnityEditor;
 /// </summary>
 
 [CanEditMultipleObjects]
+#if UNITY_3_5
 [CustomEditor(typeof(UIWidgetContainer))]
+#else
+[CustomEditor(typeof(UIWidgetContainer), true)]
+#endif
 public class UIWidgetContainerEditor : Editor
 {
 	static int mHash = "WidgetContainer".GetHashCode();
@@ -162,7 +166,7 @@ public class UIWidgetContainerEditor : Editor
 				mAllowSelection = true;
 				mStartMouse = e.mousePosition;
 
-				if (e.button == 1)
+				if (e.button == 1 && isWithinRect)
 				{
 					GUIUtility.hotControl = GUIUtility.keyboardControl = id;
 					e.Use();

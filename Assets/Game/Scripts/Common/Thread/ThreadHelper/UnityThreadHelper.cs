@@ -115,7 +115,7 @@ public class UnityThreadHelper
                 }
                 catch (System.Exception ex)
                 {
-                    UnityEngine.Debug.LogError(ex);
+                    Logger.Log(ex);
                 }
             };
         var thread = new UnityThreading.ActionThread(actionWrapper, autoStartThread);

@@ -759,8 +759,6 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 400094}
-  - 114: {fileID: 11400088}
-  - 54: {fileID: 5400000}
   - 114: {fileID: 11400086}
   m_Layer: 8
   m_Name: MainMenu
@@ -1344,21 +1342,6 @@ Transform:
   - {fileID: 400080}
   - {fileID: 400078}
   m_Father: {fileID: 0}
---- !u!54 &5400000
-Rigidbody:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100094}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: .0500000007
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!65 &6500000
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -3403,46 +3386,6 @@ MonoBehaviour:
   AttackValue: 12200
   AnnouceText: "\u7CFB\u7EDF\u516C\u544A\uFF1A \u5179\u5B9A\u4E8E\u4ECA\u65E522:00\u8FDB\u884C\u7CFB\u7EDF\u7EF4\u62A4\u3002\u8BF7"
   NameText: "\u674E\u7267.\u5B57\u4F2F\u79C0"
---- !u!114 &11400088
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100094}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae942c9068183dc40a9d01f648273726, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  leftAnchor:
-    target: {fileID: 0}
-    relative: 0
-    absolute: 0
-  rightAnchor:
-    target: {fileID: 0}
-    relative: 1
-    absolute: 0
-  bottomAnchor:
-    target: {fileID: 0}
-    relative: 0
-    absolute: 0
-  topAnchor:
-    target: {fileID: 0}
-    relative: 1
-    absolute: 0
-  showInPanelTool: 1
-  generateNormals: 0
-  widgetsAreStatic: 0
-  cullWhileDragging: 0
-  alwaysOnScreen: 0
-  anchorOffset: 0
-  renderQueue: 0
-  startingRenderQueue: 3000
-  mAlpha: 1
-  mClipping: 0
-  mClipRange: {x: 0, y: 0, z: 1280, w: 720}
-  mClipSoftness: {x: 4, y: 4}
-  mDepth: 1
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

@@ -1,14 +1,18 @@
 //----------------------------------------------
 //            NGUI: Next-Gen UI kit
-// Copyright © 2011-2013 Tasharen Entertainment
+// Copyright © 2011-2014 Tasharen Entertainment
 //----------------------------------------------
 
-#if UNITY_EDITOR || (!UNITY_FLASH && !NETFX_CORE)
+#if UNITY_EDITOR || !UNITY_FLASH
 #define REFLECTION_SUPPORT
 #endif
 
 #if REFLECTION_SUPPORT
 using System.Reflection;
+#endif
+
+#if NETFX_CORE
+using System.Linq;
 #endif
 
 using System.Collections.Generic;
@@ -21,8 +25,82 @@ using UnityEngine;
 [System.Serializable]
 public class EventDelegate
 {
+	/// <summary>
+	/// Delegates can have parameters, and this class makes it possible to save references to properties
+	/// that can then be passed as function arguments, such as transform.position or widget.color.
+	/// </summary>
+
+	[System.Serializable]
+	public class Parameter
+	{
+		public Object obj;
+		public string field;
+
+		[System.NonSerialized]
+		public System.Type expectedType = typeof(void);
+
+		public Parameter () { }
+		public Parameter (Object obj, string field) { this.obj = obj; this.field = field; }
+
+#if REFLECTION_SUPPORT
+		// Cached values
+		[System.NonSerialized] public bool cached = false;
+		[System.NonSerialized] public PropertyInfo propInfo;
+		[System.NonSerialized] public FieldInfo fieldInfo;
+
+		/// <summary>
+		/// Return the property's current value.
+		/// </summary>
+
+		public object value
+		{
+			get
+			{
+				if (!cached)
+				{
+					cached = true;
+					fieldInfo = null;
+					propInfo = null;
+
+					if (obj != null && !string.IsNullOrEmpty(field))
+					{
+						System.Type type = obj.GetType();
+#if NETFX_CORE
+						propInfo = type.GetRuntimeProperty(field);
+						if (propInfo == null) fieldInfo = type.GetRuntimeField(field);
+#else
+						propInfo = type.GetProperty(field);
+						if (propInfo == null) fieldInfo = type.GetField(field);
+#endif
+					}
+				}
+				if (propInfo != null) return propInfo.GetValue(obj, null);
+				if (fieldInfo != null) return fieldInfo.GetValue(obj);
+				return obj;
+			}
+		}
+
+		/// <summary>
+		/// Parameter type -- a convenience function.
+		/// </summary>
+
+		public System.Type type
+		{
+			get
+			{
+				if (obj == null) return typeof(void);
+				return obj.GetType();
+			}
+		}
+#else
+		public object value { get { return obj; } }
+		public System.Type type { get { return typeof(void); } }
+#endif
+	}
+
 	[SerializeField] MonoBehaviour mTarget;
 	[SerializeField] string mMethodName;
+	[SerializeField] Parameter[] mParameters;
 
 	/// <summary>
 	/// Whether the event delegate will be removed after execution.
@@ -30,33 +108,115 @@ public class EventDelegate
 
 	public bool oneShot = false;
 
+	// Private variables
 	public delegate void Callback();
-	Callback mCachedCallback;
-	bool mRawDelegate = false;
+	[System.NonSerialized] Callback mCachedCallback;
+	[System.NonSerialized] bool mRawDelegate = false;
+	[System.NonSerialized] bool mCached = false;
+#if REFLECTION_SUPPORT
+	[System.NonSerialized] MethodInfo mMethod;
+	[System.NonSerialized] object[] mArgs;
+#endif
 
 	/// <summary>
 	/// Event delegate's target object.
 	/// </summary>
 
-	public MonoBehaviour target { get { return mTarget; } set { mTarget = value; mCachedCallback = null; mRawDelegate = false; } }
+	public MonoBehaviour target
+	{
+		get
+		{
+			return mTarget;
+		}
+		set
+		{
+			mTarget = value;
+			mCachedCallback = null;
+			mRawDelegate = false;
+			mCached = false;
+#if REFLECTION_SUPPORT
+			mMethod = null;
+#endif
+			mParameters = null;
+		}
+	}
 
 	/// <summary>
 	/// Event delegate's method name.
 	/// </summary>
 
-	public string methodName { get { return mMethodName; } set { mMethodName = value; mCachedCallback = null; mRawDelegate = false; } }
+	public string methodName
+	{
+		get
+		{
+			return mMethodName;
+		}
+		set
+		{
+			mMethodName = value;
+			mCachedCallback = null;
+			mRawDelegate = false;
+			mCached = false;
+#if REFLECTION_SUPPORT
+			mMethod = null;
+#endif
+			mParameters = null;
+		}
+	}
+
+	/// <summary>
+	/// Optional parameters if the method requires them.
+	/// </summary>
+
+	public Parameter[] parameters
+	{
+		get
+		{
+#if UNITY_EDITOR
+			if (!mCached || !Application.isPlaying) Cache();
+#else
+			if (!mCached) Cache();
+#endif
+			return mParameters;
+		}
+	}
 
 	/// <summary>
 	/// Whether this delegate's values have been set.
 	/// </summary>
 
-	public bool isValid { get { return (mRawDelegate && mCachedCallback != null) || (mTarget != null && !string.IsNullOrEmpty(mMethodName)); } }
+	public bool isValid
+	{
+		get
+		{
+#if UNITY_EDITOR
+			if (!mCached || !Application.isPlaying) Cache();
+#else
+			if (!mCached) Cache();
+#endif
+			return (mRawDelegate && mCachedCallback != null) || (mTarget != null && !string.IsNullOrEmpty(mMethodName));
+		}
+	}
 
 	/// <summary>
 	/// Whether the target script is actually enabled.
 	/// </summary>
 
-	public bool isEnabled { get { return (mRawDelegate && mCachedCallback != null) || (mTarget != null && mTarget.enabled); } }
+	public bool isEnabled
+	{
+		get
+		{
+#if UNITY_EDITOR
+			if (!mCached || !Application.isPlaying) Cache();
+#else
+			if (!mCached) Cache();
+#endif
+			if (mRawDelegate && mCachedCallback != null) return true;
+			if (mTarget == null) return false;
+			MonoBehaviour mb = (mTarget as MonoBehaviour);
+			return (mb == null || mb.enabled);
+		}
+	}
 
 	public EventDelegate () { }
 	public EventDelegate (Callback call) { Set(call); }
@@ -105,17 +265,15 @@ public class EventDelegate
 
 	public override bool Equals (object obj)
 	{
-		if (obj == null)
-		{
-			return !isValid;
-		}
+		if (obj == null) return !isValid;
 
 		if (obj is Callback)
 		{
 			Callback callback = obj as Callback;
 #if REFLECTION_SUPPORT
 			if (callback.Equals(mCachedCallback)) return true;
-			return (mTarget == (MonoBehaviour)callback.Target && string.Equals(mMethodName, GetMethodName(callback)));
+			MonoBehaviour mb = callback.Target as MonoBehaviour;
+			return (mTarget == mb && string.Equals(mMethodName, GetMethodName(callback)));
 #elif UNITY_FLASH
 			return (callback == mCachedCallback);
 #else
@@ -140,38 +298,14 @@ public class EventDelegate
 	public override int GetHashCode () { return s_Hash; }
 
 	/// <summary>
-	/// Convert the saved target and method name into an actual delegate.
-	/// </summary>
-
-	Callback Get ()
-	{
-#if REFLECTION_SUPPORT
-		if (!mRawDelegate && (mCachedCallback == null || (MonoBehaviour)mCachedCallback.Target != mTarget || GetMethodName(mCachedCallback) != mMethodName))
-		{
-			if (mTarget != null && !string.IsNullOrEmpty(mMethodName))
-			{
-				mCachedCallback = (Callback)System.Delegate.CreateDelegate(typeof(Callback), mTarget, mMethodName);
-			}
-			else return null;
-		}
-#endif
-		return mCachedCallback;
-	}
-
-	/// <summary>
 	/// Set the delegate callback directly.
 	/// </summary>
 
 	void Set (Callback call)
 	{
-		if (call == null || !IsValid(call))
-		{
-			mTarget = null;
-			mMethodName = null;
-			mCachedCallback = null;
-			mRawDelegate = false;
-		}
-		else
+		Clear();
+
+		if (call != null && IsValid(call))
 		{
 #if REFLECTION_SUPPORT
 			mTarget = call.Target as MonoBehaviour;
@@ -190,8 +324,6 @@ public class EventDelegate
 #else
 			mRawDelegate = true;
 			mCachedCallback = call;
-			mMethodName = null;
-			mTarget = null;
 #endif
 		}
 	}
@@ -202,10 +334,94 @@ public class EventDelegate
 
 	public void Set (MonoBehaviour target, string methodName)
 	{
-		this.mTarget = target;
-		this.mMethodName = methodName;
-		mCachedCallback = null;
-		mRawDelegate = false;
+		Clear();
+		mTarget = target;
+		mMethodName = methodName;
+	}
+
+	/// <summary>
+	/// Cache the callback and create the list of the necessary parameters.
+	/// </summary>
+
+	void Cache ()
+	{
+		mCached = true;
+		if (mRawDelegate) return;
+
+#if REFLECTION_SUPPORT
+		if (mCachedCallback == null || (mCachedCallback.Target as MonoBehaviour) != mTarget || GetMethodName(mCachedCallback) != mMethodName)
+		{
+			if (mTarget != null && !string.IsNullOrEmpty(mMethodName))
+			{
+				System.Type type = mTarget.GetType();
+
+				try
+				{
+#if NETFX_CORE
+					// we can't use this since we don't seem to have the correct parameter type list yet
+					// mMethod = type.GetRuntimeMethod(mMethodName, (from p in mParameters select p.type).ToArray());
+
+					mMethod = (from m in type.GetRuntimeMethods() where m.Name == mMethodName && !m.IsStatic select m).FirstOrDefault();
+#else
+					for (mMethod = null; ; )
+					{
+						mMethod = type.GetMethod(mMethodName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+						if (mMethod != null) break;
+						type = type.BaseType;
+						if (type == null) break;
+					}
+#endif
+				}
+				catch (System.Exception ex)
+				{
+					Debug.LogError("Failed to bind " + type + "." + mMethodName + "\n" +  ex.Message);
+					return;
+				}
+
+				if (mMethod == null)
+				{
+					Debug.LogError("Could not find method '" + mMethodName + "' on " + mTarget.GetType(), mTarget);
+					return;
+				}
+				
+				if (mMethod.ReturnType != typeof(void))
+				{
+					Debug.LogError(mTarget.GetType() + "." + mMethodName + " must have a 'void' return type.", mTarget);
+					return;
+				}
+
+				// Get the list of expected parameters
+				ParameterInfo[] info = mMethod.GetParameters();
+
+				if (info.Length == 0)
+				{
+					// No parameters means we can create a simple delegate for it, optimizing the call
+#if NETFX_CORE
+					mCachedCallback = (Callback)mMethod.CreateDelegate(typeof(Callback), mTarget);
+#else
+					mCachedCallback = (Callback)System.Delegate.CreateDelegate(typeof(Callback), mTarget, mMethodName);
+#endif
+
+					mArgs = null;
+					mParameters = null;
+					return;
+				}
+				else mCachedCallback = null;
+
+				// Allocate the initial list of parameters
+				if (mParameters == null || mParameters.Length != info.Length)
+				{
+					mParameters = new Parameter[info.Length];
+					for (int i = 0, imax = mParameters.Length; i < imax; ++i)
+						mParameters[i] = new Parameter();
+				}
+
+				// Save the parameter type
+				for (int i = 0, imax = mParameters.Length; i < imax; ++i)
+					mParameters[i].expectedType = info[i].ParameterType;
+			}
+		}
+#endif
 	}
 
 	/// <summary>
@@ -215,30 +431,108 @@ public class EventDelegate
 
 	public bool Execute ()
 	{
-		Callback call = Get();
-
-		if (call != null)
-		{
-#if UNITY_EDITOR
-			if (Application.isPlaying)
-			{
-				call();
-			}
-			else if (call.Target != null)
-			{
-				System.Type type = call.Target.GetType();
-				object[] objs = type.GetCustomAttributes(typeof(ExecuteInEditMode), true);
-				if (objs != null && objs.Length > 0) call();
-			}
-#else
-			call();
-#endif
-			return true;
-		}
 #if !REFLECTION_SUPPORT
 		if (isValid)
 		{
-			mTarget.SendMessage(mMethodName, SendMessageOptions.DontRequireReceiver);
+			if (mRawDelegate) mCachedCallback();
+			else mTarget.SendMessage(mMethodName, SendMessageOptions.DontRequireReceiver);
+			return true;
+		}
+#else
+#if UNITY_EDITOR
+		if (!mCached || !Application.isPlaying) Cache();
+#else
+		if (!mCached) Cache();
+#endif
+		if (mCachedCallback != null)
+		{
+#if !UNITY_EDITOR
+			mCachedCallback();
+#else
+			if (Application.isPlaying)
+			{
+				mCachedCallback();
+			}
+			else if (mCachedCallback.Target != null)
+			{
+				// There must be an [ExecuteInEditMode] flag on the script for us to call the function at edit time
+				System.Type type = mCachedCallback.Target.GetType();
+				object[] objs = type.GetCustomAttributes(typeof(ExecuteInEditMode), true);
+				if (objs != null && objs.Length > 0) mCachedCallback();
+			}
+#endif
+			return true;
+		}
+
+		if (mMethod != null)
+		{
+#if UNITY_EDITOR
+			// There must be an [ExecuteInEditMode] flag on the script for us to call the function at edit time
+			if (mTarget != null && !Application.isPlaying)
+			{
+				System.Type type = mTarget.GetType();
+				object[] objs = type.GetCustomAttributes(typeof(ExecuteInEditMode), true);
+				if (objs == null || objs.Length == 0) return true;
+			}
+#endif
+			int len = (mParameters != null) ? mParameters.Length : 0;
+
+			if (len == 0)
+			{
+				mMethod.Invoke(mTarget, null);
+			}
+			else
+			{
+				// Allocate the parameter array
+				if (mArgs == null || mArgs.Length != mParameters.Length)
+					mArgs = new object[mParameters.Length];
+
+				// Set all the parameters
+				for (int i = 0, imax = mParameters.Length; i < imax; ++i)
+					mArgs[i] = mParameters[i].value;
+
+				// Invoke the callback
+				try
+				{
+					mMethod.Invoke(mTarget, mArgs);
+				}
+				catch (System.ArgumentException ex)
+				{
+					string msg = ex.Message;
+					msg += "\nExpected: ";
+
+					ParameterInfo[] pis = mMethod.GetParameters();
+
+					if (pis.Length == 0)
+					{
+						msg += "no arguments";
+					}
+					else
+					{
+						msg += pis[0];
+						for (int i = 1; i < pis.Length; ++i)
+							msg += ", " + pis[i].ParameterType;
+					}
+
+					msg += "\nGot: ";
+
+					if (mParameters.Length == 0)
+					{
+						msg += "no arguments";
+					}
+					else
+					{
+						msg += mParameters[0].type;
+						for (int i = 1; i < mParameters.Length; ++i)
+							msg += ", " + mParameters[i].type;
+					}
+					msg += "\n";
+					Debug.LogError(msg);
+				}
+
+				// Clear the parameters so that references are not kept
+				for (int i = 0, imax = mArgs.Length; i < imax;  ++i) mArgs[i] = null;
+			}
 			return true;
 		}
 #endif
@@ -255,6 +549,12 @@ public class EventDelegate
 		mMethodName = null;
 		mRawDelegate = false;
 		mCachedCallback = null;
+		mParameters = null;
+		mCached = false;
+#if REFLECTION_SUPPORT
+		mMethod = null;
+		mArgs = null;
+#endif
 	}
 
 	/// <summary>
@@ -290,6 +590,9 @@ public class EventDelegate
 				if (del != null)
 				{
 					del.Execute();
+
+					if (i >= list.Count) break;
+					if (list[i] != del) continue;
 
 					if (del.oneShot)
 					{
@@ -334,6 +637,19 @@ public class EventDelegate
 	}
 
 	/// <summary>
+	/// Assign a new event delegate.
+	/// </summary>
+
+	static public void Set (List<EventDelegate> list, EventDelegate del)
+	{
+		if (list != null)
+		{
+			list.Clear();
+			list.Add(del);
+		}
+	}
+
+	/// <summary>
 	/// Append a new event delegate to the list.
 	/// </summary>
 
@@ -368,7 +684,7 @@ public class EventDelegate
 	/// Append a new event delegate to the list.
 	/// </summary>
 
-	static public void Add (List<EventDelegate> list, EventDelegate ev) { Add(list, ev, false); }
+	static public void Add (List<EventDelegate> list, EventDelegate ev) { Add(list, ev, ev.oneShot); }
 
 	/// <summary>
 	/// Append a new event delegate to the list.
@@ -376,7 +692,11 @@ public class EventDelegate
 
 	static public void Add (List<EventDelegate> list, EventDelegate ev, bool oneShot)
 	{
-		if (list != null)
+		if (ev.mRawDelegate || ev.target == null || string.IsNullOrEmpty(ev.methodName))
+		{
+			Add(list, ev.mCachedCallback, oneShot);
+		}
+		else if (list != null)
 		{
 			for (int i = 0, imax = list.Count; i < imax; ++i)
 			{
@@ -385,14 +705,19 @@ public class EventDelegate
 					return;
 			}
 			
-			EventDelegate ed = new EventDelegate(ev.target, ev.methodName);
-			ed.oneShot = oneShot;
-			list.Add(ed);
+			EventDelegate copy = new EventDelegate(ev.target, ev.methodName);
+			copy.oneShot = oneShot;
+
+			if (ev.mParameters != null && ev.mParameters.Length > 0)
+			{
+				copy.mParameters = new Parameter[ev.mParameters.Length];
+				for (int i = 0; i < ev.mParameters.Length; ++i)
+					copy.mParameters[i] = ev.mParameters[i];
+			}
+
+			list.Add(copy);
 		}
-		else
-		{
-			Debug.LogWarning("Attempting to add a callback to a list that's null");
-		}
+		else Debug.LogWarning("Attempting to add a callback to a list that's null");
 	}
 
 	/// <summary>
@@ -408,6 +733,28 @@ public class EventDelegate
 				EventDelegate del = list[i];
 				
 				if (del != null && del.Equals(callback))
+				{
+					list.RemoveAt(i);
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	/// <summary>
+	/// Remove an existing event delegate from the list.
+	/// </summary>
+
+	static public bool Remove (List<EventDelegate> list, EventDelegate ev)
+	{
+		if (list != null)
+		{
+			for (int i = 0, imax = list.Count; i < imax; ++i)
+			{
+				EventDelegate del = list[i];
+
+				if (del != null && del.Equals(ev))
 				{
 					list.RemoveAt(i);
 					return true;

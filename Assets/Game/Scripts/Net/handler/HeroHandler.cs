@@ -11,14 +11,20 @@ namespace Assets.Game.Scripts.Net.handler
             {
                 case (short)MessageType.SC_HERO_LIST:
                     HeroModelLocator.Instance.SCHeroList = msg.GetContent() as SCHeroList;
-                    WindowManager.Instance.Show(typeof(UIHerosDisplayWindow), true);
+                    if (HeroModelLocator.Instance.GetHeroPos == RaidType.GetHeroInBattle)
+                    {
+                        WindowManager.Instance.Show(typeof(BattleConfirmTabWindow), true);
+                    }
+                    else if (HeroModelLocator.Instance.GetHeroPos == RaidType.GetHeroInHeroPanel)
+                    {
+                        Utils.ShowWithoutDestory(typeof(UIHerosDisplayWindow));
+                    }
                     break;
 
                 case (short)MessageType.SC_HERO_MODIFY_TEAM:
                     var md5Msg = msg.GetContent() as SCHeroModifyTeam;
-                    WindowManager.Instance.GetWindow<UITeamBuildWindow>(typeof(UITeamBuildWindow)).Refresh(
-                        md5Msg.TeamIndex, md5Msg.NewTeamInfo);
                     HeroModelLocator.Instance.SCHeroList.TeamList[md5Msg.TeamIndex].ListHeroUuid = md5Msg.NewTeamInfo;
+                    WindowManager.Instance.GetWindow<UITeamBuildWindow>().Refresh();
                     WindowManager.Instance.Show(typeof(UITeamEditWindow), false);
                     break;
 
@@ -33,18 +39,18 @@ namespace Assets.Game.Scripts.Net.handler
                             index--;
                         }
                     }
-                    WindowManager.Instance.GetWindow<UIHeroSellWindow>(typeof(UIHeroSellWindow)).SellOverUpdate();
+                    WindowManager.Instance.GetWindow<UIHeroSellWindow>().SellOverUpdate();
                     break;
 
                 case (short)MessageType.SC_HERO_LVL_UP:
-                    WindowManager.Instance.GetWindow<UILevelUpWindow>(typeof(UILevelUpWindow)).ShowLevelOver();
+                    WindowManager.Instance.GetWindow<UILevelUpWindow>().ShowLevelOver();
                     break;
 
                 case (short)MessageType.SC_PROPERTY_CHANGED_NUMBER:
                     var propertyChangedMsg = msg.GetContent() as SCPropertyChangedNumber;
                     if (propertyChangedMsg.RoleType == 2)
                     {
-                        WindowManager.Instance.GetWindow<UILevelUpWindow>(typeof(UILevelUpWindow)).PropertyChangedNumber
+                        WindowManager.Instance.GetWindow<UILevelUpWindow>().PropertyChangedNumber
                             = msg.GetContent() as SCPropertyChangedNumber;
                     }
                     if (propertyChangedMsg.RoleType == 1)

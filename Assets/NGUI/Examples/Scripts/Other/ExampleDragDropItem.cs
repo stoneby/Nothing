@@ -1,6 +1,6 @@
 //----------------------------------------------
 //            NGUI: Next-Gen UI kit
-// Copyright © 2011-2013 Tasharen Entertainment
+// Copyright © 2011-2014 Tasharen Entertainment
 //----------------------------------------------
 
 using UnityEngine;
@@ -27,6 +27,7 @@ public class ExampleDragDropItem : UIDragDropItem
 			if (dds != null)
 			{
 				GameObject child = NGUITools.AddChild(dds.gameObject, prefab);
+				child.transform.localScale = dds.transform.localScale;
 
 				Transform trans = child.transform;
 				trans.position = UICamera.lastHit.point;

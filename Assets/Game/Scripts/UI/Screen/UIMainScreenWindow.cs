@@ -85,10 +85,20 @@ public class UIMainScreenWindow : Window
 
     private void OnStartGameClicked(GameObject go)
     {
-        var csMsg = new CSRaidBattleStartMsg();
-        csMsg.RaidId = 1;
-        csMsg.FriendId = 1;
-        NetManager.SendMessage(csMsg);
+        if (MissionModelLocator.Instance.RaidLoadingAll == null)
+        {
+            var csmsg = new CSRaidLoadingAll();
+            NetManager.SendMessage(csmsg);
+        }
+        else
+        {
+            WindowManager.Instance.Show(typeof(MissionTabWindow), true);
+        }
+
+//        var csMsg = new CSRaidBattleStartMsg();
+//        csMsg.RaidId = 1;
+//        csMsg.FriendId = 1;
+//        NetManager.SendMessage(csMsg);
     }
 
     private void OnFlipLeftClicked(GameObject go)

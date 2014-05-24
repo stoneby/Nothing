@@ -1,6 +1,6 @@
 //----------------------------------------------
 //            NGUI: Next-Gen UI kit
-// Copyright © 2011-2013 Tasharen Entertainment
+// Copyright © 2011-2014 Tasharen Entertainment
 //----------------------------------------------
 
 #if UNITY_FLASH || UNITY_WP8 || UNITY_METRO
@@ -24,13 +24,6 @@ public class UIPanel : UIRect
 
 	static public BetterList<UIPanel> list = new BetterList<UIPanel>();
 
-	public enum DebugInfo
-	{
-		None,
-		Gizmos,
-		Geometry,
-	}
-
 	public enum RenderQueue
 	{
 		Automatic,
@@ -38,13 +31,13 @@ public class UIPanel : UIRect
 		Explicit,
 	}
 
-	public delegate void OnChangeDelegate ();
+	public delegate void OnGeometryUpdated ();
 
 	/// <summary>
-	/// Notification triggered when something changes within the panel.
+	/// Notification triggered when the panel's geometry get rebuilt. It's mainly here for debugging purposes.
 	/// </summary>
 
-	public OnChangeDelegate onChange;
+	public OnGeometryUpdated onGeometryUpdated;
 
 	/// <summary>
 	/// Whether this panel will show up in the panel tool (set this to 'false' for dynamically created temporary panels)
@@ -120,6 +113,21 @@ public class UIPanel : UIRect
 	[System.NonSerialized]
 	public Matrix4x4 worldToLocal = Matrix4x4.identity;
 
+	/// <summary>
+	/// Cached clip range passed to the draw call's shader.
+	/// </summary>
+
+	[System.NonSerialized]
+	public Vector4 drawCallClipRange = new Vector4(0f, 0f, 1f, 1f);
+
+	public delegate void OnClippingMoved (UIPanel panel);
+
+	/// <summary>
+	/// Event callback that's triggered when the panel's clip region gets moved.
+	/// </summary>
+
+	public OnClippingMoved onClipMove;
+
 	// Panel's alpha (affects the alpha of all widgets)
 	[HideInInspector][SerializeField] float mAlpha = 1f;
 
@@ -128,24 +136,20 @@ public class UIPanel : UIRect
 	[HideInInspector][SerializeField] Vector4 mClipRange = new Vector4(0f, 0f, 300f, 200f);
 	[HideInInspector][SerializeField] Vector2 mClipSoftness = new Vector2(4f, 4f);
 	[HideInInspector][SerializeField] int mDepth = 0;
-
+#if !UNITY_3_5 && !UNITY_4_0 && !UNITY_4_1 && !UNITY_4_2
+	[HideInInspector][SerializeField] int mSortingOrder = 0;
+#endif
 	// Whether a full rebuild of geometry buffers is required
 	bool mRebuild = false;
 	bool mResized = false;
 
-	// Cached in order to reduce memory allocations
-	static BetterList<Vector3> mVerts = new BetterList<Vector3>();
-	static BetterList<Vector3> mNorms = new BetterList<Vector3>();
-	static BetterList<Vector4> mTans = new BetterList<Vector4>();
-	static BetterList<Vector2> mUvs = new BetterList<Vector2>();
-	static BetterList<Color32> mCols = new BetterList<Color32>();
-
 	Camera mCam;
-	Vector2 mClipOffset = Vector2.zero;
+	[SerializeField] Vector2 mClipOffset = Vector2.zero;
 
 	float mCullTime = 0f;
 	float mUpdateTime = 0f;
 	int mMatrixFrame = -1;
+	int mAlphaFrameID = 0;
 	int mLayer = -1;
 
 	// Values used for visibility checks
@@ -171,6 +175,12 @@ public class UIPanel : UIRect
 	}
 
 	/// <summary>
+	/// Whether the rectangle can be anchored.
+	/// </summary>
+
+	public override bool canBeAnchored { get { return mClipping != UIDrawCall.Clipping.None; } }
+
+	/// <summary>
 	/// Panel's alpha affects everything drawn by the panel.
 	/// </summary>
 
@@ -186,6 +196,8 @@ public class UIPanel : UIRect
 
 			if (mAlpha != val)
 			{
+				mAlphaFrameID = -1;
+				mResized = true;
 				mAlpha = val;
 				SetDirty();
 			}
@@ -208,12 +220,37 @@ public class UIPanel : UIRect
 			{
 				mDepth = value;
 #if UNITY_EDITOR
-				UnityEditor.EditorUtility.SetDirty(this);
+				NGUITools.SetDirty(this);
 #endif
 				list.Sort(CompareFunc);
 			}
 		}
 	}
+
+#if !UNITY_3_5 && !UNITY_4_0 && !UNITY_4_1 && !UNITY_4_2
+	/// <summary>
+	/// Sorting order value for the panel's draw calls, to be used with Unity's 2D system.
+	/// </summary>
+
+	public int sortingOrder
+	{
+		get
+		{
+			return mSortingOrder;
+		}
+		set
+		{
+			if (mSortingOrder != value)
+			{
+				mSortingOrder = value;
+#if UNITY_EDITOR
+				NGUITools.SetDirty(this);
+#endif
+				UpdateDrawCalls();
+			}
+		}
+	}
+#endif
 
 	/// <summary>
 	/// Function that can be used to depth-sort panels.
@@ -296,6 +333,49 @@ public class UIPanel : UIRect
 		}
 	}
 
+	UIPanel mParentPanel = null;
+
+	/// <summary>
+	/// Reference to the parent panel, if any.
+	/// </summary>
+
+	public UIPanel parentPanel { get { return mParentPanel; } }
+
+	/// <summary>
+	/// Number of times the panel's contents get clipped.
+	/// </summary>
+
+	public int clipCount
+	{
+		get
+		{
+			int count = 0;
+			UIPanel p = this;
+
+			while (p != null)
+			{
+				if (p.mClipping == UIDrawCall.Clipping.SoftClip) ++count;
+				p = p.mParentPanel;
+			}
+			return count;
+		}
+	}
+
+	/// <summary>
+	/// Whether the panel will actually perform clipping of children.
+	/// </summary>
+
+	public bool hasClipping { get { return mClipping == UIDrawCall.Clipping.SoftClip; } }
+
+	/// <summary>
+	/// Whether the panel will actually perform clipping of children.
+	/// </summary>
+
+	public bool hasCumulativeClipping { get { return clipCount != 0; } }
+
+	[System.Obsolete("Use 'hasClipping' or 'hasCumulativeClipping' instead")]
+	public bool clipsChildren { get { return hasCumulativeClipping; } }
+
 	/// <summary>
 	/// Clipping area offset used to make it possible to move clipped panels (scroll views) efficiently.
 	/// Scroll views move by adjusting the clip offset by one value, and the transform position by the inverse.
@@ -313,14 +393,33 @@ public class UIPanel : UIRect
 			if (Mathf.Abs(mClipOffset.x - value.x) > 0.001f ||
 				Mathf.Abs(mClipOffset.y - value.y) > 0.001f)
 			{
-				mResized = true;
-				mCullTime = (mCullTime == 0f) ? 0.001f : RealTime.time + 0.15f;
 				mClipOffset = value;
-				mMatrixFrame = -1;
+				InvalidateClipping();
+
+				// Call the event delegate
+				if (onClipMove != null) onClipMove(this);
 #if UNITY_EDITOR
 				if (!Application.isPlaying) UpdateDrawCalls();
 #endif
 			}
+		}
+	}
+
+	/// <summary>
+	/// Invalidate the panel's clipping, calling child panels in turn.
+	/// </summary>
+
+	void InvalidateClipping ()
+	{
+		mResized = true;
+		mMatrixFrame = -1;
+		mCullTime = (mCullTime == 0f) ? 0.001f : RealTime.time + 0.15f;
+
+		for (int i = 0; i < list.size; ++i)
+		{
+			UIPanel p = list[i];
+			if (p != this && p.parentPanel == this)
+				p.InvalidateClipping();
 		}
 	}
 
@@ -364,6 +463,10 @@ public class UIPanel : UIRect
 				mCullTime = (mCullTime == 0f) ? 0.001f : RealTime.time + 0.15f;
 				mClipRange = value;
 				mMatrixFrame = -1;
+
+				UIScrollView sv = GetComponent<UIScrollView>();
+				if (sv != null) sv.UpdatePosition();
+				if (onClipMove != null) onClipMove(this);
 #if UNITY_EDITOR
 				if (!Application.isPlaying) UpdateDrawCalls();
 #endif
@@ -372,7 +475,7 @@ public class UIPanel : UIRect
 	}
 
 	/// <summary>
-	/// Final clipping region after the offset has been taken into consideration.
+	/// Final clipping region after the offset has been taken into consideration. XY = center, ZW = size.
 	/// </summary>
 
 	public Vector4 finalClipRegion
@@ -550,7 +653,15 @@ public class UIPanel : UIRect
 		return base.GetSides(relativeTo);
 	}
 
-	int mAlphaFrameID = 0;
+	/// <summary>
+	/// Invalidating the panel should reset its alpha.
+	/// </summary>
+
+	public override void Invalidate (bool includeChildren)
+	{
+		mAlphaFrameID = -1;
+		base.Invalidate(includeChildren);
+	}
 
 	/// <summary>
 	/// Widget's final alpha, after taking the panel's alpha into account.
@@ -558,13 +669,53 @@ public class UIPanel : UIRect
 
 	public override float CalculateFinalAlpha (int frameID)
 	{
+#if UNITY_EDITOR
+		if (mAlphaFrameID != frameID || !Application.isPlaying)
+#else
 		if (mAlphaFrameID != frameID)
+#endif
 		{
 			mAlphaFrameID = frameID;
 			UIRect pt = parent;
 			finalAlpha = (parent != null) ? pt.CalculateFinalAlpha(frameID) * mAlpha : mAlpha;
 		}
 		return finalAlpha;
+	}
+
+	/// <summary>
+	/// Set the panel's rectangle.
+	/// </summary>
+
+	public override void SetRect (float x, float y, float width, float height)
+	{
+		int finalWidth = Mathf.FloorToInt(width + 0.5f);
+		int finalHeight = Mathf.FloorToInt(height + 0.5f);
+
+		finalWidth = ((finalWidth >> 1) << 1);
+		finalHeight = ((finalHeight >> 1) << 1);
+
+		Transform t = cachedTransform;
+		Vector3 pos = t.localPosition;
+		pos.x = Mathf.Floor(x + 0.5f);
+		pos.y = Mathf.Floor(y + 0.5f);
+
+		if (finalWidth < 2) finalWidth = 2;
+		if (finalHeight < 2) finalHeight = 2;
+
+		baseClipRegion = new Vector4(pos.x, pos.y, finalWidth, finalHeight);
+
+		if (isAnchored)
+		{
+			t = t.parent;
+
+			if (leftAnchor.target) leftAnchor.SetHorizontal(t, x);
+			if (rightAnchor.target) rightAnchor.SetHorizontal(t, x + width);
+			if (bottomAnchor.target) bottomAnchor.SetVertical(t, y);
+			if (topAnchor.target) topAnchor.SetVertical(t, y + height);
+#if UNITY_EDITOR
+			NGUITools.SetDirty(this);
+#endif
+		}
 	}
 
 	/// <summary>
@@ -612,7 +763,9 @@ public class UIPanel : UIRect
 	public bool IsVisible (Vector3 worldPos)
 	{
 		if (mAlpha < 0.001f) return false;
-		if (mClipping == UIDrawCall.Clipping.None) return true;
+		if (mClipping == UIDrawCall.Clipping.None ||
+			mClipping == UIDrawCall.Clipping.ConstrainButDontClip) return true;
+
 		UpdateTransformMatrix();
 
 		Vector3 pos = worldToLocal.MultiplyPoint3x4(worldPos);
@@ -627,10 +780,45 @@ public class UIPanel : UIRect
 	/// Returns whether the specified widget is visible by the panel.
 	/// </summary>
 
-	public bool IsVisible (UIRect w)
+	public bool IsVisible (UIWidget w)
 	{
+		if ((mClipping == UIDrawCall.Clipping.None || mClipping == UIDrawCall.Clipping.ConstrainButDontClip) && !w.hideIfOffScreen)
+		{
+			if (clipCount == 0) return true;
+			if (mParentPanel != null) return mParentPanel.IsVisible(w);
+		}
+
+		UIPanel p = this;
 		Vector3[] corners = w.worldCorners;
-		return IsVisible(corners[0], corners[1], corners[2], corners[3]);
+
+		while (p != null)
+		{
+			if (!IsVisible(corners[0], corners[1], corners[2], corners[3])) return false;
+			p = p.mParentPanel;
+		}
+		return true;
+	}
+
+	/// <summary>
+	/// Whether the specified widget is going to be affected by this panel in any way.
+	/// </summary>
+
+	public bool Affects (UIWidget w)
+	{
+		if (w == null) return false;
+
+		UIPanel expected = w.panel;
+		if (expected == null) return false;
+
+		UIPanel p = this;
+
+		while (p != null)
+		{
+			if (p == expected) return true;
+			if (!p.hasCumulativeClipping) return false;
+			p = p.mParentPanel;
+		}
+		return false;
 	}
 
 	/// <summary>
@@ -671,6 +859,28 @@ public class UIPanel : UIRect
 	}
 
 	/// <summary>
+	/// Remember the parent panel, if any.
+	/// </summary>
+
+	protected override void OnEnable ()
+	{
+		base.OnEnable();
+		Transform parent = cachedTransform.parent;
+		mParentPanel = (parent != null) ? NGUITools.FindInParents<UIPanel>(parent.gameObject) : null;
+	}
+
+	/// <summary>
+	/// Find the parent panel, if we have one.
+	/// </summary>
+
+	public override void ParentHasChanged ()
+	{
+		base.ParentHasChanged();
+		Transform parent = cachedTransform.parent;
+		mParentPanel = (parent != null) ? NGUITools.FindInParents<UIPanel>(parent.gameObject) : null;
+	}
+
+	/// <summary>
 	/// Layer is used to ensure that if it changes, widgets get moved as well.
 	/// </summary>
 
@@ -698,6 +908,9 @@ public class UIPanel : UIRect
 		}
 
 		mRebuild = true;
+		mAlphaFrameID = -1;
+		mMatrixFrame = -1;
+
 		list.Add(this);
 		list.Sort(CompareFunc);
 	}
@@ -709,9 +922,16 @@ public class UIPanel : UIRect
 	protected override void OnDisable ()
 	{
 		for (int i = 0; i < drawCalls.size; ++i)
-			UIDrawCall.Destroy(drawCalls.buffer[i]);
+		{
+			UIDrawCall dc = drawCalls.buffer[i];
+			if (dc != null) UIDrawCall.Destroy(dc);
+		}
+		
 		drawCalls.Clear();
 		list.Remove(this);
+
+		mAlphaFrameID = -1;
+		mMatrixFrame = -1;
 		
 		if (list.size == 0)
 		{
@@ -884,7 +1104,11 @@ public class UIPanel : UIRect
 
 	void LateUpdate ()
 	{
+#if UNITY_EDITOR
+		if (mUpdateFrame != Time.frameCount || !Application.isPlaying)
+#else
 		if (mUpdateFrame != Time.frameCount)
+#endif
 		{
 			mUpdateFrame = Time.frameCount;
 
@@ -994,9 +1218,10 @@ public class UIPanel : UIRect
 
 				if (mat != mt || tex != tx || sdr != sd)
 				{
-					if (mVerts.size != 0)
+					if (dc != null && dc.verts.size != 0)
 					{
-						SubmitDrawCall(dc);
+						drawCalls.Add(dc);
+						dc.UpdateGeometry();
 						dc = null;
 					}
 
@@ -1023,28 +1248,18 @@ public class UIPanel : UIRect
 
 					w.drawCall = dc;
 
-					if (generateNormals) w.WriteToBuffers(mVerts, mUvs, mCols, mNorms, mTans);
-					else w.WriteToBuffers(mVerts, mUvs, mCols, null, null);
+					if (generateNormals) w.WriteToBuffers(dc.verts, dc.uvs, dc.cols, dc.norms, dc.tans);
+					else w.WriteToBuffers(dc.verts, dc.uvs, dc.cols, null, null);
 				}
 			}
 			else w.drawCall = null;
 		}
-		if (mVerts.size != 0) SubmitDrawCall(dc);
-	}
 
-	/// <summary>
-	/// Submit the draw call using the current geometry.
-	/// </summary>
-
-	void SubmitDrawCall (UIDrawCall dc)
-	{
-		drawCalls.Add(dc);
-		dc.Set(mVerts, generateNormals ? mNorms : null, generateNormals ? mTans : null, mUvs, mCols);
-		mVerts.Clear();
-		mNorms.Clear();
-		mTans.Clear();
-		mUvs.Clear();
-		mCols.Clear();
+		if (dc != null && dc.verts.size != 0)
+		{
+			drawCalls.Add(dc);
+			dc.UpdateGeometry();
+		}
 	}
 
 	/// <summary>
@@ -1074,22 +1289,17 @@ public class UIPanel : UIRect
 				{
 					if (w.isVisible && w.hasVertices)
 					{
-						if (generateNormals) w.WriteToBuffers(mVerts, mUvs, mCols, mNorms, mTans);
-						else w.WriteToBuffers(mVerts, mUvs, mCols, null, null);
+						if (generateNormals) w.WriteToBuffers(dc.verts, dc.uvs, dc.cols, dc.norms, dc.tans);
+						else w.WriteToBuffers(dc.verts, dc.uvs, dc.cols, null, null);
 					}
 					else w.drawCall = null;
 				}
 				++i;
 			}
 
-			if (mVerts.size != 0)
+			if (dc.verts.size != 0)
 			{
-				dc.Set(mVerts, generateNormals ? mNorms : null, generateNormals ? mTans : null, mUvs, mCols);
-				mVerts.Clear();
-				mNorms.Clear();
-				mTans.Clear();
-				mUvs.Clear();
-				mCols.Clear();
+				dc.UpdateGeometry();
 				return true;
 			}
 		}
@@ -1103,22 +1313,25 @@ public class UIPanel : UIRect
 	void UpdateDrawCalls ()
 	{
 		Transform trans = cachedTransform;
-		Vector4 range = Vector4.zero;
 		bool isUI = usedForUI;
 
 		if (clipping != UIDrawCall.Clipping.None)
 		{
-			Vector4 cr = finalClipRegion;
-			range = new Vector4(cr.x, cr.y, cr.z * 0.5f, cr.w * 0.5f);
+			drawCallClipRange = finalClipRegion;
+			drawCallClipRange.z *= 0.5f;
+			drawCallClipRange.w *= 0.5f;
 		}
+		else drawCallClipRange = Vector4.zero;
 
-		if (range.z == 0f) range.z = Screen.width * 0.5f;
-		if (range.w == 0f) range.w = Screen.height * 0.5f;
+		// Legacy functionality
+		if (drawCallClipRange.z == 0f) drawCallClipRange.z = Screen.width * 0.5f;
+		if (drawCallClipRange.w == 0f) drawCallClipRange.w = Screen.height * 0.5f;
 
+		// DirectX 9 half-pixel offset
 		if (halfPixelOffset)
 		{
-			range.x -= 0.5f;
-			range.y += 0.5f;
+			drawCallClipRange.x -= 0.5f;
+			drawCallClipRange.y += 0.5f;
 		}
 
 		Vector3 pos;
@@ -1134,8 +1347,10 @@ public class UIPanel : UIRect
 			{
 				float x = Mathf.Round(pos.x);
 				float y = Mathf.Round(pos.y);
-				range.x += pos.x - x;
-				range.y += pos.y - y;
+
+				drawCallClipRange.x += pos.x - x;
+				drawCallClipRange.y += pos.y - y;
+
 				pos.x = x;
 				pos.y = y;
 				pos = parent.TransformPoint(pos);
@@ -1156,12 +1371,12 @@ public class UIPanel : UIRect
 			t.rotation = rot;
 			t.localScale = scale;
 
-            dc.renderQueue = (renderQueue == RenderQueue.Explicit) ? startingRenderQueue : startingRenderQueue + i; 
-            dc.clipping = clipping;
-			dc.clipRange = range;
-			dc.clipSoftness = mClipSoftness;
+			dc.renderQueue = (renderQueue == RenderQueue.Explicit) ? startingRenderQueue : startingRenderQueue + i;
 			dc.alwaysOnScreen = alwaysOnScreen &&
 				(mClipping == UIDrawCall.Clipping.None || mClipping == UIDrawCall.Clipping.ConstrainButDontClip);
+#if !UNITY_3_5 && !UNITY_4_0 && !UNITY_4_1 && !UNITY_4_2
+			dc.sortingOrder = mSortingOrder;
+#endif
 		}
 	}
 
@@ -1184,6 +1399,8 @@ public class UIPanel : UIRect
 		}
 	}
 
+	bool mForced = false;
+
 	/// <summary>
 	/// Update all of the widgets belonging to this panel.
 	/// </summary>
@@ -1196,6 +1413,14 @@ public class UIPanel : UIRect
 		bool forceVisible = cullWhileDragging ? false : (mCullTime > mUpdateTime);
 #endif
 		bool changed = false;
+
+		if (mForced != forceVisible)
+		{
+			mForced = forceVisible;
+			mResized = true;
+		}
+
+		bool clipped = hasCumulativeClipping;
 
 		// Update all widgets
 		for (int i = 0, imax = widgets.size; i < imax; ++i)
@@ -1246,10 +1471,8 @@ public class UIPanel : UIRect
 				if (w.UpdateTransform(frame) || mResized)
 				{
 					// Only proceed to checking the widget's visibility if it actually moved
-					bool vis = forceVisible ||
-						(mClipping == UIDrawCall.Clipping.None && !w.hideIfOffScreen) ||
-						(w.CalculateCumulativeAlpha(frame) > 0.001f && IsVisible(w));
-					w.UpdateVisibility(vis);
+					bool vis = forceVisible || (w.CalculateCumulativeAlpha(frame) > 0.001f);
+					w.UpdateVisibility(vis, forceVisible || ((clipped || w.hideIfOffScreen) ? IsVisible(w) : true));
 				}
 				
 				// Update the widget's geometry if necessary
@@ -1274,7 +1497,7 @@ public class UIPanel : UIRect
 		}
 
 		// Inform the changed event listeners
-		if (changed && onChange != null) onChange();
+		if (changed && onGeometryUpdated != null) onGeometryUpdated();
 		mResized = false;
 	}
 
@@ -1321,8 +1544,28 @@ public class UIPanel : UIRect
 
 	public void AddWidget (UIWidget w)
 	{
-		widgets.Add(w);
-		mSortWidgets = true;
+		if (widgets.size == 0)
+		{
+			widgets.Add(w);
+		}
+		else if (mSortWidgets)
+		{
+			widgets.Add(w);
+			SortWidgets();
+		}
+		else if (UIWidget.PanelCompareFunc(w, widgets[0]) == -1)
+		{
+			widgets.Insert(0, w);
+		}
+		else
+		{
+			for (int i = widgets.size; i > 0; )
+			{
+				if (UIWidget.PanelCompareFunc(w, widgets[--i]) == -1) continue;
+				widgets.Insert(i+1, w);
+				break;
+			}
+		}
 		FindDrawCall(w);
 	}
 
@@ -1387,7 +1630,7 @@ public class UIPanel : UIRect
 	{
 		Vector3 offset = CalculateConstrainOffset(targetBounds.min, targetBounds.max);
 
-		if (offset.magnitude > 0f)
+		if (offset.sqrMagnitude > 0f)
 		{
 			if (immediate)
 			{
@@ -1502,7 +1745,11 @@ public class UIPanel : UIRect
 	{
 		int frame = Time.frameCount;
 
+#if UNITY_EDITOR
+		if (mSizeFrame != frame || !Application.isPlaying)
+#else
 		if (mSizeFrame != frame)
+#endif
 		{
 			mSizeFrame = frame;
 

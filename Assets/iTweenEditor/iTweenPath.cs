@@ -30,7 +30,7 @@ public class iTweenPath : MonoBehaviour
 		if(paths.ContainsKey(requestedName)){
 			return paths[requestedName].nodes.ToArray();
 		}else{
-			Debug.Log("No path with that name exists! Are you sure you wrote it correctly?");
+			Logger.Log("No path with that name exists! Are you sure you wrote it correctly?");
 			return null;
 		}
 	}
