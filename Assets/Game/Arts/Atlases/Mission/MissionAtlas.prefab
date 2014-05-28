@@ -119,8 +119,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: battle_btn_up
-    x: 742
-    y: 1627
+    x: 0
+    y: 1287
     width: 161
     height: 97
     borderLeft: 0
@@ -171,8 +171,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: btn_down
-    x: 0
-    y: 1287
+    x: 742
+    y: 1627
     width: 161
     height: 97
     borderLeft: 0
@@ -184,7 +184,7 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: btn_elit
-    x: 535
+    x: 465
     y: 1292
     width: 69
     height: 35
@@ -210,7 +210,7 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: btn_normal
-    x: 465
+    x: 535
     y: 1292
     width: 69
     height: 35
@@ -235,19 +235,6 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
-  - name: character
-    x: 611
-    y: 1529
-    width: 98
-    height: 28
-    borderLeft: 0
-    borderRight: 0
-    borderTop: 0
-    borderBottom: 0
-    paddingLeft: 0
-    paddingRight: 0
-    paddingTop: 0
-    paddingBottom: 0
   - name: confirm_box
     x: 0
     y: 1385
@@ -262,8 +249,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: energy
-    x: 959
-    y: 1871
+    x: 611
+    y: 1531
     width: 46
     height: 26
     borderLeft: 0
@@ -275,8 +262,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: exp
-    x: 694
-    y: 1359
+    x: 658
+    y: 1532
     width: 38
     height: 25
     borderLeft: 0
@@ -288,8 +275,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: fighting
-    x: 904
-    y: 1547
+    x: 294
+    y: 1296
     width: 96
     height: 88
     borderLeft: 0
@@ -353,32 +340,6 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: head_box0
-    x: 742
-    y: 1725
-    width: 130
-    height: 130
-    borderLeft: 0
-    borderRight: 0
-    borderTop: 0
-    borderBottom: 0
-    paddingLeft: 0
-    paddingRight: 0
-    paddingTop: 0
-    paddingBottom: 0
-  - name: head_box1
-    x: 611
-    y: 1725
-    width: 130
-    height: 130
-    borderLeft: 0
-    borderRight: 0
-    borderTop: 0
-    borderBottom: 0
-    paddingLeft: 0
-    paddingRight: 0
-    paddingTop: 0
-    paddingBottom: 0
-  - name: head_box2
     x: 480
     y: 1594
     width: 130
@@ -391,9 +352,35 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
-  - name: head_box3
+  - name: head_box1
     x: 611
     y: 1594
+    width: 130
+    height: 130
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: head_box2
+    x: 742
+    y: 1725
+    width: 130
+    height: 130
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: head_box3
+    x: 611
+    y: 1725
     width: 130
     height: 130
     borderLeft: 0
@@ -431,7 +418,7 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: icon_energy
-    x: 710
+    x: 697
     y: 1533
     width: 25
     height: 24
@@ -495,6 +482,19 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
+  - name: level
+    x: 959
+    y: 1870
+    width: 53
+    height: 27
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
   - name: mapborder
     x: 0
     y: 1527
@@ -535,8 +535,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: passed
-    x: 294
-    y: 1296
+    x: 904
+    y: 1547
     width: 96
     height: 88
     borderLeft: 0

@@ -10,6 +10,7 @@ public class ItemModeLocator
     private static volatile ItemModeLocator instance;
     private static readonly object SyncRoot = new Object();
     private const string ItemTemlatePath = "Templates/Item";
+    private const string ItemConfigPath = "Templates/ItemConfig";
     
     #endregion
 
@@ -34,6 +35,12 @@ public class ItemModeLocator
     public Item ItemTemplates
     {
         get { return itemTemplates ?? (itemTemplates = Utils.Decode<Item>(ItemTemlatePath)); }
+    }
+
+    private ItemConfig itemConfig;
+    public ItemConfig ItemConfig
+    {
+        get { return itemConfig ?? (itemConfig = Utils.Decode<ItemConfig>(ItemConfigPath)); }
     }
 
     public SCAllItemInfos ScAllItemInfos { get; set; }

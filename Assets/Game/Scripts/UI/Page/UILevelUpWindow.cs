@@ -58,7 +58,6 @@ public class UILevelUpWindow : Window
 
     public override void OnEnter()
     {
-        //WindowManager.Instance.GetComponent<HeroBaseInfoWindow>().EnableSwipeEffect(false);
         heroInfo = HeroModelLocator.Instance.FindHero(HeroBaseInfoWindow.CurUuid);
         heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpl[heroInfo.TemplateId];
         curLvl = heroInfo.Lvl;

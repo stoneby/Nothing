@@ -356,7 +356,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Mapping: {fileID: 383751332}
   WindowRootManager: {fileID: 383751335}
-  DestroyLastWindow: 1
+  DestroyLastWindow: 0
 --- !u!114 &383751335
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2168,10 +2168,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c5ecb5660b11414fb042fb826e03b73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scalingStyle: 1
+  scalingStyle: 0
   manualHeight: 720
-  minimumHeight: 320
-  maximumHeight: 1024
+  minimumHeight: 720
+  maximumHeight: 1200
   adjustByDPI: 0
   shrinkPortraitUI: 0
 --- !u!4 &1637847201
@@ -2566,7 +2566,7 @@ MonoBehaviour:
   mClipping: 0
   mClipRange: {x: 0, y: 0, z: 300, w: 200}
   mClipSoftness: {x: 4, y: 4}
-  mDepth: 13
+  mDepth: 100
   mSortingOrder: 0
   mClipOffset: {x: 0, y: 0}
 --- !u!1 &1799647727

@@ -11,8 +11,7 @@ public class UIEquipSellWindow : Window
     #region Private Fields
 
     private UIEventListener sellLis;
-    private UIEventListener cancelSelLis;
-    private UIEventListener oneKeyAddLis;
+    private UIEventListener cancelLis;
     private UIEventListener tradeInLis;
     private UIEventListener sellOkLis;
     private UIEventListener sellCancelLis;
@@ -54,8 +53,7 @@ public class UIEquipSellWindow : Window
     void Awake()
     {
         sellLis = UIEventListener.Get(Utils.FindChild(transform, "Button-Sell").gameObject);
-        cancelSelLis = UIEventListener.Get(Utils.FindChild(transform, "Button-CancelSel").gameObject);
-        oneKeyAddLis = UIEventListener.Get(Utils.FindChild(transform, "Button-OneKeyAdd").gameObject);
+        cancelLis = UIEventListener.Get(Utils.FindChild(transform, "Button-CancelSel").gameObject);
         sortBtnLis = UIEventListener.Get(Utils.FindChild(transform, "Button-Sort").gameObject);
         sortLabel = sortBtnLis.GetComponentInChildren<UILabel>();
         var sortType = ItemModeLocator.Instance.OrderType;
@@ -73,8 +71,7 @@ public class UIEquipSellWindow : Window
     private void InstallHandlers()
     {
         sellLis.onClick += OnSell;
-        cancelSelLis.onClick += OnCancelSel;
-        oneKeyAddLis.onClick += OnOneKeyAdd;
+        cancelLis.onClick += OnCancelSel;
         tradeInLis.onClick += OnTradeIn;
     }
 
@@ -84,8 +81,7 @@ public class UIEquipSellWindow : Window
     private void UnInstallHandlers()
     {
         sellLis.onClick -= OnSell;
-        cancelSelLis.onClick -= OnCancelSel;
-        oneKeyAddLis.onClick -= OnOneKeyAdd;
+        cancelLis.onClick -= OnCancelSel;
         tradeInLis.onClick -= OnTradeIn;
     }
 
@@ -144,11 +140,6 @@ public class UIEquipSellWindow : Window
     }
 
     private void OnCancelSel(GameObject go)
-    {
-       
-    }
-
-    private void OnOneKeyAdd(GameObject go)
     {
        
     }

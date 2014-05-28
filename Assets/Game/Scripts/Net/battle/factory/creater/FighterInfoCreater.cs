@@ -30,7 +30,7 @@ namespace com.kx.sglm.gs.battle.share.factory.creater
 		{
 			IList<FighterInfo> _monsterList = new List<FighterInfo>();
 
-			// 在创建MonsterInfo的时候注入SceneIndex
+			// ?????????MonsterInfo???????????????SceneIndex
 			int _sceneMonsterCount = 0;
 			int _sceneIndex = 0;
 
@@ -89,13 +89,14 @@ namespace com.kx.sglm.gs.battle.share.factory.creater
 		protected internal static void createMonsterDrop(FighterInfo info, IDictionary<sbyte, int> dropMap)
 		{
 			setMonsterDrop(BattleKeyConstants.BATTLE_PROP_MONSTER_DROP_COIN, info, dropMap);
+			setMonsterDrop(BattleKeyConstants.BATTLE_PROP_MONSTER_DROP_SPRIT, info, dropMap);
 			setMonsterDrop(BattleKeyConstants.BATTLE_PROP_MONSTER_DROP_HERO, info, dropMap);
 			setMonsterDrop(BattleKeyConstants.BATTLE_PROP_MONSTER_DROP_ITEM, info, dropMap);
 		}
-
+		
 		protected internal static void setMonsterDrop(int key, FighterInfo info, IDictionary<sbyte, int> dropMap)
 		{
-			sbyte _byteKey = (sbyte)key;
+			sbyte _byteKey = (sbyte) key;
 			if (dropMap.ContainsKey(_byteKey))
 			{
 				int _dropHero = dropMap[_byteKey];
@@ -124,7 +125,7 @@ namespace com.kx.sglm.gs.battle.share.factory.creater
 //ORIGINAL LINE: final com.kx.sglm.gs.battle.share.utils.FighterAProperty _aProp = createTestAProp(type.isHero(), boss);
 			FighterAProperty _aProp = createTestAProp(type.Hero, boss);
 			FighterInfo _info = createFighterProp(index, battleSide, type, _aProp);
-			_info.addNormalProp(BattleKeyConstants.BATTLE_KEY_HERO_TEMPLATE, 1009); // 测试代码很糙请无�?
+			_info.addNormalProp(BattleKeyConstants.BATTLE_KEY_HERO_TEMPLATE, 1009); // ???????????????????????????
 			return _info;
 		}
 

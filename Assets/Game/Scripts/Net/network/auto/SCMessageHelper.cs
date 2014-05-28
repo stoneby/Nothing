@@ -96,6 +96,10 @@ namespace KXSGCodec
             {
                 return new SCPropertyChangedString();
             }
+			            if (type == MessageType.SC_ADD_ITEMS_AND_HEROS.GetHashCode())
+            {
+                return new SCAddItemsAndHeros();
+            }
 			            if (type == MessageType.SC_RAID_ADDTION.GetHashCode())
             {
                 return new SCRaidAddtion();

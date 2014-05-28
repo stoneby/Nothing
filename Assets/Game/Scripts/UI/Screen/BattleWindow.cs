@@ -3,11 +3,20 @@ using UnityEngine;
 
 public class BattleWindow : Window
 {
+    #region Public Fields
+
+    public InitBattleField Battle;
+
+    #endregion
+
     #region Window
 
     public override void OnEnter()
     {
         Logger.Log("I am OnEnter with type - " + GetType().Name);
+
+        Battle.Init();
+        Battle.StartBattle();
     }
 
     public override void OnExit()

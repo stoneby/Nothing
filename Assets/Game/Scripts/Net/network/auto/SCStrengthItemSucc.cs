@@ -27,6 +27,7 @@ namespace KXSGCodec
   public partial class SCStrengthItemSucc : TBase
   {
     private short _operItemIndex;
+    private SCDeleteItems _delteItems;
 
     /// <summary>
     /// 升级道具背包内位置
@@ -44,6 +45,19 @@ namespace KXSGCodec
       }
     }
 
+    public SCDeleteItems DelteItems
+    {
+      get
+      {
+        return _delteItems;
+      }
+      set
+      {
+        __isset.delteItems = true;
+        this._delteItems = value;
+      }
+    }
+
 
     public Isset __isset;
     #if !SILVERLIGHT
@@ -51,6 +65,7 @@ namespace KXSGCodec
     #endif
     public struct Isset {
       public bool operItemIndex;
+      public bool delteItems;
     }
 
     public SCStrengthItemSucc() {
@@ -71,6 +86,14 @@ namespace KXSGCodec
           case 1:
             if (field.Type == TType.I16) {
               OperItemIndex = iprot.ReadI16();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 2:
+            if (field.Type == TType.Struct) {
+              DelteItems = new SCDeleteItems();
+              DelteItems.Read(iprot);
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
@@ -96,6 +119,14 @@ namespace KXSGCodec
         oprot.WriteI16(OperItemIndex);
         oprot.WriteFieldEnd();
       }
+      if (DelteItems != null && __isset.delteItems) {
+        field.Name = "delteItems";
+        field.Type = TType.Struct;
+        field.ID = 2;
+        oprot.WriteFieldBegin(field);
+        DelteItems.Write(oprot);
+        oprot.WriteFieldEnd();
+      }
       oprot.WriteFieldStop();
       oprot.WriteStructEnd();
     }
@@ -104,6 +135,8 @@ namespace KXSGCodec
       StringBuilder sb = new StringBuilder("SCStrengthItemSucc(");
       sb.Append("OperItemIndex: ");
       sb.Append(OperItemIndex);
+      sb.Append(",DelteItems: ");
+      sb.Append(DelteItems== null ? "<null>" : DelteItems.ToString());
       sb.Append(")");
       return sb.ToString();
     }

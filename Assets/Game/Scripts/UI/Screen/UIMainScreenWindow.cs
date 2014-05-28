@@ -10,12 +10,12 @@ public class UIMainScreenWindow : Window
     private UIEventListener addMp;
     private UIEventListener startGameLis;
     private UIEventListener filpLeftLis;
-    //private UIEventListener flipRightLis;
 
-	private UILabel gold ;
-	private UILabel diamond ;
+	private UILabel gold;
+	private UILabel diamond;
     private UILabel sprit;
     private UILabel nameLabel;
+
     #region Window
 
     public override void OnEnter()
@@ -47,7 +47,6 @@ public class UIMainScreenWindow : Window
         addMp = UIEventListener.Get(Utils.FindChild(transform, "Button-AddMp").gameObject);
         startGameLis = UIEventListener.Get(Utils.FindChild(transform, "Button-Start").gameObject);
         filpLeftLis = UIEventListener.Get(Utils.FindChild(transform, "Button-FlipL").gameObject);
-        //flipRightLis = UIEventListener.Get(Utils.FindChild(transform, "Button-FlipR").gameObject);
 
 		diamond = transform.FindChild("Fortune/Diamond/Coins-Value").GetComponent<UILabel>();
 		gold = transform.FindChild("Fortune/Coins/Coins-Value").GetComponent<UILabel>();
@@ -61,7 +60,6 @@ public class UIMainScreenWindow : Window
         addMp.onClick += OnAddMpClicked;
         startGameLis.onClick += OnStartGameClicked;
         filpLeftLis.onClick += OnFlipLeftClicked;
-        //flipRightLis.onClick += OnFlipRightClicked;
     }
 
     private void UnstallHandlers()
@@ -70,7 +68,6 @@ public class UIMainScreenWindow : Window
         addMp.onClick -= OnAddMpClicked;
         startGameLis.onClick -= OnStartGameClicked;
         filpLeftLis.onClick -= OnFlipLeftClicked;
-        //flipRightLis.onClick -= OnFlipRightClicked;
     }
 
     private void OnAddMoneyClicked(GameObject go)
@@ -94,19 +91,9 @@ public class UIMainScreenWindow : Window
         {
             WindowManager.Instance.Show(typeof(MissionTabWindow), true);
         }
-
-//        var csMsg = new CSRaidBattleStartMsg();
-//        csMsg.RaidId = 1;
-//        csMsg.FriendId = 1;
-//        NetManager.SendMessage(csMsg);
     }
 
     private void OnFlipLeftClicked(GameObject go)
-    {
-        
-    }
-
-    private void OnFlipRightClicked(GameObject go)
     {
         
     }

@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Assets.Game.Scripts.Common.Model;
-//using com.kx.sglm.gs.battle;
-//using com.kx.sglm.gs.battle.data.record;
-//using com.kx.sglm.gs.battle.enums;
-//using com.kx.sglm.gs.battle.input;
+﻿using Assets.Game.Scripts.Common.Model;
 using com.kx.sglm.gs.battle.share;
 using com.kx.sglm.gs.battle.share.data;
 using com.kx.sglm.gs.battle.share.data.record;
 using com.kx.sglm.gs.battle.share.input;
-using UnityEngine;
+using KXSGCodec;
+using System;
 using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class InitBattleField : MonoBehaviour, IBattleView
@@ -28,7 +24,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
     public GameObject WarningBg2;
     public GameObject WarningText;
 
-    private GameObject BattleBG;
+    public GameObject BattleBG;
 
 	public GameObject BreakObject;
 	public GameObject TextBGObject;
@@ -37,8 +33,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
 	public GameObject TextBG91;
     public GameObject TexSwardBg91;
 	public GameObject Text91;
-//    public GameObject[] heads;
-
     
     public GameObject CharacterAttrackValueLabel;
 
@@ -81,6 +75,13 @@ public class InitBattleField : MonoBehaviour, IBattleView
     //初始化
     void Start()
     {
+        //Init();
+
+        Logger.Log(Screen.height);
+    }
+
+    public void Init()
+    {
         var containerobj = GameObject.Find("BattleFieldPanel");
 
         lineObj = NGUITools.AddChild(containerobj, DragBarPrefab);
@@ -104,32 +105,28 @@ public class InitBattleField : MonoBehaviour, IBattleView
         WarningBg1.SetActive(false);
         WarningBg2.SetActive(false);
         WarningText.SetActive(false);
-		BreakObject.SetActive (false);
-		TextBGObject.SetActive (false);
-		TextObject.SetActive (false);
-		Picture91.SetActive (false);
-		TextBG91.SetActive (false);
+        BreakObject.SetActive(false);
+        TextBGObject.SetActive(false);
+        TextObject.SetActive(false);
+        Picture91.SetActive(false);
+        TextBG91.SetActive(false);
         Text91.SetActive(false);
         TexSwardBg91.SetActive(false);
-
-        BattleBG = gameObject.transform.FindChild("BattleFieldPanel/BattleBg").gameObject;
 
         InitHpBar();
         InitLeaders();
         InitTopDataBar();
-        
-        Logger.Log(Screen.height);
     }
 
     private static int bgIndex = 0;
     //开始战斗
     public void StartBattle()
     {
-        if (!objHaveBeenStart)
-        {
-            needCallStartBattle = true;
-            return;
-        }
+        //if (!objHaveBeenStart)
+        //{
+        //    needCallStartBattle = true;
+        //    return;
+        //}
 
         if (!isInited)
         {
@@ -361,17 +358,17 @@ public class InitBattleField : MonoBehaviour, IBattleView
         }
         realTime = Time.realtimeSinceStartup;
 
-        if (!objHaveBeenStart)
-        {
-            objHaveBeenStart = true;
-            if (needCallStartBattle)
-            {
-                needCallStartBattle = false;
-                StartBattle();
-            }
-        }
+        //if (!objHaveBeenStart)
+        //{
+        //    objHaveBeenStart = true;
+        //    if (needCallStartBattle)
+        //    {
+        //        needCallStartBattle = false;
+        //        StartBattle();
+        //    }
+        //}
 
-        TouchHandler();
+        //TouchHandler();
 
         MoveCharacterUpdate();
     }
@@ -459,29 +456,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
             prePoint = GetIndexByPlace(xx, yy);
             if (prePoint.x >= 0 && prePoint.y >= 0 && prePoint.x < 3 && prePoint.y < 3)
             {
-                isDraging = true;
-                Logger.Log("Nouse Down ------------------------------");
-                if (pointList == null) pointList = new List<GameObject>();
-                if (selectEffectList == null) selectEffectList = new ArrayList();
-                selectEffectList.Clear();
-                pointList.Clear();
-                while (lineList.Count > 0)
-                {
-                    GameObject temp = lineList[0] as GameObject;
-                    Destroy(temp);
-                    lineList.RemoveAt(0);
-                }
-                characterAttrackValue = 0;
-
-                GameObject obj = charactersLeft[Mathf.CeilToInt(prePoint.x), Mathf.CeilToInt(prePoint.y)];
-                CharacterControl cc = obj.GetComponent<CharacterControl>();
-                currentFootIndex = cc.FootIndex;
-
-                AddAObj(obj);
-
-                oldI = Mathf.CeilToInt(prePoint.x);
-                oldJ = Mathf.CeilToInt(prePoint.y);
-                lineObj.SetActive(true);
+                Reset();
             }
         }
 
@@ -517,21 +492,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
 
             if (xx > minX - 50 && xx < BaseX + 50 && yy > minY - 50 && yy < BaseY + 50)
             {
-                //DoAttrack();
-                //调取服务器战斗
-                var _action = new ProduceFighterIndexAction();
-                _action.HeroIndex = _indexArr;
-                var enemyindex = GetCurrentEnemyIndex();
-                if (enemyindex >= 0)
-                {
-                    var enemy = enemyList[enemyindex];
-                    var ec = enemy.GetComponent<EnemyControl>();
-
-                    _action.TargetIndex = ec.Data.Index;
-                    BattleModelLocator.Instance.MainBattle.handleBattleEvent(_action);
-                    RequestRecords();
-                    //PopTextManager.PopTip("发起攻击");
-                }
+                DoAttack(_indexArr);
             }
             else
             {
@@ -549,6 +510,50 @@ public class InitBattleField : MonoBehaviour, IBattleView
         if (isDraging)
         {
             DoDrag(xx, yy);
+        }
+    }
+
+    private void Reset()
+    {
+        isDraging = true;
+        Logger.Log("Nouse Down ------------------------------");
+        if (pointList == null) pointList = new List<GameObject>();
+        if (selectEffectList == null) selectEffectList = new ArrayList();
+        selectEffectList.Clear();
+        pointList.Clear();
+        while (lineList.Count > 0)
+        {
+            GameObject temp = lineList[0] as GameObject;
+            Destroy(temp);
+            lineList.RemoveAt(0);
+        }
+        characterAttrackValue = 0;
+
+        GameObject obj = charactersLeft[Mathf.CeilToInt(prePoint.x), Mathf.CeilToInt(prePoint.y)];
+        CharacterControl cc = obj.GetComponent<CharacterControl>();
+        currentFootIndex = cc.FootIndex;
+
+        AddAObj(obj);
+
+        oldI = Mathf.CeilToInt(prePoint.x);
+        oldJ = Mathf.CeilToInt(prePoint.y);
+        lineObj.SetActive(true);
+    }
+
+    private void DoAttack(int[] _indexArr)
+    {
+        //调取服务器战斗
+        var _action = new ProduceFighterIndexAction();
+        _action.HeroIndex = _indexArr;
+        var enemyindex = GetCurrentEnemyIndex();
+        if (enemyindex >= 0)
+        {
+            var enemy = enemyList[enemyindex];
+            var ec = enemy.GetComponent<EnemyControl>();
+
+            _action.TargetIndex = ec.Data.Index;
+            BattleModelLocator.Instance.MainBattle.handleBattleEvent(_action);
+            RequestRecords();
         }
     }
 
@@ -1914,13 +1919,19 @@ public class InitBattleField : MonoBehaviour, IBattleView
         else if (battleEndRecord.EndType == BattleRecordConstants.BATTLE_ALL_END)
         {
             int k = battleEndRecord.getIntProp(BattleRecordConstants.BATTLE_END_WIN_SIDE);
+
+            var msg = new CSBattlePveFinishMsg();
+            msg.Uuid = BattleModelLocator.Instance.Uuid;
+
             if (k == BattleRecordConstants.TARGET_SIDE_A)
             {
                 WindowManager.Instance.Show(typeof(BattleWinWindow), true);
+                msg.BattleResult = 1;
             }
             else
             {
                 WindowManager.Instance.Show(typeof(BattleLostWindow), true);
+                msg.BattleResult = 0;
             }
 
             isBattling = false;
@@ -1928,6 +1939,9 @@ public class InitBattleField : MonoBehaviour, IBattleView
             dealWithRecord();
             BattleModelLocator.Instance.NextList = null;
             Logger.Log("战斗结束 = 结结结结结结结结结结结束 ");
+
+            msg.Star = 2;
+            NetManager.SendMessage(msg);
         }
         else
         {

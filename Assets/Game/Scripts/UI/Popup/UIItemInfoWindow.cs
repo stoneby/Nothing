@@ -104,7 +104,8 @@ public class UIItemInfoWindow : Window
 
     private void OnBackBtnClicked(GameObject go)
     {
-        WindowManager.Instance.Show(typeof(UIEquipsDisplayWindow), true);
+        //WindowManager.Instance.Show(typeof(UIEquipsDisplayWindow), true);
+        WindowManager.Instance.Show(typeof(UIEquipDispTabWindow), true);
         WindowManager.Instance.Show(typeof(UIItemInfoWindow), false);
     }
 

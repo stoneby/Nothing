@@ -90,8 +90,8 @@ public class UIRectEditor : Editor
 		}
 	}
 
-	/// <summary>
 	/// Manually re-evaluate the current anchor type.
+	/// <summary>
 	/// </summary>
 
 	protected void ReEvaluateAnchorType ()

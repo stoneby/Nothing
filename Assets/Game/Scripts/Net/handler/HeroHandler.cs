@@ -19,8 +19,16 @@ namespace Assets.Game.Scripts.Net.handler
                     {
                         Utils.ShowWithoutDestory(typeof(UIHerosDisplayWindow));
                     }
+                    else if (HeroModelLocator.Instance.GetHeroPos == RaidType.GetHeroInHeroCreateTeam)
+                    {
+                        Utils.ShowWithoutDestory(typeof(UITeamShowingWindow));
+                    }
                     break;
 
+                case (short)MessageType.SC_HERO_CREATE_ONE:
+                    var createOneMsg = msg.GetContent() as SCHeroCreateOne;
+                    HeroModelLocator.Instance.SCHeroList.HeroList.Add(createOneMsg.NewHero);
+                    break;
                 case (short)MessageType.SC_HERO_MODIFY_TEAM:
                     var md5Msg = msg.GetContent() as SCHeroModifyTeam;
                     HeroModelLocator.Instance.SCHeroList.TeamList[md5Msg.TeamIndex].ListHeroUuid = md5Msg.NewTeamInfo;

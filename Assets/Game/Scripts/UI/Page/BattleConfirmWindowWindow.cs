@@ -106,6 +106,7 @@ public class BattleConfirmWindowWindow : Window
         var hor = HorContainer.GetComponent<KxListRender>();
         csMsg.TeamIndex = (sbyte) hor.CurrentIndex;
         NetManager.SendMessage(csMsg);
+        MissionModelLocator.Instance.MissionStep = RaidType.StepStageList;
     }
 
     private void OnLeftClick(GameObject game)
@@ -122,7 +123,8 @@ public class BattleConfirmWindowWindow : Window
 
     private void OnReturnClick(GameObject game)
     {
-        //
+        MissionModelLocator.Instance.MissionStep = RaidType.StepFriendList;
+        WindowManager.Instance.Show(typeof(MissionTabWindow), true);
     }
 
     private void OnSelectedhandler(GameObject obj = null)

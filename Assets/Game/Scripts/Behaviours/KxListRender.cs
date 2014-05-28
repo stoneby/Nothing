@@ -25,12 +25,17 @@ public class KxListRender : MonoBehaviour
     private float baseY2;
     private float moveFlag;
 
+    private float CenterX;
+    private float CenterY;
+
     public delegate void OnSelectedCallback(GameObject obj);
 
     /// <summary>
     /// Notification triggered when swipe happens.
     /// </summary>
     private OnSelectedCallback OnSelected;
+
+    private bool IsMoving = false;
 
     public void Init(IList datas, string prefabname, int currindex, int thewidth = 0, int theheight = 0, OnSelectedCallback selectedcallback = null)
     {
@@ -61,10 +66,16 @@ public class KxListRender : MonoBehaviour
             StartXList.Add(0);
             TheWidth = thewidth;
             TheHeight = theheight;
-            baseX1 = gameObject.transform.localPosition.x + (Screen.width - TheWidth) / 2;
+            baseX1 = gameObject.transform.localPosition.x - TheWidth / 2;
             baseX2 = baseX1 + TheWidth;
-            baseY1 = gameObject.transform.localPosition.y + (Screen.height - TheHeight) / 2;
+            CenterX = Screen.width/2;
+            CenterY = Screen.height/2;
+            baseY1 = gameObject.transform.localPosition.y - TheHeight / 2;
             baseY2 = baseY1 + TheHeight;
+            baseX1 *= CameraAdjuster.CameraScale;
+            baseX2 *= CameraAdjuster.CameraScale;
+            baseY1 *= CameraAdjuster.CameraScale;
+            baseY2 *= CameraAdjuster.CameraScale;
             moveFlag = TheWidth/3;
             HaveNotInit = false;
         }
@@ -156,15 +167,17 @@ public class KxListRender : MonoBehaviour
     private float oldX;
     private float startX;
 	// Update is called once per frame
-	void Update () 
-    {
-        var mx = Input.mousePosition.x;
-        var my = Input.mousePosition.y;
+	void Update ()
+	{
+	    var mx = Input.mousePosition.x - CenterX;// * CameraAdjuster.CameraScale;
+	    var my = Input.mousePosition.y - CenterY;// * CameraAdjuster.CameraScale;
+//        xx = xx / CameraAdjuster.CameraScale;
+//        yy = yy / CameraAdjuster.CameraScale;
 
         if (Input.GetMouseButtonDown(0))
         {
             //Logger.Log("Mouse Value (" + mx + ", " + my + ")");
-            if (mx > baseX1 && mx < baseX2 && my > baseY1 && my < baseY2)
+            if (!IsMoving && mx > baseX1 && mx < baseX2 && my > baseY1 && my < baseY2)
             {
                 isDraging = true;
                 startX = oldX = mx;
@@ -207,12 +220,14 @@ public class KxListRender : MonoBehaviour
 
     IEnumerator MoveToPos(float xx)
     {
+        if (IsMoving) yield break;
+        IsMoving = true;
         for (int i = 0; i < 3; i ++)
         {
-            PlayTweenPosition(Items[i], 0.2f, Items[i].transform.localPosition, new Vector3(StartXList[i] + xx, 0, 0)); 
+            PlayTweenPosition(Items[i], 0.5f, Items[i].transform.localPosition, new Vector3(StartXList[i] + xx, 0, 0)); 
         }
 
-        yield return new WaitForSeconds(0.4f);
+        yield return new WaitForSeconds(0.7f);
 
         if (xx > 0)
         {
@@ -238,6 +253,7 @@ public class KxListRender : MonoBehaviour
             }
             ShowItem(1);
         }
+        IsMoving = false;
     }
 
     void PlayTweenPosition(GameObject obj, float playtime, Vector3 from, Vector3 to)

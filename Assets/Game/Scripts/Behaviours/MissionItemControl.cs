@@ -102,7 +102,7 @@ public class MissionItemControl : MonoBehaviour
             Star3.SetActive(false);
             //RaidTemp.
             lb = StarLabel.GetComponent<UILabel>();
-            lb.text = pastedcount + "/" + MissionModelLocator.Instance.GetStageCountByRaidId(RaidTemp.Id);
+            lb.text = MissionModelLocator.Instance.GetStageCountByRaidId(RaidTemp.Id);
         }
         else
         {

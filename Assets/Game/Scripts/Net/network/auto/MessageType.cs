@@ -63,6 +63,7 @@ namespace KXSGCodec
     SC_EVOLUTE_ITEM_SUCC = 2027,
     SC_DELETE_ITEMS = 2028,
     SC_ADD_ITEM = 2029,
-    SC_END = 2030,
+    SC_ADD_ITEMS_AND_HEROS = 2030,
+    SC_END = 2031,
   }
 }

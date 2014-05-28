@@ -17,6 +17,7 @@ public class TabPanelBase : Window
     {
         public UISprite UiSprite;
         public Window Window;
+        public int ItemIndex;
     }
 
     /// <summary>
@@ -29,6 +30,8 @@ public class TabPanelBase : Window
     /// </summary>
     [HideInInspector]
     public TabPanelItem CurItem;
+
+    public int CurrIndex;
 
     /// <summary>
     /// The default index of highlight item when start the tab panel.
@@ -56,8 +59,10 @@ public class TabPanelBase : Window
         CurItem = new TabPanelItem
                       {
                           UiSprite = ToggleItems[DefaultItemIndex].UiSprite,
-                          Window = WindowManager.Instance.GetWindow(Utils.PrefabNameToWindow(ToggleItems[DefaultItemIndex].Window.name))
+                          Window = WindowManager.Instance.GetWindow(Utils.PrefabNameToWindow(ToggleItems[DefaultItemIndex].Window.name)),
+                          ItemIndex = ToggleItems[DefaultItemIndex].ItemIndex
                       };
+        CurrIndex = CurItem.ItemIndex;
         CurItem.Window.gameObject.SetActive(true);
         normalSpriteName = CurItem.UiSprite.spriteName;
         CurItem.UiSprite.spriteName = HlightSpriteName;
@@ -69,6 +74,10 @@ public class TabPanelBase : Window
     {
         CurItem.UiSprite.spriteName = normalSpriteName;
         CurItem.Window.gameObject.SetActive(false);
+    }
+
+    public virtual void OnToggle()
+    {
     }
 
     #endregion
@@ -114,19 +123,26 @@ public class TabPanelBase : Window
                 var item = FindPanelItem(sprite);
                 if (item != null)
                 {
+                    CurrIndex = item.ItemIndex;
+                    OnToggle();
                     CurItem = new TabPanelItem { UiSprite = sprite, Window = WindowManager.Instance.GetWindow(Utils.PrefabNameToWindow(item.Window.name))};
                     CurItem.UiSprite.spriteName = HlightSpriteName;
                     CurItem.Window.gameObject.SetActive(true);
+                    CurItem.ItemIndex = item.ItemIndex;
                     usedItems.Add(CurItem);
                 }
             }
             else
             {
-                CurItem = usedItems[spriteList.IndexOf(sprite)];
+                int k = spriteList.IndexOf(sprite);
+                CurItem = usedItems[k];
+                CurrIndex = CurItem.ItemIndex;
+                OnToggle();
                 CurItem.Window.gameObject.SetActive(true);
                 CurItem.UiSprite.spriteName = HlightSpriteName;
             }
         }
+        
     }
 
     /// <summary>

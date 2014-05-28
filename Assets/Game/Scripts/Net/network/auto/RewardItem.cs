@@ -24,9 +24,8 @@ namespace KXSGCodec
   public partial class RewardItem : TBase
   {
     private sbyte _rewardType;
-    private long _uuid;
-    private int _templateId;
-    private Dictionary<int, int> _prop;
+    private string _uuid;
+    private bool _isNew;
 
     public sbyte RewardType
     {
@@ -41,7 +40,7 @@ namespace KXSGCodec
       }
     }
 
-    public long Uuid
+    public string Uuid
     {
       get
       {
@@ -54,29 +53,16 @@ namespace KXSGCodec
       }
     }
 
-    public int TemplateId
+    public bool IsNew
     {
       get
       {
-        return _templateId;
+        return _isNew;
       }
       set
       {
-        __isset.templateId = true;
-        this._templateId = value;
-      }
-    }
-
-    public Dictionary<int, int> Prop
-    {
-      get
-      {
-        return _prop;
-      }
-      set
-      {
-        __isset.prop = true;
-        this._prop = value;
+        __isset.isNew = true;
+        this._isNew = value;
       }
     }
 
@@ -88,8 +74,7 @@ namespace KXSGCodec
     public struct Isset {
       public bool rewardType;
       public bool uuid;
-      public bool templateId;
-      public bool prop;
+      public bool isNew;
     }
 
     public RewardItem() {
@@ -115,34 +100,15 @@ namespace KXSGCodec
             }
             break;
           case 2:
-            if (field.Type == TType.I64) {
-              Uuid = iprot.ReadI64();
+            if (field.Type == TType.String) {
+              Uuid = iprot.ReadString();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
             break;
           case 3:
-            if (field.Type == TType.I32) {
-              TemplateId = iprot.ReadI32();
-            } else { 
-              TProtocolUtil.Skip(iprot, field.Type);
-            }
-            break;
-          case 4:
-            if (field.Type == TType.Map) {
-              {
-                Prop = new Dictionary<int, int>();
-                TMap _map17 = iprot.ReadMapBegin();
-                for( int _i18 = 0; _i18 < _map17.Count; ++_i18)
-                {
-                  int _key19;
-                  int _val20;
-                  _key19 = iprot.ReadI32();
-                  _val20 = iprot.ReadI32();
-                  Prop[_key19] = _val20;
-                }
-                iprot.ReadMapEnd();
-              }
+            if (field.Type == TType.Bool) {
+              IsNew = iprot.ReadBool();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
@@ -168,36 +134,20 @@ namespace KXSGCodec
         oprot.WriteByte(RewardType);
         oprot.WriteFieldEnd();
       }
-      if (__isset.uuid) {
+      if (Uuid != null && __isset.uuid) {
         field.Name = "uuid";
-        field.Type = TType.I64;
+        field.Type = TType.String;
         field.ID = 2;
         oprot.WriteFieldBegin(field);
-        oprot.WriteI64(Uuid);
+        oprot.WriteString(Uuid);
         oprot.WriteFieldEnd();
       }
-      if (__isset.templateId) {
-        field.Name = "templateId";
-        field.Type = TType.I32;
+      if (__isset.isNew) {
+        field.Name = "isNew";
+        field.Type = TType.Bool;
         field.ID = 3;
         oprot.WriteFieldBegin(field);
-        oprot.WriteI32(TemplateId);
-        oprot.WriteFieldEnd();
-      }
-      if (Prop != null && __isset.prop) {
-        field.Name = "prop";
-        field.Type = TType.Map;
-        field.ID = 4;
-        oprot.WriteFieldBegin(field);
-        {
-          oprot.WriteMapBegin(new TMap(TType.I32, TType.I32, Prop.Count));
-          foreach (int _iter21 in Prop.Keys)
-          {
-            oprot.WriteI32(_iter21);
-            oprot.WriteI32(Prop[_iter21]);
-          }
-          oprot.WriteMapEnd();
-        }
+        oprot.WriteBool(IsNew);
         oprot.WriteFieldEnd();
       }
       oprot.WriteFieldStop();
@@ -210,10 +160,8 @@ namespace KXSGCodec
       sb.Append(RewardType);
       sb.Append(",Uuid: ");
       sb.Append(Uuid);
-      sb.Append(",TemplateId: ");
-      sb.Append(TemplateId);
-      sb.Append(",Prop: ");
-      sb.Append(Prop);
+      sb.Append(",IsNew: ");
+      sb.Append(IsNew);
       sb.Append(")");
       return sb.ToString();
     }

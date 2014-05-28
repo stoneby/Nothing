@@ -63,13 +63,13 @@ public sealed class MissionModelLocator
     public SCRaidLoadingAll RaidLoadingAll;
     public SCRaidAddtion RaidAddition;
 
-    public RaidAddtionInfo GetAdditionInfoByRaidTemplateID(int raidtype, int templateid)
+    public RaidAddtionInfo GetAdditionInfoByRaidTemplateID(int templateid)
     {
         if (RaidAddition == null || RaidAddition.AddtionInfo == null) return null;
 
         for (int i = 0; i < RaidAddition.AddtionInfo.Count; i++)
         {
-            if (raidtype == RaidAddition.AddtionInfo[i].RaidType)
+            if (CurrRaidType == RaidAddition.AddtionInfo[i].RaidType)
             {
                 for (int j = 0; j < RaidAddition.AddtionInfo[i].RaidTemplateId.Count; j++)
                 {
@@ -83,45 +83,68 @@ public sealed class MissionModelLocator
         return null;
     }
 
-    public Dictionary<int, int> TotalStageCount; 
+    public Dictionary<int, int> TotalStageCount;
+    public Dictionary<int, int> TotalStarCount; 
 
     public void ComputeStagecount()
     {
         if (TotalStageCount != null) return;
         var raidtemplates = MissionModelLocator.Instance.RaidTemplates.RaidStageTmpl;
         TotalStageCount = new Dictionary<int, int>();
+        TotalStarCount = new Dictionary<int, int>();
         foreach (KeyValuePair<int, RaidStageTemplate> item in raidtemplates)
         {
             if (TotalStageCount.ContainsKey(item.Value.RaidId))
             {
-                TotalStageCount[item.Value.RaidId]++;
+                TotalStageCount[item.Value.RaidId] += 3;
             }
             else
             {
-                TotalStageCount.Add(item.Value.RaidId, 1);
+                TotalStageCount.Add(item.Value.RaidId, 3);
+                TotalStarCount.Add(item.Value.RaidId, 0);
             }
         }
-        
+
+        for (int i = 0; i < RaidLoadingAll.RaidInfoNormal.Count; i++)
+        {
+            if (TotalStarCount.ContainsKey(RaidLoadingAll.RaidInfoNormal[i].TemplateId))
+            {
+                for (int j = 0; j < RaidLoadingAll.RaidInfoNormal[i].StateInfo.Count; j++)
+                {
+                    TotalStarCount[RaidLoadingAll.RaidInfoNormal[i].TemplateId] +=
+                        RaidLoadingAll.RaidInfoNormal[i].StateInfo[j].Star;
+                }
+            }
+        }
+
     }
 
-    public int GetStageCountByRaidId(int raidtemplateid)
+    public string GetStageCountByRaidId(int raidtemplateid)
     {
         if (TotalStageCount == null)
         {
-            return 0;
+            return "0/0";
         }
         else if (TotalStageCount.ContainsKey(raidtemplateid))
         {
-            return TotalStageCount[raidtemplateid];
+            return TotalStarCount[raidtemplateid] + "/" + TotalStageCount[raidtemplateid];
         }
         else
         {
-            return 0;
+            return "0/0";
         }
     }
-    
+
+    public int RaidType = 1;
+    public int CurrRaidType = 0;
+    //当前进入的大地图
+    public RaidInfo Raid;
+    //当前获得的好友列表
+    public SCRaidQueryFriend FriendsMsg;
 //    public int 
     public bool IsFriend;
     public FriendInfo FriendData;
     public int SelectedStageId;
+
+    public int MissionStep;
 }

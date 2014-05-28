@@ -113,7 +113,9 @@ public class MainMenuBarWindow : Window
         }
         else
         {
-            Utils.ShowWithoutDestory(typeof(UIEquipsDisplayWindow));
+            //Utils.ShowWithoutDestory(typeof(UIEquipsDisplayWindow));
+            Utils.ShowWithoutDestory(typeof(UIEquipDispTabWindow));
+            WindowManager.Instance.Show<UItemsWindow>(true);
         }
     }
 
@@ -122,7 +124,17 @@ public class MainMenuBarWindow : Window
     /// </summary>
     private void OnTeamClicked(GameObject go)
     {
-        Utils.ShowWithoutDestory(typeof(UITeamShowingWindow));
+        if (HeroModelLocator.Instance.SCHeroList == null)
+        {
+            HeroModelLocator.Instance.GetHeroPos = RaidType.GetHeroInHeroCreateTeam;
+            var csmsg = new CSHeroList();
+            NetManager.SendMessage(csmsg);
+        }
+        else
+        {
+            Utils.ShowWithoutDestory(typeof(UITeamShowingWindow));
+        }
+        
     }
 
     /// <summary>

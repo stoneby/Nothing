@@ -32,7 +32,8 @@ namespace Assets.Game.Scripts.Net.handler
 				PlayerModelLocator.Instance.Sprit = themsg.Spirit;
 				PlayerModelLocator.Instance.ExtendHeroTimes = themsg.HeroExtendTimes;
 				PlayerModelLocator.Instance.ExtendItemTimes = themsg.ItemExtendTimes;
-				PlayerModelLocator.Instance.HeroMax = themsg.HeroMax;
+                PlayerModelLocator.Instance.HeroMax = themsg.HeroMax;
+                PlayerModelLocator.Instance.Energy = themsg.Energy;
             }
             EventManager.Instance.Post(new LoginEvent() { Message = "This is login event." });
             WindowManager.Instance.Show(typeof(UIMainScreenWindow), true);

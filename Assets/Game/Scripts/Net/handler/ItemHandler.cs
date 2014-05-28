@@ -12,7 +12,9 @@ namespace Assets.Game.Scripts.Net.handler
             if (themsg != null)
             {
                 ItemModeLocator.Instance.ScAllItemInfos = themsg;
-                Utils.ShowWithoutDestory(typeof(UIEquipsDisplayWindow));
+               // Utils.ShowWithoutDestory(typeof(UIEquipsDisplayWindow));
+                Utils.ShowWithoutDestory(typeof(UIEquipDispTabWindow));
+                WindowManager.Instance.Show<UItemsWindow>(true);
             }
         }
 
@@ -44,8 +46,8 @@ namespace Assets.Game.Scripts.Net.handler
                 }
                 if(type == ItemModeLocator.EquipType.EquipTempl || type == ItemModeLocator.EquipType.ArmorTemplate)
                 {
+                    WindowManager.Instance.Show<UIItemInfoWindow>(true);
                     WindowManager.Instance.Show<ItemBaseInfoWindow>(true);
-                    WindowManager.Instance.Show<UIItemInfoWindow>(true); 
                 }
             }
         }
