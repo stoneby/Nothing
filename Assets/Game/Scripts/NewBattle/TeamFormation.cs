@@ -45,6 +45,15 @@ public class TeamFormation
     public XmlNode WriteXmlElement(XmlDocument document)
     {
         var node = document.CreateElement("TeamFormation");
+        var descriptionNode = document.CreateElement("Description");
+        descriptionNode.InnerText = Description;
+        PositionList.ForEach(position =>
+        {
+            var positionNode = document.CreateElement("Position");
+            positionNode.InnerText = string.Format("({0},{1},{2})", position.x, position.y, position.z);
+
+
+        });
         return node;
     }
 }
