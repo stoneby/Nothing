@@ -1120,6 +1120,22 @@ GameObject:
   - 4: {fileID: 400134}
   - 114: {fileID: 11400194}
   m_Layer: 8
+  m_Name: CharacterBarPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &100136
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 400136}
+  - 114: {fileID: 11400380}
+  m_Layer: 8
   m_Name: DragBarPool
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3004,11 +3020,12 @@ Transform:
   m_GameObject: {fileID: 100130}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: .99992007, y: .99992007, z: .99992007}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400128}
-  - {fileID: 400134}
   - {fileID: 400114}
+  - {fileID: 400134}
+  - {fileID: 400136}
   - {fileID: 401344}
   - {fileID: 400126}
   m_Father: {fileID: 0}
@@ -3029,6 +3046,17 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100134}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.00002241, y: 1.00002241, z: 1.00002241}
+  m_Children: []
+  m_Father: {fileID: 400130}
+--- !u!4 &400136
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100136}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -8296,7 +8324,8 @@ MonoBehaviour:
   - {fileID: 11400352}
   - {fileID: 11400242}
   - {fileID: 11400306}
-  DragBarPool: {fileID: 11400194}
+  DragBarPool: {fileID: 11400380}
+  CharacterPool: {fileID: 0}
   CurrentCamera: {fileID: 0}
   AutoAdjustPosition: 1
   Row: 3
@@ -8314,8 +8343,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 001e61051d6f80745b2136990fa053a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Capcity: 4
-  SpawnObject: {fileID: 100000, guid: 49d0ad8dd77df9d448a4491f8f11ff82, type: 2}
+  Capacity: 4
+  SpawnObject: {fileID: 100002, guid: 685f793f8cf3bab468178784aab24f9d, type: 2}
+  ObjectList: []
 --- !u!114 &11400196
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -11388,7 +11418,8 @@ MonoBehaviour:
   - {fileID: 11400184}
   - {fileID: 11400186}
   - {fileID: 11400188}
-  DragBarPool: {fileID: 11400194}
+  DragBarPool: {fileID: 11400380}
+  CharacterPool: {fileID: 0}
   CurrentCamera: {fileID: 0}
   AutoAdjustPosition: 1
   Row: 3
@@ -12318,6 +12349,20 @@ MonoBehaviour:
   TeamController: {fileID: 0}
   RunTime: 0
   ReturnTime: 0
+--- !u!114 &11400380
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 001e61051d6f80745b2136990fa053a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Capacity: 4
+  SpawnObject: {fileID: 100002, guid: 685f793f8cf3bab468178784aab24f9d, type: 2}
+  ObjectList: []
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

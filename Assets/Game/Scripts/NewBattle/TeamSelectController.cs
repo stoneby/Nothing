@@ -10,6 +10,7 @@ public class TeamSelectController : MonoBehaviour
 
     public List<Character> CharacterList;
     public MyPoolManager DragBarPool;
+    public MyPoolManager CharacterPool;
     public Camera CurrentCamera;
 
     public bool AutoAdjustPosition;
@@ -65,15 +66,6 @@ public class TeamSelectController : MonoBehaviour
 
     #region Private Methods
 
-    private void OnCharacterClick(GameObject sender)
-    {
-        Logger.LogWarning("On character click: " + sender.name);
-    }
-
-    private void OnCharacterPress(GameObject sender, bool isPressed)
-    {
-        Logger.Log("On character press: " + sender.name + ", is pressed: " + isPressed);
-    }
     private void OnCharacterDrag(GameObject sender, Vector2 delta)
     {
         //Logger.Log("On character drag: " + sender.name + " with delta: " + delta);
@@ -89,20 +81,9 @@ public class TeamSelectController : MonoBehaviour
 
         var sourcePosition = UICamera.mainCamera.WorldToScreenPoint(LastCharacter.transform.position);
         var targetPosition = UICamera.currentTouch.pos;
-
-        DragBarPool.CurrentObject.transform.localRotation = Utils.GetRotation(
-                new Vector2(sourcePosition.x, sourcePosition.y), targetPosition);
-
-        //Logger.LogWarning("current drag bar to parent: " + DragBarPool.CurrentObject.transform.parent.name);
-
-        SetDragbarWidth(sourcePosition, targetPosition);
-    }
-
-    private void SetDragbarWidth(Vector3 sourcePosition, Vector2 targetPosition)
-    {
-        var barSprite = DragBarPool.CurrentObject.GetComponent<DragBarController>().BarSprite;
-        var distance = Mathf.Abs(Vector2.Distance(sourcePosition, targetPosition));
-        barSprite.width = (int)(distance * UICamera.mainCamera.orthographicSize);
+        var dragbarController = DragBarPool.CurrentObject.GetComponent<AbstractDragBarController>();
+        dragbarController.SetRotate(new Vector2(sourcePosition.x, sourcePosition.y), targetPosition);
+        dragbarController.SetWidth(sourcePosition, targetPosition);
     }
 
     private void OnCharacterDragStart(GameObject sender)
@@ -161,8 +142,8 @@ public class TeamSelectController : MonoBehaviour
                 DragBarPool.Return(DragBarPool.CurrentObject);
 
                 var t = selectedObject.transform;
-                DragBarPool.CurrentObject = t.FindChild("DragBar(Clone)").gameObject;
-
+                var dragName = DragBarPool.SpawnObject.name;
+                DragBarPool.CurrentObject = t.FindChild(string.Format("{0}(Clone)", dragName)).gameObject;
                 Logger.LogWarning("Current drag bar to parent is: " + selectedObject.name);
             }
 
@@ -177,11 +158,6 @@ public class TeamSelectController : MonoBehaviour
             Logger.Log("Add dragged character, which is neighbor - " + currentCharacter +
                       ", to selected character list - " + SelectedCharacterList.Count);
         }
-    }
-
-    private void OnCharacterDragOut(GameObject sender, GameObject draggedObject)
-    {
-        //Logger.Log("On character drop out: " + sender.name + ", dragged game ojbect: " + draggedObject.name);
     }
 
     private void OnCharacterDragEnd(GameObject sender)
@@ -225,7 +201,8 @@ public class TeamSelectController : MonoBehaviour
             var targetPosition = UICamera.mainCamera.WorldToScreenPoint(sender.transform.position);
             DragBarPool.CurrentObject.transform.localRotation = Utils.GetRotation(sourcePosition, targetPosition);
 
-            SetDragbarWidth(sourcePosition, targetPosition);
+            var dragbarController = DragBarPool.CurrentObject.GetComponent<AbstractDragBarController>();
+            dragbarController.SetWidth(sourcePosition, targetPosition);
 
             Logger.LogWarning("Source position: " + sourcePosition + ", target position: " + targetPosition + ", rotation: " + DragBarPool.CurrentObject.transform.rotation);
         }
@@ -258,6 +235,12 @@ public class TeamSelectController : MonoBehaviour
 
     void Start()
     {
+        if (CharacterList == null)
+        {
+            Logger.LogWarning("Please make sure that you take care of character list adding in your script, but not static binding.");
+            return;
+        }
+
         if (CharacterList.Count != Row * Col)
         {
             Logger.LogError("Please make sure character list count - " + CharacterList.Count + " is the same as Row * Col - " + Row * Col);
@@ -279,12 +262,9 @@ public class TeamSelectController : MonoBehaviour
 
         CharacterList.ForEach(character =>
         {
-            UIEventListener.Get(character.gameObject).onClick += OnCharacterClick;
-            UIEventListener.Get(character.gameObject).onPress += OnCharacterPress;
             UIEventListener.Get(character.gameObject).onDrag += OnCharacterDrag;
             UIEventListener.Get(character.gameObject).onDragStart += OnCharacterDragStart;
             UIEventListener.Get(character.gameObject).onDragOver += OnCharacterDragOver;
-            UIEventListener.Get(character.gameObject).onDragOut += OnCharacterDragOut;
             UIEventListener.Get(character.gameObject).onDragEnd += OnCharacterDragEnd;
         });
     }

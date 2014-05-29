@@ -1,13 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using System.Collections;
 
 public class MyPoolManager : MonoBehaviour
 {
     #region Public Fields
 
-    public int Capcity = DefaultCapcity;
+    public int Capacity = DefaultCapcity;
     public GameObject SpawnObject;
 
     public const int DefaultCapcity = 4;
@@ -16,7 +15,8 @@ public class MyPoolManager : MonoBehaviour
 
     #region Public Properties
 
-    public List<GameObject> ObjectList { get; set; }
+    public List<GameObject> ObjectList;
+
     public GameObject CurrentObject { get; set; }
 
     #endregion
@@ -33,10 +33,10 @@ public class MyPoolManager : MonoBehaviour
         var inactiveObjectList = inactiveObjectEnum as IList<GameObject> ?? inactiveObjectEnum.ToList();
         if (!inactiveObjectList.Any())
         {
-            Logger.LogWarning("Take too more than Capacity as " + Capcity + ", make it twice more larger.");
+            Logger.LogWarning("Take too more than Capacity as " + Capacity + ", make it twice more larger.");
             EnlargeCapacity();
             // return the last one.
-            CurrentObject = ObjectList[Capcity - 1];
+            CurrentObject = ObjectList[Capacity - 1];
             return CurrentObject;
         }
 
@@ -73,13 +73,13 @@ public class MyPoolManager : MonoBehaviour
 
     private void EnlargeCapacity()
     {
-        FillObjectList();
-        Capcity += Capcity;
+        FillObjectList(Capacity);
+        Capacity += Capacity;
     }
 
-    private void FillObjectList()
+    private void FillObjectList(int num)
     {
-        for (var i = 0; i < Capcity; ++i)
+        for (var i = 0; i < num; ++i)
         {
             ObjectList.Add(Spawn());
         }
@@ -91,9 +91,20 @@ public class MyPoolManager : MonoBehaviour
 
     void Awake()
     {
-        ObjectList = new List<GameObject>(Capcity);
+        if (ObjectList == null)
+        {
+            ObjectList = new List<GameObject>(Capacity);
+        }
+        else 
+        {
+            while (ObjectList.Count >= Capacity)
+            {
+                // double capacity if object list already hold more than capacity value.
+                Capacity += Capacity;
+            }
+        }
 
-        FillObjectList();
+        FillObjectList(Capacity - ObjectList.Count);
     }
 
     #endregion

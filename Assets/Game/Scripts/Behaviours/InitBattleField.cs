@@ -36,6 +36,8 @@ public class InitBattleField : MonoBehaviour, IBattleView
     
     public GameObject CharacterAttrackValueLabel;
 
+    public TeamSelectController TeamController;
+
     private int characterAttrackValue;
     private GameObject leftContainerObj;
     private float characterMaxValue;
@@ -60,8 +62,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
     private readonly GameObject[,] charactersLeft = new GameObject[3, 3];
     private GameObject[] enemyList;	//当前敌方数组
     private int currEnemyGroupIndex;	//当前是第几波敌人;
-    private bool objHaveBeenStart;
-    private bool needCallStartBattle;
 
     private float realTime;
 
@@ -71,14 +71,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
     private ArrayList lineList;
 
     private const float Tolerance = 0.1f;
-
-    //初始化
-    void Start()
-    {
-        //Init();
-
-        Logger.Log(Screen.height);
-    }
 
     public void Init()
     {
@@ -122,12 +114,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
     //开始战斗
     public void StartBattle()
     {
-        //if (!objHaveBeenStart)
-        //{
-        //    needCallStartBattle = true;
-        //    return;
-        //}
-
         if (!isInited)
         {
             isInited = true;
@@ -186,10 +172,8 @@ public class InitBattleField : MonoBehaviour, IBattleView
 
     IEnumerator InitBattleFighters()
     {
-        
         yield return StartCoroutine(MakeUpOneByOne(false));
         RunToNextEnemys();
-        
     }
     
     //创建本关的怪
@@ -280,6 +264,8 @@ public class InitBattleField : MonoBehaviour, IBattleView
     //后面的武将补位
     IEnumerator MakeUpOneByOne(bool needresetcharacter = true)
     {
+        TeamController.CharacterList.Clear();
+
         float runStepTime = (needresetcharacter) ? GameConfig.RunStepNeedTime : GameConfig.ShortTime;
         float runWaitTime = (needresetcharacter) ? GameConfig.NextRunWaitTime : GameConfig.ShortTime;
         GameObject obj;
@@ -346,6 +332,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
                 }
             }
         }
+
         if (needresetcharacter) yield return new WaitForSeconds(t); ;
     }
 
@@ -357,16 +344,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
             ResetCharacters();
         }
         realTime = Time.realtimeSinceStartup;
-
-        //if (!objHaveBeenStart)
-        //{
-        //    objHaveBeenStart = true;
-        //    if (needCallStartBattle)
-        //    {
-        //        needCallStartBattle = false;
-        //        StartBattle();
-        //    }
-        //}
 
         //TouchHandler();
 
