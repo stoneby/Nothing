@@ -57,7 +57,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
     private GameObject lineObj;
 
     //开始一场战斗,attracks攻击的12个武将的数组,enemys敌人方n波敌人的数组
-    private bool isInited;
     private List<GameObject> attrackWaitList;
     private readonly GameObject[,] charactersLeft = new GameObject[3, 3];
     private GameObject[] enemyList;	//当前敌方数组
@@ -114,9 +113,8 @@ public class InitBattleField : MonoBehaviour, IBattleView
     //开始战斗
     public void StartBattle()
     {
-        if (!isInited)
+        if (attrackWaitList == null)
         {
-            isInited = true;
             attrackWaitList = new List<GameObject>();
         }
 

@@ -19,18 +19,24 @@ public class TeamFormation
     /// Position list.
     /// </summary>
     [SerializeField]
-    public List<Vector3> PositionList;
+    public List<Vector3> PositionList = new List<Vector3>();
 
+    /// <summary>
+    /// Read xml from node.
+    /// </summary>
+    /// <param name="element">Xml node</param>
     public void ReadXmlNode(XmlNode element)
     {
         var descriptionNode = element.SelectSingleNode("Description");
-        Description = descriptionNode.Value;
+        Description = descriptionNode.InnerText;
+        Debug.Log("Description: " + Description);
         var positionNodeList = element.SelectNodes("Position");
         PositionList.Clear();
         foreach (XmlNode positionNode in positionNodeList)
         {
-            var positionStr = positionNode.Value;
-            positionStr = positionStr.Substring(1, positionStr.Length - 1);
+            var positionStr = positionNode.InnerText;
+            // remove the beginning and end of source string.
+            positionStr = positionStr.Trim().Substring(1, positionStr.Length - 2);
             var positionList = positionStr.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries);
             if (positionList.Length != 3)
             {
@@ -42,17 +48,22 @@ public class TeamFormation
         }
     }
 
+    /// <summary>
+    /// Write xml to node.
+    /// </summary>
+    /// <param name="document">Xml document</param>
+    /// <returns>Xml node</returns>
     public XmlNode WriteXmlElement(XmlDocument document)
     {
         var node = document.CreateElement("TeamFormation");
         var descriptionNode = document.CreateElement("Description");
         descriptionNode.InnerText = Description;
+        node.AppendChild(descriptionNode);
         PositionList.ForEach(position =>
         {
             var positionNode = document.CreateElement("Position");
             positionNode.InnerText = string.Format("({0},{1},{2})", position.x, position.y, position.z);
-
-
+            node.AppendChild(positionNode);
         });
         return node;
     }

@@ -1,23 +1,20 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class TeamSelectController : MonoBehaviour
 {
     #region Public Fields
 
+    public TeamFormationController FormationController;
     public AttackSimulator AttackSimulator;
 
     public List<Character> CharacterList;
     public MyPoolManager DragBarPool;
     public MyPoolManager CharacterPool;
-    public Camera CurrentCamera;
 
-    public bool AutoAdjustPosition;
     public int Row;
     public int Col;
-
-    public Vector3 OffSet;
+    public int Total;
 
     public bool EditMode;
 
@@ -116,7 +113,7 @@ public class TeamSelectController : MonoBehaviour
             if (OnAttack != null)
             {
                 OnAttack(targetObject);
-            } 
+            }
             return;
         }
 
@@ -183,6 +180,11 @@ public class TeamSelectController : MonoBehaviour
         Reset();
     }
 
+    private void OnCharacterDragOut(GameObject sender, GameObject draggedObject)
+    {
+        Logger.Log("On character drag out: " + sender.name + ", dragged started game ojbect: " + draggedObject.name);
+    }
+
     public void Reset()
     {
         targetObject = null;
@@ -213,14 +215,14 @@ public class TeamSelectController : MonoBehaviour
         Logger.LogWarning("Added drag bar to parent: " + sender.name);
     }
 
-    private void AddChild(GameObject sender, GameObject dragBar)
+    private void AddChild(GameObject sender, GameObject childObject)
     {
-        var t = dragBar.transform;
+        var t = childObject.transform;
         t.parent = sender.transform;
-        t.localPosition = Vector3.zero + OffSet;
+        t.localPosition = Vector3.zero;
         t.localRotation = Quaternion.identity;
         t.localScale = Vector3.one;
-        dragBar.SetActive(true);
+        childObject.SetActive(true);
     }
 
     public void OnDragOverAnotherTeamHandler(GameObject target)
@@ -237,24 +239,49 @@ public class TeamSelectController : MonoBehaviour
     {
         if (CharacterList == null)
         {
-            Logger.LogWarning("Please make sure that you take care of character list adding in your script, but not static binding.");
-            return;
+            CharacterList = new List<Character>();
         }
 
-        if (CharacterList.Count != Row * Col)
+        if (CharacterList.Count == 0)
         {
-            Logger.LogError("Please make sure character list count - " + CharacterList.Count + " is the same as Row * Col - " + Row * Col);
+            Logger.LogWarning("Dynamic binding mode, take character from pool of number: " + Total);
+            
+            for (var i = 0; i < Total; ++i)
+            {
+                var character = CharacterPool.Take().GetComponent<Character>();
+                CharacterList.Add(character);
+                AddChild(gameObject, character.gameObject);
+            }
+        }
+
+        Total = CharacterList.Count;
+
+        var visableTotal = Row * Col;
+        if (CharacterList.Count < visableTotal)
+        {
+            Logger.LogError("Please make sure character list count - " + CharacterList.Count + " is more than Row * Col - " + Row * Col);
             return;
         }
 
+        var positionList = FormationController.FormationList[FormationController.Index].PositionList;
         for (var i = 0; i < CharacterList.Count; ++i)
         {
             var character = CharacterList[i];
-            character.Index = i;
-            if (AutoAdjustPosition)
+            if (i < visableTotal)
             {
+                // logic location.
+                character.Index = i;
                 character.Location.X = i / Col;
                 character.Location.Y = i % Row;
+
+                // world position.
+                character.name += character.Index;
+                character.transform.position = positionList[i];
+            }
+            else
+            {
+                character.transform.position = Vector3.zero;
+                character.gameObject.SetActive(false);
             }
         }
 
@@ -262,10 +289,15 @@ public class TeamSelectController : MonoBehaviour
 
         CharacterList.ForEach(character =>
         {
-            UIEventListener.Get(character.gameObject).onDrag += OnCharacterDrag;
-            UIEventListener.Get(character.gameObject).onDragStart += OnCharacterDragStart;
-            UIEventListener.Get(character.gameObject).onDragOver += OnCharacterDragOver;
-            UIEventListener.Get(character.gameObject).onDragEnd += OnCharacterDragEnd;
+            if (UIEventListener.Get(character.gameObject).onDrag == null)
+            {
+                UIEventListener.Get(character.gameObject).onDrag += OnCharacterDrag;
+            }
+            var eventListenere = UIEventListener.Get(character.gameObject);
+            eventListenere.onDragStart += OnCharacterDragStart;
+            eventListenere.onDragOver += OnCharacterDragOver;
+            eventListenere.onDragEnd += OnCharacterDragEnd;
+            eventListenere.onDragOut += OnCharacterDragOut;
         });
     }
 
