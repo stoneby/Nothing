@@ -41,6 +41,12 @@ public class TeamFormationController : MonoBehaviour
             FormationList.Add(formation);
         }
 
+        if (Index < 0 || Index >= FormationList.Count)
+        {
+            Logger.LogWarning("Formation index should be in range (0 - " + FormationList.Count + "), which is: " + Index + ", we will get 0 as default.");
+            Index = 0;
+        }
+
 #if UNITY_EDITOR
         if (!Application.isPlaying)
         {
@@ -53,12 +59,6 @@ public class TeamFormationController : MonoBehaviour
 
     private void RefreshView()
     {
-        if (Index < 0 || Index >= FormationList.Count)
-        {
-            Logger.LogWarning("Formation index should be in range (0 - " + FormationList.Count + "), which is: " + Index + ", we will get 0 as default.");
-            Index = 0;
-        }
-
         // spawn game object if needed.
         Spawn();
 

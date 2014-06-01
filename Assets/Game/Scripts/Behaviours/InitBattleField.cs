@@ -1,4 +1,6 @@
-﻿using Assets.Game.Scripts.Common.Model;
+﻿using System.Diagnostics;
+using System.Linq;
+using Assets.Game.Scripts.Common.Model;
 using com.kx.sglm.gs.battle.share;
 using com.kx.sglm.gs.battle.share.data;
 using com.kx.sglm.gs.battle.share.data.record;
@@ -113,27 +115,35 @@ public class InitBattleField : MonoBehaviour, IBattleView
     //开始战斗
     public void StartBattle()
     {
+        leftContainerObj = GameObject.Find("BattleFieldWidgetLeft");
+
+        TeamController.Total = BattleModelLocator.Instance.HeroList.Count;
+        TeamController.Row = 3;
+        TeamController.Col = 3;
+        TeamController.Initialize();
+
         if (attrackWaitList == null)
         {
             attrackWaitList = new List<GameObject>();
         }
 
-        leftContainerObj = GameObject.Find("BattleFieldWidgetLeft");
-
-        for (int i = 0; i < BattleModelLocator.Instance.HeroList.Count; i++)
+        for (int i = 0; i < TeamController.Total; i++)
         {
             var t = BattleModelLocator.Instance.HeroList[i];
-            var obj = NGUITools.AddChild(leftContainerObj, CharacterPrefab);
-            attrackWaitList.Add(obj);
-            obj.SetActive(false);
+            //var obj = NGUITools.AddChild(leftContainerObj, CharacterPrefab);
+            //attrackWaitList.Add(obj);
+            //obj.SetActive(false);
+            var obj = TeamController.CharacterList[i];
             var cc = obj.GetComponent<CharacterControl>();
 
             if (i > 8)
             {
                 cc.SetCharacter(t, BattleTypeConstant.IsFriend);
+                attrackWaitList.Add(obj.gameObject);
             }
             else
             {
+                charactersLeft[i / TeamController.Row, i % TeamController.Col] = obj.gameObject;
                 cc.SetCharacter(t);
             }
             cc.SetSelect(false);
@@ -165,6 +175,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
         currEnemyGroupIndex = 0;
         CreateCurrentEnemys();
         RequestRecords();
+
         StartCoroutine(InitBattleFighters());
     }
 
@@ -262,8 +273,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
     //后面的武将补位
     IEnumerator MakeUpOneByOne(bool needresetcharacter = true)
     {
-        TeamController.CharacterList.Clear();
-
         float runStepTime = (needresetcharacter) ? GameConfig.RunStepNeedTime : GameConfig.ShortTime;
         float runWaitTime = (needresetcharacter) ? GameConfig.NextRunWaitTime : GameConfig.ShortTime;
         GameObject obj;
@@ -312,6 +321,10 @@ public class InitBattleField : MonoBehaviour, IBattleView
                         cc.SetIndex(i, j);
                         cc.SetFootIndex(footManager.GetNext());
                         cc.PlayCharacter(CharacterType.ActionRun);
+
+                        var character = cc.GetComponent<Character>();
+                        character.ColorIndex = cc.FootIndex;
+
                         t = (2 - i) * GameConfig.RunStepNeedTime + GameConfig.RunStepNeedTime;
 //                        if (i == tempi && j == tempj)
 //                        {
@@ -328,10 +341,24 @@ public class InitBattleField : MonoBehaviour, IBattleView
                     }
                     yield return new WaitForSeconds(runWaitTime);
                 }
+                else
+                {
+                    if (!needresetcharacter)
+                    {
+                        cc = charactersLeft[i, j].GetComponent<CharacterControl>();
+                        cc.SetFootIndex(footManager.GetNext());
+
+                        var character = cc.GetComponent<Character>();
+                        character.ColorIndex = cc.FootIndex;
+                    }
+                }
             }
         }
 
-        if (needresetcharacter) yield return new WaitForSeconds(t); ;
+        if (needresetcharacter)
+        {
+            yield return new WaitForSeconds(t);
+        }
     }
 
     // Update is called once per frame
@@ -343,61 +370,56 @@ public class InitBattleField : MonoBehaviour, IBattleView
         }
         realTime = Time.realtimeSinceStartup;
 
-        //TouchHandler();
-
         MoveCharacterUpdate();
     }
 
-    //画一条连接两个武将的线 
-    void DrawLine(float oldi, float oldj, float newi, float newj)
+    private void OnEnable()
     {
-        GameObject containerobj = GameObject.Find("BattleFieldPanel");
-
-        GameObject obj = NGUITools.AddChild(containerobj, DragBarPrefab);
-        UISprite sp = obj.GetComponent<UISprite>();
-        sp.spriteName = BattleTypeConstant.SelectLines[currentFootIndex];
-        //NGUITools.AddSprite (containerobj, atlas, "drag_" + currentFootIndex.ToString ());
-
-        Transform oldtrans = charactersLeft[Mathf.CeilToInt(oldi), Mathf.CeilToInt(oldj)].transform;
-        Transform newtrans = charactersLeft[Mathf.CeilToInt(newi), Mathf.CeilToInt(newj)].transform;
-
-        float xx = newtrans.localPosition.x - oldtrans.localPosition.x;
-        float yy = newtrans.localPosition.y - oldtrans.localPosition.y;
-
-        obj.transform.localPosition =
-            new Vector3(oldtrans.localPosition.x + xx / 2 - 25, oldtrans.localPosition.y + yy / 2 - 10, 0);
-
-        //UISprite sp1 = obj.GetComponent<UISprite>();
-        float vv = Mathf.Sqrt(xx * xx + yy * yy) + 86;
-        sp.width = Mathf.FloorToInt(vv);
-        //lineObj.transform.localScale = new Vector3(Mathf.Sqrt (xx * xx + yy * yy) / 160, 1, 1);
-        float arrow = Mathf.Atan2(yy, xx);
-        arrow = arrow * 18000;
-        arrow = arrow / 314;
-        obj.transform.localRotation = Quaternion.Euler(0, 0, arrow);
-        lineList.Add(obj);
+        TeamController.OnSelect += OnSelected;
+        TeamController.OnStart += OnSelectedStart;
+        TeamController.OnStop += OnSelectedStop;
     }
 
-    //draw a line from current item to mouse
-    void DrawLine(float xx, float yy)
+    private void OnDisable()
     {
-        xx /= CameraAdjuster.CameraScale;
-        yy /= CameraAdjuster.CameraScale;
-        Transform oldtrans = charactersLeft[oldI, oldJ].transform;
-        xx -= oldtrans.localPosition.x;
-        xx += 25;
-        yy += 15;
-        yy -= oldtrans.localPosition.y;
-        lineObj.transform.localPosition =
-            new Vector3(oldtrans.localPosition.x + xx / 2 - 25, oldtrans.localPosition.y + yy / 2 - 10, 0);
+        TeamController.OnSelect -= OnSelected;
+        TeamController.OnStart -= OnSelectedStart;
+        TeamController.OnStop -= OnSelectedStop;
+    }
 
-        var sp = lineObj.GetComponent<UISprite>();
-        var vv = Mathf.Sqrt(xx * xx + yy * yy) + 86;
-        sp.width = Mathf.FloorToInt(vv);
-        var arrow = Mathf.Atan2(yy, xx);
-        arrow = arrow * 18000;
-        arrow = arrow / 314;
-        lineObj.transform.localRotation = Quaternion.Euler(0, 0, arrow);
+    private void OnSelected(GameObject selectedObject)
+    {
+        if (selectEffectList == null)
+        {
+            selectEffectList = new ArrayList();
+        }
+        selectEffectList.Clear();
+
+        var cc = selectedObject.GetComponent<CharacterControl>();
+        currentFootIndex = cc.FootIndex;
+        AddAObj(selectedObject);
+    }
+
+    private void OnSelectedStart()
+    {
+        
+    }
+
+    private void OnSelectedStop(bool isAttacked)
+    {
+        CleanAttackValue();
+        CleanEffect();
+
+        if (isAttacked)
+        {
+            var selectedList = TeamController.SelectedCharacterList.Select(item => item.Index);
+            DoAttack(selectedList.ToArray());
+        }
+        else
+        {
+            ShowHp();
+            ShowMp();
+        }
     }
 
     //处理鼠标选取
@@ -445,14 +467,9 @@ public class InitBattleField : MonoBehaviour, IBattleView
                 Destroy(temp);
                 lineList.RemoveAt(0);
             }
-            UILabel uilb = CharacterAttrackValueLabel.GetComponent<UILabel>();
-            uilb.text = "";
 
-            while (selectEffectList != null && selectEffectList.Count > 0)
-            {
-                Destroy(selectEffectList[0] as GameObject);
-                selectEffectList.RemoveAt(0);
-            }
+            CleanAttackValue();
+            CleanEffect();
 
             xx = xx / CameraAdjuster.CameraScale;
             yy = yy / CameraAdjuster.CameraScale;
@@ -485,6 +502,21 @@ public class InitBattleField : MonoBehaviour, IBattleView
         if (isDraging)
         {
             DoDrag(xx, yy);
+        }
+    }
+
+    private void CleanAttackValue()
+    {
+        UILabel uilb = CharacterAttrackValueLabel.GetComponent<UILabel>();
+        uilb.text = "";
+    }
+
+    private void CleanEffect()
+    {
+        while (selectEffectList != null && selectEffectList.Count > 0)
+        {
+            Destroy(selectEffectList[0] as GameObject);
+            selectEffectList.RemoveAt(0);
         }
     }
 
@@ -539,14 +571,11 @@ public class InitBattleField : MonoBehaviour, IBattleView
 
         if (isadd)
         {
-            pointList.Add(obj);
-            tempcc1.SetSelect(true, pointList.Count - 1);
-            selectEffectList.Add(EffectManager.ShowEffect(EffectType.SelectEffects[currentFootIndex], -25, -30, obj.transform.position));
-            //PopTextManager.ShowText(tempcc1.AttrackValue.ToString(), 0.6f, -25, 60, 50, obj.transform.localPosition);
+            tempcc1.SetSelect(true, TeamController.SelectedCharacterList.Count - 1);
+            selectEffectList.Add(EffectManager.ShowEffect(EffectType.SelectEffects[currentFootIndex], 0, 0, obj.transform.position));
         }
         else
         {
-            pointList.RemoveAt(pointList.Count - 1);
             tempcc1.SetSelect(false);
             Destroy(selectEffectList[selectEffectList.Count - 1] as GameObject);
             selectEffectList.RemoveAt(selectEffectList.Count - 1);
@@ -559,7 +588,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
         {
             ShowTempHp(characterAttrackValue);
         }
-        ShowTempMp(pointList.Count);
+        ShowTempMp(TeamController.SelectedCharacterList.Count);
     }
 
     //handle sth when mouse is picking characters
@@ -612,13 +641,11 @@ public class InitBattleField : MonoBehaviour, IBattleView
             if (flag)
             {
                 AddAObj(charactersLeft[Mathf.CeilToInt(currpoint.x), Mathf.CeilToInt(currpoint.y)]);
-                DrawLine(prePoint.x, prePoint.y, currpoint.x, currpoint.y);
                 prePoint = currpoint;
                 oldI = Mathf.CeilToInt(prePoint.x);
                 oldJ = Mathf.CeilToInt(prePoint.y);
             }
         }
-        DrawLine(xx, yy);
     }
 
     //左侧部队攻击

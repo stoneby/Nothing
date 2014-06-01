@@ -17,6 +17,8 @@ public class Character : MonoBehaviour
 
     public Position Location;
 
+    public int ColorIndex;
+
     #endregion
 
     #region Private Fields
@@ -29,9 +31,10 @@ public class Character : MonoBehaviour
 
     public virtual bool IsNeighborhood(Character draggedCharacter)
     {
+        var sameColor = ColorIndex == draggedCharacter.ColorIndex;
         var xDistance = Math.Abs(Location.X - draggedCharacter.Location.X);
         var yDistance = Math.Abs(Location.Y - draggedCharacter.Location.Y);
-        return Math.Max(xDistance, yDistance) == NeighborDistance;
+        return sameColor && Math.Max(xDistance, yDistance) == NeighborDistance;
     }
 
     public override string ToString()

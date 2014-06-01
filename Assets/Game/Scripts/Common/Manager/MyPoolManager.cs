@@ -35,6 +35,7 @@ public class MyPoolManager : MonoBehaviour
         {
             Logger.LogWarning("Take too more than Capacity as " + Capacity + ", make it twice more larger.");
             EnlargeCapacity();
+            Debug.LogWarning("Object list: " + ObjectList.Count + ", index: " + Capacity);
             // return the last one.
             CurrentObject = ObjectList[Capacity - 1];
             return CurrentObject;
@@ -73,8 +74,8 @@ public class MyPoolManager : MonoBehaviour
 
     private void EnlargeCapacity()
     {
-        FillObjectList(Capacity);
         Capacity += Capacity;
+        FillObjectList(Capacity - ObjectList.Count);
     }
 
     private void FillObjectList(int num)
@@ -97,7 +98,7 @@ public class MyPoolManager : MonoBehaviour
         }
         else 
         {
-            while (ObjectList.Count >= Capacity)
+            while (ObjectList.Count > Capacity)
             {
                 // double capacity if object list already hold more than capacity value.
                 Capacity += Capacity;

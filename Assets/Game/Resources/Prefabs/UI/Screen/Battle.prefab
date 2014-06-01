@@ -400,8 +400,8 @@ GameObject:
   m_Component:
   - 4: {fileID: 400048}
   - 114: {fileID: 11400054}
-  - 114: {fileID: 11400130}
   - 114: {fileID: 11400128}
+  - 114: {fileID: 11400124}
   m_Layer: 8
   m_Name: BattleFieldWidgetLeft
   m_TagString: Untagged
@@ -908,46 +908,93 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &100112
+--- !u!1 &100124
 GameObject:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 4
   m_Component:
-  - 4: {fileID: 400112}
-  - 114: {fileID: 11400124}
-  m_Layer: 0
+  - 4: {fileID: 400124}
+  - 114: {fileID: 11400136}
+  m_Layer: 8
   m_Name: DragBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &100114
+--- !u!1 &100126
 GameObject:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 4
   m_Component:
-  - 4: {fileID: 400114}
-  - 114: {fileID: 11400126}
-  m_Layer: 0
+  - 4: {fileID: 400126}
+  - 114: {fileID: 11400138}
+  m_Layer: 8
   m_Name: Character
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &100116
+--- !u!1 &100128
 GameObject:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 4
   m_Component:
-  - 4: {fileID: 400116}
+  - 4: {fileID: 400132}
+  m_Layer: 8
+  m_Name: AttackSimulator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &100130
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 400128}
+  - 114: {fileID: 11400140}
+  m_Layer: 8
+  m_Name: 2D
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &100132
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 400130}
+  - 114: {fileID: 11400142}
+  m_Layer: 8
+  m_Name: 3D
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &100134
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 400134}
   m_Layer: 0
   m_Name: Pool
   m_TagString: Untagged
@@ -1044,11 +1091,12 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 400132}
   - {fileID: 400036}
   - {fileID: 400048}
   - {fileID: 400044}
   - {fileID: 400070}
-  - {fileID: 400116}
+  - {fileID: 400134}
   m_Father: {fileID: 400022}
 --- !u!4 &400016
 Transform:
@@ -1264,7 +1312,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100048}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 23, y: 64, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400014}
@@ -1627,40 +1675,75 @@ Transform:
   - {fileID: 400108}
   - {fileID: 400106}
   m_Father: {fileID: 400038}
---- !u!4 &400112
+--- !u!4 &400124
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100112}
+  m_GameObject: {fileID: 100124}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.00007999, y: 1.00007999, z: 1.00007999}
   m_Children: []
-  m_Father: {fileID: 400116}
---- !u!4 &400114
+  m_Father: {fileID: 400134}
+--- !u!4 &400126
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100114}
+  m_GameObject: {fileID: 100126}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.00007999, y: 1.00007999, z: 1.00007999}
   m_Children: []
-  m_Father: {fileID: 400116}
---- !u!4 &400116
+  m_Father: {fileID: 400134}
+--- !u!4 &400128
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100116}
+  m_GameObject: {fileID: 100130}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 400132}
+--- !u!4 &400130
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100132}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.00015998, y: 1.00015998, z: 1.00015998}
+  m_Children: []
+  m_Father: {fileID: 400132}
+--- !u!4 &400132
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100128}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.00007999, y: 1.00007999, z: 1.00007999}
+  m_Children:
+  - {fileID: 400130}
+  - {fileID: 400128}
+  m_Father: {fileID: 400014}
+--- !u!4 &400134
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100134}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 400114}
-  - {fileID: 400112}
+  - {fileID: 400126}
+  - {fileID: 400124}
   m_Father: {fileID: 400014}
 --- !u!54 &5400000
 Rigidbody:
@@ -2085,7 +2168,7 @@ MonoBehaviour:
   alwaysOnScreen: 0
   anchorOffset: 0
   renderQueue: 0
-  startingRenderQueue: 3001
+  startingRenderQueue: 3000
   mAlpha: 1
   mClipping: 0
   mClipRange: {x: 0, y: 0, z: 0, w: 0}
@@ -2277,7 +2360,7 @@ MonoBehaviour:
   TexSwardBg91: {fileID: 100062}
   Text91: {fileID: 100060}
   CharacterAttrackValueLabel: {fileID: 100010}
-  TeamController: {fileID: 0}
+  TeamController: {fileID: 11400124}
 --- !u!114 &11400026
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2404,7 +2487,7 @@ MonoBehaviour:
   alwaysOnScreen: 0
   anchorOffset: 0
   renderQueue: 0
-  startingRenderQueue: 3001
+  startingRenderQueue: 3000
   mAlpha: 1
   mClipping: 0
   mClipRange: {x: 0, y: 0, z: 0, w: 0}
@@ -2754,7 +2837,7 @@ MonoBehaviour:
   alwaysOnScreen: 0
   anchorOffset: 0
   renderQueue: 0
-  startingRenderQueue: 3007
+  startingRenderQueue: 3006
   mAlpha: 1
   mClipping: 0
   mClipRange: {x: 0, y: 0, z: 300, w: 200}
@@ -4728,27 +4811,21 @@ MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100112}
+  m_GameObject: {fileID: 100048}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 001e61051d6f80745b2136990fa053a1, type: 3}
+  m_Script: {fileID: 11500000, guid: 4e40d92f6aff23a41a7ce9c96f29fea4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Capcity: 4
-  SpawnObject: {fileID: 0}
---- !u!114 &11400126
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100114}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 001e61051d6f80745b2136990fa053a1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Capcity: 4
-  SpawnObject: {fileID: 100012, guid: 13c5bd9632b09764fb4b6cb3d7fcabd0, type: 2}
+  FormationController: {fileID: 11400128}
+  AttackSimulator: {fileID: 11400140}
+  CharacterList: []
+  DragBarPool: {fileID: 11400136}
+  CharacterPool: {fileID: 11400138}
+  Row: 3
+  Col: 3
+  Total: 12
+  EditMode: 0
 --- !u!114 &11400128
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4757,33 +4834,116 @@ MonoBehaviour:
   m_GameObject: {fileID: 100048}
   m_Enabled: 1
   m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8c4942219d2f9541a98ec8364bb3dbf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FormationList:
+  - Description: NineRectangle
+    PositionList:
+    - {x: -.427777797, y: .705555677, z: 0}
+    - {x: -.427777797, y: .25, z: 0}
+    - {x: -.427777797, y: -.205555603, z: 0}
+    - {x: -.733333409, y: .705555677, z: 0}
+    - {x: -.733333409, y: .25, z: 0}
+    - {x: -.733333409, y: -.205555603, z: 0}
+    - {x: -1.05277801, y: .705555677, z: 0}
+    - {x: -1.05277801, y: .25, z: 0}
+    - {x: -1.05277801, y: -.205555603, z: 0}
+  - Description: Circle
+    PositionList:
+    - {x: -.2555556, y: .302777797, z: 0}
+    - {x: -.105555601, y: -.152777806, z: 0}
+    - {x: -.302777797, y: -.60833329, z: 0}
+    - {x: -.644444525, y: .425000012, z: 0}
+    - {x: -.644444525, y: -.152777806, z: 0}
+    - {x: -.644444525, y: -.722222328, z: 0}
+    - {x: -1.06388903, y: .302777797, z: 0}
+    - {x: -1.23611104, y: -.186111093, z: 0}
+    - {x: -.994444489, y: -.580555618, z: 0}
+  - Description: Bingo
+    PositionList:
+    - {x: -.219444498, y: .538888872, z: 0}
+    - {x: -.219444498, y: .0472222194, z: 0}
+    - {x: -.252777815, y: -.511111081, z: 0}
+    - {x: -.644444525, y: .425000012, z: 0}
+    - {x: -.644444525, y: -.0972222164, z: 0}
+    - {x: -.686111212, y: -.580555618, z: 0}
+    - {x: -1.04444396, y: .330555588, z: 0}
+    - {x: -1.07777798, y: -.186111093, z: 0}
+    - {x: -1.11388898, y: -.691666722, z: 0}
+  - Description: Bingo
+    PositionList:
+    - {x: -.241666704, y: .349999994, z: 0}
+    - {x: -.275000006, y: -.197222203, z: 0}
+    - {x: -.275000006, y: -.697222173, z: 0}
+    - {x: -.730555594, y: .224999994, z: 0}
+    - {x: -.730555594, y: -.163888901, z: 0}
+    - {x: -.730555594, y: -.580555618, z: 0}
+    - {x: -1.16388905, y: .402777791, z: 0}
+    - {x: -1.16388905, y: -.163888901, z: 0}
+    - {x: -1.16388905, y: -.725000024, z: 0}
+  FormationText: {fileID: 4900000, guid: 282b14876915e664a81f28cee0d88e82, type: 3}
+  FormationPrefab: {fileID: 100004, guid: 8aab2afd9d3704df3895cd9ba3412eea, type: 2}
+  Index: 0
+  SpawnList: []
+  Description: Bingo
+  SpawnCount: 9
+--- !u!114 &11400136
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100124}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 001e61051d6f80745b2136990fa053a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Capacity: 4
+  SpawnObject: {fileID: 100002, guid: 685f793f8cf3bab468178784aab24f9d, type: 2}
+  ObjectList: []
+--- !u!114 &11400138
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 001e61051d6f80745b2136990fa053a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Capacity: 4
+  SpawnObject: {fileID: 100004, guid: 8aab2afd9d3704df3895cd9ba3412eea, type: 2}
+  ObjectList: []
+--- !u!114 &11400140
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100130}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 97e5583f2884ae54abd4419442743cdb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   TeamController: {fileID: 0}
   RunTime: 0
   ReturnTime: 0
---- !u!114 &11400130
+--- !u!114 &11400142
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100048}
+  m_GameObject: {fileID: 100132}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e40d92f6aff23a41a7ce9c96f29fea4, type: 3}
+  m_Script: {fileID: 11500000, guid: af7b97a69f78c484982590ff0c93f6e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AttackSimulator: {fileID: 0}
-  CharacterList: []
-  DragBarPool: {fileID: 0}
-  CharacterPool: {fileID: 0}
-  CurrentCamera: {fileID: 0}
-  AutoAdjustPosition: 0
-  Row: 0
-  Col: 0
-  OffSet: {x: 0, y: 0, z: 0}
-  EditMode: 0
+  TeamController: {fileID: 0}
+  RunTime: 2
+  ReturnTime: 1
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

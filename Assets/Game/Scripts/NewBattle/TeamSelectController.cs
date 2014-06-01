@@ -18,8 +18,20 @@ public class TeamSelectController : MonoBehaviour
 
     public bool EditMode;
 
-    public delegate void AttackHandler(GameObject attackedObject);
-    public AttackHandler OnAttack;
+    public delegate void GameObjectHandler(GameObject attackedObject);
+    public delegate void BoolHandler(bool isAttacked);
+    public delegate void VoidHandler();
+
+    public VoidHandler OnStart;
+    public BoolHandler OnStop;
+    public GameObjectHandler OnSelect;
+    public GameObjectHandler OnAttack;
+
+    #endregion
+
+    #region Private Fields
+
+    private bool initialized;
 
     #endregion
 
@@ -94,6 +106,11 @@ public class TeamSelectController : MonoBehaviour
 
         dragStart = true;
         SelectedCharacterList.Clear();
+
+        if (OnStart != null)
+        {
+            OnStart();
+        }
     }
 
     private void OnCharacterDragOver(GameObject sender, GameObject draggedObject)
@@ -152,6 +169,11 @@ public class TeamSelectController : MonoBehaviour
 
             SelectedCharacterList.Add(currentCharacter);
 
+            if (OnSelect != null)
+            {
+                OnSelect(currentCharacter.gameObject);
+            }
+
             Logger.Log("Add dragged character, which is neighbor - " + currentCharacter +
                       ", to selected character list - " + SelectedCharacterList.Count);
         }
@@ -173,7 +195,11 @@ public class TeamSelectController : MonoBehaviour
 
             AttackSimulator.TeamController = this;
             AttackSimulator.Attack(targetObject);
-            return;
+        }
+
+        if (OnStop != null)
+        {
+            OnStop(false);
         }
 
         Logger.LogWarning("Selected character list: " + SelectedCharacterList.Count);
@@ -183,6 +209,95 @@ public class TeamSelectController : MonoBehaviour
     private void OnCharacterDragOut(GameObject sender, GameObject draggedObject)
     {
         Logger.Log("On character drag out: " + sender.name + ", dragged started game ojbect: " + draggedObject.name);
+    }
+
+    public void Initialize()
+    {
+        if (initialized)
+        {
+            return;
+        }
+
+        initialized = true;
+
+        if (CharacterList == null)
+        {
+            CharacterList = new List<Character>();
+        }
+
+        if (CharacterList.Count == 0)
+        {
+            Logger.LogWarning("Dynamic binding mode, take character from pool of number: " + Total);
+
+            for (var i = 0; i < Total; ++i)
+            {
+                var character = CharacterPool.Take().GetComponent<Character>();
+                CharacterList.Add(character);
+                AddChild(gameObject, character.gameObject);
+            }
+        }
+
+        Total = CharacterList.Count;
+
+        var visableTotal = Row * Col;
+        if (CharacterList.Count < visableTotal)
+        {
+            Logger.LogError("Please make sure character list count - " + CharacterList.Count + " is more than Row * Col - " +
+                            Row * Col);
+            return;
+        }
+
+        
+        var boxCollider = gameObject.GetComponent<BoxCollider>();
+        if (boxCollider == null)
+        {
+            boxCollider = gameObject.AddComponent<BoxCollider>();
+        }
+
+        Logger.LogWarning("Add box collider: " + boxCollider.name);
+        var positionList = FormationController.FormationList[FormationController.Index].PositionList;
+        for (var i = 0; i < CharacterList.Count; ++i)
+        {
+            var character = CharacterList[i];
+            if (i < visableTotal)
+            {
+                // logic location.
+                character.Index = i;
+                character.Location.X = i / Col;
+                character.Location.Y = i % Row;
+
+                // world position.
+                character.name += character.Index;
+                character.transform.position = positionList[i];
+
+                // update grouped box collider.
+                boxCollider.bounds.Encapsulate(character.collider.bounds);
+
+                Logger.LogWarning("Collider: " + character.name + ", " + character.collider.bounds);
+            }
+            else
+            {
+                character.transform.position = Vector3.zero;
+                character.gameObject.SetActive(false);
+            }
+        }
+
+        Logger.LogWarning("Total collider bounds: " + boxCollider.bounds);
+
+        SelectedCharacterList = new List<Character>(CharacterList.Count);
+
+        CharacterList.ForEach(character =>
+        {
+            if (UIEventListener.Get(character.gameObject).onDrag == null)
+            {
+                UIEventListener.Get(character.gameObject).onDrag += OnCharacterDrag;
+            }
+            var eventListenere = UIEventListener.Get(character.gameObject);
+            eventListenere.onDragStart += OnCharacterDragStart;
+            eventListenere.onDragOver += OnCharacterDragOver;
+            eventListenere.onDragEnd += OnCharacterDragEnd;
+            eventListenere.onDragOut += OnCharacterDragOut;
+        });
     }
 
     public void Reset()
@@ -237,68 +352,7 @@ public class TeamSelectController : MonoBehaviour
 
     void Start()
     {
-        if (CharacterList == null)
-        {
-            CharacterList = new List<Character>();
-        }
-
-        if (CharacterList.Count == 0)
-        {
-            Logger.LogWarning("Dynamic binding mode, take character from pool of number: " + Total);
-            
-            for (var i = 0; i < Total; ++i)
-            {
-                var character = CharacterPool.Take().GetComponent<Character>();
-                CharacterList.Add(character);
-                AddChild(gameObject, character.gameObject);
-            }
-        }
-
-        Total = CharacterList.Count;
-
-        var visableTotal = Row * Col;
-        if (CharacterList.Count < visableTotal)
-        {
-            Logger.LogError("Please make sure character list count - " + CharacterList.Count + " is more than Row * Col - " + Row * Col);
-            return;
-        }
-
-        var positionList = FormationController.FormationList[FormationController.Index].PositionList;
-        for (var i = 0; i < CharacterList.Count; ++i)
-        {
-            var character = CharacterList[i];
-            if (i < visableTotal)
-            {
-                // logic location.
-                character.Index = i;
-                character.Location.X = i / Col;
-                character.Location.Y = i % Row;
-
-                // world position.
-                character.name += character.Index;
-                character.transform.position = positionList[i];
-            }
-            else
-            {
-                character.transform.position = Vector3.zero;
-                character.gameObject.SetActive(false);
-            }
-        }
-
-        SelectedCharacterList = new List<Character>(CharacterList.Count);
-
-        CharacterList.ForEach(character =>
-        {
-            if (UIEventListener.Get(character.gameObject).onDrag == null)
-            {
-                UIEventListener.Get(character.gameObject).onDrag += OnCharacterDrag;
-            }
-            var eventListenere = UIEventListener.Get(character.gameObject);
-            eventListenere.onDragStart += OnCharacterDragStart;
-            eventListenere.onDragOver += OnCharacterDragOver;
-            eventListenere.onDragEnd += OnCharacterDragEnd;
-            eventListenere.onDragOut += OnCharacterDragOut;
-        });
+        Initialize();
     }
 
     #endregion

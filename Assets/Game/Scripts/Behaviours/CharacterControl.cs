@@ -125,6 +125,8 @@ public class CharacterControl : MonoBehaviour
         var uilb = AttrackObj.GetComponent<UILabel>();
         uilb.text = (FootIndex == BattleTypeConstant.FootPink) ? Restore.ToString() : Attrack.ToString();
 
+        Logger.LogWarning("Character inex ; " + CharacterIndex + ", sprite name: " + uisp.spriteName + ", name prefix: " + uisa.namePrefix + ", attack: " + uilb.text);
+
         if (isfriend == BattleTypeConstant.IsHero)
         {
             FriendLabelObj.SetActive(false);
