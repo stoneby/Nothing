@@ -25,6 +25,7 @@ public class TeamSelectController : MonoBehaviour
     public VoidHandler OnStart;
     public BoolHandler OnStop;
     public GameObjectHandler OnSelect;
+    public GameObjectHandler OnDeselect;
     public GameObjectHandler OnAttack;
 
     #endregion
@@ -149,6 +150,12 @@ public class TeamSelectController : MonoBehaviour
             // condition of cancel last select character.
             if (oneBeforeLastIndex >= 0 && SelectedCharacterList[oneBeforeLastIndex] == selectedObject)
             {
+                var deselectedObject = SelectedCharacterList[SelectedCharacterList.Count - 1];
+                if (OnDeselect != null)
+                {
+                    OnDeselect(deselectedObject.gameObject);
+                }
+
                 SelectedCharacterList.RemoveAt(SelectedCharacterList.Count - 1);
 
                 Logger.LogWarning("Return drag bar to parent: " + DragBarPool.CurrentObject.transform.parent.name);
@@ -191,19 +198,26 @@ public class TeamSelectController : MonoBehaviour
         // PVP attach is on going.
         if (targetObject != null)
         {
-            DragBarPool.ObjectList.ForEach(bar => DragBarPool.Return(bar));
-
             AttackSimulator.TeamController = this;
             AttackSimulator.Attack(targetObject);
         }
 
+        var isAttacking = CheckAttack();
         if (OnStop != null)
         {
-            OnStop(false);
+            OnStop(isAttacking);
         }
 
         Logger.LogWarning("Selected character list: " + SelectedCharacterList.Count);
         Reset();
+    }
+
+    private bool CheckAttack()
+    {
+        var pos = UICamera.currentTouch.pos;
+        var worldPos = Camera.main.ScreenToWorldPoint(pos);
+        var bounds = collider.bounds;
+        return bounds.Contains(worldPos);
     }
 
     private void OnCharacterDragOut(GameObject sender, GameObject draggedObject)
@@ -254,7 +268,6 @@ public class TeamSelectController : MonoBehaviour
             boxCollider = gameObject.AddComponent<BoxCollider>();
         }
 
-        Logger.LogWarning("Add box collider: " + boxCollider.name);
         var positionList = FormationController.FormationList[FormationController.Index].PositionList;
         for (var i = 0; i < CharacterList.Count; ++i)
         {
@@ -269,11 +282,6 @@ public class TeamSelectController : MonoBehaviour
                 // world position.
                 character.name += character.Index;
                 character.transform.position = positionList[i];
-
-                // update grouped box collider.
-                boxCollider.bounds.Encapsulate(character.collider.bounds);
-
-                Logger.LogWarning("Collider: " + character.name + ", " + character.collider.bounds);
             }
             else
             {
@@ -282,7 +290,9 @@ public class TeamSelectController : MonoBehaviour
             }
         }
 
-        Logger.LogWarning("Total collider bounds: " + boxCollider.bounds);
+        // generate bounds according to its children.
+        var boundGenerator = GetComponent<BoundsGenerator>() ?? gameObject.AddComponent<BoundsGenerator>();
+        boundGenerator.Generate();
 
         SelectedCharacterList = new List<Character>(CharacterList.Count);
 

@@ -376,6 +376,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
     private void OnEnable()
     {
         TeamController.OnSelect += OnSelected;
+        TeamController.OnDeselect += OnDeselected;
         TeamController.OnStart += OnSelectedStart;
         TeamController.OnStop += OnSelectedStop;
     }
@@ -383,32 +384,41 @@ public class InitBattleField : MonoBehaviour, IBattleView
     private void OnDisable()
     {
         TeamController.OnSelect -= OnSelected;
+        TeamController.OnDeselect -= OnDeselected;
         TeamController.OnStart -= OnSelectedStart;
         TeamController.OnStop -= OnSelectedStop;
     }
 
     private void OnSelected(GameObject selectedObject)
     {
-        if (selectEffectList == null)
-        {
-            selectEffectList = new ArrayList();
-        }
-        selectEffectList.Clear();
+        Logger.Log("-------------- on selected: " + selectedObject.name);
 
         var cc = selectedObject.GetComponent<CharacterControl>();
         currentFootIndex = cc.FootIndex;
         AddAObj(selectedObject);
     }
 
+    private void OnDeselected(GameObject selectedObject)
+    {
+        Logger.Log("-------------- on deselected: " + selectedObject.name);
+        AddAObj(selectedObject, false);
+    }
+
     private void OnSelectedStart()
     {
-        
+        Reset();
     }
 
     private void OnSelectedStop(bool isAttacked)
     {
         CleanAttackValue();
         CleanEffect();
+
+        TeamController.SelectedCharacterList.ForEach(item =>
+        {
+            var character = item.GetComponent<CharacterControl>();
+            character.SetSelect(false);
+        });
 
         if (isAttacked)
         {
@@ -522,29 +532,13 @@ public class InitBattleField : MonoBehaviour, IBattleView
 
     private void Reset()
     {
-        isDraging = true;
-        Logger.Log("Nouse Down ------------------------------");
-        if (pointList == null) pointList = new List<GameObject>();
-        if (selectEffectList == null) selectEffectList = new ArrayList();
-        selectEffectList.Clear();
-        pointList.Clear();
-        while (lineList.Count > 0)
+        if (selectEffectList == null)
         {
-            GameObject temp = lineList[0] as GameObject;
-            Destroy(temp);
-            lineList.RemoveAt(0);
+            selectEffectList = new ArrayList();
         }
+        selectEffectList.Clear();
+
         characterAttrackValue = 0;
-
-        GameObject obj = charactersLeft[Mathf.CeilToInt(prePoint.x), Mathf.CeilToInt(prePoint.y)];
-        CharacterControl cc = obj.GetComponent<CharacterControl>();
-        currentFootIndex = cc.FootIndex;
-
-        AddAObj(obj);
-
-        oldI = Mathf.CeilToInt(prePoint.x);
-        oldJ = Mathf.CeilToInt(prePoint.y);
-        lineObj.SetActive(true);
     }
 
     private void DoAttack(int[] _indexArr)

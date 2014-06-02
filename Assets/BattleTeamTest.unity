@@ -1716,7 +1716,7 @@ MonoBehaviour:
   eventReceiverMask:
     serializedVersion: 2
     m_Bits: 4294967295
-  debug: 0
+  debug: 1
   useMouse: 1
   useTouch: 1
   allowMultiTouch: 1
@@ -13766,7 +13766,7 @@ MonoBehaviour:
   mPivot: 4
   mWidth: 602
   mHeight: 582
-  mDepth: 23
+  mDepth: 2
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -16889,6 +16889,10 @@ Prefab:
     - target: {fileID: 100130, guid: 8e8e7d92316c8894b9aed8733ab33203, type: 2}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400338, guid: 8e8e7d92316c8894b9aed8733ab33203, type: 2}
+      propertyPath: mDepth
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8e8e7d92316c8894b9aed8733ab33203, type: 2}
