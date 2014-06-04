@@ -12,10 +12,10 @@ public class NextFootManager : MonoBehaviour
     private List<GameObject> leftObjs;
     private ArrayList rightObjs;
     private PointRecord[] leftFootIndexes;
-    private bool haveInit;
+    //private bool haveInit;
 
     // Use this for initialization
-    void Start()
+    void Awake()
     {
         leftContainer = GameObject.Find("Anchor-topleft");
         GameObject.Find("Anchor-topright");
@@ -31,14 +31,14 @@ public class NextFootManager : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        if (!haveInit)
-        {
-            InitTest();
-            haveInit = true;
-        }
-    }
+    //void Update()
+    //{
+    //    if (!haveInit)
+    //    {
+    //        InitTest();
+    //        haveInit = true;
+    //    }
+    //}
 
     private void InitTest()
     {
@@ -60,8 +60,9 @@ public class NextFootManager : MonoBehaviour
 
     public int GetNext()
     {
+        return BattleModelLocator.Instance.GetNext().Color;
 
-        if (!haveInit || leftFootIndexes == null)
+        if (leftFootIndexes == null)
         {
             return BattleModelLocator.Instance.GetNextFromNextList(0).Color;
         }

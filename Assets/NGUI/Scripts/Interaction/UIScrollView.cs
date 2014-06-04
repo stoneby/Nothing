@@ -318,14 +318,7 @@ public class UIScrollView : MonoBehaviour
 			NGUITools.SetDirty(this);
 #endif
 		}
-
-	    onDragFinished += OnDragFinishedTest;
 	}
-
-    private void OnDragFinishedTest()
-    {
-        Debug.LogWarning("On drag finish hit.");
-    }
 
 	void OnEnable () { list.Add(this); }
 	void OnDisable () { list.Remove(this); }
@@ -729,8 +722,6 @@ public class UIScrollView : MonoBehaviour
 				if (onDragFinished != null)
 					onDragFinished();
 			}
-
-            Debug.LogWarning("Press " + pressed);
 		}
 	}
 

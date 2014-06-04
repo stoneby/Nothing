@@ -59,7 +59,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
     private GameObject lineObj;
 
     //开始一场战斗,attracks攻击的12个武将的数组,enemys敌人方n波敌人的数组
-    private List<GameObject> attrackWaitList;
+    private List<GameObject> attackWaitList;
     private readonly GameObject[,] charactersLeft = new GameObject[3, 3];
     private GameObject[] enemyList;	//当前敌方数组
     private int currEnemyGroupIndex;	//当前是第几波敌人;
@@ -122,32 +122,12 @@ public class InitBattleField : MonoBehaviour, IBattleView
         TeamController.Col = 3;
         TeamController.Initialize();
 
-        if (attrackWaitList == null)
+        if (attackWaitList == null)
         {
-            attrackWaitList = new List<GameObject>();
+            attackWaitList = new List<GameObject>();
         }
 
-        for (int i = 0; i < TeamController.Total; i++)
-        {
-            var t = BattleModelLocator.Instance.HeroList[i];
-            //var obj = NGUITools.AddChild(leftContainerObj, CharacterPrefab);
-            //attrackWaitList.Add(obj);
-            //obj.SetActive(false);
-            var obj = TeamController.CharacterList[i];
-            var cc = obj.GetComponent<CharacterControl>();
-
-            if (i > 8)
-            {
-                cc.SetCharacter(t, BattleTypeConstant.IsFriend);
-                attrackWaitList.Add(obj.gameObject);
-            }
-            else
-            {
-                charactersLeft[i / TeamController.Row, i % TeamController.Col] = obj.gameObject;
-                cc.SetCharacter(t);
-            }
-            cc.SetSelect(false);
-        }
+        InitCharacterList();
 
         var bg = BattleBG.GetComponent<BattleBGControl>();
         bgIndex++;
@@ -176,7 +156,57 @@ public class InitBattleField : MonoBehaviour, IBattleView
         CreateCurrentEnemys();
         RequestRecords();
 
+        AdjustCharacterList();
         StartCoroutine(InitBattleFighters());
+    }
+
+    private void AdjustCharacterList()
+    {
+        attackWaitList.Clear();
+        var visibleCount = TeamController.Row * TeamController.Col;
+        for (int i = 0; i < TeamController.Total; ++i)
+        {
+            var obj = TeamController.CharacterList[i];
+            if (i >= visibleCount)
+            {
+                attackWaitList.Add(obj.gameObject);
+            }
+            else
+            {
+                charactersLeft[i / TeamController.Row, i % TeamController.Col] = obj.gameObject;
+            }
+            Logger.LogWarning("Adjust character: " + i);
+        }
+
+        foreach (var character in TeamController.SelectedCharacterList)
+        {
+            Logger.LogWarning("Selected character: " + character.name);
+            charactersLeft[character.Location.X, character.Location.Y] = null;
+            attackWaitList.Add(character.gameObject);
+
+            var characterControll = character.GetComponent<CharacterControl>();
+            characterControll.SetFootIndex(footManager.GetNext());
+        }
+    }
+
+    private void InitCharacterList()
+    {
+        for (int i = 0; i < TeamController.Total; i++)
+        {
+            var t = BattleModelLocator.Instance.HeroList[i];
+            var obj = TeamController.CharacterList[i];
+            var cc = obj.GetComponent<CharacterControl>();
+
+            if (i > 8)
+            {
+                cc.SetCharacter(t, BattleTypeConstant.IsFriend);
+            }
+            else
+            {
+                cc.SetCharacter(t);
+            }
+            cc.SetSelect(false);
+        }
     }
 
     IEnumerator InitBattleFighters()
@@ -243,10 +273,10 @@ public class InitBattleField : MonoBehaviour, IBattleView
             }
         }
 
-        while (attrackWaitList.Count > 0)
+        while (attackWaitList.Count > 0)
         {
-            Destroy(attrackWaitList[0] as GameObject);
-            attrackWaitList.RemoveAt(0);
+            Destroy(attackWaitList[0] as GameObject);
+            attackWaitList.RemoveAt(0);
         }
 
         for (var i = 0; i < enemyList.Length; i++)
@@ -258,14 +288,14 @@ public class InitBattleField : MonoBehaviour, IBattleView
             }
         }
 
-        while (pointList != null && pointList.Count > 0)
-        {
-            if (pointList[0] != null)
-            {
-                Destroy(pointList[0] as GameObject);
-                pointList.RemoveAt(0);
-            }
-        }
+//        while (pointList != null && pointList.Count > 0)
+//        {
+//            if (pointList[0] != null)
+//            {
+//                Destroy(pointList[0] as GameObject);
+//                pointList.RemoveAt(0);
+//            }
+//        }
 
         EventManager.Instance.RemoveListener<LeaderUseEvent>(OnLeaderUseHandler);
     }
@@ -275,23 +305,26 @@ public class InitBattleField : MonoBehaviour, IBattleView
     {
         float runStepTime = (needresetcharacter) ? GameConfig.RunStepNeedTime : GameConfig.ShortTime;
         float runWaitTime = (needresetcharacter) ? GameConfig.NextRunWaitTime : GameConfig.ShortTime;
-        GameObject obj;
-        CharacterControl cc;
-        TweenPosition tp;
         float t = GameConfig.ShortTime;
         for (var i = 0; i < 3; i++)
         {
             for (var j = 0; j < 3; j++)
             {
+                CharacterControl cc;
                 if (charactersLeft[i, j] == null)
                 {
                     var flag = true;
+                    TweenPosition tp;
                     for (int k = i + 1; k < 3; k++)
                     {
                         if (charactersLeft[k, j] != null)
                         {
+                            var from = charactersLeft[k, j].transform.localPosition;
+                            var to = from + new Vector3(500, 0, 0);
+
+                            Logger.LogError("From: " + from + ", To: " + to);
                             charactersLeft[i, j] = charactersLeft[k, j];
-                            obj = charactersLeft[i, j];
+                            GameObject obj = charactersLeft[i, j];
                             cc = obj.GetComponent<CharacterControl>();
                             cc.PlayCharacter(CharacterType.ActionRun);
                             cc.SetIndex(i, j);
@@ -299,8 +332,8 @@ public class InitBattleField : MonoBehaviour, IBattleView
                             cc.SetCharacterAfter(t);
                             tp = obj.GetComponent<TweenPosition>();
                             tp.ResetToBeginning();
-                            tp.from = new Vector3(BaseLx + HorgapL * k, obj.transform.localPosition.y, 0);
-                            tp.to = new Vector3(BaseLx + HorgapL * i, obj.transform.localPosition.y, 0);
+                            tp.from = from;
+                            tp.to = to;
                             tp.duration = t;
                             tp.PlayForward();
                             charactersLeft[k, j] = null;
@@ -311,31 +344,32 @@ public class InitBattleField : MonoBehaviour, IBattleView
 
                     if (flag)
                     {
-                        charactersLeft[i, j] = attrackWaitList[0] as GameObject;
-                        attrackWaitList.RemoveAt(0);
+                        charactersLeft[i, j] = attackWaitList[0] as GameObject;
+                        attackWaitList.RemoveAt(0);
                         charactersLeft[i, j].transform.localPosition =
                             new Vector3(BaseLx + HorgapL * i - 300, Basey - Vergap * j, 0);
                         charactersLeft[i, j].SetActive(true);
                         cc = charactersLeft[i, j].GetComponent<CharacterControl>();
 
                         cc.SetIndex(i, j);
-                        cc.SetFootIndex(footManager.GetNext());
+                        //cc.SetFootIndex(footManager.GetNext());
                         cc.PlayCharacter(CharacterType.ActionRun);
 
                         var character = cc.GetComponent<Character>();
                         character.ColorIndex = cc.FootIndex;
 
                         t = (2 - i) * GameConfig.RunStepNeedTime + GameConfig.RunStepNeedTime;
-//                        if (i == tempi && j == tempj)
-//                        {
-//                            cc.ShowSpEffect(true);
-//                        }
+
                         if (needresetcharacter) cc.SetCharacterAfter(t);
 
                         tp = charactersLeft[i, j].GetComponent<TweenPosition>();
                         tp.ResetToBeginning();
-                        tp.from = new Vector3(BaseLx + HorgapL * i - 300, Basey - Vergap * j, 0);
-                        tp.to = new Vector3(BaseLx + HorgapL * i, Basey - Vergap * j, 0);
+                        var toIndex = i * TeamController.Col + j;
+                        var to = charactersLeft[i, j].transform.localPosition;
+                        var from = new Vector3(to.x - 300, to.y, to.z);
+                        tp.from = from;
+                        Logger.LogError("From: " + from + ", To: " + to);
+                        tp.to = to;
                         tp.duration = t;
                         tp.PlayForward();
                     }
@@ -422,6 +456,9 @@ public class InitBattleField : MonoBehaviour, IBattleView
 
         if (isAttacked)
         {
+            // fill in character list and waiting list from team controller.
+            AdjustCharacterList();
+
             var selectedList = TeamController.SelectedCharacterList.Select(item => item.Index);
             DoAttack(selectedList.ToArray());
         }
@@ -443,77 +480,77 @@ public class InitBattleField : MonoBehaviour, IBattleView
     private float minY;
     private Vector2 currentPoint;
     private Vector2 prePoint;
-    private List<GameObject> pointList;
+//    private List<GameObject> pointList;
     private ArrayList selectEffectList;
     private int currentFootIndex;
 
-    private void TouchHandler()
-    {
-        if (isPlaying) return;
-        if (!isBattling) return;
-
-        var mx = Input.mousePosition.x;
-        var my = Input.mousePosition.y;
-        var xx = mx - centerX;
-        var yy = my - centerY;
-
-        if (Input.GetMouseButtonDown(0))
-        {
-            Logger.Log("Mouse Value (" + mx + ", " + my + ")");
-            prePoint = GetIndexByPlace(xx, yy);
-            if (prePoint.x >= 0 && prePoint.y >= 0 && prePoint.x < 3 && prePoint.y < 3)
-            {
-                Reset();
-            }
-        }
-
-        if (Input.GetMouseButtonUp(0) && pointList != null)
-        {
-            isDraging = false;
-            lineObj.SetActive(false);
-            while (lineList != null && lineList.Count > 0)
-            {
-                GameObject temp = lineList[0] as GameObject;
-                Destroy(temp);
-                lineList.RemoveAt(0);
-            }
-
-            CleanAttackValue();
-            CleanEffect();
-
-            xx = xx / CameraAdjuster.CameraScale;
-            yy = yy / CameraAdjuster.CameraScale;
-
-            var _indexArr = new int[pointList.Count];
-            for (int k = 0; k < pointList.Count; k++)
-            {
-                var tempcc = pointList[k].GetComponent<CharacterControl>();
-                tempcc.SetSelect(false);
-                _indexArr[k] = tempcc.XIndex * 3 + tempcc.YIndex;
-            }
-
-            if (xx > minX - 50 && xx < BaseX + 50 && yy > minY - 50 && yy < BaseY + 50)
-            {
-                DoAttack(_indexArr);
-            }
-            else
-            {
-                if (pointList != null)
-                {
-                    pointList.Clear();
-                    ShowHp();
-                    ShowMp();
-                }
-                //PopTextManager.PopTip("取消攻击");
-            }
-            Logger.Log("Mouse Up ------------------------------");
-        }
-
-        if (isDraging)
-        {
-            DoDrag(xx, yy);
-        }
-    }
+//    private void TouchHandler()
+//    {
+//        if (isPlaying) return;
+//        if (!isBattling) return;
+//
+//        var mx = Input.mousePosition.x;
+//        var my = Input.mousePosition.y;
+//        var xx = mx - centerX;
+//        var yy = my - centerY;
+//
+//        if (Input.GetMouseButtonDown(0))
+//        {
+//            Logger.Log("Mouse Value (" + mx + ", " + my + ")");
+//            prePoint = GetIndexByPlace(xx, yy);
+//            if (prePoint.x >= 0 && prePoint.y >= 0 && prePoint.x < 3 && prePoint.y < 3)
+//            {
+//                Reset();
+//            }
+//        }
+//
+//        if (Input.GetMouseButtonUp(0) && pointList != null)
+//        {
+//            isDraging = false;
+//            lineObj.SetActive(false);
+//            while (lineList != null && lineList.Count > 0)
+//            {
+//                GameObject temp = lineList[0] as GameObject;
+//                Destroy(temp);
+//                lineList.RemoveAt(0);
+//            }
+//
+//            CleanAttackValue();
+//            CleanEffect();
+//
+//            xx = xx / CameraAdjuster.CameraScale;
+//            yy = yy / CameraAdjuster.CameraScale;
+//
+//            var _indexArr = new int[pointList.Count];
+//            for (int k = 0; k < pointList.Count; k++)
+//            {
+//                var tempcc = pointList[k].GetComponent<CharacterControl>();
+//                tempcc.SetSelect(false);
+//                _indexArr[k] = tempcc.XIndex * 3 + tempcc.YIndex;
+//            }
+//
+//            if (xx > minX - 50 && xx < BaseX + 50 && yy > minY - 50 && yy < BaseY + 50)
+//            {
+//                DoAttack(_indexArr);
+//            }
+//            else
+//            {
+//                if (pointList != null)
+//                {
+//                    pointList.Clear();
+//                    ShowHp();
+//                    ShowMp();
+//                }
+//                //PopTextManager.PopTip("取消攻击");
+//            }
+//            Logger.Log("Mouse Up ------------------------------");
+//        }
+//
+//        if (isDraging)
+//        {
+//            DoDrag(xx, yy);
+//        }
+//    }
 
     private void CleanAttackValue()
     {
@@ -586,66 +623,66 @@ public class InitBattleField : MonoBehaviour, IBattleView
     }
 
     //handle sth when mouse is picking characters
-    void DoDrag(float xx, float yy)
-    {
-        var currpoint = GetIndexByPlace(xx, yy);
-        var flag = false;
-        if (currpoint.x >= 0 && currpoint.y >= 0 && currpoint.x < 3 && currpoint.y < 3 &&
-            (Math.Abs(currpoint.x - prePoint.x) > Tolerance || Math.Abs(currpoint.y - prePoint.y) > Tolerance) &&
-            Mathf.Abs(currpoint.x - prePoint.x) < 2 && Mathf.Abs(currpoint.y - prePoint.y) < 2)
-        {
-
-            GameObject obj = charactersLeft[Mathf.CeilToInt(currpoint.x), Mathf.CeilToInt(currpoint.y)];
-            var cc = obj.GetComponent<CharacterControl>();
-            if (currentFootIndex == cc.FootIndex)
-            {
-                flag = true;
-                if (pointList.Count > 1)
-                {
-                    var tempobj = pointList[pointList.Count - 2] as GameObject;
-                    var tempcc = tempobj.GetComponent<CharacterControl>();
-                    if (Math.Abs(tempcc.XIndex - currpoint.x) < Tolerance && Math.Abs(tempcc.YIndex - currpoint.y) < Tolerance)
-                    {
-                        AddAObj(pointList[pointList.Count - 1] as GameObject, false);
-
-                        var temp = lineList[lineList.Count - 1] as GameObject;
-
-                        lineList.RemoveAt(lineList.Count - 1);
-                        Destroy(temp);
-                        prePoint = currpoint;
-                        oldI = Mathf.CeilToInt(prePoint.x);
-                        oldJ = Mathf.CeilToInt(prePoint.y);
-                        flag = false;
-                    }
-                    else
-                    {
-                        foreach (var t in pointList)
-                        {
-                            tempobj = t as GameObject;
-                            tempcc = tempobj.GetComponent<CharacterControl>();
-                            if (Math.Abs(tempcc.XIndex - currpoint.x) < Tolerance && Math.Abs(tempcc.YIndex - currpoint.y) < Tolerance)
-                            {
-                                flag = false;
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-            if (flag)
-            {
-                AddAObj(charactersLeft[Mathf.CeilToInt(currpoint.x), Mathf.CeilToInt(currpoint.y)]);
-                prePoint = currpoint;
-                oldI = Mathf.CeilToInt(prePoint.x);
-                oldJ = Mathf.CeilToInt(prePoint.y);
-            }
-        }
-    }
+//    void DoDrag(float xx, float yy)
+//    {
+//        var currpoint = GetIndexByPlace(xx, yy);
+//        var flag = false;
+//        if (currpoint.x >= 0 && currpoint.y >= 0 && currpoint.x < 3 && currpoint.y < 3 &&
+//            (Math.Abs(currpoint.x - prePoint.x) > Tolerance || Math.Abs(currpoint.y - prePoint.y) > Tolerance) &&
+//            Mathf.Abs(currpoint.x - prePoint.x) < 2 && Mathf.Abs(currpoint.y - prePoint.y) < 2)
+//        {
+//
+//            GameObject obj = charactersLeft[Mathf.CeilToInt(currpoint.x), Mathf.CeilToInt(currpoint.y)];
+//            var cc = obj.GetComponent<CharacterControl>();
+//            if (currentFootIndex == cc.FootIndex)
+//            {
+//                flag = true;
+//                if (pointList.Count > 1)
+//                {
+//                    var tempobj = pointList[pointList.Count - 2] as GameObject;
+//                    var tempcc = tempobj.GetComponent<CharacterControl>();
+//                    if (Math.Abs(tempcc.XIndex - currpoint.x) < Tolerance && Math.Abs(tempcc.YIndex - currpoint.y) < Tolerance)
+//                    {
+//                        AddAObj(pointList[pointList.Count - 1] as GameObject, false);
+//
+//                        var temp = lineList[lineList.Count - 1] as GameObject;
+//
+//                        lineList.RemoveAt(lineList.Count - 1);
+//                        Destroy(temp);
+//                        prePoint = currpoint;
+//                        oldI = Mathf.CeilToInt(prePoint.x);
+//                        oldJ = Mathf.CeilToInt(prePoint.y);
+//                        flag = false;
+//                    }
+//                    else
+//                    {
+//                        foreach (var t in pointList)
+//                        {
+//                            tempobj = t as GameObject;
+//                            tempcc = tempobj.GetComponent<CharacterControl>();
+//                            if (Math.Abs(tempcc.XIndex - currpoint.x) < Tolerance && Math.Abs(tempcc.YIndex - currpoint.y) < Tolerance)
+//                            {
+//                                flag = false;
+//                                break;
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//            if (flag)
+//            {
+//                AddAObj(charactersLeft[Mathf.CeilToInt(currpoint.x), Mathf.CeilToInt(currpoint.y)]);
+//                prePoint = currpoint;
+//                oldI = Mathf.CeilToInt(prePoint.x);
+//                oldJ = Mathf.CeilToInt(prePoint.y);
+//            }
+//        }
+//    }
 
     //左侧部队攻击
     void DoAttrackLeft()
     {
-        if (pointList != null && pointList.Count > 0)
+        if (TeamController.SelectedCharacterList.Count > 0)
         {
             isPlaying = true;
             StartCoroutine(LeftAttrackCoroutineHandler());
@@ -860,7 +897,8 @@ public class InitBattleField : MonoBehaviour, IBattleView
             record = battleTeamRecord.RecordList[battleTeamRecord.RecordList.Count - 1];
             monster = GetMonsterObject(record.ActionList[0]);
             var ec = monster.GetComponent<EnemyControl>();
-            obj = pointList[pointList.Count - 1] as GameObject;
+            //obj = pointList[pointList.Count - 1] as GameObject;
+            obj = TeamController.SelectedCharacterList[TeamController.SelectedCharacterList.Count - 1].gameObject;
             cc = obj.GetComponent<CharacterControl>();
             //yield return new WaitForSeconds (0.5f);//镜头拉近
             PlayMoveCamera(obj);
@@ -980,7 +1018,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
         yield return new WaitForSeconds(GameConfig.TotalHeroAttrackTime);
         CheckMonsterDead();
         yield return StartCoroutine(MakeUpOneByOne());
-        pointList.Clear();
+        //pointList.Clear();
 
         for (var i = 0; i < enemyList.Length; i++)
         {
@@ -1210,7 +1248,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
         tp.duration = runtime;
         tp.PlayForward();
         charactersLeft[cc.XIndex, cc.YIndex] = null;
-        attrackWaitList.Add(obj);
+        attackWaitList.Add(obj);
     }
 
 
@@ -1531,7 +1569,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
     //处理游戏重新激活时动画播放太快
     private void ResetCharacters()
     {
-        if (charactersLeft == null || attrackWaitList == null) return;
+        if (charactersLeft == null || attackWaitList == null) return;
 
         for (var i = 0; i < 3; i++)
         {
@@ -1543,7 +1581,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
                 }
             }
         }
-        foreach (var t in attrackWaitList)
+        foreach (var t in attackWaitList)
         {
             ResetCharacter(t as GameObject);
         }
@@ -1755,7 +1793,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
     {
         SelectedMonsterIndex = -1;
         yield return StartCoroutine(MakeUpOneByOne());
-        pointList.Clear();
+        //pointList.Clear();
 
         currEnemyGroupIndex++;
         if (currEnemyGroupIndex < BattleModelLocator.Instance.MonsterGroup.Count)
@@ -1856,7 +1894,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
     //武将颜色和位置变化
     public void showBattleIndexRecord(BattleIndexRecord battleIndexRecord)
     {
-        //throw new NotImplementedException();
         isPlayingRecord = false;
         if (BattleModelLocator.Instance.NextList == null)
         {
@@ -1865,9 +1902,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
         else
         {
             BattleModelLocator.Instance.NextList = battleIndexRecord.FillPointList;
-            BattleModelLocator.Instance.NextList.RemoveAt(0);
-            BattleModelLocator.Instance.NextList.RemoveAt(0);
-            BattleModelLocator.Instance.NextList.RemoveAt(0);
         }
 
         string str = "";
@@ -1982,9 +2016,9 @@ public class InitBattleField : MonoBehaviour, IBattleView
                 }
             }
         }
-        for (var i = 0; i < attrackWaitList.Count; i++)
+        for (var i = 0; i < attackWaitList.Count; i++)
         {
-            var obj = attrackWaitList[i];
+            var obj = attackWaitList[i];
             if (obj != null)
             {
                 var cc = obj.GetComponent<CharacterControl>();

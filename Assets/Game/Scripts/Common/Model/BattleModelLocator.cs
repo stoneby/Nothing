@@ -48,11 +48,25 @@ namespace Assets.Game.Scripts.Common.Model
 
         public PointRecord GetNextFromNextList(int f)
         {
-            Logger.Log("Get Next ===== " + f);
+			Logger.Log("Get Next ===== " + f + " ,count" + NextList.Count);
             if (MainBattle == null || NextList.Count == 0) return null;
             var k = NextList[0];
             NextList.RemoveAt(0);
             
+            return k;
+        }
+
+        public PointRecord GetNext()
+        {
+            Logger.Log("Next list count is: " + NextList.Count);
+            
+            if (MainBattle == null || NextList.Count == 0)
+            {
+                return null;
+            }
+
+            var k = NextList[0];
+            NextList.RemoveAt(0);
             return k;
         }
     }

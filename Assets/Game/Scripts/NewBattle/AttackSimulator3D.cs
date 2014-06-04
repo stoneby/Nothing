@@ -21,9 +21,6 @@ public class AttackSimulator3D : AttackSimulator
 
             yield return StartCoroutine(DoRun(animator, targetAnimator));
         }
-
-        // reset all.
-        TeamController.Reset();
     }
 
     private IEnumerator DoRun(Animator selectAnimator, Animator targetAnimator)

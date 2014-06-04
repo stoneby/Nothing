@@ -37,8 +37,10 @@ namespace com.kx.sglm.gs.battle.share.data.record
 			}
 		}
 
-
-
+	    public override string ToString()
+	    {
+            return string.Format("(index = {0}, color = {1})", index, color);
+	    }
 	}
 
 }

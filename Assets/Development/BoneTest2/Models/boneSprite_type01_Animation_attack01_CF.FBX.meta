@@ -1,0 +1,179 @@
+fileFormatVersion: 2
+guid: d6b16a35b424ea2449878554eb188c3a
+ModelImporter:
+  serializedVersion: 16
+  fileIDToRecycleName:
+    100000: B_body
+    100002: B_head
+    100004: B_LeftFrontArm
+    100006: B_LeftFrontLeg
+    100008: B_LeftHand
+    100010: B_LeftUpArm
+    100012: B_LetUpLeg
+    100014: B_RightFrontArm
+    100016: B_RightFrontLeg
+    100018: B_RightHand
+    100020: B_RightUpArm
+    100022: B_RightUpLeg
+    100024: Bone004
+    100026: Bone008
+    100028: Bone011
+    100030: Bone015
+    100032: Bone019
+    100034: //RootNode
+    100036: IK Chain001
+    100038: IK Chain002
+    100040: IK_LeftLeg
+    100042: IK_RightLeg
+    100044: root
+    400000: B_body
+    400002: B_head
+    400004: B_LeftFrontArm
+    400006: B_LeftFrontLeg
+    400008: B_LeftHand
+    400010: B_LeftUpArm
+    400012: B_LetUpLeg
+    400014: B_RightFrontArm
+    400016: B_RightFrontLeg
+    400018: B_RightHand
+    400020: B_RightUpArm
+    400022: B_RightUpLeg
+    400024: Bone004
+    400026: Bone008
+    400028: Bone011
+    400030: Bone015
+    400032: Bone019
+    400034: //RootNode
+    400036: IK Chain001
+    400038: IK Chain002
+    400040: IK_LeftLeg
+    400042: IK_RightLeg
+    400044: root
+    7400000: Take attack01 CF
+    9500000: //RootNode
+    11100000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Take attack01 CF
+      takeName: Take 001
+      firstFrame: 1
+      lastFrame: 13
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 1
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: IK Chain001
+        weight: 1
+      - path: IK Chain002
+        weight: 1
+      - path: root
+        weight: 1
+      - path: root/B_body
+        weight: 1
+      - path: root/B_body/B_head
+        weight: 1
+      - path: root/B_body/B_head/Bone004
+        weight: 1
+      - path: root/B_body/B_LeftUpArm
+        weight: 1
+      - path: root/B_body/B_LeftUpArm/B_LeftFrontArm
+        weight: 1
+      - path: root/B_body/B_LeftUpArm/B_LeftFrontArm/B_LeftHand
+        weight: 1
+      - path: root/B_body/B_LeftUpArm/B_LeftFrontArm/B_LeftHand/Bone015
+        weight: 1
+      - path: root/B_body/B_LetUpLeg
+        weight: 1
+      - path: root/B_body/B_LetUpLeg/B_LeftFrontLeg
+        weight: 1
+      - path: root/B_body/B_LetUpLeg/B_LeftFrontLeg/Bone008
+        weight: 1
+      - path: root/B_body/B_RightUpArm
+        weight: 1
+      - path: root/B_body/B_RightUpArm/B_RightFrontArm
+        weight: 1
+      - path: root/B_body/B_RightUpArm/B_RightFrontArm/B_RightHand
+        weight: 1
+      - path: root/B_body/B_RightUpArm/B_RightFrontArm/B_RightHand/Bone019
+        weight: 1
+      - path: root/B_body/B_RightUpLeg
+        weight: 1
+      - path: root/B_body/B_RightUpLeg/B_RightFrontLeg
+        weight: 1
+      - path: root/B_body/B_RightUpLeg/B_RightFrontLeg/Bone011
+        weight: 1
+      - path: root/IK_LeftLeg
+        weight: 1
+      - path: root/IK_RightLeg
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 1
+  additionalBone: 0
+  userData: 

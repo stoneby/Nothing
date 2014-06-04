@@ -12,11 +12,12 @@ public class TeamFormationController : MonoBehaviour
 
     public int Index;
 
-#if UNITY_EDITOR
     private const string XmlPath = "Game/Resources/TeamFormation/TeamFormation.xml";
+
+#if UNITY_EDITOR
+
     private int counter;
 
-    [HideInInspector]
     public List<GameObject> SpawnList;
 
     public string Description;
@@ -28,8 +29,10 @@ public class TeamFormationController : MonoBehaviour
     public void ReadXml()
     {
         FormationList.Clear();
-        Clean();
 
+#if UNITY_EDITOR
+        Clean();
+#endif
         var document = new XmlDocument();
         document.LoadXml(FormationText.text);
         var rootNode = document.SelectSingleNode("/Root");
@@ -57,6 +60,8 @@ public class TeamFormationController : MonoBehaviour
         Logger.Log("Load xml from file: " + XmlPath + " succeed.");
     }
 
+#if UNITY_EDITOR
+
     private void RefreshView()
     {
         // spawn game object if needed.
@@ -75,7 +80,6 @@ public class TeamFormationController : MonoBehaviour
         }
     }
 
-#if UNITY_EDITOR
     public void WriteXml()
     {
         InjectData();
@@ -130,6 +134,7 @@ public class TeamFormationController : MonoBehaviour
         SpawnList.ForEach(DestroyImmediate);
         SpawnList.Clear();
     }
+    
 #endif
 
     #endregion

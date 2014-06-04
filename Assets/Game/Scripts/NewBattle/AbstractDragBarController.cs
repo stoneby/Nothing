@@ -15,6 +15,7 @@ public abstract class AbstractDragBarController : MonoBehaviour
     public void SetWidth(Vector3 source, Vector3 target)
     {
         var width = Mathf.Abs(Vector3.Distance(source, target));
+        width *= UIRoot.GetPixelSizeAdjustment(gameObject);
         SetWidth(Mathf.Abs(width));
     }
 

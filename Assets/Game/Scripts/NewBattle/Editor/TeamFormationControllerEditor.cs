@@ -36,17 +36,17 @@ public class TeamFormationControllerEditor : Editor
         }
     }
 
-    private void OnSceneGUI()
-    {
-        Handles.color = Color.black;
-        controller.SpawnList.ForEach(spawnObject =>
-        {
-            Handles.Label(spawnObject.transform.position + Vector3.up * 0.2f, spawnObject.name);
-        });
+    //private void OnSceneGUI()
+    //{
+    //    Handles.color = Color.black;
+    //    controller.SpawnList.ForEach(spawnObject =>
+    //    {
+    //        Handles.Label(spawnObject.transform.position + Vector3.up * 0.2f, spawnObject.name);
+    //    });
 
-        if (GUI.changed)
-        {
-            EditorUtility.SetDirty(target);
-        }
-    }
+    //    if (GUI.changed)
+    //    {
+    //        EditorUtility.SetDirty(target);
+    //    }
+    //}
 }

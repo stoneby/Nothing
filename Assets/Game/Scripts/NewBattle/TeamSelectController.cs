@@ -262,11 +262,7 @@ public class TeamSelectController : MonoBehaviour
         }
 
         
-        var boxCollider = gameObject.GetComponent<BoxCollider>();
-        if (boxCollider == null)
-        {
-            boxCollider = gameObject.AddComponent<BoxCollider>();
-        }
+        var boxCollider = gameObject.GetComponent<BoxCollider>() ?? gameObject.AddComponent<BoxCollider>();
 
         var positionList = FormationController.FormationList[FormationController.Index].PositionList;
         for (var i = 0; i < CharacterList.Count; ++i)
@@ -280,7 +276,7 @@ public class TeamSelectController : MonoBehaviour
                 character.Location.Y = i % Row;
 
                 // world position.
-                character.name += character.Index;
+                character.name += "_" + character.Index;
                 character.transform.position = positionList[i];
             }
             else
@@ -315,7 +311,6 @@ public class TeamSelectController : MonoBehaviour
         targetObject = null;
 
         dragStart = false;
-        SelectedCharacterList.Clear();
         DragBarPool.ObjectList.ForEach(bar => DragBarPool.Return(bar));
     }
 
