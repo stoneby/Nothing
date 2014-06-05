@@ -25620,6 +25620,26 @@ Prefab:
       propertyPath: TeamController
       value: 
       objectReference: {fileID: 1853705656}
+    - target: {fileID: 6500036, guid: 8e8e7d92316c8894b9aed8733ab33203, type: 2}
+      propertyPath: m_Size.x
+      value: 1280
+      objectReference: {fileID: 0}
+    - target: {fileID: 6500036, guid: 8e8e7d92316c8894b9aed8733ab33203, type: 2}
+      propertyPath: m_Size.y
+      value: 720
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400164, guid: 8e8e7d92316c8894b9aed8733ab33203, type: 2}
+      propertyPath: mWidth
+      value: 1280
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400164, guid: 8e8e7d92316c8894b9aed8733ab33203, type: 2}
+      propertyPath: mHeight
+      value: 720
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400164, guid: 8e8e7d92316c8894b9aed8733ab33203, type: 2}
+      propertyPath: aspectRatio
+      value: 1.77777779
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8e8e7d92316c8894b9aed8733ab33203, type: 2}
   m_RootGameObject: {fileID: 172648551}
@@ -27848,7 +27868,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1280, y: 768, z: 0}
+  m_Size: {x: 1280, y: 720, z: 0}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1087131921
 MonoBehaviour:
@@ -27882,12 +27902,12 @@ MonoBehaviour:
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
   mWidth: 1280
-  mHeight: 768
+  mHeight: 720
   mDepth: 0
   autoResizeBoxCollider: 1
   hideIfOffScreen: 0
   keepAspectRatio: 0
-  aspectRatio: 1.66666663
+  aspectRatio: 1.77777779
   mType: 0
   mFillDirection: 4
   mFillAmount: 1
@@ -33530,10 +33550,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c5ecb5660b11414fb042fb826e03b73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scalingStyle: 0
+  scalingStyle: 1
   manualHeight: 720
   minimumHeight: 720
-  maximumHeight: 1200
+  maximumHeight: 720
   adjustByDPI: 0
   shrinkPortraitUI: 0
 --- !u!1 &1313509889

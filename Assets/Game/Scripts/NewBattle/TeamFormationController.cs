@@ -14,13 +14,12 @@ public class TeamFormationController : MonoBehaviour
 
     private const string XmlPath = "Game/Resources/TeamFormation/TeamFormation.xml";
 
-#if UNITY_EDITOR
-
-    private int counter;
-
     public List<GameObject> SpawnList;
 
     public string Description;
+
+#if UNITY_EDITOR
+    private int counter;
     public int SpawnCount;
 #endif
 
@@ -80,6 +79,33 @@ public class TeamFormationController : MonoBehaviour
         }
     }
 
+    public void Spawn()
+    {
+        if (SpawnList == null)
+        {
+            SpawnList = new List<GameObject>();
+        }
+
+        SpawnList.Clear();
+        counter = 0;
+
+        for (var i = 0; i < SpawnCount; ++i)
+        {
+            var spawnObject = NGUITools.AddChild(gameObject, FormationPrefab);
+            spawnObject.name = string.Format("{0}_{1}", FormationPrefab.name, counter++);
+            SpawnList.Add(spawnObject);
+            Debug.Log("Add spawn object: " + spawnObject.name);
+        }
+    }
+
+    public void Clean()
+    {
+        SpawnList.ForEach(DestroyImmediate);
+        SpawnList.Clear();
+    }
+    
+#endif
+
     public void WriteXml()
     {
         InjectData();
@@ -110,32 +136,6 @@ public class TeamFormationController : MonoBehaviour
         });
         FormationList.Add(teamFormation);
     }
-
-    public void Spawn()
-    {
-        if (SpawnList == null)
-        {
-            SpawnList = new List<GameObject>();
-        }
-        SpawnList.Clear();
-        counter = 0;
-
-        for (var i = 0; i < SpawnCount; ++i)
-        {
-            var spawnObject = NGUITools.AddChild(gameObject, FormationPrefab);
-            spawnObject.name = string.Format("{0}_{1}", FormationPrefab.name, counter++);
-            SpawnList.Add(spawnObject);
-            Debug.Log("Add spawn object: " + spawnObject.name);
-        }
-    }
-
-    public void Clean()
-    {
-        SpawnList.ForEach(DestroyImmediate);
-        SpawnList.Clear();
-    }
-    
-#endif
 
     #endregion
 

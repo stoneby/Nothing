@@ -264,7 +264,8 @@ public class TeamSelectController : MonoBehaviour
         
         var boxCollider = gameObject.GetComponent<BoxCollider>() ?? gameObject.AddComponent<BoxCollider>();
 
-        var positionList = FormationController.FormationList[FormationController.Index].PositionList;
+        // get latest formation list as default.
+        var positionList = FormationController.FormationList[FormationController.FormationList.Count - 1].PositionList;
         for (var i = 0; i < CharacterList.Count; ++i)
         {
             var character = CharacterList[i];

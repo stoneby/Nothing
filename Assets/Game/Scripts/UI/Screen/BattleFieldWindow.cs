@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 
 /// <summary>
@@ -25,6 +26,15 @@ public class BattleFieldWindow : Window
     }
 
     #endregion
+
+    private void SavePosition()
+    {
+        var formationController = TeamLeft.FormationController;
+        formationController.SpawnList.Clear();
+        formationController.SpawnList.AddRange(TeamLeft.CharacterList.Select(character => character.gameObject));
+        formationController.Description = "RunningGameEdit";
+        formationController.WriteXml();
+    }
 
     #region Mono
 
@@ -57,6 +67,14 @@ public class BattleFieldWindow : Window
                 EditMode = false;
                 TeamLeft.EditMode = false;
                 TeamRight.EditMode = false;
+            }
+        }
+
+        if (EditMode)
+        {
+            if (GUI.Button(new Rect(Screen.width - x - width, y, width, height), "Save Position"))
+            {
+                SavePosition();
             }
         }
     }
