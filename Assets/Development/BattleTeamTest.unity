@@ -47693,6 +47693,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1902226001}
+  - 114: {fileID: 1902226002}
   m_Layer: 0
   m_Name: Container
   m_TagString: Untagged
@@ -47720,6 +47721,19 @@ Transform:
   - {fileID: 215789302}
   - {fileID: 1894146615}
   m_Father: {fileID: 0}
+--- !u!114 &1902226002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1902226000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b41f7ef14d5a0546b48c406d82f440d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  show: 0
+  maxAllowedLog: 1000
 --- !u!1 &1904490484
 GameObject:
   m_ObjectHideFlags: 0
