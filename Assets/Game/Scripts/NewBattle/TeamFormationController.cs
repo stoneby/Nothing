@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Xml;
 using UnityEngine;
 
@@ -12,11 +13,13 @@ public class TeamFormationController : MonoBehaviour
 
     public int Index;
 
-    private const string XmlPath = "Game/Resources/TeamFormation/TeamFormation.xml";
-
     public List<GameObject> SpawnList;
 
     public string Description;
+
+    private const string RelatedPath = "Game/Resources/TeamFormation";
+    private const string XmlName = "TeamFormation.xml";
+    private string persistentPath;
 
 #if UNITY_EDITOR
     private int counter;
@@ -32,8 +35,18 @@ public class TeamFormationController : MonoBehaviour
 #if UNITY_EDITOR
         Clean();
 #endif
+
+        var persistentFile = string.Format("{0}/{1}", Application.persistentDataPath, XmlName);
+        var hasPersistentFile = File.Exists(persistentFile);
         var document = new XmlDocument();
-        document.LoadXml(FormationText.text);
+        if (hasPersistentFile)
+        {
+            document.Load(persistentFile);
+        }
+        else
+        {
+            document.LoadXml(FormationText.text);            
+        }
         var rootNode = document.SelectSingleNode("/Root");
         var formationNodeList = rootNode.SelectNodes("TeamFormation");
         foreach (XmlNode formationNode in formationNodeList)
@@ -55,8 +68,8 @@ public class TeamFormationController : MonoBehaviour
             RefreshView();
         }
 #endif
-
-        Logger.Log("Load xml from file: " + XmlPath + " succeed.");
+        var path = (hasPersistentFile) ? persistentFile : string.Format("{0}/{1}", RelatedPath, XmlName);
+        Logger.Log("Load xml from file: " + path + " succeed.");
     }
 
 #if UNITY_EDITOR
@@ -118,10 +131,15 @@ public class TeamFormationController : MonoBehaviour
             rootElement.AppendChild(formationElement);
         });
         document.AppendChild(rootElement);
-        var path = string.Format("{0}/{1}", Application.dataPath, XmlPath);
+
+#if !UNITY_EDITOR
+        var path = string.Format("{0}/{1}/{2}", Application.dataPath, RelatedPath, XmlName);
+#else
+        var path = string.Format("{0}/{1}", Application.persistentDataPath, XmlName);
+#endif
         document.Save(path);
 
-        Logger.Log("Save xml to file: " + XmlPath + " succeed.");
+        Logger.Log("Save xml to file: " + path + " succeed.");
     }
 
     public void InjectData()
