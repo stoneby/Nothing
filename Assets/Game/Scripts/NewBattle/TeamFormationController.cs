@@ -132,7 +132,7 @@ public class TeamFormationController : MonoBehaviour
         });
         document.AppendChild(rootElement);
 
-#if !UNITY_EDITOR
+#if UNITY_EDITOR
         var path = string.Format("{0}/{1}/{2}", Application.dataPath, RelatedPath, XmlName);
 #else
         var path = string.Format("{0}/{1}", Application.persistentDataPath, XmlName);
