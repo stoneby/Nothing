@@ -1,6 +1,13 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Team selection controller, which could select team memebers from styles.
+/// Currently we support matrix style only.
+/// Support editor mode during runtime.
+/// Support dynamic loading team members together with static binding.
+/// Support team position loading from formatter.
+/// </summary>
 public class TeamSelectController : MonoBehaviour
 {
     #region Public Fields
@@ -256,12 +263,12 @@ public class TeamSelectController : MonoBehaviour
         var visableTotal = Row * Col;
         if (CharacterList.Count < visableTotal)
         {
-            Logger.LogError("Please make sure character list count - " + CharacterList.Count + " is more than Row * Col - " +
-                            Row * Col);
+            Logger.LogError("Please make sure character list count - " + CharacterList.Count +
+                            " is more than visiable count - " +
+                            visableTotal);
             return;
         }
 
-        
         var boxCollider = gameObject.GetComponent<BoxCollider>() ?? gameObject.AddComponent<BoxCollider>();
 
         // get latest formation list as default.
@@ -295,15 +302,12 @@ public class TeamSelectController : MonoBehaviour
 
         CharacterList.ForEach(character =>
         {
-            if (UIEventListener.Get(character.gameObject).onDrag == null)
-            {
-                UIEventListener.Get(character.gameObject).onDrag += OnCharacterDrag;
-            }
-            var eventListenere = UIEventListener.Get(character.gameObject);
-            eventListenere.onDragStart += OnCharacterDragStart;
-            eventListenere.onDragOver += OnCharacterDragOver;
-            eventListenere.onDragEnd += OnCharacterDragEnd;
-            eventListenere.onDragOut += OnCharacterDragOut;
+            var listener = UIEventListener.Get(character.gameObject);
+            listener.onDragStart += OnCharacterDragStart;
+            listener.onDragOver += OnCharacterDragOver;
+            listener.onDragEnd += OnCharacterDragEnd;
+            listener.onDragOut += OnCharacterDragOut;
+            listener.onDrag += OnCharacterDrag;
         });
     }
 

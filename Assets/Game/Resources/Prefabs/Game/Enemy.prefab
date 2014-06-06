@@ -96,7 +96,6 @@ GameObject:
   - 114: {fileID: 11400010}
   - 114: {fileID: 11400018}
   - 65: {fileID: 6500000}
-  - 114: {fileID: 11400014}
   m_Layer: 8
   m_Name: Enemy
   m_TagString: Untagged
@@ -497,26 +496,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35bf19002dfba914292777ad767f6cdf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &11400014
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100010}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e40d92f6aff23a41a7ce9c96f29fea4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  FormationController: {fileID: 0}
-  AttackSimulator: {fileID: 0}
-  CharacterList: []
-  DragBarPool: {fileID: 0}
-  CharacterPool: {fileID: 0}
-  Row: 1
-  Col: 1
-  Total: 1
-  EditMode: 0
 --- !u!114 &11400018
 MonoBehaviour:
   m_ObjectHideFlags: 1

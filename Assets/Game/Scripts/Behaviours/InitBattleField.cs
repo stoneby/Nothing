@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-using System.Linq;
-using Assets.Game.Scripts.Common.Model;
+﻿using Assets.Game.Scripts.Common.Model;
 using com.kx.sglm.gs.battle.share;
 using com.kx.sglm.gs.battle.share.data;
 using com.kx.sglm.gs.battle.share.data.record;
@@ -9,6 +7,7 @@ using KXSGCodec;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -45,13 +44,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
     private float characterMaxValue;
     private float characterValue;
 
-    private const int HorgapL = -170;
-    private const int HorgapR = 170;
-    private const int Vergap = 160;
-    private const int BaseLx = -150;
-    private const int BaseRx = 150;
-    private const int Basey = 240 + 40 - 60;
-
     private bool isDraging;
     private bool isPlaying;
     private bool isBattling;
@@ -85,13 +77,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
 
         var obj = GameObject.Find("BattleUIPanel");
         footManager = obj.GetComponent<NextFootManager>();
-
-        centerX = Screen.width / 2;
-        centerY = Screen.height / 2;
-        BaseX = BaseLx + 30;
-        BaseY = Basey + 55;
-        minX = BaseX + 3 * OffsetX;
-        minY = BaseY + 3 * OffsetY;
 
         EffectBg.SetActive(false);
         EffectObject.SetActive(false);
@@ -224,12 +209,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
         var enemycount = BattleModelLocator.Instance.MonsterGroup[currEnemyGroupIndex];// enemys[currEnemyGroupIndex];
         Logger.Log("当前关卡怪物数：" + enemycount);
         enemyList = new GameObject[enemycount];
-        float xx = (enemycount > 2) ? BaseRx + HorgapR - 70 : BaseRx + HorgapR;
-        float y1 = Basey - Vergap - 40;
-        float y2 = Basey - 50;
-        float tempgap = Vergap * 1.6f;
 
-        var offsetx = 640;//(currEnemyGroupIndex == 0) ? 0 : 640;
         for (var i = 0; i < enemycount; i++)
         {
             var obj = NGUITools.AddChild(rightcontainerobj, EnemyPrefab);
@@ -237,16 +217,15 @@ public class InitBattleField : MonoBehaviour, IBattleView
             if (currEnemyGroupIndex == BattleModelLocator.Instance.MonsterGroup.Count - 1)obj.SetActive(false);
             var ec = obj.GetComponent<EnemyControl>();
             ec.Init(OnClickMonsterHanlder, BattleModelLocator.Instance.MonsterList[BattleModelLocator.Instance.MonsterIndex + i]);
-            //ec.SetValue();//3000, 3000, 2 + i);
             enemyList[i] = obj;
             var k = (int) Math.Floor((decimal) (i / 2));
             if (i == enemycount - 1 && i % 2 == 0)
             {
-                obj.transform.localPosition = new Vector3(xx + HorgapR * k + offsetx, y1, 0);
+                //obj.transform.localPosition = new Vector3(xx + HorgapR * k + offsetx, y1, 0);
             }
             else
             {
-                obj.transform.localPosition = new Vector3(xx + offsetx + HorgapR * k, y2 - tempgap * (i % 2), 0);
+                //obj.transform.localPosition = new Vector3(xx + offsetx + HorgapR * k, y2 - tempgap * (i % 2), 0);
             }
         }
         BattleModelLocator.Instance.MonsterIndex += enemycount;
@@ -469,88 +448,8 @@ public class InitBattleField : MonoBehaviour, IBattleView
         }
     }
 
-    //处理鼠标选取
-    private float centerX;
-    private float centerY;
-    private float BaseX;
-    private float BaseY;
-    private const float OffsetX = -170;
-    private const float OffsetY = -160;
-    private float minX;
-    private float minY;
-    private Vector2 currentPoint;
-    private Vector2 prePoint;
-//    private List<GameObject> pointList;
     private ArrayList selectEffectList;
     private int currentFootIndex;
-
-//    private void TouchHandler()
-//    {
-//        if (isPlaying) return;
-//        if (!isBattling) return;
-//
-//        var mx = Input.mousePosition.x;
-//        var my = Input.mousePosition.y;
-//        var xx = mx - centerX;
-//        var yy = my - centerY;
-//
-//        if (Input.GetMouseButtonDown(0))
-//        {
-//            Logger.Log("Mouse Value (" + mx + ", " + my + ")");
-//            prePoint = GetIndexByPlace(xx, yy);
-//            if (prePoint.x >= 0 && prePoint.y >= 0 && prePoint.x < 3 && prePoint.y < 3)
-//            {
-//                Reset();
-//            }
-//        }
-//
-//        if (Input.GetMouseButtonUp(0) && pointList != null)
-//        {
-//            isDraging = false;
-//            lineObj.SetActive(false);
-//            while (lineList != null && lineList.Count > 0)
-//            {
-//                GameObject temp = lineList[0] as GameObject;
-//                Destroy(temp);
-//                lineList.RemoveAt(0);
-//            }
-//
-//            CleanAttackValue();
-//            CleanEffect();
-//
-//            xx = xx / CameraAdjuster.CameraScale;
-//            yy = yy / CameraAdjuster.CameraScale;
-//
-//            var _indexArr = new int[pointList.Count];
-//            for (int k = 0; k < pointList.Count; k++)
-//            {
-//                var tempcc = pointList[k].GetComponent<CharacterControl>();
-//                tempcc.SetSelect(false);
-//                _indexArr[k] = tempcc.XIndex * 3 + tempcc.YIndex;
-//            }
-//
-//            if (xx > minX - 50 && xx < BaseX + 50 && yy > minY - 50 && yy < BaseY + 50)
-//            {
-//                DoAttack(_indexArr);
-//            }
-//            else
-//            {
-//                if (pointList != null)
-//                {
-//                    pointList.Clear();
-//                    ShowHp();
-//                    ShowMp();
-//                }
-//                //PopTextManager.PopTip("取消攻击");
-//            }
-//            Logger.Log("Mouse Up ------------------------------");
-//        }
-//
-//        if (isDraging)
-//        {
-//            DoDrag(xx, yy);
-//        }
-//    }
 
     private void CleanAttackValue()
     {

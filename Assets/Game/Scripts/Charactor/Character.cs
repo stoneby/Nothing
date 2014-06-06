@@ -77,7 +77,10 @@ public class Character : MonoBehaviour
         Animation = GetAnimationStuff<Animation>();
         Animator = GetAnimationStuff<Animator>();
 
-        animationList = new List<string>(Animation.Cast<AnimationState>().Select(item => item.name));
+        if (Animation != null)
+        {
+            animationList = new List<string>(Animation.Cast<AnimationState>().Select(item => item.name));
+        }
     }
 
     #endregion
