@@ -41,6 +41,13 @@ public class TeamSelectController : MonoBehaviour
 
     private bool initialized;
 
+    /// <summary>
+    /// Flag indicates if drag process is started.
+    /// </summary>
+    private bool dragStart;
+
+    private GameObject targetObject;
+
     #endregion
 
     #region Public Properties
@@ -66,18 +73,114 @@ public class TeamSelectController : MonoBehaviour
 
     #endregion
 
-    #region Private Fields
-
-    /// <summary>
-    /// Flag indicates if drag process is started.
-    /// </summary>
-    private bool dragStart;
-
-    private GameObject targetObject;
-
-    #endregion
-
     #region Public Methods
+
+    public int TwoDimensionToOne(int x, int y)
+    {
+        return x * Row + y;
+    }
+
+    public int TwoDimensionToOne(Position p)
+    {
+        return p.X * Row + p.Y;
+    }
+
+    public Position OneDimensionToTwo(int i)
+    {
+        return new Position {X = i / Row, Y = i % Row};
+    }
+
+    public void Initialize()
+    {
+        if (initialized)
+        {
+            return;
+        }
+
+        initialized = true;
+
+        if (CharacterList == null)
+        {
+            CharacterList = new List<Character>();
+        }
+
+        if (CharacterList.Count == 0)
+        {
+            Logger.LogWarning("Dynamic binding mode, take character from pool of number: " + Total);
+
+            for (var i = 0; i < Total; ++i)
+            {
+                var character = CharacterPool.Take().GetComponent<Character>();
+                CharacterList.Add(character);
+                AddChild(gameObject, character.gameObject);
+            }
+        }
+
+        Total = CharacterList.Count;
+
+        var visableTotal = Row * Col;
+        if (CharacterList.Count < visableTotal)
+        {
+            Logger.LogError("Please make sure character list count - " + CharacterList.Count +
+                            " is more than visiable count - " +
+                            visableTotal);
+            return;
+        }
+
+        var boxCollider = gameObject.GetComponent<BoxCollider>() ?? gameObject.AddComponent<BoxCollider>();
+
+        // get latest formation list as default.
+        var positionList = FormationController.LatestPositionList;
+        for (var i = 0; i < CharacterList.Count; ++i)
+        {
+            var character = CharacterList[i];
+            if (i < visableTotal)
+            {
+                // logic location.
+                character.Index = i;
+                character.Location = OneDimensionToTwo(i);
+
+                // world position.
+                character.name += "_" + character.Index;
+                character.transform.position = positionList[i];
+            }
+            else
+            {
+                character.transform.position = Vector3.zero;
+                character.gameObject.SetActive(false);
+            }
+        }
+
+        // generate bounds according to its children.
+        var boundGenerator = GetComponent<BoundsGenerator>() ?? gameObject.AddComponent<BoundsGenerator>();
+        boundGenerator.Generate();
+
+        SelectedCharacterList = new List<Character>(CharacterList.Count);
+
+        CharacterList.ForEach(character =>
+        {
+            var listener = UIEventListener.Get(character.gameObject);
+            listener.onDragStart += OnCharacterDragStart;
+            listener.onDragOver += OnCharacterDragOver;
+            listener.onDragEnd += OnCharacterDragEnd;
+            listener.onDragOut += OnCharacterDragOut;
+            listener.onDrag += OnCharacterDrag;
+        });
+    }
+
+    public void Reset()
+    {
+        targetObject = null;
+
+        dragStart = false;
+        DragBarPool.ObjectList.ForEach(bar => DragBarPool.Return(bar));
+    }
+
+    public void OnDragOverAnotherTeamHandler(GameObject target)
+    {
+        Logger.Log("Ready to attack target: " + target.name);
+        targetObject = target;
+    }
 
     #endregion
 
@@ -232,93 +335,6 @@ public class TeamSelectController : MonoBehaviour
         Logger.Log("On character drag out: " + sender.name + ", dragged started game ojbect: " + draggedObject.name);
     }
 
-    public void Initialize()
-    {
-        if (initialized)
-        {
-            return;
-        }
-
-        initialized = true;
-
-        if (CharacterList == null)
-        {
-            CharacterList = new List<Character>();
-        }
-
-        if (CharacterList.Count == 0)
-        {
-            Logger.LogWarning("Dynamic binding mode, take character from pool of number: " + Total);
-
-            for (var i = 0; i < Total; ++i)
-            {
-                var character = CharacterPool.Take().GetComponent<Character>();
-                CharacterList.Add(character);
-                AddChild(gameObject, character.gameObject);
-            }
-        }
-
-        Total = CharacterList.Count;
-
-        var visableTotal = Row * Col;
-        if (CharacterList.Count < visableTotal)
-        {
-            Logger.LogError("Please make sure character list count - " + CharacterList.Count +
-                            " is more than visiable count - " +
-                            visableTotal);
-            return;
-        }
-
-        var boxCollider = gameObject.GetComponent<BoxCollider>() ?? gameObject.AddComponent<BoxCollider>();
-
-        // get latest formation list as default.
-        var positionList = FormationController.FormationList[FormationController.FormationList.Count - 1].PositionList;
-        for (var i = 0; i < CharacterList.Count; ++i)
-        {
-            var character = CharacterList[i];
-            if (i < visableTotal)
-            {
-                // logic location.
-                character.Index = i;
-                character.Location.X = i / Col;
-                character.Location.Y = i % Row;
-
-                // world position.
-                character.name += "_" + character.Index;
-                character.transform.position = positionList[i];
-            }
-            else
-            {
-                character.transform.position = Vector3.zero;
-                character.gameObject.SetActive(false);
-            }
-        }
-
-        // generate bounds according to its children.
-        var boundGenerator = GetComponent<BoundsGenerator>() ?? gameObject.AddComponent<BoundsGenerator>();
-        boundGenerator.Generate();
-
-        SelectedCharacterList = new List<Character>(CharacterList.Count);
-
-        CharacterList.ForEach(character =>
-        {
-            var listener = UIEventListener.Get(character.gameObject);
-            listener.onDragStart += OnCharacterDragStart;
-            listener.onDragOver += OnCharacterDragOver;
-            listener.onDragEnd += OnCharacterDragEnd;
-            listener.onDragOut += OnCharacterDragOut;
-            listener.onDrag += OnCharacterDrag;
-        });
-    }
-
-    public void Reset()
-    {
-        targetObject = null;
-
-        dragStart = false;
-        DragBarPool.ObjectList.ForEach(bar => DragBarPool.Return(bar));
-    }
-
     private void DrawDragBar(GameObject sender)
     {
         // fix last drag bar's width and rotation.
@@ -348,12 +364,6 @@ public class TeamSelectController : MonoBehaviour
         t.localRotation = Quaternion.identity;
         t.localScale = Vector3.one;
         childObject.SetActive(true);
-    }
-
-    public void OnDragOverAnotherTeamHandler(GameObject target)
-    {
-        Logger.Log("Ready to attack target: " + target.name);
-        targetObject = target;
     }
 
     #endregion

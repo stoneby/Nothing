@@ -12,6 +12,7 @@ public class BattleFieldWindow : Window
 
     public TeamSelectController TeamLeft;
     public TeamSelectController TeamRight;
+    public TeamSimpleController TeamSimpleRight;
 
     #endregion
 
@@ -58,6 +59,7 @@ public class BattleFieldWindow : Window
                 EditMode = true;
                 TeamLeft.EditMode = true;
                 TeamRight.EditMode = true;
+                TeamSimpleRight.EditMode = true;
             }
         }
         else
@@ -67,6 +69,7 @@ public class BattleFieldWindow : Window
                 EditMode = false;
                 TeamLeft.EditMode = false;
                 TeamRight.EditMode = false;
+                TeamSimpleRight.EditMode = false;
             }
         }
 

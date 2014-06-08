@@ -41,6 +41,7 @@ public class EnemyControl : MonoBehaviour
 
     private void OnClickHandler(GameObject game = null)
     {
+        Debug.LogWarning("World position: " + transform.position + ", local position: " + transform.localPosition);
         OnClickFunc(Data);
         //WindowManager.Instance.Show(typeof(LoginMainWindow), true);
     }

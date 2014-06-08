@@ -11,14 +11,25 @@ public class TeamFormationController : MonoBehaviour
 
     public GameObject FormationPrefab;
 
+    public string XmlName;
+
     public int Index;
 
     public List<GameObject> SpawnList;
 
     public string Description;
 
+    public List<Vector3> LatestPositionList
+    {
+        get
+        {
+            return (FormationList != null && FormationList.Count != 0)
+                       ? FormationList[FormationList.Count - 1].PositionList
+                       : null;
+        }
+    }
+
     private const string RelatedPath = "Game/Resources/TeamFormation";
-    private const string XmlName = "TeamFormation.xml";
     private string persistentPath;
 
 #if UNITY_EDITOR
@@ -36,7 +47,7 @@ public class TeamFormationController : MonoBehaviour
         Clean();
 #endif
 
-        var persistentFile = string.Format("{0}/{1}", Application.persistentDataPath, XmlName);
+        var persistentFile = string.Format("{0}/{1}.xml", Application.persistentDataPath, XmlName);
         var hasPersistentFile = File.Exists(persistentFile);
         var document = new XmlDocument();
         if (hasPersistentFile)
@@ -68,7 +79,7 @@ public class TeamFormationController : MonoBehaviour
             RefreshView();
         }
 #endif
-        var path = (hasPersistentFile) ? persistentFile : string.Format("{0}/{1}", RelatedPath, XmlName);
+        var path = (hasPersistentFile) ? persistentFile : string.Format("{0}/{1}.xml", RelatedPath, XmlName);
         Logger.Log("Load xml from file: " + path + " succeed.");
     }
 
@@ -133,9 +144,9 @@ public class TeamFormationController : MonoBehaviour
         document.AppendChild(rootElement);
 
 #if UNITY_EDITOR
-        var path = string.Format("{0}/{1}/{2}", Application.dataPath, RelatedPath, XmlName);
+        var path = string.Format("{0}/{1}/{2}.xml", Application.dataPath, RelatedPath, XmlName);
 #else
-        var path = string.Format("{0}/{1}", Application.persistentDataPath, XmlName);
+        var path = string.Format("{0}/{1}.xml", Application.persistentDataPath, XmlName);
 #endif
         document.Save(path);
 
@@ -167,6 +178,7 @@ public class TeamFormationController : MonoBehaviour
             return;
         }
 
+        // Note: Remember that Awake is not garanteed to be called before caller like TeamSimpleController or TeamSelectCOntroller.
         ReadXml();
     }
 

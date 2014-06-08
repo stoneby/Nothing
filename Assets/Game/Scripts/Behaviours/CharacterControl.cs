@@ -228,6 +228,9 @@ public class CharacterControl : MonoBehaviour
     {
         PopTextManager.ShowText(AttrackValue.ToString(), 0.5f, -25, 0, 70, transform.localPosition);
         yield return new WaitForSeconds(0.5f);
-        if (isSelected)TopAttrackObj = PopTextManager.ShakeText(AttrackValue.ToString(), -25, 25, transform.localPosition);
+        if (isSelected)
+        {
+            TopAttrackObj = PopTextManager.ShakeText(AttrackValue.ToString(), -25, 25, transform.localPosition);
+        }
     }
 }
