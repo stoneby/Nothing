@@ -149,24 +149,17 @@ public class InitBattleField : MonoBehaviour, IBattleView
         var visibleCount = TeamController.Row * TeamController.Col;
         for (int i = 0; i < TeamController.Total; ++i)
         {
-            var obj = TeamController.CharacterList[i];
+            var character = TeamController.CharacterList[i];
             if (i >= visibleCount)
             {
-                attackWaitList.Add(obj.gameObject);
+                attackWaitList.Add(character.gameObject);
             }
             else
             {
-                charactersLeft[i / TeamController.Row, i % TeamController.Col] = obj.gameObject;
+                charactersLeft[i / TeamController.Row, i % TeamController.Col] = character.gameObject;
             }
+
             Logger.LogWarning("Adjust character: " + i);
-        }
-
-        foreach (var character in TeamController.SelectedCharacterList)
-        {
-            Logger.LogWarning("Selected character: " + character.name);
-
-            var characterControll = character.GetComponent<CharacterControl>();
-            characterControll.SetFootIndex(footManager.GetNext());
         }
     }
 
@@ -178,7 +171,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
             for (var j = 0; j < TeamController.Row; j++)
             {
                 var character = charactersLeft[i, j].GetComponent<Character>();
-                character.Location = new Position {X = i, Y = j};
+                character.Location = new Position { X = i, Y = j };
                 character.Index = TeamController.CharacterList.Count;
                 TeamController.CharacterList.Add(character);
             }
@@ -286,6 +279,8 @@ public class InitBattleField : MonoBehaviour, IBattleView
     //后面的武将补位
     IEnumerator MakeUpOneByOne(bool needresetcharacter = true)
     {
+        SetColor(needresetcharacter);
+
         float runStepTime = (needresetcharacter) ? GameConfig.RunStepNeedTime : GameConfig.ShortTime;
         float runWaitTime = (needresetcharacter) ? GameConfig.NextRunWaitTime : GameConfig.ShortTime;
         float duration = GameConfig.ShortTime;
@@ -335,8 +330,8 @@ public class InitBattleField : MonoBehaviour, IBattleView
                         //cc.SetFootIndex(footManager.GetNext());
                         cc.PlayCharacter(CharacterType.ActionRun);
 
-                        var character = cc.GetComponent<Character>();
-                        character.ColorIndex = cc.FootIndex;
+                        //var character = cc.GetComponent<Character>();
+                        //character.ColorIndex = cc.FootIndex;
 
                         duration = (2 - i) * GameConfig.RunStepNeedTime + GameConfig.RunStepNeedTime;
 
@@ -359,17 +354,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
                     }
                     yield return new WaitForSeconds(runWaitTime);
                 }
-                else
-                {
-                    if (!needresetcharacter)
-                    {
-                        cc = charactersLeft[i, j].GetComponent<CharacterControl>();
-                        cc.SetFootIndex(footManager.GetNext());
-
-                        var character = cc.GetComponent<Character>();
-                        character.ColorIndex = cc.FootIndex;
-                    }
-                }
             }
         }
 
@@ -378,6 +362,32 @@ public class InitBattleField : MonoBehaviour, IBattleView
         if (needresetcharacter)
         {
             yield return new WaitForSeconds(duration);
+        }
+    }
+
+    private void SetColor(bool needresetcharacter)
+    {
+        if (needresetcharacter)
+        {
+            foreach (var wait in attackWaitList)
+            {
+                var cc = wait.GetComponent<CharacterControl>();
+
+                cc.SetFootIndex(footManager.GetNext());
+
+                var character = cc.GetComponent<Character>();
+                character.ColorIndex = cc.FootIndex;
+            }
+        }
+        else
+        {
+            foreach (var character in TeamController.CharacterList)
+            {
+                var cc = character.GetComponent<CharacterControl>();
+                cc.SetFootIndex(footManager.GetNext());
+
+                character.ColorIndex = cc.FootIndex;
+            }
         }
     }
 
