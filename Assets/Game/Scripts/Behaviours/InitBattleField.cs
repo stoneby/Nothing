@@ -40,6 +40,8 @@ public class InitBattleField : MonoBehaviour, IBattleView
     public TeamSelectController TeamController;
     public TeamSimpleController EnemyController;
 
+    public Transform CharacterWaitingTrans;
+
     private int characterAttrackValue;
     private GameObject leftContainerObj;
     private float characterMaxValue;
@@ -61,10 +63,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
 
     private int oldI = -1;
     private int oldJ = -1;
-
-    private ArrayList lineList;
-
-    private const float Tolerance = 0.1f;
 
     public void Init()
     {
@@ -124,7 +122,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
         characterValue = 0;
         characterMaxValue = 0;
 
-        lineList = new ArrayList();
         isBattling = true;
         LeaderCD = 0;
         LeaderCDMax = 50;
@@ -167,11 +164,36 @@ public class InitBattleField : MonoBehaviour, IBattleView
         foreach (var character in TeamController.SelectedCharacterList)
         {
             Logger.LogWarning("Selected character: " + character.name);
-            charactersLeft[character.Location.X, character.Location.Y] = null;
-            attackWaitList.Add(character.gameObject);
 
             var characterControll = character.GetComponent<CharacterControl>();
             characterControll.SetFootIndex(footManager.GetNext());
+        }
+    }
+
+    private void AdjustTeamController()
+    {
+        TeamController.CharacterList.Clear();
+        for (var i = 0; i < TeamController.Col; i++)
+        {
+            for (var j = 0; j < TeamController.Row; j++)
+            {
+                var character = charactersLeft[i, j].GetComponent<Character>();
+                character.Location = new Position {X = i, Y = j};
+                character.Index = TeamController.CharacterList.Count;
+                TeamController.CharacterList.Add(character);
+            }
+        }
+        foreach (var character in attackWaitList.Select(wait => wait.GetComponent<Character>()))
+        {
+            character.Index = TeamController.CharacterList.Count;
+            TeamController.CharacterList.Add(character);
+        }
+
+        // name change accordingly for debugging.
+        foreach (var character in TeamController.CharacterList)
+        {
+            var index = character.name.LastIndexOf('_');
+            character.name = character.name.Remove(index + 1) + character.Index;
         }
     }
 
@@ -267,9 +289,9 @@ public class InitBattleField : MonoBehaviour, IBattleView
         float runStepTime = (needresetcharacter) ? GameConfig.RunStepNeedTime : GameConfig.ShortTime;
         float runWaitTime = (needresetcharacter) ? GameConfig.NextRunWaitTime : GameConfig.ShortTime;
         float duration = GameConfig.ShortTime;
-        for (var i = 0; i < 3; i++)
+        for (var i = 0; i < TeamController.Row; i++)
         {
-            for (var j = 0; j < 3; j++)
+            for (var j = 0; j < TeamController.Col; j++)
             {
                 CharacterControl cc;
                 if (charactersLeft[i, j] == null)
@@ -283,7 +305,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
                             GameObject obj = charactersLeft[i, j];
                             cc = obj.GetComponent<CharacterControl>();
                             cc.PlayCharacter(CharacterType.ActionRun);
-                            cc.SetIndex(i, j);
                             duration = (k - i) * runStepTime;
                             cc.SetCharacterAfter(duration);
 
@@ -307,12 +328,10 @@ public class InitBattleField : MonoBehaviour, IBattleView
                     {
                         charactersLeft[i, j] = attackWaitList[0] as GameObject;
                         attackWaitList.RemoveAt(0);
-                        var index = TeamController.TwoDimensionToOne(i, j);
-                        charactersLeft[i, j].transform.localPosition = TeamController.FormationController.LatestPositionList[index];
+
                         charactersLeft[i, j].SetActive(true);
                         cc = charactersLeft[i, j].GetComponent<CharacterControl>();
 
-                        cc.SetIndex(i, j);
                         //cc.SetFootIndex(footManager.GetNext());
                         cc.PlayCharacter(CharacterType.ActionRun);
 
@@ -326,10 +345,13 @@ public class InitBattleField : MonoBehaviour, IBattleView
                             cc.SetCharacterAfter(duration);
                         }
 
-                        // Move to target.
+                        var index = TeamController.TwoDimensionToOne(i, j);
+                        // Move to target from delta left.
+                        var targetPosition = TeamController.FormationController.LatestPositionList[index];
+                        var sourcePosition = targetPosition + targetPosition -
+                            TeamController.FormationController.LatestPositionList[index - TeamController.Col];
+                        charactersLeft[i, j].transform.position = sourcePosition;
                         var target = charactersLeft[i, j];
-                        const float leftDelta = 300;
-                        var targetPosition = target.transform.position - new Vector3(leftDelta, 0, 0);
                         iTween.MoveTo(target, targetPosition, duration);
 
                         Logger.LogWarning("Character: " + target.GetComponent<Character>() + "Move to position: " +
@@ -350,6 +372,8 @@ public class InitBattleField : MonoBehaviour, IBattleView
                 }
             }
         }
+
+        AdjustTeamController();
 
         if (needresetcharacter)
         {
@@ -418,9 +442,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
 
         if (isAttacked)
         {
-            // fill in character list and waiting list from team controller.
-            AdjustCharacterList();
-
             var selectedList = TeamController.SelectedCharacterList.Select(item => item.Index);
             DoAttack(selectedList.ToArray());
         }
@@ -507,11 +528,8 @@ public class InitBattleField : MonoBehaviour, IBattleView
     //左侧部队攻击
     void DoAttrackLeft()
     {
-        if (TeamController.SelectedCharacterList.Count > 0)
-        {
-            isPlaying = true;
-            StartCoroutine(LeftAttrackCoroutineHandler());
-        }
+        isPlaying = true;
+        StartCoroutine(LeftAttrackCoroutineHandler());
     }
 
     //右侧部队攻击
@@ -1057,12 +1075,13 @@ public class InitBattleField : MonoBehaviour, IBattleView
         cc.PlayCharacter(0);
 
         // Move to target.
-        const float leftDelta = 300f;
-        var targetPosition = obj.transform.position - new Vector3(leftDelta, 0, 0);
-        iTween.MoveTo(obj, targetPosition, duration);
+        iTween.MoveTo(obj, CharacterWaitingTrans.position, duration);
 
-        charactersLeft[cc.XIndex, cc.YIndex] = null;
+        var character = obj.GetComponent<Character>();
+        charactersLeft[character.Location.X, character.Location.Y] = null;
         attackWaitList.Add(obj);
+
+        Debug.LogWarning("Return object: " + obj.name + ", location: " + character.Location);
     }
 
 

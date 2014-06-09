@@ -137,11 +137,9 @@ public class TeamSelectController : MonoBehaviour
             if (i < visableTotal)
             {
                 // logic location.
-                character.Index = i;
                 character.Location = OneDimensionToTwo(i);
 
                 // world position.
-                character.name += "_" + character.Index;
                 character.transform.position = positionList[i];
             }
             else
@@ -149,6 +147,8 @@ public class TeamSelectController : MonoBehaviour
                 character.transform.position = Vector3.zero;
                 character.gameObject.SetActive(false);
             }
+            character.Index = i;
+            character.name += "_" + i;
         }
 
         // generate bounds according to its children.

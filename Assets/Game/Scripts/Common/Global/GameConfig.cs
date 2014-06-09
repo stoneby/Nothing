@@ -16,10 +16,10 @@ public class GameConfig
 
     //battle中的节奏
     public static float HeroRunReturnTime = 0.5f;        //武将出手后跑回的时间长度
-    public static float ShortTime = 5f;               //最小的时间片段
+    public static float ShortTime = 0.5f;               //最小的时间片段
     public static float PlayAttrackTime = 0.4f;          //回血时攻击动画所用的时间
-    public static float RunStepNeedTime = 10f;          //跑位所需的单位时间（可用于计算速度）
-    public static float NextRunWaitTime = 10f;         //两个人之间的间隔时间
+    public static float RunStepNeedTime = 0.5f;          //跑位所需的单位时间（可用于计算速度）
+    public static float NextRunWaitTime = 0.5f;         //两个人之间的间隔时间
     public static float PlayRecoverEffectTime = 0.6f;    //播放回血特效的时间
     public static float RunRoNextMonstersTime = 0.8f;    //所有武将跑到下一波怪的时间
     public static float RunToAttrackPosTime = 0.3f;      //武将跑到攻击位所用的时间
