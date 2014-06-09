@@ -7479,6 +7479,7 @@ Transform:
   - {fileID: 156860225}
   - {fileID: 1557406261}
   - {fileID: 1071516371}
+  - {fileID: 1833406777}
   - {fileID: 1590912045}
   m_Father: {fileID: 1060736489}
 --- !u!114 &1165657646
@@ -12401,6 +12402,32 @@ MonoBehaviour:
   mMaxLineHeight: 0
   mLineWidth: 0
   mMultiline: 1
+--- !u!1 &1833406776
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100252, guid: e46025ccf0c706c41b84e08eeaa1d7e3, type: 2}
+  m_PrefabInternal: {fileID: 992190055}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1833406777}
+  m_Layer: 0
+  m_Name: CharacterWaitingPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1833406777
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400252, guid: e46025ccf0c706c41b84e08eeaa1d7e3, type: 2}
+  m_PrefabInternal: {fileID: 992190055}
+  m_GameObject: {fileID: 1833406776}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -992.078979, y: -15.8888588, z: 0}
+  m_LocalScale: {x: 360, y: 360, z: 360}
+  m_Children: []
+  m_Father: {fileID: 1165657645}
 --- !u!1 &1834326176
 GameObject:
   m_ObjectHideFlags: 0
