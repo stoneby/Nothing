@@ -24,6 +24,28 @@ public class TeamSimpleController : MonoBehaviour
 
     #region Public Methods
 
+    public void Cleanup()
+    {
+        if (!initialized)
+        {
+            return;
+        }
+
+        initialized = false;
+
+        // return back to pool.
+        CharacterList.ForEach(character => CharacterPool.Return(character.gameObject));
+
+        // unregister events to all characters.
+        CharacterList.ForEach(character =>
+        {
+            var listener = UIEventListener.Get(character.gameObject);
+            listener.onDrag -= OnCharacterDrag;
+        });
+
+        CharacterList.Clear();
+    }
+
     public void Initialize()
     {
         if (initialized)

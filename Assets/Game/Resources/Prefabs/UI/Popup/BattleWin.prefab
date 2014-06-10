@@ -73,7 +73,6 @@ GameObject:
   - 114: {fileID: 11400020}
   - 65: {fileID: 6500000}
   - 114: {fileID: 11400028}
-  - 114: {fileID: 11400026}
   m_Layer: 8
   m_Name: BackGround
   m_TagString: Untagged
@@ -203,6 +202,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 400024}
   - 114: {fileID: 11400022}
+  - 114: {fileID: 11400024}
   m_Layer: 8
   m_Name: BattleWin
   m_TagString: Untagged
@@ -566,6 +566,7 @@ MonoBehaviour:
     target: {fileID: 0}
     relative: 1
     absolute: 0
+  updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
   mWidth: 964
@@ -575,18 +576,19 @@ MonoBehaviour:
   hideIfOffScreen: 0
   keepAspectRatio: 0
   aspectRatio: 9.64000034
-  mAtlas: {fileID: 11400000, guid: 50ee6f6c3d8df9140a1f542616ee2f62, type: 2}
-  mSpriteName: YouWin
   mType: 0
   mFillDirection: 4
   mFillAmount: 1
   mInvert: 0
-  mFillCenter: 1
+  mFlip: 0
   centerType: 1
   leftType: 1
   rightType: 1
   bottomType: 1
   topType: 1
+  mAtlas: {fileID: 11400000, guid: 50ee6f6c3d8df9140a1f542616ee2f62, type: 2}
+  mSpriteName: YouWin
+  mFillCenter: 1
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -614,6 +616,7 @@ MonoBehaviour:
     target: {fileID: 0}
     relative: 1
     absolute: 0
+  updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
   mWidth: 28
@@ -623,18 +626,19 @@ MonoBehaviour:
   hideIfOffScreen: 0
   keepAspectRatio: 0
   aspectRatio: .800000012
-  mAtlas: {fileID: 11400000, guid: 50ee6f6c3d8df9140a1f542616ee2f62, type: 2}
-  mSpriteName: 2
   mType: 1
   mFillDirection: 4
   mFillAmount: 1
   mInvert: 0
-  mFillCenter: 1
+  mFlip: 0
   centerType: 1
   leftType: 1
   rightType: 1
   bottomType: 1
   topType: 1
+  mAtlas: {fileID: 11400000, guid: 50ee6f6c3d8df9140a1f542616ee2f62, type: 2}
+  mSpriteName: 2
+  mFillCenter: 1
 --- !u!114 &11400004
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -662,6 +666,7 @@ MonoBehaviour:
     target: {fileID: 0}
     relative: 1
     absolute: 0
+  updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
   mWidth: 74
@@ -671,18 +676,19 @@ MonoBehaviour:
   hideIfOffScreen: 0
   keepAspectRatio: 0
   aspectRatio: 1.94736838
-  mAtlas: {fileID: 11400000, guid: 50ee6f6c3d8df9140a1f542616ee2f62, type: 2}
-  mSpriteName: Coins
   mType: 1
   mFillDirection: 4
   mFillAmount: 1
   mInvert: 0
-  mFillCenter: 1
+  mFlip: 0
   centerType: 0
   leftType: 1
   rightType: 1
   bottomType: 1
   topType: 1
+  mAtlas: {fileID: 11400000, guid: 50ee6f6c3d8df9140a1f542616ee2f62, type: 2}
+  mSpriteName: Coins
+  mFillCenter: 1
 --- !u!114 &11400006
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -710,6 +716,7 @@ MonoBehaviour:
     target: {fileID: 0}
     relative: 1
     absolute: 0
+  updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
   mWidth: 74
@@ -719,18 +726,19 @@ MonoBehaviour:
   hideIfOffScreen: 0
   keepAspectRatio: 0
   aspectRatio: 1.94736838
-  mAtlas: {fileID: 11400000, guid: 50ee6f6c3d8df9140a1f542616ee2f62, type: 2}
-  mSpriteName: Reputation
   mType: 1
   mFillDirection: 4
   mFillAmount: 1
   mInvert: 0
-  mFillCenter: 1
+  mFlip: 0
   centerType: 0
   leftType: 1
   rightType: 1
   bottomType: 1
   topType: 1
+  mAtlas: {fileID: 11400000, guid: 50ee6f6c3d8df9140a1f542616ee2f62, type: 2}
+  mSpriteName: Reputation
+  mFillCenter: 1
 --- !u!114 &11400008
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -758,6 +766,7 @@ MonoBehaviour:
     target: {fileID: 0}
     relative: 1
     absolute: 0
+  updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
   mWidth: 74
@@ -767,18 +776,19 @@ MonoBehaviour:
   hideIfOffScreen: 0
   keepAspectRatio: 0
   aspectRatio: 1.94736838
-  mAtlas: {fileID: 11400000, guid: 50ee6f6c3d8df9140a1f542616ee2f62, type: 2}
-  mSpriteName: Soul
   mType: 1
   mFillDirection: 4
   mFillAmount: 1
   mInvert: 0
-  mFillCenter: 1
+  mFlip: 0
   centerType: 0
   leftType: 1
   rightType: 1
   bottomType: 1
   topType: 1
+  mAtlas: {fileID: 11400000, guid: 50ee6f6c3d8df9140a1f542616ee2f62, type: 2}
+  mSpriteName: Soul
+  mFillCenter: 1
 --- !u!114 &11400010
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -806,6 +816,7 @@ MonoBehaviour:
     target: {fileID: 0}
     relative: 1
     absolute: 0
+  updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
   mWidth: 106
@@ -815,18 +826,19 @@ MonoBehaviour:
   hideIfOffScreen: 0
   keepAspectRatio: 0
   aspectRatio: 4.07692289
-  mAtlas: {fileID: 11400000, guid: 50ee6f6c3d8df9140a1f542616ee2f62, type: 2}
-  mSpriteName: GetExperience
   mType: 0
   mFillDirection: 4
   mFillAmount: 1
   mInvert: 0
-  mFillCenter: 1
+  mFlip: 0
   centerType: 1
   leftType: 1
   rightType: 1
   bottomType: 1
   topType: 1
+  mAtlas: {fileID: 11400000, guid: 50ee6f6c3d8df9140a1f542616ee2f62, type: 2}
+  mSpriteName: GetExperience
+  mFillCenter: 1
 --- !u!114 &11400012
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -854,6 +866,7 @@ MonoBehaviour:
     target: {fileID: 400018}
     relative: 1
     absolute: -4
+  updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
   mWidth: 292
@@ -863,18 +876,19 @@ MonoBehaviour:
   hideIfOffScreen: 0
   keepAspectRatio: 0
   aspectRatio: 20.8571434
-  mAtlas: {fileID: 11400000, guid: 50ee6f6c3d8df9140a1f542616ee2f62, type: 2}
-  mSpriteName: ExperienceBar
   mType: 1
   mFillDirection: 4
   mFillAmount: 1
   mInvert: 0
-  mFillCenter: 1
+  mFlip: 0
   centerType: 1
   leftType: 1
   rightType: 1
   bottomType: 1
   topType: 1
+  mAtlas: {fileID: 11400000, guid: 50ee6f6c3d8df9140a1f542616ee2f62, type: 2}
+  mSpriteName: ExperienceBar
+  mFillCenter: 1
 --- !u!114 &11400014
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -924,6 +938,7 @@ MonoBehaviour:
     target: {fileID: 0}
     relative: 1
     absolute: 0
+  updateAnchors: 1
   mColor: {r: .313432813, g: .313432813, b: .313432813, a: 1}
   mPivot: 4
   mWidth: 300
@@ -933,18 +948,19 @@ MonoBehaviour:
   hideIfOffScreen: 0
   keepAspectRatio: 0
   aspectRatio: 13.636364
-  mAtlas: {fileID: 11400000, guid: 50ee6f6c3d8df9140a1f542616ee2f62, type: 2}
-  mSpriteName: ExperienceBar
   mType: 1
   mFillDirection: 4
   mFillAmount: 1
   mInvert: 0
-  mFillCenter: 1
+  mFlip: 0
   centerType: 1
   leftType: 1
   rightType: 1
   bottomType: 1
   topType: 1
+  mAtlas: {fileID: 11400000, guid: 50ee6f6c3d8df9140a1f542616ee2f62, type: 2}
+  mSpriteName: ExperienceBar
+  mFillCenter: 1
 --- !u!114 &11400018
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -972,6 +988,7 @@ MonoBehaviour:
     target: {fileID: 0}
     relative: 1
     absolute: 0
+  updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
   mWidth: 74
@@ -981,18 +998,19 @@ MonoBehaviour:
   hideIfOffScreen: 0
   keepAspectRatio: 0
   aspectRatio: 1.94736838
-  mAtlas: {fileID: 11400000, guid: 50ee6f6c3d8df9140a1f542616ee2f62, type: 2}
-  mSpriteName: Experience
   mType: 1
   mFillDirection: 4
   mFillAmount: 1
   mInvert: 0
-  mFillCenter: 1
+  mFlip: 0
   centerType: 1
   leftType: 1
   rightType: 1
   bottomType: 1
   topType: 1
+  mAtlas: {fileID: 11400000, guid: 50ee6f6c3d8df9140a1f542616ee2f62, type: 2}
+  mSpriteName: Experience
+  mFillCenter: 1
 --- !u!114 &11400020
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1020,6 +1038,7 @@ MonoBehaviour:
     target: {fileID: 0}
     relative: 1
     absolute: 0
+  updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
   mWidth: 1280
@@ -1029,18 +1048,19 @@ MonoBehaviour:
   hideIfOffScreen: 0
   keepAspectRatio: 0
   aspectRatio: 1.77777779
-  mAtlas: {fileID: 11400000, guid: 50ee6f6c3d8df9140a1f542616ee2f62, type: 2}
-  mSpriteName: bg
   mType: 1
   mFillDirection: 4
   mFillAmount: 1
   mInvert: 0
-  mFillCenter: 1
+  mFlip: 0
   centerType: 0
   leftType: 1
   rightType: 1
   bottomType: 1
   topType: 1
+  mAtlas: {fileID: 11400000, guid: 50ee6f6c3d8df9140a1f542616ee2f62, type: 2}
+  mSpriteName: bg
+  mFillCenter: 1
 --- !u!114 &11400022
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1065,17 +1085,20 @@ MonoBehaviour:
   RepValue: 25000
   ExpValue: 25000
   Delay: .200000003
---- !u!114 &11400026
+--- !u!114 &11400024
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100008}
+  m_GameObject: {fileID: 100024}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f319ab7e61e94794287a945a9b314498, type: 3}
+  m_Script: {fileID: 11500000, guid: cae4276c29b30b74fa5f0339e6056ba3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Path: 
+  WindowGroup: 0
+  Background: {fileID: 100008}
 --- !u!114 &11400028
 MonoBehaviour:
   m_ObjectHideFlags: 1

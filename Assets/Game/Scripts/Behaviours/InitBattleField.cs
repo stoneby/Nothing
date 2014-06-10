@@ -4,7 +4,6 @@ using com.kx.sglm.gs.battle.share.data;
 using com.kx.sglm.gs.battle.share.data.record;
 using com.kx.sglm.gs.battle.share.input;
 using KXSGCodec;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,12 +41,13 @@ public class InitBattleField : MonoBehaviour, IBattleView
 
     public Transform CharacterWaitingTrans;
 
+    private List<GameObject> waitingStackList = new List<GameObject>(); 
+
     private int characterAttrackValue;
     private GameObject leftContainerObj;
     private float characterMaxValue;
     private float characterValue;
 
-    private bool isDraging;
     private bool isPlaying;
     private bool isBattling;
     private NextFootManager footManager;
@@ -56,13 +56,10 @@ public class InitBattleField : MonoBehaviour, IBattleView
     //开始一场战斗,attracks攻击的12个武将的数组,enemys敌人方n波敌人的数组
     private List<GameObject> attackWaitList;
     private readonly GameObject[,] charactersLeft = new GameObject[3, 3];
-    private GameObject[] enemyList;
+    //private GameObject[] enemyList;
     private int currEnemyGroupIndex;	//当前是第几波敌人;
 
     private float realTime;
-
-    private int oldI = -1;
-    private int oldJ = -1;
 
     public void Init()
     {
@@ -133,14 +130,39 @@ public class InitBattleField : MonoBehaviour, IBattleView
         GoldCount = 0;
 
         ShowTopData();
-        SelectedMonsterIndex = -1;
         EventManager.Instance.AddListener<LeaderUseEvent>(OnLeaderUseHandler);
         currEnemyGroupIndex = 0;
         CreateCurrentEnemys();
         RequestRecords();
 
+        InitWaitingStackList();
         AdjustCharacterList();
         StartCoroutine(InitBattleFighters());
+    }
+
+    private void InitWaitingStackList()
+    {
+        if (waitingStackList == null)
+        {
+            waitingStackList = new List<GameObject>();
+        }
+        waitingStackList.Clear();
+
+
+        for (var i = 0; i < TeamController.Row; ++i)
+        {
+            var index = (TeamController.Col - 1) * TeamController.Row + i;
+            var targetPosition = TeamController.FormationController.LatestPositionList[index];
+
+            var sourcePosition = targetPosition + targetPosition -
+                TeamController.FormationController.LatestPositionList[index - TeamController.Col];
+
+            Logger.LogWarning("Waiting stack index of: " + index + ", right index: " + (index - TeamController.Col));
+            var game = new GameObject("WaitingStack_" + i);
+            game.transform.parent = gameObject.transform;
+            game.transform.position = sourcePosition;
+            waitingStackList.Add(game);
+        }
     }
 
     private void AdjustCharacterList()
@@ -190,18 +212,14 @@ public class InitBattleField : MonoBehaviour, IBattleView
         }
     }
 
-    private void AdjustEnemyList()
+    private void InitializeEnemyList()
     {
-        if (enemyList == null)
-        {
-            enemyList = new GameObject[EnemyController.CharacterList.Count];
-        }
-
         for (var i = 0; i < EnemyController.CharacterList.Count; ++i)
         {
-            enemyList[i] = EnemyController.CharacterList[i].gameObject;
-            var ec = enemyList[i].GetComponent<EnemyControl>();
-            ec.Init(OnClickMonsterHanlder, BattleModelLocator.Instance.MonsterList[BattleModelLocator.Instance.MonsterIndex + i]);
+            var ec = EnemyController.CharacterList[i].gameObject.GetComponent<EnemyControl>();
+            ec.Init(null, BattleModelLocator.Instance.MonsterList[BattleModelLocator.Instance.MonsterIndex + i]);
+
+            Logger.Log("Init enemy of index: " + (BattleModelLocator.Instance.MonsterIndex + i));
         }
     }
 
@@ -236,20 +254,16 @@ public class InitBattleField : MonoBehaviour, IBattleView
     {
         Logger.Log("怪物关卡数：" + BattleModelLocator.Instance.MonsterGroup.Count + ",当前关卡索引：" + currEnemyGroupIndex + ",总怪物数：" + BattleModelLocator.Instance.MonsterList.Count);
 
+        EnemyController.Cleanup();
         EnemyController.Total = BattleModelLocator.Instance.MonsterGroup[currEnemyGroupIndex];
         EnemyController.Initialize();
 
         Logger.Log("当前关卡怪物数：" + EnemyController.Total);
 
+        InitializeEnemyList();
+
         BattleModelLocator.Instance.MonsterIndex += EnemyController.Total;
-
-        AdjustEnemyList();
-    }
-
-    private int SelectedMonsterIndex = -1;
-    private void OnClickMonsterHanlder(FighterInfo monster)
-    {
-        SelectedMonsterIndex = monster.Index;
+        Logger.Log("Next monster index: " + BattleModelLocator.Instance.MonsterIndex);
     }
 
     //战斗结束后销毁
@@ -268,25 +282,18 @@ public class InitBattleField : MonoBehaviour, IBattleView
             attackWaitList.RemoveAt(0);
         }
 
-        for (var i = 0; i < enemyList.Length; i++)
-        {
-            enemyList[i] = null;
-        }
-
         EventManager.Instance.RemoveListener<LeaderUseEvent>(OnLeaderUseHandler);
     }
 
     //后面的武将补位
     IEnumerator MakeUpOneByOne(bool needresetcharacter = true)
     {
-        SetColor(needresetcharacter);
-
         float runStepTime = (needresetcharacter) ? GameConfig.RunStepNeedTime : GameConfig.ShortTime;
         float runWaitTime = (needresetcharacter) ? GameConfig.NextRunWaitTime : GameConfig.ShortTime;
         float duration = GameConfig.ShortTime;
-        for (var i = 0; i < TeamController.Row; i++)
+        for (var i = 0; i < TeamController.Col; i++)
         {
-            for (var j = 0; j < TeamController.Col; j++)
+            for (var j = 0; j < TeamController.Row; j++)
             {
                 CharacterControl cc;
                 if (charactersLeft[i, j] == null)
@@ -340,12 +347,13 @@ public class InitBattleField : MonoBehaviour, IBattleView
                             cc.SetCharacterAfter(duration);
                         }
 
-                        var index = TeamController.TwoDimensionToOne(i, j);
+
                         // Move to target from delta left.
+                        var index = TeamController.TwoDimensionToOne(i, j);
                         var targetPosition = TeamController.FormationController.LatestPositionList[index];
-                        var sourcePosition = targetPosition + targetPosition -
-                            TeamController.FormationController.LatestPositionList[index - TeamController.Col];
+                        var sourcePosition = waitingStackList[j].transform.position;
                         charactersLeft[i, j].transform.position = sourcePosition;
+
                         var target = charactersLeft[i, j];
                         iTween.MoveTo(target, targetPosition, duration);
 
@@ -365,30 +373,21 @@ public class InitBattleField : MonoBehaviour, IBattleView
         }
     }
 
-    private void SetColor(bool needresetcharacter)
+    private void SetColor()
     {
-        if (needresetcharacter)
+        foreach (var character in TeamController.CharacterList)
         {
-            foreach (var wait in attackWaitList)
-            {
-                var cc = wait.GetComponent<CharacterControl>();
-
-                cc.SetFootIndex(footManager.GetNext());
-
-                var character = cc.GetComponent<Character>();
-                character.ColorIndex = cc.FootIndex;
-            }
+            SetColor(character.gameObject);
         }
-        else
-        {
-            foreach (var character in TeamController.CharacterList)
-            {
-                var cc = character.GetComponent<CharacterControl>();
-                cc.SetFootIndex(footManager.GetNext());
+    }
 
-                character.ColorIndex = cc.FootIndex;
-            }
-        }
+    private void SetColor(GameObject target)
+    {
+        var cc = target.GetComponent<CharacterControl>();
+        cc.SetFootIndex(footManager.GetNext());
+
+        var character = target.GetComponent<Character>();
+        character.ColorIndex = cc.FootIndex;
     }
 
     // Update is called once per frame
@@ -491,21 +490,23 @@ public class InitBattleField : MonoBehaviour, IBattleView
         characterAttrackValue = 0;
     }
 
-    private void DoAttack(int[] _indexArr)
+    private void DoAttack(int[] indexArr)
     {
-        //调取服务器战斗
-        var _action = new ProduceFighterIndexAction();
-        _action.HeroIndex = _indexArr;
-        var enemyindex = GetCurrentEnemyIndex();
-        if (enemyindex >= 0)
+        if (EnemyController.CharacterList.Count <= 0)
         {
-            var enemy = enemyList[enemyindex];
-            var ec = enemy.GetComponent<EnemyControl>();
-
-            _action.TargetIndex = ec.Data.Index;
-            BattleModelLocator.Instance.MainBattle.handleBattleEvent(_action);
-            RequestRecords();
+            Logger.Log("Enemy list is empty. Please check it out.");
+            return;
         }
+
+        //调取服务器战斗
+        var enemy = EnemyController.CharacterList[0];
+        var ec = enemy.GetComponent<EnemyControl>();
+        var action = new ProduceFighterIndexAction
+        {
+            HeroIndex = indexArr, TargetIndex = ec.Data.Index
+        };
+        BattleModelLocator.Instance.MainBattle.handleBattleEvent(action);
+        RequestRecords();
     }
 
     //增加一个选择的武将
@@ -579,25 +580,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
         }
     }
 
-    //获取当前怪的索引
-    int GetCurrentEnemyIndex()
-    {
-        if (SelectedMonsterIndex >= 0 && enemyList[SelectedMonsterIndex] != null)
-        {
-            return SelectedMonsterIndex;
-        }
-        var m = -1;
-        for (var k = 0; k < enemyList.Length; k++)
-        {
-            if (enemyList[k] != null)
-            {
-                m = k;
-                break;
-            }
-        }
-        return m;
-    }
-
     //跑到下一波怪
     void RunToNextEnemys()
     {
@@ -628,16 +610,12 @@ public class InitBattleField : MonoBehaviour, IBattleView
     //获取该action的怪
     private GameObject GetMonsterObject(SingleActionRecord record)
     {
-        for (int i = 0; i < enemyList.Length; i++)
+        var enemy = EnemyController.CharacterList.Find(character =>
         {
-            if (enemyList[i] == null) continue;
-            var ec = enemyList[i].GetComponent<EnemyControl>();
-            if (ec.Data.Index == record.Index)
-            {
-                return enemyList[i];
-            }
-        }
-        return null;
+            var ec = character.GetComponent<EnemyControl>();
+            return (ec.Data.index == record.Index);
+        });
+        return (enemy != null) ? enemy.gameObject : null;
     }
 
     //private const float AttrackTime = 0.3f;
@@ -720,15 +698,12 @@ public class InitBattleField : MonoBehaviour, IBattleView
             }
             else
             {
-                for (var i = 0; i < enemyList.Length; i++)
+                foreach (var ec in EnemyController.CharacterList.Select(character => character.GetComponent<EnemyControl>()))
                 {
-                    if (enemyList[i] == null) continue;
-                    var ec = enemyList[i].GetComponent<EnemyControl>();
                     ec.ShowBlood(false);
                 }
                 yield return StartCoroutine(PlayOneAction(record));
             }
-
         }
 
         if (battleTeamRecord.RecordList.Count > 1)
@@ -869,14 +844,13 @@ public class InitBattleField : MonoBehaviour, IBattleView
         yield return new WaitForSeconds(GameConfig.TotalHeroAttrackTime);
         CheckMonsterDead();
         yield return StartCoroutine(MakeUpOneByOne());
-        //pointList.Clear();
 
-        for (var i = 0; i < enemyList.Length; i++)
+        foreach (var character in EnemyController.CharacterList)
         {
-            if (enemyList[i] == null) continue;
-            var ec = enemyList[i].GetComponent<EnemyControl>();
+            var ec = character.GetComponent<EnemyControl>();
             ec.ShowBlood(true);
         }
+
         ShowTopData();
         isPlaying = false;
         isPlayingRecord = false;
@@ -887,31 +861,34 @@ public class InitBattleField : MonoBehaviour, IBattleView
     //判断怪是否死亡
     private void CheckMonsterDead()
     {
-        for (int i = 0; i < enemyList.Length; i++)
+        var dead = false;
+        foreach (var character in EnemyController.CharacterList)
         {
-            if (enemyList[i] == null) continue;
-            var ec = enemyList[i].GetComponent<EnemyControl>();
+            var ec = character.GetComponent<EnemyControl>();
             if (ec.HP <= 0)
             {
                 var v = ec.Data.getIntProp(BattleKeyConstants.BATTLE_PROP_MONSTER_DROP_COIN);
                 if (v > 0)
                 {
                     GoldCount += v;
-                    EffectManager.PlayEffect(EffectType.GetMoney, 0.5f, 0, 0, enemyList[i].transform.position);
+                    EffectManager.PlayEffect(EffectType.GetMoney, 0.5f, 0, 0, character.transform.position);
                 }
 
                 EnergyCount += ec.Data.getIntProp(BattleKeyConstants.BATTLE_PROP_MONSTER_DROP_HERO);
                 BoxCount += ec.Data.getIntProp(BattleKeyConstants.BATTLE_PROP_MONSTER_DROP_ITEM);
                 FPCount += ec.Data.getIntProp(BattleKeyConstants.BATTLE_PROP_MONSTER_DROP_SPRIT);
-                if (ec.Data.Index == SelectedMonsterIndex)
-                {
-                    SelectedMonsterIndex = -1;
-                }
                 ec.OnDestory();
-                Destroy(enemyList[i]);
-                enemyList[i] = null;
+
                 ShowTopData();
+
+                EnemyController.CharacterPool.Return(character.gameObject);
+                dead = true;
             }
+        }
+
+        if (dead)
+        {
+            EnemyController.CharacterList.RemoveAt(0);
         }
     }
 
@@ -1085,7 +1062,10 @@ public class InitBattleField : MonoBehaviour, IBattleView
         cc.PlayCharacter(0);
 
         // Move to target.
-        iTween.MoveTo(obj, CharacterWaitingTrans.position, duration);
+        //iTween.MoveTo(obj, CharacterWaitingTrans.position, duration);
+        iTween.MoveTo(obj,
+            iTween.Hash("position", CharacterWaitingTrans.position, "duration", duration, "oncomplete",
+                "OnRunReturnComplete", "oncompletetarget", gameObject, "oncompleteparams", obj));
 
         var character = obj.GetComponent<Character>();
         charactersLeft[character.Location.X, character.Location.Y] = null;
@@ -1094,6 +1074,10 @@ public class InitBattleField : MonoBehaviour, IBattleView
         Debug.LogWarning("Return object: " + obj.name + ", location: " + character.Location);
     }
 
+    private void OnRunReturnComplete(GameObject target)
+    {
+        SetColor(target);
+    }
 
     private GameObject tempGameObj;
     //播放摄像机拉镜头
@@ -1599,9 +1583,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
 
     private IEnumerator GotoNextScene()
     {
-        SelectedMonsterIndex = -1;
         yield return StartCoroutine(MakeUpOneByOne());
-        //pointList.Clear();
 
         currEnemyGroupIndex++;
         if (currEnemyGroupIndex < BattleModelLocator.Instance.MonsterGroup.Count)
@@ -1615,11 +1597,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
                 yield return new WaitForSeconds(.4f);
                 PlayWarning(0.2f);
                 yield return new WaitForSeconds(0.6f);
-                for (int i = 0; i < enemyList.Length; i++)
-                {
-                    var obj = enemyList[i] as GameObject;
-                    obj.SetActive(true);
-                }
+
                 warningObj = EffectManager.ShowEffect(EffectType.Warning, 0, 0, new Vector3(0, 0, 0));
                 yield return new WaitForSeconds(1.8f);
                 PlayWarningEnd();
@@ -1706,10 +1684,17 @@ public class InitBattleField : MonoBehaviour, IBattleView
         if (BattleModelLocator.Instance.NextList == null)
         {
             BattleModelLocator.Instance.NextList = battleIndexRecord.FillPointList;
+            SetColor();
         }
         else
         {
             BattleModelLocator.Instance.NextList = battleIndexRecord.FillPointList;
+            // Remove redurant colors that already taken from attack waiting list.
+            // [NOTE] New colors left for selected characters.
+            foreach (var wait in attackWaitList)
+            {
+                BattleModelLocator.Instance.NextList.RemoveAt(0);
+            }
         }
 
         string str = "";
@@ -1758,35 +1743,37 @@ public class InitBattleField : MonoBehaviour, IBattleView
         {
             int k = battleEndRecord.getIntProp(BattleRecordConstants.BATTLE_END_WIN_SIDE);
 
-            var msg = new CSBattlePveFinishMsg();
-            msg.Uuid = BattleModelLocator.Instance.Uuid;
-
             if (k == BattleRecordConstants.TARGET_SIDE_A)
             {
-                WindowManager.Instance.Show(typeof(BattleWinWindow), true);
-                msg.BattleResult = 1;
+                var battleWindow = WindowManager.Instance.Show<BattleWinWindow>(true);
+                battleWindow.OnBattleResult += OnBattleResult;
             }
             else
             {
-                WindowManager.Instance.Show(typeof(BattleLostWindow), true);
-                msg.BattleResult = 0;
+                var battleWindow = WindowManager.Instance.Show<BattleLostWindow>( true);
+                battleWindow.OnBattleResult += OnBattleResult;
             }
-
-            isBattling = false;
-            recordIndex++;
-            dealWithRecord();
-            BattleModelLocator.Instance.NextList = null;
-            Logger.Log("战斗结束 = 结结结结结结结结结结结束 ");
-
-            msg.Star = 2;
-            NetManager.SendMessage(msg);
         }
         else
         {
             recordIndex++;
             dealWithRecord();
         }
+    }
 
+    private void OnBattleResult(bool win)
+    {
+        isBattling = false;
+        recordIndex++;
+        dealWithRecord();
+        BattleModelLocator.Instance.NextList = null;
+        Logger.Log("战斗结束 = 结结结结结结结结结结结束 ");
+
+        var msg = new CSBattlePveFinishMsg();
+        msg.Uuid = BattleModelLocator.Instance.Uuid;
+        msg.BattleResult = win ? 1 : 0;
+        msg.Star = 2;
+        NetManager.SendMessage(msg);
     }
 
     private List<IBattleViewRecord> recordList;

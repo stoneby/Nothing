@@ -90,6 +90,32 @@ public class TeamSelectController : MonoBehaviour
         return new Position {X = i / Row, Y = i % Row};
     }
 
+    public void Cleanup()
+    {
+        if (!initialized)
+        {
+            return;
+        }
+
+        initialized = false;
+
+        // return back to pool.
+        CharacterList.ForEach(character => CharacterPool.Return(character.gameObject));
+
+        // unregister events to all characters.
+        CharacterList.ForEach(character =>
+        {
+            var listener = UIEventListener.Get(character.gameObject);
+            listener.onDragStart -= OnCharacterDragStart;
+            listener.onDragOver -= OnCharacterDragOver;
+            listener.onDragEnd -= OnCharacterDragEnd;
+            listener.onDragOut -= OnCharacterDragOut;
+            listener.onDrag -= OnCharacterDrag;
+        });
+
+        CharacterList.Clear();
+    }
+
     public void Initialize()
     {
         if (initialized)
