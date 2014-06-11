@@ -178,7 +178,13 @@ public class TeamFormationController : MonoBehaviour
             return;
         }
 
-        // Note: Remember that Awake is not garanteed to be called before caller like TeamSimpleController or TeamSelectCOntroller.
+        if (string.IsNullOrEmpty(XmlName))
+        {
+            Logger.LogError("Xml name should not be null.");
+            return;
+        }
+
+        // Note: Remember that Awake is not garanteed to be called before caller like TeamSimpleController or TeamSelectController.
         ReadXml();
     }
 

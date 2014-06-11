@@ -9,6 +9,11 @@ public class TeamFormationControllerEditor : Editor
     private void OnEnable()
     {
         controller = target as TeamFormationController;
+
+        if (string.IsNullOrEmpty(controller.XmlName))
+        {
+            Logger.LogError("Xml name should not be null.");
+        }
     }
 
     public override void OnInspectorGUI()
@@ -35,18 +40,4 @@ public class TeamFormationControllerEditor : Editor
             controller.ReadXml();
         }
     }
-
-    //private void OnSceneGUI()
-    //{
-    //    Handles.color = Color.black;
-    //    controller.SpawnList.ForEach(spawnObject =>
-    //    {
-    //        Handles.Label(spawnObject.transform.position + Vector3.up * 0.2f, spawnObject.name);
-    //    });
-
-    //    if (GUI.changed)
-    //    {
-    //        EditorUtility.SetDirty(target);
-    //    }
-    //}
 }
