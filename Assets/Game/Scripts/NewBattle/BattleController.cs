@@ -37,7 +37,7 @@ public class BattleController : MonoBehaviour
         var enemy = EnemyList[0];
         for (var i = 0; i < SelectController.SelectedCharacterList.Count; ++i)
         {
-            var item = SelectController.SelectedCharacterList[i];
+            var item = SelectController.SelectedCharacterList[i].GetComponent<CharacterControl>();
             var originalPosition = item.transform.position;
 
             // set run state.
@@ -93,7 +93,8 @@ public class BattleController : MonoBehaviour
     {
         SelectController.CharacterList.ForEach(item =>
         {
-            item.PlayState(state, loop);
+            var characterControll = item.GetComponent<CharacterControl>();
+            characterControll.PlayState(state, loop);
         });
     }
 

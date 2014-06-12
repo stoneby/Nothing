@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using com.kx.sglm.gs.battle.share.data;
 using UnityEngine;
 
 /// <summary>
@@ -17,7 +18,8 @@ public class TeamSelectController : MonoBehaviour
 
     public List<Character> CharacterList;
     public MyPoolManager DragBarPool;
-    public MyPoolManager CharacterPool;
+    //public MyPoolManager CharacterPool;
+    public List<MyPoolManager> CharacterPoolList;
 
     public int Row;
     public int Col;
@@ -100,7 +102,7 @@ public class TeamSelectController : MonoBehaviour
         initialized = false;
 
         // return back to pool.
-        CharacterList.ForEach(character => CharacterPool.Return(character.gameObject));
+        CharacterList.ForEach(character => CharacterPoolList[character.Index].Return(character.gameObject));
 
         // unregister events to all characters.
         CharacterList.ForEach(character =>
@@ -116,7 +118,7 @@ public class TeamSelectController : MonoBehaviour
         CharacterList.Clear();
     }
 
-    public void Initialize()
+    public void Initialize(IList<FighterInfo> characterDataList)
     {
         if (initialized)
         {
@@ -128,6 +130,12 @@ public class TeamSelectController : MonoBehaviour
         if (CharacterList == null)
         {
             CharacterList = new List<Character>();
+        }
+
+        // set total if we got data.
+        if (characterDataList != null)
+        {
+            Total = characterDataList.Count;
         }
 
         if (CharacterList.Count == 0)

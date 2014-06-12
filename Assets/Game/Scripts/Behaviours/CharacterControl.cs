@@ -1,9 +1,10 @@
-﻿using System;
-using System.Collections;
-using com.kx.sglm.gs.battle.share;
+﻿using com.kx.sglm.gs.battle.share;
 using com.kx.sglm.gs.battle.share.data;
 using com.kx.sglm.gs.battle.share.utils;
-using KXSGCodec;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class CharacterControl : MonoBehaviour
@@ -14,12 +15,21 @@ public class CharacterControl : MonoBehaviour
     public GameObject JobObj;
     public GameObject AttrackObj;
     public GameObject TopTimesObj;
-    private GameObject TopAttrackObj;
     public GameObject SpritePrefab;
     public GameObject SpriteObj;
     public GameObject PoisonPrefab;
     public GameObject BuffObj;
     public GameObject FriendLabelObj;
+
+    /// <summary>
+    /// Animator if any.
+    /// </summary>
+    public Animator Animator;
+
+    /// <summary>
+    /// Animation if any.
+    /// </summary>
+    public Animation Animation;
 
     public FighterInfo Data;
     private HeroTemplate TemplateData;
@@ -39,9 +49,12 @@ public class CharacterControl : MonoBehaviour
 
     public int AnimationIndex;
 
-    private bool isSelected = false;
+    private GameObject topAttrackObj;
+    private bool isSelected;
 
     private float afterTime;
+
+    private List<string> animationList; 
 
     public void SetIndex(int xindex, int yindex)
     {
@@ -112,20 +125,20 @@ public class CharacterControl : MonoBehaviour
         Logger.Log(tempid);
         TemplateData = HeroModelLocator.Instance.GetHeroByTemplateId(tempid);
 
-        CharacterIndex = (tempid % 2 == 0) ? 1 : 5;
+        // character index should be range in [0, 5].
+        // [NOTE] We only have 2 types of characters for now.
+        CharacterIndex = (tempid % 2 == 0) ? 0 : 1;
+
         JobIndex = TemplateData.Job;
         Attrack = Data.BattleProperty.get(FighterAProperty.ATK);
         Restore = Data.BattleProperty.get(FighterAProperty.RECOVER);
 
-        var uisa = AnimObj.GetComponent<UISpriteAnimation>();
-        uisa.namePrefix = "c_" + CharacterIndex + "_0_";
-        uisa.framesPerSecond = 8;
         var uisp = JobObj.GetComponent<UISprite>();
         uisp.spriteName = (FootIndex == BattleTypeConstant.FootPink) ? "job_6" : "job_" + JobIndex;
         var uilb = AttrackObj.GetComponent<UILabel>();
         uilb.text = (FootIndex == BattleTypeConstant.FootPink) ? Restore.ToString() : Attrack.ToString();
 
-        Logger.LogWarning("Character inex ; " + CharacterIndex + ", sprite name: " + uisp.spriteName + ", name prefix: " + uisa.namePrefix + ", attack: " + uilb.text);
+        Logger.LogWarning("Character inex ; " + CharacterIndex + ", sprite name: " + uisp.spriteName + ", attack: " + uilb.text);
 
         if (isfriend == BattleTypeConstant.IsHero)
         {
@@ -135,14 +148,7 @@ public class CharacterControl : MonoBehaviour
         {
             FriendLabelObj.SetActive(true);
             uilb = FriendLabelObj.GetComponent<UILabel>();
-            if (isfriend == BattleTypeConstant.IsFriend)
-            {
-                uilb.text = "Friend";
-            }
-            else
-            {
-                uilb.text = "Guest";
-            }
+            uilb.text = isfriend == BattleTypeConstant.IsFriend ? "Friend" : "Guest";
         }
     }
 
@@ -178,7 +184,17 @@ public class CharacterControl : MonoBehaviour
         {
             NGUITools.SetActive(FootObj, true);
         }
+    }
 
+    /// <summary>
+    /// Play character state.
+    /// </summary>
+    /// <param name="state">Current state</param>
+    /// <param name="loop">Flag indicates if state is in loop mode</param>
+    public void PlayState(Character.State state, bool loop)
+    {
+        Animation[animationList[(int)state]].wrapMode = (loop) ? WrapMode.Loop : WrapMode.Once;
+        Animation.Play(animationList[(int)state]);
     }
 
     public void Stop()
@@ -220,7 +236,7 @@ public class CharacterControl : MonoBehaviour
         else
         {
             uilb.text = "";
-            if (TopAttrackObj != null) Destroy(TopAttrackObj);
+            if (topAttrackObj != null) Destroy(topAttrackObj);
         }
     }
 
@@ -230,7 +246,32 @@ public class CharacterControl : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         if (isSelected)
         {
-            TopAttrackObj = PopTextManager.ShakeText(AttrackValue.ToString(), -25, 25, transform.localPosition);
+            topAttrackObj = PopTextManager.ShakeText(AttrackValue.ToString(), -25, 25, transform.localPosition);
         }
     }
+
+    #region Private Methods
+
+    private T GetAnimationStuff<T>() where T : Component
+    {
+        var animations = transform.GetComponentsInChildren<T>();
+        return animations.Any() ? animations.First() : null;
+    }
+
+    #endregion
+
+    #region Mono
+
+    protected void Awake()
+    {
+        Animation = GetAnimationStuff<Animation>();
+        Animator = GetAnimationStuff<Animator>();
+
+        if (Animation != null)
+        {
+            animationList = new List<string>(Animation.Cast<AnimationState>().Select(item => item.name));
+        }
+    }
+
+    #endregion
 }

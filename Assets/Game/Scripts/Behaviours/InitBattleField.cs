@@ -98,10 +98,9 @@ public class InitBattleField : MonoBehaviour, IBattleView
     {
         leftContainerObj = GameObject.Find("BattleFieldWidgetLeft");
 
-        TeamController.Total = BattleModelLocator.Instance.HeroList.Count;
         TeamController.Row = 3;
         TeamController.Col = 3;
-        TeamController.Initialize();
+        TeamController.Initialize(BattleModelLocator.Instance.HeroList);
 
         if (attackWaitList == null)
         {

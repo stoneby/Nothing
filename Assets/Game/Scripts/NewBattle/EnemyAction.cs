@@ -26,7 +26,8 @@ public class EnemyAction : MonoBehaviour
         // character hurt.
         TeamController.CharacterList.ForEach(item =>
         {
-            item.PlayState(Character.State.Hurt, false);
+            var characterControll = item.GetComponent<CharacterControl>();
+            characterControll.PlayState(Character.State.Hurt, false);
         });
     }
 

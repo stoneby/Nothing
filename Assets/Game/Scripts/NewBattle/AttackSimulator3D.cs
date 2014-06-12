@@ -12,11 +12,11 @@ public class AttackSimulator3D : AttackSimulator
     {
         var selectList = TeamController.SelectedCharacterList;
         Logger.Log("Attack target: " + target.name);
-        var targetAnimator = target.GetComponent<Character>().Animator;
+        var targetAnimator = target.GetComponent<CharacterControl>().Animator;
         foreach (var selectCharacter in selectList)
         {
             Logger.Log("Figher: " + selectCharacter.name);
-            var animator = selectCharacter.Animator;
+            var animator = selectCharacter.GetComponent<CharacterControl>().Animator;
             animator.SetTrigger("Run");
 
             yield return StartCoroutine(DoRun(animator, targetAnimator));
