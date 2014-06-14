@@ -41,7 +41,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
 
     public Transform CharacterWaitingTrans;
 
-    private List<GameObject> waitingStackList = new List<GameObject>(); 
+    private List<GameObject> waitingStackList = new List<GameObject>();
 
     private int characterAttrackValue;
     private GameObject leftContainerObj;
@@ -142,7 +142,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
         Star1.SetActive(true);
         Star2.SetActive(true);
         Star3.SetActive(true);
-		
+
         ShowTopData();
         EventManager.Instance.AddListener<LeaderUseEvent>(OnLeaderUseHandler);
         currEnemyGroupIndex = 0;
@@ -523,7 +523,8 @@ public class InitBattleField : MonoBehaviour, IBattleView
         var ec = enemy.GetComponent<EnemyControl>();
         var action = new ProduceFighterIndexAction
         {
-            HeroIndex = indexArr, TargetIndex = ec.Data.Index
+            HeroIndex = indexArr,
+            TargetIndex = ec.Data.Index
         };
         BattleModelLocator.Instance.MainBattle.handleBattleEvent(action);
         RequestRecords();
@@ -582,12 +583,12 @@ public class InitBattleField : MonoBehaviour, IBattleView
             {
                 PopTextManager.ShowText("-" + losevalue, 0.6f, -25, 60, 50, pos);
                 var v = characterMaxValue - characterValue;
-                if (v > (characterMaxValue/2) && Star > 1)
+                if (v > (characterMaxValue / 2) && Star > 1)
                 {
                     Star = 1;
                     Star2.SetActive(false);
                 }
-                else if (v > (characterMaxValue/4) && Star > 2)
+                else if (v > (characterMaxValue / 4) && Star > 2)
                 {
                     Star = 2;
                     Star3.SetActive(false);
@@ -1100,7 +1101,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
             PopTextManager.ShowText("-" + value, 0.6f, 0, 40, 120, v);
             yield return new WaitForSeconds(0.2f);
         }
-        
+
     }
 
     //武将攻击后返回等待队列
@@ -1247,61 +1248,61 @@ public class InitBattleField : MonoBehaviour, IBattleView
         var tt = effectbg.GetComponent<UITexture>();
         tt.alpha = 0.9f;
 
-		GameObject effectobj = EffectObject;
-		tt = effectobj.GetComponent<UITexture>();
-		tt.mainTexture = (Texture2D)Resources.Load(EffectType.LeaderTextures[Random.Range(0, 11)], typeof(Texture2D));
-		effectobj.transform.localPosition = new Vector3 (0,0,0);
-		effectobj.transform.localScale = new Vector3 (5,5,1);
-		tt.alpha = 1.0f;
-		effectobj.SetActive (true);
+        GameObject effectobj = EffectObject;
+        tt = effectobj.GetComponent<UITexture>();
+        tt.mainTexture = (Texture2D)Resources.Load(EffectType.LeaderTextures[Random.Range(0, 11)], typeof(Texture2D));
+        effectobj.transform.localPosition = new Vector3(0, 0, 0);
+        effectobj.transform.localScale = new Vector3(5, 5, 1);
+        tt.alpha = 1.0f;
+        effectobj.SetActive(true);
 
-		PlayTweenScale (effectobj, 0.2f, new Vector3 (5, 5, 1), new Vector3 (1,1,1));
+        PlayTweenScale(effectobj, 0.2f, new Vector3(5, 5, 1), new Vector3(1, 1, 1));
 
-		yield return new WaitForSeconds (0.2f);
-		TextBGObject.SetActive (true);
-		tt = TextBGObject.GetComponent<UITexture>();
-		tt.alpha = 1;
+        yield return new WaitForSeconds(0.2f);
+        TextBGObject.SetActive(true);
+        tt = TextBGObject.GetComponent<UITexture>();
+        tt.alpha = 1;
 
-		PlayTweenScale (effectobj, 1.0f, new Vector3 (1, 1, 1), new Vector3 (0.9f, 0.9f, 1));
+        PlayTweenScale(effectobj, 1.0f, new Vector3(1, 1, 1), new Vector3(0.9f, 0.9f, 1));
 
 
-		TextObject.transform.localScale = new Vector3 (5,5,1);
-		UILabel lb = TextObject.GetComponent<UILabel>();
+        TextObject.transform.localScale = new Vector3(5, 5, 1);
+        UILabel lb = TextObject.GetComponent<UILabel>();
         lb.text = BattleModelLocator.Instance.Skill.Name;
-		lb.alpha = 1;
-		TextObject.SetActive (true);
+        lb.alpha = 1;
+        TextObject.SetActive(true);
 
-		PlayTweenScale (TextObject, 0.2f, new Vector3 (5,5,1), new Vector3 (1,1,1));
-		yield return new WaitForSeconds (0.2f);
+        PlayTweenScale(TextObject, 0.2f, new Vector3(5, 5, 1), new Vector3(1, 1, 1));
+        yield return new WaitForSeconds(0.2f);
 
-		PlayTweenScale (TextObject, 0.8f, new Vector3 (1,1,1), new Vector3 (0.9f, 0.9f, 1));
+        PlayTweenScale(TextObject, 0.8f, new Vector3(1, 1, 1), new Vector3(0.9f, 0.9f, 1));
 
-		yield return new WaitForSeconds (0.8f);
+        yield return new WaitForSeconds(0.8f);
 
-		BreakObject.SetActive (true);
-		UITexture tt1 = BreakObject.GetComponent<UITexture>();
-		BreakObject.transform.localScale = new Vector3 (1,1,1);
-		tt1.alpha = 0.9f;
+        BreakObject.SetActive(true);
+        UITexture tt1 = BreakObject.GetComponent<UITexture>();
+        BreakObject.transform.localScale = new Vector3(1, 1, 1);
+        tt1.alpha = 0.9f;
 
-		yield return new WaitForSeconds (.1f);
-		PlayTweenAlpha (effectbg, 0.3f, 0.9f, 0);
+        yield return new WaitForSeconds(.1f);
+        PlayTweenAlpha(effectbg, 0.3f, 0.9f, 0);
 
-		PlayTweenScale (effectobj, 0.3f, new Vector3 (1,1,1), new Vector3 (5,5,1));
-		PlayTweenAlpha (effectobj, 0.3f, 1, 0.1f);
+        PlayTweenScale(effectobj, 0.3f, new Vector3(1, 1, 1), new Vector3(5, 5, 1));
+        PlayTweenAlpha(effectobj, 0.3f, 1, 0.1f);
 
-		PlayTweenAlpha (BreakObject, 0.3f, 1, 0);
-		PlayTweenScale (BreakObject, 0.3f, new Vector3 (1,1,1), new Vector3(5, 5, 1));
+        PlayTweenAlpha(BreakObject, 0.3f, 1, 0);
+        PlayTweenScale(BreakObject, 0.3f, new Vector3(1, 1, 1), new Vector3(5, 5, 1));
 
-		PlayTweenAlpha (TextBGObject, 0.3f, 1, 0);
+        PlayTweenAlpha(TextBGObject, 0.3f, 1, 0);
 
-		PlayTweenAlpha (TextObject, 0.2f, 1, 0);
+        PlayTweenAlpha(TextObject, 0.2f, 1, 0);
 
-		yield return new WaitForSeconds (.4f);
-		effectobj.SetActive (false);
-		BreakObject.SetActive(false);
-		effectbg.SetActive (false);
-		TextBGObject.SetActive (false);
-//        ResetLeaderCd();
+        yield return new WaitForSeconds(.4f);
+        effectobj.SetActive(false);
+        BreakObject.SetActive(false);
+        effectbg.SetActive(false);
+        TextBGObject.SetActive(false);
+        //        ResetLeaderCd();
         var attrack = LeaderSkillRecord.OrCreateFightRecord.getAttackAction();
         LeaderCD = LeaderSkillRecord.getIntProp(BattleRecordConstants.BATTLE_HERO_PROP_MP);
         ShowMp();
@@ -1323,21 +1324,21 @@ public class InitBattleField : MonoBehaviour, IBattleView
         else if (attrack.ActType == BattleRecordConstants.SINGLE_ACTION_TYPE_RECOVER)
         {
             PlayBloodFullEffect();
-			var obj = GetCharacterByAction(attrack);
-			var k =
-				attrack.getIntProp(
-					BattleRecordConstants.SINGLE_ACTION_PROP_HP);
+            var obj = GetCharacterByAction(attrack);
+            var k =
+                attrack.getIntProp(
+                    BattleRecordConstants.SINGLE_ACTION_PROP_HP);
             if (obj != null)
             {
                 CharacterLoseBlood(obj.transform.localPosition, k);
             }
             else
             {
-                CharacterLoseBlood(new Vector3(0,0,0), k);
+                CharacterLoseBlood(new Vector3(0, 0, 0), k);
             }
-		}
-		ShowMp();
-		EffectManager.PlayAllEffect(true);
+        }
+        ShowMp();
+        EffectManager.PlayAllEffect(true);
         BattleModelLocator.Instance.CanSelectHero = true;
     }
 
@@ -1690,13 +1691,13 @@ public class InitBattleField : MonoBehaviour, IBattleView
     private BattleSkillRecord LeaderSkillRecord;
     public void showBattleSkillRecord(BattleSkillRecord battleSkillRecord)
     {
-       
+
         if (battleSkillRecord.TeamSide == BattleRecordConstants.TARGET_SIDE_A)
         {
             LeaderSkillRecord = battleSkillRecord;
-            
+
             StartCoroutine(PlayLeaderEffect());
-           
+
         }
     }
 
@@ -1824,17 +1825,31 @@ public class InitBattleField : MonoBehaviour, IBattleView
         {
             int k = battleEndRecord.getIntProp(BattleRecordConstants.BATTLE_END_WIN_SIDE);
 
+            var msg = new CSBattlePveFinishMsg();
+            msg.Uuid = BattleModelLocator.Instance.Uuid;
+
             if (k == BattleRecordConstants.TARGET_SIDE_A)
             {
-                var battleWindow = WindowManager.Instance.Show<BattleWinWindow>(true);
-                battleWindow.OnBattleResult += OnBattleResult;
+                msg.BattleResult = 1;
             }
             else
             {
                 Star = 0;
-                var battleWindow = WindowManager.Instance.Show<BattleLostWindow>( true);
-                battleWindow.OnBattleResult += OnBattleResult;
+                WindowManager.Instance.Show(typeof(BattleLostWindow), true);
+                msg.BattleResult = 0;
             }
+
+            isBattling = false;
+            recordIndex++;
+            dealWithRecord();
+            BattleModelLocator.Instance.NextList = null;
+            footManager.Clear();
+            msg.Star = (sbyte) Star;
+            MissionModelLocator.Instance.AddStar(Star);
+            MissionModelLocator.Instance.OldExp = PlayerModelLocator.Instance.Exp;
+            MissionModelLocator.Instance.OldLevel = PlayerModelLocator.Instance.Level;
+            MissionModelLocator.Instance.AddFinishTime(MissionModelLocator.Instance.SelectedStageId);
+            NetManager.SendMessage(msg);
         }
         else
         {
@@ -1847,14 +1862,14 @@ public class InitBattleField : MonoBehaviour, IBattleView
     {
         var msg = new CSBattlePveFinishMsg();
         msg.Uuid = BattleModelLocator.Instance.Uuid;
-		msg.BattleResult = (win) ? 1 : 0;
-		
+        msg.BattleResult = (win) ? 1 : 0;
+
         isBattling = false;
         recordIndex++;
         dealWithRecord();
         BattleModelLocator.Instance.NextList = null;
         footManager.Clear();
-        msg.Star = (sbyte) Star;
+        msg.Star = (sbyte)Star;
         MissionModelLocator.Instance.AddStar(Star);
         MissionModelLocator.Instance.OldExp = PlayerModelLocator.Instance.Exp;
         MissionModelLocator.Instance.OldLevel = PlayerModelLocator.Instance.Level;
@@ -1866,7 +1881,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
     {
         //throw new NotImplementedException();
     }
-	
+
     private List<IBattleViewRecord> recordList;
     private int recordIndex;
     private bool isPlayingRecord = false;
