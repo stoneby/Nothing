@@ -17,7 +17,6 @@ namespace com.kx.sglm.core.util
 
 		private static readonly Random RANDOM = new Random();
 
-
 		public static bool randomRate(float rate, float fullValue)
 		{
 			return (rate / fullValue) >= random();
@@ -58,8 +57,7 @@ namespace com.kx.sglm.core.util
 		/// <summary>
 		/// 返回是否满足概率值�?
 		/// </summary>
-		/// <param name="shakeNum">
-		///            float 概率�?0.0---1.0 </param>
+		/// <param name="shakeNum"> float 概率�?0.0---1.0 </param>
 		/// <returns> 比如某操作有２０％的概率，shakeNum=0.2 如果返回true表明概率满足�? </returns>
 		public static bool shake(float shakeNum)
 		{
@@ -75,7 +73,6 @@ namespace com.kx.sglm.core.util
 			double a = random();
 			return a < shakeNum;
 		}
-
 
 		/// <summary>
 		/// 从概率数组中挑选一个概�?
@@ -146,7 +143,7 @@ namespace com.kx.sglm.core.util
 
 //JAVA TO C# CONVERTER WARNING: 'final' parameters are not allowed in .NET:
 //ORIGINAL LINE: public static <T extends com.kx.sglm.core.model.IRolette> T rolette(final java.util.List<T> objList)
-		public static T rolette<T>(IList<T> objList) where T : com.kx.sglm.core.model.IRolette
+		public static T rolette<T>(List<T> objList) where T : com.kx.sglm.core.model.IRolette
 		{
 			if (objList == null)
 			{
@@ -168,7 +165,7 @@ namespace com.kx.sglm.core.util
 //ORIGINAL LINE: public static <T extends com.kx.sglm.core.model.IRolette> T rolette(final T[] objArray)
 		public static T rolette<T>(T[] objArray) where T : com.kx.sglm.core.model.IRolette
 		{
-			IList<T> _objList = new List<T>();
+			List<T> _objList = new List<T>();
 			foreach (T _t in objArray)
 			{
 				_objList.Add(_t);
@@ -179,8 +176,7 @@ namespace com.kx.sglm.core.util
 		/// <summary>
 		/// 轮盘�?建议仅在不确定选择库的时候使用此函数。如果已经知道要从什么里面选，建议事先加好轮盘赌概�?
 		/// </summary>
-		/// <param name="rateAry">
-		///            概率数组 </param>
+		/// <param name="rateAry"> 概率数组 </param>
 		/// <returns> 选中的下�? </returns>
 //JAVA TO C# CONVERTER WARNING: 'final' parameters are not allowed in .NET:
 //ORIGINAL LINE: public static int rolette(final int[] rateAry)
@@ -301,7 +297,7 @@ namespace com.kx.sglm.core.util
 		public static int getIntervalDays(DateTime enddate, DateTime begindate)
 		{
 			long millisecond = enddate.Ticks - begindate.Ticks;
-			int day = (int)(millisecond / 24l / 60l / 60l / 1000l);
+			int day = (int)(millisecond / 24L / 60L / 60L / 1000L);
 			return day;
 		}
 
@@ -314,7 +310,7 @@ namespace com.kx.sglm.core.util
 		public static int getIntervalDays(long enddate, long begindate)
 		{
 			long millisecond = enddate - begindate;
-			int day = (int)(millisecond / 24l / 60l / 60l / 1000l);
+			int day = (int)(millisecond / 24L / 60L / 60L / 1000L);
 			return day;
 		}
 
@@ -327,7 +323,7 @@ namespace com.kx.sglm.core.util
 		public static int getIntervalMinutes(DateTime enddate, DateTime begindate)
 		{
 			long millisecond = enddate.Ticks - begindate.Ticks;
-			int minute = (int)(millisecond / 60l / 1000l);
+			int minute = (int)(millisecond / 60L / 1000L);
 			return minute;
 		}
 
@@ -416,13 +412,10 @@ namespace com.kx.sglm.core.util
 		/// <summary>
 		/// 两个正整数相�?
 		/// </summary>
-		/// <param name="n1">
-		///            第一个参�? </param>
-		/// <param name="n2">
-		///            第二个参�? </param>
+		/// <param name="n1"> 第一个参�? </param>
+		/// <param name="n2"> 第二个参�? </param>
 		/// <returns> 相加后的结果 </returns>
-		/// <exception cref="IllegalArgumentException">
-		///                ,如果n1或者n2有一个负�?则会抛出此异�?如果n1与n2相加后的结果是负�?即溢出了,也会抛出此异�? </exception>
+		/// <exception cref="IllegalArgumentException"> ,如果n1或者n2有一个负�?则会抛出此异�?如果n1与n2相加后的结果是负�?即溢出了,也会抛出此异�? </exception>
 //JAVA TO C# CONVERTER WARNING: 'final' parameters are not allowed in .NET:
 //ORIGINAL LINE: public static int addPlusNumber(final int n1, final int n2)
 		public static int addPlusNumber(int n1, int n2)
@@ -448,7 +441,7 @@ namespace com.kx.sglm.core.util
 		/// <param name="max"> </param>
 		/// <param name="size">
 		/// @return </param>
-		public static IList<int> getRandomIntWithoutRepeat(int min, int max, int size)
+		public static List<int> getRandomIntWithoutRepeat(int min, int max, int size)
 		{
 			if (min > max)
 			{
@@ -459,7 +452,7 @@ namespace com.kx.sglm.core.util
 			{
 				throw new System.ArgumentException(string.Format("max({0}) - min({1}) >= size({2})", min, max, size));
 			}
-			IList<int> _result = new List<int>(size);
+			List<int> _result = new List<int>(size);
 			int[] _intArray = new int[_arraySize];
 			for (int i = 0; i < _arraySize; i++)
 			{
@@ -680,7 +673,8 @@ namespace com.kx.sglm.core.util
 
 		/// 
 		/// <summary>
-		/// 检测某一位Index上是否为1 </summary>
+		/// 检测某一位Index上是否为1
+		/// </summary>
 		/// <param name="baseValue"> </param>
 		/// <param name="checkFlagIndex">
 		/// @return </param>
@@ -690,13 +684,36 @@ namespace com.kx.sglm.core.util
 		}
 
 		/// <summary>
-		/// 直接判断两个值的与�? </summary>
+		/// 直接判断两个值的与�?
+		/// </summary>
 		/// <param name="baseValue"> </param>
 		/// <param name="checkValue">
 		/// @return </param>
 		public static bool andFlag(int baseValue, int checkValue)
 		{
 			return (checkValue & baseValue) > 0;
+		}
+
+		/// <summary>
+		/// 将十进制�?101转成真正二进制的0101
+		/// </summary>
+		/// <param name="decFlag"> </param>
+		/// <param name="addOne">
+		/// @return </param>
+		public static int changeDecToBinFlag(int decFlag, bool addOne)
+		{
+			int _binFlag = 0;
+			for (int _i = 0; _i < 32; _i++)
+			{
+				bool _flag = decFlag % 10 > 0;
+				decFlag /= 10;
+				if (_flag)
+				{
+					// +1是因为一些flag是从1 开始的
+					_binFlag = optionOrFlag(_binFlag, addOne ? _i + 1 : _i);
+				}
+			}
+			return _binFlag;
 		}
 
 	}

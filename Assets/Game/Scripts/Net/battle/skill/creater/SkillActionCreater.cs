@@ -213,7 +213,7 @@ namespace com.kx.sglm.gs.battle.share.skill.creater
 			}
 			else
 			{
-				Logger.LogError("cannot.get.ai.condition.type = " + aiData.ConditionType);
+				Logger.Log("cannot.get.ai.condition.type = " + aiData.ConditionType);
 			}
 			return _condition;
 		}

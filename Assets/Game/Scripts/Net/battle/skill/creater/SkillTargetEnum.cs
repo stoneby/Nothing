@@ -5,6 +5,7 @@ namespace com.kx.sglm.gs.battle.share.skill.creater
 	using ColorTargetGetter = com.kx.sglm.gs.battle.share.skill.target.ColorTargetGetter;
 	using DefaultTargetGetter = com.kx.sglm.gs.battle.share.skill.target.DefaultTargetGetter;
 	using IndexTargetGetter = com.kx.sglm.gs.battle.share.skill.target.IndexTargetGetter;
+	using JobTargetGetter = com.kx.sglm.gs.battle.share.skill.target.JobTargetGetter;
 	using RandomTargetGetter = com.kx.sglm.gs.battle.share.skill.target.RandomTargetGetter;
 	using SelfTargetGetter = com.kx.sglm.gs.battle.share.skill.target.SelfTargetGetter;
 
@@ -116,11 +117,27 @@ namespace com.kx.sglm.gs.battle.share.skill.creater
 			}
 		}
 
+		public static readonly SkillTargetEnum JOB_TARGET = new SkillTargetEnumAnonymousInnerClassHelper8();
+
+		private class SkillTargetEnumAnonymousInnerClassHelper8 : SkillTargetEnum
+		{
+			public SkillTargetEnumAnonymousInnerClassHelper8() : base(7)
+			{
+			}
+
+
+			internal override ISkillPartInfo createInstance()
+			{
+				return new JobTargetGetter();
+			}
+		}
+
+
 		public SkillTargetEnum(int index) : base(index)
 		{
 		}
 
-		private static SkillTargetEnum[] VALUES = new SkillTargetEnum[] {NIL, DEFAULT_TARGET, INDEX_TARGET, SELF_TARGET, ALL_TARGET, RANDOM_TARGET,COLOR_TARGET};
+		private static SkillTargetEnum[] VALUES = new SkillTargetEnum[] {NIL, DEFAULT_TARGET, INDEX_TARGET, SELF_TARGET, ALL_TARGET, RANDOM_TARGET, COLOR_TARGET, JOB_TARGET};
 
 		public static SkillTargetEnum[] values()
 		{

@@ -77,7 +77,7 @@ namespace com.kx.sglm.gs.battle.share.skill.manager
 			}
 			if (activeAction == null)
 			{
-				Logger.LogError("no active action");
+				Logger.Log("no active action");
 			}
 		}
 
@@ -191,7 +191,7 @@ namespace com.kx.sglm.gs.battle.share.skill.manager
 			BattleFightRecord _fightRecord = _actSkillRecord.OrCreateFightRecord;
 			if (!activeAction.canOption(Fighter))
 			{
-				Logger.LogError("cannot.option.activeSkill");
+				Logger.Log("cannot.option.activeSkill");
 				return;
 			}
 			ownerTeam.costCurMp(activeAction.CostMp);

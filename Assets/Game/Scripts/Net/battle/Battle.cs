@@ -99,6 +99,14 @@ namespace com.kx.sglm.gs.battle.share
 			@event.fireEvent(this);
 		}
 
+		public virtual int CurSceneRound
+		{
+			get
+			{
+				return battleField.CurSubAction.LoopCount;
+			}
+		}
+
 		/// <summary>
 		/// 转发战斗内部事件 </summary>
 		/// <param name="innerEvent"> </param>

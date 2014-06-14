@@ -8,6 +8,12 @@ namespace com.kx.sglm.gs.battle.share.skill.target
 	using BattleFighter = com.kx.sglm.gs.battle.share.actor.impl.BattleFighter;
 	using BattleTeam = com.kx.sglm.gs.battle.share.actor.impl.BattleTeam;
 
+	/// <summary>
+	/// 通过颜色选择目标
+	/// 
+	/// @author liyuan2
+	/// 
+	/// </summary>
 	public class ColorTargetGetter : AbstractHeroTeamGetter
 	{
 
@@ -34,17 +40,7 @@ namespace com.kx.sglm.gs.battle.share.skill.target
 
 		public override void build(params int[] param)
 		{
-			int _baseValue = param[0];
-			for (int _i = 0; _i < BattleConstants.INT_SIZE; _i++)
-			{
-				bool _flag = _baseValue % 10 > 0;
-				_baseValue /= 10;
-				if (_flag)
-				{
-					//+1是因为颜色是�? 开始的
-					colorFlag = MathUtils.optionOrFlag(colorFlag, _i + 1);
-				}
-			}
+			colorFlag = MathUtils.changeDecToBinFlag(param[0], true);
 
 		}
 

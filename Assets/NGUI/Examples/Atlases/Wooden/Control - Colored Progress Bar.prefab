@@ -193,6 +193,7 @@ MonoBehaviour:
     target: {fileID: 400002}
     relative: 1
     absolute: -4
+  updateAnchors: 1
   mColor: {r: .850746274, g: .723597646, b: .48886165, a: 1}
   mPivot: 4
   mWidth: 292
@@ -208,6 +209,7 @@ MonoBehaviour:
   mFillDirection: 4
   mFillAmount: 1
   mInvert: 0
+  mFlip: 0
   mFillCenter: 1
   centerType: 1
   leftType: 1
@@ -241,6 +243,7 @@ MonoBehaviour:
     target: {fileID: 0}
     relative: 1
     absolute: 0
+  updateAnchors: 1
   mColor: {r: 1, g: .836469829, b: .529850721, a: 1}
   mPivot: 4
   mWidth: 300
@@ -256,6 +259,7 @@ MonoBehaviour:
   mFillDirection: 4
   mFillAmount: 1
   mInvert: 0
+  mFlip: 0
   mFillCenter: 1
   centerType: 1
   leftType: 1
@@ -282,6 +286,7 @@ MonoBehaviour:
   onChange:
   - mTarget: {fileID: 11400010}
     mMethodName: SetCurrentPercent
+    mParameters: []
     oneShot: 0
   foreground: {fileID: 0}
   rawValue: 1
@@ -314,6 +319,7 @@ MonoBehaviour:
     target: {fileID: 0}
     relative: 1
     absolute: 0
+  updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 7
   mWidth: 38
@@ -329,6 +335,7 @@ MonoBehaviour:
   mText: 70%
   mFontSize: 20
   mFontStyle: 0
+  mAlignment: 0
   mEncoding: 1
   mMaxLineCount: 0
   mEffectStyle: 1
@@ -374,6 +381,7 @@ MonoBehaviour:
     target: {fileID: 400002}
     relative: 1
     absolute: -4
+  updateAnchors: 1
   mColor: {r: 0, g: 0, b: 0, a: .149019599}
   mPivot: 4
   mWidth: 292
@@ -389,6 +397,7 @@ MonoBehaviour:
   mFillDirection: 4
   mFillAmount: 1
   mInvert: 0
+  mFlip: 0
   mFillCenter: 1
   centerType: 1
   leftType: 1

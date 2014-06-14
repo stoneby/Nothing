@@ -26,7 +26,8 @@ public class LeaderControl : MonoBehaviour
 
     void Start()
     {
-        
+		HeadUIEventListener = UIEventListener.Get(SpriteHead);
+		if (HeadUIEventListener != null) HeadUIEventListener.onClick += OnHeadClick;
         
     }
 
@@ -36,8 +37,7 @@ public class LeaderControl : MonoBehaviour
         SpriteHead = transform.FindChild("Sprite - head").gameObject;
         SpriteLight = transform.FindChild("Sprite - light").gameObject;
 
-        HeadUIEventListener = UIEventListener.Get(SpriteHead);
-        if (HeadUIEventListener != null) HeadUIEventListener.onClick += OnHeadClick;
+        
 
         SpriteLight.SetActive(false);
         HeadIndex = headindex;

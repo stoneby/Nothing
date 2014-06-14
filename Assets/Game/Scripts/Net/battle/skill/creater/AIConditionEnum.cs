@@ -1,6 +1,8 @@
 namespace com.kx.sglm.gs.battle.share.skill.creater
 {
 
+	using AIRoundCondition = com.kx.sglm.gs.battle.share.skill.aicondition.AIRoundCondition;
+
 
 	public abstract class AIConditionEnum : BaseSkillFactoryEnum
 	{
@@ -16,11 +18,12 @@ namespace com.kx.sglm.gs.battle.share.skill.creater
 
 			internal override ISkillPartInfo createInstance()
 			{
-				//TODO: add code
 				return null;
 			}
 		}
 
+		/// <summary>
+		/// 回合数条�? </summary>
 		public static readonly AIConditionEnum ROUND_COUNT = new AIConditionEnumAnonymousInnerClassHelper2();
 
 		private class AIConditionEnumAnonymousInnerClassHelper2 : AIConditionEnum
@@ -32,8 +35,7 @@ namespace com.kx.sglm.gs.battle.share.skill.creater
 
 			internal override ISkillPartInfo createInstance()
 			{
-				//TODO: add code
-				return null;
+				return new AIRoundCondition();
 			}
 		}
 

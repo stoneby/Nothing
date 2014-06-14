@@ -63,7 +63,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 
 		public override bool handleBattleFightInfo(int fightIndex, int[] battleIndexes)
 		{
-			Logger.LogError("#MonsterTeam.handleBattleFight: error.action.in.battle, monster.not.action");
+			Logger.Log("#MonsterTeam.handleBattleFight: error.action.in.battle, monster.not.action");
 			return false;
 		}
 

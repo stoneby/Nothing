@@ -284,7 +284,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 		{
 			if (!isRightActionArr(battleIndexes))
 			{
-				Logger.LogError("#HeroTeam.isRightFightInfo action error");
+				Logger.Log("#HeroTeam.isRightFightInfo action error");
 				return false;
 			}
 			if (!battle.BattleType.canSelectTarget())
@@ -503,7 +503,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 			{
 				_sb.Append(_point.toLogString()).Append(";");
 			}
-			Logger.LogError(_sb.ToString());
+			Logger.Log(_sb.ToString());
 		}
 
 		public override int getFighterColor(int fighterIndex)
