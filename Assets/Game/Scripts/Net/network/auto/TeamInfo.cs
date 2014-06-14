@@ -66,12 +66,12 @@ namespace KXSGCodec
             if (field.Type == TType.List) {
               {
                 ListHeroUuid = new List<long>();
-                TList _list13 = iprot.ReadListBegin();
-                for( int _i14 = 0; _i14 < _list13.Count; ++_i14)
+                TList _list17 = iprot.ReadListBegin();
+                for( int _i18 = 0; _i18 < _list17.Count; ++_i18)
                 {
-                  long _elem15 = 0;
-                  _elem15 = iprot.ReadI64();
-                  ListHeroUuid.Add(_elem15);
+                  long _elem19 = 0;
+                  _elem19 = iprot.ReadI64();
+                  ListHeroUuid.Add(_elem19);
                 }
                 iprot.ReadListEnd();
               }
@@ -99,9 +99,9 @@ namespace KXSGCodec
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.I64, ListHeroUuid.Count));
-          foreach (long _iter16 in ListHeroUuid)
+          foreach (long _iter20 in ListHeroUuid)
           {
-            oprot.WriteI64(_iter16);
+            oprot.WriteI64(_iter20);
           }
           oprot.WriteListEnd();
         }

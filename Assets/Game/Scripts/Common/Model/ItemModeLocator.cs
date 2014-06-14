@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using KXSGCodec;
+using Template;
 using UnityEngine;
-using System.Collections;
 
 public class ItemModeLocator 
 {
@@ -10,6 +10,7 @@ public class ItemModeLocator
     private static volatile ItemModeLocator instance;
     private static readonly object SyncRoot = new Object();
     private const string ItemTemlatePath = "Templates/Item";
+    private const string BagTemlatePath = "Templates/Bag";
     private const string ItemConfigPath = "Templates/ItemConfig";
     
     #endregion
@@ -31,6 +32,15 @@ public class ItemModeLocator
         }
     }
 
+    public int GetItemPos;   
+    public int GetItemDetailPos;
+
+    private Bag bag;
+    public Bag Bag
+    {
+        get { return bag ?? (bag = Utils.Decode<Bag>(BagTemlatePath)); }
+    }
+
     private Item itemTemplates;
     public Item ItemTemplates
     {
@@ -43,7 +53,9 @@ public class ItemModeLocator
         get { return itemConfig ?? (itemConfig = Utils.Decode<ItemConfig>(ItemConfigPath)); }
     }
 
-    public SCAllItemInfos ScAllItemInfos { get; set; }
+    public SCAllItemInfos ScAllItemInfos { get; set; }  
+    public SCAllItemInfos BuyBackItems { get; set; }
+    public SCServerConfigMsg ServerConfigMsg { get; set; }
 
     public enum EquipType
     {
@@ -84,27 +96,23 @@ public class ItemModeLocator
                 items.Sort(CompareItemByQuality);
                 break;
 
-            //按照队伍顺序排序
-            case 3:
-                break;
-
             //按攻击力排序
-            case 4:
+            case 3:
                 items.Sort(CompareItemByAttack);
                 break;
 
             //按HP排序
-            case 5:
+            case 4:
                 items.Sort(CompareItemByHp);
                 break;
 
             //按回复力排序
-            case 6:
+            case 5:
                 items.Sort(CompareItemByRecover);
                 break;
 
             //按等级排序
-            case 7:
+            case 6:
                 items.Sort(CompareItemByLv);
                 break;
         }
@@ -136,17 +144,7 @@ public class ItemModeLocator
     /// <returns>The result of the comparation</returns>
     private int CompareItemByJob(ItemInfo p1, ItemInfo p2)
     {
-        var type = GetItemType(p1.TmplId);
-        int compareResult = GetItemType(p2.TmplId).CompareTo(type);
-
-        if (compareResult == 0)
-        {
-            if (type == EquipType.EquipTempl)
-            {
-                var equipTemp = ItemTemplates.EquipTmpl;
-                compareResult = equipTemp[p2.TmplId].JobType.CompareTo(equipTemp[p1.TmplId].JobType);
-            }
-        }
+        int compareResult = GetJob(p2.TmplId).CompareTo(GetJob(p1.TmplId));
         if (compareResult == 0)
         {
             return p2.TmplId.CompareTo(p1.TmplId);
@@ -162,7 +160,7 @@ public class ItemModeLocator
     /// <returns>The result of the comparation</returns>
     private int CompareItemByQuality(ItemInfo p1, ItemInfo p2)
     {
-        var compareResult = GetQuality(p2).CompareTo(GetQuality(p1));
+        var compareResult = GetQuality(p2.TmplId).CompareTo(GetQuality(p1.TmplId));
         if (compareResult == 0)
         {
             return p2.TmplId.CompareTo(p1.TmplId);
@@ -178,7 +176,7 @@ public class ItemModeLocator
     /// <returns>The result of the comparation</returns>
     private int CompareItemByAttack(ItemInfo p1, ItemInfo p2)
     {
-        var compareResult = GetAttack(p2).CompareTo(GetAttack(p1));
+        var compareResult = GetAttack(p2.TmplId, p2.Level).CompareTo(GetAttack(p1.TmplId, p1.Level));
         if (compareResult == 0)
         {
             return p2.TmplId.CompareTo(p1.TmplId);
@@ -194,7 +192,7 @@ public class ItemModeLocator
     /// <returns>The result of the comparation</returns>
     private int CompareItemByHp(ItemInfo p1, ItemInfo p2)
     {
-        var compareResult = GetHp(p2).CompareTo(GetHp(p1));
+        var compareResult = GetHp(p2.TmplId, p2.Level).CompareTo(GetHp(p1.TmplId, p1.Level));
         if (compareResult == 0)
         {
             return p2.TmplId.CompareTo(p1.TmplId);
@@ -210,7 +208,7 @@ public class ItemModeLocator
     /// <returns>The result of the comparation</returns>
     private int CompareItemByRecover(ItemInfo p1, ItemInfo p2)
     {
-        int compareResult = GetRecover(p2).CompareTo(GetRecover(p1));
+        int compareResult = GetRecover(p2.TmplId, p2.Level).CompareTo(GetRecover(p1.TmplId, p1.Level));
         if (compareResult == 0)
         {
             return p2.TmplId.CompareTo(p1.TmplId);
@@ -260,289 +258,260 @@ public class ItemModeLocator
     /// <summary>
     /// Get the job type of the item.
     /// </summary>
-    /// <param name="type">The type of the item.</param>
     /// <param name="tempId">The templete id of the item.</param>
     /// <returns>The job type of the item.</returns>
-    public sbyte GetJob(EquipType type, int tempId)
+    public sbyte GetJob(int tempId)
     {
-        if (type == EquipType.EquipTempl)
+        var equipTmpl = ItemTemplates.EquipTmpl;
+        var materialTempl = ItemTemplates.MaterialTmpl;
+        if (equipTmpl.ContainsKey(tempId))
         {
-            var equipTmpl = ItemTemplates.EquipTmpl;
             return equipTmpl[tempId].JobType;
+        }
+        if (materialTempl.ContainsKey(tempId))
+        {
+            return materialTempl[tempId].FitJobType;
         }
         return -1;
     }
 
     /// <summary>
-    /// Get the job type of the item.
-    /// </summary>
-    /// <param name="itemInfo">The item info.</param>
-    /// <returns>The job type of the item.</returns>
-    public sbyte GetJob(ItemInfo itemInfo)
-    {
-        var type = GetItemType(itemInfo.TmplId);
-        return GetJob(type, itemInfo.TmplId);
-
-    }
-
-    /// <summary>
     /// Get the quility of the item.
     /// </summary>
-    /// <param name="type">The type of the item.</param>
     /// <param name="tempId">The templete id of the item.</param>
     /// <returns>The quility of the item.</returns>
-    public sbyte GetQuality(EquipType type, int tempId)
+    public sbyte GetQuality(int tempId)
     {
-        switch(type)
+        var equipTmpl = ItemTemplates.EquipTmpl;
+        var armorTmpl = ItemTemplates.ArmorTmpl;
+        var materialTempl = ItemTemplates.MaterialTmpl;
+        if (equipTmpl.ContainsKey(tempId))
         {
-            case  EquipType.EquipTempl:
-                var equipTmpl = ItemTemplates.EquipTmpl;
-                return equipTmpl[tempId].Quality;
-            case  EquipType.ArmorTemplate:
-                var armorTmpl = ItemTemplates.ArmorTmpl;
-                return armorTmpl[tempId].Quality;
-            case  EquipType.MaterialTempl:
-                var materialTmpl = ItemTemplates.MaterialTmpl;
-                return materialTmpl[tempId].Quality;
-            default:
-                return -1;
-        }   
-    }
-
-    /// <summary>
-    /// Get the quality of the item.
-    /// </summary>
-    /// <param name="itemInfo">The item info.</param>
-    /// <returns>The quality of the item.</returns>
-    public sbyte GetQuality(ItemInfo itemInfo)
-    {
-        var type = GetItemType(itemInfo.TmplId);
-        return GetQuality(type, itemInfo.TmplId);
-
+            return equipTmpl[tempId].Quality;
+        }
+        if (armorTmpl.ContainsKey(tempId))
+        {
+            return armorTmpl[tempId].Quality;
+        }
+        if (materialTempl.ContainsKey(tempId))
+        {
+            return materialTempl[tempId].Quality;
+        }
+        return -1;
     }
 
     /// <summary>
     /// Get the attack of the item.
     /// </summary>
-    /// <param name="type">The type of the item.</param>
     /// <param name="tempId">The templete id of the item.</param>
-    /// <returns>The quility of the item.</returns>
-    public int GetAttack(EquipType type, int tempId)
+    /// <param name="level">The level of the item.</param>
+    /// <returns>The Attack of the item.</returns>
+    public int GetAttack(int tempId, short level)
     {
-        switch (type)
+        var equipTmpl = ItemTemplates.EquipTmpl;
+        var armorTmpl = ItemTemplates.ArmorTmpl;
+        if (equipTmpl.ContainsKey(tempId))
         {
-            case EquipType.EquipTempl:
-                var equipTmpl = ItemTemplates.EquipTmpl;
-                return equipTmpl[tempId].Attack;
-            case EquipType.ArmorTemplate:
-                var armorTmpl = ItemTemplates.ArmorTmpl;
-                return armorTmpl[tempId].Attack;
-            default:
-                return -1;
+            return equipTmpl[tempId].Attack + level * equipTmpl[tempId].AttackLvlParam;
         }
-    }
-
-    /// <summary>
-    /// Get the attack of the item.
-    /// </summary>
-    /// <param name="itemInfo">The item info.</param>
-    /// <returns>The item attack of the item.</returns>
-    public int GetAttack(ItemInfo itemInfo)
-    {
-        var type = GetItemType(itemInfo.TmplId);
-        return GetAttack(type, itemInfo.TmplId);
+        if (armorTmpl.ContainsKey(tempId))
+        {
+            return armorTmpl[tempId].Attack + level * armorTmpl[tempId].AttackLvlParam;
+        }
+        return -1;
     }
 
     /// <summary>
     /// Get the recover of the item.
     /// </summary>
-    /// <param name="type">The type of the item.</param>
     /// <param name="tempId">The templete id of the item.</param>
-    /// <returns>The attack of the item.</returns>
-    public int GetRecover(EquipType type, int tempId)
+    /// <param name="level">The level of the item.</param>
+    /// <returns>The recover of the item.</returns>
+    public int GetRecover(int tempId, short level)
     {
-        switch (type)
+        var equipTmpl = ItemTemplates.EquipTmpl;
+        var armorTmpl = ItemTemplates.ArmorTmpl;
+        if (equipTmpl.ContainsKey(tempId))
         {
-            case EquipType.EquipTempl:
-                var equipTmpl = ItemTemplates.EquipTmpl;
-                return equipTmpl[tempId].Recover;
-            case EquipType.ArmorTemplate:
-                var armorTmpl = ItemTemplates.ArmorTmpl;
-                return armorTmpl[tempId].Recover;
-            default:
-                return -1;
+            return equipTmpl[tempId].Recover + level * equipTmpl[tempId].RecoverLvlParam;
         }
-    }
-
-    /// <summary>
-    /// Get the recover of the item.
-    /// </summary>
-    /// <param name="itemInfo">The item info.</param>
-    /// <returns>The item recover of the item.</returns>
-    public int GetRecover(ItemInfo itemInfo)
-    {
-        var type = GetItemType(itemInfo.TmplId);
-        return GetRecover(type, itemInfo.TmplId);
+        if (armorTmpl.ContainsKey(tempId))
+        {
+            return armorTmpl[tempId].Recover + level * armorTmpl[tempId].RecoverLvlParam;
+        }
+        return -1;
     }
 
     /// <summary>
     /// Get the hp of the item.
     /// </summary>
-    /// <param name="type">The type of the item.</param>
+    /// <param name="tempId">The templete id of the item.</param>
+    /// <param name="level">The level of the item.</param>
+    /// <returns>The hp of the item.</returns>
+    public int GetHp(int tempId, short level)
+    {
+        var equipTmpl = ItemTemplates.EquipTmpl;
+        var armorTmpl = ItemTemplates.ArmorTmpl;
+        if (equipTmpl.ContainsKey(tempId))
+        {
+            return equipTmpl[tempId].Hp + level * equipTmpl[tempId].HpLvlParam;
+        }
+        if (armorTmpl.ContainsKey(tempId))
+        {
+            return armorTmpl[tempId].Hp + level * armorTmpl[tempId].Hp;
+        }
+        return -1;
+    }
+
+    /// <summary>
+    /// Get the hp of the item.
+    /// </summary>
     /// <param name="tempId">The templete id of the item.</param>
     /// <returns>The hp of the item.</returns>
-    public int GetHp(EquipType type, int tempId)
+    public int GetMp(int tempId)
     {
-        switch (type)
+        var equipTmpl = ItemTemplates.EquipTmpl;
+        var armorTmpl = ItemTemplates.ArmorTmpl;
+        if (equipTmpl.ContainsKey(tempId))
         {
-            case EquipType.EquipTempl:
-                var equipTmpl = ItemTemplates.EquipTmpl;
-                return equipTmpl[tempId].Hp;
-            case EquipType.ArmorTemplate:
-                var armorTmpl = ItemTemplates.ArmorTmpl;
-                return armorTmpl[tempId].Hp;
-            default:
-                return -1;
+            return equipTmpl[tempId].Mp;
         }
+        if (armorTmpl.ContainsKey(tempId))
+        {
+            return armorTmpl[tempId].Mp;
+        }
+        return -1;
     }
 
     /// <summary>
     /// Get the hp of the item.
     /// </summary>
-    /// <param name="itemInfo">The item info.</param>
-    /// <returns>The item hp of the item.</returns>
-    public int GetHp(ItemInfo itemInfo)
-    {
-        var type = GetItemType(itemInfo.TmplId);
-        return GetHp(type, itemInfo.TmplId);
-    }
-
-    /// <summary>
-    /// Get the hp of the item.
-    /// </summary>
-    /// <param name="type">The type of the item.</param>
+    ///// <param name="type">The type of the item.</param>
     /// <param name="tempId">The templete id of the item.</param>
     /// <returns>The hp of the item.</returns>
-    public int GetMp(EquipType type, int tempId)
+    public string GetName(int tempId)
     {
-        switch (type)
+        var equipTmpl = ItemTemplates.EquipTmpl;
+        var armorTmpl = ItemTemplates.ArmorTmpl;
+        var materialTempl = ItemTemplates.MaterialTmpl;
+        if(equipTmpl.ContainsKey(tempId))
         {
-            case EquipType.EquipTempl:
-                var equipTmpl = ItemTemplates.EquipTmpl;
-                return equipTmpl[tempId].Mp;
-            case EquipType.ArmorTemplate:
-                var armorTmpl = ItemTemplates.ArmorTmpl;
-                return armorTmpl[tempId].Mp;
-            default:
-                return -1;
+            return equipTmpl[tempId].Name;
         }
+        if(armorTmpl.ContainsKey(tempId))
+        {
+            return armorTmpl[tempId].Name;
+        }
+        if(materialTempl.ContainsKey(tempId))
+        {
+            return materialTempl[tempId].Name;
+        }
+        return "";
     }
 
-    /// <summary>
-    /// Get the hp of the item.
-    /// </summary>
-    /// <param name="itemInfo">The item info.</param>
-    /// <returns>The item hp of the item.</returns>
-    public int GetMp(ItemInfo itemInfo)
+    public string GetDesc(int tempId)
     {
-        var type = GetItemType(itemInfo.TmplId);
-        return GetMp(type, itemInfo.TmplId);
+        var equipTmpl = ItemTemplates.EquipTmpl;
+        var armorTmpl = ItemTemplates.ArmorTmpl;
+        var materialTempl = ItemTemplates.MaterialTmpl;
+        if(equipTmpl.ContainsKey(tempId))
+        {
+            return equipTmpl[tempId].Desc;
+        }
+        if(armorTmpl.ContainsKey(tempId))
+        {
+            return armorTmpl[tempId].Desc;
+        }
+        if(materialTempl.ContainsKey(tempId))
+        {
+            return materialTempl[tempId].Desc;
+        }
+        return "";
     }
 
     /// <summary>
     /// Get the hp of the item.
     /// </summary>
-    /// <param name="type">The type of the item.</param>
     /// <param name="tempId">The templete id of the item.</param>
     /// <returns>The hp of the item.</returns>
-    public string GetName(EquipType type, int tempId)
+    public sbyte GetUpLimit(int tempId)
     {
-        switch (type)
+        var equipTmpl = ItemTemplates.EquipTmpl;
+        var armorTmpl = ItemTemplates.ArmorTmpl;
+        if (equipTmpl.ContainsKey(tempId))
         {
-            case EquipType.EquipTempl:
-                var equipTmpl = ItemTemplates.EquipTmpl;
-                return equipTmpl[tempId].Name;
-            case EquipType.ArmorTemplate:
-                var armorTmpl = ItemTemplates.ArmorTmpl;
-                return armorTmpl[tempId].Name;
-            case EquipType.MaterialTempl:
-                var materialTempl = ItemTemplates.MaterialTmpl;
-                return materialTempl[tempId].Name;
-            default:
-                return "";
+            return equipTmpl[tempId].UpLimit;
         }
-    }
-
-    /// <summary>
-    /// Get the name of the item.
-    /// </summary>
-    /// <param name="itemInfo">The item info.</param>
-    /// <returns>The item name of the item.</returns>
-    public string GetName(ItemInfo itemInfo)
-    {
-        var type = GetItemType(itemInfo.TmplId);
-        return GetName(type, itemInfo.TmplId);
-    }
-
-    public string GetDesc(EquipType type, int tempId)
-    {
-        switch (type)
+        if (armorTmpl.ContainsKey(tempId))
         {
-            case EquipType.EquipTempl:
-                var equipTmpl = ItemTemplates.EquipTmpl;
-                return equipTmpl[tempId].Desc;
-            case EquipType.ArmorTemplate:
-                var armorTmpl = ItemTemplates.ArmorTmpl;
-                return armorTmpl[tempId].Desc;
-            case EquipType.MaterialTempl:
-                var materialTempl = ItemTemplates.MaterialTmpl;
-                return materialTempl[tempId].Desc;
-            default:
-                return "";
-        }
-    }
-
-    /// <summary>
-    /// Get the name of the item.
-    /// </summary>
-    /// <param name="itemInfo">The item info.</param>
-    /// <returns>The item describe of the item.</returns>
-    public string GetDesc(ItemInfo itemInfo)
-    {
-        var type = GetItemType(itemInfo.TmplId);
-        return GetDesc(type, itemInfo.TmplId);
+            return armorTmpl[tempId].UpLimit;
+        }  
+        return -1;
     }
 
     /// <summary>
     /// Get the hp of the item.
     /// </summary>
-    /// <param name="type">The type of the item.</param>
     /// <param name="tempId">The templete id of the item.</param>
     /// <returns>The hp of the item.</returns>
-    public sbyte GetUpLimit(EquipType type, int tempId)
+    public bool GetCanLvlUp(int tempId)
     {
-        switch (type)
+        var equipTmpl = ItemTemplates.EquipTmpl;
+        var armorTmpl = ItemTemplates.ArmorTmpl;
+        if (equipTmpl.ContainsKey(tempId))
         {
-            case EquipType.EquipTempl:
-                var equipTmpl = ItemTemplates.EquipTmpl;
-                return equipTmpl[tempId].UpLimit;
-            case EquipType.ArmorTemplate:
-                var armorTmpl = ItemTemplates.ArmorTmpl;
-                return armorTmpl[tempId].UpLimit;
-            default:
-                return -1;
+            return equipTmpl[tempId].CanUpLvl;
         }
+        if (armorTmpl.ContainsKey(tempId))
+        {
+            return armorTmpl[tempId].CanUpLvl;
+        }
+        return false;
     }
 
     /// <summary>
-    /// Get the name of the item.
+    /// Get the hp of the item.
     /// </summary>
-    /// <param name="itemInfo">The item info.</param>
-    /// <returns>The item name of the item.</returns>
-    public sbyte GetUpLimit(ItemInfo itemInfo)
+    /// <param name="tempId">The templete id of the item.</param>
+    /// <returns>The hp of the item.</returns>
+    public bool GetCanEvolve(int tempId)
     {
-        var type = GetItemType(itemInfo.TmplId);
-        return GetUpLimit(type, itemInfo.TmplId);
+        var equipTmpl = ItemTemplates.EquipTmpl;
+        var armorTmpl = ItemTemplates.ArmorTmpl;
+        if (equipTmpl.ContainsKey(tempId))
+        {
+            return equipTmpl[tempId].CanEvolution;
+        }
+        if (armorTmpl.ContainsKey(tempId))
+        {
+            return armorTmpl[tempId].CanEvolution;
+        }
+        return false;
+    }
+
+    /// <summary>
+    /// Get the sale price of the item.
+    /// </summary>
+    /// <param name="tempId">The templete id of the item.</param>
+    /// <returns>The sale price of the item.</returns>
+    public int GetSalePrice(int tempId)
+    {
+        var equipTmpl = ItemTemplates.EquipTmpl;
+        var armorTmpl = ItemTemplates.ArmorTmpl;
+        var matTmpl = ItemTemplates.MaterialTmpl;
+        if (equipTmpl.ContainsKey(tempId))
+        {
+            return equipTmpl[tempId].SalePrice;
+        }
+        if (armorTmpl.ContainsKey(tempId))
+        {
+            return armorTmpl[tempId].SalePrice;
+        }
+        if (matTmpl.ContainsKey(tempId))
+        {
+            return matTmpl[tempId].SalePrice;
+        }
+        return -1;
     }
 
     /// <summary>
@@ -563,6 +532,20 @@ public class ItemModeLocator
     public ItemInfo FindItem(short bagIndex)
     {
         return ScAllItemInfos.ItemInfos.Find(info => info.BagIndex == bagIndex);
+    }
+
+    /// <summary>
+    /// Find the item info in the item list through the item id.
+    /// </summary>
+    /// <param name="bagIndex">The bag index of the item.</param>
+    /// <returns>The item info found out.</returns>
+    public ItemInfo FindBuyBackItem(short bagIndex)
+    {
+        if (BuyBackItems == null || BuyBackItems.ItemInfos == null)
+        {
+            return null;
+        }
+        return BuyBackItems.ItemInfos.Find(info => info.BagIndex == bagIndex);
     }
 
     #endregion

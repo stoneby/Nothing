@@ -1,10 +1,13 @@
-using System;
+using System.Collections.Generic;
 
 namespace com.kx.sglm.gs.battle.share.actor.impl
 {
 
+
+	using SingleActionRecord = com.kx.sglm.gs.battle.share.data.record.SingleActionRecord;
 	using BattleSideEnum = com.kx.sglm.gs.battle.share.enums.BattleSideEnum;
 	using FighterType = com.kx.sglm.gs.battle.share.enums.FighterType;
+	using HeroColor = com.kx.sglm.gs.battle.share.enums.HeroColor;
 	using BattleTeamShot = com.kx.sglm.gs.battle.share.logic.loop.BattleTeamShot;
 
 	public class MonsterTeam : BattleTeam
@@ -16,7 +19,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 
 		public override bool hasFightFighter()
 		{
-			return actorSize() > curFightIndex;
+			return battlingActorSize() > curFightIndex;
 		}
 
 		public override BattleFighter CurFighter
@@ -32,12 +35,9 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 			curFightIndex = 0;
 		}
 
-		public override bool Alive
+		public override bool hasHp()
 		{
-			get
-			{
-				return !deadth;
-			}
+			return !deadth;
 		}
 
 		public override void tryDead()
@@ -46,9 +46,9 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 			foreach (BattleFighter _fighter in actorList)
 			{
 				_fighter.tryDead();
-				if (_fighter.Alive)
+				if (_fighter.hasHp())
 				{
-					_isDead = false; //这里不能Break，因为需要将所有fighter尝试死亡
+					_isDead = false; // 这里不能Break，因为需要将所有fighter尝试死亡
 				}
 			}
 			Deadth = _isDead;
@@ -63,7 +63,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 
 		public override bool handleBattleFightInfo(int fightIndex, int[] battleIndexes)
 		{
-			Console.WriteLine("#MonsterTeam.handleBattleFight: error.action.in.battle, monster.not.action");
+			Logger.LogError("#MonsterTeam.handleBattleFight: error.action.in.battle, monster.not.action");
 			return false;
 		}
 
@@ -89,19 +89,19 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 
 		public override bool hasFighterIndex(int fighterIndex)
 		{
-			bool _rightIndex = actorSize() > fighterIndex;
+			bool _rightIndex = battlingActorSize() > fighterIndex;
 			if (_rightIndex)
 			{
 				BattleFighter _fighter = getActor(fighterIndex);
-				//TODO：可能以后会有其他情况不能被攻击，这里暂时写生存
-				_rightIndex = _fighter.Alive;
+				// TODO：可能以后会有其他情况不能被攻击，这里暂时写生存
+				_rightIndex = _fighter.hasHp();
 			}
 			return _rightIndex;
 		}
 
 		public override void changeHp(int costHp, BattleFighter defencer)
 		{
-			//DO Nothing
+			// DO Nothing
 		}
 
 		public override BattleFighter getFighterByIndex(int fighterIndex)
@@ -113,11 +113,53 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 		{
 			get
 			{
-				// TODO Auto-generated method stub
 				return 0;
 			}
 		}
 
+
+		public override List<BattleFighter> ActiveFighter
+		{
+			get
+			{
+				List<BattleFighter> _fighterList = new List<BattleFighter>();
+				foreach (BattleFighter _fighter in ActorList)
+				{
+					if (_fighter.hasHp())
+					{
+						_fighterList.Add(_fighter);
+					}
+				}
+				return _fighterList;
+			}
+		}
+
+		public override void changeFightColor(int fighterIndex, HeroColor color, SingleActionRecord actionRecord)
+		{
+			//do nothing here
+		}
+
+		public override int TotalHp
+		{
+			get
+			{
+				return 0;
+			}
+		}
+
+		public override int CurMp
+		{
+			get
+			{
+				return 0;
+			}
+		}
+
+		public override int getFighterColor(int fighterIndex)
+		{
+			// TODO Auto-generated method stub
+			return 0;
+		}
 
 	}
 

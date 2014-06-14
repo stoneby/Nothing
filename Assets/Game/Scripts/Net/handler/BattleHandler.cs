@@ -30,7 +30,16 @@ namespace Assets.Game.Scripts.Net.handler
                 var _allFighterList = new List<FighterInfo>();
                 _allFighterList.AddRange(BattleModelLocator.Instance.HeroList);
                 _allFighterList.AddRange(BattleModelLocator.Instance.MonsterList);
+                BattleSource _source = BattleModelLocator.Instance.Source;
                 BattleModelLocator.Instance.Source.FighterProp = _allFighterList;
+
+                
+                _source.heroSkillList.AddRange(battlestartmsg.HeroSkillList);
+                _source.MonsterAList.AddRange(battlestartmsg.MonsterAIList);
+                _source.monsterSkillList.AddRange(battlestartmsg.MonsterSkillList);
+
+                FighterInfoCreater.initBattleSkillService(_source);
+                
 
                 var _factory = type.Factory;
                 BattleModelLocator.Instance.MainBattle = _factory.createBattle(BattleModelLocator.Instance.Source);

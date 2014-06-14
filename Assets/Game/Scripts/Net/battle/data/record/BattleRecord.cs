@@ -9,9 +9,9 @@ namespace com.kx.sglm.gs.battle.share.data.record
 	public class BattleRecord : IBattleRecord
 	{
 
-		private IList<IBattleViewRecord> recordList;
+		private List<IBattleViewRecord> recordList;
 
-		private IList<IBattleViewRecord> toReportRecordList;
+		private List<IBattleViewRecord> toReportRecordList;
 
 		private BattleTeamFightRecord curFightRecord;
 
@@ -23,10 +23,13 @@ namespace com.kx.sglm.gs.battle.share.data.record
 
 		private BattleEndRecord curEndRecord;
 
+		private BattleErrorRecord errorRecord;
+
 		public BattleRecord()
 		{
 			recordList = new List<IBattleViewRecord>();
 			toReportRecordList = new List<IBattleViewRecord>();
+			errorRecord = new BattleErrorRecord();
 		}
 
 		public virtual BattleEndRecord OrCreateEndRecord
@@ -132,7 +135,7 @@ namespace com.kx.sglm.gs.battle.share.data.record
 			this.toReportRecordList.Add(record);
 		}
 
-		public virtual IList<IBattleViewRecord> RecordList
+		public virtual List<IBattleViewRecord> RecordList
 		{
 			get
 			{
@@ -140,11 +143,21 @@ namespace com.kx.sglm.gs.battle.share.data.record
 			}
 		}
 
-		public virtual IList<IBattleViewRecord> reportRecordListAndClear()
+		public virtual List<IBattleViewRecord> reportRecordListAndClear()
 		{
 			List<IBattleViewRecord> _recordList = new List<IBattleViewRecord>(toReportRecordList);
 			toReportRecordList.Clear();
 			return _recordList;
+		}
+
+		public virtual void addErrorInfo(string error)
+		{
+			this.errorRecord.addErrorString(error);
+		}
+
+		public virtual void clearError()
+		{
+			this.errorRecord.clearError();
 		}
 
 	//	@Override

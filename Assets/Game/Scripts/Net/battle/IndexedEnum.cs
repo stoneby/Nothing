@@ -1,4 +1,4 @@
-﻿namespace com.kx.sglm.core.constant
+namespace com.kx.sglm.core.constant
 {
 
 	/// <summary>

@@ -24,7 +24,7 @@ namespace KXSGCodec
   public partial class SCRaidReward : TBase
   {
     private int _exp;
-    private Dictionary<short, int> _money;
+    private Dictionary<int, int> _money;
     private List<KXSGCodec.RewardItem> _rewardItem;
     private sbyte _star;
 
@@ -41,7 +41,7 @@ namespace KXSGCodec
       }
     }
 
-    public Dictionary<short, int> Money
+    public Dictionary<int, int> Money
     {
       get
       {
@@ -117,13 +117,13 @@ namespace KXSGCodec
           case 2:
             if (field.Type == TType.Map) {
               {
-                Money = new Dictionary<short, int>();
+                Money = new Dictionary<int, int>();
                 TMap _map29 = iprot.ReadMapBegin();
                 for( int _i30 = 0; _i30 < _map29.Count; ++_i30)
                 {
-                  short _key31;
+                  int _key31;
                   int _val32;
-                  _key31 = iprot.ReadI16();
+                  _key31 = iprot.ReadI32();
                   _val32 = iprot.ReadI32();
                   Money[_key31] = _val32;
                 }
@@ -185,10 +185,10 @@ namespace KXSGCodec
         field.ID = 2;
         oprot.WriteFieldBegin(field);
         {
-          oprot.WriteMapBegin(new TMap(TType.I16, TType.I32, Money.Count));
-          foreach (short _iter36 in Money.Keys)
+          oprot.WriteMapBegin(new TMap(TType.I32, TType.I32, Money.Count));
+          foreach (int _iter36 in Money.Keys)
           {
-            oprot.WriteI16(_iter36);
+            oprot.WriteI32(_iter36);
             oprot.WriteI32(Money[_iter36]);
           }
           oprot.WriteMapEnd();

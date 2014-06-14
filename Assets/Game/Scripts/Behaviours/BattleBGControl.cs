@@ -22,13 +22,14 @@ public class BattleBGControl : MonoBehaviour
     public void SetData(string name)
     {
         if (bgName == name) return;
-        Destroy(bgAtlas);
+        //Destroy(bgAtlas);
         ClearSprites();
 
         bgName = name;
         bgAtlas = Resources.Load("Textures/Battle/" + bgName + "/battle" + bgName, typeof(UIAtlas)) as UIAtlas;
         if (sprites == null)sprites = new List<UISprite>();
         var sp1 = NGUITools.AddSprite(gameObject, bgAtlas, "bg3");
+//        sp1.depth = 1;
         sprites.Add(sp1);
         sprites.Add(NGUITools.AddSprite(gameObject, bgAtlas, "bg0"));
         sprites.Add(NGUITools.AddSprite(gameObject, bgAtlas, "bg1"));
@@ -36,6 +37,7 @@ public class BattleBGControl : MonoBehaviour
 
         for (int i = 0; i < sprites.Count; i++)
         {
+            sprites[i].depth = 1;
             sprites[i].MakePixelPerfect();
             sprites[i].transform.localPosition = new Vector3(-960 + 640 * i, 0, 0);
         }
@@ -46,7 +48,7 @@ public class BattleBGControl : MonoBehaviour
         if (sprites == null) return;
         while (sprites.Count > 0)
         {
-            Destroy(sprites[0]);
+            Destroy(sprites[0].gameObject);
             sprites.RemoveAt(0);
         }
     }

@@ -29,7 +29,7 @@ public class UIMaterialInfoWindow : Window
 
     #endregion
 
-    #region Mono
+    #region Private Methods
 
     // Use this for initialization
     void Awake()
@@ -54,8 +54,15 @@ public class UIMaterialInfoWindow : Window
 
     private void OnBackBtnClicked(GameObject go)
     {
-        WindowManager.Instance.Show(typeof(UIEquipsDisplayWindow), true);
-        WindowManager.Instance.Show(typeof(UIMaterialInfoWindow), false);
+        if (ItemModeLocator.Instance.GetItemDetailPos == ItemType.GetItemDetailInPanel)
+        {
+            WindowManager.Instance.Show(typeof(UIMaterialInfoWindow), false);
+        }
+        else if (ItemModeLocator.Instance.GetItemDetailPos == ItemType.GetItemDetailInHeroInfo)
+        {
+            WindowManager.Instance.Show<UIHeroSelItemWindow>(true);
+            WindowManager.Instance.Show<ItemBaseInfoWindow>(false);
+        }
     }
 
     /// <summary>
@@ -73,9 +80,9 @@ public class UIMaterialInfoWindow : Window
             bindlabel.gameObject.SetActive(true);
             nBindLabel.gameObject.SetActive(false);
         }
-        Utils.FindChild(transform, "Name").GetComponent<UILabel>().text = ItemModeLocator.Instance.GetName(itemInfo);
+        Utils.FindChild(transform, "Name").GetComponent<UILabel>().text = ItemModeLocator.Instance.GetName(itemInfo.TmplId);
         var stars = Utils.FindChild(transform, "Stars");
-        var quality = ItemModeLocator.Instance.GetQuality(itemInfo);
+        var quality = ItemModeLocator.Instance.GetQuality(itemInfo.TmplId);
         for (int index = 0; index < quality; index++)
         {
             NGUITools.SetActive(stars.GetChild(index).gameObject, true);
@@ -86,9 +93,9 @@ public class UIMaterialInfoWindow : Window
         }
         Utils.FindChild(transform, "Job-Value").GetComponent<UISprite>().spriteName = UIHerosDisplayWindow.JobPrefix +
                                                                                       ItemModeLocator.Instance.GetJob(
-                                                                                          itemInfo);
-        explainName.text = ItemModeLocator.Instance.GetName(itemInfo);
-        explainDesc.text = ItemModeLocator.Instance.GetDesc(itemInfo);
+                                                                                          itemInfo.TmplId);
+        explainName.text = ItemModeLocator.Instance.GetName(itemInfo.TmplId);
+        explainDesc.text = ItemModeLocator.Instance.GetDesc(itemInfo.TmplId);
     }
 
     #endregion

@@ -3,14 +3,18 @@ using Template;
 using UnityEngine;
 using System.Collections;
 
-public class MissionItemControl : MonoBehaviour
+public class MissionItemControl : KxItemRender
 {
-    private UIEventListener BtnClickUIEventListener;
+//    private UIEventListener BtnClickUIEventListener;
     private GameObject TitleLable;
 
     private GameObject EventBox;
     private GameObject EnergyCountLabel;
     private GameObject FlagSprite;
+
+    private GameObject EventSprite;
+    private GameObject EventName;
+    private GameObject EventTime;
 
     private GameObject Stars;
     private GameObject StarLabel;
@@ -22,6 +26,9 @@ public class MissionItemControl : MonoBehaviour
 	{
         TitleLable = transform.FindChild("Titlle Label").gameObject;
         EventBox = transform.FindChild("Event Container").gameObject;
+        EventSprite = transform.FindChild("Event Container/Event Sprite").gameObject;
+        EventName = transform.FindChild("Event Container/Event Label").gameObject;
+        EventTime = transform.FindChild("Event Container/Left Label").gameObject;
         EnergyCountLabel = transform.FindChild("Energy Count Label").gameObject;
         FlagSprite = transform.FindChild("Flag Sprite").gameObject;
         Stars = transform.FindChild("Star Container").gameObject;
@@ -30,8 +37,8 @@ public class MissionItemControl : MonoBehaviour
         Star2 = transform.FindChild("Star Container/Sprite2").gameObject;
         Star3 = transform.FindChild("Star Container/Sprite3").gameObject;
 
-        BtnClickUIEventListener = UIEventListener.Get(gameObject);
-        BtnClickUIEventListener.onClick += OnItemClick;
+//        BtnClickUIEventListener = UIEventListener.Get(gameObject);
+//        BtnClickUIEventListener.onClick += OnItemClick;
 	    setContent();
 	}
 	
@@ -51,24 +58,28 @@ public class MissionItemControl : MonoBehaviour
     public RaidStageTemplate StageTemp;
     public RaidStageInfo StageData;
 
-    public void InitRaid(int theindex, RaidTemplate template, RaidInfo data, RaidAddtionInfo addition)
-    {
-        IsRaid = true;
-        RaidIndex = theindex;
-        RaidTemp = template;
-        RaidData = data;
-        RaidAdditionData = addition;
-        setContent();
-    }
 
-    public void InitStage(int theindex, RaidStageTemplate template, RaidStageInfo data)
+    public override void SetData<T>(T data)
     {
-        IsRaid = false;
-        StageIndex = theindex;
-        StageTemp = template;
-        StageData = data;
-
-        setContent();
+        //throw new System.NotImplementedException();
+        if (data is RaidInfo)
+        {
+            IsRaid = true;
+            RaidData = data as RaidInfo;
+            RaidIndex = ItemIndex;
+            RaidTemp = MissionModelLocator.Instance.GetRaidByTemplateId(RaidData.TemplateId);
+            RaidAdditionData = MissionModelLocator.Instance.GetAdditionInfoByRaidTemplateID(RaidData.TemplateId);
+            setContent();
+        }
+        else
+        {
+            IsRaid = false;
+            StageData = data as RaidStageInfo;
+            StageIndex = ItemIndex;
+            StageTemp = MissionModelLocator.Instance.GetRaidStagrByTemplateId(StageData.TemplateId);
+           
+            setContent();
+        }
     }
 
     private void setContent()
@@ -80,21 +91,18 @@ public class MissionItemControl : MonoBehaviour
         {
             lb.text = RaidTemp.Name;
             EnergyCountLabel.SetActive(false);
-            int pastedcount;
-            if (RaidData.StateInfo.Count == 1)
+            int starcount = MissionModelLocator.Instance.GetRaidStarCount(RaidData.TemplateId);
+            if (starcount <= 0)
             {
                 sp.spriteName = "new";
-                pastedcount = 0;
             }
             else if (RaidData.StateInfo[RaidData.StateInfo.Count - 1].Star <= 0)
             {
                 sp.spriteName = "fighting";
-                pastedcount = RaidData.StateInfo.Count - 1;
             }
             else
             {
                 sp.spriteName = "passed";
-                pastedcount = RaidData.StateInfo.Count;
             }
             Stars.SetActive(true);
             StarLabel.SetActive(true);
@@ -142,23 +150,34 @@ public class MissionItemControl : MonoBehaviour
         if (IsRaid && RaidAdditionData != null)
         {
             EventBox.SetActive(true);
+            sp = EventSprite.GetComponent<UISprite>();
+            var lbname = EventName.GetComponent<UILabel>();
+            var lbtime = EventTime.GetComponent<UILabel>();
+            //金币150%、武魂150%、体力消耗50%、掉落概率150%
+            switch (RaidAdditionData.AddtionType)
+            {
+                case RaidType.RaidAddtionTypeDrop:
+                    sp.spriteName = "icon_box";
+                    lbname.text = "x1.5";
+                    break;
+                case RaidType.RaidAddtionTypeEnergy:
+                    sp.spriteName = "icon_energy";
+                    lbname.text = "x0.5";
+                    break;
+                case RaidType.RaidAddtionTypeGold:
+                    sp.spriteName = "icon_gold";
+                    lbname.text = "x1.5";
+                    break;
+                case RaidType.RaidAddtionTypeSprit:
+                    sp.spriteName = "icon_wuhun";
+                    lbname.text = "x1.5";
+                    break;
+            }
+            lbtime.text = MissionModelLocator.Instance.DestTime;
         }
         else
         {
             EventBox.SetActive(false);
         }
     }
-
-    private void OnItemClick(GameObject game)
-    {
-        var e = new MissionItemEvent();
-        e.RaidIndex = RaidIndex;
-        e.IsRaidClicked = IsRaid;
-        if (StageTemp != null) e.StageId = StageTemp.Id;
-
-        EventManager.Instance.Post(e);
-
-        
-    }
-
 }

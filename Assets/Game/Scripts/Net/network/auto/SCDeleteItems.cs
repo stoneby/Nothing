@@ -26,7 +26,24 @@ namespace KXSGCodec
   #endif
   public partial class SCDeleteItems : TBase
   {
+    private sbyte _bagType;
     private List<short> _deleteIndexes;
+
+    /// <summary>
+    /// 背包类型 0-主背包 1-回购背包
+    /// </summary>
+    public sbyte BagType
+    {
+      get
+      {
+        return _bagType;
+      }
+      set
+      {
+        __isset.bagType = true;
+        this._bagType = value;
+      }
+    }
 
     /// <summary>
     /// 删除道具对应的背包索引
@@ -50,6 +67,7 @@ namespace KXSGCodec
     [Serializable]
     #endif
     public struct Isset {
+      public bool bagType;
       public bool deleteIndexes;
     }
 
@@ -68,6 +86,13 @@ namespace KXSGCodec
         }
         switch (field.ID)
         {
+          case 1:
+            if (field.Type == TType.Byte) {
+              BagType = iprot.ReadByte();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
           case 2:
             if (field.Type == TType.List) {
               {
@@ -98,6 +123,14 @@ namespace KXSGCodec
       TStruct struc = new TStruct("SCDeleteItems");
       oprot.WriteStructBegin(struc);
       TField field = new TField();
+      if (__isset.bagType) {
+        field.Name = "bagType";
+        field.Type = TType.Byte;
+        field.ID = 1;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteByte(BagType);
+        oprot.WriteFieldEnd();
+      }
       if (DeleteIndexes != null && __isset.deleteIndexes) {
         field.Name = "deleteIndexes";
         field.Type = TType.List;
@@ -119,7 +152,9 @@ namespace KXSGCodec
 
     public override string ToString() {
       StringBuilder sb = new StringBuilder("SCDeleteItems(");
-      sb.Append("DeleteIndexes: ");
+      sb.Append("BagType: ");
+      sb.Append(BagType);
+      sb.Append(",DeleteIndexes: ");
       sb.Append(DeleteIndexes);
       sb.Append(")");
       return sb.ToString();

@@ -1,6 +1,8 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using KXSGCodec;
+using Template;
 using UnityEngine;
 
 /// <summary>
@@ -231,6 +233,11 @@ public class UILevelUpWindow : Window
         {
             WindowManager.Instance.GetWindow<UIHeroInfoWindow>().ShowLevelUp(PropertyChangedNumber);
             WindowManager.Instance.GetWindow<HeroBaseInfoWindow>().ShowButtons(true);
+            NGUITools.SetActive(title.gameObject, true);
+            NGUITools.SetActive(smallHero.gameObject, false);
+            NGUITools.SetActive(levelUp.gameObject, false);
+            NGUITools.SetActive(soulCost.gameObject, true);
+            StopCoroutine("PlayEffect");
         }
     }
 
@@ -306,14 +313,35 @@ public class UILevelUpWindow : Window
         NGUITools.SetActive(smallHero.gameObject, true);
         NGUITools.SetActive(levelUp.gameObject, true);
         NGUITools.SetActive(soulCost.gameObject, false);
-        var levelUpEffect = Instantiate(LevelUpEffect, new Vector3(0.6f, 1.0f, 0f), Quaternion.identity) as GameObject;
-        if(levelUpEffect == null)
+        NGUITools.SetActive(LevelUpEffect.gameObject, true);
+        StartCoroutine("PlayEffect", 1.5f);
+    }
+
+    private IEnumerator PlayEffect(float time)
+    {
+        var pss = LevelUpEffect.GetComponents<ParticleSystem>();
+        foreach (var system in pss)
         {
-            return;
+            system.Play();
         }
-        var ps = levelUpEffect.GetComponent<ParticleSystem>();
-        ps.Play();
-        Destroy(levelUpEffect, 1f);
+        yield return new WaitForSeconds(time);
+        foreach (var system in pss)
+        {
+            system.Stop();
+        }
+    }
+
+    private void Update()
+    {
+        if(Input.GetKeyDown("space"))
+        {
+            NGUITools.SetActive(LevelUpEffect.gameObject, true);
+            var pss = LevelUpEffect.GetComponents<ParticleSystem>();
+            foreach(var system in pss)
+            {
+                system.Play();
+            }
+        }
     }
 
     #endregion

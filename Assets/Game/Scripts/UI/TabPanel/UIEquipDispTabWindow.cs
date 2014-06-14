@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using KXSGCodec;
 using UnityEngine;
 
@@ -9,18 +10,13 @@ using UnityEngine;
 public class UIEquipDispTabWindow : Window
 {
     private UItemsWindow itemsWindow;
-    private List<ItemInfo> infos;
-    private readonly CSHeroSell csHeroSell = new CSHeroSell { SellList = new List<long>() };
-    private const int MaxHeroCountCanSell = 10;
-    private int capacity;
-    private Transform viewObjectsTran;
 
     #region Public Fields
 
-    [HideInInspector]
-    public int ToggleIndex = 0;
-
     public List<UIToggle> Toggles;
+    public ItemLockHandler ItemLockHandler;
+    public ItemSellHandler ItemSellHandler;
+    public ItemViewHandler ItemViewHandler;
 
     #endregion
 
@@ -28,26 +24,22 @@ public class UIEquipDispTabWindow : Window
 
     public override void OnEnter()
     {
+        itemsWindow = WindowManager.Instance.Show<UItemsWindow>(true);
         InstallHandlers();
     }
 
     public override void OnExit()
     {
         UnInstallHandlers();
+        if (WindowManager.Instance)
+        {
+            WindowManager.Instance.Show<UItemsWindow>(false);
+        }
     }
 
     #endregion
 
-    #region Mono
-
-    // Use this for initialization
-    void Awake()
-    {
-        infos = ItemModeLocator.Instance.ScAllItemInfos.ItemInfos ?? new List<ItemInfo>();
-
-        viewObjectsTran = Utils.FindChild(transform, "ViewObjects");
-        capacity = ItemModeLocator.Instance.ScAllItemInfos.Capacity;
-    }
+    #region Private Methods
 
     private void InstallHandlers()
     {
@@ -71,78 +63,23 @@ public class UIEquipDispTabWindow : Window
         if (val)
         {
             itemsWindow = itemsWindow ?? WindowManager.Instance.GetWindow<UItemsWindow>();
-            ToggleIndex = Toggles.FindIndex(toggle => toggle == UIToggle.current);
-            switch (ToggleIndex)
+            var toggleIndex = Toggles.FindIndex(toggle => toggle == UIToggle.current);
+            switch (toggleIndex)
             {
                 case 0:
                     itemsWindow.RowToShow = 3;
-                    itemsWindow.ItemClicked = OnItemInfoClicked;
-                    UpdateViewOjects();
+                    itemsWindow.ItemClicked = ItemViewHandler.ItemInfoClicked;
                     break;
                 case 1:
                     itemsWindow.RowToShow = 2;
-                    itemsWindow.ItemClicked = OnItemSellClicked;
-                    UpdateSellObjects();
+                    itemsWindow.ItemClicked = ItemSellHandler.ItemSellClicked;
                     break;
                 case 2:
                     itemsWindow.RowToShow = 3;
-                    itemsWindow.ItemClicked = OnItemBindClicked;
-                    UpdateBindObjects();
+                    itemsWindow.ItemClicked = ItemLockHandler.ItemLockClicked;
                     break;
             }
         }
-    }
-
-    private void OnItemBindClicked(GameObject go)
-    {
-        
-    }
-
-    private void OnItemSellClicked(GameObject go)
-    {
-        
-    }
-
-    private void UpdateBindObjects()
-    {
-        
-    }
-
-    private void UpdateSellObjects()
-    {
-        
-    }
-
-    private void UpdateViewOjects()
-    {
-        if (viewObjectsTran.gameObject.activeInHierarchy == false)
-        {
-            NGUITools.SetActive(viewObjectsTran.gameObject, true);
-        }
-        var equipNums = Utils.FindChild(viewObjectsTran, "EquipNums").GetComponent<UILabel>();
-        equipNums.text = string.Format("{0}/{1}", infos.Count, capacity);
-    }
-
-    /// <summary>
-    /// The callback of clicking each item.
-    /// </summary>
-    private void OnItemInfoClicked(GameObject go)
-    {
-        if(ToggleIndex == 0)
-        {
-            var bagIndex = go.GetComponent<EquipItemInfoPack>().BagIndex;
-            var csmsg = new CSQueryItemDetail { BagIndex = bagIndex };
-            NetManager.SendMessage(csmsg);
-        }
-        else if (ToggleIndex == 1)
-        {
-           
-        }
-        else if (ToggleIndex == 2)
-        {
-            
-        }
-
     }
 
     #endregion

@@ -90,7 +90,7 @@ namespace com.kx.sglm.gs.battle.share.executer
 
 		BattleType BattleType {get;}
 
-		IList<HeroColor> createColorList(int createCount);
+		List<HeroColor> createColorList(int createCount);
 
 		bool BattleDead {get;}
 

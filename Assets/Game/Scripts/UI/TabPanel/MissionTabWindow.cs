@@ -7,7 +7,7 @@ public class MissionTabWindow : TabPanelBase
     {
         if (CurItem.ItemIndex < 4)
         {
-            MissionModelLocator.Instance.RaidType = CurrIndex;
+            MissionModelLocator.Instance.NextRaidType = CurrIndex;
         }
     }
 }

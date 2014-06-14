@@ -1,3 +1,5 @@
+using System;
+
 namespace com.kx.sglm.gs.battle.share.logic.loop
 {
 
@@ -6,26 +8,53 @@ namespace com.kx.sglm.gs.battle.share.logic.loop
 	using BattleRecordConstants = com.kx.sglm.gs.battle.share.data.record.BattleRecordConstants;
 	using BattleRoundCountRecord = com.kx.sglm.gs.battle.share.data.record.BattleRoundCountRecord;
 	using BattleState = com.kx.sglm.gs.battle.share.enums.BattleState;
+	using InnerBattleEvent = com.kx.sglm.gs.battle.share.@event.InnerBattleEvent;
 	using com.kx.sglm.gs.battle.share.logic;
 
 	/// <summary>
-	/// 战斗内的一个场景，以普通PVE为例�?波怪就是一个scene�?产生的动作是<seealso cref="BattleRound"/>
-	/// 
+	/// 战斗内的一个场景，以普通PVE为例�?波怪就是一个scene�?产生的动作是<seealso cref="BattleRound"/><br>
+	/// 对于战斗来说，一个{@link BattleScene}可以完成一场完整的战斗
 	/// @author liyuan2
 	/// 
 	/// </summary>
 	public class BattleScene : AbstractBattleLooper<BattleRound, BattleArmy>
 	{
 
+	//	private BattleEventHandler eventHandler;
+
 		public BattleScene(Battle battle, BattleArmy army) : base(battle, army)
 		{
+	//		eventHandler = new BattleEventHandler();
+		}
+
+
+		/// <summary>
+		/// 在每次战斗场景开始是先注册所有需要的时间
+		/// </summary>
+		protected internal virtual void regiestEventHandler()
+		{
+
+		}
+
+		public virtual void handleBattleInnerEvent(InnerBattleEvent @event)
+		{
+			//TODO: 改回观察�?
+	//		eventHandler.handleEvent(event);
+		}
+
+		public override void onStart()
+		{
+			BattleRoundCountRecord _record = Record.OrCreateRoundCountRecord;
+			Battle.BattleExcuter.beforeBattleStart(this, _record);
+	//		regiestEventHandler();
+			Record.finishCurRoundCountRecord();
 		}
 
 		public override bool Dead
 		{
 			get
 			{
-				return !CurAttacker.Alive;
+				return !CurAttacker.hasHp();
 			}
 		}
 
@@ -33,13 +62,14 @@ namespace com.kx.sglm.gs.battle.share.logic.loop
 		public override void onFinish()
 		{
 			BattleEndRecord _record = Record.OrCreateEndRecord;
+			Console.WriteLine("#BattleScene.onFinish()------BattleSceneEnd");
 			_record.EndType = BattleRecordConstants.BATTLE_SCENE_END;
 			Record.finishCurEndRecord();
 		}
 
 		public override bool hasNextSubAction()
 		{
-			return CurAttacker.Alive;
+			return CurAttacker.hasHp();
 		}
 
 		public override BattleRound createSubActionByType()
@@ -73,12 +103,6 @@ namespace com.kx.sglm.gs.battle.share.logic.loop
 
 		}
 
-		public override void onStart()
-		{
-			BattleRoundCountRecord _record = Record.OrCreateRoundCountRecord;
-			Battle.BattleExcuter.beforeBattleStart(this, _record);
-			Record.finishCurRoundCountRecord();
-		}
 
 	}
 

@@ -28,12 +28,14 @@ public class PopTextManager
         pt.ShowText(str, popheight, new Vector3(pos.x + offsetx, pos.y + offsety, pos.z));
         obj.transform.localPosition = pos;
         Object.Destroy(obj, showtime);
+        
     }
 
     private static float LastTime = -10;
     private static float LastPos = 0;
     public static void PopTip(string str)
     {
+        Logger.Log(str);
         var t = Time.time;
         if (t - LastTime < 3 && LastPos < 300)
         {
@@ -44,7 +46,7 @@ public class PopTextManager
             LastPos = 0;
         }
         LastTime = t;
-        Logger.Log("time = " + Time.time);
+        //Logger.Log("time = " + Time.time);
         //var now = DateTime.Now;
         //Logger.Log(Time.time);
         ShowText(str, 3, 0, 0, 100, new Vector3(0, 250 - LastPos, 0));

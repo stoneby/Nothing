@@ -32,7 +32,7 @@ namespace com.kx.sglm.gs.battle.share.executer.impl
 	public class TestPVEBattleExecuter : AbstractBattleExcuter
 	{
 
-		private IList<MonsterTeam> monsterList;
+		private List<MonsterTeam> monsterList;
 
 		public TestPVEBattleExecuter(Battle battle) : base(battle)
 		{
@@ -73,6 +73,7 @@ namespace com.kx.sglm.gs.battle.share.executer.impl
 			attackerTeam().emptyFightHeroArr();
 			attackerTeam().fillHeroArrayInside();
 			joinWaitingHero();
+			recordHeroMp();
 		}
 
 		protected internal virtual void recordHeroMp()
@@ -166,9 +167,9 @@ namespace com.kx.sglm.gs.battle.share.executer.impl
 			}
 		}
 
-		public override IList<HeroColor> createColorList(int createCount)
+		public override List<HeroColor> createColorList(int createCount)
 		{
-			IList<HeroColor> _list = new List<HeroColor>();
+			List<HeroColor> _list = new List<HeroColor>();
 			for (int _i = 0; _i < createCount; _i++)
 			{
 				_list.Add(randomColor());
@@ -179,8 +180,8 @@ namespace com.kx.sglm.gs.battle.share.executer.impl
 		protected internal virtual HeroColor randomColor()
 		{
 			// TODO: 增加正式逻辑
-            int _index = MathUtils.random(HeroColor.RED.Index, HeroColor.PINK.Index);
-            //int _index = MathUtils.random(HeroColor.RED.Index, HeroColor.RED.Index);
+	//		int _index = MathUtils.random(HeroColor.RED.getIndex(), HeroColor.PINK.getIndex());
+			int _index = MathUtils.random(HeroColor.RED.Index, HeroColor.PINK.Index);
 			return HeroColor.Values[_index];
 		}
 
@@ -202,16 +203,16 @@ namespace com.kx.sglm.gs.battle.share.executer.impl
 		{
 			get
 			{
-				return !attackerTeam().Alive;
+				return !attackerTeam().hasHp();
 			}
 		}
 
 		public override void beforeBattleStart(BattleScene battleScene, BattleRoundCountRecord record)
 		{
 			BattleArmy _army = battleScene.CurAttacker;
-	//		initSkill(attackerTeam(), record);
 			foreach (BattleTeam _team in _army.ActorList)
 			{
+				_team.addProp(BattleKeyConstants.BATTLE_KEY_HERO_TEAM_TARGET, 0);
 				initSkill(_team, record);
 			}
 

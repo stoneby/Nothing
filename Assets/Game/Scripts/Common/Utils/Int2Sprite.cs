@@ -31,29 +31,63 @@ public class Int2Sprite
         return result;
     }
 
-    public static void Show(Transform parent, UISprite template, int value)
+    public static List<GameObject> Show(Transform parent, UISprite template, int value, List<GameObject> objlist = null)
     {
-        var charList = I2CharList(value);
+        var charList = I2CharList(value) as List<char>;
         var spriteWidth = template.width;
         var spriteHeight = template.height;
         int index = 1;
-        foreach (var charItem in charList)
+        if (objlist == null)objlist = new List<GameObject>();
+        for (var i = 0; i < objlist.Count; i++)
+        {
+            objlist[i].SetActive(false);
+        }
+
+        for (var i = objlist.Count; i < charList.Count; i++)
         {
             var obj = Object.Instantiate(template.gameObject) as GameObject;
             if (obj == null)
             {
-                return;
+                return null;
             }
             obj.SetActive(true);
             var sprite = obj.GetComponent<UISprite>();
-            sprite.spriteName = "" + charItem;
+            //sprite.spriteName = "" + charItem;
             sprite.width = spriteWidth;
             sprite.height = spriteHeight;
             obj.transform.parent = parent.transform;
-            obj.transform.localPosition = Vector3.right * spriteWidth * index;
+            obj.transform.localPosition = Vector3.right * spriteWidth * i;
             obj.transform.localRotation = Quaternion.identity;
             obj.transform.localScale = Vector3.one;
-            index++;
+            objlist.Add(obj);
+            //index++;
         }
+
+        for (var i = 0; i < charList.Count; i++)
+        {
+            objlist[i].SetActive(true);
+            var sprite = objlist[i].GetComponent<UISprite>();
+            sprite.spriteName = charList[i].ToString();
+
+        }
+        return objlist;
+//        foreach (var charItem in charList)
+//        {
+//            var obj = Object.Instantiate(template.gameObject) as GameObject;
+//            if (obj == null)
+//            {
+//                return;
+//            }
+//            obj.SetActive(true);
+//            var sprite = obj.GetComponent<UISprite>();
+//            sprite.spriteName = "" + charItem;
+//            sprite.width = spriteWidth;
+//            sprite.height = spriteHeight;
+//            obj.transform.parent = parent.transform;
+//            obj.transform.localPosition = Vector3.right * spriteWidth * index;
+//            obj.transform.localRotation = Quaternion.identity;
+//            obj.transform.localScale = Vector3.one;
+//            index++;
+//        }
     }
 }

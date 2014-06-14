@@ -13,7 +13,7 @@ namespace com.kx.sglm.gs.battle.share.data.record
 	{
 
 		/// <summary>
-		/// 动作类型�?攻击�?回复�?防御, 3SP攻击 </summary>
+		/// 动作类型�?攻击�?回复�?防御, 3SP攻击, 4转色 </summary>
 		private int actType;
 
 		/// <summary>

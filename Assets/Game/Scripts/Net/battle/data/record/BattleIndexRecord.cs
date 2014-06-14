@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace com.kx.sglm.gs.battle.share.data.record
 {
@@ -37,10 +36,6 @@ namespace com.kx.sglm.gs.battle.share.data.record
 		{
 			get
 			{
-                foreach (var pointRecord in fillPointList)
-			    {
-			        Logger.LogWarning(pointRecord);
-			    }
 				return fillPointList;
 			}
 		}

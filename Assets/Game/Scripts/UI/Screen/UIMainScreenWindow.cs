@@ -24,7 +24,9 @@ public class UIMainScreenWindow : Window
 		refreshData ();
     }
 
-	public void refreshData(){
+	public void refreshData()
+	{
+	    if (diamond == null) return;
 		diamond.text = PlayerModelLocator.Instance.Diamond.ToString ();
 		gold.text = PlayerModelLocator.Instance.Gold.ToString ();
 		sprit.text = PlayerModelLocator.Instance.Sprit.ToString ();

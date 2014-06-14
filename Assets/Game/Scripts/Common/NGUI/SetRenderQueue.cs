@@ -8,20 +8,17 @@ public class SetRenderQueue : MonoBehaviour
 
     void Start()
     {
-        Renderer ren = renderer;
-
-        if (ren == null)
+        var pss = GetComponentsInChildren<ParticleSystem>();
+        foreach(var ps in pss)
         {
-            ParticleSystem sys = GetComponent<ParticleSystem>();
-            if (sys != null) ren = sys.renderer;
-        }
+            Renderer ren = ps.gameObject.renderer ?? ps.renderer;
 
-        if (ren != null)
-        {
-            mMat = new Material(ren.sharedMaterial);
-            mMat.renderQueue = renderQueue;
-            ren.material = mMat;
-        }
+            if (ren != null)
+            {
+                mMat = new Material(ren.sharedMaterial) {renderQueue = renderQueue};
+                ren.material = mMat;
+            }
+        }  
     }
 
     void OnDestroy() { if (mMat != null) Destroy(mMat); }

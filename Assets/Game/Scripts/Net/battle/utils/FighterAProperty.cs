@@ -60,7 +60,7 @@ namespace com.kx.sglm.gs.battle.share.utils
 			return _val == null ? 0 : (int)_val;
 		}
 
-		public virtual void addAllProp(IDictionary<int, int> propMap)
+		public virtual void addAllProp(Dictionary<int, int> propMap)
 		{
 			foreach (KeyValuePair<int, int> _entry in propMap)
 			{

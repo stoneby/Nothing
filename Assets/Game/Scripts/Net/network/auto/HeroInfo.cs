@@ -29,7 +29,8 @@ namespace KXSGCodec
     private sbyte _breakTimes;
     private Dictionary<int, int> _prop;
     private List<int> _skillId;
-    private List<long> _equipUuid;
+    private List<string> _equipUuid;
+    private List<int> _equipTemplateId;
     private bool _bind;
     private long _createTime;
 
@@ -111,7 +112,7 @@ namespace KXSGCodec
       }
     }
 
-    public List<long> EquipUuid
+    public List<string> EquipUuid
     {
       get
       {
@@ -121,6 +122,19 @@ namespace KXSGCodec
       {
         __isset.equipUuid = true;
         this._equipUuid = value;
+      }
+    }
+
+    public List<int> EquipTemplateId
+    {
+      get
+      {
+        return _equipTemplateId;
+      }
+      set
+      {
+        __isset.equipTemplateId = true;
+        this._equipTemplateId = value;
       }
     }
 
@@ -163,6 +177,7 @@ namespace KXSGCodec
       public bool prop;
       public bool skillId;
       public bool equipUuid;
+      public bool equipTemplateId;
       public bool bind;
       public bool createTime;
     }
@@ -249,12 +264,12 @@ namespace KXSGCodec
           case 7:
             if (field.Type == TType.List) {
               {
-                EquipUuid = new List<long>();
+                EquipUuid = new List<string>();
                 TList _list7 = iprot.ReadListBegin();
                 for( int _i8 = 0; _i8 < _list7.Count; ++_i8)
                 {
-                  long _elem9 = 0;
-                  _elem9 = iprot.ReadI64();
+                  string _elem9 = null;
+                  _elem9 = iprot.ReadString();
                   EquipUuid.Add(_elem9);
                 }
                 iprot.ReadListEnd();
@@ -264,13 +279,30 @@ namespace KXSGCodec
             }
             break;
           case 8:
+            if (field.Type == TType.List) {
+              {
+                EquipTemplateId = new List<int>();
+                TList _list10 = iprot.ReadListBegin();
+                for( int _i11 = 0; _i11 < _list10.Count; ++_i11)
+                {
+                  int _elem12 = 0;
+                  _elem12 = iprot.ReadI32();
+                  EquipTemplateId.Add(_elem12);
+                }
+                iprot.ReadListEnd();
+              }
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 9:
             if (field.Type == TType.Bool) {
               Bind = iprot.ReadBool();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
             break;
-          case 9:
+          case 10:
             if (field.Type == TType.I64) {
               CreateTime = iprot.ReadI64();
             } else { 
@@ -329,10 +361,10 @@ namespace KXSGCodec
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteMapBegin(new TMap(TType.I32, TType.I32, Prop.Count));
-          foreach (int _iter10 in Prop.Keys)
+          foreach (int _iter13 in Prop.Keys)
           {
-            oprot.WriteI32(_iter10);
-            oprot.WriteI32(Prop[_iter10]);
+            oprot.WriteI32(_iter13);
+            oprot.WriteI32(Prop[_iter13]);
           }
           oprot.WriteMapEnd();
         }
@@ -345,9 +377,9 @@ namespace KXSGCodec
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.I32, SkillId.Count));
-          foreach (int _iter11 in SkillId)
+          foreach (int _iter14 in SkillId)
           {
-            oprot.WriteI32(_iter11);
+            oprot.WriteI32(_iter14);
           }
           oprot.WriteListEnd();
         }
@@ -359,10 +391,25 @@ namespace KXSGCodec
         field.ID = 7;
         oprot.WriteFieldBegin(field);
         {
-          oprot.WriteListBegin(new TList(TType.I64, EquipUuid.Count));
-          foreach (long _iter12 in EquipUuid)
+          oprot.WriteListBegin(new TList(TType.String, EquipUuid.Count));
+          foreach (string _iter15 in EquipUuid)
           {
-            oprot.WriteI64(_iter12);
+            oprot.WriteString(_iter15);
+          }
+          oprot.WriteListEnd();
+        }
+        oprot.WriteFieldEnd();
+      }
+      if (EquipTemplateId != null && __isset.equipTemplateId) {
+        field.Name = "equipTemplateId";
+        field.Type = TType.List;
+        field.ID = 8;
+        oprot.WriteFieldBegin(field);
+        {
+          oprot.WriteListBegin(new TList(TType.I32, EquipTemplateId.Count));
+          foreach (int _iter16 in EquipTemplateId)
+          {
+            oprot.WriteI32(_iter16);
           }
           oprot.WriteListEnd();
         }
@@ -371,7 +418,7 @@ namespace KXSGCodec
       if (__isset.bind) {
         field.Name = "bind";
         field.Type = TType.Bool;
-        field.ID = 8;
+        field.ID = 9;
         oprot.WriteFieldBegin(field);
         oprot.WriteBool(Bind);
         oprot.WriteFieldEnd();
@@ -379,7 +426,7 @@ namespace KXSGCodec
       if (__isset.createTime) {
         field.Name = "createTime";
         field.Type = TType.I64;
-        field.ID = 9;
+        field.ID = 10;
         oprot.WriteFieldBegin(field);
         oprot.WriteI64(CreateTime);
         oprot.WriteFieldEnd();
@@ -404,6 +451,8 @@ namespace KXSGCodec
       sb.Append(SkillId);
       sb.Append(",EquipUuid: ");
       sb.Append(EquipUuid);
+      sb.Append(",EquipTemplateId: ");
+      sb.Append(EquipTemplateId);
       sb.Append(",Bind: ");
       sb.Append(Bind);
       sb.Append(",CreateTime: ");

@@ -5,6 +5,7 @@ namespace com.kx.sglm.gs.battle.share.data.record
 
 	/// <summary>
 	/// 战报常量
+	/// 
 	/// @author liyuan2
 	/// 
 	/// </summary>
@@ -32,6 +33,14 @@ namespace com.kx.sglm.gs.battle.share.data.record
 		public const int SINGLE_ACTION_TYPE_SP_ATTACK = 4;
 
 		/// <summary>
+		/// 转色 </summary>
+		public const int SINGLE_ACTION_TYPE_CHANGE_COLOR = 5;
+
+		/// <summary>
+		/// 被转�? </summary>
+		public const int SINGLE_ACTION_TYPE_CHANGED_COLOR = 6;
+
+		/// <summary>
 		/// 目标SideAID </summary>
 		public static readonly int TARGET_SIDE_A = BattleSideEnum.SIDEA.Index;
 
@@ -47,9 +56,9 @@ namespace com.kx.sglm.gs.battle.share.data.record
 		/// 战斗结束 </summary>
 		public const int BATTLE_ALL_END = 1;
 
-		//////////////////////////////////////////////////////////////////////////
-		//////////////////////////////key////////////////////////////////////////
-		////////////////////////////////////////////////////////////////////////
+		// ////////////////////////////////////////////////////////////////////////
+		// ////////////////////////////key////////////////////////////////////////
+		// //////////////////////////////////////////////////////////////////////
 
 		/// <summary>
 		/// 战报用基础ID </summary>
@@ -78,6 +87,25 @@ namespace com.kx.sglm.gs.battle.share.data.record
 		/// <summary>
 		/// 英雄Mp </summary>
 		public static readonly int BATTLE_HERO_PROP_MP = RECORD_PROP_KEY_BASE++;
+
+		/// <summary>
+		/// Sp技能攻击次�? </summary>
+		public static readonly int BATTLE_HERO_PROP_HIT_COUNT = RECORD_PROP_KEY_BASE++;
+
+		/// <summary>
+		/// Sp技能攻击单次伤�? </summary>
+		public static readonly int BATTLE_HERO_PROP_HIT_SINGLE_DAMAGE = RECORD_PROP_KEY_BASE++;
+
+		/// <summary>
+		/// Sp技能攻击单次伤�? </summary>
+		public static readonly int BATTLE_HERO_PROP_COLOR_CHANGE = RECORD_PROP_KEY_BASE++;
 	}
+
+
+
+
+
+
+
 
 }

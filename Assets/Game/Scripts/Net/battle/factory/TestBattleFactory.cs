@@ -22,7 +22,7 @@ namespace com.kx.sglm.gs.battle.share.factory
 		{
 //JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
 //ORIGINAL LINE: final java.util.List<com.kx.sglm.gs.battle.share.data.FighterInfo> _heroList = com.kx.sglm.gs.battle.share.factory.creater.BattleFighterCreater.getSideFighter(battle, com.kx.sglm.gs.battle.share.enums.BattleSideEnum.SIDEA);
-			IList<FighterInfo> _heroList = BattleFighterCreater.getSideFighter(battle, BattleSideEnum.SIDEA);
+			List<FighterInfo> _heroList = BattleFighterCreater.getSideFighter(battle, BattleSideEnum.SIDEA);
 			HeroTeam _heroTeam = BattleFighterCreater.createHeroTeam(battle, _heroList, BattleSideEnum.SIDEA);
 			_heroTeam.BattleSide = BattleSideEnum.SIDEA;
 			return _heroTeam;

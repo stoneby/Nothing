@@ -1,9 +1,14 @@
 using System.Collections.Generic;
+using System.Text;
 
 namespace com.kx.sglm.gs.battle.share.actor.impl
 {
 
 
+	using BattleIndexRecord = com.kx.sglm.gs.battle.share.data.record.BattleIndexRecord;
+	using BattleRecordConstants = com.kx.sglm.gs.battle.share.data.record.BattleRecordConstants;
+	using BattleTeamFightRecord = com.kx.sglm.gs.battle.share.data.record.BattleTeamFightRecord;
+	using SingleActionRecord = com.kx.sglm.gs.battle.share.data.record.SingleActionRecord;
 	using BattleSideEnum = com.kx.sglm.gs.battle.share.enums.BattleSideEnum;
 	using FighterType = com.kx.sglm.gs.battle.share.enums.FighterType;
 	using HeroColor = com.kx.sglm.gs.battle.share.enums.HeroColor;
@@ -44,6 +49,8 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 		/// 等待列表中的武将�? </summary>
 		protected internal LinkedList<HeroPoint> waitingHeroList;
 
+		protected internal HeroPoint[] indexedHeroPoint;
+
 		/// <summary>
 		/// 即将出手的武将序�? </summary>
 		protected internal int[] curActionArr;
@@ -62,7 +69,6 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 			}
 		}
 
-
 		public virtual void initHero()
 		{
 			initHeroPoint();
@@ -72,6 +78,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 		protected internal virtual void initHeroPoint()
 		{
 			waitingHeroList.Clear();
+			indexedHeroPoint = new HeroPoint[actorList.Count];
 			joinWatingHeroList(actorList);
 		}
 
@@ -85,12 +92,10 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 			curHp = totalHp;
 		}
 
-
 		public virtual bool isRightActionArr(int[] actionArray)
 		{
 			return HeroArrLogicHelper.isRightActionArr(actionArray, battlingHeroArr);
 		}
-
 
 		public virtual void emptyFightHeroArr()
 		{
@@ -131,9 +136,9 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 			}
 		}
 
-		public virtual IList<BattleFighter> fillArrayFromWaitingHero()
+		public virtual List<BattleFighter> fillArrayFromWaitingHero()
 		{
-			IList<BattleFighter> _fighterArr = new List<BattleFighter>();
+			List<BattleFighter> _fighterArr = new List<BattleFighter>();
 			for (int _i = 0; _i < BattleConstants.HERO_BATTLE_ARR_LENGTH; _i++)
 			{
 				if (getHeroPoint(_i).Empty)
@@ -156,12 +161,12 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 			joinWatingHeroList(_fighterList);
 		}
 
-		protected internal virtual void joinWatingHeroList(IList<BattleFighter> fighterList)
+		protected internal virtual void joinWatingHeroList(List<BattleFighter> fighterList)
 		{
 //JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
 //ORIGINAL LINE: final int _fighterSize = fighterList.size();
 			int _fighterSize = fighterList.Count;
-			IList<HeroColor> _colorList = BattleExcuter.createColorList(_fighterSize);
+			List<HeroColor> _colorList = BattleExcuter.createColorList(_fighterSize);
 			for (int _i = 0; _i < _fighterSize; _i++)
 			{
 				BattleFighter _fighter = fighterList[_i];
@@ -172,7 +177,9 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 
 		public virtual HeroPoint createHeroPoint(BattleFighter battleFighter, HeroColor color)
 		{
-			return new HeroPoint(battleFighter, color);
+			HeroPoint _newPoint = new HeroPoint(battleFighter, color);
+			indexedHeroPoint[battleFighter.Index] = _newPoint;
+			return _newPoint;
 		}
 
 		public virtual HeroPoint getHeroPoint(int index)
@@ -197,7 +204,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 			point.InBattle = true;
 		}
 
-		public override int actorSize()
+		public override int battlingActorSize()
 		{
 			return battlingHeroArr.Length;
 		}
@@ -255,14 +262,21 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 
 		}
 
+//JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
+//ORIGINAL LINE: @Override @SuppressWarnings("unused") public boolean handleBattleFightInfo(int targetIndex, int[] battleIndexes)
 		public override bool handleBattleFightInfo(int targetIndex, int[] battleIndexes)
 		{
 			if (!isRightFightInfo(targetIndex, battleIndexes))
 			{
 				return false;
 			}
+			// 先创建一个index，因为客户端要先产生index
+			// TODO: 这里不太好先重构
+			BattleIndexRecord _indexRecord = Battle.Record.OrCreateIndexRecord;
 			updateCurActionArr(battleIndexes);
+			calcFighterAction();
 			addProp(BattleKeyConstants.BATTLE_KEY_HERO_TEAM_TARGET, targetIndex);
+			printAllColor("#handleBattleFightInfo");
 			return true;
 		}
 
@@ -285,6 +299,20 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 				return false;
 			}
 			return true;
+		}
+
+		protected internal virtual void calcFighterAction()
+		{
+			BattleTeamFightRecord _record = Battle.Record.OrCreateTeamFighterRecord;
+			for (int _i = 0; _i < curActionArr.Length; _i++)
+			{
+				HeroPoint _point = getHeroPoint(curActionArr[_i]);
+				if (_point.Color.Recover)
+				{
+					continue;
+				}
+				_point.Fighter.onHandleFightEvent(_record);
+			}
 		}
 
 		public virtual void clearPoint()
@@ -364,7 +392,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 			}
 		}
 
-		public virtual int TotalHp
+		public override int TotalHp
 		{
 			get
 			{
@@ -372,30 +400,17 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 			}
 		}
 
-		public virtual int CurMp
-		{
-			set
-			{
-				this.curMp = value;
-			}
-			get
-			{
-				return curMp;
-			}
-		}
-
 		public virtual void addCurMp(int addVal)
 		{
 			int _totalVal = changeValue(CurMp, addVal, TotalHp);
-			CurMp = _totalVal;
+			this.curMp = _totalVal;
 		}
 
 		public virtual void costCurMp(int costVal)
 		{
 			int _reVal = changeValue(CurMp, -costVal, TotalMp);
-			CurMp = _reVal;
+			this.curMp = _reVal;
 		}
-
 
 		public virtual int changeValue(int baseValue, int changeValue, int maxValue)
 		{
@@ -410,6 +425,13 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 			return needVal <= CurMp;
 		}
 
+		public override int CurMp
+		{
+			get
+			{
+				return curMp;
+			}
+		}
 
 		public override void changeHp(int changeHp, BattleFighter defencer)
 		{
@@ -428,13 +450,66 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 			return getHeroPoint(fighterIndex).Fighter;
 		}
 
-
 		public virtual int TotalMp
 		{
 			get
 			{
 				return totalMp;
 			}
+		}
+
+		public override List<BattleFighter> ActiveFighter
+		{
+			get
+			{
+				List<BattleFighter> _activeFigherList = new List<BattleFighter>();
+	//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
+	//ORIGINAL LINE: final HeroPoint[] _battlingPoint = getBattlingHeroArr();
+				HeroPoint[] _battlingPoint = BattlingHeroArr;
+				foreach (HeroPoint _point in _battlingPoint)
+				{
+					_activeFigherList.Add(_point.Fighter);
+				}
+				return _activeFigherList;
+			}
+		}
+
+		public override void changeFightColor(int fighterIndex, HeroColor color, SingleActionRecord actionRecord)
+		{
+			HeroPoint _point = this.indexedHeroPoint[fighterIndex];
+			if (!_point.InBattle)
+			{
+				// TODO: BattleLogger.logError
+			}
+			_point.updateColor(color);
+			actionRecord.addProp(BattleRecordConstants.BATTLE_HERO_PROP_COLOR_CHANGE, _point.Color.Index);
+		}
+
+		protected internal virtual void printAllColor(string @event)
+		{
+			StringBuilder _sb = new StringBuilder();
+			_sb.Append("curAction: ");
+			foreach (int _index in curActionArr)
+			{
+				_sb.Append(_index).Append(";");
+			}
+			_sb.Append("  curPoint: ");
+			foreach (HeroPoint _point in battlingHeroArr)
+			{
+				_sb.Append(_point.toLogString()).Append(";");
+			}
+			_sb.Append("  curWaiting: ");
+			foreach (HeroPoint _point in waitingHeroList)
+			{
+				_sb.Append(_point.toLogString()).Append(";");
+			}
+			Logger.LogError(_sb.ToString());
+		}
+
+		public override int getFighterColor(int fighterIndex)
+		{
+			HeroPoint _point = indexedHeroPoint[fighterIndex];
+			return _point.Color.Index;
 		}
 
 	}

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,13 +6,22 @@ namespace com.kx.sglm.core.util
 {
 
 
+
+	using IRolette = com.kx.sglm.core.model.IRolette;
+
+
 	public class MathUtils
 	{
 
-		public const float EPSILON = 0.00004f; // 再把误差调得大一点,现在这样,在150级时百万次检查大概会出现8次超出误差值
+		public const float EPSILON = 0.00004f; // 再把误差调得大一�?现在这样,�?50级时百万次检查大概会出现8次超出误差�?
 
 		private static readonly Random RANDOM = new Random();
 
+
+		public static bool randomRate(float rate, float fullValue)
+		{
+			return (rate / fullValue) >= random();
+		}
 
 		public static double random()
 		{
@@ -47,11 +56,11 @@ namespace com.kx.sglm.core.util
 		}
 
 		/// <summary>
-		/// 返回是否满足概率值。
+		/// 返回是否满足概率值�?
 		/// </summary>
 		/// <param name="shakeNum">
-		///            float 概率值 0.0---1.0 </param>
-		/// <returns> 比如某操作有２０％的概率，shakeNum=0.2 如果返回true表明概率满足。 </returns>
+		///            float 概率�?0.0---1.0 </param>
+		/// <returns> 比如某操作有２０％的概率，shakeNum=0.2 如果返回true表明概率满足�? </returns>
 		public static bool shake(float shakeNum)
 		{
 			if (shakeNum >= 1)
@@ -69,10 +78,10 @@ namespace com.kx.sglm.core.util
 
 
 		/// <summary>
-		/// 从概率数组中挑选一个概率
+		/// 从概率数组中挑选一个概�?
 		/// </summary>
 		/// <param name="rateAry"> </param>
-		/// <returns> 返回被选中的概率数组索引,-1,没有符合概率的;0~rateAry.length-1,符合概率的数组索引 </returns>
+		/// <returns> 返回被选中的概率数组索�?-1,没有符合概率�?0~rateAry.length-1,符合概率的数组索�? </returns>
 //JAVA TO C# CONVERTER WARNING: 'final' parameters are not allowed in .NET:
 //ORIGINAL LINE: public static int luckyDraw(final float[] rateAry)
 		public static int luckyDraw(float[] rateAry)
@@ -135,12 +144,44 @@ namespace com.kx.sglm.core.util
 			return -1;
 		}
 
+//JAVA TO C# CONVERTER WARNING: 'final' parameters are not allowed in .NET:
+//ORIGINAL LINE: public static <T extends com.kx.sglm.core.model.IRolette> T rolette(final java.util.List<T> objList)
+		public static T rolette<T>(IList<T> objList) where T : com.kx.sglm.core.model.IRolette
+		{
+			if (objList == null)
+			{
+				return null;
+			}
+//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
+//ORIGINAL LINE: final int _rateLength = objList.size();
+			int _rateLength = objList.Count;
+			int[] _rateAry = new int[_rateLength];
+			for (int _i = 0; _i < _rateLength; _i++)
+			{
+				_rateAry[_i] = objList[_i].Rate;
+			}
+			int _resultIndex = rolette(_rateAry);
+			return objList[_resultIndex];
+		}
+
+//JAVA TO C# CONVERTER WARNING: 'final' parameters are not allowed in .NET:
+//ORIGINAL LINE: public static <T extends com.kx.sglm.core.model.IRolette> T rolette(final T[] objArray)
+		public static T rolette<T>(T[] objArray) where T : com.kx.sglm.core.model.IRolette
+		{
+			IList<T> _objList = new List<T>();
+			foreach (T _t in objArray)
+			{
+				_objList.Add(_t);
+			}
+			return rolette(_objList);
+		}
+
 		/// <summary>
-		/// 轮盘赌 建议仅在不确定选择库的时候使用此函数。如果已经知道要从什么里面选，建议事先加好轮盘赌概率
+		/// 轮盘�?建议仅在不确定选择库的时候使用此函数。如果已经知道要从什么里面选，建议事先加好轮盘赌概�?
 		/// </summary>
 		/// <param name="rateAry">
 		///            概率数组 </param>
-		/// <returns> 选中的下标 </returns>
+		/// <returns> 选中的下�? </returns>
 //JAVA TO C# CONVERTER WARNING: 'final' parameters are not allowed in .NET:
 //ORIGINAL LINE: public static int rolette(final int[] rateAry)
 		public static int rolette(int[] rateAry)
@@ -252,7 +293,7 @@ namespace com.kx.sglm.core.util
 		}
 
 		/// <summary>
-		/// 计算两个日期间相差的天数(按24小时算)
+		/// 计算两个日期间相差的天数(�?4小时�?
 		/// </summary>
 		/// <param name="enddate"> </param>
 		/// <param name="begindate">
@@ -265,7 +306,7 @@ namespace com.kx.sglm.core.util
 		}
 
 		/// <summary>
-		/// 计算两个日期间相差的天数(按24小时算)
+		/// 计算两个日期间相差的天数(�?4小时�?
 		/// </summary>
 		/// <param name="enddate"> </param>
 		/// <param name="begindate">
@@ -278,7 +319,7 @@ namespace com.kx.sglm.core.util
 		}
 
 		/// <summary>
-		/// 计算两个日期间相差的分钟数
+		/// 计算两个日期间相差的分钟�?
 		/// </summary>
 		/// <param name="enddate"> </param>
 		/// <param name="begindate">
@@ -291,7 +332,7 @@ namespace com.kx.sglm.core.util
 		}
 
 		/// <summary>
-		/// 限置为 >=min <=max的值
+		/// 限置�?>=min <=max的�?
 		/// </summary>
 		/// <param name="original"> </param>
 		/// <param name="min"> </param>
@@ -349,7 +390,7 @@ namespace com.kx.sglm.core.util
 		}
 
 		/// <summary>
-		/// 获取两数相除的结果,精确到小数
+		/// 获取两数相除的结�?精确到小�?
 		/// </summary>
 		/// <param name="num"> </param>
 		/// <param name="deno">
@@ -373,15 +414,15 @@ namespace com.kx.sglm.core.util
 		}
 
 		/// <summary>
-		/// 两个正整数相加
+		/// 两个正整数相�?
 		/// </summary>
 		/// <param name="n1">
-		///            第一个参数 </param>
+		///            第一个参�? </param>
 		/// <param name="n2">
-		///            第二个参数 </param>
+		///            第二个参�? </param>
 		/// <returns> 相加后的结果 </returns>
 		/// <exception cref="IllegalArgumentException">
-		///                ,如果n1或者n2有一个负数,则会抛出此异常;如果n1与n2相加后的结果是负数,即溢出了,也会抛出此异常 </exception>
+		///                ,如果n1或者n2有一个负�?则会抛出此异�?如果n1与n2相加后的结果是负�?即溢出了,也会抛出此异�? </exception>
 //JAVA TO C# CONVERTER WARNING: 'final' parameters are not allowed in .NET:
 //ORIGINAL LINE: public static int addPlusNumber(final int n1, final int n2)
 		public static int addPlusNumber(int n1, int n2)
@@ -401,13 +442,13 @@ namespace com.kx.sglm.core.util
 		}
 
 		/// <summary>
-		/// 获得不重复的随机数，取值范围(>=min, <=max)，个数size
+		/// 获得不重复的随机数，取值范�?>=min, <=max)，个数size
 		/// </summary>
 		/// <param name="min"> </param>
 		/// <param name="max"> </param>
 		/// <param name="size">
 		/// @return </param>
-		public static IList<int?> getRandomIntWithoutRepeat(int min, int max, int size)
+		public static IList<int> getRandomIntWithoutRepeat(int min, int max, int size)
 		{
 			if (min > max)
 			{
@@ -418,7 +459,7 @@ namespace com.kx.sglm.core.util
 			{
 				throw new System.ArgumentException(string.Format("max({0}) - min({1}) >= size({2})", min, max, size));
 			}
-			IList<int?> _result = new List<int?>(size);
+			IList<int> _result = new List<int>(size);
 			int[] _intArray = new int[_arraySize];
 			for (int i = 0; i < _arraySize; i++)
 			{
@@ -436,7 +477,7 @@ namespace com.kx.sglm.core.util
 		}
 
 		/// <summary>
-		/// 取多个整数当中的最小值
+		/// 取多个整数当中的最小�?
 		/// </summary>
 		/// <param name="args">
 		/// @return </param>
@@ -458,7 +499,7 @@ namespace com.kx.sglm.core.util
 		}
 
 		/// <summary>
-		/// 取多个整数当中的最大值
+		/// 取多个整数当中的最大�?
 		/// </summary>
 		/// <param name="args">
 		/// @return </param>
@@ -480,7 +521,7 @@ namespace com.kx.sglm.core.util
 		}
 
 		/// <summary>
-		/// 转化成16进制并补全零
+		/// 转化�?6进制并补全零
 		/// </summary>
 		/// <param name="value">
 		/// @return </param>
@@ -497,7 +538,7 @@ namespace com.kx.sglm.core.util
 		}
 
 		/// <summary>
-		/// 取符号
+		/// 取符�?
 		/// </summary>
 		/// <param name="value"> </param>
 		public static int sign(int value)
@@ -506,7 +547,7 @@ namespace com.kx.sglm.core.util
 		}
 
 		/// <summary>
-		/// 取符号
+		/// 取符�?
 		/// </summary>
 		/// <param name="value"> </param>
 		public static int sign(long value)
@@ -515,7 +556,7 @@ namespace com.kx.sglm.core.util
 		}
 
 		/// <summary>
-		/// 计算以 base 为底的 value 值的对数
+		/// 计算�?base 为底�?value 值的对数
 		/// </summary>
 		/// <param name="value"> </param>
 		/// <param name="base">
@@ -526,7 +567,7 @@ namespace com.kx.sglm.core.util
 		}
 
 		/// <summary>
-		/// 求不大于num的最大2的次幂
+		/// 求不大于num的最�?的次�?
 		/// </summary>
 		/// <param name="num">
 		/// @return </param>
@@ -537,7 +578,7 @@ namespace com.kx.sglm.core.util
 		}
 
 		/// <summary>
-		/// 取得一个正整数的位数
+		/// 取得一个正整数的位�?
 		/// </summary>
 		/// <param name="num">
 		/// @return </param>
@@ -557,7 +598,7 @@ namespace com.kx.sglm.core.util
 		}
 
 		/// <summary>
-		/// 取得一个正整数为1的位数
+		/// 取得一个正整数�?的位�?
 		/// </summary>
 		/// <param name="num">
 		/// @return </param>
@@ -649,7 +690,7 @@ namespace com.kx.sglm.core.util
 		}
 
 		/// <summary>
-		/// 直接判断两个值的与值 </summary>
+		/// 直接判断两个值的与�? </summary>
 		/// <param name="baseValue"> </param>
 		/// <param name="checkValue">
 		/// @return </param>

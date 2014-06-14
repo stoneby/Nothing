@@ -30,8 +30,8 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 		public HeroPoint(BattleFighter fighter, HeroColor color) : this(false)
 		{
 			this.fighter = fighter;
-			this.color = color;
 			this.inBattle = false;
+			Color = color;
 		}
 
 		public virtual bool Empty
@@ -42,12 +42,19 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 			}
 		}
 
+		//TODO: maybe add battle record
+		public virtual void updateColor(HeroColor color)
+		{
+			Color = color;
+		}
+
 
 		public virtual void exitTeam()
 		{
-			this.color = HeroColor.NIL;
+			Color = HeroColor.NIL;
 			this.inBattle = false;
 		}
+
 
 
 		public virtual BattleFighter Fighter
@@ -60,11 +67,16 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 
 		public virtual HeroColor Color
 		{
+			set
+			{
+				this.color = value;
+			}
 			get
 			{
 				return color;
 			}
 		}
+
 
 		public virtual bool InBattle
 		{
@@ -78,6 +90,11 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 			}
 		}
 
+
+		public virtual string toLogString()
+		{
+			return string.Format("{0:D}", Fighter.Index);
+		}
 	}
 
 }

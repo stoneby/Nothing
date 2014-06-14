@@ -1,5 +1,8 @@
+using System.Collections.Generic;
+
 namespace com.kx.sglm.gs.battle.share.data
 {
+
 
 	using BattleSideEnum = com.kx.sglm.gs.battle.share.enums.BattleSideEnum;
 	using FighterType = com.kx.sglm.gs.battle.share.enums.FighterType;
@@ -20,12 +23,19 @@ namespace com.kx.sglm.gs.battle.share.data
 		protected internal FighterType fighterType;
 		protected internal FighterAProperty battleProperty;
 		protected internal PropertyRawSet properties;
+		protected internal int activeSkillId;
+		protected internal List<int> skillIdList;
 
 		public FighterInfo()
 		{
 			properties = new PropertyRawSet();
+			skillIdList = new List<int>();
 		}
 
+		public virtual void addSkillId(int skillId)
+		{
+			skillIdList.Add(skillId);
+		}
 
 		public virtual void addNormalProp(int key, object value)
 		{
@@ -88,6 +98,41 @@ namespace com.kx.sglm.gs.battle.share.data
 			}
 		}
 
+
+		public virtual List<int> SkillIdList
+		{
+			get
+			{
+				return skillIdList;
+			}
+			set
+			{
+				this.skillIdList = value;
+			}
+		}
+
+		public virtual int ActiveSkillId
+		{
+			get
+			{
+				return activeSkillId;
+			}
+			set
+			{
+				this.activeSkillId = value;
+			}
+		}
+
+
+
+
+		public virtual int AiId
+		{
+			get
+			{
+				return properties.getInt(BattleKeyConstants.BATTLE_PROP_MONSTER_AI_ID, 0);
+			}
+		}
 
 	}
 

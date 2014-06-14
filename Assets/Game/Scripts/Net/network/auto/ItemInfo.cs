@@ -35,6 +35,7 @@ namespace KXSGCodec
     private int _contribExp;
     private long _createdTime;
     private short _count;
+    private long _expireTime;
 
     /// <summary>
     /// 实例id
@@ -222,6 +223,22 @@ namespace KXSGCodec
       }
     }
 
+    /// <summary>
+    /// 过期时间
+    /// </summary>
+    public long ExpireTime
+    {
+      get
+      {
+        return _expireTime;
+      }
+      set
+      {
+        __isset.expireTime = true;
+        this._expireTime = value;
+      }
+    }
+
 
     public Isset __isset;
     #if !SILVERLIGHT
@@ -240,6 +257,7 @@ namespace KXSGCodec
       public bool contribExp;
       public bool createdTime;
       public bool count;
+      public bool expireTime;
     }
 
     public ItemInfo() {
@@ -337,6 +355,13 @@ namespace KXSGCodec
           case 12:
             if (field.Type == TType.I16) {
               Count = iprot.ReadI16();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 13:
+            if (field.Type == TType.I64) {
+              ExpireTime = iprot.ReadI64();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
@@ -450,6 +475,14 @@ namespace KXSGCodec
         oprot.WriteI16(Count);
         oprot.WriteFieldEnd();
       }
+      if (__isset.expireTime) {
+        field.Name = "expireTime";
+        field.Type = TType.I64;
+        field.ID = 13;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteI64(ExpireTime);
+        oprot.WriteFieldEnd();
+      }
       oprot.WriteFieldStop();
       oprot.WriteStructEnd();
     }
@@ -480,6 +513,8 @@ namespace KXSGCodec
       sb.Append(CreatedTime);
       sb.Append(",Count: ");
       sb.Append(Count);
+      sb.Append(",ExpireTime: ");
+      sb.Append(ExpireTime);
       sb.Append(")");
       return sb.ToString();
     }

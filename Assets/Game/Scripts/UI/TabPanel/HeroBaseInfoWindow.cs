@@ -1,4 +1,6 @@
+using System.Globalization;
 using KXSGCodec;
+using Template;
 using UnityEngine;
 
 /// <summary>
@@ -9,12 +11,13 @@ public class HeroBaseInfoWindow : Window
     #region Private Fields
 
     private EndlessSwipeEffect endlessSwipeEffect;
+    private Vector3 endlessPosCached;
     private int curHeroIndex;
     private HeroInfo heroInfo;
-    private HeroInfo HeroInfo
+    public HeroInfo HeroInfo
     {
         get { return heroInfo; }
-        set
+        private set
         {
             if(heroInfo != value)
             {
@@ -28,6 +31,9 @@ public class HeroBaseInfoWindow : Window
     private UIEventListener lvBtnLis;
     private UIEventListener limitBtnLis;
     private HeroTemplate heroTemplate;
+    private UIEventListener item1Lis;
+    private UIEventListener item2Lis;
+    private sbyte curEquipIndex = -1;
 
     #endregion
 
@@ -37,6 +43,12 @@ public class HeroBaseInfoWindow : Window
     /// The uuid of current hero info.
     /// </summary>
     public static long CurUuid;
+
+    public sbyte CurEquipIndex
+    {
+        get { return curEquipIndex; }
+        private set { curEquipIndex = value; }
+    }
 
     /// <summary>
     /// The sprite name when the button is clicked.
@@ -55,11 +67,17 @@ public class HeroBaseInfoWindow : Window
     public override void OnEnter()
     {
         InstallHandlers();
+        Toggle(1);
+        HeroInfo = HeroModelLocator.Instance.FindHero(CurUuid);
+        curHeroIndex = HeroModelLocator.Instance.SCHeroList.HeroList.IndexOf(HeroInfo);
+        endlessSwipeEffect.InitCustomData(curHeroIndex, HeroModelLocator.Instance.SCHeroList.HeroList.Count);
+        Refresh();
     }
 
     public override void OnExit()
     {
         UnInstallHandlers();
+        endlessSwipeEffect.transform.position = endlessPosCached;
     }
 
     #endregion
@@ -75,7 +93,10 @@ public class HeroBaseInfoWindow : Window
         lvBtnLis = UIEventListener.Get(Utils.FindChild(transform, "Button-LV").gameObject);
         limitBtnLis = UIEventListener.Get(Utils.FindChild(transform, "Button-Limit").gameObject);
         endlessSwipeEffect = GetComponentInChildren<EndlessSwipeEffect>();
+        endlessPosCached = endlessSwipeEffect.transform.position;
         endlessSwipeEffect.UpdateData += UpdateData;
+        item1Lis = UIEventListener.Get(Utils.FindChild(transform, "Item1").gameObject);
+        item2Lis = UIEventListener.Get(Utils.FindChild(transform, "Item2").gameObject);
     }
 
     /// <summary>
@@ -94,11 +115,11 @@ public class HeroBaseInfoWindow : Window
     /// </summary>
     private void Start()
     {
-        Toggle(1);
-        HeroInfo = HeroModelLocator.Instance.FindHero(CurUuid);
-        curHeroIndex = HeroModelLocator.Instance.SCHeroList.HeroList.IndexOf(HeroInfo);
-        endlessSwipeEffect.InitCustomData(curHeroIndex, HeroModelLocator.Instance.SCHeroList.HeroList.Count);
-        Refresh();
+        //Toggle(1);
+        //HeroInfo = HeroModelLocator.Instance.FindHero(CurUuid);
+        //curHeroIndex = HeroModelLocator.Instance.SCHeroList.HeroList.IndexOf(HeroInfo);
+        //endlessSwipeEffect.InitCustomData(curHeroIndex, HeroModelLocator.Instance.SCHeroList.HeroList.Count);
+        //Refresh();
     }
 
     /// <summary>
@@ -109,6 +130,8 @@ public class HeroBaseInfoWindow : Window
         skillBtnLis.onClick += OnSkillBtnClicked;
         lvBtnLis.onClick += OnLvBtnClicked;
         limitBtnLis.onClick += OnLimitBtnClicked;
+        item1Lis.onClick += HeroSelItemHandler;
+        item2Lis.onClick += HeroSelItemHandler;
     }
 
     /// <summary>
@@ -119,6 +142,23 @@ public class HeroBaseInfoWindow : Window
         skillBtnLis.onClick -= OnSkillBtnClicked;
         lvBtnLis.onClick -= OnLvBtnClicked;
         limitBtnLis.onClick -= OnLimitBtnClicked;
+        item1Lis.onClick -= HeroSelItemHandler;
+        item2Lis.onClick -= HeroSelItemHandler;
+    }
+
+    private void HeroSelItemHandler(GameObject go)
+    {
+        CurEquipIndex = (sbyte)(go == item1Lis.gameObject ? 0 : 1);
+        if(ItemModeLocator.Instance.ScAllItemInfos == null)
+        {
+            ItemModeLocator.Instance.GetItemPos = ItemType.GetItemInHeroInfo;
+            var csmsg = new CSQueryAllItems { BagType = 0 };
+            NetManager.SendMessage(csmsg);       
+        }
+        else
+        {
+            ShowHeroSelItems();
+        }
     }
 
     /// <summary>
@@ -126,8 +166,9 @@ public class HeroBaseInfoWindow : Window
     /// </summary>
     private void Refresh()
     {
-        Utils.FindChild(transform, "Name").GetComponent<UILabel>().text = heroTemplate.Name;
-        var stars = Utils.FindChild(transform, "Stars");
+        var infoTran = Utils.FindChild(transform, "Info");
+        Utils.FindChild(infoTran, "Name").GetComponent<UILabel>().text = heroTemplate.Name;
+        var stars = Utils.FindChild(infoTran, "Stars");
         for (int index = 0; index < heroTemplate.Star; index++)
         {
             NGUITools.SetActive(stars.GetChild(index).gameObject, true);
@@ -136,10 +177,26 @@ public class HeroBaseInfoWindow : Window
         {
             NGUITools.SetActive(stars.GetChild(index).gameObject, false);
         }
-        Utils.FindChild(transform, "LV-Value").GetComponent<UILabel>().text = string.Format("{0}/{1}", HeroInfo.Lvl, heroTemplate.LvlLimit);
-        Utils.FindChild(transform, "Limit-Value").GetComponent<UILabel>().text = string.Format("{0}/{1}", HeroInfo.BreakTimes, heroTemplate.BreakLimit);
-        Utils.FindChild(transform, "Luck-Value").GetComponent<UILabel>().text = heroTemplate.Lucky.ToString();
-        Utils.FindChild(transform, "Job-Value").GetComponent<UISprite>().spriteName = UIHerosDisplayWindow.JobPrefix + heroTemplate.Job;
+        Utils.FindChild(infoTran, "LV-Value").GetComponent<UILabel>().text = string.Format("{0}/{1}", HeroInfo.Lvl, heroTemplate.LvlLimit);
+        Utils.FindChild(infoTran, "Limit-Value").GetComponent<UILabel>().text = string.Format("{0}/{1}", HeroInfo.BreakTimes, heroTemplate.BreakLimit);
+        Utils.FindChild(infoTran, "Luck-Value").GetComponent<UILabel>().text = heroTemplate.Lucky.ToString(CultureInfo.InvariantCulture);
+        Utils.FindChild(infoTran, "Job-Value").GetComponent<UISprite>().spriteName = UIHerosDisplayWindow.JobPrefix + heroTemplate.Job;
+        var equips = HeroInfo.EquipUuid;
+        for (int i = 0; i < equips.Count; i++)
+        {
+            var itemIcon = Utils.FindChild(infoTran, string.Format("Item{0}Icon", i+1));
+            var itemLabel = Utils.FindChild(infoTran, string.Format("Item{0}Label", i + 1));
+            if(equips[i] == "")
+            {
+                itemIcon.gameObject.SetActive(false);
+                itemLabel.gameObject.SetActive(true);
+            }
+            else
+            {
+                itemIcon.gameObject.SetActive(true);
+                itemLabel.gameObject.SetActive(false);
+            }
+        }
     }
 
     /// <summary>
@@ -212,6 +269,12 @@ public class HeroBaseInfoWindow : Window
     public void EnableSwipeEffect(bool enable)
     {
         endlessSwipeEffect.enabled = enable;
+    }
+
+    public void ShowHeroSelItems()
+    {
+        WindowManager.Instance.Show<UIHeroSelItemWindow>(true);
+        WindowManager.Instance.Show<HeroBaseInfoWindow>(false);
     }
 
     #endregion

@@ -115,7 +115,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100004}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 37, y: 0, z: 0}
+  m_LocalPosition: {x: 38, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400008}
@@ -181,7 +181,6 @@ MonoBehaviour:
     target: {fileID: 400002}
     relative: 1
     absolute: -2
-  updateAnchors: 1
   mColor: {r: .791044772, g: .686910212, b: .501782119, a: 1}
   mPivot: 4
   mWidth: 296
@@ -197,7 +196,6 @@ MonoBehaviour:
   mFillDirection: 4
   mFillAmount: 1
   mInvert: 0
-  mFlip: 0
   mFillCenter: 1
   centerType: 1
   leftType: 1
@@ -224,7 +222,6 @@ MonoBehaviour:
   onChange:
   - mTarget: {fileID: 11400020}
     mMethodName: SetCurrentPercent
-    mParameters: []
     oneShot: 0
   foreground: {fileID: 0}
   rawValue: 1
@@ -257,7 +254,6 @@ MonoBehaviour:
     target: {fileID: 0}
     relative: 1
     absolute: 0
-  updateAnchors: 1
   mColor: {r: .313432813, g: .313432813, b: .313432813, a: 1}
   mPivot: 4
   mWidth: 300
@@ -273,7 +269,6 @@ MonoBehaviour:
   mFillDirection: 4
   mFillAmount: 1
   mInvert: 0
-  mFlip: 0
   mFillCenter: 1
   centerType: 1
   leftType: 1
@@ -307,7 +302,6 @@ MonoBehaviour:
     target: {fileID: 400002}
     relative: 1
     absolute: 4
-  updateAnchors: 1
   mColor: {r: .567164183, g: .567164183, b: .567164183, a: 1}
   mPivot: 4
   mWidth: 12
@@ -323,7 +317,6 @@ MonoBehaviour:
   mFillDirection: 4
   mFillAmount: 1
   mInvert: 0
-  mFlip: 0
   mFillCenter: 1
   centerType: 1
   leftType: 1
@@ -344,13 +337,9 @@ MonoBehaviour:
   tweenTarget: {fileID: 100002}
   hover: {r: .522388101, g: .474307597, b: .378146619, a: 1}
   pressed: {r: .305970132, g: .275525331, b: .214635774, a: 1}
-  disabledColor: {r: .268656731, g: .268656731, b: .268656731, a: 1}
   duration: .200000003
+  disabledColor: {r: .268656731, g: .268656731, b: .268656731, a: 1}
   dragHighlight: 0
-  hoverSprite: 
-  pressedSprite: 
-  disabledSprite: 
-  pixelSnap: 0
   onClick: []
 --- !u!114 &11400018
 MonoBehaviour:
@@ -395,7 +384,6 @@ MonoBehaviour:
     target: {fileID: 0}
     relative: 1
     absolute: 0
-  updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 3
   mWidth: 48
@@ -411,7 +399,6 @@ MonoBehaviour:
   mText: 100%
   mFontSize: 20
   mFontStyle: 0
-  mAlignment: 0
   mEncoding: 1
   mMaxLineCount: 0
   mEffectStyle: 1

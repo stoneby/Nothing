@@ -83,7 +83,7 @@ namespace com.kx.sglm.gs.battle.share.logic.loop
 		{
 			foreach (BattleTeam _side in CurAttacker.ActorList)
 			{
-				if (!_side.Alive)
+				if (!_side.hasHp())
 				{
 					CurAttacker.DeadBattleSide = _side.BattleSide;
 					break;

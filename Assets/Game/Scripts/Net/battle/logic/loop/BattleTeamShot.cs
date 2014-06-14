@@ -3,6 +3,8 @@ namespace com.kx.sglm.gs.battle.share.logic.loop
 
 	using BattleFighter = com.kx.sglm.gs.battle.share.actor.impl.BattleFighter;
 	using BattleTeam = com.kx.sglm.gs.battle.share.actor.impl.BattleTeam;
+	using BattleTeamFightRecord = com.kx.sglm.gs.battle.share.data.record.BattleTeamFightRecord;
+	using TeamShotStartEvent = com.kx.sglm.gs.battle.share.@event.impl.TeamShotStartEvent;
 	using com.kx.sglm.gs.battle.share.logic;
 	using BattleAttackAction = com.kx.sglm.gs.battle.share.logic.action.BattleAttackAction;
 
@@ -24,7 +26,15 @@ namespace com.kx.sglm.gs.battle.share.logic.loop
 
 		public override void onStart()
 		{
+//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
+//ORIGINAL LINE: final com.kx.sglm.gs.battle.share.data.record.BattleTeamFightRecord _teamReocrd = getBattle().getRecord().getOrCreateTeamFighterRecord();
+			BattleTeamFightRecord _teamReocrd = Battle.Record.OrCreateTeamFighterRecord;
+			_teamReocrd.TeamSide = CurAttacker.BattleSide.Index;
 			Battle.BattleExcuter.onBattleTeamShotStart(this);
+			TeamShotStartEvent _event = new TeamShotStartEvent(Battle.CurScene);
+			_event.TeamFightRecord = _teamReocrd;
+			CurAttacker.onTeamShotStart(_event);
+	//		getBattle().sendBattleSceneEvent(_event);
 		}
 
 		public override void onFinish()

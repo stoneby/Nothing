@@ -41,9 +41,7 @@ public class EnemyControl : MonoBehaviour
 
     private void OnClickHandler(GameObject game = null)
     {
-        Debug.LogWarning("World position: " + transform.position + ", local position: " + transform.localPosition);
         OnClickFunc(Data);
-        //WindowManager.Instance.Show(typeof(LoginMainWindow), true);
     }
 
     public void OnDestory()
@@ -73,8 +71,6 @@ public class EnemyControl : MonoBehaviour
         Data = data;
         value = Data.BattleProperty.get(FighterAProperty.HP); ;
         maxValue = value;
-//        cd = baseCd = 3;//Data.BattleProperty.get(FighterAProperty.);
-//        spcd = 2 * baseCd;
         ShowValue();
     }
 
@@ -96,8 +92,6 @@ public class EnemyControl : MonoBehaviour
     {
         var lose = value - thehp;
         value = thehp;
-
-        if (lose > 0) PopTextManager.ShowText("-" + lose, 0.6f, 0, 40, 120, gameObject.transform.localPosition);
 
         ShowValue();
     }

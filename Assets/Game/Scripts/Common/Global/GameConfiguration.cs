@@ -220,11 +220,11 @@ public class GameConfiguration : Singleton<GameConfiguration>
         Logger.Log("解析BattleConfig.xml");
         if (doc != null)
         {
-            //GameConfig.HeroRunReturnTime = GetValueByName(doc, "HeroRunReturnTime");
-            //GameConfig.ShortTime = GetValueByName(doc, "ShortTime");
-            //GameConfig.PlayAttrackTime = GetValueByName(doc, "PlayAttrackTime");
-            //GameConfig.RunStepNeedTime = GetValueByName(doc, "RunStepNeedTime");
-            //GameConfig.NextRunWaitTime = GetValueByName(doc, "NextRunWaitTime");
+            GameConfig.HeroRunReturnTime = GetValueByName(doc, "HeroRunReturnTime");
+            GameConfig.ShortTime = GetValueByName(doc, "ShortTime");
+            GameConfig.PlayAttrackTime = GetValueByName(doc, "PlayAttrackTime");
+            GameConfig.RunStepNeedTime = GetValueByName(doc, "RunStepNeedTime");
+            GameConfig.NextRunWaitTime = GetValueByName(doc, "NextRunWaitTime");
 
             GameConfig.PlayRecoverEffectTime = GetValueByName(doc, "PlayRecoverEffectTime");
             GameConfig.RunRoNextMonstersTime = GetValueByName(doc, "RunRoNextMonstersTime");

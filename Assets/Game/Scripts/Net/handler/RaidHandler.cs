@@ -56,7 +56,8 @@ namespace Assets.Game.Scripts.Net.handler
             var themsg = msg.GetContent() as SCRaidReward;
             if (themsg != null)
             {
-
+                MissionModelLocator.Instance.BattleReward = themsg;
+                WindowManager.Instance.Show(typeof(BattleWinWindow), true);
             }
             else
             {
@@ -82,7 +83,37 @@ namespace Assets.Game.Scripts.Net.handler
             var themsg = msg.GetContent() as SCRaidEnterFail;
             if (themsg != null)
             {
+                PopTextManager.PopTip(themsg.Reason);
+            }
+            else
+            {
+                //PopTextManager.PopTip("返回战斗的数据错误");
+            }
+        }
 
+        public static void OnRaidNewStage(ThriftSCMessage msg)
+        {
+            var themsg = msg.GetContent() as SCRaidNewStage;
+            if (themsg != null)
+            {
+                MissionModelLocator.Instance.AddNewStage(themsg);
+            }
+            else
+            {
+                //PopTextManager.PopTip("返回战斗的数据错误");
+            }
+        }
+
+        public static void OnRaidReceiveReward(ThriftSCMessage msg)
+        {
+            var themsg = msg.GetContent() as SCRaidReceiveAwards;
+            if (themsg != null)
+            {
+                if (!MissionModelLocator.Instance.RaidLoadingAll.HasAwardInfo.Contains(MissionModelLocator.Instance.Raid.TemplateId))
+                {
+                    MissionModelLocator.Instance.RaidLoadingAll.HasAwardInfo.Add(MissionModelLocator.Instance.Raid.TemplateId);
+                }
+                PopTextManager.PopTip("奖励领取成功");
             }
             else
             {

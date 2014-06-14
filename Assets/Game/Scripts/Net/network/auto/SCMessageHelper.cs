@@ -24,6 +24,10 @@ namespace KXSGCodec
             {
                 return new SCBattlePveStartMsg();
             }
+			            if (type == MessageType.SC_HERO_CHANGE_EQUIP.GetHashCode())
+            {
+                return new SCHeroChangeEquip();
+            }
 			            if (type == MessageType.SC_HERO_CREATE_ONE.GetHashCode())
             {
                 return new SCHeroCreateOne();
@@ -56,6 +60,10 @@ namespace KXSGCodec
             {
                 return new SCAllItemInfos();
             }
+			            if (type == MessageType.SC_BUY_BACK_ITEM_SUCC.GetHashCode())
+            {
+                return new SCBuyBackItemSucc();
+            }
 			            if (type == MessageType.SC_DELETE_ITEMS.GetHashCode())
             {
                 return new SCDeleteItems();
@@ -71,6 +79,14 @@ namespace KXSGCodec
 			            if (type == MessageType.SC_ITEM_DETAIL.GetHashCode())
             {
                 return new SCItemDetail();
+            }
+			            if (type == MessageType.SC_ITEM_LOCK_OPER_SUCC.GetHashCode())
+            {
+                return new SCItemLockOperSucc();
+            }
+			            if (type == MessageType.SC_ITEM_SELL_SUCC.GetHashCode())
+            {
+                return new SCItemSellSucc();
             }
 			            if (type == MessageType.SC_STRENGTH_ITEM_SUCC.GetHashCode())
             {
@@ -135,6 +151,10 @@ namespace KXSGCodec
 			            if (type == MessageType.SC_ERROR_INFO_MSG.GetHashCode())
             {
                 return new SCErrorInfoMsg();
+            }
+			            if (type == MessageType.SC_SERVER_CONFIG_MSG.GetHashCode())
+            {
+                return new SCServerConfigMsg();
             }
 			            if (type == MessageType.SC_SYSTEM_INFO_MSG.GetHashCode())
             {

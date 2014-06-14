@@ -7,6 +7,9 @@ namespace com.kx.sglm.gs.battle.share.data
 	using BattleSideEnum = com.kx.sglm.gs.battle.share.enums.BattleSideEnum;
 	using BattleType = com.kx.sglm.gs.battle.share.enums.BattleType;
 	using PropertyRawSet = com.kx.sglm.gs.battle.share.utils.PropertyRawSet;
+	using BattleHeroSkillMsgAction = KXSGCodec.BattleHeroSkillMsgAction;
+	using BattleMonsterAIMsgAction = KXSGCodec.BattleMonsterAIMsgAction;
+	using BattleMonsterSkillMsgAction = KXSGCodec.BattleMonsterSkillMsgAction;
 
 	/// <summary>
 	/// 可以构建一个完整战斗的元素，用�?1.与客户端通讯构建�?2.在玩家身上存储战斗信�?br>
@@ -24,7 +27,7 @@ namespace com.kx.sglm.gs.battle.share.data
 
 		/// <summary>
 		/// 全部的Fighter都在这里，不管有几个阵营，通过<seealso cref="FighterInfo #battleSide"/>区分阵营 </summary>
-		protected internal IList<FighterInfo> fighterProp;
+		protected internal List<FighterInfo> fighterProp;
 
 		/// <summary>
 		/// 战斗类型 </summary>
@@ -38,11 +41,26 @@ namespace com.kx.sglm.gs.battle.share.data
 		/// 战斗开始时�? </summary>
 		protected internal long startTime;
 
+		/// <summary>
+		/// 英雄技能列�? </summary>
+		protected internal List<BattleHeroSkillMsgAction> heroSkillList;
+
+		/// <summary>
+		/// 怪物技能列�? </summary>
+		protected internal List<BattleMonsterSkillMsgAction> monsterSkillList;
+
+		/// <summary>
+		/// 怪物AI列表 </summary>
+		protected internal List<BattleMonsterAIMsgAction> monsterAList;
+
 		public BattleSource(BattleType battleType)
 		{
 			this.battleType = battleType;
 			this.fighterProp = new List<FighterInfo>();
 			this.props = new PropertyRawSet();
+			this.heroSkillList = new List<BattleHeroSkillMsgAction>();
+			this.monsterSkillList = new List<BattleMonsterSkillMsgAction>();
+			this.monsterAList = new List<BattleMonsterAIMsgAction>();
 		}
 
 		public virtual long Uuid
@@ -81,9 +99,9 @@ namespace com.kx.sglm.gs.battle.share.data
 			return props.getInt(key, 0);
 		}
 
-		public virtual IList<FighterInfo> getSideFighters(BattleSideEnum battelSide)
+		public virtual List<FighterInfo> getSideFighters(BattleSideEnum battelSide)
 		{
-			IList<FighterInfo> _sideFighter = new List<FighterInfo>();
+			List<FighterInfo> _sideFighter = new List<FighterInfo>();
 			foreach (FighterInfo _prop in FighterProp)
 			{
 				if (_prop.BattleSide == battelSide)
@@ -94,7 +112,7 @@ namespace com.kx.sglm.gs.battle.share.data
 			return _sideFighter;
 		}
 
-		public virtual IList<FighterInfo> FighterProp
+		public virtual List<FighterInfo> FighterProp
 		{
 			get
 			{
@@ -111,6 +129,47 @@ namespace com.kx.sglm.gs.battle.share.data
 		{
 			this.props.set(key, value);
 		}
+
+		public virtual List<BattleHeroSkillMsgAction> HeroSkillList
+		{
+			get
+			{
+				return heroSkillList;
+			}
+			set
+			{
+				this.heroSkillList = value;
+			}
+		}
+
+
+		public virtual List<BattleMonsterSkillMsgAction> MonsterSkillList
+		{
+			get
+			{
+				return monsterSkillList;
+			}
+			set
+			{
+				this.monsterSkillList = value;
+			}
+		}
+
+
+		public virtual List<BattleMonsterAIMsgAction> MonsterAList
+		{
+			get
+			{
+				return monsterAList;
+			}
+			set
+			{
+				this.monsterAList = value;
+			}
+		}
+
+
+
 
 	}
 

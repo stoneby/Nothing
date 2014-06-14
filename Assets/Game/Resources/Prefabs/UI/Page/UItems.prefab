@@ -60,6 +60,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 400006}
   - 114: {fileID: 11400008}
+  - 114: {fileID: 11400024}
   m_Layer: 8
   m_Name: Items
   m_TagString: Untagged
@@ -230,8 +231,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100012}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -334.842346, y: -274.412048, z: -.00171661377}
-  m_LocalScale: {x: 360, y: 360, z: 360}
+  m_LocalPosition: {x: -120543.242, y: -98788.3359, z: -.617980957}
+  m_LocalScale: {x: 129600, y: 129600, z: 129600}
   m_Children:
   - {fileID: 400002}
   - {fileID: 400010}
@@ -365,7 +366,6 @@ MonoBehaviour:
     target: {fileID: 0}
     relative: 1
     absolute: -4
-  updateAnchors: 1
   mColor: {r: 0, g: 0, b: 0, a: .752941191}
   mPivot: 3
   mWidth: 260
@@ -381,7 +381,6 @@ MonoBehaviour:
   mText: 
   mFontSize: 20
   mFontStyle: 0
-  mAlignment: 0
   mEncoding: 1
   mMaxLineCount: 1
   mEffectStyle: 1
@@ -427,7 +426,6 @@ MonoBehaviour:
     target: {fileID: 0}
     relative: 1
     absolute: -20
-  updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 3
   mWidth: 252
@@ -437,19 +435,18 @@ MonoBehaviour:
   hideIfOffScreen: 0
   keepAspectRatio: 0
   aspectRatio: 3.70588231
+  mAtlas: {fileID: 11400000, guid: 8334cafb3d14e8645a9306828c0e15b8, type: 2}
+  mSpriteName: SortN
   mType: 1
   mFillDirection: 4
   mFillAmount: 1
   mInvert: 0
-  mFlip: 0
+  mFillCenter: 1
   centerType: 1
   leftType: 1
   rightType: 1
   bottomType: 1
   topType: 1
-  mAtlas: {fileID: 11400000, guid: 8334cafb3d14e8645a9306828c0e15b8, type: 2}
-  mSpriteName: SortN
-  mFillCenter: 1
 --- !u!114 &11400004
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -490,7 +487,6 @@ MonoBehaviour:
     target: {fileID: 400008}
     relative: 1
     absolute: 0
-  updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
   mWidth: 974
@@ -512,15 +508,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   arrangement: 0
-  sorting: 0
-  pivot: 0
   maxPerLine: 6
   cellWidth: 160
   cellHeight: 190
   animateSmoothly: 0
-  hideInactive: 1
-  keepWithinPanel: 0
   sorted: 0
+  hideInactive: 1
 --- !u!114 &11400010
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -544,9 +537,8 @@ MonoBehaviour:
   verticalScrollBar: {fileID: 11400020}
   showScrollBars: 2
   customMovement: {x: 1, y: 0}
-  contentPivot: 0
-  scale: {x: 0, y: 0, z: 0}
   relativePositionOnReset: {x: 0, y: 0}
+  scale: {x: 0, y: 0, z: 0}
 --- !u!114 &11400012
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -574,7 +566,6 @@ MonoBehaviour:
     target: {fileID: 0}
     relative: 1
     absolute: 0
-  updateAnchors: 1
   showInPanelTool: 1
   generateNormals: 0
   widgetsAreStatic: 0
@@ -588,8 +579,6 @@ MonoBehaviour:
   mClipRange: {x: 0, y: 0, z: 974, w: 570}
   mClipSoftness: {x: 4, y: 4}
   mDepth: 8
-  mSortingOrder: 0
-  mClipOffset: {x: 0, y: 0}
 --- !u!114 &11400014
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -617,7 +606,6 @@ MonoBehaviour:
     target: {fileID: 400016}
     relative: 1
     absolute: -5
-  updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
   mWidth: 4
@@ -627,19 +615,18 @@ MonoBehaviour:
   hideIfOffScreen: 0
   keepAspectRatio: 0
   aspectRatio: .0123076923
+  mAtlas: {fileID: 11400000, guid: 8334cafb3d14e8645a9306828c0e15b8, type: 2}
+  mSpriteName: ScrollFG
   mType: 1
   mFillDirection: 4
   mFillAmount: 1
   mInvert: 0
-  mFlip: 0
+  mFillCenter: 1
   centerType: 1
   leftType: 1
   rightType: 1
   bottomType: 1
   topType: 1
-  mAtlas: {fileID: 11400000, guid: 8334cafb3d14e8645a9306828c0e15b8, type: 2}
-  mSpriteName: ScrollFG
-  mFillCenter: 1
 --- !u!114 &11400016
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -653,6 +640,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Path: 
   WindowGroup: 0
+  Items: {fileID: 0}
   ItemPrefab: {fileID: 100036, guid: f07968b4a14210b4aa775868996bdc9f, type: 2}
 --- !u!114 &11400018
 MonoBehaviour:
@@ -681,7 +669,6 @@ MonoBehaviour:
     target: {fileID: 0}
     relative: 1
     absolute: 0
-  updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
   mWidth: 14
@@ -691,19 +678,18 @@ MonoBehaviour:
   hideIfOffScreen: 0
   keepAspectRatio: 0
   aspectRatio: .0417910442
+  mAtlas: {fileID: 11400000, guid: 8334cafb3d14e8645a9306828c0e15b8, type: 2}
+  mSpriteName: ScrollBG
   mType: 1
   mFillDirection: 4
   mFillAmount: 1
   mInvert: 0
-  mFlip: 0
+  mFillCenter: 1
   centerType: 1
   leftType: 1
   rightType: 1
   bottomType: 1
   topType: 1
-  mAtlas: {fileID: 11400000, guid: 8334cafb3d14e8645a9306828c0e15b8, type: 2}
-  mSpriteName: ScrollBG
-  mFillCenter: 1
 --- !u!114 &11400020
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -756,7 +742,6 @@ MonoBehaviour:
     target: {fileID: 0}
     relative: 1
     absolute: 0
-  updateAnchors: 1
   showInPanelTool: 1
   generateNormals: 0
   widgetsAreStatic: 0
@@ -770,8 +755,19 @@ MonoBehaviour:
   mClipRange: {x: 0, y: 0, z: 300, w: 200}
   mClipSoftness: {x: 4, y: 4}
   mDepth: 7
-  mSortingOrder: 0
-  mClipOffset: {x: 0, y: 0}
+--- !u!114 &11400024
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d35d721694fa0ee48a2d14bddfcbf4a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  springStrength: 8
+  nextPageThreshold: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

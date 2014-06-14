@@ -10,7 +10,6 @@ namespace com.kx.sglm.gs.battle.share.logic.action
 	using BattleState = com.kx.sglm.gs.battle.share.enums.BattleState;
 	using FighterType = com.kx.sglm.gs.battle.share.enums.FighterType;
 	using BattleTeamShot = com.kx.sglm.gs.battle.share.logic.loop.BattleTeamShot;
-	using ISingletonBattleAction = com.kx.sglm.gs.battle.share.singleton.ISingletonBattleAction;
 
 	/// <summary>
 	/// 针对一个{@link BattleFighter}的一次出手，出手对象是一个{@link BattleTeam}�?这个类开始，从流程逻辑转向具体逻辑�?<seealso cref="BattleAttackAction"/>的一次结束意味着单个武将/怪物出手的结束�?/br> 这个类在实际运行中由<seealso cref="BattleTeamShot"/>控制循环
@@ -59,10 +58,8 @@ namespace com.kx.sglm.gs.battle.share.logic.action
 //JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
 //ORIGINAL LINE: final com.kx.sglm.gs.battle.share.data.record.BattleTeamFightRecord _teamReocrd = getBattle().getRecord().getOrCreateTeamFighterRecord();
 			BattleTeamFightRecord _teamReocrd = Battle.Record.OrCreateTeamFighterRecord;
-			_teamReocrd.TeamSide = attacker.Side;
 			BattleFightRecord _figherRecord = _teamReocrd.OrCreateRecord;
-			ISingletonBattleAction _fightAction = attacker.FightAction;
-			_fightAction.onAction(attacker, defencerTeam, _figherRecord);
+			attacker.onAttack(_figherRecord);
 			_teamReocrd.finishCurRecord();
 		}
 
@@ -71,7 +68,7 @@ namespace com.kx.sglm.gs.battle.share.logic.action
 		{
 			get
 			{
-				return !defencerTeam.Alive;
+				return !defencerTeam.hasHp();
 			}
 		}
 

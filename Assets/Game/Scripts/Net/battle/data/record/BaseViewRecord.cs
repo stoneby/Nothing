@@ -50,7 +50,7 @@ namespace com.kx.sglm.gs.battle.share.data.record
 			recordList.Add(record);
 		}
 
-		public virtual IList<T> RecordList
+		public virtual List<T> RecordList
 		{
 			get
 			{

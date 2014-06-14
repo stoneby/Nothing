@@ -8,7 +8,7 @@ namespace com.kx.sglm.gs.battle.share.executer
 	public abstract class AbstractBattleExcuter : IBattleExecuter
 	{
 		public abstract bool BattleDead {get;}
-		public abstract IList<com.kx.sglm.gs.battle.share.enums.HeroColor> createColorList(int createCount);
+		public abstract List<com.kx.sglm.gs.battle.share.enums.HeroColor> createColorList(int createCount);
 		public abstract com.kx.sglm.gs.battle.share.enums.BattleType BattleType {get;}
 		public abstract com.kx.sglm.gs.battle.share.logic.loop.BattleScene createNextBattleScene();
 		public abstract bool hasNextBattleScene();

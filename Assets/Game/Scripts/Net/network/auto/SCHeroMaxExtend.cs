@@ -24,7 +24,6 @@ namespace KXSGCodec
   public partial class SCHeroMaxExtend : TBase
   {
     private short _refreshHeroCountLimit;
-    private int _refreshDiamond;
 
     public short RefreshHeroCountLimit
     {
@@ -39,19 +38,6 @@ namespace KXSGCodec
       }
     }
 
-    public int RefreshDiamond
-    {
-      get
-      {
-        return _refreshDiamond;
-      }
-      set
-      {
-        __isset.refreshDiamond = true;
-        this._refreshDiamond = value;
-      }
-    }
-
 
     public Isset __isset;
     #if !SILVERLIGHT
@@ -59,7 +45,6 @@ namespace KXSGCodec
     #endif
     public struct Isset {
       public bool refreshHeroCountLimit;
-      public bool refreshDiamond;
     }
 
     public SCHeroMaxExtend() {
@@ -80,13 +65,6 @@ namespace KXSGCodec
           case 1:
             if (field.Type == TType.I16) {
               RefreshHeroCountLimit = iprot.ReadI16();
-            } else { 
-              TProtocolUtil.Skip(iprot, field.Type);
-            }
-            break;
-          case 3:
-            if (field.Type == TType.I32) {
-              RefreshDiamond = iprot.ReadI32();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
@@ -112,14 +90,6 @@ namespace KXSGCodec
         oprot.WriteI16(RefreshHeroCountLimit);
         oprot.WriteFieldEnd();
       }
-      if (__isset.refreshDiamond) {
-        field.Name = "refreshDiamond";
-        field.Type = TType.I32;
-        field.ID = 3;
-        oprot.WriteFieldBegin(field);
-        oprot.WriteI32(RefreshDiamond);
-        oprot.WriteFieldEnd();
-      }
       oprot.WriteFieldStop();
       oprot.WriteStructEnd();
     }
@@ -128,8 +98,6 @@ namespace KXSGCodec
       StringBuilder sb = new StringBuilder("SCHeroMaxExtend(");
       sb.Append("RefreshHeroCountLimit: ");
       sb.Append(RefreshHeroCountLimit);
-      sb.Append(",RefreshDiamond: ");
-      sb.Append(RefreshDiamond);
       sb.Append(")");
       return sb.ToString();
     }

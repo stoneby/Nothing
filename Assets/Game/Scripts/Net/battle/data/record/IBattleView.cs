@@ -19,6 +19,8 @@ namespace com.kx.sglm.gs.battle.share.data.record
 
 		void showBattleEndRecord(BattleEndRecord battleEndRecord);
 
+		void showBattleErrorRecord(BattleErrorRecord battleErrorRecord);
+
 	}
 
 }

@@ -2,6 +2,7 @@
 using KXSGCodec;
 using System.Collections.Generic;
 using Property;
+using Template;
 using UnityEngine;
 
 public sealed class HeroModelLocator
@@ -10,8 +11,8 @@ public sealed class HeroModelLocator
 
     private static volatile HeroModelLocator instance;
     private static readonly object SyncRoot = new Object();
-    private const string HeroTemlatePath = "Templates/HeroBinaryFileToDecode";
-    private const string SkillTemlatePath = "Templates/SkillBinaryFileToDecode";
+    private const string HeroTemlatePath = "Templates/Hero";
+    private const string SkillTemlatePath = "Templates/Skill";
 
     #endregion
 

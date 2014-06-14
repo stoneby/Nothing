@@ -30,16 +30,6 @@ public class NextFootManager : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    //void Update()
-    //{
-    //    if (!haveInit)
-    //    {
-    //        InitTest();
-    //        haveInit = true;
-    //    }
-    //}
-
     private void InitTest()
     {
         for (int i = 0; i < leftFootIndexes.Length; i++)
@@ -55,6 +45,14 @@ public class NextFootManager : MonoBehaviour
             tp.to = new Vector3(265 - 65 * i, -32, 0);
             tp.duration = .5f;
             tp.Play(true);
+        }
+    }
+
+    public void Clear()
+    {
+        for (int i = 0; i < leftFootIndexes.Length; i++)
+        {
+            leftFootIndexes[i] = null;
         }
     }
 

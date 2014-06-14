@@ -56,7 +56,7 @@ namespace Assets.Game.Scripts.Net.handler
                         str += "服务器未开放";
                         break;
                     default:
-                        str = "未处理的ErrorCode：" + errmsg.ErrorCode.ToString();
+                        str = "未处理的ErrorCode：" + errmsg.ErrorCode;
                         break;
                 }
                 PopTextManager.PopTip(str);

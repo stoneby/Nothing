@@ -15,125 +15,128 @@ using System.Runtime.Serialization;
 using Thrift.Protocol;
 using Thrift.Transport;
 
-
-#if !SILVERLIGHT
-[Serializable]
-#endif
-public partial class ItemLevelTemplate : TBase
+namespace Template
 {
-  private int _id;
-  private int _maxExp;
 
-  public int Id
-  {
-    get
-    {
-      return _id;
-    }
-    set
-    {
-      __isset.id = true;
-      this._id = value;
-    }
-  }
-
-  /// <summary>
-  /// 经验上限
-  /// </summary>
-  public int MaxExp
-  {
-    get
-    {
-      return _maxExp;
-    }
-    set
-    {
-      __isset.maxExp = true;
-      this._maxExp = value;
-    }
-  }
-
-
-  public Isset __isset;
   #if !SILVERLIGHT
   [Serializable]
   #endif
-  public struct Isset {
-    public bool id;
-    public bool maxExp;
-  }
-
-  public ItemLevelTemplate() {
-  }
-
-  public void Read (TProtocol iprot)
+  public partial class ItemLevelTemplate : TBase
   {
-    TField field;
-    iprot.ReadStructBegin();
-    while (true)
+    private int _id;
+    private int _maxExp;
+
+    public int Id
     {
-      field = iprot.ReadFieldBegin();
-      if (field.Type == TType.Stop) { 
-        break;
-      }
-      switch (field.ID)
+      get
       {
-        case 1:
-          if (field.Type == TType.I32) {
-            Id = iprot.ReadI32();
-          } else { 
-            TProtocolUtil.Skip(iprot, field.Type);
-          }
-          break;
-        case 2:
-          if (field.Type == TType.I32) {
-            MaxExp = iprot.ReadI32();
-          } else { 
-            TProtocolUtil.Skip(iprot, field.Type);
-          }
-          break;
-        default: 
-          TProtocolUtil.Skip(iprot, field.Type);
-          break;
+        return _id;
       }
-      iprot.ReadFieldEnd();
+      set
+      {
+        __isset.id = true;
+        this._id = value;
+      }
     }
-    iprot.ReadStructEnd();
-  }
 
-  public void Write(TProtocol oprot) {
-    TStruct struc = new TStruct("ItemLevelTemplate");
-    oprot.WriteStructBegin(struc);
-    TField field = new TField();
-    if (__isset.id) {
-      field.Name = "id";
-      field.Type = TType.I32;
-      field.ID = 1;
-      oprot.WriteFieldBegin(field);
-      oprot.WriteI32(Id);
-      oprot.WriteFieldEnd();
+    /// <summary>
+    /// 经验上限
+    /// </summary>
+    public int MaxExp
+    {
+      get
+      {
+        return _maxExp;
+      }
+      set
+      {
+        __isset.maxExp = true;
+        this._maxExp = value;
+      }
     }
-    if (__isset.maxExp) {
-      field.Name = "maxExp";
-      field.Type = TType.I32;
-      field.ID = 2;
-      oprot.WriteFieldBegin(field);
-      oprot.WriteI32(MaxExp);
-      oprot.WriteFieldEnd();
-    }
-    oprot.WriteFieldStop();
-    oprot.WriteStructEnd();
-  }
 
-  public override string ToString() {
-    StringBuilder sb = new StringBuilder("ItemLevelTemplate(");
-    sb.Append("Id: ");
-    sb.Append(Id);
-    sb.Append(",MaxExp: ");
-    sb.Append(MaxExp);
-    sb.Append(")");
-    return sb.ToString();
+
+    public Isset __isset;
+    #if !SILVERLIGHT
+    [Serializable]
+    #endif
+    public struct Isset {
+      public bool id;
+      public bool maxExp;
+    }
+
+    public ItemLevelTemplate() {
+    }
+
+    public void Read (TProtocol iprot)
+    {
+      TField field;
+      iprot.ReadStructBegin();
+      while (true)
+      {
+        field = iprot.ReadFieldBegin();
+        if (field.Type == TType.Stop) { 
+          break;
+        }
+        switch (field.ID)
+        {
+          case 1:
+            if (field.Type == TType.I32) {
+              Id = iprot.ReadI32();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 2:
+            if (field.Type == TType.I32) {
+              MaxExp = iprot.ReadI32();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          default: 
+            TProtocolUtil.Skip(iprot, field.Type);
+            break;
+        }
+        iprot.ReadFieldEnd();
+      }
+      iprot.ReadStructEnd();
+    }
+
+    public void Write(TProtocol oprot) {
+      TStruct struc = new TStruct("ItemLevelTemplate");
+      oprot.WriteStructBegin(struc);
+      TField field = new TField();
+      if (__isset.id) {
+        field.Name = "id";
+        field.Type = TType.I32;
+        field.ID = 1;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteI32(Id);
+        oprot.WriteFieldEnd();
+      }
+      if (__isset.maxExp) {
+        field.Name = "maxExp";
+        field.Type = TType.I32;
+        field.ID = 2;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteI32(MaxExp);
+        oprot.WriteFieldEnd();
+      }
+      oprot.WriteFieldStop();
+      oprot.WriteStructEnd();
+    }
+
+    public override string ToString() {
+      StringBuilder sb = new StringBuilder("ItemLevelTemplate(");
+      sb.Append("Id: ");
+      sb.Append(Id);
+      sb.Append(",MaxExp: ");
+      sb.Append(MaxExp);
+      sb.Append(")");
+      return sb.ToString();
+    }
+
   }
 
 }
-

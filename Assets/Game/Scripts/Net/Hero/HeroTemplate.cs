@@ -15,12 +15,14 @@ using System.Runtime.Serialization;
 using Thrift.Protocol;
 using Thrift.Transport;
 
-
-#if !SILVERLIGHT
-[Serializable]
-#endif
-public partial class HeroTemplate : TBase
+namespace Template
 {
+
+  #if !SILVERLIGHT
+  [Serializable]
+  #endif
+  public partial class HeroTemplate : TBase
+  {
     private int _id;
     private string _name;
     private string _desc;
@@ -51,15 +53,15 @@ public partial class HeroTemplate : TBase
 
     public int Id
     {
-        get
-        {
-            return _id;
-        }
-        set
-        {
-            __isset.id = true;
-            this._id = value;
-        }
+      get
+      {
+        return _id;
+      }
+      set
+      {
+        __isset.id = true;
+        this._id = value;
+      }
     }
 
     /// <summary>
@@ -67,15 +69,15 @@ public partial class HeroTemplate : TBase
     /// </summary>
     public string Name
     {
-        get
-        {
-            return _name;
-        }
-        set
-        {
-            __isset.name = true;
-            this._name = value;
-        }
+      get
+      {
+        return _name;
+      }
+      set
+      {
+        __isset.name = true;
+        this._name = value;
+      }
     }
 
     /// <summary>
@@ -83,15 +85,15 @@ public partial class HeroTemplate : TBase
     /// </summary>
     public string Desc
     {
-        get
-        {
-            return _desc;
-        }
-        set
-        {
-            __isset.desc = true;
-            this._desc = value;
-        }
+      get
+      {
+        return _desc;
+      }
+      set
+      {
+        __isset.desc = true;
+        this._desc = value;
+      }
     }
 
     /// <summary>
@@ -99,15 +101,15 @@ public partial class HeroTemplate : TBase
     /// </summary>
     public int Icon
     {
-        get
-        {
-            return _icon;
-        }
-        set
-        {
-            __isset.icon = true;
-            this._icon = value;
-        }
+      get
+      {
+        return _icon;
+      }
+      set
+      {
+        __isset.icon = true;
+        this._icon = value;
+      }
     }
 
     /// <summary>
@@ -115,15 +117,15 @@ public partial class HeroTemplate : TBase
     /// </summary>
     public sbyte Force
     {
-        get
-        {
-            return _force;
-        }
-        set
-        {
-            __isset.force = true;
-            this._force = value;
-        }
+      get
+      {
+        return _force;
+      }
+      set
+      {
+        __isset.force = true;
+        this._force = value;
+      }
     }
 
     /// <summary>
@@ -131,15 +133,15 @@ public partial class HeroTemplate : TBase
     /// </summary>
     public sbyte Star
     {
-        get
-        {
-            return _star;
-        }
-        set
-        {
-            __isset.star = true;
-            this._star = value;
-        }
+      get
+      {
+        return _star;
+      }
+      set
+      {
+        __isset.star = true;
+        this._star = value;
+      }
     }
 
     /// <summary>
@@ -147,15 +149,15 @@ public partial class HeroTemplate : TBase
     /// </summary>
     public short LvlLimit
     {
-        get
-        {
-            return _lvlLimit;
-        }
-        set
-        {
-            __isset.lvlLimit = true;
-            this._lvlLimit = value;
-        }
+      get
+      {
+        return _lvlLimit;
+      }
+      set
+      {
+        __isset.lvlLimit = true;
+        this._lvlLimit = value;
+      }
     }
 
     /// <summary>
@@ -163,15 +165,15 @@ public partial class HeroTemplate : TBase
     /// </summary>
     public sbyte BreakLimit
     {
-        get
-        {
-            return _breakLimit;
-        }
-        set
-        {
-            __isset.breakLimit = true;
-            this._breakLimit = value;
-        }
+      get
+      {
+        return _breakLimit;
+      }
+      set
+      {
+        __isset.breakLimit = true;
+        this._breakLimit = value;
+      }
     }
 
     /// <summary>
@@ -179,15 +181,15 @@ public partial class HeroTemplate : TBase
     /// </summary>
     public sbyte Sex
     {
-        get
-        {
-            return _sex;
-        }
-        set
-        {
-            __isset.sex = true;
-            this._sex = value;
-        }
+      get
+      {
+        return _sex;
+      }
+      set
+      {
+        __isset.sex = true;
+        this._sex = value;
+      }
     }
 
     /// <summary>
@@ -195,15 +197,15 @@ public partial class HeroTemplate : TBase
     /// </summary>
     public sbyte Job
     {
-        get
-        {
-            return _job;
-        }
-        set
-        {
-            __isset.job = true;
-            this._job = value;
-        }
+      get
+      {
+        return _job;
+      }
+      set
+      {
+        __isset.job = true;
+        this._job = value;
+      }
     }
 
     /// <summary>
@@ -211,15 +213,15 @@ public partial class HeroTemplate : TBase
     /// </summary>
     public int Attack
     {
-        get
-        {
-            return _attack;
-        }
-        set
-        {
-            __isset.attack = true;
-            this._attack = value;
-        }
+      get
+      {
+        return _attack;
+      }
+      set
+      {
+        __isset.attack = true;
+        this._attack = value;
+      }
     }
 
     /// <summary>
@@ -227,15 +229,15 @@ public partial class HeroTemplate : TBase
     /// </summary>
     public int AttackAddtion
     {
-        get
-        {
-            return _attackAddtion;
-        }
-        set
-        {
-            __isset.attackAddtion = true;
-            this._attackAddtion = value;
-        }
+      get
+      {
+        return _attackAddtion;
+      }
+      set
+      {
+        __isset.attackAddtion = true;
+        this._attackAddtion = value;
+      }
     }
 
     /// <summary>
@@ -243,15 +245,15 @@ public partial class HeroTemplate : TBase
     /// </summary>
     public int HP
     {
-        get
-        {
-            return _HP;
-        }
-        set
-        {
-            __isset.HP = true;
-            this._HP = value;
-        }
+      get
+      {
+        return _HP;
+      }
+      set
+      {
+        __isset.HP = true;
+        this._HP = value;
+      }
     }
 
     /// <summary>
@@ -259,15 +261,15 @@ public partial class HeroTemplate : TBase
     /// </summary>
     public int HPAddtion
     {
-        get
-        {
-            return _HPAddtion;
-        }
-        set
-        {
-            __isset.HPAddtion = true;
-            this._HPAddtion = value;
-        }
+      get
+      {
+        return _HPAddtion;
+      }
+      set
+      {
+        __isset.HPAddtion = true;
+        this._HPAddtion = value;
+      }
     }
 
     /// <summary>
@@ -275,15 +277,15 @@ public partial class HeroTemplate : TBase
     /// </summary>
     public int Recover
     {
-        get
-        {
-            return _recover;
-        }
-        set
-        {
-            __isset.recover = true;
-            this._recover = value;
-        }
+      get
+      {
+        return _recover;
+      }
+      set
+      {
+        __isset.recover = true;
+        this._recover = value;
+      }
     }
 
     /// <summary>
@@ -291,15 +293,15 @@ public partial class HeroTemplate : TBase
     /// </summary>
     public int RecoverAddtion
     {
-        get
-        {
-            return _recoverAddtion;
-        }
-        set
-        {
-            __isset.recoverAddtion = true;
-            this._recoverAddtion = value;
-        }
+      get
+      {
+        return _recoverAddtion;
+      }
+      set
+      {
+        __isset.recoverAddtion = true;
+        this._recoverAddtion = value;
+      }
     }
 
     /// <summary>
@@ -307,15 +309,15 @@ public partial class HeroTemplate : TBase
     /// </summary>
     public int MP
     {
-        get
-        {
-            return _MP;
-        }
-        set
-        {
-            __isset.MP = true;
-            this._MP = value;
-        }
+      get
+      {
+        return _MP;
+      }
+      set
+      {
+        __isset.MP = true;
+        this._MP = value;
+      }
     }
 
     /// <summary>
@@ -323,15 +325,15 @@ public partial class HeroTemplate : TBase
     /// </summary>
     public int MPAddtion
     {
-        get
-        {
-            return _MPAddtion;
-        }
-        set
-        {
-            __isset.MPAddtion = true;
-            this._MPAddtion = value;
-        }
+      get
+      {
+        return _MPAddtion;
+      }
+      set
+      {
+        __isset.MPAddtion = true;
+        this._MPAddtion = value;
+      }
     }
 
     /// <summary>
@@ -339,15 +341,15 @@ public partial class HeroTemplate : TBase
     /// </summary>
     public int Lucky
     {
-        get
-        {
-            return _lucky;
-        }
-        set
-        {
-            __isset.lucky = true;
-            this._lucky = value;
-        }
+      get
+      {
+        return _lucky;
+      }
+      set
+      {
+        __isset.lucky = true;
+        this._lucky = value;
+      }
     }
 
     /// <summary>
@@ -355,15 +357,15 @@ public partial class HeroTemplate : TBase
     /// </summary>
     public int Price
     {
-        get
-        {
-            return _price;
-        }
-        set
-        {
-            __isset.price = true;
-            this._price = value;
-        }
+      get
+      {
+        return _price;
+      }
+      set
+      {
+        __isset.price = true;
+        this._price = value;
+      }
     }
 
     /// <summary>
@@ -371,15 +373,15 @@ public partial class HeroTemplate : TBase
     /// </summary>
     public int LeaderSkill
     {
-        get
-        {
-            return _leaderSkill;
-        }
-        set
-        {
-            __isset.leaderSkill = true;
-            this._leaderSkill = value;
-        }
+      get
+      {
+        return _leaderSkill;
+      }
+      set
+      {
+        __isset.leaderSkill = true;
+        this._leaderSkill = value;
+      }
     }
 
     /// <summary>
@@ -387,15 +389,15 @@ public partial class HeroTemplate : TBase
     /// </summary>
     public int ActiveSkill
     {
-        get
-        {
-            return _activeSkill;
-        }
-        set
-        {
-            __isset.activeSkill = true;
-            this._activeSkill = value;
-        }
+      get
+      {
+        return _activeSkill;
+      }
+      set
+      {
+        __isset.activeSkill = true;
+        this._activeSkill = value;
+      }
     }
 
     /// <summary>
@@ -403,15 +405,15 @@ public partial class HeroTemplate : TBase
     /// </summary>
     public int SpSkill
     {
-        get
-        {
-            return _spSkill;
-        }
-        set
-        {
-            __isset.spSkill = true;
-            this._spSkill = value;
-        }
+      get
+      {
+        return _spSkill;
+      }
+      set
+      {
+        __isset.spSkill = true;
+        this._spSkill = value;
+      }
     }
 
     /// <summary>
@@ -419,15 +421,15 @@ public partial class HeroTemplate : TBase
     /// </summary>
     public int PassiveSkill1
     {
-        get
-        {
-            return _passiveSkill1;
-        }
-        set
-        {
-            __isset.passiveSkill1 = true;
-            this._passiveSkill1 = value;
-        }
+      get
+      {
+        return _passiveSkill1;
+      }
+      set
+      {
+        __isset.passiveSkill1 = true;
+        this._passiveSkill1 = value;
+      }
     }
 
     /// <summary>
@@ -435,15 +437,15 @@ public partial class HeroTemplate : TBase
     /// </summary>
     public int PassiveSkill2
     {
-        get
-        {
-            return _passiveSkill2;
-        }
-        set
-        {
-            __isset.passiveSkill2 = true;
-            this._passiveSkill2 = value;
-        }
+      get
+      {
+        return _passiveSkill2;
+      }
+      set
+      {
+        __isset.passiveSkill2 = true;
+        this._passiveSkill2 = value;
+      }
     }
 
     /// <summary>
@@ -451,15 +453,15 @@ public partial class HeroTemplate : TBase
     /// </summary>
     public int PassiveSkill3
     {
-        get
-        {
-            return _passiveSkill3;
-        }
-        set
-        {
-            __isset.passiveSkill3 = true;
-            this._passiveSkill3 = value;
-        }
+      get
+      {
+        return _passiveSkill3;
+      }
+      set
+      {
+        __isset.passiveSkill3 = true;
+        this._passiveSkill3 = value;
+      }
     }
 
     /// <summary>
@@ -467,660 +469,549 @@ public partial class HeroTemplate : TBase
     /// </summary>
     public int PassiveSkill4
     {
-        get
-        {
-            return _passiveSkill4;
-        }
-        set
-        {
-            __isset.passiveSkill4 = true;
-            this._passiveSkill4 = value;
-        }
+      get
+      {
+        return _passiveSkill4;
+      }
+      set
+      {
+        __isset.passiveSkill4 = true;
+        this._passiveSkill4 = value;
+      }
     }
 
 
     public Isset __isset;
-#if !SILVERLIGHT
+    #if !SILVERLIGHT
     [Serializable]
-#endif
-    public struct Isset
-    {
-        public bool id;
-        public bool name;
-        public bool desc;
-        public bool icon;
-        public bool force;
-        public bool star;
-        public bool lvlLimit;
-        public bool breakLimit;
-        public bool sex;
-        public bool job;
-        public bool attack;
-        public bool attackAddtion;
-        public bool HP;
-        public bool HPAddtion;
-        public bool recover;
-        public bool recoverAddtion;
-        public bool MP;
-        public bool MPAddtion;
-        public bool lucky;
-        public bool price;
-        public bool leaderSkill;
-        public bool activeSkill;
-        public bool spSkill;
-        public bool passiveSkill1;
-        public bool passiveSkill2;
-        public bool passiveSkill3;
-        public bool passiveSkill4;
+    #endif
+    public struct Isset {
+      public bool id;
+      public bool name;
+      public bool desc;
+      public bool icon;
+      public bool force;
+      public bool star;
+      public bool lvlLimit;
+      public bool breakLimit;
+      public bool sex;
+      public bool job;
+      public bool attack;
+      public bool attackAddtion;
+      public bool HP;
+      public bool HPAddtion;
+      public bool recover;
+      public bool recoverAddtion;
+      public bool MP;
+      public bool MPAddtion;
+      public bool lucky;
+      public bool price;
+      public bool leaderSkill;
+      public bool activeSkill;
+      public bool spSkill;
+      public bool passiveSkill1;
+      public bool passiveSkill2;
+      public bool passiveSkill3;
+      public bool passiveSkill4;
     }
 
-    public HeroTemplate()
-    {
+    public HeroTemplate() {
     }
 
-    public void Read(TProtocol iprot)
+    public void Read (TProtocol iprot)
     {
-        TField field;
-        iprot.ReadStructBegin();
-        while (true)
+      TField field;
+      iprot.ReadStructBegin();
+      while (true)
+      {
+        field = iprot.ReadFieldBegin();
+        if (field.Type == TType.Stop) { 
+          break;
+        }
+        switch (field.ID)
         {
-            field = iprot.ReadFieldBegin();
-            if (field.Type == TType.Stop)
-            {
-                break;
+          case 1:
+            if (field.Type == TType.I32) {
+              Id = iprot.ReadI32();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
             }
-            switch (field.ID)
-            {
-                case 1:
-                    if (field.Type == TType.I32)
-                    {
-                        Id = iprot.ReadI32();
-                    }
-                    else
-                    {
-                        TProtocolUtil.Skip(iprot, field.Type);
-                    }
-                    break;
-                case 2:
-                    if (field.Type == TType.String)
-                    {
-                        Name = iprot.ReadString();
-                    }
-                    else
-                    {
-                        TProtocolUtil.Skip(iprot, field.Type);
-                    }
-                    break;
-                case 3:
-                    if (field.Type == TType.String)
-                    {
-                        Desc = iprot.ReadString();
-                    }
-                    else
-                    {
-                        TProtocolUtil.Skip(iprot, field.Type);
-                    }
-                    break;
-                case 4:
-                    if (field.Type == TType.I32)
-                    {
-                        Icon = iprot.ReadI32();
-                    }
-                    else
-                    {
-                        TProtocolUtil.Skip(iprot, field.Type);
-                    }
-                    break;
-                case 5:
-                    if (field.Type == TType.Byte)
-                    {
-                        Force = iprot.ReadByte();
-                    }
-                    else
-                    {
-                        TProtocolUtil.Skip(iprot, field.Type);
-                    }
-                    break;
-                case 7:
-                    if (field.Type == TType.Byte)
-                    {
-                        Star = iprot.ReadByte();
-                    }
-                    else
-                    {
-                        TProtocolUtil.Skip(iprot, field.Type);
-                    }
-                    break;
-                case 8:
-                    if (field.Type == TType.I16)
-                    {
-                        LvlLimit = iprot.ReadI16();
-                    }
-                    else
-                    {
-                        TProtocolUtil.Skip(iprot, field.Type);
-                    }
-                    break;
-                case 9:
-                    if (field.Type == TType.Byte)
-                    {
-                        BreakLimit = iprot.ReadByte();
-                    }
-                    else
-                    {
-                        TProtocolUtil.Skip(iprot, field.Type);
-                    }
-                    break;
-                case 10:
-                    if (field.Type == TType.Byte)
-                    {
-                        Sex = iprot.ReadByte();
-                    }
-                    else
-                    {
-                        TProtocolUtil.Skip(iprot, field.Type);
-                    }
-                    break;
-                case 11:
-                    if (field.Type == TType.Byte)
-                    {
-                        Job = iprot.ReadByte();
-                    }
-                    else
-                    {
-                        TProtocolUtil.Skip(iprot, field.Type);
-                    }
-                    break;
-                case 12:
-                    if (field.Type == TType.I32)
-                    {
-                        Attack = iprot.ReadI32();
-                    }
-                    else
-                    {
-                        TProtocolUtil.Skip(iprot, field.Type);
-                    }
-                    break;
-                case 13:
-                    if (field.Type == TType.I32)
-                    {
-                        AttackAddtion = iprot.ReadI32();
-                    }
-                    else
-                    {
-                        TProtocolUtil.Skip(iprot, field.Type);
-                    }
-                    break;
-                case 14:
-                    if (field.Type == TType.I32)
-                    {
-                        HP = iprot.ReadI32();
-                    }
-                    else
-                    {
-                        TProtocolUtil.Skip(iprot, field.Type);
-                    }
-                    break;
-                case 15:
-                    if (field.Type == TType.I32)
-                    {
-                        HPAddtion = iprot.ReadI32();
-                    }
-                    else
-                    {
-                        TProtocolUtil.Skip(iprot, field.Type);
-                    }
-                    break;
-                case 16:
-                    if (field.Type == TType.I32)
-                    {
-                        Recover = iprot.ReadI32();
-                    }
-                    else
-                    {
-                        TProtocolUtil.Skip(iprot, field.Type);
-                    }
-                    break;
-                case 17:
-                    if (field.Type == TType.I32)
-                    {
-                        RecoverAddtion = iprot.ReadI32();
-                    }
-                    else
-                    {
-                        TProtocolUtil.Skip(iprot, field.Type);
-                    }
-                    break;
-                case 18:
-                    if (field.Type == TType.I32)
-                    {
-                        MP = iprot.ReadI32();
-                    }
-                    else
-                    {
-                        TProtocolUtil.Skip(iprot, field.Type);
-                    }
-                    break;
-                case 19:
-                    if (field.Type == TType.I32)
-                    {
-                        MPAddtion = iprot.ReadI32();
-                    }
-                    else
-                    {
-                        TProtocolUtil.Skip(iprot, field.Type);
-                    }
-                    break;
-                case 20:
-                    if (field.Type == TType.I32)
-                    {
-                        Lucky = iprot.ReadI32();
-                    }
-                    else
-                    {
-                        TProtocolUtil.Skip(iprot, field.Type);
-                    }
-                    break;
-                case 21:
-                    if (field.Type == TType.I32)
-                    {
-                        Price = iprot.ReadI32();
-                    }
-                    else
-                    {
-                        TProtocolUtil.Skip(iprot, field.Type);
-                    }
-                    break;
-                case 22:
-                    if (field.Type == TType.I32)
-                    {
-                        LeaderSkill = iprot.ReadI32();
-                    }
-                    else
-                    {
-                        TProtocolUtil.Skip(iprot, field.Type);
-                    }
-                    break;
-                case 23:
-                    if (field.Type == TType.I32)
-                    {
-                        ActiveSkill = iprot.ReadI32();
-                    }
-                    else
-                    {
-                        TProtocolUtil.Skip(iprot, field.Type);
-                    }
-                    break;
-                case 24:
-                    if (field.Type == TType.I32)
-                    {
-                        SpSkill = iprot.ReadI32();
-                    }
-                    else
-                    {
-                        TProtocolUtil.Skip(iprot, field.Type);
-                    }
-                    break;
-                case 25:
-                    if (field.Type == TType.I32)
-                    {
-                        PassiveSkill1 = iprot.ReadI32();
-                    }
-                    else
-                    {
-                        TProtocolUtil.Skip(iprot, field.Type);
-                    }
-                    break;
-                case 26:
-                    if (field.Type == TType.I32)
-                    {
-                        PassiveSkill2 = iprot.ReadI32();
-                    }
-                    else
-                    {
-                        TProtocolUtil.Skip(iprot, field.Type);
-                    }
-                    break;
-                case 27:
-                    if (field.Type == TType.I32)
-                    {
-                        PassiveSkill3 = iprot.ReadI32();
-                    }
-                    else
-                    {
-                        TProtocolUtil.Skip(iprot, field.Type);
-                    }
-                    break;
-                case 28:
-                    if (field.Type == TType.I32)
-                    {
-                        PassiveSkill4 = iprot.ReadI32();
-                    }
-                    else
-                    {
-                        TProtocolUtil.Skip(iprot, field.Type);
-                    }
-                    break;
-                default:
-                    TProtocolUtil.Skip(iprot, field.Type);
-                    break;
+            break;
+          case 2:
+            if (field.Type == TType.String) {
+              Name = iprot.ReadString();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
             }
-            iprot.ReadFieldEnd();
+            break;
+          case 3:
+            if (field.Type == TType.String) {
+              Desc = iprot.ReadString();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 4:
+            if (field.Type == TType.I32) {
+              Icon = iprot.ReadI32();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 5:
+            if (field.Type == TType.Byte) {
+              Force = iprot.ReadByte();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 7:
+            if (field.Type == TType.Byte) {
+              Star = iprot.ReadByte();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 8:
+            if (field.Type == TType.I16) {
+              LvlLimit = iprot.ReadI16();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 9:
+            if (field.Type == TType.Byte) {
+              BreakLimit = iprot.ReadByte();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 10:
+            if (field.Type == TType.Byte) {
+              Sex = iprot.ReadByte();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 11:
+            if (field.Type == TType.Byte) {
+              Job = iprot.ReadByte();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 12:
+            if (field.Type == TType.I32) {
+              Attack = iprot.ReadI32();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 13:
+            if (field.Type == TType.I32) {
+              AttackAddtion = iprot.ReadI32();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 14:
+            if (field.Type == TType.I32) {
+              HP = iprot.ReadI32();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 15:
+            if (field.Type == TType.I32) {
+              HPAddtion = iprot.ReadI32();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 16:
+            if (field.Type == TType.I32) {
+              Recover = iprot.ReadI32();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 17:
+            if (field.Type == TType.I32) {
+              RecoverAddtion = iprot.ReadI32();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 18:
+            if (field.Type == TType.I32) {
+              MP = iprot.ReadI32();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 19:
+            if (field.Type == TType.I32) {
+              MPAddtion = iprot.ReadI32();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 20:
+            if (field.Type == TType.I32) {
+              Lucky = iprot.ReadI32();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 21:
+            if (field.Type == TType.I32) {
+              Price = iprot.ReadI32();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 22:
+            if (field.Type == TType.I32) {
+              LeaderSkill = iprot.ReadI32();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 23:
+            if (field.Type == TType.I32) {
+              ActiveSkill = iprot.ReadI32();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 24:
+            if (field.Type == TType.I32) {
+              SpSkill = iprot.ReadI32();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 25:
+            if (field.Type == TType.I32) {
+              PassiveSkill1 = iprot.ReadI32();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 26:
+            if (field.Type == TType.I32) {
+              PassiveSkill2 = iprot.ReadI32();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 27:
+            if (field.Type == TType.I32) {
+              PassiveSkill3 = iprot.ReadI32();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 28:
+            if (field.Type == TType.I32) {
+              PassiveSkill4 = iprot.ReadI32();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          default: 
+            TProtocolUtil.Skip(iprot, field.Type);
+            break;
         }
-        iprot.ReadStructEnd();
+        iprot.ReadFieldEnd();
+      }
+      iprot.ReadStructEnd();
     }
 
-    public void Write(TProtocol oprot)
-    {
-        TStruct struc = new TStruct("HeroTemplate");
-        oprot.WriteStructBegin(struc);
-        TField field = new TField();
-        if (__isset.id)
-        {
-            field.Name = "id";
-            field.Type = TType.I32;
-            field.ID = 1;
-            oprot.WriteFieldBegin(field);
-            oprot.WriteI32(Id);
-            oprot.WriteFieldEnd();
-        }
-        if (Name != null && __isset.name)
-        {
-            field.Name = "name";
-            field.Type = TType.String;
-            field.ID = 2;
-            oprot.WriteFieldBegin(field);
-            oprot.WriteString(Name);
-            oprot.WriteFieldEnd();
-        }
-        if (Desc != null && __isset.desc)
-        {
-            field.Name = "desc";
-            field.Type = TType.String;
-            field.ID = 3;
-            oprot.WriteFieldBegin(field);
-            oprot.WriteString(Desc);
-            oprot.WriteFieldEnd();
-        }
-        if (__isset.icon)
-        {
-            field.Name = "icon";
-            field.Type = TType.I32;
-            field.ID = 4;
-            oprot.WriteFieldBegin(field);
-            oprot.WriteI32(Icon);
-            oprot.WriteFieldEnd();
-        }
-        if (__isset.force)
-        {
-            field.Name = "force";
-            field.Type = TType.Byte;
-            field.ID = 5;
-            oprot.WriteFieldBegin(field);
-            oprot.WriteByte(Force);
-            oprot.WriteFieldEnd();
-        }
-        if (__isset.star)
-        {
-            field.Name = "star";
-            field.Type = TType.Byte;
-            field.ID = 7;
-            oprot.WriteFieldBegin(field);
-            oprot.WriteByte(Star);
-            oprot.WriteFieldEnd();
-        }
-        if (__isset.lvlLimit)
-        {
-            field.Name = "lvlLimit";
-            field.Type = TType.I16;
-            field.ID = 8;
-            oprot.WriteFieldBegin(field);
-            oprot.WriteI16(LvlLimit);
-            oprot.WriteFieldEnd();
-        }
-        if (__isset.breakLimit)
-        {
-            field.Name = "breakLimit";
-            field.Type = TType.Byte;
-            field.ID = 9;
-            oprot.WriteFieldBegin(field);
-            oprot.WriteByte(BreakLimit);
-            oprot.WriteFieldEnd();
-        }
-        if (__isset.sex)
-        {
-            field.Name = "sex";
-            field.Type = TType.Byte;
-            field.ID = 10;
-            oprot.WriteFieldBegin(field);
-            oprot.WriteByte(Sex);
-            oprot.WriteFieldEnd();
-        }
-        if (__isset.job)
-        {
-            field.Name = "job";
-            field.Type = TType.Byte;
-            field.ID = 11;
-            oprot.WriteFieldBegin(field);
-            oprot.WriteByte(Job);
-            oprot.WriteFieldEnd();
-        }
-        if (__isset.attack)
-        {
-            field.Name = "attack";
-            field.Type = TType.I32;
-            field.ID = 12;
-            oprot.WriteFieldBegin(field);
-            oprot.WriteI32(Attack);
-            oprot.WriteFieldEnd();
-        }
-        if (__isset.attackAddtion)
-        {
-            field.Name = "attackAddtion";
-            field.Type = TType.I32;
-            field.ID = 13;
-            oprot.WriteFieldBegin(field);
-            oprot.WriteI32(AttackAddtion);
-            oprot.WriteFieldEnd();
-        }
-        if (__isset.HP)
-        {
-            field.Name = "HP";
-            field.Type = TType.I32;
-            field.ID = 14;
-            oprot.WriteFieldBegin(field);
-            oprot.WriteI32(HP);
-            oprot.WriteFieldEnd();
-        }
-        if (__isset.HPAddtion)
-        {
-            field.Name = "HPAddtion";
-            field.Type = TType.I32;
-            field.ID = 15;
-            oprot.WriteFieldBegin(field);
-            oprot.WriteI32(HPAddtion);
-            oprot.WriteFieldEnd();
-        }
-        if (__isset.recover)
-        {
-            field.Name = "recover";
-            field.Type = TType.I32;
-            field.ID = 16;
-            oprot.WriteFieldBegin(field);
-            oprot.WriteI32(Recover);
-            oprot.WriteFieldEnd();
-        }
-        if (__isset.recoverAddtion)
-        {
-            field.Name = "recoverAddtion";
-            field.Type = TType.I32;
-            field.ID = 17;
-            oprot.WriteFieldBegin(field);
-            oprot.WriteI32(RecoverAddtion);
-            oprot.WriteFieldEnd();
-        }
-        if (__isset.MP)
-        {
-            field.Name = "MP";
-            field.Type = TType.I32;
-            field.ID = 18;
-            oprot.WriteFieldBegin(field);
-            oprot.WriteI32(MP);
-            oprot.WriteFieldEnd();
-        }
-        if (__isset.MPAddtion)
-        {
-            field.Name = "MPAddtion";
-            field.Type = TType.I32;
-            field.ID = 19;
-            oprot.WriteFieldBegin(field);
-            oprot.WriteI32(MPAddtion);
-            oprot.WriteFieldEnd();
-        }
-        if (__isset.lucky)
-        {
-            field.Name = "lucky";
-            field.Type = TType.I32;
-            field.ID = 20;
-            oprot.WriteFieldBegin(field);
-            oprot.WriteI32(Lucky);
-            oprot.WriteFieldEnd();
-        }
-        if (__isset.price)
-        {
-            field.Name = "price";
-            field.Type = TType.I32;
-            field.ID = 21;
-            oprot.WriteFieldBegin(field);
-            oprot.WriteI32(Price);
-            oprot.WriteFieldEnd();
-        }
-        if (__isset.leaderSkill)
-        {
-            field.Name = "leaderSkill";
-            field.Type = TType.I32;
-            field.ID = 22;
-            oprot.WriteFieldBegin(field);
-            oprot.WriteI32(LeaderSkill);
-            oprot.WriteFieldEnd();
-        }
-        if (__isset.activeSkill)
-        {
-            field.Name = "activeSkill";
-            field.Type = TType.I32;
-            field.ID = 23;
-            oprot.WriteFieldBegin(field);
-            oprot.WriteI32(ActiveSkill);
-            oprot.WriteFieldEnd();
-        }
-        if (__isset.spSkill)
-        {
-            field.Name = "spSkill";
-            field.Type = TType.I32;
-            field.ID = 24;
-            oprot.WriteFieldBegin(field);
-            oprot.WriteI32(SpSkill);
-            oprot.WriteFieldEnd();
-        }
-        if (__isset.passiveSkill1)
-        {
-            field.Name = "passiveSkill1";
-            field.Type = TType.I32;
-            field.ID = 25;
-            oprot.WriteFieldBegin(field);
-            oprot.WriteI32(PassiveSkill1);
-            oprot.WriteFieldEnd();
-        }
-        if (__isset.passiveSkill2)
-        {
-            field.Name = "passiveSkill2";
-            field.Type = TType.I32;
-            field.ID = 26;
-            oprot.WriteFieldBegin(field);
-            oprot.WriteI32(PassiveSkill2);
-            oprot.WriteFieldEnd();
-        }
-        if (__isset.passiveSkill3)
-        {
-            field.Name = "passiveSkill3";
-            field.Type = TType.I32;
-            field.ID = 27;
-            oprot.WriteFieldBegin(field);
-            oprot.WriteI32(PassiveSkill3);
-            oprot.WriteFieldEnd();
-        }
-        if (__isset.passiveSkill4)
-        {
-            field.Name = "passiveSkill4";
-            field.Type = TType.I32;
-            field.ID = 28;
-            oprot.WriteFieldBegin(field);
-            oprot.WriteI32(PassiveSkill4);
-            oprot.WriteFieldEnd();
-        }
-        oprot.WriteFieldStop();
-        oprot.WriteStructEnd();
+    public void Write(TProtocol oprot) {
+      TStruct struc = new TStruct("HeroTemplate");
+      oprot.WriteStructBegin(struc);
+      TField field = new TField();
+      if (__isset.id) {
+        field.Name = "id";
+        field.Type = TType.I32;
+        field.ID = 1;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteI32(Id);
+        oprot.WriteFieldEnd();
+      }
+      if (Name != null && __isset.name) {
+        field.Name = "name";
+        field.Type = TType.String;
+        field.ID = 2;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteString(Name);
+        oprot.WriteFieldEnd();
+      }
+      if (Desc != null && __isset.desc) {
+        field.Name = "desc";
+        field.Type = TType.String;
+        field.ID = 3;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteString(Desc);
+        oprot.WriteFieldEnd();
+      }
+      if (__isset.icon) {
+        field.Name = "icon";
+        field.Type = TType.I32;
+        field.ID = 4;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteI32(Icon);
+        oprot.WriteFieldEnd();
+      }
+      if (__isset.force) {
+        field.Name = "force";
+        field.Type = TType.Byte;
+        field.ID = 5;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteByte(Force);
+        oprot.WriteFieldEnd();
+      }
+      if (__isset.star) {
+        field.Name = "star";
+        field.Type = TType.Byte;
+        field.ID = 7;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteByte(Star);
+        oprot.WriteFieldEnd();
+      }
+      if (__isset.lvlLimit) {
+        field.Name = "lvlLimit";
+        field.Type = TType.I16;
+        field.ID = 8;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteI16(LvlLimit);
+        oprot.WriteFieldEnd();
+      }
+      if (__isset.breakLimit) {
+        field.Name = "breakLimit";
+        field.Type = TType.Byte;
+        field.ID = 9;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteByte(BreakLimit);
+        oprot.WriteFieldEnd();
+      }
+      if (__isset.sex) {
+        field.Name = "sex";
+        field.Type = TType.Byte;
+        field.ID = 10;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteByte(Sex);
+        oprot.WriteFieldEnd();
+      }
+      if (__isset.job) {
+        field.Name = "job";
+        field.Type = TType.Byte;
+        field.ID = 11;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteByte(Job);
+        oprot.WriteFieldEnd();
+      }
+      if (__isset.attack) {
+        field.Name = "attack";
+        field.Type = TType.I32;
+        field.ID = 12;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteI32(Attack);
+        oprot.WriteFieldEnd();
+      }
+      if (__isset.attackAddtion) {
+        field.Name = "attackAddtion";
+        field.Type = TType.I32;
+        field.ID = 13;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteI32(AttackAddtion);
+        oprot.WriteFieldEnd();
+      }
+      if (__isset.HP) {
+        field.Name = "HP";
+        field.Type = TType.I32;
+        field.ID = 14;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteI32(HP);
+        oprot.WriteFieldEnd();
+      }
+      if (__isset.HPAddtion) {
+        field.Name = "HPAddtion";
+        field.Type = TType.I32;
+        field.ID = 15;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteI32(HPAddtion);
+        oprot.WriteFieldEnd();
+      }
+      if (__isset.recover) {
+        field.Name = "recover";
+        field.Type = TType.I32;
+        field.ID = 16;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteI32(Recover);
+        oprot.WriteFieldEnd();
+      }
+      if (__isset.recoverAddtion) {
+        field.Name = "recoverAddtion";
+        field.Type = TType.I32;
+        field.ID = 17;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteI32(RecoverAddtion);
+        oprot.WriteFieldEnd();
+      }
+      if (__isset.MP) {
+        field.Name = "MP";
+        field.Type = TType.I32;
+        field.ID = 18;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteI32(MP);
+        oprot.WriteFieldEnd();
+      }
+      if (__isset.MPAddtion) {
+        field.Name = "MPAddtion";
+        field.Type = TType.I32;
+        field.ID = 19;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteI32(MPAddtion);
+        oprot.WriteFieldEnd();
+      }
+      if (__isset.lucky) {
+        field.Name = "lucky";
+        field.Type = TType.I32;
+        field.ID = 20;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteI32(Lucky);
+        oprot.WriteFieldEnd();
+      }
+      if (__isset.price) {
+        field.Name = "price";
+        field.Type = TType.I32;
+        field.ID = 21;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteI32(Price);
+        oprot.WriteFieldEnd();
+      }
+      if (__isset.leaderSkill) {
+        field.Name = "leaderSkill";
+        field.Type = TType.I32;
+        field.ID = 22;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteI32(LeaderSkill);
+        oprot.WriteFieldEnd();
+      }
+      if (__isset.activeSkill) {
+        field.Name = "activeSkill";
+        field.Type = TType.I32;
+        field.ID = 23;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteI32(ActiveSkill);
+        oprot.WriteFieldEnd();
+      }
+      if (__isset.spSkill) {
+        field.Name = "spSkill";
+        field.Type = TType.I32;
+        field.ID = 24;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteI32(SpSkill);
+        oprot.WriteFieldEnd();
+      }
+      if (__isset.passiveSkill1) {
+        field.Name = "passiveSkill1";
+        field.Type = TType.I32;
+        field.ID = 25;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteI32(PassiveSkill1);
+        oprot.WriteFieldEnd();
+      }
+      if (__isset.passiveSkill2) {
+        field.Name = "passiveSkill2";
+        field.Type = TType.I32;
+        field.ID = 26;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteI32(PassiveSkill2);
+        oprot.WriteFieldEnd();
+      }
+      if (__isset.passiveSkill3) {
+        field.Name = "passiveSkill3";
+        field.Type = TType.I32;
+        field.ID = 27;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteI32(PassiveSkill3);
+        oprot.WriteFieldEnd();
+      }
+      if (__isset.passiveSkill4) {
+        field.Name = "passiveSkill4";
+        field.Type = TType.I32;
+        field.ID = 28;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteI32(PassiveSkill4);
+        oprot.WriteFieldEnd();
+      }
+      oprot.WriteFieldStop();
+      oprot.WriteStructEnd();
     }
 
-    public override string ToString()
-    {
-        StringBuilder sb = new StringBuilder("HeroTemplate(");
-        sb.Append("Id: ");
-        sb.Append(Id);
-        sb.Append(",Name: ");
-        sb.Append(Name);
-        sb.Append(",Desc: ");
-        sb.Append(Desc);
-        sb.Append(",Icon: ");
-        sb.Append(Icon);
-        sb.Append(",Force: ");
-        sb.Append(Force);
-        sb.Append(",Star: ");
-        sb.Append(Star);
-        sb.Append(",LvlLimit: ");
-        sb.Append(LvlLimit);
-        sb.Append(",BreakLimit: ");
-        sb.Append(BreakLimit);
-        sb.Append(",Sex: ");
-        sb.Append(Sex);
-        sb.Append(",Job: ");
-        sb.Append(Job);
-        sb.Append(",Attack: ");
-        sb.Append(Attack);
-        sb.Append(",AttackAddtion: ");
-        sb.Append(AttackAddtion);
-        sb.Append(",HP: ");
-        sb.Append(HP);
-        sb.Append(",HPAddtion: ");
-        sb.Append(HPAddtion);
-        sb.Append(",Recover: ");
-        sb.Append(Recover);
-        sb.Append(",RecoverAddtion: ");
-        sb.Append(RecoverAddtion);
-        sb.Append(",MP: ");
-        sb.Append(MP);
-        sb.Append(",MPAddtion: ");
-        sb.Append(MPAddtion);
-        sb.Append(",Lucky: ");
-        sb.Append(Lucky);
-        sb.Append(",Price: ");
-        sb.Append(Price);
-        sb.Append(",LeaderSkill: ");
-        sb.Append(LeaderSkill);
-        sb.Append(",ActiveSkill: ");
-        sb.Append(ActiveSkill);
-        sb.Append(",SpSkill: ");
-        sb.Append(SpSkill);
-        sb.Append(",PassiveSkill1: ");
-        sb.Append(PassiveSkill1);
-        sb.Append(",PassiveSkill2: ");
-        sb.Append(PassiveSkill2);
-        sb.Append(",PassiveSkill3: ");
-        sb.Append(PassiveSkill3);
-        sb.Append(",PassiveSkill4: ");
-        sb.Append(PassiveSkill4);
-        sb.Append(")");
-        return sb.ToString();
+    public override string ToString() {
+      StringBuilder sb = new StringBuilder("HeroTemplate(");
+      sb.Append("Id: ");
+      sb.Append(Id);
+      sb.Append(",Name: ");
+      sb.Append(Name);
+      sb.Append(",Desc: ");
+      sb.Append(Desc);
+      sb.Append(",Icon: ");
+      sb.Append(Icon);
+      sb.Append(",Force: ");
+      sb.Append(Force);
+      sb.Append(",Star: ");
+      sb.Append(Star);
+      sb.Append(",LvlLimit: ");
+      sb.Append(LvlLimit);
+      sb.Append(",BreakLimit: ");
+      sb.Append(BreakLimit);
+      sb.Append(",Sex: ");
+      sb.Append(Sex);
+      sb.Append(",Job: ");
+      sb.Append(Job);
+      sb.Append(",Attack: ");
+      sb.Append(Attack);
+      sb.Append(",AttackAddtion: ");
+      sb.Append(AttackAddtion);
+      sb.Append(",HP: ");
+      sb.Append(HP);
+      sb.Append(",HPAddtion: ");
+      sb.Append(HPAddtion);
+      sb.Append(",Recover: ");
+      sb.Append(Recover);
+      sb.Append(",RecoverAddtion: ");
+      sb.Append(RecoverAddtion);
+      sb.Append(",MP: ");
+      sb.Append(MP);
+      sb.Append(",MPAddtion: ");
+      sb.Append(MPAddtion);
+      sb.Append(",Lucky: ");
+      sb.Append(Lucky);
+      sb.Append(",Price: ");
+      sb.Append(Price);
+      sb.Append(",LeaderSkill: ");
+      sb.Append(LeaderSkill);
+      sb.Append(",ActiveSkill: ");
+      sb.Append(ActiveSkill);
+      sb.Append(",SpSkill: ");
+      sb.Append(SpSkill);
+      sb.Append(",PassiveSkill1: ");
+      sb.Append(PassiveSkill1);
+      sb.Append(",PassiveSkill2: ");
+      sb.Append(PassiveSkill2);
+      sb.Append(",PassiveSkill3: ");
+      sb.Append(PassiveSkill3);
+      sb.Append(",PassiveSkill4: ");
+      sb.Append(PassiveSkill4);
+      sb.Append(")");
+      return sb.ToString();
     }
+
+  }
 
 }

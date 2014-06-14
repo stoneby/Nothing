@@ -26,6 +26,32 @@ namespace KXSGCodec
   #endif
   public partial class CSQueryAllItems : TBase
   {
+    private sbyte _bagType;
+
+    /// <summary>
+    /// 背包类型 0-主背包 1-回购背包
+    /// </summary>
+    public sbyte BagType
+    {
+      get
+      {
+        return _bagType;
+      }
+      set
+      {
+        __isset.bagType = true;
+        this._bagType = value;
+      }
+    }
+
+
+    public Isset __isset;
+    #if !SILVERLIGHT
+    [Serializable]
+    #endif
+    public struct Isset {
+      public bool bagType;
+    }
 
     public CSQueryAllItems() {
     }
@@ -42,6 +68,13 @@ namespace KXSGCodec
         }
         switch (field.ID)
         {
+          case 1:
+            if (field.Type == TType.Byte) {
+              BagType = iprot.ReadByte();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
           default: 
             TProtocolUtil.Skip(iprot, field.Type);
             break;
@@ -54,12 +87,23 @@ namespace KXSGCodec
     public void Write(TProtocol oprot) {
       TStruct struc = new TStruct("CSQueryAllItems");
       oprot.WriteStructBegin(struc);
+      TField field = new TField();
+      if (__isset.bagType) {
+        field.Name = "bagType";
+        field.Type = TType.Byte;
+        field.ID = 1;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteByte(BagType);
+        oprot.WriteFieldEnd();
+      }
       oprot.WriteFieldStop();
       oprot.WriteStructEnd();
     }
 
     public override string ToString() {
       StringBuilder sb = new StringBuilder("CSQueryAllItems(");
+      sb.Append("BagType: ");
+      sb.Append(BagType);
       sb.Append(")");
       return sb.ToString();
     }

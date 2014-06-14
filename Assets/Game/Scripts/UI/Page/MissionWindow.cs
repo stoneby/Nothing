@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using KXSGCodec;
 using UnityEngine;
 
@@ -8,7 +9,7 @@ using UnityEngine;
 public class MissionWindow : Window
 {
     private GameObject MapContainer;
-    private GameObject RaidContainer;
+//    private GameObject RaidContainer;
     private GameObject FriendContainer;
 
     private GameObject LevelLabel;
@@ -18,18 +19,19 @@ public class MissionWindow : Window
     private GameObject ExpProgress;
 
     private GameObject MapEvent;
-    private GameObject ItemsTable;
-    private GameObject FriendsTable;
+    private GameObject MapInfoLabel;
+    private GameObject ItemsContainer;
 
     private GameObject EventSprite;
     private GameObject EventNameLabel;
     private GameObject EventTimeLabel;
 
-    private GameObject ItemPrefab;
-    private GameObject FriendItemPrefab;
+    private GameObject RewardBox;
+    private bool HasReward;
 
     private GameObject BtnReturn;
     private UIEventListener BtnCloseUIEventListener;
+    private UIEventListener BtnRewardUIEventListener;
 
     private List<RaidInfo> Raids; 
 
@@ -37,9 +39,9 @@ public class MissionWindow : Window
 
     public override void OnEnter()
     {
-        if (MissionModelLocator.Instance.CurrRaidType != MissionModelLocator.Instance.RaidType)
+        if (MissionModelLocator.Instance.CurrRaidType != MissionModelLocator.Instance.NextRaidType)
         {
-            MissionModelLocator.Instance.CurrRaidType = MissionModelLocator.Instance.RaidType;
+            MissionModelLocator.Instance.CurrRaidType = MissionModelLocator.Instance.NextRaidType;
             MissionModelLocator.Instance.MissionStep = RaidType.StepRaidList;
         }
         switch (MissionModelLocator.Instance.MissionStep)
@@ -58,11 +60,10 @@ public class MissionWindow : Window
                 break;
         }
 
-        EventManager.Instance.AddListener<MissionItemEvent>(OnItemClicktHandler);
         EventManager.Instance.AddListener<FriendEvent>(OnFriendHandler);
-        EventManager.Instance.AddListener<FriendClickEvent>(OnFriendItemClickHandler);
 
         BtnCloseUIEventListener.onClick += OnCloseButtonClick;
+        BtnRewardUIEventListener.onClick += OnRewardButtonClick;
 
         var lb = LevelLabel.GetComponent<UILabel>();
         lb.text = PlayerModelLocator.Instance.Level.ToString();
@@ -87,68 +88,106 @@ public class MissionWindow : Window
         MissionModelLocator.Instance.MissionStep = RaidType.StepRaidList;
         MapEvent.SetActive(false);
         MapContainer.SetActive(true);
-        RaidContainer.SetActive(true);
+        ItemsContainer.SetActive(true);
         FriendContainer.SetActive(false);
+        RewardBox.SetActive(false);
         MissionModelLocator.Instance.ComputeStagecount();
-        
-        switch (MissionModelLocator.Instance.CurrRaidType)
-        {
-            case RaidType.RaidNormal:
-                Raids = MissionModelLocator.Instance.RaidLoadingAll.RaidInfoNormal;
-                break;
-            case RaidType.RaidElite:
-                Raids = MissionModelLocator.Instance.RaidLoadingAll.RaidInfoElite;
-                break;
-            case RaidType.RaidHero:
-                Raids = MissionModelLocator.Instance.RaidLoadingAll.RaidInfoMaster;
-                break;
-            default:
-                Raids = MissionModelLocator.Instance.RaidLoadingAll.RaidInfoNormal;
-                break;
-        }
-        var table = ItemsTable.GetComponent<UITable>();
-        int itemindex = 0;
-        GameObject item;
-        for (int i = Raids.Count - 1; i >= 0; i--)
-        {
-            var raid = Raids[i];
-            //raid.TemplateId;
-            
-            if (itemindex < table.children.Count)
-            {
-                item = table.children[itemindex].gameObject;
-                item.SetActive(true);
-            }
-            else
-            {
-                item = NGUITools.AddChild(ItemsTable, ItemPrefab);
-            }
-           
-            var col = item.GetComponent<MissionItemControl>();
-            col.InitRaid(i, MissionModelLocator.Instance.GetRaidByTemplateId(raid.TemplateId), raid,
-                MissionModelLocator.Instance.GetAdditionInfoByRaidTemplateID(raid.TemplateId));
 
-            itemindex++;
+        Raids = MissionModelLocator.Instance.GetCurrentRaids();
+        var table = ItemsContainer.GetComponent<KxVScrollRender>();
+        List<RaidInfo> temp;
+        if (MissionModelLocator.Instance.CurrRaidType == RaidType.RaidNormal)
+        {
+            temp = new List<RaidInfo>(Raids.OrderByDescending(raidInfo => raidInfo.TemplateId));
+        }
+        else
+        {
+            temp = new List<RaidInfo>(Raids.OrderBy(raidInfo => raidInfo.TemplateId));
         }
 
-        while (itemindex < table.children.Count)
+//        for (int i = 0; i < 10; i++)
+//        {
+//            for (int j = 0; j < Raids.Count; j++)
+//            {
+//                temp.Add(Raids[j]);
+//            }
+//        }
+
+        table.Init(temp, "Prefabs/Component/MissionItem", 537, 521, 537, 160, OnItemClicktHandler);
+
+        var lb = MapInfoLabel.GetComponent<UILabel>();
+        lb.text = "";
+    }
+
+
+    private List<RaidStageInfo> GetStages(RaidInfo raid)
+    {
+        Raids = MissionModelLocator.Instance.GetCurrentRaids();
+        for (int i = 0; i < Raids.Count; i++)
         {
-            item = table.children[itemindex].gameObject;
-            item.SetActive(false);
-            itemindex ++;
+            if (Raids[i].TemplateId == raid.TemplateId)
+            {
+                return Raids[i].StateInfo;
+            }
         }
+        return raid.StateInfo;
     }
 
     private void SetStageList(RaidInfo raid)
     {
         MissionModelLocator.Instance.MissionStep = RaidType.StepStageList;
         MapContainer.SetActive(true);
-        RaidContainer.SetActive(true);
+        ItemsContainer.SetActive(true);
         FriendContainer.SetActive(false);
-        var table = ItemsTable.GetComponent<UITable>();
-        int itemindex = 0;
-        GameObject item;
-        var stages = raid.StateInfo;
+        RewardBox.SetActive(true);
+        var boximage = RewardBox.transform.FindChild("Background").gameObject;
+        var boxbg = boximage.GetComponent<UISprite>();
+        HasReward = false;
+        if (raid.StateInfo.Count <= 1)
+        {
+            boxbg.color = new Color(0.33f, 0.33f, 0.33f, 1);
+        }
+        else if (raid.StateInfo[raid.StateInfo.Count - 1].Star <= 0)
+        {
+            boxbg.color = new Color(0.33f, 0.33f, 0.33f, 1);
+        }
+        else if (!MissionModelLocator.Instance.RaidLoadingAll.HasAwardInfo.Contains(raid.TemplateId))
+        {
+           
+            HasReward = MissionModelLocator.Instance.HasRaidReward(raid.TemplateId);
+            if (HasReward)
+            {
+                boxbg.color = new Color(255, 255, 255, 1);
+            }
+            else
+            {
+                boxbg.color = new Color(0.33f, 0.33f, 0.33f, 1);
+            }
+        }
+        else
+        {
+            RewardBox.SetActive(false);
+        }
+
+        var table = ItemsContainer.GetComponent<KxVScrollRender>();
+        var stages = GetStages(raid);
+        List<RaidStageInfo> temp;
+        if (MissionModelLocator.Instance.CurrRaidType == RaidType.RaidNormal)
+        {
+            temp = new List<RaidStageInfo>(stages.OrderByDescending(stageinfo => stageinfo.TemplateId));
+        }
+        else
+        {
+            temp = new List<RaidStageInfo>(stages.OrderBy(stageinfo => stageinfo.TemplateId));
+        }
+        table.Init(temp, "Prefabs/Component/MissionItem", 537, 521, 537, 160, OnItemClicktHandler);
+        
+
+        var lb = MapInfoLabel.GetComponent<UILabel>();
+        var raidtemp = MissionModelLocator.Instance.GetRaidByTemplateId(raid.TemplateId);
+        
+        lb.text = raidtemp.Name + "\n      " + raidtemp.RaidDesc;
+        
         var addition = MissionModelLocator.Instance.GetAdditionInfoByRaidTemplateID(raid.TemplateId);
         if (addition != null)
         {
@@ -175,38 +214,8 @@ public class MissionWindow : Window
                     sp.spriteName = "icon_wuhun";
                     lbname.text = "x1.5";
                     break;
-                default:
-                    break;
             }
-
-
-        }
-        for (int i = stages.Count - 1; i >= 0; i--)
-        {
-            var stage = stages[i];
-            //raid.TemplateId;
-
-            if (itemindex < table.children.Count)
-            {
-                item = table.children[itemindex].gameObject;
-                item.SetActive(true);
-            }
-            else
-            {
-                item = NGUITools.AddChild(ItemsTable, ItemPrefab);
-            }
-
-            var col = item.GetComponent<MissionItemControl>();
-            col.InitStage(i, MissionModelLocator.Instance.GetRaidStagrByTemplateId(stage.TemplateId), stage);
-
-            itemindex++;
-        }
-
-        while (itemindex < table.children.Count)
-        {
-            item = table.children[itemindex].gameObject;
-            item.SetActive(false);
-            itemindex++;
+            lbtime.text = MissionModelLocator.Instance.DestTime;
         }
     }
 
@@ -214,70 +223,57 @@ public class MissionWindow : Window
     {
         MissionModelLocator.Instance.MissionStep = RaidType.StepFriendList;
         MapContainer.SetActive(false);
-        RaidContainer.SetActive(false);
+        ItemsContainer.SetActive(false);
         FriendContainer.SetActive(true);
 
-        var table = FriendsTable.GetComponent<UITable>();
-        int itemindex = 0;
-        GameObject item;
+        var friendlist = new List<FriendVO>();
 
         for (int i = 0; i < friends.BattleFriend.Count; i++)
         {
-            var friend = friends.BattleFriend[i];
-            //raid.TemplateId;
-
-            if (itemindex < table.children.Count)
-            {
-                item = table.children[itemindex].gameObject;
-                item.SetActive(true);
-            }
-            else
-            {
-                item = NGUITools.AddChild(FriendsTable, FriendItemPrefab);
-            }
-
-            var col = item.GetComponent<FriendItemControl>();
-            col.Init(friend, true);
-
-            itemindex++;
+            var friend = new FriendVO();
+            friend.Data = friends.BattleFriend[i];
+            friend.IsFriend = true;
+            friendlist.Add(friend);
         }
 
         for (int i = 0; i < friends.BattleGuest.Count; i++)
         {
-            var friend = friends.BattleGuest[i];
-            //raid.TemplateId;
-
-            if (itemindex < table.children.Count)
-            {
-                item = table.children[itemindex].gameObject;
-                item.SetActive(true);
-            }
-            else
-            {
-                item = NGUITools.AddChild(FriendsTable, FriendItemPrefab);
-            }
-
-            var col = item.GetComponent<FriendItemControl>();
-            col.Init(friend, false);
-
-            itemindex++;
+            var friend = new FriendVO();
+            friend.Data = friends.BattleGuest[i];
+            friend.IsFriend = false;
+            friendlist.Add(friend);
         }
 
-        while (itemindex < table.children.Count)
+        var box = FriendContainer.GetComponent<KxVListRender>();
+        box.Init(friendlist, "Prefabs/Component/FriendItem", 1034, 522, 1034, 160, OnFriendSelected);
+    }
+
+    private void OnFriendSelected(GameObject obj)
+    {
+        var control = obj.GetComponent<FriendItemControl>();
+
+        MissionModelLocator.Instance.FriendData = control.FriendData;
+        if (HeroModelLocator.Instance.SCHeroList == null)
         {
-            item = table.children[itemindex].gameObject;
-            item.SetActive(false);
-            itemindex++;
+            HeroModelLocator.Instance.GetHeroPos = RaidType.GetHeroInBattle;
+            var csmsg = new CSHeroList();
+            NetManager.SendMessage(csmsg);
         }
+        else
+        {
+            WindowManager.Instance.Show(typeof(BattleConfirmTabWindow), true);
+        }
+        MissionModelLocator.Instance.MissionStep = RaidType.StepConfirm;
     }
 
     public override void OnExit()
     {
-        EventManager.Instance.RemoveListener<MissionItemEvent>(OnItemClicktHandler);
+//        EventManager.Instance.RemoveListener<MissionItemEvent>(OnItemClicktHandler);
         EventManager.Instance.RemoveListener<FriendEvent>(OnFriendHandler);
-        EventManager.Instance.RemoveListener<FriendClickEvent>(OnFriendItemClickHandler);
 
         if (BtnCloseUIEventListener != null) BtnCloseUIEventListener.onClick -= OnCloseButtonClick;
+        if (BtnRewardUIEventListener != null) BtnRewardUIEventListener.onClick -= OnRewardButtonClick;
+        
     }
 
     #endregion
@@ -286,15 +282,12 @@ public class MissionWindow : Window
     void Awake()
     {
         MapContainer = transform.FindChild("Map Container").gameObject;
-        RaidContainer = transform.FindChild("Items Container").gameObject;
-        FriendContainer = transform.FindChild("Friend Container").gameObject;
+        MapInfoLabel = transform.FindChild("Map Container/Map Info Label").gameObject;
+//        RaidContainer = transform.FindChild("Items Container").gameObject;
+        FriendContainer = transform.FindChild("VList Friend").gameObject;
+        ItemsContainer = transform.FindChild("VScrollList").gameObject;
 
         MapEvent = transform.FindChild("Map Container/Event Container").gameObject;
-        ItemsTable = transform.FindChild("Items Container/Scroll View/Table").gameObject;
-        ItemPrefab = Resources.Load("Prefabs/Component/MissionItem") as GameObject;
-
-        FriendsTable = transform.FindChild("Friend Container/Scroll View/Table").gameObject;
-        FriendItemPrefab = Resources.Load("Prefabs/Component/FriendItem") as GameObject;
 
         EnergyLabel = transform.FindChild("Top Bar Container/Energy Label").gameObject;
         LevelLabel = transform.FindChild("Top Bar Container/Level Label").gameObject;
@@ -308,32 +301,44 @@ public class MissionWindow : Window
         EventNameLabel = transform.FindChild("Map Container/Event Container/Event Label").gameObject;
         EventTimeLabel = transform.FindChild("Map Container/Event Container/Left Label").gameObject;
 
+        RewardBox = transform.FindChild("Map Container/Image Button box").gameObject;
+
         BtnCloseUIEventListener = UIEventListener.Get(BtnReturn);
+        BtnRewardUIEventListener = UIEventListener.Get(RewardBox);
     }
     // Use this for initialization
-    void Start()
-    {
-    }
 
     #endregion
 
-    private MissionItemEvent MissionEvent;
-    private void OnItemClicktHandler(MissionItemEvent e)
+//    private MissionItemEvent MissionEvent;
+    private void OnItemClicktHandler(GameObject obj)
     {
-        if (e.IsRaidClicked)
+        var control = obj.GetComponent<MissionItemControl>();
+        if (control.IsRaid)
         {
-            MissionModelLocator.Instance.Raid = Raids[e.RaidIndex];
+            MissionModelLocator.Instance.Raid = control.RaidData;
             SetStageList(MissionModelLocator.Instance.Raid);
-            
         }
         else
         {
-            MissionEvent = e;
-            MissionModelLocator.Instance.SelectedStageId = e.StageId;
-            NetManager.SendMessage(new CSRaidQueryFriend());
-            // var csmsg = new CSRaidQueryFriend();
-            
-
+//            if (PlayerModelLocator.Instance.Energy < control.StageTemp.CostEnergy)
+//            {
+//                PopTextManager.PopTip(LanguageManager.Instance.GetTextValue("Poptip.HaveNotEnoughEnemy"));
+//            }
+//            else 
+            if (MissionModelLocator.Instance.RaidLoadingAll != null && 
+                MissionModelLocator.Instance.RaidLoadingAll.TodayFinishTimes != null && 
+                MissionModelLocator.Instance.RaidLoadingAll.TodayFinishTimes.ContainsKey(control.StageTemp.Id) &&
+                MissionModelLocator.Instance.RaidLoadingAll.TodayFinishTimes[control.StageTemp.Id] >= control.StageTemp.DailyLimitTimes)
+            {
+                var text = LanguageManager.Instance.GetTextValue("Poptip.Limit");
+                PopTextManager.PopTip(text);
+            }
+            else
+            {
+                MissionModelLocator.Instance.SelectedStageId = control.StageTemp.Id;
+                NetManager.SendMessage(new CSRaidQueryFriend());
+            }
         }
     }
 
@@ -341,23 +346,6 @@ public class MissionWindow : Window
     {
         MissionModelLocator.Instance.FriendsMsg = e.RaidFriend;
         SetFriendList(MissionModelLocator.Instance.FriendsMsg);
-    }
-
-    private void OnFriendItemClickHandler(FriendClickEvent e)
-    {
-        MissionModelLocator.Instance.FriendData = e.FriendData;
-        MissionModelLocator.Instance.IsFriend = e.IsFriend;
-        if (HeroModelLocator.Instance.SCHeroList == null)
-        {
-            HeroModelLocator.Instance.GetHeroPos = RaidType.GetHeroInBattle;
-            var csmsg = new CSHeroList();
-            NetManager.SendMessage(csmsg);
-        }
-        else
-        {
-            WindowManager.Instance.Show(typeof(BattleConfirmTabWindow), true);
-        }
-        MissionModelLocator.Instance.MissionStep = RaidType.StepConfirm;
     }
 
     private void OnCloseButtonClick(GameObject game)
@@ -379,6 +367,18 @@ public class MissionWindow : Window
             default:
                 SetMissionList();
                 break;
+        }
+    }
+
+    private void OnRewardButtonClick(GameObject game)
+    {
+        if (HasReward)
+        {
+            var csMsg = new CSRaidReceiveAwards();
+            csMsg.RaidId = MissionModelLocator.Instance.Raid.TemplateId;
+            NetManager.SendMessage(csMsg);
+            HasReward = false;
+            RewardBox.SetActive(false);
         }
     }
 }

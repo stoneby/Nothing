@@ -107,7 +107,7 @@ namespace com.kx.sglm.gs.battle.share.logic
 				{
 					// TODO: do you need log?
 //JAVA TO C# CONVERTER WARNING: The .NET Type.FullName property will not always yield results identical to the Java Class.getName method:
-					Console.WriteLine(string.Format("#AbstractBattleLooper.onAction.curSubAction == null,className = {0}", this.GetType().FullName));
+					Logger.LogError(string.Format("#AbstractBattleLooper.onAction.curSubAction == null,className = {0}", this.GetType().FullName));
 					break;
 				}
 				if (HangUp)
@@ -263,7 +263,7 @@ namespace com.kx.sglm.gs.battle.share.logic
 
 		protected internal virtual bool isActorDead(A actor)
 		{
-			return actor == null ? false :!actor.Alive;
+			return actor == null ? false :!actor.hasHp();
 		}
 
 		public virtual bool FirstEnter

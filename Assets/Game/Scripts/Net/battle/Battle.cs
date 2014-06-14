@@ -6,9 +6,11 @@ namespace com.kx.sglm.gs.battle.share
 	using BattleRecord = com.kx.sglm.gs.battle.share.data.record.BattleRecord;
 	using BattleState = com.kx.sglm.gs.battle.share.enums.BattleState;
 	using BattleType = com.kx.sglm.gs.battle.share.enums.BattleType;
+	using InnerBattleEvent = com.kx.sglm.gs.battle.share.@event.InnerBattleEvent;
 	using IBattleExecuter = com.kx.sglm.gs.battle.share.executer.IBattleExecuter;
 	using IBattleInputEvent = com.kx.sglm.gs.battle.share.input.IBattleInputEvent;
 	using BattleField = com.kx.sglm.gs.battle.share.logic.loop.BattleField;
+	using BattleScene = com.kx.sglm.gs.battle.share.logic.loop.BattleScene;
 
 	/// <summary>
 	/// 战斗入口
@@ -97,6 +99,18 @@ namespace com.kx.sglm.gs.battle.share
 			@event.fireEvent(this);
 		}
 
+		/// <summary>
+		/// 转发战斗内部事件 </summary>
+		/// <param name="innerEvent"> </param>
+		public virtual void sendBattleSceneEvent(InnerBattleEvent innerEvent)
+		{
+			if (battleField.CurState.Stoped)
+			{
+				return;
+			}
+			battleField.CurSubAction.handleBattleInnerEvent(innerEvent);
+		}
+
 		public virtual BattleArmy BattleArmy
 		{
 			get
@@ -126,6 +140,14 @@ namespace com.kx.sglm.gs.battle.share
 			set
 			{
 				this.battleField = value;
+			}
+		}
+
+		public virtual BattleScene CurScene
+		{
+			get
+			{
+				return battleField.CurSubAction;
 			}
 		}
 

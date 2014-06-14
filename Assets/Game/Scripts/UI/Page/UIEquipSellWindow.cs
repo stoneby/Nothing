@@ -57,7 +57,7 @@ public class UIEquipSellWindow : Window
         sortBtnLis = UIEventListener.Get(Utils.FindChild(transform, "Button-Sort").gameObject);
         sortLabel = sortBtnLis.GetComponentInChildren<UILabel>();
         var sortType = ItemModeLocator.Instance.OrderType;
-        sortLabel.text = StringTable.SortStrings[sortType];
+        sortLabel.text = StringTable.ItemSortStrings[sortType];
         tradeInLis = UIEventListener.Get(Utils.FindChild(transform, "Button-TradeIn").gameObject);
         infos = ItemModeLocator.Instance.ScAllItemInfos.ItemInfos ?? new List<ItemInfo>();
         capacity = ItemModeLocator.Instance.ScAllItemInfos.Capacity;
@@ -96,7 +96,7 @@ public class UIEquipSellWindow : Window
         if (childCount != itemCount)
         {
             var isAdd = childCount < itemCount;
-            Utils.AddOrDelItems(grid.transform, ItemPrefab.transform, isAdd, Mathf.Abs(itemCount - childCount), "Heros",
+            Utils.AddOrDelItems(grid.transform, ItemPrefab.transform, isAdd, Mathf.Abs(itemCount - childCount), "Items",
                     OnItemClicked);
             grid.repositionNow = true;
         }
@@ -108,8 +108,8 @@ public class UIEquipSellWindow : Window
     private void OnSortClicked(GameObject go)
     {
         var orderType = ItemModeLocator.Instance.OrderType;
-        orderType = (sbyte)((orderType + 1) % StringTable.SortStrings.Count);
-        sortLabel.text = StringTable.SortStrings[orderType];
+        orderType = (sbyte)((orderType + 1) % StringTable.ItemSortStrings.Count);
+        sortLabel.text = StringTable.ItemSortStrings[orderType];
         ItemModeLocator.Instance.OrderType = orderType;
         Refresh();
     }
@@ -123,7 +123,7 @@ public class UIEquipSellWindow : Window
         {
             var item = grid.transform.GetChild(i);
             var bagIndex = infos[i].BagIndex;
-            item.GetComponent<EquipItemInfoPack>().BagIndex = bagIndex;
+            item.GetComponent<EquipItem>().BagIndex = bagIndex;
             ShowItem(orderType, item, bagIndex);
         }
         itemNums.text = string.Format("{0}/{1}", infos.Count, capacity);
@@ -161,7 +161,7 @@ public class UIEquipSellWindow : Window
 
         var sortRelated = Utils.FindChild(itemTran, "SortRelated");
         var stars = Utils.FindChild(itemTran, "Rarity");
-        var quality = ItemModeLocator.Instance.GetQuality(itemInfo);
+        var quality = ItemModeLocator.Instance.GetQuality(itemInfo.TmplId);
         for (int index = 0; index < quality; index++)
         {
             NGUITools.SetActive(stars.GetChild(index).gameObject, true);
@@ -224,8 +224,8 @@ public class UIEquipSellWindow : Window
         var attackValue = Utils.FindChild(sortRelated, "Attack-Value").GetComponent<UILabel>();
         NGUITools.SetActiveChildren(sortRelated.gameObject, false);
         NGUITools.SetActive(attackValue.gameObject, true);
-        var jobValue = ItemModeLocator.Instance.GetJob(itemInfo);
-        var attack = ItemModeLocator.Instance.GetAttack(itemInfo);
+        var jobValue = ItemModeLocator.Instance.GetJob(itemInfo.TmplId);
+        var attack = ItemModeLocator.Instance.GetAttack(itemInfo.TmplId, itemInfo.Level);
         if (jobValue != -1)
         {
             NGUITools.SetActive(jobSymobl.gameObject, true);
@@ -249,7 +249,7 @@ public class UIEquipSellWindow : Window
         NGUITools.SetActiveChildren(sortRelated.gameObject, false);
         NGUITools.SetActive(hpTitle.gameObject, true);
         NGUITools.SetActive(hpValue.gameObject, true);
-        var hp = ItemModeLocator.Instance.GetHp(itemInfo);
+        var hp = ItemModeLocator.Instance.GetHp(itemInfo.TmplId, itemInfo.Level);
         hpValue.text = hp != -1 ? hp.ToString(CultureInfo.InvariantCulture) : "-";
     }
 
@@ -263,7 +263,7 @@ public class UIEquipSellWindow : Window
         NGUITools.SetActiveChildren(sortRelated.gameObject, false);
         NGUITools.SetActive(recoverTitle.gameObject, true);
         NGUITools.SetActive(recoverValue.gameObject, true);
-        var recover = ItemModeLocator.Instance.GetHp(itemInfo);
+        var recover = ItemModeLocator.Instance.GetRecover(itemInfo.TmplId, itemInfo.Level);
         recoverValue.text = recover != -1 ? recover.ToString(CultureInfo.InvariantCulture) : "-";
     }
 

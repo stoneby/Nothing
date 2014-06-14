@@ -38,6 +38,8 @@ public class NetworkControl : MonoBehaviour
                     case (short) MessageType.SC_HERO_LVL_UP:
                     case (short) MessageType.SC_PROPERTY_CHANGED_NUMBER:
                     case (short) MessageType.SC_HERO_CREATE_ONE:
+                    case (short) MessageType.SC_HERO_MAX_EXTEND:
+                    case (short) MessageType.SC_HERO_CHANGE_EQUIP:
                         HeroHandler.OnHeroMessage(msg);
                         break;
                     case (short) MessageType.SC_RAID_ADDTION:
@@ -58,14 +60,41 @@ public class NetworkControl : MonoBehaviour
                     case (short) MessageType.SC_RAID_ENTER_FAIL:
                         RaidHandler.OnRaidEnterFail(msg);
                         break;
+                    case (short)MessageType.SC_RAID_NEW_STAGE:
+                        RaidHandler.OnRaidNewStage(msg);
+                        break;
+                    case (short)MessageType.SC_RAID_RECEIVE_AWARDS:
+                        RaidHandler.OnRaidReceiveReward(msg);
+                        break;
                     case (short) MessageType.SC_ALL_ITEM_INFOS:
                         ItemHandler.OnAllItemInfos(msg);
+                        break;     
+                    case (short) MessageType.SC_SERVER_CONFIG_MSG:
+                        ItemHandler.OnServerConfigMsg(msg);
                         break; 
                     case (short) MessageType.SC_ADD_ITEM:
                         ItemHandler.OnAddItem(msg);
                         break;
                     case (short)MessageType.SC_ITEM_DETAIL:
                         ItemHandler.OnItemDetail(msg);
+                        break;
+                    case (short)MessageType.SC_STRENGTH_ITEM_SUCC:
+                        ItemHandler.OnStrengthItemSucc(msg);
+                        break;
+                    case (short)MessageType.SC_ITEM_SELL_SUCC:
+                        ItemHandler.OnItemSellSucc(msg);
+                        break;     
+                    case (short)MessageType.SC_EVOLUTE_ITEM_SUCC:
+                        ItemHandler.OnEvoluteItemSucc(msg);
+                        break;
+                    case (short)MessageType.SC_EXTEND_ITEM_BAG_SUCC:
+                        ItemHandler.OnExtendItemBagSucc(msg);
+                        break;   
+                    case (short)MessageType.SC_ITEM_LOCK_OPER_SUCC:
+                        ItemHandler.OnItemLockOperSucc(msg);
+                        break;
+                    case (short)MessageType.SC_BUY_BACK_ITEM_SUCC:
+                        ItemHandler.OnBuyBackItemSucc(msg);
                         break;
                 }
                 msg = NetManager.GetMessage();

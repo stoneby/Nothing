@@ -210,4 +210,30 @@ public class Utils
             }
         }
     }
+
+    public static DateTime ConvertFromJavaTimestamp(long timestamp)
+    {
+        var origin = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+        return origin.AddMilliseconds(timestamp).ToLocalTime();
+    }
+
+    public static long ConvertToJavaTimestamp(DateTime date)
+    {
+        var origin = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+        TimeSpan diff = date.ToUniversalTime() - origin;
+        return (long)diff.TotalMilliseconds;
+    }
+
+    public static int GetActiveChildCount(Transform parent)
+    {
+        var childCount = 0;
+        for (int i = 0; i < parent.childCount; i++)
+        {
+            if(NGUITools.GetActive(parent.GetChild(i).gameObject))
+            {
+                childCount++;
+            }
+        }
+        return childCount;
+    }
 }

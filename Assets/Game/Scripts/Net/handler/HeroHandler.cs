@@ -1,5 +1,6 @@
 ﻿using KXSGCodec;
 using Property;
+using UnityEngine;
 
 namespace Assets.Game.Scripts.Net.handler
 {
@@ -28,6 +29,7 @@ namespace Assets.Game.Scripts.Net.handler
                 case (short)MessageType.SC_HERO_CREATE_ONE:
                     var createOneMsg = msg.GetContent() as SCHeroCreateOne;
                     HeroModelLocator.Instance.SCHeroList.HeroList.Add(createOneMsg.NewHero);
+                    WindowManager.Instance.GetWindow<UIHeroItemsPageWindow>().Refresh();
                     break;
                 case (short)MessageType.SC_HERO_MODIFY_TEAM:
                     var md5Msg = msg.GetContent() as SCHeroModifyTeam;
@@ -75,10 +77,53 @@ namespace Assets.Game.Scripts.Net.handler
                         }
                         if (propertyChangedNumber.PropertyChanged.ContainsKey(RoleProperties.ROLEBASE_GOLD))
                         {
-                            PlayerModelLocator.Instance.Sprit = propertyChangedNumber.PropertyChanged[RoleProperties.ROLEBASE_GOLD];
+                            PlayerModelLocator.Instance.Gold = propertyChangedNumber.PropertyChanged[RoleProperties.ROLEBASE_GOLD];
                         }
-                        var mainWindow = WindowManager.Instance.Show(typeof(UIMainScreenWindow), true);
+
+                        if (propertyChangedNumber.PropertyChanged.ContainsKey(RoleProperties.ROLEBASE_CURRENT_EXP))
+                        {
+                            PlayerModelLocator.Instance.Exp = propertyChangedNumber.PropertyChanged[RoleProperties.ROLEBASE_CURRENT_EXP];
+                        }
+                        if (propertyChangedNumber.PropertyChanged.ContainsKey(RoleProperties.ROLEBASE_ENERGY))
+                        {
+                            PlayerModelLocator.Instance.Energy = propertyChangedNumber.PropertyChanged[RoleProperties.ROLEBASE_ENERGY];
+                        }
+                        if (propertyChangedNumber.PropertyChanged.ContainsKey(RoleProperties.ROLEBASE_EXTEND_HREO_BAG_TIMES))
+                        {
+                            PlayerModelLocator.Instance.ExtendHeroTimes = propertyChangedNumber.PropertyChanged[RoleProperties.ROLEBASE_EXTEND_HREO_BAG_TIMES];
+                        }
+                        if (propertyChangedNumber.PropertyChanged.ContainsKey(RoleProperties.ROLEBASE_EXTEND_ITEM_BAG_TIMES))
+                        {
+                            PlayerModelLocator.Instance.ExtendItemTimes = propertyChangedNumber.PropertyChanged[RoleProperties.ROLEBASE_EXTEND_ITEM_BAG_TIMES];
+                        }
+
+                        if (propertyChangedNumber.PropertyChanged.ContainsKey(RoleProperties.ROLEBASE_LEVEL))
+                        {
+                            PlayerModelLocator.Instance.Level = (short) propertyChangedNumber.PropertyChanged[RoleProperties.ROLEBASE_LEVEL];
+                        }
+
+                        var mainWindow = WindowManager.Instance.GetWindow<UIMainScreenWindow>();//.Show(typeof(UIMainScreenWindow), true);
                         mainWindow.GetComponent<UIMainScreenWindow>().refreshData();
+                    }
+                    break;
+                case (short)MessageType.SC_HERO_MAX_EXTEND:
+                    var themsg = msg.GetContent() as SCHeroMaxExtend;
+                    if (themsg != null)
+                    {
+                        PlayerModelLocator.Instance.HeroMax = themsg.RefreshHeroCountLimit;
+                        WindowManager.Instance.GetWindow<UIHeroItemsPageWindow>().RefreshHeroCount();
+                    }
+                    break;
+                case (short)MessageType.SC_HERO_CHANGE_EQUIP:
+                    var hChangeEquipMsg = msg.GetContent() as SCHeroChangeEquip;
+                    if (hChangeEquipMsg != null)
+                    {
+                        var heroBaseWindow = WindowManager.Instance.GetWindow<HeroBaseInfoWindow>();
+                        heroBaseWindow.HeroInfo.EquipUuid[heroBaseWindow.CurEquipIndex] = hChangeEquipMsg.EquipUuid;
+                        WindowManager.Instance.Show<UIHeroSelItemWindow>(false);
+                        WindowManager.Instance.Show<HeroBaseInfoWindow>(true);
+                        WindowManager.Instance.Show<UIHeroInfoWindow>(true);
+                        WindowManager.Instance.Show<UItemsWindow>(false);
                     }
                     break;
             }

@@ -87,9 +87,7 @@ public class EndlessSwipeEffect : MonoBehaviour
     /// </summary>
     private void Awake()
     {
-        cachedGrid = GetComponent<UIGrid>();
         GetComponent<ScreenRaycaster>().Cameras[0] = UICamera.currentCamera;
-        cellWidth = cachedGrid.cellWidth;
         cellCount = cachedGrid.transform.childCount;
         for (var i = 0; i < cellCount; ++i)
         {
@@ -262,6 +260,11 @@ public class EndlessSwipeEffect : MonoBehaviour
     /// <param name="count">The total count of custom data.</param>
     public void InitCustomData(int index, int count)
     {
+        if (cachedGrid == null)
+        {
+            cachedGrid = GetComponent<UIGrid>();
+            cellWidth = cachedGrid.cellWidth;
+        }
         curCustomIndex = index;
         customDataCount = count;
         var cachedActive = cachedGrid.gameObject.activeSelf;

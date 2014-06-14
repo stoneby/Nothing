@@ -1,9 +1,15 @@
+using System.Collections.Generic;
+
 namespace com.kx.sglm.gs.battle.share.actor.impl
 {
 
 	using com.kx.sglm.gs.battle.share.actor;
+	using SingleActionRecord = com.kx.sglm.gs.battle.share.data.record.SingleActionRecord;
 	using BattleSideEnum = com.kx.sglm.gs.battle.share.enums.BattleSideEnum;
 	using FighterType = com.kx.sglm.gs.battle.share.enums.FighterType;
+	using HeroColor = com.kx.sglm.gs.battle.share.enums.HeroColor;
+	using InnerBattleEvent = com.kx.sglm.gs.battle.share.@event.InnerBattleEvent;
+	using TeamShotStartEvent = com.kx.sglm.gs.battle.share.@event.impl.TeamShotStartEvent;
 	using IBattleExecuter = com.kx.sglm.gs.battle.share.executer.IBattleExecuter;
 	using BattleTeamShot = com.kx.sglm.gs.battle.share.logic.loop.BattleTeamShot;
 	using PropertyRawSet = com.kx.sglm.gs.battle.share.utils.PropertyRawSet;
@@ -54,6 +60,15 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 			}
 		}
 
+		//TODO: addTeamShortStartAction
+		public virtual void onTeamShotStart(TeamShotStartEvent @event)
+		{
+			foreach (BattleFighter _fighter in ActorList)
+			{
+				_fighter.onTeamShotStart(@event);
+			}
+		}
+
 		public override void onDead()
 		{
 
@@ -71,7 +86,6 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 			}
 		}
 
-
 		public abstract bool hasFightFighter();
 
 		public abstract bool handleBattleFightInfo(int targetIndex, int[] battleIndexes);
@@ -88,8 +102,32 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 
 		public abstract int CurHp {get;}
 
+		public abstract int TotalHp {get;}
+
+		public abstract int CurMp {get;}
+
 		public abstract BattleFighter getFighterByIndex(int fighterIndex);
 
+	//	public void registEventExecuter(BattleEventHandler handler) {
+	//		handler.regiestExecuter(new TeamShotStartEventExecuter(this));
+	//		handler.regiestExecuter(new TeamSceneStartEventExecuter(this));
+	//	}
+	//	
+		public abstract void changeFightColor(int fighterIndex, HeroColor color, SingleActionRecord actionRecord);
+
+		public abstract int getFighterColor(int fighterIndex);
+
+		/// <summary>
+		/// 获得当前活着，可出售的武�?
+		/// 
+		/// @return
+		/// </summary>
+		public abstract List<BattleFighter> ActiveFighter {get;}
+
+		public override void fireBattleEvent(InnerBattleEvent @event)
+		{
+
+		}
 
 		public virtual void calcRoundCounter()
 		{
@@ -105,15 +143,10 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 		}
 
 
-
-		public override bool Alive
+		public override bool hasHp()
 		{
-			get
-			{
-				return !deadth;
-			}
+			return !deadth;
 		}
-
 
 		public virtual void addCurFightIndex()
 		{
@@ -154,6 +187,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 		{
 			return teamProps.getInt(key, 0);
 		}
+
 
 	}
 

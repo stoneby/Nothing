@@ -61,9 +61,18 @@ public class InitBattleField : MonoBehaviour, IBattleView
 
     private float realTime;
 
+    private int Star;
+    private GameObject Star1;
+    private GameObject Star2;
+    private GameObject Star3;
+
     public void Init()
     {
         var containerobj = GameObject.Find("BattleFieldPanel");
+
+        Star1 = transform.FindChild("BattleUIPanel/Anchor-bottomleft/Sprite star 1").gameObject;
+        Star2 = transform.FindChild("BattleUIPanel/Anchor-bottomleft/Sprite star 2").gameObject;
+        Star3 = transform.FindChild("BattleUIPanel/Anchor-bottomleft/Sprite star 3").gameObject;
 
         lineObj = NGUITools.AddChild(containerobj, DragBarPrefab);
         var sp = lineObj.GetComponent<UISprite>();
@@ -98,9 +107,10 @@ public class InitBattleField : MonoBehaviour, IBattleView
     {
         leftContainerObj = GameObject.Find("BattleFieldWidgetLeft");
 
+        TeamController.Total = BattleModelLocator.Instance.HeroList.Count;
         TeamController.Row = 3;
         TeamController.Col = 3;
-        TeamController.Initialize(BattleModelLocator.Instance.HeroList);
+        TeamController.Initialize();
 
         if (attackWaitList == null)
         {
@@ -128,11 +138,19 @@ public class InitBattleField : MonoBehaviour, IBattleView
         EnergyCount = 0;
         GoldCount = 0;
 
+        Star = 3;
+        Star1.SetActive(true);
+        Star2.SetActive(true);
+        Star3.SetActive(true);
+		
         ShowTopData();
         EventManager.Instance.AddListener<LeaderUseEvent>(OnLeaderUseHandler);
         currEnemyGroupIndex = 0;
+        ResetLeaderData();
         CreateCurrentEnemys();
         RequestRecords();
+
+        TeamController.Print();
 
         InitWaitingStackList();
         AdjustCharacterList();
@@ -246,6 +264,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
     {
         yield return StartCoroutine(MakeUpOneByOne(false));
         RunToNextEnemys();
+        BattleModelLocator.Instance.CanSelectHero = true;
     }
 
     //创建本关的怪
@@ -370,6 +389,8 @@ public class InitBattleField : MonoBehaviour, IBattleView
         {
             yield return new WaitForSeconds(duration);
         }
+
+        TeamController.Print();
     }
 
     private void SetColor()
@@ -557,7 +578,21 @@ public class InitBattleField : MonoBehaviour, IBattleView
             var losevalue = characterValue - newvalue;
 
             characterValue = newvalue;
-            if (losevalue > 0) PopTextManager.ShowText("-" + losevalue, 0.6f, -25, 60, 50, pos);
+            if (losevalue > 0)
+            {
+                PopTextManager.ShowText("-" + losevalue, 0.6f, -25, 60, 50, pos);
+                var v = characterMaxValue - characterValue;
+                if (v > (characterMaxValue/2) && Star > 1)
+                {
+                    Star = 1;
+                    Star2.SetActive(false);
+                }
+                else if (v > (characterMaxValue/4) && Star > 2)
+                {
+                    Star = 2;
+                    Star3.SetActive(false);
+                }
+            }
         }
         else
         {
@@ -595,6 +630,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
         var bg = BattleBG.GetComponent<BattleBGControl>();
         bg.MoveToNext();
 
+        // [NOTE:] This place move enemy when next page.
         //for (int i = 0; i < enemyList.Length; i++)
         //{
         //    var obj = enemyList[i];
@@ -840,21 +876,19 @@ public class InitBattleField : MonoBehaviour, IBattleView
                 }
             }
         }
-        yield return new WaitForSeconds(GameConfig.TotalHeroAttrackTime);
+        var temp = (battleTeamRecord.SkillFighter != null && battleTeamRecord.SkillFighter.Count > 0) ? 0.3f : 0;
+        yield return new WaitForSeconds(GameConfig.TotalHeroAttrackTime + temp);
         CheckMonsterDead();
         yield return StartCoroutine(MakeUpOneByOne());
 
-        foreach (var character in EnemyController.CharacterList)
-        {
-            var ec = character.GetComponent<EnemyControl>();
-            ec.ShowBlood(true);
-        }
-
+        LeaderCD = battleTeamRecord.getIntProp(BattleRecordConstants.BATTLE_HERO_PROP_MP);
+        ShowMp();
         ShowTopData();
         isPlaying = false;
         isPlayingRecord = false;
         recordIndex++;
         dealWithRecord();
+
     }
 
     //判断怪是否死亡
@@ -1023,7 +1057,11 @@ public class InitBattleField : MonoBehaviour, IBattleView
             var action = enemylist[i];
             var enemy = GetMonsterObject(action);
             if (enemy == null) continue;
-            if (showbig)
+
+            var k = action.getIntProp(BattleRecordConstants.BATTLE_HERO_PROP_HIT_COUNT);
+            var v = action.getIntProp(BattleRecordConstants.BATTLE_HERO_PROP_HIT_SINGLE_DAMAGE);
+            StartCoroutine(MultPopText(enemy, k, v));
+            if (showbig || k > 1)
             {
                 EffectManager.PlayEffect(EffectType.SpriteCollection, 0.8f, 0, -20, enemy.transform.position);
             }
@@ -1039,10 +1077,10 @@ public class InitBattleField : MonoBehaviour, IBattleView
                 var obj = GameObject.Find("BattleFieldPanel");
                 iTweenEvent.GetEvent(obj, "ShakeTweener").Play();
             }
-            //            else if (cc.HaveSp || showbig)
-            //            {
-            //                ec.PlayBigBeen();
-            //            }
+            else if (k > 1)
+            {
+                ec.PlayBigBeen();
+            }
             else
             {
                 ec.PlayBeen();
@@ -1052,6 +1090,17 @@ public class InitBattleField : MonoBehaviour, IBattleView
                 ec.SetHP(action.getIntProp(BattleRecordConstants.SINGLE_ACTION_PROP_HP));
             }
         }
+    }
+
+    private IEnumerator MultPopText(GameObject obj, int count, int value)
+    {
+        var v = obj.transform.localPosition;
+        for (int i = 0; i < count; i++)
+        {
+            PopTextManager.ShowText("-" + value, 0.6f, 0, 40, 120, v);
+            yield return new WaitForSeconds(0.2f);
+        }
+        
     }
 
     //武将攻击后返回等待队列
@@ -1119,16 +1168,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
     //下面的函数用来处理队长
     private void OnLeaderUseHandler(LeaderUseEvent e)
     {
-        LeaderCD -= e.CDCount;
-        if (LeaderCD >= 0)
-        {
-            InvokeLeaderSkill(e.SkillIndex);
-        }
-        else
-        {
-            LeaderCD = 0;
-        }
-
+        RequestRecords();
     }
 
     private List<GameObject> leaders;
@@ -1168,8 +1208,24 @@ public class InitBattleField : MonoBehaviour, IBattleView
         obj = NGUITools.AddChild(ldContainer, LeaderPrefab);
         obj.transform.localPosition = new Vector3(basex + i * offsetx, basey, 0);
         lc = obj.GetComponent<LeaderControl>();
-        lc.Init(0, 0, 0);
+        lc.Init(2, 25, i + 1);
         leaders.Add(obj);
+    }
+
+    private void ResetLeaderData()
+    {
+        if (BattleModelLocator.Instance.HeroList == null) return;
+        if (BattleModelLocator.Instance.HeroList.Count >= 10)
+        {
+            var leader = leaders[0].GetComponent<LeaderControl>();
+            leader.SetData(BattleModelLocator.Instance.HeroList[0], 0);
+            leader = leaders[1].GetComponent<LeaderControl>();
+            leader.SetData(BattleModelLocator.Instance.HeroList[1], 1);
+            leader = leaders[2].GetComponent<LeaderControl>();
+            leader.SetData(BattleModelLocator.Instance.HeroList[2], 2);
+            leader = leaders[3].GetComponent<LeaderControl>();
+            leader.SetData(BattleModelLocator.Instance.HeroList[9], 9);
+        }
     }
 
     private void ResetLeaderCd()
@@ -1182,90 +1238,107 @@ public class InitBattleField : MonoBehaviour, IBattleView
         }
     }
 
-    public void InvokeLeaderSkill(int theindex)
-    {
-        if (!isBattling) return;
-        StartCoroutine(PlayLeaderEffect());
-
-        for (var i = 0; i < 3; i++)
-        {
-            for (var j = 0; j < 3; j++)
-            {
-                var obj = charactersLeft[i, j];
-                if (obj != null)
-                {
-                    var cc = obj.GetComponent<CharacterControl>();
-                    cc.SetFootIndex(theindex);
-                }
-            }
-        }
-    }
-
     IEnumerator PlayLeaderEffect()
     {
+        BattleModelLocator.Instance.CanSelectHero = false;
         EffectManager.PlayAllEffect(false);
         GameObject effectbg = EffectBg;
         effectbg.SetActive(true);
         var tt = effectbg.GetComponent<UITexture>();
         tt.alpha = 0.9f;
 
-        GameObject effectobj = EffectObject;
-        tt = effectobj.GetComponent<UITexture>();
-        tt.mainTexture = (Texture2D)Resources.Load(EffectType.LeaderTextures[Random.Range(0, 11)], typeof(Texture2D));
-        effectobj.transform.localPosition = new Vector3(0, 0, 0);
-        effectobj.transform.localScale = new Vector3(5, 5, 1);
-        tt.alpha = 0.1f;
-        effectobj.SetActive(true);
+		GameObject effectobj = EffectObject;
+		tt = effectobj.GetComponent<UITexture>();
+		tt.mainTexture = (Texture2D)Resources.Load(EffectType.LeaderTextures[Random.Range(0, 11)], typeof(Texture2D));
+		effectobj.transform.localPosition = new Vector3 (0,0,0);
+		effectobj.transform.localScale = new Vector3 (5,5,1);
+		tt.alpha = 1.0f;
+		effectobj.SetActive (true);
 
-        PlayTweenScale(effectobj, 0.2f, new Vector3(5, 5, 1), new Vector3(1, 1, 1));
-        PlayTweenAlpha(effectobj, 0.2f, 0.1f, 1);
+		PlayTweenScale (effectobj, 0.2f, new Vector3 (5, 5, 1), new Vector3 (1,1,1));
 
-        yield return new WaitForSeconds(0.2f);
-        TextBGObject.SetActive(true);
-        tt = TextBGObject.GetComponent<UITexture>();
-        tt.alpha = 1;
+		yield return new WaitForSeconds (0.2f);
+		TextBGObject.SetActive (true);
+		tt = TextBGObject.GetComponent<UITexture>();
+		tt.alpha = 1;
 
-        PlayTweenScale(effectobj, 1.0f, new Vector3(1, 1, 1), new Vector3(0.9f, 0.9f, 1));
+		PlayTweenScale (effectobj, 1.0f, new Vector3 (1, 1, 1), new Vector3 (0.9f, 0.9f, 1));
 
 
-        TextObject.transform.localScale = new Vector3(5, 5, 1);
-        UILabel lb = TextObject.GetComponent<UILabel>();
-        lb.alpha = 1;
-        TextObject.SetActive(true);
+		TextObject.transform.localScale = new Vector3 (5,5,1);
+		UILabel lb = TextObject.GetComponent<UILabel>();
+        lb.text = BattleModelLocator.Instance.Skill.Name;
+		lb.alpha = 1;
+		TextObject.SetActive (true);
 
-        PlayTweenScale(TextObject, 0.2f, new Vector3(5, 5, 1), new Vector3(1, 1, 1));
-        yield return new WaitForSeconds(0.2f);
+		PlayTweenScale (TextObject, 0.2f, new Vector3 (5,5,1), new Vector3 (1,1,1));
+		yield return new WaitForSeconds (0.2f);
 
-        PlayTweenScale(TextObject, 0.8f, new Vector3(1, 1, 1), new Vector3(0.9f, 0.9f, 1));
+		PlayTweenScale (TextObject, 0.8f, new Vector3 (1,1,1), new Vector3 (0.9f, 0.9f, 1));
 
-        yield return new WaitForSeconds(0.8f);
+		yield return new WaitForSeconds (0.8f);
 
-        BreakObject.SetActive(true);
-        UITexture tt1 = BreakObject.GetComponent<UITexture>();
-        BreakObject.transform.localScale = new Vector3(1, 1, 1);
-        tt1.alpha = 0.9f;
+		BreakObject.SetActive (true);
+		UITexture tt1 = BreakObject.GetComponent<UITexture>();
+		BreakObject.transform.localScale = new Vector3 (1,1,1);
+		tt1.alpha = 0.9f;
 
-        yield return new WaitForSeconds(.1f);
-        PlayTweenAlpha(effectbg, 0.3f, 0.9f, 0);
+		yield return new WaitForSeconds (.1f);
+		PlayTweenAlpha (effectbg, 0.3f, 0.9f, 0);
 
-        PlayTweenScale(effectobj, 0.3f, new Vector3(1, 1, 1), new Vector3(5, 5, 1));
-        PlayTweenAlpha(effectobj, 0.3f, 1, 0.1f);
+		PlayTweenScale (effectobj, 0.3f, new Vector3 (1,1,1), new Vector3 (5,5,1));
+		PlayTweenAlpha (effectobj, 0.3f, 1, 0.1f);
 
-        PlayTweenAlpha(BreakObject, 0.3f, 1, 0);
-        PlayTweenScale(BreakObject, 0.3f, new Vector3(1, 1, 1), new Vector3(5, 5, 1));
+		PlayTweenAlpha (BreakObject, 0.3f, 1, 0);
+		PlayTweenScale (BreakObject, 0.3f, new Vector3 (1,1,1), new Vector3(5, 5, 1));
 
-        PlayTweenAlpha(TextBGObject, 0.3f, 1, 0);
+		PlayTweenAlpha (TextBGObject, 0.3f, 1, 0);
 
-        PlayTweenAlpha(TextObject, 0.2f, 1, 0);
+		PlayTweenAlpha (TextObject, 0.2f, 1, 0);
 
-        yield return new WaitForSeconds(.4f);
-        effectobj.SetActive(false);
-        BreakObject.SetActive(false);
-        effectbg.SetActive(false);
-        TextBGObject.SetActive(false);
-        ResetLeaderCd();
+		yield return new WaitForSeconds (.4f);
+		effectobj.SetActive (false);
+		BreakObject.SetActive(false);
+		effectbg.SetActive (false);
+		TextBGObject.SetActive (false);
+//        ResetLeaderCd();
+        var attrack = LeaderSkillRecord.OrCreateFightRecord.getAttackAction();
+        LeaderCD = LeaderSkillRecord.getIntProp(BattleRecordConstants.BATTLE_HERO_PROP_MP);
         ShowMp();
-        EffectManager.PlayAllEffect(true);
+        if (attrack.ActType == BattleRecordConstants.SINGLE_ACTION_TYPE_CHANGE_COLOR)
+        {
+            for (int i = 0; i < LeaderSkillRecord.OrCreateFightRecord.ActionList.Count; i++)
+            {
+                var obj = GetCharacterByAction(LeaderSkillRecord.OrCreateFightRecord.ActionList[i]);
+                if (obj != null)
+                {
+                    var cc = obj.GetComponent<CharacterControl>();
+                    var k =
+                        LeaderSkillRecord.OrCreateFightRecord.ActionList[i].getIntProp(
+                            BattleRecordConstants.BATTLE_HERO_PROP_COLOR_CHANGE);
+                    cc.SetFootIndex(k);
+                }
+            }
+        }
+        else if (attrack.ActType == BattleRecordConstants.SINGLE_ACTION_TYPE_RECOVER)
+        {
+            PlayBloodFullEffect();
+			var obj = GetCharacterByAction(attrack);
+			var k =
+				attrack.getIntProp(
+					BattleRecordConstants.SINGLE_ACTION_PROP_HP);
+            if (obj != null)
+            {
+                CharacterLoseBlood(obj.transform.localPosition, k);
+            }
+            else
+            {
+                CharacterLoseBlood(new Vector3(0,0,0), k);
+            }
+		}
+		ShowMp();
+		EffectManager.PlayAllEffect(true);
+        BattleModelLocator.Instance.CanSelectHero = true;
     }
 
     //播放sp技能特效
@@ -1522,6 +1595,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
 
     private void ShowMp()
     {
+        ResetLeaderCd();
         if (LeaderCDMax < LeaderCD) LeaderCDMax = LeaderCD;
         float xx = BattleTypeConstant.PosMPMin + (BattleTypeConstant.PosMPMax - BattleTypeConstant.PosMPMin) * LeaderCD / LeaderCDMax;
         SpriteMP1.transform.localPosition = new Vector3(xx, BattleTypeConstant.PosMPY, 0);
@@ -1582,6 +1656,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
 
     private IEnumerator GotoNextScene()
     {
+        BattleModelLocator.Instance.CanSelectHero = false;
         yield return StartCoroutine(MakeUpOneByOne());
 
         currEnemyGroupIndex++;
@@ -1605,16 +1680,24 @@ public class InitBattleField : MonoBehaviour, IBattleView
             }
             ShowTopData();
         }
+        BattleModelLocator.Instance.CanSelectHero = true;
         recordIndex++;
         dealWithRecord();
     }
 
     //下面是处理服务器返回数据用的接口
     //技能
+    private BattleSkillRecord LeaderSkillRecord;
     public void showBattleSkillRecord(BattleSkillRecord battleSkillRecord)
     {
-        //throw new NotImplementedException();
-        return;
+       
+        if (battleSkillRecord.TeamSide == BattleRecordConstants.TARGET_SIDE_A)
+        {
+            LeaderSkillRecord = battleSkillRecord;
+            
+            StartCoroutine(PlayLeaderEffect());
+           
+        }
     }
 
     private BattleTeamFightRecord battleTeamRecord;
@@ -1711,7 +1794,8 @@ public class InitBattleField : MonoBehaviour, IBattleView
         }
         if (battleIndexRecord.prop.ContainsKey(BattleRecordConstants.BATTLE_HERO_TOTAL_MP))
         {
-            LeaderCD = battleIndexRecord.getIntProp(BattleRecordConstants.BATTLE_HERO_TOTAL_MP);
+            LeaderCDMax = battleIndexRecord.getIntProp(BattleRecordConstants.BATTLE_HERO_TOTAL_MP);
+            LeaderCD = 0;
         }
         ShowHp();
         ShowMp();
@@ -1735,8 +1819,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
                 recordIndex++;
                 dealWithRecord();
             }
-            Logger.Log("战斗结束 =推推推推推推推平 ");
-
         }
         else if (battleEndRecord.EndType == BattleRecordConstants.BATTLE_ALL_END)
         {
@@ -1749,6 +1831,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
             }
             else
             {
+                Star = 0;
                 var battleWindow = WindowManager.Instance.Show<BattleLostWindow>( true);
                 battleWindow.OnBattleResult += OnBattleResult;
             }
@@ -1762,19 +1845,28 @@ public class InitBattleField : MonoBehaviour, IBattleView
 
     private void OnBattleResult(bool win)
     {
+        var msg = new CSBattlePveFinishMsg();
+        msg.Uuid = BattleModelLocator.Instance.Uuid;
+		msg.BattleResult = (win) ? 1 : 0;
+		
         isBattling = false;
         recordIndex++;
         dealWithRecord();
         BattleModelLocator.Instance.NextList = null;
-        Logger.Log("战斗结束 = 结结结结结结结结结结结束 ");
-
-        var msg = new CSBattlePveFinishMsg();
-        msg.Uuid = BattleModelLocator.Instance.Uuid;
-        msg.BattleResult = win ? 1 : 0;
-        msg.Star = 2;
+        footManager.Clear();
+        msg.Star = (sbyte) Star;
+        MissionModelLocator.Instance.AddStar(Star);
+        MissionModelLocator.Instance.OldExp = PlayerModelLocator.Instance.Exp;
+        MissionModelLocator.Instance.OldLevel = PlayerModelLocator.Instance.Level;
+        MissionModelLocator.Instance.AddFinishTime(MissionModelLocator.Instance.SelectedStageId);
         NetManager.SendMessage(msg);
     }
 
+    public void showBattleErrorRecord(BattleErrorRecord battleErrorRecord)
+    {
+        //throw new NotImplementedException();
+    }
+	
     private List<IBattleViewRecord> recordList;
     private int recordIndex;
     private bool isPlayingRecord = false;

@@ -2,6 +2,8 @@
 
 public abstract class AbstractDragBarController : MonoBehaviour
 {
+    protected float Factor;
+
     /// <summary>
     /// Set drag bar width.
     /// </summary>
@@ -15,7 +17,7 @@ public abstract class AbstractDragBarController : MonoBehaviour
     public void SetWidth(Vector3 source, Vector3 target)
     {
         var width = Mathf.Abs(Vector3.Distance(source, target));
-        width *= UIRoot.GetPixelSizeAdjustment(gameObject);
+        width *= Factor;
         SetWidth(Mathf.Abs(width));
     }
 
@@ -37,5 +39,11 @@ public abstract class AbstractDragBarController : MonoBehaviour
     {
         var quater = Utils.GetRotation(source, target);
         SetRotate(quater);
+    }
+
+    protected virtual void Start()
+    {
+        Factor = UIRoot.GetPixelSizeAdjustment(gameObject);
+        Factor *= Camera.main.orthographicSize;
     }
 }

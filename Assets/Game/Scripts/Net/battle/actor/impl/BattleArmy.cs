@@ -3,6 +3,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 
 	using com.kx.sglm.gs.battle.share.actor;
 	using BattleSideEnum = com.kx.sglm.gs.battle.share.enums.BattleSideEnum;
+	using InnerBattleEvent = com.kx.sglm.gs.battle.share.@event.InnerBattleEvent;
 
 	/// <summary>
 	/// 战斗
@@ -74,12 +75,9 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 			deadBattleSide = null;
 		}
 
-		public override bool Alive
+		public override bool hasHp()
 		{
-			get
-			{
-				return deadBattleSide == null;
-			}
+			return deadBattleSide == null;
 		}
 
 		public override void onDead()
@@ -92,6 +90,11 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 		{
 			// TODO Auto-generated method stub
 
+		}
+
+		public override void fireBattleEvent(InnerBattleEvent @event)
+		{
+			//do nothing cur
 		}
 
 	}

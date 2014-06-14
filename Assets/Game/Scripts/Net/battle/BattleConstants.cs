@@ -77,7 +77,19 @@ namespace com.kx.sglm.gs.battle.share
 		public const int FIGHTER_TYPE_NPC = 4;
 
 		public const int TEST_TOTAL_SP = 50;
+		/// <summary>
+		/// 可以放队长技能的Index，第0,1,2,9位置的武将可以放技�? </summary>
+		public const int FIGHTER_ACTIVE_SKILL_FLAG = 0x207;
 
+		public const int FIGHTER_FIGHT_DEFAULT_COUNT = 1;
+
+		public const float FIGHTER_FIGHT_DEFAULT_RATIO = 1;
+
+		public const int TARGET_GETTER_FOR_ENEMY_INDEX = 0;
+
+		public const int TARGET_GETTER_FOR_FRIEND_INDEX = 1;
+
+		public const int INT_SIZE = 32;
 	}
 
 }

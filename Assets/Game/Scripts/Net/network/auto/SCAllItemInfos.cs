@@ -26,8 +26,25 @@ namespace KXSGCodec
   #endif
   public partial class SCAllItemInfos : TBase
   {
+    private sbyte _bagType;
     private short _capacity;
     private List<KXSGCodec.ItemInfo> _itemInfos;
+
+    /// <summary>
+    /// 背包类型 0-主背包 1-回购背包
+    /// </summary>
+    public sbyte BagType
+    {
+      get
+      {
+        return _bagType;
+      }
+      set
+      {
+        __isset.bagType = true;
+        this._bagType = value;
+      }
+    }
 
     /// <summary>
     /// 背包容量
@@ -67,6 +84,7 @@ namespace KXSGCodec
     [Serializable]
     #endif
     public struct Isset {
+      public bool bagType;
       public bool capacity;
       public bool itemInfos;
     }
@@ -87,13 +105,20 @@ namespace KXSGCodec
         switch (field.ID)
         {
           case 1:
+            if (field.Type == TType.Byte) {
+              BagType = iprot.ReadByte();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 2:
             if (field.Type == TType.I16) {
               Capacity = iprot.ReadI16();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
             break;
-          case 2:
+          case 3:
             if (field.Type == TType.List) {
               {
                 ItemInfos = new List<KXSGCodec.ItemInfo>();
@@ -124,10 +149,18 @@ namespace KXSGCodec
       TStruct struc = new TStruct("SCAllItemInfos");
       oprot.WriteStructBegin(struc);
       TField field = new TField();
+      if (__isset.bagType) {
+        field.Name = "bagType";
+        field.Type = TType.Byte;
+        field.ID = 1;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteByte(BagType);
+        oprot.WriteFieldEnd();
+      }
       if (__isset.capacity) {
         field.Name = "capacity";
         field.Type = TType.I16;
-        field.ID = 1;
+        field.ID = 2;
         oprot.WriteFieldBegin(field);
         oprot.WriteI16(Capacity);
         oprot.WriteFieldEnd();
@@ -135,7 +168,7 @@ namespace KXSGCodec
       if (ItemInfos != null && __isset.itemInfos) {
         field.Name = "itemInfos";
         field.Type = TType.List;
-        field.ID = 2;
+        field.ID = 3;
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.Struct, ItemInfos.Count));
@@ -153,7 +186,9 @@ namespace KXSGCodec
 
     public override string ToString() {
       StringBuilder sb = new StringBuilder("SCAllItemInfos(");
-      sb.Append("Capacity: ");
+      sb.Append("BagType: ");
+      sb.Append(BagType);
+      sb.Append(",Capacity: ");
       sb.Append(Capacity);
       sb.Append(",ItemInfos: ");
       sb.Append(ItemInfos);

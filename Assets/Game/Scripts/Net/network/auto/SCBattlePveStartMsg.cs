@@ -32,6 +32,9 @@ namespace KXSGCodec
     private List<KXSGCodec.BattleMsgHero> _fighterList;
     private List<int> _monsterGroup;
     private List<KXSGCodec.BattleMsgMonster> _monsterList;
+    private List<KXSGCodec.BattleHeroSkillMsgAction> _heroSkillList;
+    private List<KXSGCodec.BattleMonsterSkillMsgAction> _monsterSkillList;
+    private List<KXSGCodec.BattleMonsterAIMsgAction> _monsterAIList;
 
     /// <summary>
     /// 战斗UUID
@@ -129,6 +132,54 @@ namespace KXSGCodec
       }
     }
 
+    /// <summary>
+    /// 武将技能列表
+    /// </summary>
+    public List<KXSGCodec.BattleHeroSkillMsgAction> HeroSkillList
+    {
+      get
+      {
+        return _heroSkillList;
+      }
+      set
+      {
+        __isset.heroSkillList = true;
+        this._heroSkillList = value;
+      }
+    }
+
+    /// <summary>
+    /// 怪物技能列表
+    /// </summary>
+    public List<KXSGCodec.BattleMonsterSkillMsgAction> MonsterSkillList
+    {
+      get
+      {
+        return _monsterSkillList;
+      }
+      set
+      {
+        __isset.monsterSkillList = true;
+        this._monsterSkillList = value;
+      }
+    }
+
+    /// <summary>
+    /// 怪物AI列表
+    /// </summary>
+    public List<KXSGCodec.BattleMonsterAIMsgAction> MonsterAIList
+    {
+      get
+      {
+        return _monsterAIList;
+      }
+      set
+      {
+        __isset.monsterAIList = true;
+        this._monsterAIList = value;
+      }
+    }
+
 
     public Isset __isset;
     #if !SILVERLIGHT
@@ -141,6 +192,9 @@ namespace KXSGCodec
       public bool fighterList;
       public bool monsterGroup;
       public bool monsterList;
+      public bool heroSkillList;
+      public bool monsterSkillList;
+      public bool monsterAIList;
     }
 
     public SCBattlePveStartMsg() {
@@ -232,6 +286,60 @@ namespace KXSGCodec
               TProtocolUtil.Skip(iprot, field.Type);
             }
             break;
+          case 7:
+            if (field.Type == TType.List) {
+              {
+                HeroSkillList = new List<KXSGCodec.BattleHeroSkillMsgAction>();
+                TList _list9 = iprot.ReadListBegin();
+                for( int _i10 = 0; _i10 < _list9.Count; ++_i10)
+                {
+                  KXSGCodec.BattleHeroSkillMsgAction _elem11 = new KXSGCodec.BattleHeroSkillMsgAction();
+                  _elem11 = new KXSGCodec.BattleHeroSkillMsgAction();
+                  _elem11.Read(iprot);
+                  HeroSkillList.Add(_elem11);
+                }
+                iprot.ReadListEnd();
+              }
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 8:
+            if (field.Type == TType.List) {
+              {
+                MonsterSkillList = new List<KXSGCodec.BattleMonsterSkillMsgAction>();
+                TList _list12 = iprot.ReadListBegin();
+                for( int _i13 = 0; _i13 < _list12.Count; ++_i13)
+                {
+                  KXSGCodec.BattleMonsterSkillMsgAction _elem14 = new KXSGCodec.BattleMonsterSkillMsgAction();
+                  _elem14 = new KXSGCodec.BattleMonsterSkillMsgAction();
+                  _elem14.Read(iprot);
+                  MonsterSkillList.Add(_elem14);
+                }
+                iprot.ReadListEnd();
+              }
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 9:
+            if (field.Type == TType.List) {
+              {
+                MonsterAIList = new List<KXSGCodec.BattleMonsterAIMsgAction>();
+                TList _list15 = iprot.ReadListBegin();
+                for( int _i16 = 0; _i16 < _list15.Count; ++_i16)
+                {
+                  KXSGCodec.BattleMonsterAIMsgAction _elem17 = new KXSGCodec.BattleMonsterAIMsgAction();
+                  _elem17 = new KXSGCodec.BattleMonsterAIMsgAction();
+                  _elem17.Read(iprot);
+                  MonsterAIList.Add(_elem17);
+                }
+                iprot.ReadListEnd();
+              }
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
           default: 
             TProtocolUtil.Skip(iprot, field.Type);
             break;
@@ -276,9 +384,9 @@ namespace KXSGCodec
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.Struct, FighterList.Count));
-          foreach (KXSGCodec.BattleMsgHero _iter9 in FighterList)
+          foreach (KXSGCodec.BattleMsgHero _iter18 in FighterList)
           {
-            _iter9.Write(oprot);
+            _iter18.Write(oprot);
           }
           oprot.WriteListEnd();
         }
@@ -291,9 +399,9 @@ namespace KXSGCodec
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.I32, MonsterGroup.Count));
-          foreach (int _iter10 in MonsterGroup)
+          foreach (int _iter19 in MonsterGroup)
           {
-            oprot.WriteI32(_iter10);
+            oprot.WriteI32(_iter19);
           }
           oprot.WriteListEnd();
         }
@@ -306,9 +414,54 @@ namespace KXSGCodec
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.Struct, MonsterList.Count));
-          foreach (KXSGCodec.BattleMsgMonster _iter11 in MonsterList)
+          foreach (KXSGCodec.BattleMsgMonster _iter20 in MonsterList)
           {
-            _iter11.Write(oprot);
+            _iter20.Write(oprot);
+          }
+          oprot.WriteListEnd();
+        }
+        oprot.WriteFieldEnd();
+      }
+      if (HeroSkillList != null && __isset.heroSkillList) {
+        field.Name = "heroSkillList";
+        field.Type = TType.List;
+        field.ID = 7;
+        oprot.WriteFieldBegin(field);
+        {
+          oprot.WriteListBegin(new TList(TType.Struct, HeroSkillList.Count));
+          foreach (KXSGCodec.BattleHeroSkillMsgAction _iter21 in HeroSkillList)
+          {
+            _iter21.Write(oprot);
+          }
+          oprot.WriteListEnd();
+        }
+        oprot.WriteFieldEnd();
+      }
+      if (MonsterSkillList != null && __isset.monsterSkillList) {
+        field.Name = "monsterSkillList";
+        field.Type = TType.List;
+        field.ID = 8;
+        oprot.WriteFieldBegin(field);
+        {
+          oprot.WriteListBegin(new TList(TType.Struct, MonsterSkillList.Count));
+          foreach (KXSGCodec.BattleMonsterSkillMsgAction _iter22 in MonsterSkillList)
+          {
+            _iter22.Write(oprot);
+          }
+          oprot.WriteListEnd();
+        }
+        oprot.WriteFieldEnd();
+      }
+      if (MonsterAIList != null && __isset.monsterAIList) {
+        field.Name = "monsterAIList";
+        field.Type = TType.List;
+        field.ID = 9;
+        oprot.WriteFieldBegin(field);
+        {
+          oprot.WriteListBegin(new TList(TType.Struct, MonsterAIList.Count));
+          foreach (KXSGCodec.BattleMonsterAIMsgAction _iter23 in MonsterAIList)
+          {
+            _iter23.Write(oprot);
           }
           oprot.WriteListEnd();
         }
@@ -332,6 +485,12 @@ namespace KXSGCodec
       sb.Append(MonsterGroup);
       sb.Append(",MonsterList: ");
       sb.Append(MonsterList);
+      sb.Append(",HeroSkillList: ");
+      sb.Append(HeroSkillList);
+      sb.Append(",MonsterSkillList: ");
+      sb.Append(MonsterSkillList);
+      sb.Append(",MonsterAIList: ");
+      sb.Append(MonsterAIList);
       sb.Append(")");
       return sb.ToString();
     }

@@ -40,7 +40,7 @@ public class AtkHeroGroupControl : KxItemRender
 
         CallSetData(Item0, 0, 3, 4, 1);
         CallSetData(Item1, 1, 5, 6, 2);
-        CallSetData(Item2, 3, 7, 8, 3);
+        CallSetData(Item2, 2, 7, 8, 3);
     }
 
     private void CallSetData(GameObject obj, int xx, int yy, int zz, int type)

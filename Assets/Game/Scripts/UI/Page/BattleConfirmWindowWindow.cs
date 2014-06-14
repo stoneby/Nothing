@@ -35,10 +35,10 @@ public class BattleConfirmWindowWindow : Window
     {
         
         var friend = FriendItem.GetComponent<AtkHeroItemControl>();
-        friend.SetData(MissionModelLocator.Instance.FriendData, MissionModelLocator.Instance.IsFriend);
+        friend.SetData(MissionModelLocator.Instance.FriendData.Data, MissionModelLocator.Instance.FriendData.IsFriend);
         var hero =
             HeroModelLocator.Instance.GetHeroByTemplateId(
-                MissionModelLocator.Instance.FriendData.HeroProp[0].HeroTemplateId);
+                MissionModelLocator.Instance.FriendData.Data.HeroProp[0].HeroTemplateId);
         var lb = LabelFriendLeader.GetComponent<UILabel>();
         lb.text = HeroModelLocator.Instance.GetLeaderSkillTemplateById(hero.LeaderSkill).Desc;
             
@@ -102,7 +102,7 @@ public class BattleConfirmWindowWindow : Window
     {
         var csMsg = new CSRaidBattleStartMsg();
         csMsg.RaidId = MissionModelLocator.Instance.SelectedStageId;
-        csMsg.FriendId = MissionModelLocator.Instance.FriendData.FriendUuid;
+        csMsg.FriendId = MissionModelLocator.Instance.FriendData.Data.FriendUuid;
         var hor = HorContainer.GetComponent<KxListRender>();
         csMsg.TeamIndex = (sbyte) hor.CurrentIndex;
         NetManager.SendMessage(csMsg);

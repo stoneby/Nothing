@@ -108,14 +108,13 @@ public class MainMenuBarWindow : Window
     {
         if (ItemModeLocator.Instance.ScAllItemInfos == null)
         {
-            var csmsg = new CSQueryAllItems();
+            ItemModeLocator.Instance.GetItemPos = ItemType.GetItemInPanel;
+            var csmsg = new CSQueryAllItems{ BagType = 0 };
             NetManager.SendMessage(csmsg);
         }
         else
         {
-            //Utils.ShowWithoutDestory(typeof(UIEquipsDisplayWindow));
             Utils.ShowWithoutDestory(typeof(UIEquipDispTabWindow));
-            WindowManager.Instance.Show<UItemsWindow>(true);
         }
     }
 
@@ -159,8 +158,12 @@ public class MainMenuBarWindow : Window
     /// </summary>
     private void OnHomeClicked(GameObject go)
     {
-        var curTabWindow = WindowManager.Instance.CurrentWindowMap[WindowGroupType.TabPanel];
-        curTabWindow.gameObject.SetActive(false);
+        var curMap = WindowManager.Instance.CurrentWindowMap;
+        if(curMap.ContainsKey(WindowGroupType.TabPanel))
+        {
+            var curTabWindow = curMap[WindowGroupType.TabPanel];
+            curTabWindow.gameObject.SetActive(false);
+        }
     }
 
     #endregion

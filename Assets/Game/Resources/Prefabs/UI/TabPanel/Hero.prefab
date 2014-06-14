@@ -558,7 +558,6 @@ MonoBehaviour:
     target: {fileID: 0}
     relative: 1
     absolute: 0
-  updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
   mWidth: 154
@@ -568,19 +567,18 @@ MonoBehaviour:
   hideIfOffScreen: 0
   keepAspectRatio: 0
   aspectRatio: 2.48387098
+  mAtlas: {fileID: 11400000, guid: 62adb30369acbf943a67cee0f69267a3, type: 2}
+  mSpriteName: Button
   mType: 1
   mFillDirection: 4
   mFillAmount: 1
   mInvert: 0
-  mFlip: 0
+  mFillCenter: 1
   centerType: 1
   leftType: 1
   rightType: 1
   bottomType: 1
   topType: 1
-  mAtlas: {fileID: 11400000, guid: 62adb30369acbf943a67cee0f69267a3, type: 2}
-  mSpriteName: Button
-  mFillCenter: 1
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -595,13 +593,9 @@ MonoBehaviour:
   tweenTarget: {fileID: 100002}
   hover: {r: .882352948, g: .784313738, b: .588235319, a: 1}
   pressed: {r: .717647076, g: .639215708, b: .482352942, a: 1}
-  disabledColor: {r: .5, g: .5, b: .5, a: 1}
   duration: .200000003
+  disabledColor: {r: .5, g: .5, b: .5, a: 1}
   dragHighlight: 0
-  hoverSprite: 
-  pressedSprite: 
-  disabledSprite: 
-  pixelSnap: 0
   onClick: []
 --- !u!114 &11400004
 MonoBehaviour:
@@ -630,7 +624,6 @@ MonoBehaviour:
     target: {fileID: 400002}
     relative: 1
     absolute: -4
-  updateAnchors: 1
   mColor: {r: 0, g: 0, b: 0, a: .737254918}
   mPivot: 4
   mWidth: 146
@@ -646,7 +639,6 @@ MonoBehaviour:
   mText: Button 5
   mFontSize: 20
   mFontStyle: 0
-  mAlignment: 0
   mEncoding: 1
   mMaxLineCount: 0
   mEffectStyle: 0
@@ -692,7 +684,6 @@ MonoBehaviour:
     target: {fileID: 0}
     relative: 1
     absolute: 0
-  updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
   mWidth: 154
@@ -702,19 +693,18 @@ MonoBehaviour:
   hideIfOffScreen: 0
   keepAspectRatio: 0
   aspectRatio: 2.48387098
+  mAtlas: {fileID: 11400000, guid: 62adb30369acbf943a67cee0f69267a3, type: 2}
+  mSpriteName: Button
   mType: 1
   mFillDirection: 4
   mFillAmount: 1
   mInvert: 0
-  mFlip: 0
+  mFillCenter: 1
   centerType: 1
   leftType: 1
   rightType: 1
   bottomType: 1
   topType: 1
-  mAtlas: {fileID: 11400000, guid: 62adb30369acbf943a67cee0f69267a3, type: 2}
-  mSpriteName: Button
-  mFillCenter: 1
 --- !u!114 &11400008
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -729,13 +719,9 @@ MonoBehaviour:
   tweenTarget: {fileID: 100006}
   hover: {r: .882352948, g: .784313738, b: .588235319, a: 1}
   pressed: {r: .717647076, g: .639215708, b: .482352942, a: 1}
-  disabledColor: {r: .5, g: .5, b: .5, a: 1}
   duration: .200000003
+  disabledColor: {r: .5, g: .5, b: .5, a: 1}
   dragHighlight: 0
-  hoverSprite: 
-  pressedSprite: 
-  disabledSprite: 
-  pixelSnap: 0
   onClick: []
 --- !u!114 &11400010
 MonoBehaviour:
@@ -764,7 +750,6 @@ MonoBehaviour:
     target: {fileID: 400006}
     relative: 1
     absolute: -4
-  updateAnchors: 1
   mColor: {r: 0, g: 0, b: 0, a: .737254918}
   mPivot: 4
   mWidth: 146
@@ -780,7 +765,6 @@ MonoBehaviour:
   mText: Button 3
   mFontSize: 20
   mFontStyle: 0
-  mAlignment: 0
   mEncoding: 1
   mMaxLineCount: 0
   mEffectStyle: 0
@@ -826,7 +810,6 @@ MonoBehaviour:
     target: {fileID: 0}
     relative: 1
     absolute: 0
-  updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
   mWidth: 154
@@ -836,19 +819,18 @@ MonoBehaviour:
   hideIfOffScreen: 0
   keepAspectRatio: 0
   aspectRatio: 2.48387098
+  mAtlas: {fileID: 11400000, guid: 62adb30369acbf943a67cee0f69267a3, type: 2}
+  mSpriteName: Button
   mType: 1
   mFillDirection: 4
   mFillAmount: 1
   mInvert: 0
-  mFlip: 0
+  mFillCenter: 1
   centerType: 1
   leftType: 1
   rightType: 1
   bottomType: 1
   topType: 1
-  mAtlas: {fileID: 11400000, guid: 62adb30369acbf943a67cee0f69267a3, type: 2}
-  mSpriteName: Button
-  mFillCenter: 1
 --- !u!114 &11400014
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -863,13 +845,9 @@ MonoBehaviour:
   tweenTarget: {fileID: 100010}
   hover: {r: .882352948, g: .784313738, b: .588235319, a: 1}
   pressed: {r: .717647076, g: .639215708, b: .482352942, a: 1}
-  disabledColor: {r: .5, g: .5, b: .5, a: 1}
   duration: .200000003
+  disabledColor: {r: .5, g: .5, b: .5, a: 1}
   dragHighlight: 0
-  hoverSprite: 
-  pressedSprite: 
-  disabledSprite: 
-  pixelSnap: 0
   onClick: []
 --- !u!114 &11400016
 MonoBehaviour:
@@ -898,7 +876,6 @@ MonoBehaviour:
     target: {fileID: 400010}
     relative: 1
     absolute: -4
-  updateAnchors: 1
   mColor: {r: 0, g: 0, b: 0, a: .737254918}
   mPivot: 4
   mWidth: 146
@@ -914,7 +891,6 @@ MonoBehaviour:
   mText: Button 4
   mFontSize: 20
   mFontStyle: 0
-  mAlignment: 0
   mEncoding: 1
   mMaxLineCount: 0
   mEffectStyle: 0
@@ -960,7 +936,6 @@ MonoBehaviour:
     target: {fileID: 0}
     relative: 1
     absolute: 0
-  updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
   mWidth: 154
@@ -970,19 +945,18 @@ MonoBehaviour:
   hideIfOffScreen: 0
   keepAspectRatio: 0
   aspectRatio: 2.48387098
+  mAtlas: {fileID: 11400000, guid: 62adb30369acbf943a67cee0f69267a3, type: 2}
+  mSpriteName: Button
   mType: 1
   mFillDirection: 4
   mFillAmount: 1
   mInvert: 0
-  mFlip: 0
+  mFillCenter: 1
   centerType: 1
   leftType: 1
   rightType: 1
   bottomType: 1
   topType: 1
-  mAtlas: {fileID: 11400000, guid: 62adb30369acbf943a67cee0f69267a3, type: 2}
-  mSpriteName: Button
-  mFillCenter: 1
 --- !u!114 &11400020
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -997,13 +971,9 @@ MonoBehaviour:
   tweenTarget: {fileID: 100014}
   hover: {r: .882352948, g: .784313738, b: .588235319, a: 1}
   pressed: {r: .717647076, g: .639215708, b: .482352942, a: 1}
-  disabledColor: {r: .5, g: .5, b: .5, a: 1}
   duration: .200000003
+  disabledColor: {r: .5, g: .5, b: .5, a: 1}
   dragHighlight: 0
-  hoverSprite: 
-  pressedSprite: 
-  disabledSprite: 
-  pixelSnap: 0
   onClick: []
 --- !u!114 &11400022
 MonoBehaviour:
@@ -1032,7 +1002,6 @@ MonoBehaviour:
     target: {fileID: 400014}
     relative: 1
     absolute: -4
-  updateAnchors: 1
   mColor: {r: 0, g: 0, b: 0, a: .737254918}
   mPivot: 4
   mWidth: 146
@@ -1048,7 +1017,6 @@ MonoBehaviour:
   mText: Button 2
   mFontSize: 20
   mFontStyle: 0
-  mAlignment: 0
   mEncoding: 1
   mMaxLineCount: 0
   mEffectStyle: 0
@@ -1094,7 +1062,6 @@ MonoBehaviour:
     target: {fileID: 0}
     relative: 1
     absolute: 0
-  updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
   mWidth: 154
@@ -1104,19 +1071,18 @@ MonoBehaviour:
   hideIfOffScreen: 0
   keepAspectRatio: 0
   aspectRatio: 2.48387098
+  mAtlas: {fileID: 11400000, guid: 62adb30369acbf943a67cee0f69267a3, type: 2}
+  mSpriteName: Button
   mType: 1
   mFillDirection: 4
   mFillAmount: 1
   mInvert: 0
-  mFlip: 0
+  mFillCenter: 1
   centerType: 1
   leftType: 1
   rightType: 1
   bottomType: 1
   topType: 1
-  mAtlas: {fileID: 11400000, guid: 62adb30369acbf943a67cee0f69267a3, type: 2}
-  mSpriteName: Button
-  mFillCenter: 1
 --- !u!114 &11400026
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1131,13 +1097,9 @@ MonoBehaviour:
   tweenTarget: {fileID: 100018}
   hover: {r: .882352948, g: .784313738, b: .588235319, a: 1}
   pressed: {r: .717647076, g: .639215708, b: .482352942, a: 1}
-  disabledColor: {r: .5, g: .5, b: .5, a: 1}
   duration: .200000003
+  disabledColor: {r: .5, g: .5, b: .5, a: 1}
   dragHighlight: 0
-  hoverSprite: 
-  pressedSprite: 
-  disabledSprite: 
-  pixelSnap: 0
   onClick: []
 --- !u!114 &11400028
 MonoBehaviour:
@@ -1166,7 +1128,6 @@ MonoBehaviour:
     target: {fileID: 400018}
     relative: 1
     absolute: -4
-  updateAnchors: 1
   mColor: {r: 0, g: 0, b: 0, a: .737254918}
   mPivot: 4
   mWidth: 146
@@ -1182,7 +1143,6 @@ MonoBehaviour:
   mText: Button 1
   mFontSize: 20
   mFontStyle: 0
-  mAlignment: 0
   mEncoding: 1
   mMaxLineCount: 0
   mEffectStyle: 0
@@ -1228,7 +1188,6 @@ MonoBehaviour:
     target: {fileID: 0}
     relative: 1
     absolute: -4
-  updateAnchors: 1
   mColor: {r: 0, g: 0, b: 0, a: .737254918}
   mPivot: 4
   mWidth: 146
@@ -1244,7 +1203,6 @@ MonoBehaviour:
   mText: Button 0
   mFontSize: 20
   mFontStyle: 0
-  mAlignment: 0
   mEncoding: 1
   mMaxLineCount: 0
   mEffectStyle: 0
@@ -1277,13 +1235,9 @@ MonoBehaviour:
   tweenTarget: {fileID: 100024}
   hover: {r: .882352948, g: .784313738, b: .588235319, a: 1}
   pressed: {r: .717647076, g: .639215708, b: .482352942, a: 1}
-  disabledColor: {r: .5, g: .5, b: .5, a: 1}
   duration: .200000003
+  disabledColor: {r: .5, g: .5, b: .5, a: 1}
   dragHighlight: 0
-  hoverSprite: 
-  pressedSprite: 
-  disabledSprite: 
-  pixelSnap: 0
   onClick: []
 --- !u!114 &11400034
 MonoBehaviour:
@@ -1312,7 +1266,6 @@ MonoBehaviour:
     target: {fileID: 0}
     relative: 1
     absolute: 0
-  updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
   mWidth: 154
@@ -1322,19 +1275,18 @@ MonoBehaviour:
   hideIfOffScreen: 0
   keepAspectRatio: 0
   aspectRatio: 2.48387098
+  mAtlas: {fileID: 11400000, guid: 62adb30369acbf943a67cee0f69267a3, type: 2}
+  mSpriteName: Button
   mType: 1
   mFillDirection: 4
   mFillAmount: 1
   mInvert: 0
-  mFlip: 0
+  mFillCenter: 1
   centerType: 1
   leftType: 1
   rightType: 1
   bottomType: 1
   topType: 1
-  mAtlas: {fileID: 11400000, guid: 62adb30369acbf943a67cee0f69267a3, type: 2}
-  mSpriteName: Button
-  mFillCenter: 1
 --- !u!114 &11400038
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1362,7 +1314,6 @@ MonoBehaviour:
     target: {fileID: 0}
     relative: 1
     absolute: 0
-  updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
   mWidth: 100
@@ -1399,7 +1350,6 @@ MonoBehaviour:
     target: {fileID: 400030}
     relative: 1
     absolute: 0
-  updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
   mWidth: 656
@@ -1409,19 +1359,18 @@ MonoBehaviour:
   hideIfOffScreen: 0
   keepAspectRatio: 0
   aspectRatio: 1.50458717
+  mAtlas: {fileID: 11400000, guid: 62adb30369acbf943a67cee0f69267a3, type: 2}
+  mSpriteName: Glow - Inner
   mType: 0
   mFillDirection: 4
   mFillAmount: 1
   mInvert: 0
-  mFlip: 0
+  mFillCenter: 1
   centerType: 1
   leftType: 1
   rightType: 1
   bottomType: 1
   topType: 1
-  mAtlas: {fileID: 11400000, guid: 62adb30369acbf943a67cee0f69267a3, type: 2}
-  mSpriteName: Glow - Inner
-  mFillCenter: 1
 --- !u!114 &11400042
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1449,7 +1398,6 @@ MonoBehaviour:
     target: {fileID: 0}
     relative: 1
     absolute: 0
-  updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
   mWidth: 656

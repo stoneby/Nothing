@@ -6,6 +6,7 @@ namespace com.kx.sglm.gs.battle.share.actor
 
 
 	using BattleRoundCountRecord = com.kx.sglm.gs.battle.share.data.record.BattleRoundCountRecord;
+	using InnerBattleEvent = com.kx.sglm.gs.battle.share.@event.InnerBattleEvent;
 
 	/// <summary>
 	/// 带有{@code List}结构的战斗参与者，一般用于{@code AbstractBattleLoopedNest}
@@ -15,9 +16,9 @@ namespace com.kx.sglm.gs.battle.share.actor
 	public abstract class AbstractBattleActorList<T> : IBattleActor where T : IBattleActor
 	{
 		public abstract void onDead();
-		public abstract bool Alive {get;}
+		public abstract bool hasHp();
 
-		protected internal IList<T> actorList;
+		protected internal List<T> actorList;
 
 		protected internal int curIndex_Renamed;
 
@@ -47,8 +48,20 @@ namespace com.kx.sglm.gs.battle.share.actor
 
 		public virtual bool hasCurActor()
 		{
-			return curIndex() < actorSize();
+			return curIndex() < battlingActorSize();
 		}
+
+
+		public virtual void handleEvent(InnerBattleEvent @event)
+		{
+			fireBattleEvent(@event);
+			foreach (T _actor in actorList)
+			{
+				_actor.handleEvent(@event);
+			}
+		}
+
+		public abstract void fireBattleEvent(InnerBattleEvent @event);
 
 
 		public virtual void onRoundFinish(BattleRoundCountRecord roundRecord)
@@ -105,7 +118,7 @@ namespace com.kx.sglm.gs.battle.share.actor
 			return curIndex_Renamed;
 		}
 
-		public virtual IList<T> ActorList
+		public virtual List<T> ActorList
 		{
 			get
 			{
@@ -113,7 +126,12 @@ namespace com.kx.sglm.gs.battle.share.actor
 			}
 		}
 
-		public virtual int actorSize()
+		public virtual int battlingActorSize()
+		{
+			return allActorSize();
+		}
+
+		public virtual int allActorSize()
 		{
 			return actorList.Count;
 		}

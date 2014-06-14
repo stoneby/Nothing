@@ -7,7 +7,7 @@ namespace com.kx.sglm.gs.battle.share.utils
 	public class PropertyRawSet
 	{
 
-		private readonly IDictionary<int, object> p;
+		private readonly Dictionary<int, object> p;
 
 		public PropertyRawSet()
 		{
@@ -19,7 +19,7 @@ namespace com.kx.sglm.gs.battle.share.utils
 			p = new Dictionary<int, object>(pset.p);
 		}
 
-		public PropertyRawSet(IDictionary<int, object> pset)
+		public PropertyRawSet(Dictionary<int, object> pset)
 		{
 			p = new Dictionary<int, object>(pset);
 		}

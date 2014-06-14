@@ -292,7 +292,6 @@ MonoBehaviour:
     target: {fileID: 0}
     relative: 1
     absolute: 0
-  updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
   mWidth: 408
@@ -302,19 +301,18 @@ MonoBehaviour:
   hideIfOffScreen: 0
   keepAspectRatio: 0
   aspectRatio: 4.34042549
+  mAtlas: {fileID: 11400000, guid: 50ee6f6c3d8df9140a1f542616ee2f62, type: 2}
+  mSpriteName: Regret
   mType: 0
   mFillDirection: 4
   mFillAmount: 1
   mInvert: 0
-  mFlip: 0
+  mFillCenter: 1
   centerType: 1
   leftType: 1
   rightType: 1
   bottomType: 1
   topType: 1
-  mAtlas: {fileID: 11400000, guid: 50ee6f6c3d8df9140a1f542616ee2f62, type: 2}
-  mSpriteName: Regret
-  mFillCenter: 1
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -342,7 +340,6 @@ MonoBehaviour:
     target: {fileID: 0}
     relative: 1
     absolute: 0
-  updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
   mWidth: 964
@@ -352,19 +349,18 @@ MonoBehaviour:
   hideIfOffScreen: 0
   keepAspectRatio: 0
   aspectRatio: 9.64000034
+  mAtlas: {fileID: 11400000, guid: 50ee6f6c3d8df9140a1f542616ee2f62, type: 2}
+  mSpriteName: YouLose
   mType: 0
   mFillDirection: 4
   mFillAmount: 1
   mInvert: 0
-  mFlip: 0
+  mFillCenter: 1
   centerType: 1
   leftType: 1
   rightType: 1
   bottomType: 1
   topType: 1
-  mAtlas: {fileID: 11400000, guid: 50ee6f6c3d8df9140a1f542616ee2f62, type: 2}
-  mSpriteName: YouLose
-  mFillCenter: 1
 --- !u!114 &11400004
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -392,7 +388,6 @@ MonoBehaviour:
     target: {fileID: 0}
     relative: 1
     absolute: 0
-  updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
   mWidth: 1280
@@ -402,19 +397,18 @@ MonoBehaviour:
   hideIfOffScreen: 0
   keepAspectRatio: 0
   aspectRatio: 1.77777779
+  mAtlas: {fileID: 11400000, guid: 50ee6f6c3d8df9140a1f542616ee2f62, type: 2}
+  mSpriteName: bg
   mType: 0
   mFillDirection: 4
   mFillAmount: 1
   mInvert: 0
-  mFlip: 0
+  mFillCenter: 1
   centerType: 1
   leftType: 1
   rightType: 1
   bottomType: 1
   topType: 1
-  mAtlas: {fileID: 11400000, guid: 50ee6f6c3d8df9140a1f542616ee2f62, type: 2}
-  mSpriteName: bg
-  mFillCenter: 1
 --- !u!114 &11400006
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -442,7 +436,6 @@ MonoBehaviour:
     target: {fileID: 0}
     relative: 1
     absolute: 0
-  updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
   mWidth: 150
@@ -452,19 +445,18 @@ MonoBehaviour:
   hideIfOffScreen: 0
   keepAspectRatio: 0
   aspectRatio: 3.94736838
+  mAtlas: {fileID: 11400000, guid: 50ee6f6c3d8df9140a1f542616ee2f62, type: 2}
+  mSpriteName: S-Military
   mType: 0
   mFillDirection: 4
   mFillAmount: 1
   mInvert: 0
-  mFlip: 0
+  mFillCenter: 1
   centerType: 1
   leftType: 1
   rightType: 1
   bottomType: 1
   topType: 1
-  mAtlas: {fileID: 11400000, guid: 50ee6f6c3d8df9140a1f542616ee2f62, type: 2}
-  mSpriteName: S-Military
-  mFillCenter: 1
 --- !u!114 &11400008
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -481,7 +473,6 @@ MonoBehaviour:
   hoverSprite: ButtonNormal
   pressedSprite: Button-Down
   disabledSprite: ButtonNormal
-  pixelSnap: 1
 --- !u!114 &11400010
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -509,7 +500,6 @@ MonoBehaviour:
     target: {fileID: 0}
     relative: 1
     absolute: 0
-  updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
   mWidth: 234
@@ -519,19 +509,18 @@ MonoBehaviour:
   hideIfOffScreen: 0
   keepAspectRatio: 0
   aspectRatio: 2.72093034
+  mAtlas: {fileID: 11400000, guid: 50ee6f6c3d8df9140a1f542616ee2f62, type: 2}
+  mSpriteName: ButtonNormal
   mType: 0
   mFillDirection: 4
   mFillAmount: 1
   mInvert: 0
-  mFlip: 0
+  mFillCenter: 1
   centerType: 1
   leftType: 1
   rightType: 1
   bottomType: 1
   topType: 1
-  mAtlas: {fileID: 11400000, guid: 50ee6f6c3d8df9140a1f542616ee2f62, type: 2}
-  mSpriteName: ButtonNormal
-  mFillCenter: 1
 --- !u!114 &11400012
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -559,7 +548,6 @@ MonoBehaviour:
     target: {fileID: 0}
     relative: 1
     absolute: 0
-  updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
   mWidth: 150
@@ -569,19 +557,18 @@ MonoBehaviour:
   hideIfOffScreen: 0
   keepAspectRatio: 0
   aspectRatio: 3.94736838
+  mAtlas: {fileID: 11400000, guid: 50ee6f6c3d8df9140a1f542616ee2f62, type: 2}
+  mSpriteName: S-Equip
   mType: 0
   mFillDirection: 4
   mFillAmount: 1
   mInvert: 0
-  mFlip: 0
+  mFillCenter: 1
   centerType: 1
   leftType: 1
   rightType: 1
   bottomType: 1
   topType: 1
-  mAtlas: {fileID: 11400000, guid: 50ee6f6c3d8df9140a1f542616ee2f62, type: 2}
-  mSpriteName: S-Equip
-  mFillCenter: 1
 --- !u!114 &11400014
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -598,7 +585,6 @@ MonoBehaviour:
   hoverSprite: ButtonNormal
   pressedSprite: Button-Down
   disabledSprite: ButtonNormal
-  pixelSnap: 1
 --- !u!114 &11400016
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -626,7 +612,6 @@ MonoBehaviour:
     target: {fileID: 0}
     relative: 1
     absolute: 0
-  updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
   mWidth: 234
@@ -636,19 +621,18 @@ MonoBehaviour:
   hideIfOffScreen: 0
   keepAspectRatio: 0
   aspectRatio: 2.72093034
+  mAtlas: {fileID: 11400000, guid: 50ee6f6c3d8df9140a1f542616ee2f62, type: 2}
+  mSpriteName: ButtonNormal
   mType: 0
   mFillDirection: 4
   mFillAmount: 1
   mInvert: 0
-  mFlip: 0
+  mFillCenter: 1
   centerType: 1
   leftType: 1
   rightType: 1
   bottomType: 1
   topType: 1
-  mAtlas: {fileID: 11400000, guid: 50ee6f6c3d8df9140a1f542616ee2f62, type: 2}
-  mSpriteName: ButtonNormal
-  mFillCenter: 1
 --- !u!114 &11400020
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -662,7 +646,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Path: 
   WindowGroup: 0
-  Background: {fileID: 100006}
 --- !u!114 &11400022
 MonoBehaviour:
   m_ObjectHideFlags: 1

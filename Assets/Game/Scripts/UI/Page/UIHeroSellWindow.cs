@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Linq;
 using KXSGCodec;
 using Property;
+using Template;
 using UnityEngine;
 
 /// <summary>
@@ -161,11 +162,12 @@ public class UIHeroSellWindow : Window
         HeroModelLocator.Instance.SortHeroList(orderType,scHeroList.HeroList);
         for (int index = 0; index < scHeroList.HeroList.Count; index++)
         {
-            var item = herosGrid.transform.GetChild(index);
+            var item = herosGrid.transform.GetChild(index).GetComponent<HeroItem>();
             var uUid = scHeroList.HeroList[index].Uuid;
-            item.GetComponent<HeroInfoPack>().Uuid = uUid;
-            CheckState(item, uUid);
-            ShowHero(orderType, item, uUid);
+            var info = scHeroList.HeroList[index];
+            CheckState(item.transform, uUid);
+            item.InitItem(info);
+            HeroUtils.ShowHero(orderType, item, info);
         }
     }
 
@@ -230,75 +232,14 @@ public class UIHeroSellWindow : Window
                 if (maskToDel != null)
                 {
                     Destroy(maskToDel.gameObject);
-                }
+                }    
+                item.FindChild("Hero").GetComponent<UISprite>().color = Color.white;
+                item.FindChild("BG").GetComponent<UISprite>().color = Color.white;
+                item.GetComponent<BoxCollider>().enabled = true;
                 UIEventListener.Get(item.gameObject).onClick -= OnHeroItemClicked;
                 item.parent = PoolManager.Pools["Heros"].transform;
                 PoolManager.Pools["Heros"].Despawn(item);
             }
-        }
-    }
-
-    /// <summary>
-    /// Show the info of the hero.
-    /// </summary>
-    /// <param name="orderType">The order type of </param>
-    /// <param name="heroTran">The transform of hero.</param>
-    /// <param name="uUid">The template id of hero.</param>
-    private void ShowHero(short orderType, Transform heroTran, long uUid)
-    {
-        var heroInfo = HeroModelLocator.Instance.FindHero(uUid);
-        var heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpl[heroInfo.TemplateId];
-        var sortRelated = Utils.FindChild(heroTran, "SortRelated");
-        var stars = Utils.FindChild(heroTran, "Rarity");
-        for (int index = 0; index < heroTemplate.Star; index++)
-        {
-            NGUITools.SetActive(stars.GetChild(index).gameObject, true);
-        }
-        for (int index = heroTemplate.Star; index < stars.transform.childCount; index++)
-        {
-            NGUITools.SetActive(stars.GetChild(index).gameObject, false);
-        }
-        switch (orderType)
-        {
-            //ÈëÊÖË³ÐòÅÅÐò
-            case 0:
-                ShowByLvl(sortRelated, heroInfo);
-                break;
-
-            //Îä½«Ö°ÒµÅÅÐò
-            case 1:
-                ShowByJob(sortRelated, heroInfo, heroTemplate);
-                break;
-
-            //Îä½«Ï¡ÓÐ¶ÈÅÅÐò
-            case 2:
-                ShowByLvl(sortRelated, heroInfo);
-                break;
-
-            //ÕÕ¶ÓÎéË³ÐòÅÅÐò
-            case 3:
-                ShowByLvl(sortRelated, heroInfo);
-                break;
-
-            //¹¥»÷Á¦ÅÅÐò
-            case 4:
-                ShowByJob(sortRelated, heroInfo, heroTemplate);
-                break;
-
-            //HPÅÅÐò
-            case 5:
-                ShowByHp(sortRelated, heroInfo);
-                break;
-
-            //»Ø¸´Á¦ÅÅÐò
-            case 6:
-                ShowByRecover(sortRelated, heroInfo);
-                break;
-
-            //µÈ¼¶ÅÅÐò
-            case 7:
-                ShowByLvl(sortRelated, heroInfo);
-                break;
         }
     }
 
@@ -314,10 +255,10 @@ public class UIHeroSellWindow : Window
         HeroModelLocator.Instance.SortHeroList(orderType, scHeroList.HeroList);
         for (int i = 0; i < scHeroList.HeroList.Count; i++)
         {
-            var item = herosGrid.transform.GetChild(i);
-            var uUid = scHeroList.HeroList[i].Uuid;
-            item.GetComponent<HeroInfoPack>().Uuid = uUid;
-            ShowHero(orderType, item, uUid);
+            var item = herosGrid.transform.GetChild(i).GetComponent<HeroItem>();
+            var info = scHeroList.HeroList[i];
+            item.InitItem(info);
+            HeroUtils.ShowHero(orderType, item, info);
         }
     }
 
@@ -347,53 +288,21 @@ public class UIHeroSellWindow : Window
     /// </summary>
     private void OnHeroItemClicked(GameObject go)
     {
-        var uUid = go.GetComponent<HeroInfoPack>().Uuid;
+        var uUid = go.GetComponent<HeroItem>().Uuid;
         if (csHeroSell.SellList.Count >= MaxHeroCountCanSell && !csHeroSell.SellList.Contains(uUid))
         {
             return;
         }
         var heroInfo = HeroModelLocator.Instance.FindHero(uUid);
         var baseSoul = hero.HeroTmpl[heroInfo.TemplateId].Price;
-        long costSoul = 0;
         var level = heroInfo.Lvl;
         var stars = hero.HeroTmpl[heroInfo.TemplateId].Star;
-        switch (stars)
-        {
-            case 1:
-                for (int index = 1; index < level; index++)
-                {
-                    costSoul += hero.LvlUpTmpl[index].CostSoulStar1;
-                }
-                break;
-            case 2:
-                for (int index = 1; index < level; index++)
-                {
-                    costSoul += hero.LvlUpTmpl[index].CostSoulStar2;
-                }
-                break;
-            case 3:
-                for (int index = 1; index < level; index++)
-                {
-                    costSoul += hero.LvlUpTmpl[index].CostSoulStar3;
-                }
-                break;
-            case 4:
-                for (int index = 1; index < level; index++)
-                {
-                    costSoul += hero.LvlUpTmpl[index].CostSoulStar4;
-                }
-                break;
-            case 5:
-                for (int index = 1; index < level; index++)
-                {
-                    costSoul += hero.LvlUpTmpl[index].CostSoulStar5;
-                }
-                break;
-        }
+        var costSoul = GetCostSoul(stars, level);
         if(!csHeroSell.SellList.Contains(uUid))
         {
             csHeroSell.SellList.Add(uUid);
             var maskToAdd = NGUITools.AddChild(go, mask);
+            go.transform.FindChild("BG").GetComponent<UISprite>().color = Color.gray;
             maskToAdd.SetActive(true);
             sellHeros.Add(go);
             totalSoul += (long)(baseSoul + costSoul * hero.BaseTmpl[1].SellCoeff);
@@ -403,9 +312,55 @@ public class UIHeroSellWindow : Window
             csHeroSell.SellList.Remove(uUid);
             Destroy(go.transform.FindChild("Mask(Clone)").gameObject);
             sellHeros.Remove(go);
+            go.transform.FindChild("BG").GetComponent<UISprite>().color = Color.white;
             totalSoul -= (long)(baseSoul + costSoul * hero.BaseTmpl[1].SellCoeff);
         }
         Refresh();
+    }
+
+    /// <summary>
+    /// Get the cost soul of special star and level.
+    /// </summary>
+    /// <param name="stars">The star of the hero.</param>
+    /// <param name="level">The level of the hero.</param>
+    /// <returns></returns>
+    private long GetCostSoul(sbyte stars, short level)
+    {
+        long costSoul = 0;
+        switch(stars)
+        {
+            case 1:
+                for(int index = 1; index < level; index++)
+                {
+                    costSoul += hero.LvlUpTmpl[index].CostSoulStar1;
+                }
+                break;
+            case 2:
+                for(int index = 1; index < level; index++)
+                {
+                    costSoul += hero.LvlUpTmpl[index].CostSoulStar2;
+                }
+                break;
+            case 3:
+                for(int index = 1; index < level; index++)
+                {
+                    costSoul += hero.LvlUpTmpl[index].CostSoulStar3;
+                }
+                break;
+            case 4:
+                for(int index = 1; index < level; index++)
+                {
+                    costSoul += hero.LvlUpTmpl[index].CostSoulStar4;
+                }
+                break;
+            case 5:
+                for(int index = 1; index < level; index++)
+                {
+                    costSoul += hero.LvlUpTmpl[index].CostSoulStar5;
+                }
+                break;
+        }
+        return costSoul;
     }
 
     /// <summary>
@@ -426,64 +381,15 @@ public class UIHeroSellWindow : Window
     /// </summary>
     private void OnCancelClicked(GameObject go)
     {
-        csHeroSell.SellList.Clear();
         for (int index = 0; index < sellHeros.Count; index++)
         {
             Destroy(sellHeros[index].transform.FindChild("Mask(Clone)").gameObject);
+            sellHeros[index].transform.FindChild("BG").GetComponent<UISprite>().color = Color.white;
         }
-    }
-
-    /// <summary>
-    /// Show each hero items with the job info.
-    /// </summary>
-    private void ShowByJob(Transform sortRelated, HeroInfo heroInfo, HeroTemplate heroTemplate)
-    {
-        var jobSymobl = Utils.FindChild(sortRelated, "JobSymbol").GetComponent<UISprite>();
-        var attack = Utils.FindChild(sortRelated, "Attack").GetComponent<UILabel>();
-        jobSymobl.spriteName = UIHerosDisplayWindow.JobPrefix + heroTemplate.Job;
-        attack.text = heroInfo.Prop[RoleProperties.HERO_ATK].ToString(CultureInfo.InvariantCulture);
-        NGUITools.SetActiveChildren(sortRelated.gameObject, false);
-        NGUITools.SetActive(jobSymobl.gameObject, true);
-        NGUITools.SetActive(attack.gameObject, true);
-    }
-
-    /// <summary>
-    /// Show each hero items with the hp info.
-    /// </summary>
-    private void ShowByHp(Transform sortRelated, HeroInfo heroInfo)
-    {
-        var hp = Utils.FindChild(sortRelated, "HP-Title");
-        var hpValue = Utils.FindChild(sortRelated, "HP-Value").GetComponent<UILabel>();
-        hpValue.text = heroInfo.Prop[RoleProperties.HERO_HP].ToString(CultureInfo.InvariantCulture);
-        NGUITools.SetActiveChildren(sortRelated.gameObject, false);
-        NGUITools.SetActive(hp.gameObject, true);
-        NGUITools.SetActive(hpValue.gameObject, true);
-    }
-
-    /// <summary>
-    /// Show each hero items with the recover info.
-    /// </summary>
-    private void ShowByRecover(Transform sortRelated, HeroInfo heroInfo)
-    {
-        var recover = Utils.FindChild(sortRelated, "Recover-Title");
-        var recoverValue = Utils.FindChild(sortRelated, "Recover-Value").GetComponent<UILabel>();
-        recoverValue.text = heroInfo.Prop[RoleProperties.HERO_RECOVER].ToString(CultureInfo.InvariantCulture);
-        NGUITools.SetActiveChildren(sortRelated.gameObject, false);
-        NGUITools.SetActive(recover.gameObject, true);
-        NGUITools.SetActive(recoverValue.gameObject, true);
-    }
-
-    /// <summary>
-    /// Show each hero items with the level info.
-    /// </summary>
-    private void ShowByLvl(Transform sortRelated, HeroInfo heroInfo)
-    {
-        var lvTitle = Utils.FindChild(sortRelated, "LV-Title");
-        var lvValue = Utils.FindChild(sortRelated, "LV-Value").GetComponent<UILabel>();
-        lvValue.text = heroInfo.Lvl.ToString(CultureInfo.InvariantCulture);
-        NGUITools.SetActiveChildren(sortRelated.gameObject, false);
-        NGUITools.SetActive(lvTitle.gameObject, true);
-        NGUITools.SetActive(lvValue.gameObject, true);
+        csHeroSell.SellList.Clear();
+        sellHeros.Clear();
+        totalSoul = 0;
+        Refresh();
     }
 
     #endregion
@@ -501,7 +407,7 @@ public class UIHeroSellWindow : Window
         for (int index = 0; index < count; index++)
         {
             var item = herosGrid.transform.GetChild(index).gameObject;
-            if (!uuids.Contains(item.GetComponent<HeroInfoPack>().Uuid))
+            if (!uuids.Contains(item.GetComponent<HeroItem>().Uuid))
             {
                 Destroy(item);
             }

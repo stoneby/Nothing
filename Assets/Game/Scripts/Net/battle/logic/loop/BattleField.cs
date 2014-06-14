@@ -1,3 +1,5 @@
+using System;
+
 namespace com.kx.sglm.gs.battle.share.logic.loop
 {
 
@@ -39,7 +41,7 @@ namespace com.kx.sglm.gs.battle.share.logic.loop
 			int _winner = BattleArmy.DeadBattleSide.DefaultOpponent.Index;
 			_record.addProp(BattleRecordConstants.BATTLE_END_WIN_SIDE, _winner);
 			updateBattleState(BattleState.STOP, true);
-
+			Console.WriteLine("#BattleField.onFinish()------BattleFieldEnd");
 			Battle.finish();
 			Record.finishCurEndRecord();
 

@@ -15,475 +15,478 @@ using System.Runtime.Serialization;
 using Thrift.Protocol;
 using Thrift.Transport;
 
-
-#if !SILVERLIGHT
-[Serializable]
-#endif
-public partial class MaterialItemTemplate : TBase
+namespace Template
 {
-  private int _id;
-  private string _name;
-  private int _iconId;
-  private int _picId;
-  private string _desc;
-  private sbyte _quality;
-  private bool _canSale;
-  private int _salePrice;
-  private sbyte _saleCurrency;
-  private sbyte _fitType;
-  private sbyte _fitJobType;
-  private sbyte _type;
 
-  public int Id
-  {
-    get
-    {
-      return _id;
-    }
-    set
-    {
-      __isset.id = true;
-      this._id = value;
-    }
-  }
-
-  /// <summary>
-  /// 名字
-  /// </summary>
-  public string Name
-  {
-    get
-    {
-      return _name;
-    }
-    set
-    {
-      __isset.name = true;
-      this._name = value;
-    }
-  }
-
-  /// <summary>
-  /// 图标
-  /// </summary>
-  public int IconId
-  {
-    get
-    {
-      return _iconId;
-    }
-    set
-    {
-      __isset.iconId = true;
-      this._iconId = value;
-    }
-  }
-
-  /// <summary>
-  /// 图片
-  /// </summary>
-  public int PicId
-  {
-    get
-    {
-      return _picId;
-    }
-    set
-    {
-      __isset.picId = true;
-      this._picId = value;
-    }
-  }
-
-  /// <summary>
-  /// 描述
-  /// </summary>
-  public string Desc
-  {
-    get
-    {
-      return _desc;
-    }
-    set
-    {
-      __isset.desc = true;
-      this._desc = value;
-    }
-  }
-
-  /// <summary>
-  /// 品质
-  /// </summary>
-  public sbyte Quality
-  {
-    get
-    {
-      return _quality;
-    }
-    set
-    {
-      __isset.quality = true;
-      this._quality = value;
-    }
-  }
-
-  /// <summary>
-  /// 可出售
-  /// </summary>
-  public bool CanSale
-  {
-    get
-    {
-      return _canSale;
-    }
-    set
-    {
-      __isset.canSale = true;
-      this._canSale = value;
-    }
-  }
-
-  /// <summary>
-  /// 出售价格
-  /// </summary>
-  public int SalePrice
-  {
-    get
-    {
-      return _salePrice;
-    }
-    set
-    {
-      __isset.salePrice = true;
-      this._salePrice = value;
-    }
-  }
-
-  /// <summary>
-  /// 出售货币类型
-  /// </summary>
-  public sbyte SaleCurrency
-  {
-    get
-    {
-      return _saleCurrency;
-    }
-    set
-    {
-      __isset.saleCurrency = true;
-      this._saleCurrency = value;
-    }
-  }
-
-  /// <summary>
-  /// 适用于武器还是防具
-  /// </summary>
-  public sbyte FitType
-  {
-    get
-    {
-      return _fitType;
-    }
-    set
-    {
-      __isset.fitType = true;
-      this._fitType = value;
-    }
-  }
-
-  /// <summary>
-  /// 适用职业类型
-  /// </summary>
-  public sbyte FitJobType
-  {
-    get
-    {
-      return _fitJobType;
-    }
-    set
-    {
-      __isset.fitJobType = true;
-      this._fitJobType = value;
-    }
-  }
-
-  /// <summary>
-  /// 材料类型
-  /// </summary>
-  public sbyte Type
-  {
-    get
-    {
-      return _type;
-    }
-    set
-    {
-      __isset.type = true;
-      this._type = value;
-    }
-  }
-
-
-  public Isset __isset;
   #if !SILVERLIGHT
   [Serializable]
   #endif
-  public struct Isset {
-    public bool id;
-    public bool name;
-    public bool iconId;
-    public bool picId;
-    public bool desc;
-    public bool quality;
-    public bool canSale;
-    public bool salePrice;
-    public bool saleCurrency;
-    public bool fitType;
-    public bool fitJobType;
-    public bool type;
-  }
-
-  public MaterialItemTemplate() {
-  }
-
-  public void Read (TProtocol iprot)
+  public partial class MaterialItemTemplate : TBase
   {
-    TField field;
-    iprot.ReadStructBegin();
-    while (true)
+    private int _id;
+    private string _name;
+    private int _iconId;
+    private int _picId;
+    private string _desc;
+    private sbyte _quality;
+    private bool _canSale;
+    private int _salePrice;
+    private sbyte _saleCurrency;
+    private sbyte _fitType;
+    private sbyte _fitJobType;
+    private sbyte _type;
+
+    public int Id
     {
-      field = iprot.ReadFieldBegin();
-      if (field.Type == TType.Stop) { 
-        break;
-      }
-      switch (field.ID)
+      get
       {
-        case 1:
-          if (field.Type == TType.I32) {
-            Id = iprot.ReadI32();
-          } else { 
-            TProtocolUtil.Skip(iprot, field.Type);
-          }
-          break;
-        case 2:
-          if (field.Type == TType.String) {
-            Name = iprot.ReadString();
-          } else { 
-            TProtocolUtil.Skip(iprot, field.Type);
-          }
-          break;
-        case 3:
-          if (field.Type == TType.I32) {
-            IconId = iprot.ReadI32();
-          } else { 
-            TProtocolUtil.Skip(iprot, field.Type);
-          }
-          break;
-        case 4:
-          if (field.Type == TType.I32) {
-            PicId = iprot.ReadI32();
-          } else { 
-            TProtocolUtil.Skip(iprot, field.Type);
-          }
-          break;
-        case 5:
-          if (field.Type == TType.String) {
-            Desc = iprot.ReadString();
-          } else { 
-            TProtocolUtil.Skip(iprot, field.Type);
-          }
-          break;
-        case 7:
-          if (field.Type == TType.Byte) {
-            Quality = iprot.ReadByte();
-          } else { 
-            TProtocolUtil.Skip(iprot, field.Type);
-          }
-          break;
-        case 8:
-          if (field.Type == TType.Bool) {
-            CanSale = iprot.ReadBool();
-          } else { 
-            TProtocolUtil.Skip(iprot, field.Type);
-          }
-          break;
-        case 9:
-          if (field.Type == TType.I32) {
-            SalePrice = iprot.ReadI32();
-          } else { 
-            TProtocolUtil.Skip(iprot, field.Type);
-          }
-          break;
-        case 10:
-          if (field.Type == TType.Byte) {
-            SaleCurrency = iprot.ReadByte();
-          } else { 
-            TProtocolUtil.Skip(iprot, field.Type);
-          }
-          break;
-        case 12:
-          if (field.Type == TType.Byte) {
-            FitType = iprot.ReadByte();
-          } else { 
-            TProtocolUtil.Skip(iprot, field.Type);
-          }
-          break;
-        case 13:
-          if (field.Type == TType.Byte) {
-            FitJobType = iprot.ReadByte();
-          } else { 
-            TProtocolUtil.Skip(iprot, field.Type);
-          }
-          break;
-        case 14:
-          if (field.Type == TType.Byte) {
-            Type = iprot.ReadByte();
-          } else { 
-            TProtocolUtil.Skip(iprot, field.Type);
-          }
-          break;
-        default: 
-          TProtocolUtil.Skip(iprot, field.Type);
-          break;
+        return _id;
       }
-      iprot.ReadFieldEnd();
+      set
+      {
+        __isset.id = true;
+        this._id = value;
+      }
     }
-    iprot.ReadStructEnd();
-  }
 
-  public void Write(TProtocol oprot) {
-    TStruct struc = new TStruct("MaterialItemTemplate");
-    oprot.WriteStructBegin(struc);
-    TField field = new TField();
-    if (__isset.id) {
-      field.Name = "id";
-      field.Type = TType.I32;
-      field.ID = 1;
-      oprot.WriteFieldBegin(field);
-      oprot.WriteI32(Id);
-      oprot.WriteFieldEnd();
+    /// <summary>
+    /// 名字
+    /// </summary>
+    public string Name
+    {
+      get
+      {
+        return _name;
+      }
+      set
+      {
+        __isset.name = true;
+        this._name = value;
+      }
     }
-    if (Name != null && __isset.name) {
-      field.Name = "name";
-      field.Type = TType.String;
-      field.ID = 2;
-      oprot.WriteFieldBegin(field);
-      oprot.WriteString(Name);
-      oprot.WriteFieldEnd();
-    }
-    if (__isset.iconId) {
-      field.Name = "iconId";
-      field.Type = TType.I32;
-      field.ID = 3;
-      oprot.WriteFieldBegin(field);
-      oprot.WriteI32(IconId);
-      oprot.WriteFieldEnd();
-    }
-    if (__isset.picId) {
-      field.Name = "picId";
-      field.Type = TType.I32;
-      field.ID = 4;
-      oprot.WriteFieldBegin(field);
-      oprot.WriteI32(PicId);
-      oprot.WriteFieldEnd();
-    }
-    if (Desc != null && __isset.desc) {
-      field.Name = "desc";
-      field.Type = TType.String;
-      field.ID = 5;
-      oprot.WriteFieldBegin(field);
-      oprot.WriteString(Desc);
-      oprot.WriteFieldEnd();
-    }
-    if (__isset.quality) {
-      field.Name = "quality";
-      field.Type = TType.Byte;
-      field.ID = 7;
-      oprot.WriteFieldBegin(field);
-      oprot.WriteByte(Quality);
-      oprot.WriteFieldEnd();
-    }
-    if (__isset.canSale) {
-      field.Name = "canSale";
-      field.Type = TType.Bool;
-      field.ID = 8;
-      oprot.WriteFieldBegin(field);
-      oprot.WriteBool(CanSale);
-      oprot.WriteFieldEnd();
-    }
-    if (__isset.salePrice) {
-      field.Name = "salePrice";
-      field.Type = TType.I32;
-      field.ID = 9;
-      oprot.WriteFieldBegin(field);
-      oprot.WriteI32(SalePrice);
-      oprot.WriteFieldEnd();
-    }
-    if (__isset.saleCurrency) {
-      field.Name = "saleCurrency";
-      field.Type = TType.Byte;
-      field.ID = 10;
-      oprot.WriteFieldBegin(field);
-      oprot.WriteByte(SaleCurrency);
-      oprot.WriteFieldEnd();
-    }
-    if (__isset.fitType) {
-      field.Name = "fitType";
-      field.Type = TType.Byte;
-      field.ID = 12;
-      oprot.WriteFieldBegin(field);
-      oprot.WriteByte(FitType);
-      oprot.WriteFieldEnd();
-    }
-    if (__isset.fitJobType) {
-      field.Name = "fitJobType";
-      field.Type = TType.Byte;
-      field.ID = 13;
-      oprot.WriteFieldBegin(field);
-      oprot.WriteByte(FitJobType);
-      oprot.WriteFieldEnd();
-    }
-    if (__isset.type) {
-      field.Name = "type";
-      field.Type = TType.Byte;
-      field.ID = 14;
-      oprot.WriteFieldBegin(field);
-      oprot.WriteByte(Type);
-      oprot.WriteFieldEnd();
-    }
-    oprot.WriteFieldStop();
-    oprot.WriteStructEnd();
-  }
 
-  public override string ToString() {
-    StringBuilder sb = new StringBuilder("MaterialItemTemplate(");
-    sb.Append("Id: ");
-    sb.Append(Id);
-    sb.Append(",Name: ");
-    sb.Append(Name);
-    sb.Append(",IconId: ");
-    sb.Append(IconId);
-    sb.Append(",PicId: ");
-    sb.Append(PicId);
-    sb.Append(",Desc: ");
-    sb.Append(Desc);
-    sb.Append(",Quality: ");
-    sb.Append(Quality);
-    sb.Append(",CanSale: ");
-    sb.Append(CanSale);
-    sb.Append(",SalePrice: ");
-    sb.Append(SalePrice);
-    sb.Append(",SaleCurrency: ");
-    sb.Append(SaleCurrency);
-    sb.Append(",FitType: ");
-    sb.Append(FitType);
-    sb.Append(",FitJobType: ");
-    sb.Append(FitJobType);
-    sb.Append(",Type: ");
-    sb.Append(Type);
-    sb.Append(")");
-    return sb.ToString();
+    /// <summary>
+    /// 图标
+    /// </summary>
+    public int IconId
+    {
+      get
+      {
+        return _iconId;
+      }
+      set
+      {
+        __isset.iconId = true;
+        this._iconId = value;
+      }
+    }
+
+    /// <summary>
+    /// 图片
+    /// </summary>
+    public int PicId
+    {
+      get
+      {
+        return _picId;
+      }
+      set
+      {
+        __isset.picId = true;
+        this._picId = value;
+      }
+    }
+
+    /// <summary>
+    /// 描述
+    /// </summary>
+    public string Desc
+    {
+      get
+      {
+        return _desc;
+      }
+      set
+      {
+        __isset.desc = true;
+        this._desc = value;
+      }
+    }
+
+    /// <summary>
+    /// 品质
+    /// </summary>
+    public sbyte Quality
+    {
+      get
+      {
+        return _quality;
+      }
+      set
+      {
+        __isset.quality = true;
+        this._quality = value;
+      }
+    }
+
+    /// <summary>
+    /// 可出售
+    /// </summary>
+    public bool CanSale
+    {
+      get
+      {
+        return _canSale;
+      }
+      set
+      {
+        __isset.canSale = true;
+        this._canSale = value;
+      }
+    }
+
+    /// <summary>
+    /// 出售价格
+    /// </summary>
+    public int SalePrice
+    {
+      get
+      {
+        return _salePrice;
+      }
+      set
+      {
+        __isset.salePrice = true;
+        this._salePrice = value;
+      }
+    }
+
+    /// <summary>
+    /// 出售货币类型
+    /// </summary>
+    public sbyte SaleCurrency
+    {
+      get
+      {
+        return _saleCurrency;
+      }
+      set
+      {
+        __isset.saleCurrency = true;
+        this._saleCurrency = value;
+      }
+    }
+
+    /// <summary>
+    /// 适用于武器还是防具
+    /// </summary>
+    public sbyte FitType
+    {
+      get
+      {
+        return _fitType;
+      }
+      set
+      {
+        __isset.fitType = true;
+        this._fitType = value;
+      }
+    }
+
+    /// <summary>
+    /// 适用职业类型
+    /// </summary>
+    public sbyte FitJobType
+    {
+      get
+      {
+        return _fitJobType;
+      }
+      set
+      {
+        __isset.fitJobType = true;
+        this._fitJobType = value;
+      }
+    }
+
+    /// <summary>
+    /// 材料类型
+    /// </summary>
+    public sbyte Type
+    {
+      get
+      {
+        return _type;
+      }
+      set
+      {
+        __isset.type = true;
+        this._type = value;
+      }
+    }
+
+
+    public Isset __isset;
+    #if !SILVERLIGHT
+    [Serializable]
+    #endif
+    public struct Isset {
+      public bool id;
+      public bool name;
+      public bool iconId;
+      public bool picId;
+      public bool desc;
+      public bool quality;
+      public bool canSale;
+      public bool salePrice;
+      public bool saleCurrency;
+      public bool fitType;
+      public bool fitJobType;
+      public bool type;
+    }
+
+    public MaterialItemTemplate() {
+    }
+
+    public void Read (TProtocol iprot)
+    {
+      TField field;
+      iprot.ReadStructBegin();
+      while (true)
+      {
+        field = iprot.ReadFieldBegin();
+        if (field.Type == TType.Stop) { 
+          break;
+        }
+        switch (field.ID)
+        {
+          case 1:
+            if (field.Type == TType.I32) {
+              Id = iprot.ReadI32();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 2:
+            if (field.Type == TType.String) {
+              Name = iprot.ReadString();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 3:
+            if (field.Type == TType.I32) {
+              IconId = iprot.ReadI32();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 4:
+            if (field.Type == TType.I32) {
+              PicId = iprot.ReadI32();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 5:
+            if (field.Type == TType.String) {
+              Desc = iprot.ReadString();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 7:
+            if (field.Type == TType.Byte) {
+              Quality = iprot.ReadByte();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 8:
+            if (field.Type == TType.Bool) {
+              CanSale = iprot.ReadBool();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 9:
+            if (field.Type == TType.I32) {
+              SalePrice = iprot.ReadI32();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 10:
+            if (field.Type == TType.Byte) {
+              SaleCurrency = iprot.ReadByte();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 13:
+            if (field.Type == TType.Byte) {
+              FitType = iprot.ReadByte();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 14:
+            if (field.Type == TType.Byte) {
+              FitJobType = iprot.ReadByte();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 15:
+            if (field.Type == TType.Byte) {
+              Type = iprot.ReadByte();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          default: 
+            TProtocolUtil.Skip(iprot, field.Type);
+            break;
+        }
+        iprot.ReadFieldEnd();
+      }
+      iprot.ReadStructEnd();
+    }
+
+    public void Write(TProtocol oprot) {
+      TStruct struc = new TStruct("MaterialItemTemplate");
+      oprot.WriteStructBegin(struc);
+      TField field = new TField();
+      if (__isset.id) {
+        field.Name = "id";
+        field.Type = TType.I32;
+        field.ID = 1;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteI32(Id);
+        oprot.WriteFieldEnd();
+      }
+      if (Name != null && __isset.name) {
+        field.Name = "name";
+        field.Type = TType.String;
+        field.ID = 2;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteString(Name);
+        oprot.WriteFieldEnd();
+      }
+      if (__isset.iconId) {
+        field.Name = "iconId";
+        field.Type = TType.I32;
+        field.ID = 3;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteI32(IconId);
+        oprot.WriteFieldEnd();
+      }
+      if (__isset.picId) {
+        field.Name = "picId";
+        field.Type = TType.I32;
+        field.ID = 4;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteI32(PicId);
+        oprot.WriteFieldEnd();
+      }
+      if (Desc != null && __isset.desc) {
+        field.Name = "desc";
+        field.Type = TType.String;
+        field.ID = 5;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteString(Desc);
+        oprot.WriteFieldEnd();
+      }
+      if (__isset.quality) {
+        field.Name = "quality";
+        field.Type = TType.Byte;
+        field.ID = 7;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteByte(Quality);
+        oprot.WriteFieldEnd();
+      }
+      if (__isset.canSale) {
+        field.Name = "canSale";
+        field.Type = TType.Bool;
+        field.ID = 8;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteBool(CanSale);
+        oprot.WriteFieldEnd();
+      }
+      if (__isset.salePrice) {
+        field.Name = "salePrice";
+        field.Type = TType.I32;
+        field.ID = 9;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteI32(SalePrice);
+        oprot.WriteFieldEnd();
+      }
+      if (__isset.saleCurrency) {
+        field.Name = "saleCurrency";
+        field.Type = TType.Byte;
+        field.ID = 10;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteByte(SaleCurrency);
+        oprot.WriteFieldEnd();
+      }
+      if (__isset.fitType) {
+        field.Name = "fitType";
+        field.Type = TType.Byte;
+        field.ID = 13;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteByte(FitType);
+        oprot.WriteFieldEnd();
+      }
+      if (__isset.fitJobType) {
+        field.Name = "fitJobType";
+        field.Type = TType.Byte;
+        field.ID = 14;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteByte(FitJobType);
+        oprot.WriteFieldEnd();
+      }
+      if (__isset.type) {
+        field.Name = "type";
+        field.Type = TType.Byte;
+        field.ID = 15;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteByte(Type);
+        oprot.WriteFieldEnd();
+      }
+      oprot.WriteFieldStop();
+      oprot.WriteStructEnd();
+    }
+
+    public override string ToString() {
+      StringBuilder sb = new StringBuilder("MaterialItemTemplate(");
+      sb.Append("Id: ");
+      sb.Append(Id);
+      sb.Append(",Name: ");
+      sb.Append(Name);
+      sb.Append(",IconId: ");
+      sb.Append(IconId);
+      sb.Append(",PicId: ");
+      sb.Append(PicId);
+      sb.Append(",Desc: ");
+      sb.Append(Desc);
+      sb.Append(",Quality: ");
+      sb.Append(Quality);
+      sb.Append(",CanSale: ");
+      sb.Append(CanSale);
+      sb.Append(",SalePrice: ");
+      sb.Append(SalePrice);
+      sb.Append(",SaleCurrency: ");
+      sb.Append(SaleCurrency);
+      sb.Append(",FitType: ");
+      sb.Append(FitType);
+      sb.Append(",FitJobType: ");
+      sb.Append(FitJobType);
+      sb.Append(",Type: ");
+      sb.Append(Type);
+      sb.Append(")");
+      return sb.ToString();
+    }
+
   }
 
 }
-

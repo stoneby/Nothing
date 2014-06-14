@@ -24,6 +24,7 @@ namespace KXSGCodec
         {
         	            MSG_TYPE_DICT[typeof(CSBattlePveFinishMsg)] = (short)MessageType.CS_BATTLE_PVE_FINISH_MSG.GetHashCode();
 			            MSG_TYPE_DICT[typeof(CSRaidBattleStartMsg)] = (short)MessageType.CS_RAID_BATTLE_START_MSG.GetHashCode();
+			            MSG_TYPE_DICT[typeof(CSHeroChangeEquip)] = (short)MessageType.CS_HERO_CHANGE_EQUIP.GetHashCode();
 			            MSG_TYPE_DICT[typeof(CSHeroChangeOrder)] = (short)MessageType.CS_HERO_CHANGE_ORDER.GetHashCode();
 			            MSG_TYPE_DICT[typeof(CSHeroChangeTeam)] = (short)MessageType.CS_HERO_CHANGE_TEAM.GetHashCode();
 			            MSG_TYPE_DICT[typeof(CSHeroCreateOne)] = (short)MessageType.CS_HERO_CREATE_ONE.GetHashCode();
@@ -33,10 +34,13 @@ namespace KXSGCodec
 			            MSG_TYPE_DICT[typeof(CSHeroModifyTeam)] = (short)MessageType.CS_HERO_MODIFY_TEAM.GetHashCode();
 			            MSG_TYPE_DICT[typeof(CSHeroSell)] = (short)MessageType.CS_HERO_SELL.GetHashCode();
 			            MSG_TYPE_DICT[typeof(CSAddItemTest)] = (short)MessageType.CS_ADD_ITEM_TEST.GetHashCode();
+			            MSG_TYPE_DICT[typeof(CSBuyBackItems)] = (short)MessageType.CS_BUY_BACK_ITEMS.GetHashCode();
 			            MSG_TYPE_DICT[typeof(CSEvoluteItem)] = (short)MessageType.CS_EVOLUTE_ITEM.GetHashCode();
 			            MSG_TYPE_DICT[typeof(CSExtendItemBag)] = (short)MessageType.CS_EXTEND_ITEM_BAG.GetHashCode();
+			            MSG_TYPE_DICT[typeof(CSItemLockOper)] = (short)MessageType.CS_ITEM_LOCK_OPER.GetHashCode();
 			            MSG_TYPE_DICT[typeof(CSQueryAllItems)] = (short)MessageType.CS_QUERY_ALL_ITEMS.GetHashCode();
 			            MSG_TYPE_DICT[typeof(CSQueryItemDetail)] = (short)MessageType.CS_QUERY_ITEM_DETAIL.GetHashCode();
+			            MSG_TYPE_DICT[typeof(CSSellItems)] = (short)MessageType.CS_SELL_ITEMS.GetHashCode();
 			            MSG_TYPE_DICT[typeof(CSStrengthItem)] = (short)MessageType.CS_STRENGTH_ITEM.GetHashCode();
 			            MSG_TYPE_DICT[typeof(CSCreatePlayerMsg)] = (short)MessageType.CS_CREATE_PLAYER_MSG.GetHashCode();
 			            MSG_TYPE_DICT[typeof(CSPasswdLoginMsg)] = (short)MessageType.CS_PASSWD_LOGIN_MSG.GetHashCode();

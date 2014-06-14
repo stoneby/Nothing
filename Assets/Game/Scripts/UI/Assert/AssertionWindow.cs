@@ -20,8 +20,8 @@ public class AssertionWindow : Window
     public UILabel TitleLabel;
     public UILabel MessageLabel;
 
-    public UIButton Button1;
-    public UIButton Button2;
+    public Transform Button1;
+    public Transform Button2;
 
     public delegate void VoidDelegate(GameObject sender);
 

@@ -11,9 +11,8 @@ namespace com.kx.sglm.gs.battle.share.factory.creater
 	using BattleSource = com.kx.sglm.gs.battle.share.data.BattleSource;
 	using FighterInfo = com.kx.sglm.gs.battle.share.data.FighterInfo;
 	using BattleSideEnum = com.kx.sglm.gs.battle.share.enums.BattleSideEnum;
-	using HeroSkillManager = com.kx.sglm.gs.battle.share.skill.HeroSkillManager;
-	using IBattleSkillManager = com.kx.sglm.gs.battle.share.skill.IBattleSkillManager;
-	using MonsterSkillManager = com.kx.sglm.gs.battle.share.skill.MonsterSkillManager;
+	using BattleHeroSkillManager = com.kx.sglm.gs.battle.share.skill.manager.BattleHeroSkillManager;
+	using BattleMonsterSkillManager = com.kx.sglm.gs.battle.share.skill.manager.BattleMonsterSkillManager;
 	using FighterAProperty = com.kx.sglm.gs.battle.share.utils.FighterAProperty;
 
 	/// <summary>
@@ -25,7 +24,7 @@ namespace com.kx.sglm.gs.battle.share.factory.creater
 	public class BattleFighterCreater
 	{
 
-		public static HeroTeam createHeroTeam(Battle battle, IList<FighterInfo> fighterProps, BattleSideEnum side)
+		public static HeroTeam createHeroTeam(Battle battle, List<FighterInfo> fighterProps, BattleSideEnum side)
 		{
 			HeroTeam _team = new HeroTeam(battle, side);
 			foreach (FighterInfo _fighterProp in fighterProps)
@@ -36,7 +35,7 @@ namespace com.kx.sglm.gs.battle.share.factory.creater
 			return _team;
 		}
 
-		public static MonsterTeam createMonsterTeam(Battle battle, IList<FighterInfo> fighterProps, BattleSideEnum side)
+		public static MonsterTeam createMonsterTeam(Battle battle, List<FighterInfo> fighterProps, BattleSideEnum side)
 		{
 			MonsterTeam _team = new MonsterTeam(battle, side);
 			foreach (FighterInfo _fighterProp in fighterProps)
@@ -51,7 +50,7 @@ namespace com.kx.sglm.gs.battle.share.factory.creater
 		protected internal static BattleFighter createHeroFighterFromBattleProp(HeroTeam heroTeam, FighterInfo fighterProps)
 		{
 			BattleFighter _fighter = createBattleFighterFromBattleProp(heroTeam, fighterProps);
-			IBattleSkillManager _skillaManager = new HeroSkillManager(_fighter, heroTeam);
+			BattleHeroSkillManager _skillaManager = new BattleHeroSkillManager(_fighter, heroTeam);
 			_fighter.SkillManager = _skillaManager;
 			return _fighter;
 		}
@@ -59,7 +58,7 @@ namespace com.kx.sglm.gs.battle.share.factory.creater
 		protected internal static BattleFighter createMonsterFighterFromBattleProp(MonsterTeam monsterTeam, FighterInfo fighterProps)
 		{
 			BattleFighter _fighter = createBattleFighterFromBattleProp(monsterTeam, fighterProps);
-			IBattleSkillManager _skillaManager = new MonsterSkillManager(_fighter);
+			BattleMonsterSkillManager _skillaManager = new BattleMonsterSkillManager(_fighter);
 			_fighter.SkillManager = _skillaManager;
 			return _fighter;
 		}
@@ -86,7 +85,7 @@ namespace com.kx.sglm.gs.battle.share.factory.creater
 
 
 
-		public static IList<FighterInfo> getSideFighter(Battle battle, BattleSideEnum side)
+		public static List<FighterInfo> getSideFighter(Battle battle, BattleSideEnum side)
 		{
 //JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
 //ORIGINAL LINE: final com.kx.sglm.gs.battle.share.data.BattleSource _source = battle.getBattleSource();
@@ -94,22 +93,22 @@ namespace com.kx.sglm.gs.battle.share.factory.creater
 			return _source.getSideFighters(side);
 		}
 
-		public static IList<MonsterTeam> createMonsterTeamList(Battle battle)
+		public static List<MonsterTeam> createMonsterTeamList(Battle battle)
 		{
 //JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
 //ORIGINAL LINE: final java.util.List<com.kx.sglm.gs.battle.share.data.FighterInfo> _monsterList = getSideFighter(battle, com.kx.sglm.gs.battle.share.enums.BattleSideEnum.SIDEB);
-			IList<FighterInfo> _monsterList = getSideFighter(battle, BattleSideEnum.SIDEB);
+			List<FighterInfo> _monsterList = getSideFighter(battle, BattleSideEnum.SIDEB);
 //JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
 //ORIGINAL LINE: final java.util.Map<Integer, java.util.List<com.kx.sglm.gs.battle.share.data.FighterInfo>> _monsterMap = createSceneFighterMap(_monsterList);
-			IDictionary<int, IList<FighterInfo>> _monsterMap = createSceneFighterMap(_monsterList);
+			Dictionary<int, List<FighterInfo>> _monsterMap = createSceneFighterMap(_monsterList);
 //JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
 //ORIGINAL LINE: final int _sceneSize = _monsterMap.size();
 			int _sceneSize = _monsterMap.Count;
 
-			IList<MonsterTeam> _monsterTeamList = new List<MonsterTeam>();
+			List<MonsterTeam> _monsterTeamList = new List<MonsterTeam>();
 			for (int _i = 0; _i < _sceneSize; _i++)
 			{
-				IList<FighterInfo> _list = _monsterMap[_i];
+				List<FighterInfo> _list = _monsterMap[_i];
 				MonsterTeam _monster = BattleFighterCreater.createMonsterTeam(battle, _list, BattleSideEnum.SIDEB);
 				_monsterTeamList.Add(_monster);
 			}
@@ -117,9 +116,9 @@ namespace com.kx.sglm.gs.battle.share.factory.creater
 		}
 
 
-		public static IDictionary<int, IList<FighterInfo>> createSceneFighterMap(IList<FighterInfo> monsterList)
+		public static Dictionary<int, List<FighterInfo>> createSceneFighterMap(List<FighterInfo> monsterList)
 		{
-			IDictionary<int, IList<FighterInfo>> _monsterMap = new Dictionary<int, IList<FighterInfo>>();
+			Dictionary<int, List<FighterInfo>> _monsterMap = new Dictionary<int, List<FighterInfo>>();
 			foreach (FighterInfo _info in monsterList)
 			{
 //JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
@@ -130,7 +129,7 @@ namespace com.kx.sglm.gs.battle.share.factory.creater
 				{
 					_monsterMap[_sceneIndex] = new List<FighterInfo>();
 				}
-				IList<FighterInfo> _sceneList = _monsterMap[_sceneIndex];
+				List<FighterInfo> _sceneList = _monsterMap[_sceneIndex];
 				_sceneList.Add(_info);
 			}
 			return _monsterMap;

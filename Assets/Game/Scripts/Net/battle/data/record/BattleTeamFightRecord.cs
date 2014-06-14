@@ -27,6 +27,7 @@ namespace com.kx.sglm.gs.battle.share.data.record
 
 		public BattleTeamFightRecord() : base()
 		{
+			skillFighter = new List<int>();
 		}
 
 		public virtual int TeamType
@@ -61,12 +62,12 @@ namespace com.kx.sglm.gs.battle.share.data.record
 			{
 				return skillFighter;
 			}
-			set
-			{
-				this.skillFighter = value;
-			}
 		}
 
+		public virtual void addSkillFighter(int singleFighter)
+		{
+			this.skillFighter.Add(singleFighter);
+		}
 
 		public override void show(IBattleView viewObj)
 		{

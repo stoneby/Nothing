@@ -26,7 +26,24 @@ namespace KXSGCodec
   #endif
   public partial class SCAddItem : TBase
   {
+    private sbyte _bagType;
     private KXSGCodec.ItemInfo _info;
+
+    /// <summary>
+    /// 背包类型 0-主背包 1-回购背包
+    /// </summary>
+    public sbyte BagType
+    {
+      get
+      {
+        return _bagType;
+      }
+      set
+      {
+        __isset.bagType = true;
+        this._bagType = value;
+      }
+    }
 
     /// <summary>
     /// 道具基本信息
@@ -50,6 +67,7 @@ namespace KXSGCodec
     [Serializable]
     #endif
     public struct Isset {
+      public bool bagType;
       public bool info;
     }
 
@@ -69,6 +87,13 @@ namespace KXSGCodec
         switch (field.ID)
         {
           case 1:
+            if (field.Type == TType.Byte) {
+              BagType = iprot.ReadByte();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 2:
             if (field.Type == TType.Struct) {
               Info = new KXSGCodec.ItemInfo();
               Info.Read(iprot);
@@ -89,10 +114,18 @@ namespace KXSGCodec
       TStruct struc = new TStruct("SCAddItem");
       oprot.WriteStructBegin(struc);
       TField field = new TField();
+      if (__isset.bagType) {
+        field.Name = "bagType";
+        field.Type = TType.Byte;
+        field.ID = 1;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteByte(BagType);
+        oprot.WriteFieldEnd();
+      }
       if (Info != null && __isset.info) {
         field.Name = "info";
         field.Type = TType.Struct;
-        field.ID = 1;
+        field.ID = 2;
         oprot.WriteFieldBegin(field);
         Info.Write(oprot);
         oprot.WriteFieldEnd();
@@ -103,7 +136,9 @@ namespace KXSGCodec
 
     public override string ToString() {
       StringBuilder sb = new StringBuilder("SCAddItem(");
-      sb.Append("Info: ");
+      sb.Append("BagType: ");
+      sb.Append(BagType);
+      sb.Append(",Info: ");
       sb.Append(Info== null ? "<null>" : Info.ToString());
       sb.Append(")");
       return sb.ToString();

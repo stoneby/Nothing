@@ -2,6 +2,7 @@ using System.Collections;
 using System.Globalization;
 using KXSGCodec;
 using Property;
+using Template;
 using UnityEngine;
 
 /// <summary>
@@ -48,6 +49,10 @@ public class UIHeroInfoWindow : Window
     public override void OnExit()
     {
         StopAllCoroutines();
+        attack.color = UILevelUpWindow.NonChangedColor;
+        hp.color = UILevelUpWindow.NonChangedColor;
+        recover.color = UILevelUpWindow.NonChangedColor;
+        mp.color = UILevelUpWindow.NonChangedColor;
         UnInstallHandlers();
     }
 
@@ -111,12 +116,15 @@ public class UIHeroInfoWindow : Window
         Utils.FindChild(spSkill, "LV-Value").GetComponent<UILabel>().text = (spSkillTemp.Id % 10).ToString(CultureInfo.InvariantCulture);
         Utils.FindChild(spSkill, "Probability-Value").GetComponent<UILabel>().text = spSkillTemp.OccorRate + "%";
 
-        NGUITools.SetActive(TalentContent, true);
-        var passiveSkill = skillTmp[heroTemplate.PassiveSkill1];
-        var skillOne = Utils.FindChild(TalentContent.transform, "SP-SkillOne");
-        Utils.FindChild(skillOne, "Name").GetComponent<UILabel>().text = passiveSkill.Name;
-        Utils.FindChild(skillOne, "Desc").GetComponent<UILabel>().text = passiveSkill.Desc;  
-        NGUITools.SetActive(TalentContent, false);
+        if(skillTmp.ContainsKey(heroTemplate.PassiveSkill1))
+        {
+            NGUITools.SetActive(TalentContent, true);
+            var passiveSkill = skillTmp[heroTemplate.PassiveSkill1];
+            var skillOne = Utils.FindChild(TalentContent.transform, "SP-SkillOne");
+            Utils.FindChild(skillOne, "Name").GetComponent<UILabel>().text = passiveSkill.Name;
+            Utils.FindChild(skillOne, "Desc").GetComponent<UILabel>().text = passiveSkill.Desc;
+            NGUITools.SetActive(TalentContent, false);
+        }
     }
 
     public void RefreshData(HeroInfo info)

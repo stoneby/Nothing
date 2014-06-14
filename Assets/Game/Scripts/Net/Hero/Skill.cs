@@ -15,111 +15,114 @@ using System.Runtime.Serialization;
 using Thrift.Protocol;
 using Thrift.Transport;
 
-
-#if !SILVERLIGHT
-[Serializable]
-#endif
-public partial class Skill : TBase
+namespace Template
 {
-  private Dictionary<int, SkillTemplate> _skillTmpl;
 
-  public Dictionary<int, SkillTemplate> SkillTmpl
-  {
-    get
-    {
-      return _skillTmpl;
-    }
-    set
-    {
-      __isset.skillTmpl = true;
-      this._skillTmpl = value;
-    }
-  }
-
-
-  public Isset __isset;
   #if !SILVERLIGHT
   [Serializable]
   #endif
-  public struct Isset {
-    public bool skillTmpl;
-  }
-
-  public Skill() {
-  }
-
-  public void Read (TProtocol iprot)
+  public partial class Skill : TBase
   {
-    TField field;
-    iprot.ReadStructBegin();
-    while (true)
+    private Dictionary<int, SkillTemplate> _skillTmpl;
+
+    public Dictionary<int, SkillTemplate> SkillTmpl
     {
-      field = iprot.ReadFieldBegin();
-      if (field.Type == TType.Stop) { 
-        break;
-      }
-      switch (field.ID)
+      get
       {
-        case 1:
-          if (field.Type == TType.Map) {
-            {
-              SkillTmpl = new Dictionary<int, SkillTemplate>();
-              TMap _map0 = iprot.ReadMapBegin();
-              for( int _i1 = 0; _i1 < _map0.Count; ++_i1)
-              {
-                int _key2;
-                SkillTemplate _val3;
-                _key2 = iprot.ReadI32();
-                _val3 = new SkillTemplate();
-                _val3.Read(iprot);
-                SkillTmpl[_key2] = _val3;
-              }
-              iprot.ReadMapEnd();
-            }
-          } else { 
-            TProtocolUtil.Skip(iprot, field.Type);
-          }
-          break;
-        default: 
-          TProtocolUtil.Skip(iprot, field.Type);
-          break;
+        return _skillTmpl;
       }
-      iprot.ReadFieldEnd();
+      set
+      {
+        __isset.skillTmpl = true;
+        this._skillTmpl = value;
+      }
     }
-    iprot.ReadStructEnd();
-  }
 
-  public void Write(TProtocol oprot) {
-    TStruct struc = new TStruct("Skill");
-    oprot.WriteStructBegin(struc);
-    TField field = new TField();
-    if (SkillTmpl != null && __isset.skillTmpl) {
-      field.Name = "skillTmpl";
-      field.Type = TType.Map;
-      field.ID = 1;
-      oprot.WriteFieldBegin(field);
+
+    public Isset __isset;
+    #if !SILVERLIGHT
+    [Serializable]
+    #endif
+    public struct Isset {
+      public bool skillTmpl;
+    }
+
+    public Skill() {
+    }
+
+    public void Read (TProtocol iprot)
+    {
+      TField field;
+      iprot.ReadStructBegin();
+      while (true)
       {
-        oprot.WriteMapBegin(new TMap(TType.I32, TType.Struct, SkillTmpl.Count));
-        foreach (int _iter4 in SkillTmpl.Keys)
-        {
-          oprot.WriteI32(_iter4);
-          SkillTmpl[_iter4].Write(oprot);
+        field = iprot.ReadFieldBegin();
+        if (field.Type == TType.Stop) { 
+          break;
         }
-        oprot.WriteMapEnd();
+        switch (field.ID)
+        {
+          case 1:
+            if (field.Type == TType.Map) {
+              {
+                SkillTmpl = new Dictionary<int, SkillTemplate>();
+                TMap _map0 = iprot.ReadMapBegin();
+                for( int _i1 = 0; _i1 < _map0.Count; ++_i1)
+                {
+                  int _key2;
+                  SkillTemplate _val3;
+                  _key2 = iprot.ReadI32();
+                  _val3 = new SkillTemplate();
+                  _val3.Read(iprot);
+                  SkillTmpl[_key2] = _val3;
+                }
+                iprot.ReadMapEnd();
+              }
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          default: 
+            TProtocolUtil.Skip(iprot, field.Type);
+            break;
+        }
+        iprot.ReadFieldEnd();
       }
-      oprot.WriteFieldEnd();
+      iprot.ReadStructEnd();
     }
-    oprot.WriteFieldStop();
-    oprot.WriteStructEnd();
-  }
 
-  public override string ToString() {
-    StringBuilder sb = new StringBuilder("Skill(");
-    sb.Append("SkillTmpl: ");
-    sb.Append(SkillTmpl);
-    sb.Append(")");
-    return sb.ToString();
+    public void Write(TProtocol oprot) {
+      TStruct struc = new TStruct("Skill");
+      oprot.WriteStructBegin(struc);
+      TField field = new TField();
+      if (SkillTmpl != null && __isset.skillTmpl) {
+        field.Name = "skillTmpl";
+        field.Type = TType.Map;
+        field.ID = 1;
+        oprot.WriteFieldBegin(field);
+        {
+          oprot.WriteMapBegin(new TMap(TType.I32, TType.Struct, SkillTmpl.Count));
+          foreach (int _iter4 in SkillTmpl.Keys)
+          {
+            oprot.WriteI32(_iter4);
+            SkillTmpl[_iter4].Write(oprot);
+          }
+          oprot.WriteMapEnd();
+        }
+        oprot.WriteFieldEnd();
+      }
+      oprot.WriteFieldStop();
+      oprot.WriteStructEnd();
+    }
+
+    public override string ToString() {
+      StringBuilder sb = new StringBuilder("Skill(");
+      sb.Append("SkillTmpl: ");
+      sb.Append(SkillTmpl);
+      sb.Append(")");
+      return sb.ToString();
+    }
+
   }
 
 }
-

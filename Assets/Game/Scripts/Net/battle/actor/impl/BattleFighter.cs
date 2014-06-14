@@ -8,10 +8,15 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 	using FighterInfo = com.kx.sglm.gs.battle.share.data.FighterInfo;
 	using BattleFightRecord = com.kx.sglm.gs.battle.share.data.record.BattleFightRecord;
 	using BattleRoundCountRecord = com.kx.sglm.gs.battle.share.data.record.BattleRoundCountRecord;
+	using BattleTeamFightRecord = com.kx.sglm.gs.battle.share.data.record.BattleTeamFightRecord;
+	using SingleActionRecord = com.kx.sglm.gs.battle.share.data.record.SingleActionRecord;
 	using BattleSideEnum = com.kx.sglm.gs.battle.share.enums.BattleSideEnum;
 	using FighterState = com.kx.sglm.gs.battle.share.enums.FighterState;
-	using ISingletonBattleAction = com.kx.sglm.gs.battle.share.singleton.ISingletonBattleAction;
+	using HeroColor = com.kx.sglm.gs.battle.share.enums.HeroColor;
+	using InnerBattleEvent = com.kx.sglm.gs.battle.share.@event.InnerBattleEvent;
+	using TeamShotStartEvent = com.kx.sglm.gs.battle.share.@event.impl.TeamShotStartEvent;
 	using IBattleSkillManager = com.kx.sglm.gs.battle.share.skill.IBattleSkillManager;
+	using ISingletonSkillAction = com.kx.sglm.gs.battle.share.skill.ISingletonSkillAction;
 	using FighterAProperty = com.kx.sglm.gs.battle.share.utils.FighterAProperty;
 
 	/// <summary>
@@ -65,7 +70,8 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 
 		protected internal IBattleSkillManager skillManager;
 
-		protected internal IList<FighterState> stateList;
+		protected internal List<FighterState> stateList;
+
 
 		public BattleFighter(BattleTeam ownerTeam, FighterInfo baseProp)
 		{
@@ -110,9 +116,15 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 			skillManager.afterAttack(record);
 		}
 
+
 		public virtual void afterDefence(BattleFightRecord record)
 		{
 
+		}
+
+		public virtual void useActiveSkill()
+		{
+			skillManager.onActiveOption();
 		}
 
 		public virtual void onCostHp(int costHp)
@@ -162,11 +174,25 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 			// TODO: reset prop
 		}
 
-		public virtual bool Alive
+		public virtual bool hasHp()
+		{
+			return CurHp > 0;
+		}
+
+
+		/// <summary>
+		/// 在攻击时，如果一只fighter死亡，攻击队列并不会更改目标，所以使用了<seealso cref="#hasHp()"/>和{@link #isDead()}，处理不同的需�?
+		/// @return
+		/// </summary>
+		public virtual bool Dead
 		{
 			get
 			{
-				return CurHp > 0;
+				return dead;
+			}
+			set
+			{
+				this.dead = value;
 			}
 		}
 
@@ -212,12 +238,22 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 			}
 		}
 
-		public virtual ISingletonBattleAction FightAction
+		public virtual void onAttack(BattleFightRecord fightRecord)
+		{
+			skillManager.onAttack(fightRecord);
+		}
+
+		public virtual ISingletonSkillAction FightAction
 		{
 			get
 			{
-				return skillManager.FightAction;
+				return skillManager.AttackAction;
 			}
+		}
+
+		public virtual void onTeamShotStart(TeamShotStartEvent @event)
+		{
+			skillManager.onTeamShotStart(@event);
 		}
 
 		public virtual int getFighterOtherProp(int key)
@@ -225,17 +261,6 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 			return baseProp.getIntProp(key);
 		}
 
-		public virtual bool Dead
-		{
-			get
-			{
-				return dead;
-			}
-			set
-			{
-				this.dead = value;
-			}
-		}
 
 
 		public virtual int TotalHp
@@ -366,7 +391,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 		}
 
 
-		public virtual IList<FighterState> StateList
+		public virtual List<FighterState> StateList
 		{
 			get
 			{
@@ -396,6 +421,29 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 		}
 
 
+		public virtual void changeColor(HeroColor color, SingleActionRecord singleRecord)
+		{
+			getOwnerTeam().changeFightColor(index, color, singleRecord);
+		}
+
+		public virtual void handleEvent(InnerBattleEvent @event)
+		{
+			// TODO Auto-generated method stub
+
+		}
+
+		public virtual int TemplateId
+		{
+			get
+			{
+				return baseProp.getIntProp(BattleKeyConstants.BATTLE_KEY_HERO_TEMPLATE);
+			}
+		}
+
+		public virtual void onHandleFightEvent(BattleTeamFightRecord record)
+		{
+			skillManager.onHandleEvent(record);
+		}
 
 	}
 

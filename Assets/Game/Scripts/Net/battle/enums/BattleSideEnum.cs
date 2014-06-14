@@ -69,6 +69,16 @@ namespace com.kx.sglm.gs.battle.share.enums
 			return VALUES[index];
 		}
 
+		public static int size()
+		{
+			return VALUES.Length;
+		}
+
+		public static BattleSideEnum[] values()
+		{
+			return VALUES;
+		}
+
 		private static readonly BattleSideEnum[] VALUES = new BattleSideEnum[] {SIDEB, SIDEA};
 
 	}

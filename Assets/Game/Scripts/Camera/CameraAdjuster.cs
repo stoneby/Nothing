@@ -41,7 +41,7 @@ public class CameraAdjuster : MonoBehaviour
     /// <summary>
     /// Use this for initialization.
     /// </summary>
-    private void Start()
+    private void Awake()
     {
         deviceWidth = Screen.width;
         deviceHeight = Screen.height;
@@ -65,7 +65,6 @@ public class CameraAdjuster : MonoBehaviour
         float r2 = StandardHeight/deviceHeight;
 
         CameraScale = 1/r1;
-        //camera.orthographicSize = 1/CameraScale;
 
         Logger.Log("Scale " + CameraScale.ToString());
     }

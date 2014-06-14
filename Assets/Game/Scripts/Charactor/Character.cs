@@ -45,11 +45,23 @@ public class Character : MonoBehaviour
     /// <remarks>Used for cross connect to the same kinds of characters</remarks>
     public int ColorIndex;
 
+    /// <summary>
+    /// Animator if any.
+    /// </summary>
+    public Animator Animator;
+
+    /// <summary>
+    /// Animation if any.
+    /// </summary>
+    public Animation Animation;
+
     #endregion
 
     #region Private Fields
 
     private const int NeighborDistance = 1;
+
+    private List<string> animationList; 
 
     #endregion
 
@@ -68,10 +80,46 @@ public class Character : MonoBehaviour
         return sameColor && Math.Max(xDistance, yDistance) == NeighborDistance;
     }
 
+    /// <summary>
+    /// Play character state.
+    /// </summary>
+    /// <param name="state">Current state</param>
+    /// <param name="loop">Flag indicates if state is in loop mode</param>
+    public void PlayState(Character.State state, bool loop)
+    {
+        Animation[animationList[(int)state]].wrapMode = (loop) ? WrapMode.Loop : WrapMode.Once;
+        Animation.Play(animationList[(int)state]);
+    }
+
     /// <overrides/>
     public override string ToString()
     {
         return string.Format("Character with name - {0}, index - {1}, position - {2}", name, Index, Location);
+    }
+
+    #endregion
+
+    #region Private Methods
+
+    private T GetAnimationStuff<T>() where T : Component
+    {
+        var animations = transform.GetComponentsInChildren<T>();
+        return animations.Any() ? animations.First() : null;
+    }
+
+    #endregion
+
+    #region Mono
+
+    protected void Awake()
+    {
+        Animation = GetAnimationStuff<Animation>();
+        Animator = GetAnimationStuff<Animator>();
+
+        if (Animation != null)
+        {
+            animationList = new List<string>(Animation.Cast<AnimationState>().Select(item => item.name));
+        }
     }
 
     #endregion

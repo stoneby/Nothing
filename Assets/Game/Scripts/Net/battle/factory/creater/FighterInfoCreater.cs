@@ -5,19 +5,37 @@ namespace com.kx.sglm.gs.battle.share.factory.creater
 
 
 	using MathUtils = com.kx.sglm.core.util.MathUtils;
+	using BattleSource = com.kx.sglm.gs.battle.share.data.BattleSource;
 	using FighterInfo = com.kx.sglm.gs.battle.share.data.FighterInfo;
 	using BattleSideEnum = com.kx.sglm.gs.battle.share.enums.BattleSideEnum;
 	using FighterType = com.kx.sglm.gs.battle.share.enums.FighterType;
+	using BattleSkillActionService = com.kx.sglm.gs.battle.share.skill.BattleSkillActionService;
 	using FighterAProperty = com.kx.sglm.gs.battle.share.utils.FighterAProperty;
 	using BattleMsgHero = KXSGCodec.BattleMsgHero;
 	using BattleMsgMonster = KXSGCodec.BattleMsgMonster;
 
+
+	/// 
+	/// <summary>
+	/// @author liyuan2
+	/// 
+	/// </summary>
 	public class FighterInfoCreater
 	{
 
-		public static IList<FighterInfo> createListFromMsgHero(BattleSideEnum side, IList<BattleMsgHero> msgHeroList)
+		public static void initBattleSkillService(BattleSource battelSource)
 		{
-			IList<FighterInfo> _fighterList = new List<FighterInfo>();
+			BattleSkillActionService _service = BattleSkillActionService.Service;
+			_service.initNormalAction();
+			_service.initAllMonsterAI(battelSource.MonsterAList);
+			_service.initTemplateHeroSkillAction(battelSource.HeroSkillList);
+			_service.initTemplateMonsterSkillAction(battelSource.MonsterSkillList);
+		}
+
+
+		public static List<FighterInfo> createListFromMsgHero(BattleSideEnum side, List<BattleMsgHero> msgHeroList)
+		{
+			List<FighterInfo> _fighterList = new List<FighterInfo>();
 			foreach (BattleMsgHero _hero in msgHeroList)
 			{
 				FighterInfo _info = createFighterFromMsgHero(side, _hero);
@@ -26,11 +44,11 @@ namespace com.kx.sglm.gs.battle.share.factory.creater
 			return _fighterList;
 		}
 
-		public static IList<FighterInfo> createListFormMsgMonster(BattleSideEnum side, IList<int> monsterGroup, IList<BattleMsgMonster> msgMonsterList)
+		public static List<FighterInfo> createListFormMsgMonster(BattleSideEnum side, List<int> monsterGroup, List<BattleMsgMonster> msgMonsterList)
 		{
-			IList<FighterInfo> _monsterList = new List<FighterInfo>();
+			List<FighterInfo> _monsterList = new List<FighterInfo>();
 
-			// ?????????MonsterInfo???????????????SceneIndex
+			// 在创建MonsterInfo的时候注入SceneIndex
 			int _sceneMonsterCount = 0;
 			int _sceneIndex = 0;
 
@@ -61,10 +79,12 @@ namespace com.kx.sglm.gs.battle.share.factory.creater
 //ORIGINAL LINE: final com.kx.sglm.gs.battle.share.utils.FighterAProperty _prop = createFighterAProp(msgHero.getFighteProp());
 			FighterAProperty _prop = createFighterAProp(msgHero.FighteProp);
 			_info.BattleProperty = _prop;
+			_info.SkillIdList = msgHero.AllSkill;
+			_info.ActiveSkillId = msgHero.ActiveSkillId;
 			return _info;
 		}
 
-		public static FighterAProperty createFighterAProp(IDictionary<int, int> fighterPropMap)
+		public static FighterAProperty createFighterAProp(Dictionary<int, int> fighterPropMap)
 		{
 			FighterAProperty _prop = new FighterAProperty();
 			_prop.addAllProp(fighterPropMap);
@@ -83,18 +103,20 @@ namespace com.kx.sglm.gs.battle.share.factory.creater
 //ORIGINAL LINE: final com.kx.sglm.gs.battle.share.utils.FighterAProperty _prop = createFighterAProp(msgMonster.getFighteProp());
 			FighterAProperty _prop = createFighterAProp(msgMonster.FighteProp);
 			_info.BattleProperty = _prop;
+			_info.addNormalProp(BattleKeyConstants.BATTLE_PROP_MONSTER_AI_ID, msgMonster.AiID);
+			_info.addNormalProp(BattleKeyConstants.BATTLE_PROP_MONSTER_DEFAULT_CD, msgMonster.DefaultCD);
 			return _info;
 		}
 
-		protected internal static void createMonsterDrop(FighterInfo info, IDictionary<sbyte, int> dropMap)
+		protected internal static void createMonsterDrop(FighterInfo info, Dictionary<sbyte, int> dropMap)
 		{
 			setMonsterDrop(BattleKeyConstants.BATTLE_PROP_MONSTER_DROP_COIN, info, dropMap);
 			setMonsterDrop(BattleKeyConstants.BATTLE_PROP_MONSTER_DROP_SPRIT, info, dropMap);
 			setMonsterDrop(BattleKeyConstants.BATTLE_PROP_MONSTER_DROP_HERO, info, dropMap);
 			setMonsterDrop(BattleKeyConstants.BATTLE_PROP_MONSTER_DROP_ITEM, info, dropMap);
 		}
-		
-		protected internal static void setMonsterDrop(int key, FighterInfo info, IDictionary<sbyte, int> dropMap)
+
+		protected internal static void setMonsterDrop(int key, FighterInfo info, Dictionary<sbyte, int> dropMap)
 		{
 			sbyte _byteKey = (sbyte) key;
 			if (dropMap.ContainsKey(_byteKey))
@@ -104,14 +126,14 @@ namespace com.kx.sglm.gs.battle.share.factory.creater
 			}
 		}
 
-		public static IList<FighterInfo> createListFromTest(BattleSideEnum side)
+		public static List<FighterInfo> createListFromTest(BattleSideEnum side)
 		{
 			return createTestFighterList(9, side, FighterType.MONSTER);
 		}
 
-		public static IList<FighterInfo> createTestFighterList(int count, BattleSideEnum side, FighterType type)
+		public static List<FighterInfo> createTestFighterList(int count, BattleSideEnum side, FighterType type)
 		{
-			IList<FighterInfo> _fighterList = new List<FighterInfo>();
+			List<FighterInfo> _fighterList = new List<FighterInfo>();
 			for (int _i = 0; _i < count; _i++)
 			{
 				_fighterList.Add(createPropFromTest(_i, side, type, _i == count - 1));
@@ -125,13 +147,12 @@ namespace com.kx.sglm.gs.battle.share.factory.creater
 //ORIGINAL LINE: final com.kx.sglm.gs.battle.share.utils.FighterAProperty _aProp = createTestAProp(type.isHero(), boss);
 			FighterAProperty _aProp = createTestAProp(type.Hero, boss);
 			FighterInfo _info = createFighterProp(index, battleSide, type, _aProp);
-			_info.addNormalProp(BattleKeyConstants.BATTLE_KEY_HERO_TEMPLATE, 1009); // ???????????????????????????
+			_info.addNormalProp(BattleKeyConstants.BATTLE_KEY_HERO_TEMPLATE, 1009); // 测试代码很糙请无�?
 			return _info;
 		}
 
 		private static int[] TEST_HP = new int[] {2000, 1500, 1000, 500, 1000};
 		private static int[] TEST_ATT = new int[] {500, 200, 200, 100, 50};
-
 
 		private static FighterAProperty createTestAProp(bool hero, bool boss)
 		{
@@ -139,7 +160,7 @@ namespace com.kx.sglm.gs.battle.share.factory.creater
 			for (int _i = 0; _i < FighterAProperty._SIZE; _i++)
 			{
 				int _val = 0;
-				int _index = hero ? 4 : (boss ? 0 : MathUtils.random(1,3));
+				int _index = hero ? 4 : (boss ? 0 : MathUtils.random(1, 3));
 				if (FighterAProperty.HP == FighterAProperty.getBattlePropKey(_i))
 				{
 					_val = TEST_HP[_index];

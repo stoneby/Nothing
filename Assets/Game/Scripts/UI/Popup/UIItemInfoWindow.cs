@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.Linq;
 using KXSGCodec;
 using UnityEngine;
 
@@ -21,15 +22,58 @@ public class UIItemInfoWindow : Window
     private UILabel explainName;
     private UILabel explainDesc;
 
-
+    private UIEventListener skillTabLis;
+    private UIEventListener explainTabLis;
     private Transform skillContent;
     private Transform explainContent;
+
+    /// <summary>
+    /// The sprite name when the button is clicked.
+    /// </summary>
+    public static string DownTabSpriteName = "TabD";
+
+    /// <summary>
+    /// The sprite name when the button is normal.
+    /// </summary>
+    public static string NormalabSpriteName = "TabN";
+
+    private bool canLvlUp;
+    private bool CanLvlUp
+    {
+        get
+        {
+            return canLvlUp;
+        }
+        set
+        {
+            canLvlUp = value;
+            lvUpBtnLis.GetComponent<UISprite>().color = canLvlUp ? Color.white : Color.gray;
+            lvUpBtnLis.GetComponent<BoxCollider>().enabled = canLvlUp;
+        }
+    }
+    
+    private bool canEvolve;
+    private bool CanEvolve
+    {
+        get
+        {
+            return canEvolve;
+        }
+        set
+        {
+
+            canEvolve = value;
+            lvEvolveBtnLis.GetComponent<UISprite>().color = canEvolve ? Color.white : Color.gray;
+            lvEvolveBtnLis.GetComponent<BoxCollider>().enabled = canEvolve;
+        }
+    }
 
     #region Window
 
     public override void OnEnter()
     {
         itemInfo = ItemModeLocator.Instance.FindItem(ItemBaseInfoWindow.ItemDetail.BagIndex);
+        Toggle(1);
         InstallHandlers();
         Refresh();
     }
@@ -49,8 +93,10 @@ public class UIItemInfoWindow : Window
         backBtnLis = UIEventListener.Get(Utils.FindChild(transform, "Button-Back").gameObject);
         lvUpBtnLis = UIEventListener.Get(Utils.FindChild(transform, "Button-LvUp").gameObject);
         lvEvolveBtnLis = UIEventListener.Get(Utils.FindChild(transform, "Button-Evolve").gameObject);
+      
 
         skillContent = Utils.FindChild(transform, "SkillContent");
+        skillTabLis = UIEventListener.Get(skillContent.parent.gameObject);
         skillInitTitle = Utils.FindChild(skillContent, "SkillInitTitle").GetComponent<UILabel>();
         skillInitDesc = Utils.FindChild(skillContent, "SkillInitDesc").GetComponent<UILabel>();
         skillRandTitle = Utils.FindChild(skillContent, "SkillInitTitle").GetComponent<UILabel>();
@@ -58,6 +104,7 @@ public class UIItemInfoWindow : Window
         matchInfoDesc = Utils.FindChild(skillContent, "MatchInfoDesc").GetComponent<UILabel>();
 
         explainContent = Utils.FindChild(transform, "ExplainContent");
+        explainTabLis = UIEventListener.Get(explainContent.parent.gameObject);
         explainName = Utils.FindChild(explainContent, "Name").GetComponent<UILabel>();
         explainDesc = Utils.FindChild(explainContent, "Desc").GetComponent<UILabel>();
     }
@@ -67,6 +114,8 @@ public class UIItemInfoWindow : Window
         backBtnLis.onClick += OnBackBtnClicked;
         lvUpBtnLis.onClick += OnLvUpBtnClicked;
         lvEvolveBtnLis.onClick += OnEvolveBtnLis;
+        skillTabLis.onClick += OnSkillTab;
+        explainTabLis.onClick += OnExplainTab;
     }
 
     private void UnInstallHandlers()
@@ -74,6 +123,18 @@ public class UIItemInfoWindow : Window
         backBtnLis.onClick -= OnBackBtnClicked;
         lvUpBtnLis.onClick -= OnLvUpBtnClicked;
         lvEvolveBtnLis.onClick -= OnEvolveBtnLis;
+        skillTabLis.onClick -= OnSkillTab;
+        explainTabLis.onClick -= OnExplainTab;
+    }
+
+    private void OnSkillTab(GameObject go)
+    {
+        Toggle(1);
+    }
+
+    private void OnExplainTab(GameObject go)
+    {
+        Toggle(2);
     }
 
     private void OnLvUpBtnClicked(GameObject go)
@@ -83,7 +144,7 @@ public class UIItemInfoWindow : Window
 
     private void OnEvolveBtnLis(GameObject go)
     {
-        
+        WindowManager.Instance.Show<UIItemEvolveWindow>(true);
     }
 
     private void Refresh()
@@ -97,16 +158,54 @@ public class UIItemInfoWindow : Window
         skillRandDesc.text = randTmp.Desc;
         matchInfoDesc.text = ItemBaseInfoWindow.ItemDetail.MatchInfo;
         NGUITools.SetActive(explainContent.gameObject, true);
-        explainName.text = ItemModeLocator.Instance.GetName(itemInfo);
-        explainDesc.text = ItemModeLocator.Instance.GetDesc(itemInfo);
+        explainName.text = ItemModeLocator.Instance.GetName(itemInfo.TmplId);
+        explainDesc.text = ItemModeLocator.Instance.GetDesc(itemInfo.TmplId);
         NGUITools.SetActive(explainContent.gameObject, false);
+        CanLvlUp = ItemModeLocator.Instance.GetCanLvlUp(itemInfo.TmplId);
+        var isInEvolve = IsInEvolveTemplate();
+        CanEvolve = ItemModeLocator.Instance.GetCanEvolve(itemInfo.TmplId) && isInEvolve;
+    }
+
+    private bool IsInEvolveTemplate()
+    {
+        var temp = ItemModeLocator.Instance.ItemConfig.ItemEvoluteTmpl;
+        return temp.Any(item => item.Value.Id == itemInfo.TmplId);
     }
 
     private void OnBackBtnClicked(GameObject go)
     {
-        //WindowManager.Instance.Show(typeof(UIEquipsDisplayWindow), true);
-        WindowManager.Instance.Show(typeof(UIEquipDispTabWindow), true);
-        WindowManager.Instance.Show(typeof(UIItemInfoWindow), false);
+        if(ItemModeLocator.Instance.GetItemDetailPos == ItemType.GetItemDetailInPanel)
+        {
+            WindowManager.Instance.Show(typeof(UIEquipDispTabWindow), true);
+            WindowManager.Instance.Show(typeof(UIItemInfoWindow), false);
+        }
+        else if (ItemModeLocator.Instance.GetItemDetailPos == ItemType.GetItemDetailInHeroInfo)
+        {
+            WindowManager.Instance.Show<UIHeroSelItemWindow>(true);
+            WindowManager.Instance.Show<ItemBaseInfoWindow>(false);
+        }
+    }
+    /// <summary>
+    /// Toggle the button's color.
+    /// </summary>
+    /// <param name="index">Indicates which button will have the highlight color.</param>
+    public void Toggle(int index)
+    {
+        switch (index)
+        {
+            case 1:
+                skillContent.parent.GetComponent<UISprite>().spriteName = DownTabSpriteName;
+                explainContent.parent.GetComponent<UISprite>().spriteName = NormalabSpriteName;
+                NGUITools.SetActive(skillContent.gameObject ,true);
+                NGUITools.SetActive(explainContent.gameObject, false);
+                break;
+            case 2:
+                explainContent.parent.GetComponent<UISprite>().spriteName = DownTabSpriteName;
+                skillContent.parent.GetComponent<UISprite>().spriteName = NormalabSpriteName;
+                NGUITools.SetActive(explainContent.gameObject, true);
+                NGUITools.SetActive(skillContent.gameObject, false);
+                break;
+        }
     }
 
     #endregion

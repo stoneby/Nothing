@@ -2,6 +2,7 @@ namespace com.kx.sglm.gs.battle.share.enums
 {
 
 	using IndexedEnum = com.kx.sglm.core.constant.IndexedEnum;
+	using ArrayUtils = com.kx.sglm.gs.battle.share.utils.ArrayUtils;
 
 	public abstract class HeroColor : IndexedEnum
 	{
@@ -91,6 +92,16 @@ namespace com.kx.sglm.gs.battle.share.enums
 			{
 				return VALUES;
 			}
+		}
+
+		public static HeroColor getValue(int index)
+		{
+			if (!ArrayUtils.isRightArrayIndex(index, Values))
+			{
+				//TODO: loggers.error
+				return NIL;
+			}
+			return Values[index];
 		}
 
 		private static readonly HeroColor[] VALUES = new HeroColor[] {NIL, RED, YELLOW, GREEN, BLUE, PINK};

@@ -31,11 +31,8 @@ namespace KXSGCodec
     private int _heroType;
     private Dictionary<int, int> _fighteProp;
     private Dictionary<int, int> _otherProp;
-    private List<int> _leaderSkill;
-    private List<int> _activeSkill;
-    private List<int> _giftSkill;
-    private List<int> _warriorsSkill;
-    private List<int> _weaponSkill;
+    private int _activeSkillId;
+    private List<int> _allSkill;
 
     /// <summary>
     /// 武将位置Index
@@ -118,82 +115,34 @@ namespace KXSGCodec
     }
 
     /// <summary>
-    /// 队长技能
+    /// 主动技能ID
     /// </summary>
-    public List<int> LeaderSkill
+    public int ActiveSkillId
     {
       get
       {
-        return _leaderSkill;
+        return _activeSkillId;
       }
       set
       {
-        __isset.leaderSkill = true;
-        this._leaderSkill = value;
+        __isset.activeSkillId = true;
+        this._activeSkillId = value;
       }
     }
 
     /// <summary>
-    /// 主动技能
+    /// 全部技能
     /// </summary>
-    public List<int> ActiveSkill
+    public List<int> AllSkill
     {
       get
       {
-        return _activeSkill;
+        return _allSkill;
       }
       set
       {
-        __isset.activeSkill = true;
-        this._activeSkill = value;
-      }
-    }
-
-    /// <summary>
-    /// 天赋技能
-    /// </summary>
-    public List<int> GiftSkill
-    {
-      get
-      {
-        return _giftSkill;
-      }
-      set
-      {
-        __isset.giftSkill = true;
-        this._giftSkill = value;
-      }
-    }
-
-    /// <summary>
-    /// 无双技能
-    /// </summary>
-    public List<int> WarriorsSkill
-    {
-      get
-      {
-        return _warriorsSkill;
-      }
-      set
-      {
-        __isset.warriorsSkill = true;
-        this._warriorsSkill = value;
-      }
-    }
-
-    /// <summary>
-    /// 武器技能
-    /// </summary>
-    public List<int> WeaponSkill
-    {
-      get
-      {
-        return _weaponSkill;
-      }
-      set
-      {
-        __isset.weaponSkill = true;
-        this._weaponSkill = value;
+        __isset.allSkill = true;
+        this._allSkill = value;
       }
     }
 
@@ -208,11 +157,8 @@ namespace KXSGCodec
       public bool heroType;
       public bool fighteProp;
       public bool otherProp;
-      public bool leaderSkill;
-      public bool activeSkill;
-      public bool giftSkill;
-      public bool warriorsSkill;
-      public bool weaponSkill;
+      public bool activeSkillId;
+      public bool allSkill;
     }
 
     public BattleMsgHero() {
@@ -255,14 +201,14 @@ namespace KXSGCodec
             if (field.Type == TType.Map) {
               {
                 FighteProp = new Dictionary<int, int>();
-                TMap _map0 = iprot.ReadMapBegin();
-                for( int _i1 = 0; _i1 < _map0.Count; ++_i1)
+                TMap _map54 = iprot.ReadMapBegin();
+                for( int _i55 = 0; _i55 < _map54.Count; ++_i55)
                 {
-                  int _key2;
-                  int _val3;
-                  _key2 = iprot.ReadI32();
-                  _val3 = iprot.ReadI32();
-                  FighteProp[_key2] = _val3;
+                  int _key56;
+                  int _val57;
+                  _key56 = iprot.ReadI32();
+                  _val57 = iprot.ReadI32();
+                  FighteProp[_key56] = _val57;
                 }
                 iprot.ReadMapEnd();
               }
@@ -274,14 +220,14 @@ namespace KXSGCodec
             if (field.Type == TType.Map) {
               {
                 OtherProp = new Dictionary<int, int>();
-                TMap _map4 = iprot.ReadMapBegin();
-                for( int _i5 = 0; _i5 < _map4.Count; ++_i5)
+                TMap _map58 = iprot.ReadMapBegin();
+                for( int _i59 = 0; _i59 < _map58.Count; ++_i59)
                 {
-                  int _key6;
-                  int _val7;
-                  _key6 = iprot.ReadI32();
-                  _val7 = iprot.ReadI32();
-                  OtherProp[_key6] = _val7;
+                  int _key60;
+                  int _val61;
+                  _key60 = iprot.ReadI32();
+                  _val61 = iprot.ReadI32();
+                  OtherProp[_key60] = _val61;
                 }
                 iprot.ReadMapEnd();
               }
@@ -290,18 +236,8 @@ namespace KXSGCodec
             }
             break;
           case 6:
-            if (field.Type == TType.List) {
-              {
-                LeaderSkill = new List<int>();
-                TList _list8 = iprot.ReadListBegin();
-                for( int _i9 = 0; _i9 < _list8.Count; ++_i9)
-                {
-                  int _elem10 = 0;
-                  _elem10 = iprot.ReadI32();
-                  LeaderSkill.Add(_elem10);
-                }
-                iprot.ReadListEnd();
-              }
+            if (field.Type == TType.I32) {
+              ActiveSkillId = iprot.ReadI32();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
@@ -309,64 +245,13 @@ namespace KXSGCodec
           case 7:
             if (field.Type == TType.List) {
               {
-                ActiveSkill = new List<int>();
-                TList _list11 = iprot.ReadListBegin();
-                for( int _i12 = 0; _i12 < _list11.Count; ++_i12)
+                AllSkill = new List<int>();
+                TList _list62 = iprot.ReadListBegin();
+                for( int _i63 = 0; _i63 < _list62.Count; ++_i63)
                 {
-                  int _elem13 = 0;
-                  _elem13 = iprot.ReadI32();
-                  ActiveSkill.Add(_elem13);
-                }
-                iprot.ReadListEnd();
-              }
-            } else { 
-              TProtocolUtil.Skip(iprot, field.Type);
-            }
-            break;
-          case 8:
-            if (field.Type == TType.List) {
-              {
-                GiftSkill = new List<int>();
-                TList _list14 = iprot.ReadListBegin();
-                for( int _i15 = 0; _i15 < _list14.Count; ++_i15)
-                {
-                  int _elem16 = 0;
-                  _elem16 = iprot.ReadI32();
-                  GiftSkill.Add(_elem16);
-                }
-                iprot.ReadListEnd();
-              }
-            } else { 
-              TProtocolUtil.Skip(iprot, field.Type);
-            }
-            break;
-          case 9:
-            if (field.Type == TType.List) {
-              {
-                WarriorsSkill = new List<int>();
-                TList _list17 = iprot.ReadListBegin();
-                for( int _i18 = 0; _i18 < _list17.Count; ++_i18)
-                {
-                  int _elem19 = 0;
-                  _elem19 = iprot.ReadI32();
-                  WarriorsSkill.Add(_elem19);
-                }
-                iprot.ReadListEnd();
-              }
-            } else { 
-              TProtocolUtil.Skip(iprot, field.Type);
-            }
-            break;
-          case 10:
-            if (field.Type == TType.List) {
-              {
-                WeaponSkill = new List<int>();
-                TList _list20 = iprot.ReadListBegin();
-                for( int _i21 = 0; _i21 < _list20.Count; ++_i21)
-                {
-                  int _elem22 = 0;
-                  _elem22 = iprot.ReadI32();
-                  WeaponSkill.Add(_elem22);
+                  int _elem64 = 0;
+                  _elem64 = iprot.ReadI32();
+                  AllSkill.Add(_elem64);
                 }
                 iprot.ReadListEnd();
               }
@@ -418,10 +303,10 @@ namespace KXSGCodec
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteMapBegin(new TMap(TType.I32, TType.I32, FighteProp.Count));
-          foreach (int _iter23 in FighteProp.Keys)
+          foreach (int _iter65 in FighteProp.Keys)
           {
-            oprot.WriteI32(_iter23);
-            oprot.WriteI32(FighteProp[_iter23]);
+            oprot.WriteI32(_iter65);
+            oprot.WriteI32(FighteProp[_iter65]);
           }
           oprot.WriteMapEnd();
         }
@@ -434,85 +319,33 @@ namespace KXSGCodec
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteMapBegin(new TMap(TType.I32, TType.I32, OtherProp.Count));
-          foreach (int _iter24 in OtherProp.Keys)
+          foreach (int _iter66 in OtherProp.Keys)
           {
-            oprot.WriteI32(_iter24);
-            oprot.WriteI32(OtherProp[_iter24]);
+            oprot.WriteI32(_iter66);
+            oprot.WriteI32(OtherProp[_iter66]);
           }
           oprot.WriteMapEnd();
         }
         oprot.WriteFieldEnd();
       }
-      if (LeaderSkill != null && __isset.leaderSkill) {
-        field.Name = "leaderSkill";
-        field.Type = TType.List;
+      if (__isset.activeSkillId) {
+        field.Name = "activeSkillId";
+        field.Type = TType.I32;
         field.ID = 6;
         oprot.WriteFieldBegin(field);
-        {
-          oprot.WriteListBegin(new TList(TType.I32, LeaderSkill.Count));
-          foreach (int _iter25 in LeaderSkill)
-          {
-            oprot.WriteI32(_iter25);
-          }
-          oprot.WriteListEnd();
-        }
+        oprot.WriteI32(ActiveSkillId);
         oprot.WriteFieldEnd();
       }
-      if (ActiveSkill != null && __isset.activeSkill) {
-        field.Name = "activeSkill";
+      if (AllSkill != null && __isset.allSkill) {
+        field.Name = "allSkill";
         field.Type = TType.List;
         field.ID = 7;
         oprot.WriteFieldBegin(field);
         {
-          oprot.WriteListBegin(new TList(TType.I32, ActiveSkill.Count));
-          foreach (int _iter26 in ActiveSkill)
+          oprot.WriteListBegin(new TList(TType.I32, AllSkill.Count));
+          foreach (int _iter67 in AllSkill)
           {
-            oprot.WriteI32(_iter26);
-          }
-          oprot.WriteListEnd();
-        }
-        oprot.WriteFieldEnd();
-      }
-      if (GiftSkill != null && __isset.giftSkill) {
-        field.Name = "giftSkill";
-        field.Type = TType.List;
-        field.ID = 8;
-        oprot.WriteFieldBegin(field);
-        {
-          oprot.WriteListBegin(new TList(TType.I32, GiftSkill.Count));
-          foreach (int _iter27 in GiftSkill)
-          {
-            oprot.WriteI32(_iter27);
-          }
-          oprot.WriteListEnd();
-        }
-        oprot.WriteFieldEnd();
-      }
-      if (WarriorsSkill != null && __isset.warriorsSkill) {
-        field.Name = "warriorsSkill";
-        field.Type = TType.List;
-        field.ID = 9;
-        oprot.WriteFieldBegin(field);
-        {
-          oprot.WriteListBegin(new TList(TType.I32, WarriorsSkill.Count));
-          foreach (int _iter28 in WarriorsSkill)
-          {
-            oprot.WriteI32(_iter28);
-          }
-          oprot.WriteListEnd();
-        }
-        oprot.WriteFieldEnd();
-      }
-      if (WeaponSkill != null && __isset.weaponSkill) {
-        field.Name = "weaponSkill";
-        field.Type = TType.List;
-        field.ID = 10;
-        oprot.WriteFieldBegin(field);
-        {
-          oprot.WriteListBegin(new TList(TType.I32, WeaponSkill.Count));
-          foreach (int _iter29 in WeaponSkill)
-          {
-            oprot.WriteI32(_iter29);
+            oprot.WriteI32(_iter67);
           }
           oprot.WriteListEnd();
         }
@@ -534,16 +367,10 @@ namespace KXSGCodec
       sb.Append(FighteProp);
       sb.Append(",OtherProp: ");
       sb.Append(OtherProp);
-      sb.Append(",LeaderSkill: ");
-      sb.Append(LeaderSkill);
-      sb.Append(",ActiveSkill: ");
-      sb.Append(ActiveSkill);
-      sb.Append(",GiftSkill: ");
-      sb.Append(GiftSkill);
-      sb.Append(",WarriorsSkill: ");
-      sb.Append(WarriorsSkill);
-      sb.Append(",WeaponSkill: ");
-      sb.Append(WeaponSkill);
+      sb.Append(",ActiveSkillId: ");
+      sb.Append(ActiveSkillId);
+      sb.Append(",AllSkill: ");
+      sb.Append(AllSkill);
       sb.Append(")");
       return sb.ToString();
     }

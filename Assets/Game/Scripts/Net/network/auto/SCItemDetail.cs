@@ -26,12 +26,29 @@ namespace KXSGCodec
   #endif
   public partial class SCItemDetail : TBase
   {
+    private sbyte _bagType;
     private short _bagIndex;
     private int _initSkillId;
     private int _randSkillId;
     private int _equipHeroImgId;
     private string _matchInfo;
     private sbyte _matchStatus;
+
+    /// <summary>
+    /// 背包类型 0-主背包 1-回购背包
+    /// </summary>
+    public sbyte BagType
+    {
+      get
+      {
+        return _bagType;
+      }
+      set
+      {
+        __isset.bagType = true;
+        this._bagType = value;
+      }
+    }
 
     public short BagIndex
     {
@@ -123,6 +140,7 @@ namespace KXSGCodec
     [Serializable]
     #endif
     public struct Isset {
+      public bool bagType;
       public bool bagIndex;
       public bool initSkillId;
       public bool randSkillId;
@@ -147,41 +165,48 @@ namespace KXSGCodec
         switch (field.ID)
         {
           case 1:
+            if (field.Type == TType.Byte) {
+              BagType = iprot.ReadByte();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 2:
             if (field.Type == TType.I16) {
               BagIndex = iprot.ReadI16();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
             break;
-          case 2:
+          case 3:
             if (field.Type == TType.I32) {
               InitSkillId = iprot.ReadI32();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
             break;
-          case 3:
+          case 4:
             if (field.Type == TType.I32) {
               RandSkillId = iprot.ReadI32();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
             break;
-          case 4:
+          case 5:
             if (field.Type == TType.I32) {
               EquipHeroImgId = iprot.ReadI32();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
             break;
-          case 5:
+          case 6:
             if (field.Type == TType.String) {
               MatchInfo = iprot.ReadString();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
             break;
-          case 6:
+          case 7:
             if (field.Type == TType.Byte) {
               MatchStatus = iprot.ReadByte();
             } else { 
@@ -201,10 +226,18 @@ namespace KXSGCodec
       TStruct struc = new TStruct("SCItemDetail");
       oprot.WriteStructBegin(struc);
       TField field = new TField();
+      if (__isset.bagType) {
+        field.Name = "bagType";
+        field.Type = TType.Byte;
+        field.ID = 1;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteByte(BagType);
+        oprot.WriteFieldEnd();
+      }
       if (__isset.bagIndex) {
         field.Name = "bagIndex";
         field.Type = TType.I16;
-        field.ID = 1;
+        field.ID = 2;
         oprot.WriteFieldBegin(field);
         oprot.WriteI16(BagIndex);
         oprot.WriteFieldEnd();
@@ -212,7 +245,7 @@ namespace KXSGCodec
       if (__isset.initSkillId) {
         field.Name = "initSkillId";
         field.Type = TType.I32;
-        field.ID = 2;
+        field.ID = 3;
         oprot.WriteFieldBegin(field);
         oprot.WriteI32(InitSkillId);
         oprot.WriteFieldEnd();
@@ -220,7 +253,7 @@ namespace KXSGCodec
       if (__isset.randSkillId) {
         field.Name = "randSkillId";
         field.Type = TType.I32;
-        field.ID = 3;
+        field.ID = 4;
         oprot.WriteFieldBegin(field);
         oprot.WriteI32(RandSkillId);
         oprot.WriteFieldEnd();
@@ -228,7 +261,7 @@ namespace KXSGCodec
       if (__isset.equipHeroImgId) {
         field.Name = "equipHeroImgId";
         field.Type = TType.I32;
-        field.ID = 4;
+        field.ID = 5;
         oprot.WriteFieldBegin(field);
         oprot.WriteI32(EquipHeroImgId);
         oprot.WriteFieldEnd();
@@ -236,7 +269,7 @@ namespace KXSGCodec
       if (MatchInfo != null && __isset.matchInfo) {
         field.Name = "matchInfo";
         field.Type = TType.String;
-        field.ID = 5;
+        field.ID = 6;
         oprot.WriteFieldBegin(field);
         oprot.WriteString(MatchInfo);
         oprot.WriteFieldEnd();
@@ -244,7 +277,7 @@ namespace KXSGCodec
       if (__isset.matchStatus) {
         field.Name = "matchStatus";
         field.Type = TType.Byte;
-        field.ID = 6;
+        field.ID = 7;
         oprot.WriteFieldBegin(field);
         oprot.WriteByte(MatchStatus);
         oprot.WriteFieldEnd();
@@ -255,7 +288,9 @@ namespace KXSGCodec
 
     public override string ToString() {
       StringBuilder sb = new StringBuilder("SCItemDetail(");
-      sb.Append("BagIndex: ");
+      sb.Append("BagType: ");
+      sb.Append(BagType);
+      sb.Append(",BagIndex: ");
       sb.Append(BagIndex);
       sb.Append(",InitSkillId: ");
       sb.Append(InitSkillId);

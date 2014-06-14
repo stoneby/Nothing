@@ -3,10 +3,9 @@ using Property;
 using UnityEngine;
 using System.Collections;
 
-public class FriendItemControl : MonoBehaviour
+public class FriendItemControl : KxItemRender
 {
-    private FriendInfo FriendData;
-    private bool IsFriend;
+    public FriendVO FriendData;
 
     private GameObject AttrackLabel;
     private GameObject NameLabel;
@@ -16,18 +15,18 @@ public class FriendItemControl : MonoBehaviour
     private int AtkValue;
     private int HpValue;
 
-    private UIEventListener BtnClickUIEventListener;
+    //private UIEventListener BtnClickUIEventListener;
     
 
 	// Use this for initialization
 	void Start () 
     {
+        
         AttrackLabel = transform.FindChild("Attrack Label").gameObject;
         NameLabel = transform.FindChild("Name Label").gameObject;
         MqLabel = transform.FindChild("Mq Label").gameObject;
         FriendSprite = transform.FindChild("Friend Sprite").gameObject;
-        BtnClickUIEventListener = UIEventListener.Get(gameObject);
-        BtnClickUIEventListener.onClick += OnItemClick;
+        
 
 	    ShowData();
     }
@@ -37,17 +36,23 @@ public class FriendItemControl : MonoBehaviour
 	
 	}
 
-    public void Init(FriendInfo friend, bool isfriend)
+    public override void SetData<T>(T data)
+    {
+        //throw new System.NotImplementedException();
+        FriendData = data as FriendVO;
+        Init(FriendData);
+    }
+
+    public void Init(FriendVO friend)
     {
         FriendData = friend;
-        IsFriend = isfriend;
         AtkValue = 0;
         HpValue = 0;
 
-        for (int i = 0; i < FriendData.HeroProp.Count; i++)
+        for (int i = 0; i < FriendData.Data.HeroProp.Count; i++)
         {
-            AtkValue += FriendData.HeroProp[i].Prop[RoleProperties.HERO_ATK];
-            HpValue += FriendData.HeroProp[i].Prop[RoleProperties.HERO_HP];
+            AtkValue += FriendData.Data.HeroProp[i].Prop[RoleProperties.HERO_ATK];
+            HpValue += FriendData.Data.HeroProp[i].Prop[RoleProperties.HERO_HP];
         }
         ShowData();
         
@@ -60,13 +65,13 @@ public class FriendItemControl : MonoBehaviour
         lb.text = "攻 " + AtkValue + "    " + "Hp " + HpValue;
 
         lb = NameLabel.GetComponent<UILabel>();
-        lb.text = FriendData.FriendName + "    " + "Lv " + FriendData.FriendLvl;
+        lb.text = FriendData.Data.FriendName + "    " + "Lv " + FriendData.Data.FriendLvl;
 
         lb = MqLabel.GetComponent<UILabel>();
-        lb.text = "可获得名气值 " + FriendData.FriendFamous + "点";
+        lb.text = "可获得名气值 " + FriendData.Data.FriendFamous + "点";
 
         var sp = FriendSprite.GetComponent<UISprite>();
-        if (IsFriend)
+        if (FriendData.IsFriend)
         {
             sp.spriteName = "friend";
         }
@@ -76,13 +81,5 @@ public class FriendItemControl : MonoBehaviour
         }
     }
 
-    private void OnItemClick(GameObject game)
-    {
-        var e = new FriendClickEvent();
-        e.FriendData = FriendData;
-        e.IsFriend = IsFriend;
-        EventManager.Instance.Post(e);
-
-
-    }
+    
 }

@@ -12,6 +12,7 @@ public class UITeamBuildWindow : Window
     #region private Fields
 
     private EndlessSwipeEffect endlessSwipeEffect;
+    private Vector3 endlessPosCached;
     private UIEventListener editBtnLis;
     private UIEventListener flipLBtnLis;
     private UIEventListener flipRBtnLis;
@@ -73,11 +74,15 @@ public class UITeamBuildWindow : Window
     public override void OnEnter()
     {
         InstallHandlers();
+        CurTeamIndex = HeroModelLocator.Instance.SCHeroList.CurrentTeamIndex;
+        endlessSwipeEffect.InitCustomData(CurTeamIndex, HeroModelLocator.Instance.SCHeroList.TeamList.Count);
+        Refresh();
     }
 
     public override void OnExit()
     {
         UnInstallHandlers();
+        endlessSwipeEffect.transform.position = endlessPosCached;
     }
 
     #endregion
@@ -94,22 +99,13 @@ public class UITeamBuildWindow : Window
         teamSprite = Utils.FindChild(transform, "TeamValue").GetComponent<UISprite>();
         teamSpritePrefix = teamSprite.spriteName.Remove(teamSprite.spriteName.Length - 1);
         endlessSwipeEffect = GetComponentInChildren<EndlessSwipeEffect>();
+        endlessPosCached = endlessSwipeEffect.transform.position;
         endlessSwipeEffect.UpdateData += UpdateData;
     }
 
     private void UpdateData()
     {
         CurTeamIndex = endlessSwipeEffect.CurCustomIndex;
-        Refresh();
-    }
-
-    /// <summary>
-    /// Considering there exits some dependencies, we need to do this initial work in start function.
-    /// </summary>
-    private void Start()
-    {
-        CurTeamIndex = HeroModelLocator.Instance.SCHeroList.CurrentTeamIndex;
-        endlessSwipeEffect.InitCustomData(CurTeamIndex, HeroModelLocator.Instance.SCHeroList.TeamList.Count);
         Refresh();
     }
 
@@ -153,7 +149,6 @@ public class UITeamBuildWindow : Window
             }
             if (index < heroUuids.Count)
             {
-                heros[index].GetComponent<HeroInfoPack>().Uuid = heroUuids[index];
                 var heroInfo = HeroModelLocator.Instance.FindHero(heroUuids[index]);
                 if (index == 0)
                 {
@@ -164,18 +159,7 @@ public class UITeamBuildWindow : Window
                 {
                     heros[index].FindChild("Hero").gameObject.SetActive(true);
                 }
-
-                else
-                {
-                    var lvLabel = Utils.FindChild(heros[index], "LV-Value").GetComponent<UILabel>();
-                    var attackLabel = Utils.FindChild(heros[index], "Attack-Value").GetComponent<UILabel>();
-                    var hpLabel = Utils.FindChild(heros[index], "HP-Value").GetComponent<UILabel>();
-
-                    lvLabel.text = heroInfo.Lvl.ToString(CultureInfo.InvariantCulture);
-                    attackLabel.text = heroInfo.Prop[RoleProperties.HERO_ATK].ToString(CultureInfo.InvariantCulture);
-                    hpLabel.text = heroInfo.Prop[RoleProperties.HERO_ATK].ToString(CultureInfo.InvariantCulture);
-                }
-
+                heros[index].GetComponent<HeroItemBase>().InitItem(heroInfo);
                 attack += heroInfo.Prop[RoleProperties.HERO_ATK];
                 hp += heroInfo.Prop[RoleProperties.HERO_HP];
                 recover += heroInfo.Prop[RoleProperties.HERO_RECOVER];

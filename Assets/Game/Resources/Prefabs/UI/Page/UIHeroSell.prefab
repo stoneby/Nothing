@@ -873,7 +873,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100066}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 420, y: 78.0023804, z: 0}
+  m_LocalPosition: {x: 380, y: 78.0023804, z: 0}
   m_LocalScale: {x: .999950588, y: .999950588, z: .999950588}
   m_Children:
   - {fileID: 400040}
@@ -1031,7 +1031,6 @@ MonoBehaviour:
     target: {fileID: 0}
     relative: 1
     absolute: 0
-  updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 3
   mWidth: 160
@@ -1047,7 +1046,6 @@ MonoBehaviour:
   mText: 0
   mFontSize: 30
   mFontStyle: 0
-  mAlignment: 0
   mEncoding: 1
   mMaxLineCount: 0
   mEffectStyle: 2
@@ -1093,7 +1091,6 @@ MonoBehaviour:
     target: {fileID: 0}
     relative: 1
     absolute: 0
-  updateAnchors: 1
   mColor: {r: .691176474, g: .665765584, b: .665765584, a: 1}
   mPivot: 4
   mWidth: 200
@@ -1109,7 +1106,6 @@ MonoBehaviour:
   mText: "\u786E\u5B9A\u5356\u51FA\u4E00\u4E0B\u6B66\u5C06\uFF1F"
   mFontSize: 30
   mFontStyle: 0
-  mAlignment: 0
   mEncoding: 1
   mMaxLineCount: 0
   mEffectStyle: 1
@@ -1155,7 +1151,6 @@ MonoBehaviour:
     target: {fileID: 0}
     relative: 1
     absolute: 0
-  updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
   mWidth: 576
@@ -1165,19 +1160,18 @@ MonoBehaviour:
   hideIfOffScreen: 0
   keepAspectRatio: 0
   aspectRatio: 1.60893857
+  mAtlas: {fileID: 11400000, guid: 7a5b8a5a3ed372d43bf8c47dcc5108ce, type: 2}
+  mSpriteName: main_frame_inline
   mType: 1
   mFillDirection: 4
   mFillAmount: 1
   mInvert: 0
-  mFlip: 0
+  mFillCenter: 1
   centerType: 1
   leftType: 1
   rightType: 1
   bottomType: 1
   topType: 1
-  mAtlas: {fileID: 11400000, guid: 7a5b8a5a3ed372d43bf8c47dcc5108ce, type: 2}
-  mSpriteName: main_frame_inline
-  mFillCenter: 1
 --- !u!114 &11400006
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1205,7 +1199,6 @@ MonoBehaviour:
     target: {fileID: 0}
     relative: 1
     absolute: -30
-  updateAnchors: 1
   mColor: {r: .91911763, g: .763818443, b: .256812304, a: 1}
   mPivot: 3
   mWidth: 160
@@ -1221,7 +1214,6 @@ MonoBehaviour:
   mText: "\u83B7\u53D6\u6B66\u9B42:"
   mFontSize: 30
   mFontStyle: 0
-  mAlignment: 0
   mEncoding: 1
   mMaxLineCount: 0
   mEffectStyle: 2
@@ -1267,7 +1259,6 @@ MonoBehaviour:
     target: {fileID: 0}
     relative: 1
     absolute: 0
-  updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 3
   mWidth: 100
@@ -1283,7 +1274,6 @@ MonoBehaviour:
   mText: 0
   mFontSize: 30
   mFontStyle: 0
-  mAlignment: 0
   mEncoding: 1
   mMaxLineCount: 0
   mEffectStyle: 2
@@ -1329,7 +1319,6 @@ MonoBehaviour:
     target: {fileID: 0}
     relative: 1
     absolute: -30
-  updateAnchors: 1
   mColor: {r: .91911763, g: .763818443, b: .256812304, a: 1}
   mPivot: 3
   mWidth: 160
@@ -1345,7 +1334,6 @@ MonoBehaviour:
   mText: "\u9009\u62E9\u4E2A\u6570:"
   mFontSize: 30
   mFontStyle: 0
-  mAlignment: 0
   mEncoding: 1
   mMaxLineCount: 0
   mEffectStyle: 2
@@ -1391,7 +1379,6 @@ MonoBehaviour:
     target: {fileID: 0}
     relative: 1
     absolute: 0
-  updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
   mWidth: 804
@@ -1401,19 +1388,18 @@ MonoBehaviour:
   hideIfOffScreen: 0
   keepAspectRatio: 0
   aspectRatio: 1.5461539
+  mAtlas: {fileID: 11400000, guid: 7a5b8a5a3ed372d43bf8c47dcc5108ce, type: 2}
+  mSpriteName: main_frame
   mType: 1
   mFillDirection: 4
   mFillAmount: 1
   mInvert: 0
-  mFlip: 0
+  mFillCenter: 1
   centerType: 1
   leftType: 1
   rightType: 1
   bottomType: 1
   topType: 1
-  mAtlas: {fileID: 11400000, guid: 7a5b8a5a3ed372d43bf8c47dcc5108ce, type: 2}
-  mSpriteName: main_frame
-  mFillCenter: 1
 --- !u!114 &11400014
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1441,7 +1427,6 @@ MonoBehaviour:
     target: {fileID: 0}
     relative: 1
     absolute: 0
-  updateAnchors: 1
   mColor: {r: .213235319, g: .213235319, b: .213235319, a: 1}
   mPivot: 4
   mWidth: 148
@@ -1457,7 +1442,6 @@ MonoBehaviour:
   mText: "\u786E\u5B9A"
   mFontSize: 30
   mFontStyle: 0
-  mAlignment: 0
   mEncoding: 1
   mMaxLineCount: 0
   mEffectStyle: 2
@@ -1503,7 +1487,6 @@ MonoBehaviour:
     target: {fileID: 0}
     relative: 1
     absolute: 0
-  updateAnchors: 1
   mColor: {r: .213235319, g: .213235319, b: .213235319, a: 1}
   mPivot: 4
   mWidth: 148
@@ -1519,7 +1502,6 @@ MonoBehaviour:
   mText: "\u53D6\u6D88"
   mFontSize: 30
   mFontStyle: 0
-  mAlignment: 0
   mEncoding: 1
   mMaxLineCount: 0
   mEffectStyle: 2
@@ -1565,7 +1547,6 @@ MonoBehaviour:
     target: {fileID: 0}
     relative: 1
     absolute: 0
-  updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
   mWidth: 90
@@ -1575,19 +1556,18 @@ MonoBehaviour:
   hideIfOffScreen: 0
   keepAspectRatio: 0
   aspectRatio: 1.097561
+  mAtlas: {fileID: 11400000, guid: 8334cafb3d14e8645a9306828c0e15b8, type: 2}
+  mSpriteName: SellMask
   mType: 0
   mFillDirection: 4
   mFillAmount: 1
   mInvert: 0
-  mFlip: 0
+  mFillCenter: 1
   centerType: 1
   leftType: 1
   rightType: 1
   bottomType: 1
   topType: 1
-  mAtlas: {fileID: 11400000, guid: 8334cafb3d14e8645a9306828c0e15b8, type: 2}
-  mSpriteName: SellMask
-  mFillCenter: 1
 --- !u!114 &11400020
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1615,7 +1595,6 @@ MonoBehaviour:
     target: {fileID: 0}
     relative: 1
     absolute: -4
-  updateAnchors: 1
   mColor: {r: 0, g: 0, b: 0, a: .752941191}
   mPivot: 3
   mWidth: 260
@@ -1631,7 +1610,6 @@ MonoBehaviour:
   mText: 
   mFontSize: 20
   mFontStyle: 0
-  mAlignment: 0
   mEncoding: 1
   mMaxLineCount: 1
   mEffectStyle: 1
@@ -1677,7 +1655,6 @@ MonoBehaviour:
     target: {fileID: 0}
     relative: 1
     absolute: 0
-  updateAnchors: 1
   showInPanelTool: 1
   generateNormals: 0
   widgetsAreStatic: 0
@@ -1685,14 +1662,12 @@ MonoBehaviour:
   alwaysOnScreen: 0
   anchorOffset: 0
   renderQueue: 0
-  startingRenderQueue: 3005
+  startingRenderQueue: 3003
   mAlpha: 1
   mClipping: 3
-  mClipRange: {x: 0, y: 0, z: 974, w: 370}
+  mClipRange: {x: 0, y: 0, z: 974, w: 356}
   mClipSoftness: {x: 4, y: 4}
   mDepth: 10
-  mSortingOrder: 0
-  mClipOffset: {x: 0, y: 0}
 --- !u!114 &11400024
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1714,11 +1689,10 @@ MonoBehaviour:
   momentumAmount: 35
   horizontalScrollBar: {fileID: 0}
   verticalScrollBar: {fileID: 11400054}
-  showScrollBars: 1
+  showScrollBars: 2
   customMovement: {x: 1, y: 0}
-  contentPivot: 0
-  scale: {x: 0, y: 0, z: 0}
   relativePositionOnReset: {x: 0, y: 0}
+  scale: {x: 0, y: 0, z: 0}
 --- !u!114 &11400026
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1731,15 +1705,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   arrangement: 0
-  sorting: 0
-  pivot: 0
   maxPerLine: 6
   cellWidth: 160
   cellHeight: 180
   animateSmoothly: 0
-  hideInactive: 1
-  keepWithinPanel: 0
   sorted: 0
+  hideInactive: 1
 --- !u!114 &11400028
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1780,7 +1751,6 @@ MonoBehaviour:
     target: {fileID: 0}
     relative: 1
     absolute: 0
-  updateAnchors: 1
   mColor: {r: 0, g: 0, b: 0, a: 1}
   mPivot: 4
   mWidth: 119
@@ -1796,7 +1766,6 @@ MonoBehaviour:
   mText: "\u786E\u5B9A"
   mFontSize: 25
   mFontStyle: 0
-  mAlignment: 0
   mEncoding: 1
   mMaxLineCount: 0
   mEffectStyle: 0
@@ -1842,7 +1811,6 @@ MonoBehaviour:
     target: {fileID: 0}
     relative: 1
     absolute: 0
-  updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
   mWidth: 106
@@ -1852,19 +1820,18 @@ MonoBehaviour:
   hideIfOffScreen: 0
   keepAspectRatio: 0
   aspectRatio: 3.78571439
+  mAtlas: {fileID: 11400000, guid: 8334cafb3d14e8645a9306828c0e15b8, type: 2}
+  mSpriteName: CancelAll
   mType: 0
   mFillDirection: 4
   mFillAmount: 1
   mInvert: 0
-  mFlip: 0
+  mFillCenter: 1
   centerType: 1
   leftType: 1
   rightType: 1
   bottomType: 1
   topType: 1
-  mAtlas: {fileID: 11400000, guid: 8334cafb3d14e8645a9306828c0e15b8, type: 2}
-  mSpriteName: CancelAll
-  mFillCenter: 1
 --- !u!114 &11400034
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1892,7 +1859,6 @@ MonoBehaviour:
     target: {fileID: 0}
     relative: 1
     absolute: 0
-  updateAnchors: 1
   showInPanelTool: 1
   generateNormals: 0
   widgetsAreStatic: 0
@@ -1900,14 +1866,12 @@ MonoBehaviour:
   alwaysOnScreen: 0
   anchorOffset: 0
   renderQueue: 0
-  startingRenderQueue: 3005
+  startingRenderQueue: 3003
   mAlpha: 1
   mClipping: 0
   mClipRange: {x: 0, y: 0, z: 300, w: 200}
   mClipSoftness: {x: 4, y: 4}
   mDepth: 11
-  mSortingOrder: 0
-  mClipOffset: {x: 0, y: 0}
 --- !u!114 &11400036
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1935,7 +1899,6 @@ MonoBehaviour:
     target: {fileID: 0}
     relative: 1
     absolute: -20
-  updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
   mWidth: 150
@@ -1945,19 +1908,18 @@ MonoBehaviour:
   hideIfOffScreen: 0
   keepAspectRatio: 0
   aspectRatio: 2.83018875
+  mAtlas: {fileID: 11400000, guid: 8334cafb3d14e8645a9306828c0e15b8, type: 2}
+  mSpriteName: CancelBtnN
   mType: 1
   mFillDirection: 4
   mFillAmount: 1
   mInvert: 0
-  mFlip: 0
+  mFillCenter: 1
   centerType: 1
   leftType: 1
   rightType: 1
   bottomType: 1
   topType: 1
-  mAtlas: {fileID: 11400000, guid: 8334cafb3d14e8645a9306828c0e15b8, type: 2}
-  mSpriteName: CancelBtnN
-  mFillCenter: 1
 --- !u!114 &11400038
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2000,7 +1962,6 @@ MonoBehaviour:
     target: {fileID: 0}
     relative: 1
     absolute: -20
-  updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
   mWidth: 150
@@ -2010,19 +1971,18 @@ MonoBehaviour:
   hideIfOffScreen: 0
   keepAspectRatio: 0
   aspectRatio: 2.83018875
+  mAtlas: {fileID: 11400000, guid: 8334cafb3d14e8645a9306828c0e15b8, type: 2}
+  mSpriteName: EditOkBtnN
   mType: 1
   mFillDirection: 4
   mFillAmount: 1
   mInvert: 0
-  mFlip: 0
+  mFillCenter: 1
   centerType: 1
   leftType: 1
   rightType: 1
   bottomType: 1
   topType: 1
-  mAtlas: {fileID: 11400000, guid: 8334cafb3d14e8645a9306828c0e15b8, type: 2}
-  mSpriteName: EditOkBtnN
-  mFillCenter: 1
 --- !u!114 &11400044
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2065,7 +2025,6 @@ MonoBehaviour:
     target: {fileID: 400066}
     relative: 1
     absolute: -5
-  updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
   mWidth: 4
@@ -2075,19 +2034,18 @@ MonoBehaviour:
   hideIfOffScreen: 0
   keepAspectRatio: 0
   aspectRatio: .0123076923
+  mAtlas: {fileID: 11400000, guid: 8334cafb3d14e8645a9306828c0e15b8, type: 2}
+  mSpriteName: ScrollFG
   mType: 1
   mFillDirection: 4
   mFillAmount: 1
   mInvert: 0
-  mFlip: 0
+  mFillCenter: 1
   centerType: 1
   leftType: 1
   rightType: 1
   bottomType: 1
   topType: 1
-  mAtlas: {fileID: 11400000, guid: 8334cafb3d14e8645a9306828c0e15b8, type: 2}
-  mSpriteName: ScrollFG
-  mFillCenter: 1
 --- !u!114 &11400048
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2115,7 +2073,6 @@ MonoBehaviour:
     target: {fileID: 0}
     relative: 1
     absolute: 0
-  updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
   mWidth: 14
@@ -2125,19 +2082,18 @@ MonoBehaviour:
   hideIfOffScreen: 0
   keepAspectRatio: 0
   aspectRatio: .0417910442
+  mAtlas: {fileID: 11400000, guid: 8334cafb3d14e8645a9306828c0e15b8, type: 2}
+  mSpriteName: ScrollBG
   mType: 1
   mFillDirection: 4
   mFillAmount: 1
   mInvert: 0
-  mFlip: 0
+  mFillCenter: 1
   centerType: 1
   leftType: 1
   rightType: 1
   bottomType: 1
   topType: 1
-  mAtlas: {fileID: 11400000, guid: 8334cafb3d14e8645a9306828c0e15b8, type: 2}
-  mSpriteName: ScrollBG
-  mFillCenter: 1
 --- !u!114 &11400052
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2165,7 +2121,6 @@ MonoBehaviour:
     target: {fileID: 0}
     relative: 1
     absolute: -20
-  updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 3
   mWidth: 317
@@ -2175,19 +2130,18 @@ MonoBehaviour:
   hideIfOffScreen: 0
   keepAspectRatio: 0
   aspectRatio: 4.73134327
+  mAtlas: {fileID: 11400000, guid: 8334cafb3d14e8645a9306828c0e15b8, type: 2}
+  mSpriteName: SortN
   mType: 1
   mFillDirection: 4
   mFillAmount: 1
   mInvert: 0
-  mFlip: 0
+  mFillCenter: 1
   centerType: 1
   leftType: 1
   rightType: 1
   bottomType: 1
   topType: 1
-  mAtlas: {fileID: 11400000, guid: 8334cafb3d14e8645a9306828c0e15b8, type: 2}
-  mSpriteName: SortN
-  mFillCenter: 1
 --- !u!114 &11400054
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2240,7 +2194,6 @@ MonoBehaviour:
     target: {fileID: 0}
     relative: 1
     absolute: -30
-  updateAnchors: 1
   mColor: {r: .91911763, g: .763818443, b: .256812304, a: 1}
   mPivot: 3
   mWidth: 160
@@ -2256,7 +2209,6 @@ MonoBehaviour:
   mText: "\u6B66\u5C06\u4E2A\u6570\uFF1A "
   mFontSize: 30
   mFontStyle: 0
-  mAlignment: 0
   mEncoding: 1
   mMaxLineCount: 0
   mEffectStyle: 2
@@ -2302,7 +2254,6 @@ MonoBehaviour:
     target: {fileID: 0}
     relative: 1
     absolute: 0
-  updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 3
   mWidth: 160
@@ -2318,7 +2269,6 @@ MonoBehaviour:
   mText: 12
   mFontSize: 30
   mFontStyle: 0
-  mAlignment: 0
   mEncoding: 1
   mMaxLineCount: 0
   mEffectStyle: 2
@@ -2379,7 +2329,6 @@ MonoBehaviour:
     target: {fileID: 0}
     relative: 1
     absolute: 0
-  updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
   mWidth: 150
@@ -2389,19 +2338,18 @@ MonoBehaviour:
   hideIfOffScreen: 0
   keepAspectRatio: 0
   aspectRatio: 2.83018875
+  mAtlas: {fileID: 11400000, guid: 8334cafb3d14e8645a9306828c0e15b8, type: 2}
+  mSpriteName: EditOkBtnN
   mType: 0
   mFillDirection: 4
   mFillAmount: 1
   mInvert: 0
-  mFlip: 0
+  mFillCenter: 1
   centerType: 1
   leftType: 1
   rightType: 1
   bottomType: 1
   topType: 1
-  mAtlas: {fileID: 11400000, guid: 8334cafb3d14e8645a9306828c0e15b8, type: 2}
-  mSpriteName: EditOkBtnN
-  mFillCenter: 1
 --- !u!114 &11400072
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2429,7 +2377,6 @@ MonoBehaviour:
     target: {fileID: 0}
     relative: 1
     absolute: 0
-  updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
   mWidth: 150
@@ -2439,19 +2386,18 @@ MonoBehaviour:
   hideIfOffScreen: 0
   keepAspectRatio: 0
   aspectRatio: 2.83018875
+  mAtlas: {fileID: 11400000, guid: 8334cafb3d14e8645a9306828c0e15b8, type: 2}
+  mSpriteName: CancelBtnN
   mType: 0
   mFillDirection: 4
   mFillAmount: 1
   mInvert: 0
-  mFlip: 0
+  mFillCenter: 1
   centerType: 1
   leftType: 1
   rightType: 1
   bottomType: 1
   topType: 1
-  mAtlas: {fileID: 11400000, guid: 8334cafb3d14e8645a9306828c0e15b8, type: 2}
-  mSpriteName: CancelBtnN
-  mFillCenter: 1
 --- !u!114 &11400080
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2464,15 +2410,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   arrangement: 0
-  sorting: 0
-  pivot: 0
   maxPerLine: 5
   cellWidth: 110
   cellHeight: 110
   animateSmoothly: 0
-  hideInactive: 1
-  keepWithinPanel: 0
   sorted: 0
+  hideInactive: 1
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

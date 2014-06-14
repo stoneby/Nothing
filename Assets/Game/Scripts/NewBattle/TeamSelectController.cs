@@ -18,8 +18,7 @@ public class TeamSelectController : MonoBehaviour
 
     public List<Character> CharacterList;
     public MyPoolManager DragBarPool;
-    //public MyPoolManager CharacterPool;
-    public List<MyPoolManager> CharacterPoolList;
+    public MyPoolManager CharacterPool;
 
     public int Row;
     public int Col;
@@ -102,7 +101,7 @@ public class TeamSelectController : MonoBehaviour
         initialized = false;
 
         // return back to pool.
-        CharacterList.ForEach(character => CharacterPoolList[character.Index].Return(character.gameObject));
+        CharacterList.ForEach(character => CharacterPool.Return(character.gameObject));
 
         // unregister events to all characters.
         CharacterList.ForEach(character =>
@@ -118,7 +117,7 @@ public class TeamSelectController : MonoBehaviour
         CharacterList.Clear();
     }
 
-    public void Initialize(IList<FighterInfo> characterDataList)
+    public void Initialize()
     {
         if (initialized)
         {
@@ -130,12 +129,6 @@ public class TeamSelectController : MonoBehaviour
         if (CharacterList == null)
         {
             CharacterList = new List<Character>();
-        }
-
-        // set total if we got data.
-        if (characterDataList != null)
-        {
-            Total = characterDataList.Count;
         }
 
         if (CharacterList.Count == 0)
@@ -200,6 +193,14 @@ public class TeamSelectController : MonoBehaviour
             listener.onDragOut += OnCharacterDragOut;
             listener.onDrag += OnCharacterDrag;
         });
+
+        Print();
+    }
+
+    public void Print()
+    {
+        CharacterList.ForEach(
+            item => Logger.LogWarning("Character: " + item.name + ", positioN: " + item.transform.position));
     }
 
     public void Reset()

@@ -24,8 +24,22 @@ namespace com.kx.sglm.gs.battle.share.data.record
 		/// </summary>
 		private int skillId;
 
+		private BattleFightRecord fightRecord;
+
 		public BattleSkillRecord()
 		{
+		}
+
+		public virtual BattleFightRecord OrCreateFightRecord
+		{
+			get
+			{
+				if (fightRecord == null)
+				{
+					fightRecord = new BattleFightRecord();
+				}
+				return fightRecord;
+			}
 		}
 
 		public virtual int Index
@@ -66,6 +80,14 @@ namespace com.kx.sglm.gs.battle.share.data.record
 			}
 		}
 
+
+		public virtual BattleFightRecord FightRecord
+		{
+			get
+			{
+				return fightRecord;
+			}
+		}
 
 		public override void show(IBattleView viewObj)
 		{
