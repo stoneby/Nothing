@@ -43,9 +43,7 @@ public class TeamFormationController : MonoBehaviour
     {
         FormationList.Clear();
 
-#if UNITY_EDITOR
         Clean();
-#endif
 
         var persistentFile = string.Format("{0}/{1}.xml", Application.persistentDataPath, XmlName);
         var hasPersistentFile = File.Exists(persistentFile);
@@ -121,14 +119,14 @@ public class TeamFormationController : MonoBehaviour
             Debug.Log("Add spawn object: " + spawnObject.name);
         }
     }
+    
+#endif
 
     public void Clean()
     {
         SpawnList.ForEach(DestroyImmediate);
         SpawnList.Clear();
     }
-    
-#endif
 
     public void WriteXml()
     {
