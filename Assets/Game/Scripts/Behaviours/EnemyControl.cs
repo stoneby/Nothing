@@ -9,6 +9,9 @@ public class EnemyControl : MonoBehaviour
     public GameObject BloodBar;
     public GameObject BloodLabel;
     public GameObject CdLabel;
+
+	public GameObject AttackLocation;
+
     //public GameObject Enemy;
 
     public FighterInfo Data;

@@ -1051,8 +1051,9 @@ public class InitBattleField : MonoBehaviour, IBattleView
     //跑到攻击位
     private static void RunToAttrackPlace(GameObject obj, GameObject enemy)
     {
+		var enemyController = enemy.GetComponent<EnemyControl>();
         var duration = GameConfig.RunToAttrackPosTime;
-        iTween.MoveTo(obj, enemy.transform.position, duration);
+        iTween.MoveTo(obj, enemyController.AttackLocation.transform.position, duration);
     }
 
     //播放怪物的受击
