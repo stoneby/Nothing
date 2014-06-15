@@ -104,6 +104,26 @@ public class TeamSelectController : MonoBehaviour
         CharacterList.ForEach(character => CharacterPool.Return(character.gameObject));
 
         // unregister events to all characters.
+        UnregisterEventHandlers();
+
+        CharacterList.Clear();
+    }
+
+    public void RegisterEventHandlers()
+    {
+        CharacterList.ForEach(character =>
+        {
+            var listener = UIEventListener.Get(character.gameObject);
+            listener.onDragStart += OnCharacterDragStart;
+            listener.onDragOver += OnCharacterDragOver;
+            listener.onDragEnd += OnCharacterDragEnd;
+            listener.onDragOut += OnCharacterDragOut;
+            listener.onDrag += OnCharacterDrag;
+        });
+    }
+
+    public void UnregisterEventHandlers()
+    {
         CharacterList.ForEach(character =>
         {
             var listener = UIEventListener.Get(character.gameObject);
@@ -113,8 +133,6 @@ public class TeamSelectController : MonoBehaviour
             listener.onDragOut -= OnCharacterDragOut;
             listener.onDrag -= OnCharacterDrag;
         });
-
-        CharacterList.Clear();
     }
 
     public void Initialize()
@@ -184,15 +202,7 @@ public class TeamSelectController : MonoBehaviour
 
         SelectedCharacterList = new List<Character>(CharacterList.Count);
 
-        CharacterList.ForEach(character =>
-        {
-            var listener = UIEventListener.Get(character.gameObject);
-            listener.onDragStart += OnCharacterDragStart;
-            listener.onDragOver += OnCharacterDragOver;
-            listener.onDragEnd += OnCharacterDragEnd;
-            listener.onDragOut += OnCharacterDragOut;
-            listener.onDrag += OnCharacterDrag;
-        });
+        RegisterEventHandlers();
 
         Print();
     }

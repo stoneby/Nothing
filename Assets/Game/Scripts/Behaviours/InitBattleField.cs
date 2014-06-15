@@ -463,6 +463,8 @@ public class InitBattleField : MonoBehaviour, IBattleView
         CleanAttackValue();
         CleanEffect();
 
+        // Disable team selection.
+        TeamController.UnregisterEventHandlers();
         TeamController.SelectedCharacterList.ForEach(item =>
         {
             var character = item.GetComponent<CharacterControl>();
@@ -881,6 +883,9 @@ public class InitBattleField : MonoBehaviour, IBattleView
         yield return new WaitForSeconds(GameConfig.TotalHeroAttrackTime + temp);
         CheckMonsterDead();
         yield return StartCoroutine(MakeUpOneByOne());
+
+        // Enable team selection.
+        TeamController.RegisterEventHandlers();
 
         LeaderCD = battleTeamRecord.getIntProp(BattleRecordConstants.BATTLE_HERO_PROP_MP);
         ShowMp();
