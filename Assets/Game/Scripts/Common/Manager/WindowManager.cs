@@ -76,7 +76,6 @@ public class WindowManager : Singleton<WindowManager>
     /// <returns>The window with specific type</returns>
     public Window GetWindow(Type type)
     {
-        Logger.Log("GetWindow: type - " + type);
         var path = Mapping.TypePathMap[type];
         var windowGroupType = Mapping.PathLayerMap[path];
 
@@ -178,8 +177,6 @@ public class WindowManager : Singleton<WindowManager>
                 window.gameObject.SetActive(false);
             }
         }
-
-        Display();
 
         return window;
     }

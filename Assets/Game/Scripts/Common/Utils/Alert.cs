@@ -1,5 +1,4 @@
-﻿using UnityEngine;
-
+﻿
 public static class Alert
 {
     public static void Show(AssertionWindow.Type type, string title, string msg, 

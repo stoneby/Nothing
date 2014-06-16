@@ -1,6 +1,5 @@
 ﻿using Assets.Game.Scripts.Common.Model;
 using com.kx.sglm.gs.battle.share;
-using com.kx.sglm.gs.battle.share.data;
 using com.kx.sglm.gs.battle.share.data.record;
 using com.kx.sglm.gs.battle.share.input;
 using KXSGCodec;
@@ -36,11 +35,26 @@ public class InitBattleField : MonoBehaviour, IBattleView
 
     public GameObject CharacterAttrackValueLabel;
 
+    /// <summary>
+    /// Rectangle team controller
+    /// </summary>
+    /// <remarks>Used to control our heros</remarks>
     public TeamSelectController TeamController;
+
+    /// <summary>
+    /// Simple team controller
+    /// </summary>
+    /// <remarks>Used to control our enemies</remarks>
     public TeamSimpleController EnemyController;
 
+    /// <summary>
+    /// Character's waiting transform.
+    /// </summary>
     public Transform CharacterWaitingTrans;
 
+    /// <summary>
+    /// Waiting stack that hold waiting hero's position.
+    /// </summary>
     private List<GameObject> waitingStackList = new List<GameObject>();
 
     private int characterAttrackValue;
@@ -48,31 +62,46 @@ public class InitBattleField : MonoBehaviour, IBattleView
     private float characterMaxValue;
     private float characterValue;
 
-    private bool isPlaying;
-    private bool isBattling;
     private NextFootManager footManager;
     private GameObject lineObj;
 
-    //开始一场战斗,attracks攻击的12个武将的数组,enemys敌人方n波敌人的数组
+    /// <summary>
+    /// Attack waiting characters list.
+    /// </summary>
     private List<GameObject> attackWaitList;
-    private readonly GameObject[,] charactersLeft = new GameObject[3, 3];
-    //private GameObject[] enemyList;
-    private int currEnemyGroupIndex;	//当前是第几波敌人;
 
+    /// <summary>
+    /// Character team list.
+    /// </summary>
+    private readonly GameObject[,] charactersLeft = new GameObject[3, 3];
+
+    /// <summary>
+    /// Current enemy group index.
+    /// </summary>
+    private int currEnemyGroupIndex;
+
+    private bool isRecover;
     private float realTime;
 
-    private int Star;
-    private GameObject Star1;
-    private GameObject Star2;
-    private GameObject Star3;
+    private BattleSkillRecord leaderSkillRecord;
+    private BattleTeamFightRecord battleTeamRecord;
+
+    private GameObject tempGameObj;
+    
+    private int star;
+    private GameObject star1;
+    private GameObject star2;
+    private GameObject star3;
+
+    private static int bgIndex;
 
     public void Init()
     {
         var containerobj = GameObject.Find("BattleFieldPanel");
 
-        Star1 = transform.FindChild("BattleUIPanel/Anchor-bottomleft/Sprite star 1").gameObject;
-        Star2 = transform.FindChild("BattleUIPanel/Anchor-bottomleft/Sprite star 2").gameObject;
-        Star3 = transform.FindChild("BattleUIPanel/Anchor-bottomleft/Sprite star 3").gameObject;
+        star1 = transform.FindChild("BattleUIPanel/Anchor-bottomleft/Sprite star 1").gameObject;
+        star2 = transform.FindChild("BattleUIPanel/Anchor-bottomleft/Sprite star 2").gameObject;
+        star3 = transform.FindChild("BattleUIPanel/Anchor-bottomleft/Sprite star 3").gameObject;
 
         lineObj = NGUITools.AddChild(containerobj, DragBarPrefab);
         var sp = lineObj.GetComponent<UISprite>();
@@ -101,8 +130,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
         InitTopDataBar();
     }
 
-    private static int bgIndex = 0;
-    //开始战斗
     public void StartBattle()
     {
         leftContainerObj = GameObject.Find("BattleFieldWidgetLeft");
@@ -123,12 +150,10 @@ public class InitBattleField : MonoBehaviour, IBattleView
         bgIndex++;
         bg.SetData("00" + bgIndex);
         bgIndex = bgIndex % 3;
-        //PopTextManager.PopTip("Bg Index = " + bgIndex);
 
         characterValue = 0;
         characterMaxValue = 0;
 
-        isBattling = true;
         LeaderCD = 0;
         LeaderCDMax = 50;
         ResetLeaderCd();
@@ -138,10 +163,10 @@ public class InitBattleField : MonoBehaviour, IBattleView
         EnergyCount = 0;
         GoldCount = 0;
 
-        Star = 3;
-        Star1.SetActive(true);
-        Star2.SetActive(true);
-        Star3.SetActive(true);
+        star = 3;
+        star1.SetActive(true);
+        star2.SetActive(true);
+        star3.SetActive(true);
 
         ShowTopData();
         EventManager.Instance.AddListener<LeaderUseEvent>(OnLeaderUseHandler);
@@ -149,8 +174,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
         ResetLeaderData();
         CreateCurrentEnemys();
         RequestRecords();
-
-        TeamController.Print();
 
         InitWaitingStackList();
         AdjustCharacterList();
@@ -164,7 +187,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
             waitingStackList = new List<GameObject>();
         }
         waitingStackList.Clear();
-
 
         for (var i = 0; i < TeamController.Row; ++i)
         {
@@ -410,7 +432,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
         character.ColorIndex = cc.FootIndex;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (Time.realtimeSinceStartup - realTime > 0.1)
@@ -440,8 +461,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
 
     private void OnSelected(GameObject selectedObject)
     {
-        Logger.Log("-------------- on selected: " + selectedObject.name);
-
         var cc = selectedObject.GetComponent<CharacterControl>();
         currentFootIndex = cc.FootIndex;
         AddAObj(selectedObject);
@@ -449,7 +468,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
 
     private void OnDeselected(GameObject selectedObject)
     {
-        Logger.Log("-------------- on deselected: " + selectedObject.name);
         AddAObj(selectedObject, false);
     }
 
@@ -463,8 +481,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
         CleanAttackValue();
         CleanEffect();
 
-        // Disable team selection.
-        TeamController.UnregisterEventHandlers();
         TeamController.SelectedCharacterList.ForEach(item =>
         {
             var character = item.GetComponent<CharacterControl>();
@@ -473,6 +489,9 @@ public class InitBattleField : MonoBehaviour, IBattleView
 
         if (isAttacked)
         {
+            // Disable team selection.
+            TeamController.UnregisterEventHandlers();
+
             var selectedList = TeamController.SelectedCharacterList.Select(item => item.Index);
             DoAttack(selectedList.ToArray());
         }
@@ -488,7 +507,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
 
     private void CleanAttackValue()
     {
-        UILabel uilb = CharacterAttrackValueLabel.GetComponent<UILabel>();
+        var uilb = CharacterAttrackValueLabel.GetComponent<UILabel>();
         uilb.text = "";
     }
 
@@ -520,7 +539,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
             return;
         }
 
-        //调取服务器战斗
         var enemy = EnemyController.CharacterList[0];
         var ec = enemy.GetComponent<EnemyControl>();
         var action = new ProduceFighterIndexAction
@@ -532,7 +550,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
         RequestRecords();
     }
 
-    //增加一个选择的武将
     void AddAObj(GameObject obj, bool isadd = true)
     {
         var tempcc1 = obj.GetComponent<CharacterControl>();
@@ -559,21 +576,28 @@ public class InitBattleField : MonoBehaviour, IBattleView
         ShowTempMp(TeamController.SelectedCharacterList.Count);
     }
 
-    //左侧部队攻击
+    /// <summary>
+    /// Left side attack.
+    /// </summary>
     void DoAttrackLeft()
     {
-        isPlaying = true;
         StartCoroutine(LeftAttrackCoroutineHandler());
     }
 
-    //右侧部队攻击
+    /// <summary>
+    /// Right side attack.
+    /// </summary>
     void DoAttrackRight()
     {
-        isPlaying = true;
         StartCoroutine(RightAttrackCoroutineHandler());
     }
 
-    //显示武将掉血
+    /// <summary>
+    /// Display character losing blood.
+    /// </summary>
+    /// <param name="pos">Position</param>
+    /// <param name="newvalue">New value to take</param>
+    /// <param name="isnotadd">Flag indicates if not added</param>
     void CharacterLoseBlood(Vector3 pos, float newvalue, bool isnotadd = true)
     {
         if (isnotadd)
@@ -585,15 +609,15 @@ public class InitBattleField : MonoBehaviour, IBattleView
             {
                 PopTextManager.ShowText("-" + losevalue, 0.6f, -25, 60, 50, pos);
                 var v = characterMaxValue - characterValue;
-                if (v > (characterMaxValue / 2) && Star > 1)
+                if (v > (characterMaxValue / 2) && star > 1)
                 {
-                    Star = 1;
-                    Star2.SetActive(false);
+                    star = 1;
+                    star2.SetActive(false);
                 }
-                else if (v > (characterMaxValue / 4) && Star > 2)
+                else if (v > (characterMaxValue / 4) && star > 2)
                 {
-                    Star = 2;
-                    Star3.SetActive(false);
+                    star = 2;
+                    star3.SetActive(false);
                 }
             }
         }
@@ -604,7 +628,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
         ShowHp();
     }
 
-    //播放回血特效
     void PlayBloodFullEffect()
     {
         for (var i = 0; i < 3; i++)
@@ -617,7 +640,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
         }
     }
 
-    //跑到下一波怪
     void RunToNextEnemys()
     {
         for (var i = 0; i < 3; i++)
@@ -645,7 +667,11 @@ public class InitBattleField : MonoBehaviour, IBattleView
         //}
     }
 
-    //获取该action的怪
+    /// <summary>
+    /// Get monster object according to single action record.
+    /// </summary>
+    /// <param name="record">Single action record</param>
+    /// <returns>The monster</returns>
     private GameObject GetMonsterObject(SingleActionRecord record)
     {
         var enemy = EnemyController.CharacterList.Find(character =>
@@ -656,63 +682,58 @@ public class InitBattleField : MonoBehaviour, IBattleView
         return (enemy != null) ? enemy.gameObject : null;
     }
 
-    //private const float AttrackTime = 0.3f;
-    //播放武将的一次出手动作
     private IEnumerator PlayOneAction(BattleFightRecord record)
     {
-        GameObject obj;
-        GameObject monster;
-        CharacterControl cc;
-        obj = GetCharacterByAction(record.getAttackAction());
+        var obj = GetCharacterByAction(record.getAttackAction());
         if (obj == null)
         {
             Logger.Log("没有获取到武将，传入的index=" + record.getAttackAction().Index);
         }
         else
         {
-            cc = obj.GetComponent<CharacterControl>();
+            var cc = obj.GetComponent<CharacterControl>();
 
-            if (record.getAttackAction().ActType == BattleRecordConstants.SINGLE_ACTION_TYPE_SP_ATTACK)
+            GameObject monster;
+            switch (record.getAttackAction().ActType)
             {
-                monster = GetMonsterObject(record.ActionList[0]);
-                var ec = monster.GetComponent<EnemyControl>();
-                ec.ShowBlood(true);
-                RunReturn(obj, GameConfig.ShortTime);
-                yield return new WaitForSeconds(AddMoveCharacter(obj, monster));
-                PlayEnemyBeenAttrack(cc, record.ActionList);
-            }
-            else if (record.getAttackAction().ActType == BattleRecordConstants.SINGLE_ACTION_TYPE_RECOVER)
-            {
-                IsRecover = true;
-                cc.PlayCharacter(CharacterType.ActionAttrack);
-                yield return new WaitForSeconds(GameConfig.PlayAttrackTime);
-                cc.PlayCharacter(CharacterType.ActionWait);
-                CharacterLoseBlood(obj.transform.localPosition, record.getAttackAction().getIntProp(BattleRecordConstants.SINGLE_ACTION_PROP_HP));
-                //RunReturn(obj);
-            }
-            else if (record.getAttackAction().ActType == BattleRecordConstants.SINGLE_ACTION_TYPE_RECOVERED)
-            {
-            }
-            else if (record.getAttackAction().ActType == BattleRecordConstants.SINGLE_ACTION_TYPE_DEFENCE)
-            {
-            }
-            else
-            {
-                monster = GetMonsterObject(record.ActionList[0]);
-                var ec = monster.GetComponent<EnemyControl>();
-                ec.ShowBlood(true);
-                RunToAttrackPlace(obj, monster);
-                yield return new WaitForSeconds(GameConfig.RunToAttrackPosTime);
-                cc.PlayCharacter(CharacterType.ActionAttrack);
-                yield return new WaitForSeconds(GameConfig.PlayAttrackTime);
-                PlayEnemyBeenAttrack(cc, record.ActionList);
-                RunReturn(obj, GameConfig.HeroRunReturnTime);
+                case BattleRecordConstants.SINGLE_ACTION_TYPE_SP_ATTACK:
+                {
+                    monster = GetMonsterObject(record.ActionList[0]);
+                    var ec = monster.GetComponent<EnemyControl>();
+                    ec.ShowBlood(true);
+                    RunReturn(obj, GameConfig.ShortTime);
+                    yield return new WaitForSeconds(AddMoveCharacter(obj, monster));
+                    PlayEnemyBeenAttrack(cc, record.ActionList);
+                }
+                    break;
+                case BattleRecordConstants.SINGLE_ACTION_TYPE_RECOVER:
+                    isRecover = true;
+                    cc.PlayCharacter(CharacterType.ActionAttrack);
+                    yield return new WaitForSeconds(GameConfig.PlayAttrackTime);
+                    cc.PlayCharacter(CharacterType.ActionWait);
+                    CharacterLoseBlood(obj.transform.localPosition, record.getAttackAction().getIntProp(BattleRecordConstants.SINGLE_ACTION_PROP_HP));
+                    break;
+                case BattleRecordConstants.SINGLE_ACTION_TYPE_RECOVERED:
+                    break;
+                case BattleRecordConstants.SINGLE_ACTION_TYPE_DEFENCE:
+                    break;
+                default:
+                {
+                    monster = GetMonsterObject(record.ActionList[0]);
+                    var ec = monster.GetComponent<EnemyControl>();
+                    ec.ShowBlood(true);
+                    RunToAttrackPlace(obj, monster);
+                    yield return new WaitForSeconds(GameConfig.RunToAttrackPosTime);
+                    cc.PlayCharacter(CharacterType.ActionAttrack);
+                    yield return new WaitForSeconds(GameConfig.PlayAttrackTime);
+                    PlayEnemyBeenAttrack(cc, record.ActionList);
+                    RunReturn(obj, GameConfig.HeroRunReturnTime);
+                }
+                    break;
             }
         }
     }
 
-    //播放左边武将攻击动作
-    private bool IsRecover;
     private IEnumerator LeftAttrackCoroutineHandler()
     {
         if (battleTeamRecord.SkillFighter != null && battleTeamRecord.SkillFighter.Count > 0)
@@ -723,9 +744,8 @@ public class InitBattleField : MonoBehaviour, IBattleView
 
         BattleFightRecord record;
         GameObject obj;
-        GameObject monster;
         CharacterControl cc;
-        IsRecover = false;
+        isRecover = false;
 
         if (battleTeamRecord.RecordList.Count > 0)
         {
@@ -746,30 +766,29 @@ public class InitBattleField : MonoBehaviour, IBattleView
 
         if (battleTeamRecord.RecordList.Count > 1)
         {
-            var thecount = (battleTeamRecord.RecordList.Count != 9 || IsRecover) ? battleTeamRecord.RecordList.Count : battleTeamRecord.RecordList.Count - 1;
+            var thecount = (battleTeamRecord.RecordList.Count != 9 || isRecover) ? battleTeamRecord.RecordList.Count : battleTeamRecord.RecordList.Count - 1;
             for (var i = 1; i < thecount; i++)
             {
                 record = battleTeamRecord.RecordList[i];
                 StartCoroutine(PlayOneAction(record));
-                if (!IsRecover) yield return new WaitForSeconds(GameConfig.NextAttrackWaitTime);
+                if (!isRecover) yield return new WaitForSeconds(GameConfig.NextAttrackWaitTime);
             }
         }
 
-        if (battleTeamRecord.RecordList.Count == 9 && !IsRecover)
+        if (battleTeamRecord.RecordList.Count == 9 && !isRecover)
         {
             yield return new WaitForSeconds(GameConfig.TotalHeroAttrackTime);
             record = battleTeamRecord.RecordList[battleTeamRecord.RecordList.Count - 1];
-            monster = GetMonsterObject(record.ActionList[0]);
+            var monster = GetMonsterObject(record.ActionList[0]);
             var ec = monster.GetComponent<EnemyControl>();
-            //obj = pointList[pointList.Count - 1] as GameObject;
             obj = TeamController.SelectedCharacterList[TeamController.SelectedCharacterList.Count - 1].gameObject;
             cc = obj.GetComponent<CharacterControl>();
-            //yield return new WaitForSeconds (0.5f);//镜头拉近
+
             PlayMoveCamera(obj);
             cc.Stop();
             yield return new WaitForSeconds(GameConfig.MoveCameraTime);//显示遮罩
             Picture91.SetActive(true);
-            //yield return new WaitForSeconds(0.1f);
+
             //播放角色特效
             EffectManager.PlayEffect(EffectType.NineAttrack, GameConfig.Attrack9PlayEffectTime, -25, 0, obj.transform.position);
             yield return new WaitForSeconds(GameConfig.Attrack9PlayEffectTime);
@@ -862,7 +881,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
             RunReturn(obj, GameConfig.HeroRunReturnTime);
         }
 
-        if (IsRecover)
+        if (isRecover)
         {
             yield return new WaitForSeconds(GameConfig.PlayAttrackTime);
             PlayBloodFullEffect();
@@ -890,14 +909,11 @@ public class InitBattleField : MonoBehaviour, IBattleView
         LeaderCD = battleTeamRecord.getIntProp(BattleRecordConstants.BATTLE_HERO_PROP_MP);
         ShowMp();
         ShowTopData();
-        isPlaying = false;
-        isPlayingRecord = false;
         recordIndex++;
-        dealWithRecord();
+        DealWithRecord();
 
     }
 
-    //判断怪是否死亡
     private void CheckMonsterDead()
     {
         var dead = false;
@@ -931,7 +947,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
         }
     }
 
-    //播放右边怪物攻击动作
     private IEnumerator RightAttrackCoroutineHandler()
     {
         SetCharacterCanSelect(false);
@@ -978,14 +993,11 @@ public class InitBattleField : MonoBehaviour, IBattleView
                 ResetMonsterStates(ec, record.getAttackAction().StateUpdateList);
             }
         }
-        isPlaying = false;
-        isPlayingRecord = false;
         recordIndex++;
-        dealWithRecord();
+        DealWithRecord();
         SetCharacterCanSelect(true);
     }
 
-    //设置怪的状态参数显示
     private void ResetMonsterStates(EnemyControl ec, List<FighterStateRecord> statelist)
     {
         for (int j = 0; j < statelist.Count; j++)
@@ -998,7 +1010,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
         }
     }
 
-    //获取该action的武将对象
     private GameObject GetCharacterByAction(SingleActionRecord action)
     {
         for (var i = 0; i < 3; i++)
@@ -1018,7 +1029,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
         return null;
     }
 
-    //播放武将的受击
     private IEnumerator PlayCharacterBeenAttrack(List<SingleActionRecord> actionlist)
     {
         for (var i = 0; i < actionlist.Count; i++)
@@ -1048,7 +1058,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
         }
     }
 
-    //跑到攻击位
     private static void RunToAttrackPlace(GameObject obj, GameObject enemy)
     {
 		var enemyController = enemy.GetComponent<EnemyControl>();
@@ -1056,7 +1065,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
         iTween.MoveTo(obj, enemyController.AttackLocation.transform.position, duration);
     }
 
-    //播放怪物的受击
     private void PlayEnemyBeenAttrack(CharacterControl cc, List<SingleActionRecord> enemylist, bool showbig = false)
     {
         for (int i = 0; i < enemylist.Count; i++)
@@ -1110,14 +1118,12 @@ public class InitBattleField : MonoBehaviour, IBattleView
 
     }
 
-    //武将攻击后返回等待队列
     private void RunReturn(GameObject obj, float duration)
     {
         var cc = obj.GetComponent<CharacterControl>();
         cc.PlayCharacter(0);
 
         // Move to target.
-        //iTween.MoveTo(obj, CharacterWaitingTrans.position, duration);
         iTween.MoveTo(obj,
             iTween.Hash("position", CharacterWaitingTrans.position, "duration", duration, "oncomplete",
                 "OnRunReturnComplete", "oncompletetarget", gameObject, "oncompleteparams", obj));
@@ -1134,8 +1140,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
         SetColor(target);
     }
 
-    private GameObject tempGameObj;
-    //播放摄像机拉镜头
     private void PlayMoveCamera(GameObject obj)
     {
         tempGameObj = obj;
@@ -1172,7 +1176,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
         ts.PlayForward();
     }
 
-    //下面的函数用来处理队长
     private void OnLeaderUseHandler(LeaderUseEvent e)
     {
         RequestRecords();
@@ -1238,9 +1241,8 @@ public class InitBattleField : MonoBehaviour, IBattleView
     private void ResetLeaderCd()
     {
         if (leaders == null) return;
-        foreach (var t in leaders)
+        foreach (var lc in leaders.Select(t => t.GetComponent<LeaderControl>()))
         {
-            var lc = t.GetComponent<LeaderControl>();
             lc.Reset(LeaderCD);
         }
     }
@@ -1273,7 +1275,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
 
 
         TextObject.transform.localScale = new Vector3(5, 5, 1);
-        UILabel lb = TextObject.GetComponent<UILabel>();
+        var lb = TextObject.GetComponent<UILabel>();
         lb.text = BattleModelLocator.Instance.Skill.Name;
         lb.alpha = 1;
         TextObject.SetActive(true);
@@ -1286,7 +1288,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
         yield return new WaitForSeconds(0.8f);
 
         BreakObject.SetActive(true);
-        UITexture tt1 = BreakObject.GetComponent<UITexture>();
+        var tt1 = BreakObject.GetComponent<UITexture>();
         BreakObject.transform.localScale = new Vector3(1, 1, 1);
         tt1.alpha = 0.9f;
 
@@ -1308,20 +1310,20 @@ public class InitBattleField : MonoBehaviour, IBattleView
         BreakObject.SetActive(false);
         effectbg.SetActive(false);
         TextBGObject.SetActive(false);
-        //        ResetLeaderCd();
-        var attrack = LeaderSkillRecord.OrCreateFightRecord.getAttackAction();
-        LeaderCD = LeaderSkillRecord.getIntProp(BattleRecordConstants.BATTLE_HERO_PROP_MP);
+
+        var attrack = leaderSkillRecord.OrCreateFightRecord.getAttackAction();
+        LeaderCD = leaderSkillRecord.getIntProp(BattleRecordConstants.BATTLE_HERO_PROP_MP);
         ShowMp();
         if (attrack.ActType == BattleRecordConstants.SINGLE_ACTION_TYPE_CHANGE_COLOR)
         {
-            for (int i = 0; i < LeaderSkillRecord.OrCreateFightRecord.ActionList.Count; i++)
+            for (int i = 0; i < leaderSkillRecord.OrCreateFightRecord.ActionList.Count; i++)
             {
-                var obj = GetCharacterByAction(LeaderSkillRecord.OrCreateFightRecord.ActionList[i]);
+                var obj = GetCharacterByAction(leaderSkillRecord.OrCreateFightRecord.ActionList[i]);
                 if (obj != null)
                 {
                     var cc = obj.GetComponent<CharacterControl>();
                     var k =
-                        LeaderSkillRecord.OrCreateFightRecord.ActionList[i].getIntProp(
+                        leaderSkillRecord.OrCreateFightRecord.ActionList[i].getIntProp(
                             BattleRecordConstants.BATTLE_HERO_PROP_COLOR_CHANGE);
                     cc.SetFootIndex(k);
                 }
@@ -1689,31 +1691,32 @@ public class InitBattleField : MonoBehaviour, IBattleView
         }
         BattleModelLocator.Instance.CanSelectHero = true;
         recordIndex++;
-        dealWithRecord();
+        DealWithRecord();
     }
 
-    //下面是处理服务器返回数据用的接口
-    //技能
-    private BattleSkillRecord LeaderSkillRecord;
+    /// <summary>
+    /// Show record of battle skills.
+    /// </summary>
+    /// <param name="battleSkillRecord">Battle skill record</param>
     public void showBattleSkillRecord(BattleSkillRecord battleSkillRecord)
     {
 
         if (battleSkillRecord.TeamSide == BattleRecordConstants.TARGET_SIDE_A)
         {
-            LeaderSkillRecord = battleSkillRecord;
+            leaderSkillRecord = battleSkillRecord;
 
             StartCoroutine(PlayLeaderEffect());
 
         }
     }
-
-    private BattleTeamFightRecord battleTeamRecord;
-    //一边队伍出手的所有信息
+    
+    /// <summary>
+    /// Show record of team fight one round.
+    /// </summary>
+    /// <param name="battleTeamFightRecord">Battle team fight record</param>
     public void showBattleTeamFightRecord(BattleTeamFightRecord battleTeamFightRecord)
     {
-        //throw new NotImplementedException();
         Logger.Log("战斗过程 = " + battleTeamFightRecord.RecordList.Count);
-        isPlayingRecord = true;
         battleTeamRecord = battleTeamFightRecord;
         if (battleTeamRecord.TeamSide == BattleRecordConstants.TARGET_SIDE_A)
         {
@@ -1725,11 +1728,13 @@ public class InitBattleField : MonoBehaviour, IBattleView
         }
     }
 
-    //回合变化。怪物（cd）+武将（buff）
+    /// <summary>
+    /// Show record of round couting.
+    /// </summary>
+    /// <param name="roundCountRecord">Round cout record</param>
     public void showBattleRoundCountRecord(BattleRoundCountRecord roundCountRecord)
     {
         //throw new NotImplementedException();
-        isPlayingRecord = false;
         Logger.Log("CD等状态 = " + roundCountRecord.RecordList.Count);
         if (roundCountRecord != null && roundCountRecord.RecordList != null && roundCountRecord.RecordList.Count > 0)
         {
@@ -1763,13 +1768,15 @@ public class InitBattleField : MonoBehaviour, IBattleView
             }
         }
         recordIndex++;
-        dealWithRecord();
+        DealWithRecord();
     }
 
-    //武将颜色和位置变化
+    /// <summary>
+    /// Show record of hero's color and index.
+    /// </summary>
+    /// <param name="battleIndexRecord">Battle index record</param>
     public void showBattleIndexRecord(BattleIndexRecord battleIndexRecord)
     {
-        isPlayingRecord = false;
         if (BattleModelLocator.Instance.NextList == null)
         {
             BattleModelLocator.Instance.NextList = battleIndexRecord.FillPointList;
@@ -1786,14 +1793,13 @@ public class InitBattleField : MonoBehaviour, IBattleView
             }
         }
 
-        string str = "";
-        for (int i = 0; i < BattleModelLocator.Instance.NextList.Count; i++)
+        var str = "";
+        for (var i = 0; i < BattleModelLocator.Instance.NextList.Count; i++)
         {
             var obj = BattleModelLocator.Instance.NextList[i];
-            str += "(" + i.ToString() + ":index=" + obj.Index.ToString() + ",color=" + obj.Color.ToString() + ")";
+            str += "(" + i + ":index=" + obj.Index + ",color=" + obj.Color + ")";
         }
 
-        //battleIndexRecord.getIntProp(BattleRecordConstants.BATTLE_HERO_TOTAL_HP)
         Logger.Log("脚下标志 = " + str);
         if (battleIndexRecord.prop.ContainsKey(BattleRecordConstants.BATTLE_HERO_TOTAL_HP))
         {
@@ -1807,76 +1813,79 @@ public class InitBattleField : MonoBehaviour, IBattleView
         ShowHp();
         ShowMp();
         recordIndex++;
-        dealWithRecord();
+        DealWithRecord();
     }
 
-    //推屏和战斗结束
+    /// <summary>
+    /// Show record of battle ending.
+    /// </summary>
+    /// <param name="battleEndRecord">Battle end record</param>
     public void showBattleEndRecord(BattleEndRecord battleEndRecord)
     {
-        //throw new NotImplementedException();
         Logger.Log("战斗结束 = " + battleEndRecord.EndType);
-        if (battleEndRecord.EndType == BattleRecordConstants.BATTLE_SCENE_END)
+        switch (battleEndRecord.EndType)
         {
-            if (characterValue > 0)
+            case BattleRecordConstants.BATTLE_SCENE_END:
+                if (characterValue > 0)
+                {
+                    StartCoroutine(GotoNextScene());
+                }
+                else
+                {
+                    recordIndex++;
+                    DealWithRecord();
+                }
+                break;
+            case BattleRecordConstants.BATTLE_ALL_END:
             {
-                StartCoroutine(GotoNextScene());
-            }
-            else
-            {
+                int k = battleEndRecord.getIntProp(BattleRecordConstants.BATTLE_END_WIN_SIDE);
+
+                var msg = new CSBattlePveFinishMsg();
+                msg.Uuid = BattleModelLocator.Instance.Uuid;
+
+                if (k == BattleRecordConstants.TARGET_SIDE_A)
+                {
+                    msg.BattleResult = 1;
+                }
+                else
+                {
+                    star = 0;
+                    WindowManager.Instance.Show(typeof(BattleLostWindow), true);
+                    msg.BattleResult = 0;
+                }
+
                 recordIndex++;
-                dealWithRecord();
+                DealWithRecord();
+                BattleModelLocator.Instance.NextList = null;
+                footManager.Clear();
+                msg.Star = (sbyte) star;
+                MissionModelLocator.Instance.AddStar(star);
+                MissionModelLocator.Instance.OldExp = PlayerModelLocator.Instance.Exp;
+                MissionModelLocator.Instance.OldLevel = PlayerModelLocator.Instance.Level;
+                MissionModelLocator.Instance.AddFinishTime(MissionModelLocator.Instance.SelectedStageId);
+                NetManager.SendMessage(msg);
             }
-        }
-        else if (battleEndRecord.EndType == BattleRecordConstants.BATTLE_ALL_END)
-        {
-            int k = battleEndRecord.getIntProp(BattleRecordConstants.BATTLE_END_WIN_SIDE);
-
-            var msg = new CSBattlePveFinishMsg();
-            msg.Uuid = BattleModelLocator.Instance.Uuid;
-
-            if (k == BattleRecordConstants.TARGET_SIDE_A)
-            {
-                msg.BattleResult = 1;
-            }
-            else
-            {
-                Star = 0;
-                WindowManager.Instance.Show(typeof(BattleLostWindow), true);
-                msg.BattleResult = 0;
-            }
-
-            isBattling = false;
-            recordIndex++;
-            dealWithRecord();
-            BattleModelLocator.Instance.NextList = null;
-            footManager.Clear();
-            msg.Star = (sbyte) Star;
-            MissionModelLocator.Instance.AddStar(Star);
-            MissionModelLocator.Instance.OldExp = PlayerModelLocator.Instance.Exp;
-            MissionModelLocator.Instance.OldLevel = PlayerModelLocator.Instance.Level;
-            MissionModelLocator.Instance.AddFinishTime(MissionModelLocator.Instance.SelectedStageId);
-            NetManager.SendMessage(msg);
-        }
-        else
-        {
-            recordIndex++;
-            dealWithRecord();
+                break;
+            default:
+                recordIndex++;
+                DealWithRecord();
+                break;
         }
     }
 
     private void OnBattleResult(bool win)
     {
-        var msg = new CSBattlePveFinishMsg();
-        msg.Uuid = BattleModelLocator.Instance.Uuid;
-        msg.BattleResult = (win) ? 1 : 0;
+        var msg = new CSBattlePveFinishMsg
+        {
+            Uuid = BattleModelLocator.Instance.Uuid, BattleResult = (win) ? 1 : 0
+        };
 
-        isBattling = false;
         recordIndex++;
-        dealWithRecord();
+        DealWithRecord();
         BattleModelLocator.Instance.NextList = null;
         footManager.Clear();
-        msg.Star = (sbyte)Star;
-        MissionModelLocator.Instance.AddStar(Star);
+        msg.Star = (sbyte)star;
+        MissionModelLocator.Instance.AddStar(star);
         MissionModelLocator.Instance.OldExp = PlayerModelLocator.Instance.Exp;
         MissionModelLocator.Instance.OldLevel = PlayerModelLocator.Instance.Level;
         MissionModelLocator.Instance.AddFinishTime(MissionModelLocator.Instance.SelectedStageId);
@@ -1885,28 +1894,28 @@ public class InitBattleField : MonoBehaviour, IBattleView
 
     public void showBattleErrorRecord(BattleErrorRecord battleErrorRecord)
     {
-        //throw new NotImplementedException();
+        Logger.LogWarning("I got an error.");
+        TeamController.RegisterEventHandlers();
     }
 
     private List<IBattleViewRecord> recordList;
     private int recordIndex;
-    private bool isPlayingRecord = false;
+
     private void RequestRecords()
     {
-        //Logger.Log("Call RequestRecords");
-        recordList = (List<IBattleViewRecord>)BattleModelLocator.Instance.MainBattle.Record.reportRecordListAndClear();
+        recordList = BattleModelLocator.Instance.MainBattle.Record.reportRecordListAndClear();
         recordIndex = 0;
-        //Logger.Log("Return Count = " + recordList.Count);
-        dealWithRecord();
+        DealWithRecord();
     }
 
-    private void dealWithRecord()
+    private void DealWithRecord()
     {
-        if (recordIndex < recordList.Count)
+        if (recordIndex >= recordList.Count)
         {
-            var record = recordList[recordIndex];
-            record.show(this);
+            return;
         }
+        var record = recordList[recordIndex];
+        record.show(this);
     }
 
     private void SetCharacterCanSelect(bool flag)

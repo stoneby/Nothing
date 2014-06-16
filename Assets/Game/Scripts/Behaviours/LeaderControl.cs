@@ -12,23 +12,23 @@ public class LeaderControl : MonoBehaviour
 
     public int LeaderIndex;
 
-    public int HeadIndex;//0标识无效
+    public int HeadIndex;
 
     private GameObject shineObj;
-    private int baseCd;//需要气力值
+    private int baseCd;
     private int currentCd;
     private int cd;
 
-    private FighterInfo Data;
-    private SkillTemplate SkillData;
+    private bool alertFlag = true;
+    private FighterInfo data;
+    private SkillTemplate skillData;
 
-    private UIEventListener HeadUIEventListener;
+    private UIEventListener headUIEventListener;
 
     void Start()
     {
-		HeadUIEventListener = UIEventListener.Get(SpriteHead);
-		if (HeadUIEventListener != null) HeadUIEventListener.onClick += OnHeadClick;
-        
+        headUIEventListener = UIEventListener.Get(SpriteHead);
+        headUIEventListener.onClick += OnHeadClick;
     }
 
     public void Init(int headindex, int basecd, int theindex = 0)
@@ -36,8 +36,6 @@ public class LeaderControl : MonoBehaviour
         SpriteBg = transform.FindChild("Sprite - bg").gameObject;
         SpriteHead = transform.FindChild("Sprite - head").gameObject;
         SpriteLight = transform.FindChild("Sprite - light").gameObject;
-
-        
 
         SpriteLight.SetActive(false);
         HeadIndex = headindex;
@@ -50,33 +48,26 @@ public class LeaderControl : MonoBehaviour
     public void SetData(FighterInfo data, int theindex)
     {
         LeaderIndex = theindex;
-        Data = data;
-        SkillData = HeroModelLocator.Instance.GetLeaderSkillTemplateById(Data.ActiveSkillId);
+        this.data = data;
+        skillData = HeroModelLocator.Instance.GetLeaderSkillTemplateById(this.data.ActiveSkillId);
         var sp = SpriteHead.GetComponent<UISprite>();
-        if (SkillData == null)
+        if (skillData == null)
         {
             sp.spriteName = "head_0";
         }
         else
         {
             sp.spriteName = "head_" + HeadIndex;
-            baseCd = SkillData.CostMp;
+            baseCd = skillData.CostMp;
         }
     }
 
     public void Reset(int currentcd)
     {
         currentCd = currentcd;
-        if (HeadIndex > 0 && SkillData != null)
+        if (HeadIndex > 0 && skillData != null)
         {
-            if (currentcd >= baseCd)
-            {
-                SpriteLight.SetActive(true);
-            }
-            else
-            {
-                SpriteLight.SetActive(false);
-            }
+            SpriteLight.SetActive(currentcd >= baseCd);
         }
         else
         {
@@ -84,31 +75,24 @@ public class LeaderControl : MonoBehaviour
         }
     }
 
-    private bool AlertFlag = true;
     private void OnHeadClick(GameObject game)
     {
-        if (HeadIndex > 0 && currentCd >= baseCd && SkillData != null)
+        if (HeadIndex > 0 && currentCd >= baseCd && skillData != null)
         {
-            AlertFlag = false;
-            Alert.Show(AssertionWindow.Type.OkCancel, SkillData.Name, SkillData.Desc, OnAssertButtonClicked, OnCancelClicked);
-            //PopTextManager.PopTip(SkillData.Name + ":" + SkillData.Desc);
-
+            alertFlag = false;
+            Alert.Show(AssertionWindow.Type.OkCancel, skillData.Name, skillData.Desc, OnAssertButtonClicked, OnCancelClicked);
             BattleModelLocator.Instance.CanSelectHero = false;
-
         }
     }
 
     private void OnAssertButtonClicked(GameObject sender)
     {
-        if (AlertFlag) return;
-        AlertFlag = true;
-        var _action = new UseActiveSkillAction();
-        _action.FighterIndex = LeaderIndex;
-        BattleModelLocator.Instance.MainBattle.handleBattleEvent(_action);
-        BattleModelLocator.Instance.Skill = SkillData;
-        var e = new LeaderUseEvent();
-        e.CDCount = baseCd;
-        e.SkillIndex = LeaderIndex;
+        if (alertFlag) return;
+        alertFlag = true;
+        var action = new UseActiveSkillAction {FighterIndex = LeaderIndex};
+        BattleModelLocator.Instance.MainBattle.handleBattleEvent(action);
+        BattleModelLocator.Instance.Skill = skillData;
+        var e = new LeaderUseEvent {CDCount = baseCd, SkillIndex = LeaderIndex};
         EventManager.Instance.Post(e);
         BattleModelLocator.Instance.CanSelectHero = true;
     }

@@ -203,14 +203,12 @@ public class TeamSelectController : MonoBehaviour
         SelectedCharacterList = new List<Character>(CharacterList.Count);
 
         RegisterEventHandlers();
-
-        Print();
     }
 
     public void Print()
     {
         CharacterList.ForEach(
-            item => Logger.LogWarning("Character: " + item.name + ", positioN: " + item.transform.position));
+            item => Logger.LogWarning("Character: " + item.name + ", position: " + item.transform.position));
     }
 
     public void Reset()
