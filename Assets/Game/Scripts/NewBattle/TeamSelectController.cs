@@ -247,11 +247,12 @@ public class TeamSelectController : MonoBehaviour
         var dragbarController = DragBarPool.CurrentObject.GetComponent<AbstractDragBarController>();
         dragbarController.SetRotate(new Vector2(sourcePosition.x, sourcePosition.y), targetPosition);
         dragbarController.SetWidth(sourcePosition, targetPosition);
+        dragbarController.SetSprite("new_drag_normal");
     }
 
     private void OnCharacterDragStart(GameObject sender)
     {
-        Logger.Log("On character drop start: " + sender.name);
+        Logger.Log("On character drag start: " + sender.name);
 
         if (EditMode)
         {
@@ -385,10 +386,13 @@ public class TeamSelectController : MonoBehaviour
         {
             var sourcePosition = UICamera.mainCamera.WorldToScreenPoint(LastCharacter.transform.position);
             var targetPosition = UICamera.mainCamera.WorldToScreenPoint(sender.transform.position);
-            DragBarPool.CurrentObject.transform.localRotation = Utils.GetRotation(sourcePosition, targetPosition);
 
             var dragbarController = DragBarPool.CurrentObject.GetComponent<AbstractDragBarController>();
+            dragbarController.SetRotate(sourcePosition, targetPosition);
             dragbarController.SetWidth(sourcePosition, targetPosition);
+            var color = (sender.GetComponent<Character>()).ColorIndex;
+            var spriteName = string.Format("new_drag_{0}", color);
+            dragbarController.SetSprite(spriteName);
 
             Logger.LogWarning("Source position: " + sourcePosition + ", target position: " + targetPosition + ", rotation: " + DragBarPool.CurrentObject.transform.rotation);
         }

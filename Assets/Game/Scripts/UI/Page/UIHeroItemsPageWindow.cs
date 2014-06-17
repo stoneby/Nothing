@@ -47,6 +47,7 @@ public class UIHeroItemsPageWindow : Window
                 offset.transform.localPosition = new Vector3(pos.x, pos.y - 0.5f * (panel.baseClipRegion.w - clipHeight), pos.z);
                 pos = grid.transform.localPosition;
                 grid.transform.localPosition = new Vector3(pos.x, pos.y + 0.5f * (panel.baseClipRegion.w - clipHeight), pos.z);
+                panel.GetComponent<UIScrollView>().ResetPosition();
             }
         }
     }
@@ -63,6 +64,7 @@ public class UIHeroItemsPageWindow : Window
     public override void OnEnter()
     {
         Refresh();
+        panel.GetComponent<UIScrollView>().ResetPosition();
         InstallHandlers();
     }
 
@@ -202,7 +204,7 @@ public class UIHeroItemsPageWindow : Window
         var orderType = scHeroList.OrderType;
         sortLabel.text = StringTable.SortStrings[orderType];
         heroNums.text = string.Format("{0}/{1}", scHeroList.HeroList.Count, PlayerModelLocator.Instance.HeroMax);
-        HeroModelLocator.Instance.SortHeroList(orderType, scHeroList.HeroList);
+        HeroModelLocator.Instance.SortHeroList((ItemHelper.OrderType)orderType, scHeroList.HeroList);
         for (int i = 0; i < scHeroList.HeroList.Count; i++)
         {
             var heroInfo = scHeroList.HeroList[i];

@@ -253,9 +253,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 400030}
   - 114: {fileID: 11400022}
-  - 114: {fileID: 11400034}
-  - 114: {fileID: 11400018}
-  - 114: {fileID: 11400012}
   m_Layer: 8
   m_Name: Grid
   m_TagString: Untagged
@@ -1380,23 +1377,6 @@ MonoBehaviour:
   mDepth: 11
   mSortingOrder: 0
   mClipOffset: {x: 0, y: 0}
---- !u!114 &11400012
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100030}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7488ce3af22a1a49a69873af0648ba0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DragObjects:
-  - {fileID: 100016}
-  - {fileID: 100046}
-  - {fileID: 100028}
-  BounceTime: .200000003
-  MoveTime: .5
 --- !u!114 &11400014
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1490,24 +1470,6 @@ MonoBehaviour:
   mDepth: 10
   mSortingOrder: 0
   mClipOffset: {x: 0, y: 0}
---- !u!114 &11400018
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100030}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 02af096c6b453994e80e9bab68385e90, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Cameras:
-  - {fileID: 0}
-  IgnoreLayerMask:
-    serializedVersion: 2
-    m_Bits: 0
-  RayThickness: 0
-  VisualizeRaycasts: 1
 --- !u!114 &11400020
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1841,30 +1803,6 @@ MonoBehaviour:
   mMaxLineHeight: 0
   mLineWidth: 0
   mMultiline: 1
---- !u!114 &11400034
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100030}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b039ea8f17da1ff4ca0967f4d5b04229, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  requiredFingerCount: 1
-  MaxSimultaneousGestures: 1
-  ResetMode: 0
-  Raycaster: {fileID: 0}
-  ClusterManager: {fileID: 0}
-  Delegate: {fileID: 0}
-  UseSendMessage: 1
-  EventMessageName: 
-  EventMessageTarget: {fileID: 0}
-  SendMessageToSelection: 0
-  IsExclusive: 0
-  MoveTolerance: 5
-  ApplySameDirectionConstraint: 0
 --- !u!114 &11400036
 MonoBehaviour:
   m_ObjectHideFlags: 1

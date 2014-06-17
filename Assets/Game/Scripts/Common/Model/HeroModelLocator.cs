@@ -20,7 +20,6 @@ public sealed class HeroModelLocator
 
     private HeroModelLocator()
     {
-        
     }
 
     #endregion
@@ -45,7 +44,12 @@ public sealed class HeroModelLocator
         }
     }
 
-    public int GetHeroPos;//获取武将编队列表的位置标识
+    /// <summary>
+    /// Order type
+    /// </summary>
+    public ItemHelper.OrderType Type;
+
+    public int GetHeroPos;
     public SCHeroList SCHeroList;
 
     private Hero heroTemplates;
@@ -82,48 +86,40 @@ public sealed class HeroModelLocator
     /// <summary>
     /// Sort the list of hero info by specific order type.
     /// </summary>
-    /// <param name="sortType">The specific order type.</param>
+    /// <param name="orderType">The specific order type.</param>
     /// <param name="heros">The list of hero info to be sorted.</param>
-    public void SortHeroList(short sortType, List<HeroInfo> heros)
+    public void SortHeroList(ItemHelper.OrderType orderType, List<HeroInfo> heros)
     {
-        switch (sortType)
+        switch (orderType)
         {
-            //按入手顺序排序
-            case 0:
+            case ItemHelper.OrderType.Time:
                 heros.Sort(CompareHeroByTime);
                 break;
 
-            //按武将职业排序
-            case 1:
+            case ItemHelper.OrderType.Job:
                 heros.Sort(CompareHeroByJob);
                 break;
 
-            //按武将稀有度排序
-            case 2:
+            case ItemHelper.OrderType.Rarity:
                 heros.Sort(CompareHeroByRarity);
                 break;
 
-            //按照队伍顺序排序
-            case 3:
+            case ItemHelper.OrderType.Team:
                 break;
 
-            //按攻击力排序
-            case 4:
+            case ItemHelper.OrderType.Attack:
                 heros.Sort(CompareHeroByAttack);
                 break;
 
-            //按HP排序
-            case 5:
+            case ItemHelper.OrderType.Health:
                 heros.Sort(CompareHeroByHp);
                 break;
 
-            //按回复力排序
-            case 6:
+            case ItemHelper.OrderType.Recover:
                 heros.Sort(CompareHeroByRecover);
                 break;
 
-            //按等级排序
-            case 7:
+            case ItemHelper.OrderType.Level:
                 heros.Sort(CompareHeroByLv);
                 break;
         }

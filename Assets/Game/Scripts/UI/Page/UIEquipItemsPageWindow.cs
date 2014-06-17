@@ -58,7 +58,7 @@ public class UIEquipItemsPageWindow : Window
         itemNums = Utils.FindChild(transform, "EquipNums").GetComponent<UILabel>();
         var sortType = ItemModeLocator.Instance.OrderType;
         sortLabel = sortBtnLis.GetComponentInChildren<UILabel>();
-        sortLabel.text = StringTable.ItemSortStrings[sortType];
+        sortLabel.text = StringTable.ItemSortStrings[(int)sortType];
     }
 
     private void InstallHandlers()
@@ -79,8 +79,8 @@ public class UIEquipItemsPageWindow : Window
     private void OnSortClicked(GameObject go)
     {
         var orderType = ItemModeLocator.Instance.OrderType;
-        orderType = (sbyte)((orderType + 1) % StringTable.ItemSortStrings.Count);
-        sortLabel.text = StringTable.ItemSortStrings[orderType];
+        orderType = (ItemHelper.OrderType)(((int)orderType + 1) % StringTable.ItemSortStrings.Count);
+        sortLabel.text = StringTable.ItemSortStrings[(int)orderType];
         ItemModeLocator.Instance.OrderType = orderType;
         Refresh();
     }
@@ -115,7 +115,7 @@ public class UIEquipItemsPageWindow : Window
         if (childCount != itemCount)
         {
             var isAdd = childCount < itemCount;
-            Utils.AddOrDelItems(grid.transform, ItemPrefab.transform, isAdd, Mathf.Abs(itemCount - childCount), "Items",
+            Utils.AddOrDelItems(grid.transform, ItemPrefab.transform, isAdd, Mathf.Abs(itemCount - childCount), "Heros",
                     OnItemInfoClicked);
             grid.repositionNow = true;
         }
@@ -142,7 +142,7 @@ public class UIEquipItemsPageWindow : Window
     /// <param name="orderType">The order type of </param>
     /// <param name="itemTran">The transform of item.</param>
     /// <param name="bagIndex">The bag index of item.</param>
-    private void ShowItem(short orderType, Transform itemTran, short bagIndex)
+    private void ShowItem(ItemHelper.OrderType orderType, Transform itemTran, short bagIndex)
     {
         var itemInfo = ItemModeLocator.Instance.FindItem(bagIndex);
 
@@ -159,43 +159,35 @@ public class UIEquipItemsPageWindow : Window
         }
         switch (orderType)
         {
-            //»Î ÷À≥–Ú≈≈–Ú
-            case 0:
+            case ItemHelper.OrderType.Time:
                 ShowByLvl(sortRelated, itemInfo);
                 break;
 
-            //Œ‰Ω´÷∞“µ≈≈–Ú
-            case 1:
+            case ItemHelper.OrderType.Job:
                 ShowByJob(sortRelated, itemInfo);
                 break;
 
-            //Œ‰Ω´œ°”–∂»≈≈–Ú
-            case 2:
+            case ItemHelper.OrderType.Rarity:
                 ShowByLvl(sortRelated, itemInfo);
                 break;
 
-            //’’∂”ŒÈÀ≥–Ú≈≈–Ú
-            case 3:
+            case ItemHelper.OrderType.Team:
                 ShowByLvl(sortRelated, itemInfo);
                 break;
 
-            //π•ª˜¡¶≈≈–Ú
-            case 4:
+            case ItemHelper.OrderType.Attack:
                 ShowByJob(sortRelated, itemInfo);
                 break;
 
-            //HP≈≈–Ú
-            case 5:
+            case ItemHelper.OrderType.Health:
                 ShowByHp(sortRelated, itemInfo);
                 break;
 
-            //ªÿ∏¥¡¶≈≈–Ú
-            case 6:
+            case ItemHelper.OrderType.Recover:
                 ShowByRecover(sortRelated, itemInfo);
                 break;
 
-            //µ»º∂≈≈–Ú
-            case 7:
+            case ItemHelper.OrderType.Level:
                 ShowByLvl(sortRelated, itemInfo);
                 break;
         }

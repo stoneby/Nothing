@@ -1,8 +1,7 @@
+using KXSGCodec;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using KXSGCodec;
-using Property;
 using Template;
 using UnityEngine;
 
@@ -159,7 +158,7 @@ public class UIHeroSellWindow : Window
         }
         teamMembers = teamMembers.Distinct().ToList();
         var orderType = HeroModelLocator.Instance.SCHeroList.OrderType;
-        HeroModelLocator.Instance.SortHeroList(orderType,scHeroList.HeroList);
+        HeroModelLocator.Instance.SortHeroList((ItemHelper.OrderType)orderType, scHeroList.HeroList);
         for (int index = 0; index < scHeroList.HeroList.Count; index++)
         {
             var item = herosGrid.transform.GetChild(index).GetComponent<HeroItem>();
@@ -252,7 +251,7 @@ public class UIHeroSellWindow : Window
         orderType = (sbyte)((orderType + 1) % StringTable.SortStrings.Count);
         scHeroList.OrderType = orderType;
         sortLabel.text = StringTable.SortStrings[scHeroList.OrderType];
-        HeroModelLocator.Instance.SortHeroList(orderType, scHeroList.HeroList);
+        HeroModelLocator.Instance.SortHeroList((ItemHelper.OrderType)orderType, scHeroList.HeroList);
         for (int i = 0; i < scHeroList.HeroList.Count; i++)
         {
             var item = herosGrid.transform.GetChild(i).GetComponent<HeroItem>();

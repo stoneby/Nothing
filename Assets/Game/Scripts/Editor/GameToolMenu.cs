@@ -32,5 +32,11 @@ public static class GameToolMenu
         EditorWindow.GetWindow<CodeAnalyzerEditorWindow>(false, "Code analyzer", true);
     }
 
+    [MenuItem("Tool/Switch Font", false, 0)]
+    static public void OpenSwitchFont()
+    {
+        EditorWindow.GetWindow<SwitchFontWizard>(false, "Switch Font", true);
+    }
+
     #endregion
 }

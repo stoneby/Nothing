@@ -104,6 +104,22 @@ namespace KXSGCodec
             {
                 return new SCServerListMsg();
             }
+			            if (type == MessageType.SC_LOTTERY.GetHashCode())
+            {
+                return new SCLottery();
+            }
+			            if (type == MessageType.SC_LOTTERY_CANNOT_FREE.GetHashCode())
+            {
+                return new SCLotteryCannotFree();
+            }
+			            if (type == MessageType.SC_LOTTERY_LIST.GetHashCode())
+            {
+                return new SCLotteryList();
+            }
+			            if (type == MessageType.SC_LOTTERY_REFRESH_TIMES.GetHashCode())
+            {
+                return new SCLotteryRefreshTimes();
+            }
 			            if (type == MessageType.SC_PROPERTY_CHANGED_NUMBER.GetHashCode())
             {
                 return new SCPropertyChangedNumber();

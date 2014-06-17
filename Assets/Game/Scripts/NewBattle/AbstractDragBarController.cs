@@ -22,6 +22,12 @@ public abstract class AbstractDragBarController : MonoBehaviour
     }
 
     /// <summary>
+    /// Set dragbar sprite.
+    /// </summary>
+    /// <param name="spriteName">Sprite name</param>
+    public abstract void SetSprite(string spriteName);
+
+    /// <summary>
     /// Set rotation by quaternion.
     /// </summary>
     /// <param name="quater">Quaternion</param>

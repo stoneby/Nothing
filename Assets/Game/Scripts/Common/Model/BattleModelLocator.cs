@@ -1,42 +1,20 @@
-﻿using System.Collections.Generic;
-using System.Security.Permissions;
+﻿using System.ComponentModel;
+using System.Text;
 using com.kx.sglm.gs.battle.share;
 using com.kx.sglm.gs.battle.share.data;
 using com.kx.sglm.gs.battle.share.data.record;
-using com.kx.sglm.gs.battle.share.logic.loop;
-using KXSGCodec;
+using System.Collections.Generic;
 using Template;
 using UnityEngine;
-using System.Collections;
 
 namespace Assets.Game.Scripts.Common.Model
 {
     class BattleModelLocator
     {
-        private static volatile BattleModelLocator instance;
-        private static readonly object SyncRoot = new Object();
-        private BattleModelLocator() { }
-        public static BattleModelLocator Instance
-        {
-            get
-            {
-                if (instance == null)
-                {
-                    lock (SyncRoot)
-                    {
-                        if (instance == null)
-                            instance = new BattleModelLocator();
-                    }
-                }
-                return instance;
-            }
-        }
+        #region Public Fields
 
-        //PVE战斗数据
         public sbyte BattleType;
-        //public List<BattleMsgHero> FighterList;
         public List<int> MonsterGroup;
-        //public List<BattleMsgMonster> MonsterList;
         public int RaidID;
         public long Uuid;
 
@@ -47,13 +25,53 @@ namespace Assets.Game.Scripts.Common.Model
         public Battle MainBattle;
         public List<PointRecord> NextList;
 
+        public bool CanSelectHero = true;
+        public SkillTemplate Skill;
+
+        public static BattleModelLocator Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    lock (SyncRoot)
+                    {
+                        if (instance == null)
+                        {
+                            instance = new BattleModelLocator();
+                        }
+                    }
+                }
+                return instance;
+            }
+        }
+
+        #endregion
+
+        #region Private Fields
+
+        private static volatile BattleModelLocator instance;
+        private static readonly object SyncRoot = new Object();
+
+        #endregion
+
+        #region Private Methods
+
+        private BattleModelLocator()
+        {
+        }
+
+        #endregion
+
+        #region Public Methods
+
         public PointRecord GetNextFromNextList(int f)
         {
             Logger.Log("Get Next ===== " + f);
             if (MainBattle == null || NextList.Count == 0) return null;
             var k = NextList[0];
             NextList.RemoveAt(0);
-            
+
             return k;
         }
 
@@ -64,7 +82,16 @@ namespace Assets.Game.Scripts.Common.Model
             return next;
         }
 
-        public bool CanSelectHero = true;
-        public SkillTemplate Skill;
+        public override string ToString()
+        {
+            var str = new StringBuilder();
+            foreach (var pointRecord in NextList)
+            {
+                str.Append(string.Format("(index={0},color={1})", pointRecord.Index, pointRecord.Color));
+            }
+            return str.ToString();
+        }
+
+        #endregion
     }
 }

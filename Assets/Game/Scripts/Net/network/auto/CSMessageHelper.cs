@@ -45,6 +45,8 @@ namespace KXSGCodec
 			            MSG_TYPE_DICT[typeof(CSCreatePlayerMsg)] = (short)MessageType.CS_CREATE_PLAYER_MSG.GetHashCode();
 			            MSG_TYPE_DICT[typeof(CSPasswdLoginMsg)] = (short)MessageType.CS_PASSWD_LOGIN_MSG.GetHashCode();
 			            MSG_TYPE_DICT[typeof(CSQuickLoginMsg)] = (short)MessageType.CS_QUICK_LOGIN_MSG.GetHashCode();
+			            MSG_TYPE_DICT[typeof(CSLottery)] = (short)MessageType.CS_LOTTERY.GetHashCode();
+			            MSG_TYPE_DICT[typeof(CSLotteryList)] = (short)MessageType.CS_LOTTERY_LIST.GetHashCode();
 			            MSG_TYPE_DICT[typeof(CSRaidLoadingAll)] = (short)MessageType.CS_RAID_LOADING_ALL.GetHashCode();
 			            MSG_TYPE_DICT[typeof(CSRaidQueryFriend)] = (short)MessageType.CS_RAID_QUERY_FRIEND.GetHashCode();
 			            MSG_TYPE_DICT[typeof(CSRaidReceiveAwards)] = (short)MessageType.CS_RAID_RECEIVE_AWARDS.GetHashCode();

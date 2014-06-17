@@ -1,16 +1,19 @@
-﻿using System.Collections.Generic;
-using KXSGCodec;
-using Template;
+﻿using Template;
 using UnityEngine;
-using System.Collections;
 
 public sealed class LevelModelLocator
 {
     private static volatile LevelModelLocator instance;
     private static readonly object SyncRoot = new Object();
 
+    private LevelUp levelUpTemplates;
+
     private const string LevelUpTemlatePath = "Templates/LevelUp";
-    private LevelModelLocator() { }
+
+    private LevelModelLocator()
+    {
+    }
+
     public static LevelModelLocator Instance
     {
         get
@@ -27,7 +30,6 @@ public sealed class LevelModelLocator
         }
     }
 
-    private LevelUp levelUpTemplates;
     public LevelUp LevelUpTemplates
     {
         get { return levelUpTemplates ?? (levelUpTemplates = Utils.Decode<LevelUp>(LevelUpTemlatePath)); }

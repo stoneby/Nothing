@@ -12,10 +12,54 @@ public class ItemModeLocator
     private const string ItemTemlatePath = "Templates/Item";
     private const string BagTemlatePath = "Templates/Bag";
     private const string ItemConfigPath = "Templates/ItemConfig";
-    
+
+    private Bag bag;
+    private Item itemTemplates;
+    private ItemConfig itemConfig;
+    private ItemHelper.OrderType orderType = ItemHelper.OrderType.Job;
+
     #endregion
 
-    private ItemModeLocator() { }
+    #region Public Fields
+
+    public enum EquipType
+    {
+        EquipTempl = 2,
+        ArmorTemplate = 1,
+        MaterialTempl = 0,
+        InvalidTempl = -1,
+    }
+
+    public int GetItemPos;
+    public int GetItemDetailPos;
+
+    public SCAllItemInfos ScAllItemInfos { get; set; }
+    public SCAllItemInfos BuyBackItems { get; set; }
+    public SCServerConfigMsg ServerConfigMsg { get; set; }
+
+    public Bag Bag
+    {
+        get { return bag ?? (bag = Utils.Decode<Bag>(BagTemlatePath)); }
+    }
+
+    public Item ItemTemplates
+    {
+        get { return itemTemplates ?? (itemTemplates = Utils.Decode<Item>(ItemTemlatePath)); }
+    }
+
+    public ItemConfig ItemConfig
+    {
+        get { return itemConfig ?? (itemConfig = Utils.Decode<ItemConfig>(ItemConfigPath)); }
+    }
+
+    public ItemHelper.OrderType OrderType
+    {
+        get { return orderType; }
+        set { orderType = value; }
+    }
+
+    #endregion
+
     public static ItemModeLocator Instance
     {
         get
@@ -32,93 +76,54 @@ public class ItemModeLocator
         }
     }
 
-    public int GetItemPos;   
-    public int GetItemDetailPos;
-
-    private Bag bag;
-    public Bag Bag
-    {
-        get { return bag ?? (bag = Utils.Decode<Bag>(BagTemlatePath)); }
-    }
-
-    private Item itemTemplates;
-    public Item ItemTemplates
-    {
-        get { return itemTemplates ?? (itemTemplates = Utils.Decode<Item>(ItemTemlatePath)); }
-    }
-
-    private ItemConfig itemConfig;
-    public ItemConfig ItemConfig
-    {
-        get { return itemConfig ?? (itemConfig = Utils.Decode<ItemConfig>(ItemConfigPath)); }
-    }
-
-    public SCAllItemInfos ScAllItemInfos { get; set; }  
-    public SCAllItemInfos BuyBackItems { get; set; }
-    public SCServerConfigMsg ServerConfigMsg { get; set; }
-
-    public enum EquipType
-    {
-        EquipTempl = 2,
-        ArmorTemplate = 1,
-        MaterialTempl = 0,
-        InvalidTempl = -1,
-    }
-
-    private sbyte orderType = 1;
-    public sbyte OrderType
-    {
-        get { return orderType; }
-        set { orderType = value; }
-    }
+    #region Public Methods
 
     /// <summary>
     /// Sort the list of hero info by specific order type.
     /// </summary>
     /// <param name="sortType">The specific order type.</param>
     /// <param name="items">The list of hero info to be sorted.</param>
-    public void SortItemList(short sortType, List<ItemInfo> items)
+    public void SortItemList(ItemHelper.OrderType sortType, List<ItemInfo> items)
     {
         switch (sortType)
         {
-            //按入手顺序排序
-            case 0:
+            case ItemHelper.OrderType.Time:
                 items.Sort(CompareItemByTime);
                 break;
 
-            //按武将职业排序
-            case 1:
+            case ItemHelper.OrderType.Job:
                 items.Sort(CompareItemByJob);
                 break;
 
-            //按武将稀有度排序
-            case 2:
+            case ItemHelper.OrderType.Rarity:
                 items.Sort(CompareItemByQuality);
                 break;
 
-            //按攻击力排序
-            case 3:
+            case ItemHelper.OrderType.Attack:
                 items.Sort(CompareItemByAttack);
                 break;
 
-            //按HP排序
-            case 4:
+            case ItemHelper.OrderType.Health:
                 items.Sort(CompareItemByHp);
                 break;
 
-            //按回复力排序
-            case 5:
+            case ItemHelper.OrderType.Recover:
                 items.Sort(CompareItemByRecover);
                 break;
 
-            //按等级排序
-            case 6:
+            case ItemHelper.OrderType.Level:
                 items.Sort(CompareItemByLv);
                 break;
         }
     }
 
+    #endregion
+
     #region Private Methods
+
+    private ItemModeLocator()
+    {
+    }
 
     /// <summary>
     /// The comparation of item info by time.

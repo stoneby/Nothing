@@ -142,7 +142,7 @@ public class UITeamEditWindow : Window
         orderType = (sbyte)((orderType + 1) % StringTable.SortStrings.Count);
         scHeroList.OrderType = orderType;
         sortLabel.text = StringTable.SortStrings[scHeroList.OrderType];
-        HeroModelLocator.Instance.SortHeroList(orderType, scHeroList.HeroList);
+        HeroModelLocator.Instance.SortHeroList((ItemHelper.OrderType)orderType, scHeroList.HeroList);
         for (int i = 0; i < scHeroList.HeroList.Count; i++)
         {
             var info = scHeroList.HeroList[i];
@@ -278,7 +278,7 @@ public class UITeamEditWindow : Window
         var index = scHeroList.CurrentTeamIndex;
         var uUids = scHeroList.TeamList[index].ListHeroUuid;
         var orderType = scHeroList.OrderType;
-        HeroModelLocator.Instance.SortHeroList(orderType, scHeroList.HeroList);
+        HeroModelLocator.Instance.SortHeroList((ItemHelper.OrderType)orderType, scHeroList.HeroList);
         for (int heroIndex = 0; heroIndex < scHeroList.HeroList.Count; heroIndex++)
         {
             var info = scHeroList.HeroList[heroIndex];

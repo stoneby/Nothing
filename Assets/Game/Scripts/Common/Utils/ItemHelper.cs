@@ -1,56 +1,58 @@
 ﻿using KXSGCodec;
-using UnityEngine;
-using System.Collections;
 
 public class ItemHelper
 {
-    public static void ShowItem(short orderType, EquipItem equipItem, int quality, short level, sbyte job, int atk, int hp, int recover)
+    public enum OrderType
+    {
+        Time,
+        Job,
+        Rarity,
+        Team,
+        Attack,
+        Health,
+        Recover,
+        Level
+    }
+
+    public static void ShowItem(OrderType orderType, EquipItem equipItem, int quality, short level, sbyte job, int atk, int hp, int recover)
     {
         switch (orderType)
         {
-            //入手顺序排序
-            case 0:
+            case OrderType.Time:
                 equipItem.ShowByLvl(level);
                 break;
 
-            //武将职业排序
-            case 1:
+            case OrderType.Job:
                 equipItem.ShowByJob(job, atk);
                 break;
 
-            //武将稀有度排序
-            case 2:
+            case OrderType.Rarity:
                 equipItem.ShowByLvl(level);
                 break;
 
-            //照队伍顺序排序
-            case 3:
+            case OrderType.Team:
                 equipItem.ShowByLvl(level);
                 break;
 
-            //攻击力排序
-            case 4:
+            case OrderType.Attack:
                 equipItem.ShowByJob(job, atk);
                 break;
 
-            //HP排序
-            case 5:
+            case OrderType.Health:
                 equipItem.ShowByHp(hp);
                 break;
 
-            //回复力排序
-            case 6:
+            case OrderType.Recover:
                 equipItem.ShowByRecover(recover);
                 break;
 
-            //等级排序
-            case 7:
+            case OrderType.Level:
                 equipItem.ShowByLvl(level);
                 break;
         }
     }
 
-    public static void ShowItem(short orderType, EquipItem itemTran, int tempId, short level)
+    public static void ShowItem(OrderType orderType, EquipItem itemTran, int tempId, short level)
     {
         int quality = 0;
         sbyte job = -1;
@@ -90,7 +92,7 @@ public class ItemHelper
     /// <param name="orderType">The order type of </param>
     /// <param name="itemTran">The transform of item.</param>
     /// <param name="itemInfo">The info of item.</param>
-    public static void ShowItem(short orderType, EquipItem itemTran, ItemInfo itemInfo)
+    public static void ShowItem(OrderType orderType, EquipItem itemTran, ItemInfo itemInfo)
     {
         var quality = ItemModeLocator.Instance.GetQuality(itemInfo.TmplId);
         var level = itemInfo.Level;
@@ -103,7 +105,7 @@ public class ItemHelper
 
     public static bool IsSameJobType(ItemModeLocator.EquipType mainType, int mainTemId, short bagIndex)
     {
-        if(mainType == ItemModeLocator.EquipType.InvalidTempl || mainType == ItemModeLocator.EquipType.MaterialTempl)
+        if (mainType == ItemModeLocator.EquipType.InvalidTempl || mainType == ItemModeLocator.EquipType.MaterialTempl)
         {
             return false;
         }
@@ -115,18 +117,18 @@ public class ItemHelper
         if (mainType == ItemModeLocator.EquipType.EquipTempl)
         {
             var mainJobType = equipTemplate[mainTemId].JobType;
-            switch(type)
+            switch (type)
             {
-                case  ItemModeLocator.EquipType.EquipTempl:
+                case ItemModeLocator.EquipType.EquipTempl:
                     result = equipTemplate[info.TmplId].JobType == mainJobType;
                     break;
                 case ItemModeLocator.EquipType.MaterialTempl:
                     result = (materialTempl[info.TmplId].FitType == 1 &&
                              materialTempl[info.TmplId].FitJobType == mainJobType);
                     break;
-            }    
+            }
         }
-        if(mainType == ItemModeLocator.EquipType.ArmorTemplate)
+        if (mainType == ItemModeLocator.EquipType.ArmorTemplate)
         {
             switch (type)
             {

@@ -13,6 +13,13 @@ public class SwitchFontWizard : EditorWindow
         unity,
         NGUI
     }
+    private enum Overflow
+    {
+        ShrinkContent,
+        ClampContent,
+        ResizeFreely,
+        ResizeHeight,
+    }
     private enum Crisp
     {
         Always,
@@ -22,6 +29,7 @@ public class SwitchFontWizard : EditorWindow
 
     private FontType fontType;
 
+    private Overflow overflow;
     private Crisp crisp;
 
     private UIFont nguiFont;
@@ -38,7 +46,7 @@ public class SwitchFontWizard : EditorWindow
         {
             return;
         }
-        if (fontType == FontType.NGUI && nguiFont == null)
+        if (fontType == FontType.NGUI && nguiFont==null)
         {
             return;
         }
@@ -61,9 +69,27 @@ public class SwitchFontWizard : EditorWindow
                         }
                         else if (fontType == FontType.NGUI)
                         {
+                            
                             item.bitmapFont = nguiFont;
+                            item.fontStyle = FontStyle.Normal;
+                                                       
                             item.applyGradient = false;
-
+                            
+                            switch(overflow)
+                            {
+                                case Overflow.ShrinkContent:
+                                    item.overflowMethod = UILabel.Overflow.ShrinkContent;
+                                    break;
+                                case Overflow.ClampContent:
+                                    item.overflowMethod = UILabel.Overflow.ClampContent;
+                                    break;
+                                case Overflow.ResizeFreely:
+                                    item.overflowMethod = UILabel.Overflow.ResizeFreely;
+                                    break;
+                                case Overflow.ResizeHeight:
+                                    item.overflowMethod = UILabel.Overflow.ResizeHeight;
+                                    break;
+                            }
                             switch(crisp)
                             {
                                 case Crisp.Always: 
@@ -140,12 +166,21 @@ public class SwitchFontWizard : EditorWindow
         }
 
         if (fontType == FontType.NGUI)
-        {
+        {            
+
             var fontObject = EditorGUILayout.ObjectField("NGUIFont", nguiFont, typeof(GameObject), false) as GameObject;
             if (fontObject != null)
             {
                 nguiFont = fontObject.GetComponent<UIFont>();
             }
+
+            EditorGUILayout.Space();
+
+            EditorGUILayout.LabelField("Overflow:");
+            EditorGUILayout.Space();
+            EditorGUILayout.BeginHorizontal();
+            overflow = (Overflow)EditorGUILayout.EnumPopup(overflow);
+            EditorGUILayout.EndHorizontal();
 
             EditorGUILayout.Space();
 

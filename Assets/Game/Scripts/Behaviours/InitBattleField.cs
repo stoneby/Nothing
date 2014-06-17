@@ -1777,30 +1777,26 @@ public class InitBattleField : MonoBehaviour, IBattleView
     /// <param name="battleIndexRecord">Battle index record</param>
     public void showBattleIndexRecord(BattleIndexRecord battleIndexRecord)
     {
-        if (BattleModelLocator.Instance.NextList == null)
+        var battleModelLocator = BattleModelLocator.Instance;
+        // first time battle set all colors according to fill point list, which contains everything.
+        if (battleModelLocator.NextList == null)
         {
-            BattleModelLocator.Instance.NextList = battleIndexRecord.FillPointList;
+            battleModelLocator.NextList = battleIndexRecord.FillPointList;
             SetColor();
         }
         else
         {
-            BattleModelLocator.Instance.NextList = battleIndexRecord.FillPointList;
+            battleModelLocator.NextList = battleIndexRecord.FillPointList;
             // Remove redurant colors that already taken from attack waiting list.
             // [NOTE] New colors left for selected characters.
             foreach (var wait in attackWaitList)
             {
-                BattleModelLocator.Instance.NextList.RemoveAt(0);
+                battleModelLocator.NextList.RemoveAt(0);
             }
         }
 
-        var str = "";
-        for (var i = 0; i < BattleModelLocator.Instance.NextList.Count; i++)
-        {
-            var obj = BattleModelLocator.Instance.NextList[i];
-            str += "(" + i + ":index=" + obj.Index + ",color=" + obj.Color + ")";
-        }
+        Logger.LogWarning(battleModelLocator);
 
-        Logger.Log("脚下标志 = " + str);
         if (battleIndexRecord.prop.ContainsKey(BattleRecordConstants.BATTLE_HERO_TOTAL_HP))
         {
             characterValue = battleIndexRecord.getIntProp(BattleRecordConstants.BATTLE_HERO_TOTAL_HP);

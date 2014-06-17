@@ -1,17 +1,41 @@
-﻿using System;
+﻿using KXSGCodec;
+using System;
 using System.Collections.Generic;
-using KXSGCodec;
 using Template;
-using System.Collections;
 using Object = UnityEngine.Object;
 
 public sealed class MissionModelLocator
 {
-	private static int FirstTime = 8;
-	private static int SecondTime = 16;
-	private static int ThirdTime = 24;
+    public SCRaidLoadingAll RaidLoadingAll;
+    public SCRaidAddtion RaidAddition;
+    public string DestTime;
+    public int NextRaidType = 1;
+    public int CurrRaidType = 0;
+
+    public RaidInfo Raid;
+
+    public SCRaidQueryFriend FriendsMsg;
+
+    public FriendVO FriendData;
+    public int SelectedStageId;
+
+    public int MissionStep;
+
+    public SCRaidReward BattleReward;
+
+    public int OldExp;
+    public int OldLevel;
+
+    private const int FirstTime = 8;
+    private const int SecondTime = 16;
+    private const int ThirdTime = 24;
+
     private static volatile MissionModelLocator instance;
     private static readonly object SyncRoot = new Object();
+
+    private Raid raidTemplates;
+    private List<RaidInfo> raidInfoElite;
+    private List<RaidInfo> raidInfoMaster;
 
     private const string RaidTemlatePath = "Templates/Raid";
     private MissionModelLocator() { }
@@ -31,7 +55,6 @@ public sealed class MissionModelLocator
         }
     }
 
-    private Raid raidTemplates;
     public Raid RaidTemplates
     {
         get { return raidTemplates ?? (raidTemplates = Utils.Decode<Raid>(RaidTemlatePath)); }
@@ -82,10 +105,6 @@ public sealed class MissionModelLocator
             }
         }
     }
-
-    public SCRaidLoadingAll RaidLoadingAll;
-    public SCRaidAddtion RaidAddition;
-	public string DestTime;
 
     public RaidAddtionInfo GetAdditionInfoByRaidTemplateID(int templateid)
     {
@@ -198,9 +217,6 @@ public sealed class MissionModelLocator
         return newraids;
     }
 
-    private List<RaidInfo> RaidInfoElite;
-    private List<RaidInfo> RaidInfoMaster;
-
     public List<RaidInfo> GetCurrentRaids()
     {
         switch (CurrRaidType)
@@ -240,11 +256,15 @@ public sealed class MissionModelLocator
 
     public void ComputeStagecount()
     {
-        if (TotalStageCount != null) return;
-        var raidtemplates = MissionModelLocator.Instance.RaidTemplates.RaidStageTmpl;
+        if (TotalStageCount != null)
+        {
+            return;
+        }
+
+        var raidtemplates = Instance.RaidTemplates.RaidStageTmpl;
         TotalStageCount = new Dictionary<int, int>();
         TotalStarCount = new Dictionary<int, int>();
-//        var raids = GetCurrentRaids();
+
         foreach (KeyValuePair<int, RaidStageTemplate> item in raidtemplates)
         {
             if (TotalStageCount.ContainsKey(item.Value.RaidId))
@@ -284,14 +304,7 @@ public sealed class MissionModelLocator
         {
             return 0;
         }
-        else if (TotalStarCount.ContainsKey(raidtemplateid))
-        {
-            return TotalStarCount[raidtemplateid];
-        }
-        else
-        {
-            return 0;
-        }
+        return TotalStarCount.ContainsKey(raidtemplateid) ? TotalStarCount[raidtemplateid] : 0;
     }
 
     public string GetStageCountByRaidId(int raidtemplateid)
@@ -300,14 +313,11 @@ public sealed class MissionModelLocator
         {
             return "0/0";
         }
-        else if (TotalStageCount.ContainsKey(raidtemplateid))
+        if (TotalStageCount.ContainsKey(raidtemplateid))
         {
             return TotalStarCount[raidtemplateid] + "/" + TotalStageCount[raidtemplateid];
         }
-        else
-        {
-            return "0/0";
-        }
+        return "0/0";
     }
 
     public bool HasRaidReward(int raidtemplateid)
@@ -316,14 +326,11 @@ public sealed class MissionModelLocator
         {
             return false;
         }
-        else if (TotalStageCount.ContainsKey(raidtemplateid))
+        if (TotalStageCount.ContainsKey(raidtemplateid))
         {
             return TotalStarCount[raidtemplateid] == TotalStageCount[raidtemplateid];
         }
-        else
-        {
-            return false;
-        }
+        return false;
     }
 
     public void AddNewStage(SCRaidNewStage stage)
@@ -383,21 +390,4 @@ public sealed class MissionModelLocator
             SetCurrentRaids(raids);
         }
     }
-
-    public int NextRaidType = 1;
-    public int CurrRaidType = 0;
-    //当前进入的大地图
-    public RaidInfo Raid;
-    //当前获得的好友列表
-    public SCRaidQueryFriend FriendsMsg;
-//    public int 
-    public FriendVO FriendData;
-    public int SelectedStageId;
-
-    public int MissionStep;
-    //战斗结束获得 
-    public SCRaidReward BattleReward;
-    //
-    public int OldExp;
-    public int OldLevel;
 }

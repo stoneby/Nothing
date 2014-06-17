@@ -15,5 +15,10 @@ public class DragBarNo1Controller : AbstractDragBarController
         DragBar.width = (int)(width + OffSet.x);
     }
 
+    public override void SetSprite(string spriteName)
+    {
+        DragBar.spriteName = spriteName;
+    }
+
     #endregion
 }

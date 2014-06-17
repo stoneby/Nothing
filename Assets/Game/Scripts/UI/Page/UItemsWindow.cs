@@ -118,8 +118,8 @@ public class UItemsWindow : Window
     private void OnSortClicked(GameObject go)
     {
         var orderType = ItemModeLocator.Instance.OrderType;
-        orderType = (sbyte) ((orderType + 1) % StringTable.ItemSortStrings.Count);
-        sortLabel.text = StringTable.ItemSortStrings[orderType];
+        orderType = (ItemHelper.OrderType)(((int)orderType + 1) % StringTable.ItemSortStrings.Count);
+        sortLabel.text = StringTable.ItemSortStrings[(int)orderType];
         ItemModeLocator.Instance.OrderType = orderType;
         Refresh(infos);
     }
@@ -134,7 +134,7 @@ public class UItemsWindow : Window
         {
             var isAdd = childCount < itemCounts;
             Utils.AddOrDelItems(Items.transform, ItemPrefab.transform, isAdd, Mathf.Abs(itemCounts - childCount),
-                                "Items",
+                                "Heros",
                                 null);
         }
         Items.repositionNow = true;
@@ -144,7 +144,7 @@ public class UItemsWindow : Window
     {
         UpdateItemList(newInfos.Count);
         var orderType = ItemModeLocator.Instance.OrderType;
-        sortLabel.text = StringTable.ItemSortStrings[orderType];
+        sortLabel.text = StringTable.ItemSortStrings[(int)orderType];
         ItemModeLocator.Instance.SortItemList(orderType, newInfos);
         for (int i = 0; i < newInfos.Count; i++)
         {

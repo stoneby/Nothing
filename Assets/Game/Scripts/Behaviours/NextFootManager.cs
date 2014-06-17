@@ -4,56 +4,79 @@ using Assets.Game.Scripts.Common.Model;
 using com.kx.sglm.gs.battle.share.data.record;
 using UnityEngine;
 
+/// <summary>
+/// Next character color manager.
+/// </summary>
+/// <remarks>Display as colored circles on the left part of screen</remarks>
 public class NextFootManager : MonoBehaviour
 {
-    public GameObject NextPrefab;
+    /// <summary>
+    /// Next color prefab.
+    /// </summary>
+    public GameObject FootPrefab;
 
     private GameObject leftContainer;
-    private List<GameObject> leftObjs;
-    private ArrayList rightObjs;
     private PointRecord[] leftFootIndexes;
-    //private bool haveInit;
 
-    // Use this for initialization
+    public int Size;
+    public GameObject FootContainer;
+
+    private List<GameObject> footList;
+    private bool initialized;
+
     void Awake()
     {
-        leftContainer = GameObject.Find("Anchor-topleft");
-        GameObject.Find("Anchor-topright");
+        Intialize();
+    }
 
-        leftFootIndexes = new PointRecord[3];
-        leftObjs = new List<GameObject>();
-        for (var i = 0; i < leftFootIndexes.Length; i++)
+    /// <summary>
+    /// Intialize everything well.
+    /// </summary>
+    public void Intialize()
+    {
+        if (initialized)
         {
-            leftFootIndexes[i] = null;
-            var obj = NGUITools.AddChild(leftContainer, NextPrefab);
-            leftObjs.Add(obj);
+            return;
+        }
+
+        initialized = true;
+
+        if (Size <= 0)
+        {
+            Logger.LogError("Size is zero, there is nothing foot prefab to spawn with.");
+            return;
+        }
+
+        if (FootContainer == null)
+        {
+            Logger.LogError("FootContainer should not be null, please take a look.");
+            return;
+        }
+
+        if (footList == null)
+        {
+            footList = new List<GameObject>();
+        }
+
+        for (var i = 0; i < Size; ++i)
+        {
+            var footObject = NGUITools.AddChild(FootContainer, FootPrefab);
+            footList.Add(footObject);
         }
     }
 
-    private void InitTest()
+    /// <summary>
+    /// Reset everything to inital status.
+    /// </summary>
+    public void Reset()
     {
-        for (int i = 0; i < leftFootIndexes.Length; i++)
+        if (!initialized)
         {
-            leftFootIndexes[i] = null;//BattleModelLocator.Instance.GetNextFromNextList();
-
-            var obj = leftObjs[i] as GameObject;
-            obj.SetActive(true);
-            var sp = obj.GetComponent<UISprite>();
-            //sp.spriteName = "pck_" + leftFootIndexes[i].ToString();
-            var tp = obj.GetComponent<TweenPosition>();
-            tp.from = new Vector3(-100, -32, 0);
-            tp.to = new Vector3(265 - 65 * i, -32, 0);
-            tp.duration = .5f;
-            tp.Play(true);
+            return;
         }
-    }
 
-    public void Clear()
-    {
-        for (int i = 0; i < leftFootIndexes.Length; i++)
-        {
-            leftFootIndexes[i] = null;
-        }
+        initialized = false;
+        footList.Clear();
     }
 
     public int GetNext()
@@ -71,7 +94,7 @@ public class NextFootManager : MonoBehaviour
         leftFootIndexes[1] = (leftFootIndexes[2] == null) ? BattleModelLocator.Instance.GetNextFromNextList(3) : leftFootIndexes[2];
         leftFootIndexes[2] = BattleModelLocator.Instance.GetNextFromNextList(4);
 
-        var obj = leftObjs[1] as GameObject;
+        var obj = footList[1] as GameObject;
         var tp = obj.GetComponent<TweenPosition>();
         tp.ResetToBeginning();
         tp.from = new Vector3(265 - 65, -32, 0);
@@ -79,7 +102,7 @@ public class NextFootManager : MonoBehaviour
         tp.duration = .1f;
         tp.Play(true);
 
-        obj = leftObjs[2] as GameObject;
+        obj = footList[2] as GameObject;
         tp = obj.GetComponent<TweenPosition>();
         tp.ResetToBeginning();
         tp.from = new Vector3(265 - 130, -32, 0);
@@ -87,9 +110,9 @@ public class NextFootManager : MonoBehaviour
         tp.duration = .1f;
         tp.Play(true);
 
-        obj = leftObjs[0] as GameObject;
-        leftObjs.RemoveAt(0);
-        leftObjs.Add(obj);
+        obj = footList[0] as GameObject;
+        footList.RemoveAt(0);
+        footList.Add(obj);
         var sp = obj.GetComponent<UISprite>();
         sp.spriteName = "pck_" + leftFootIndexes[2].Color.ToString();
         tp = obj.GetComponent<TweenPosition>();
@@ -99,7 +122,7 @@ public class NextFootManager : MonoBehaviour
         tp.duration = .2f;
         tp.Play(true);
 
-        obj = NGUITools.AddChild(leftContainer, NextPrefab);
+        obj = NGUITools.AddChild(leftContainer, FootPrefab);
         sp = obj.GetComponent<UISprite>();
         sp.spriteName = "pck_" + theindex.ToString();
         tp = obj.GetComponent<TweenPosition>();

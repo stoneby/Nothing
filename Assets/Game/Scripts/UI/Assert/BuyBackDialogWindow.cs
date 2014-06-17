@@ -67,7 +67,7 @@ public class BuyBackDialogWindow : Window
         if (childCount != itemCount)
         {
             var isAdd = childCount < itemCount;
-            Utils.AddOrDelItems(grid.transform, ItemPrefab.transform, isAdd, Mathf.Abs(itemCount - childCount), "BuyBack",
+            Utils.AddOrDelItems(grid.transform, ItemPrefab.transform, isAdd, Mathf.Abs(itemCount - childCount), "Heros",
                     null);
             grid.repositionNow = true;
         }

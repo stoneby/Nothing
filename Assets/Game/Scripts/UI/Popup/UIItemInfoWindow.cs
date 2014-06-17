@@ -150,12 +150,20 @@ public class UIItemInfoWindow : Window
     private void Refresh()
     {
         var skillTmp = HeroModelLocator.Instance.SkillTemplates.SkillTmpl;
-        var initTmp = skillTmp[ItemBaseInfoWindow.ItemDetail.InitSkillId];
-        var randTmp = skillTmp[ItemBaseInfoWindow.ItemDetail.RandSkillId];
-        skillInitTitle.text = initTmp.Name;
-        skillInitDesc.text = initTmp.Desc;
-        skillRandTitle.text = randTmp.Name;
-        skillRandDesc.text = randTmp.Desc;
+        var initSkillId = ItemBaseInfoWindow.ItemDetail.InitSkillId;
+        if (skillTmp.ContainsKey(initSkillId))
+        {
+            var initTmp = skillTmp[initSkillId];
+            skillInitTitle.text = initTmp.Name;
+            skillInitDesc.text = initTmp.Desc;
+        }
+        var randSkillId = ItemBaseInfoWindow.ItemDetail.RandSkillId;
+        if (skillTmp.ContainsKey(randSkillId))
+        {
+            var randTmp = skillTmp[randSkillId];
+            skillRandTitle.text = randTmp.Name;
+            skillRandDesc.text = randTmp.Desc;
+        }
         matchInfoDesc.text = ItemBaseInfoWindow.ItemDetail.MatchInfo;
         NGUITools.SetActive(explainContent.gameObject, true);
         explainName.text = ItemModeLocator.Instance.GetName(itemInfo.TmplId);

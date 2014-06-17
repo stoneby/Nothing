@@ -79,6 +79,10 @@ public class CustomCenterOnChild : MonoBehaviour
                   : (uiGrid.arrangement == UIGrid.Arrangement.Horizontal
                          ? Mathf.FloorToInt(mScrollView.panel.width / uiGrid.cellWidth)
                          : Mathf.FloorToInt(mScrollView.panel.height / uiGrid.cellHeight));
+        if(uiGrid.transform.childCount <= maxPerLine * visibleItems)
+        {
+            return;
+        }
         var closestPos = visibleItems % 2 == 0
                              ? FindClosestForEven(pickingPoint, maxPerLine, visibleItems / 2)
                              : FindClosestForOdd(pickingPoint, maxPerLine, visibleItems / 2);
@@ -101,7 +105,6 @@ public class CustomCenterOnChild : MonoBehaviour
         var list = new List<Vector3>();
         var totalRow = Mathf.CeilToInt((float)trans.childCount / maxPerLine) - 2;
         var offset = GetOffset(true, maxPerLine);
-
         for (int i = 0; i <= totalRow; i++)
         {
             var pos = trans.GetChild(i * maxPerLine).localPosition + offset;
