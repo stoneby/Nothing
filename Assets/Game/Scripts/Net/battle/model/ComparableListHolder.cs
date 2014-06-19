@@ -4,7 +4,7 @@ namespace com.kx.sglm.gs.battle.share.model
 {
 
 	/// <summary>
-	/// 鍙帓搴忕殑<seealso cref="KeyListHolder"/>锛岀敤浜庢帓搴忕殑鏄瘂@link #getKey()}
+	/// 可排序的<seealso cref="KeyListHolder"/>，用于排序的是<seealso cref="#getKey()"/>
 	/// @author liyuan2
 	/// </summary>
 	/// @param <T> </param>

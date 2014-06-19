@@ -96,6 +96,18 @@ public class NetworkControl : MonoBehaviour
                     case (short)MessageType.SC_BUY_BACK_ITEM_SUCC:
                         ItemHandler.OnBuyBackItemSucc(msg);
                         break;
+                    case (short)MessageType.SC_LOTTERY_LIST:
+                        ChooseCardHandler.OnLotteryList(msg);
+                        break;
+                    case (short)MessageType.SC_LOTTERY:
+                        ChooseCardHandler.OnLottery(msg);
+                        break;      
+                    case (short)MessageType.SC_LOTTERY_REFRESH_TIMES:
+                        ChooseCardHandler.OnLotteryRefreshTimes(msg);
+                        break;                  
+                    case (short)MessageType.SC_ADD_ITEMS_AND_HEROS:
+                        ChooseCardHandler.OnAddItemsAndHeros(msg);
+                        break;
                 }
                 msg = NetManager.GetMessage();
             }

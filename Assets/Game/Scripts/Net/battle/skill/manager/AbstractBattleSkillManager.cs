@@ -28,7 +28,7 @@ namespace com.kx.sglm.gs.battle.share.skill.manager
 
 		public abstract void init();
 
-		/* java to c#语法需�?
+		/* java to c#�﷨��Ҫ
 		 * @see com.kx.sglm.gs.battle.skill.IBattleSkillManager#canAttack()
 		 */
 		public virtual bool canAttack()
@@ -36,7 +36,7 @@ namespace com.kx.sglm.gs.battle.share.skill.manager
 			return false;
 		}
 
-		/* java to c#语法需�?
+		/* java to c#�﷨��Ҫ
 		 * @see com.kx.sglm.gs.battle.skill.IBattleSkillManager#getFightAction()
 		 */
 		public virtual ISingletonSkillAction AttackAction
@@ -48,7 +48,7 @@ namespace com.kx.sglm.gs.battle.share.skill.manager
 		}
 
 
-		/* java to c#语法需�?
+		/* java to c#�﷨��Ҫ
 		 * @see com.kx.sglm.gs.battle.IRoundCounter#countDownRound(com.kx.sglm.gs.battle.data.record.BattleRoundCountRecord)
 		 */
 		public virtual void countDownRound(BattleRoundCountRecord roundRecord)
@@ -56,7 +56,7 @@ namespace com.kx.sglm.gs.battle.share.skill.manager
 
 		}
 
-		/* java to c#语法需�?
+		/* java to c#�﷨��Ҫ
 		 * @see com.kx.sglm.gs.battle.IRoundCounter#beforeBattleStart(com.kx.sglm.gs.battle.data.record.BattleRoundCountRecord)
 		 */
 		public virtual void beforeBattleStart(BattleRoundCountRecord roundRecord)
@@ -69,7 +69,7 @@ namespace com.kx.sglm.gs.battle.share.skill.manager
 			skillAction.onAction(Fighter, record);
 		}
 
-		/* java to c#语法需�?
+		/* java to c#�﷨��Ҫ
 		 * @see com.kx.sglm.gs.battle.share.skill.IBattleSkillManager#onActiveOption()
 		 */
 		public virtual void onActiveOption()
@@ -88,7 +88,7 @@ namespace com.kx.sglm.gs.battle.share.skill.manager
 		}
 
 
-		/* 没有Override——java to c#语法需�?
+		/* û��Override����java to c#�﷨��Ҫ
 		 * @see com.kx.sglm.gs.battle.IBattle#getBattle()
 		 */
 		public virtual Battle Battle

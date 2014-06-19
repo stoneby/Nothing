@@ -5,7 +5,7 @@ namespace com.kx.sglm.gs.battle.share.actor
 	using IBattleInnerEventHandler = com.kx.sglm.gs.battle.share.@event.IBattleInnerEventHandler;
 
 	/// <summary>
-	/// 鎴樻枟鍙備笌鑰?
+	/// 战斗参与者
 	/// @author liyuan2
 	/// 
 	/// </summary>

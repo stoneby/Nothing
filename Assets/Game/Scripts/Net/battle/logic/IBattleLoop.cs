@@ -4,7 +4,7 @@ namespace com.kx.sglm.gs.battle.share.logic
 	using BattleState = com.kx.sglm.gs.battle.share.enums.BattleState;
 
 	/// <summary>
-	/// 鎴樻枟鍐呴渶瑕佸惊鐜鎿嶄綔鐨勯�昏緫
+	/// 战斗内需要循环被操作的逻辑
 	/// @author liyuan2
 	/// 
 	/// </summary>
@@ -13,7 +13,7 @@ namespace com.kx.sglm.gs.battle.share.logic
 
 
 		/// <summary>
-		/// 鏇存柊鎴樻枟鐘舵�? </summary>
+		/// 更新战斗状态 </summary>
 		/// <param name="battelState"> </param>
 		/// <param name="updateSub"> </param>
 		void updateBattleState(BattleState battelState, bool updateSub);
@@ -21,7 +21,7 @@ namespace com.kx.sglm.gs.battle.share.logic
 		bool Finished {get;}
 
 		/// <summary>
-		/// 閫昏緫鍐呯殑鎿嶄綔鑰呮槸鍚﹀叏閮ㄦ浜?
+		/// 逻辑内的操作者是否全部死亡
 		/// @return
 		/// </summary>
 		bool Dead {get;}

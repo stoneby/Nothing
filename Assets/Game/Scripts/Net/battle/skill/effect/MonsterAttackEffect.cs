@@ -7,7 +7,7 @@ namespace com.kx.sglm.gs.battle.share.skill.effect
 	using SingleActionRecord = com.kx.sglm.gs.battle.share.data.record.SingleActionRecord;
 
 	/// <summary>
-	/// æ€ªç‰©æ”»å‡»
+	/// ¹ÖÎï¹¥»÷
 	/// @author liyuan2
 	/// 
 	/// </summary>

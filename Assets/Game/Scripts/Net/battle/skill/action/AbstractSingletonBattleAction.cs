@@ -10,7 +10,7 @@ namespace com.kx.sglm.gs.battle.share.skill.action
 	using SkillDataHolder = com.kx.sglm.gs.battle.share.skill.model.SkillDataHolder;
 
 	/// <summary>
-	/// æŠ€èƒ½çš„é¡¶å±‚æŠ½è±¡ç±?
+	/// ¼¼ÄÜµÄ¶¥²ã³éÏóÀà
 	/// 
 	/// @author liyuan2
 	/// 
@@ -20,15 +20,15 @@ namespace com.kx.sglm.gs.battle.share.skill.action
 		public abstract bool canOption(BattleFighter attacker);
 
 		/// <summary>
-		/// æŠ€èƒ½ID </summary>
+		/// ¼¼ÄÜID </summary>
 		private int skillId;
 
 		/// <summary>
-		/// ç›®æ ‡èŽ·å–å™¨ï¼Œæ ¹æ®Indexä¸åŒåˆ†ä¸ºå¯¹æ•Œè¿˜æ˜¯å¯¹å·± </summary>
+		/// Ä¿±ê»ñÈ¡Æ÷£¬¸ù¾ÝIndex²»Í¬·ÖÎª¶ÔµÐ»¹ÊÇ¶Ô¼º </summary>
 		private TargetGetterHolder[] targetGetterHolderArr;
 
 		/// <summary>
-		/// æŠ€èƒ½åŠ¨ä½? </summary>
+		/// ¼¼ÄÜ¶¯×÷ </summary>
 		private List<ISkillEffect> allEffect;
 
 		public AbstractSingletonBattleAction()
@@ -46,15 +46,15 @@ namespace com.kx.sglm.gs.battle.share.skill.action
 
 		public virtual void onAction(BattleFighter attacker, BattleFightRecord record)
 		{
-			// TODO: åŠ å…¥åŽç»­é€»è¾‘
+			// TODO: ¼ÓÈëºóÐøÂß¼­
 			optionAction(attacker, record);
 		}
 
 		internal virtual void optionAction(BattleFighter attacker, BattleFightRecord record)
 		{
-			// åˆ›å»ºä¸€ä¸ªä¾›ä¸åŒåŠ¨ä½œä¹‹é—´æ•°æ®æ²Ÿé€šçš„è®°å½•
+			// ´´½¨Ò»¸ö¹©²»Í¬¶¯×÷Ö®¼äÊý¾Ý¹µÍ¨µÄ¼ÇÂ¼
 			SkillDataHolder _holder = createDataHolder(record);
-			// åŠ¨ä½œåˆ†ä¸¤æ­?
+			// ¶¯×÷·ÖÁ½²½
 //JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
 //ORIGINAL LINE: final java.util.List<com.kx.sglm.gs.battle.share.actor.impl.BattleFighter> _enemyFighterList = calcTargetList(attacker, true);
 			List<BattleFighter> _enemyFighterList = calcTargetList(attacker, true);
@@ -65,7 +65,7 @@ namespace com.kx.sglm.gs.battle.share.skill.action
 			{
 				List<BattleFighter> _fighterList = _effect.EnemyEffect ? _enemyFighterList : _friendFighterList;
 				_effect.onAction(attacker, _fighterList, _holder);
-				// TODO: åŒºåˆ†ä¸åŒçš„effect
+				// TODO: Çø·Ö²»Í¬µÄeffect
 				optionAfterAction(attacker, _fighterList, record);
 			}
 		}
@@ -83,7 +83,7 @@ namespace com.kx.sglm.gs.battle.share.skill.action
 		}
 
 		/// <summary>
-		/// æ”»å‡»åŽæ“ä½?
+		/// ¹¥»÷ºó²Ù×÷
 		/// </summary>
 		/// <param name="attacker"> </param>
 		/// <param name="defencerList"> </param>

@@ -25,7 +25,7 @@ public class BuyBackItem : ItemBase
         set
         {
             timeRemain = value;
-            timeRemainLabel.text = timeRemain.Hours + ":" + timeRemain.Minutes + ":" + timeRemain.Seconds;
+            timeRemainLabel.text = Utils.ConvertTimeSpanToString(timeRemain);
         }
     }
 

@@ -27,8 +27,7 @@ namespace KXSGCodec
     private List<KXSGCodec.LotteryInfo> _listLotteryInfo;
     private long _lastFreeLotteryTime;
     private int _get4StarHeroRestTimes;
-    private int _lotteryHeroCost;
-    private int _lotteryItemCost;
+    private int _lotteryCost;
 
     /// <summary>
     /// 抽奖类型1武将抽奖2道具抽奖
@@ -92,34 +91,18 @@ namespace KXSGCodec
     }
 
     /// <summary>
-    /// 单次抽卡武将消耗
+    /// 单次抽卡消耗
     /// </summary>
-    public int LotteryHeroCost
+    public int LotteryCost
     {
       get
       {
-        return _lotteryHeroCost;
+        return _lotteryCost;
       }
       set
       {
-        __isset.lotteryHeroCost = true;
-        this._lotteryHeroCost = value;
-      }
-    }
-
-    /// <summary>
-    /// 单次抽卡道具消耗
-    /// </summary>
-    public int LotteryItemCost
-    {
-      get
-      {
-        return _lotteryItemCost;
-      }
-      set
-      {
-        __isset.lotteryItemCost = true;
-        this._lotteryItemCost = value;
+        __isset.lotteryCost = true;
+        this._lotteryCost = value;
       }
     }
 
@@ -133,8 +116,7 @@ namespace KXSGCodec
       public bool listLotteryInfo;
       public bool lastFreeLotteryTime;
       public bool get4StarHeroRestTimes;
-      public bool lotteryHeroCost;
-      public bool lotteryItemCost;
+      public bool lotteryCost;
     }
 
     public SCLotteryList() {
@@ -193,14 +175,7 @@ namespace KXSGCodec
             break;
           case 5:
             if (field.Type == TType.I32) {
-              LotteryHeroCost = iprot.ReadI32();
-            } else { 
-              TProtocolUtil.Skip(iprot, field.Type);
-            }
-            break;
-          case 6:
-            if (field.Type == TType.I32) {
-              LotteryItemCost = iprot.ReadI32();
+              LotteryCost = iprot.ReadI32();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
@@ -257,20 +232,12 @@ namespace KXSGCodec
         oprot.WriteI32(Get4StarHeroRestTimes);
         oprot.WriteFieldEnd();
       }
-      if (__isset.lotteryHeroCost) {
-        field.Name = "lotteryHeroCost";
+      if (__isset.lotteryCost) {
+        field.Name = "lotteryCost";
         field.Type = TType.I32;
         field.ID = 5;
         oprot.WriteFieldBegin(field);
-        oprot.WriteI32(LotteryHeroCost);
-        oprot.WriteFieldEnd();
-      }
-      if (__isset.lotteryItemCost) {
-        field.Name = "lotteryItemCost";
-        field.Type = TType.I32;
-        field.ID = 6;
-        oprot.WriteFieldBegin(field);
-        oprot.WriteI32(LotteryItemCost);
+        oprot.WriteI32(LotteryCost);
         oprot.WriteFieldEnd();
       }
       oprot.WriteFieldStop();
@@ -287,10 +254,8 @@ namespace KXSGCodec
       sb.Append(LastFreeLotteryTime);
       sb.Append(",Get4StarHeroRestTimes: ");
       sb.Append(Get4StarHeroRestTimes);
-      sb.Append(",LotteryHeroCost: ");
-      sb.Append(LotteryHeroCost);
-      sb.Append(",LotteryItemCost: ");
-      sb.Append(LotteryItemCost);
+      sb.Append(",LotteryCost: ");
+      sb.Append(LotteryCost);
       sb.Append(")");
       return sb.ToString();
     }

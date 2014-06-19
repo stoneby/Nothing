@@ -9,8 +9,8 @@ namespace com.kx.sglm.gs.battle.share.logic.loop
 	using BattleAttackAction = com.kx.sglm.gs.battle.share.logic.action.BattleAttackAction;
 
 	/// <summary>
-	/// 鍗曟柟闃熶紞鍑烘墜寰幆鎺у埗瀛愮被锛?瀵规墜鏄竴涓獅@link BattleTeam}銆?璇ョ被鍐呭惊鐜竴涓獅@link BattleTeam}鍐呮墍鏈夎鍑烘墜鐨勫璞★紝鍒涘缓
-	/// <seealso cref="BattleAttackAction"/>杩涜涓嬩竴姝ユ搷浣溿�?鍑烘墜鍏ㄩ儴瀹屾垚鍚庨渶瑕佽繘琛孯oundCounter鐨勭粨绠?
+	/// 单方队伍出手循环控制子类， 对手是一个<seealso cref="BattleTeam"/>。 该类内循环一个<seealso cref="BattleTeam"/>内所有要出手的对象，创建
+	/// <seealso cref="BattleAttackAction"/>进行下一步操作。 出手全部完成后需要进行RoundCounter的结算
 	/// 
 	/// @author liyuan2
 	/// 
@@ -39,10 +39,10 @@ namespace com.kx.sglm.gs.battle.share.logic.loop
 
 		public override void onFinish()
 		{
-			// 缁撶畻RoundCounter
+			// 结算RoundCounter
 			CurAttacker.calcRoundCounter();
 			CurDefencer.calcRoundCounter();
-			// 濡傛灉鏄帺瀹跺鐞嗕笅涓�鎵规灏嗙殑鍏ュ満
+			// 如果是玩家处理下一批武将的入场
 			Battle.BattleExcuter.onBattleTeamShotFinish(this);
 			Record.finishCurTeamRecord();
 		}
@@ -57,7 +57,7 @@ namespace com.kx.sglm.gs.battle.share.logic.loop
 //JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
 //ORIGINAL LINE: final com.kx.sglm.gs.battle.share.actor.impl.BattleFighter _curFighter = getCurAttacker().getCurFighter();
 			BattleFighter _curFighter = CurAttacker.CurFighter;
-			// TODO: 杩欓噷鏄惁瀛樺湪鍚屼竴涓猅eam鍦ㄦ瘡娆″嚭鎵嬪唴鏀诲嚮涓嶅悓鐨凾eam锛屽彲浠ヤ箣鍚庡悜绛栧垝纭锛屾殏鏃朵笉鏀寔
+			// TODO: 这里是否存在同一个Team在每次出手内攻击不同的Team，可以之后向策划确认，暂时不支持
 			BattleAttackAction _fightAction = new BattleAttackAction(Battle, _curFighter, CurDefencer);
 
 			return _fightAction;
@@ -71,7 +71,7 @@ namespace com.kx.sglm.gs.battle.share.logic.loop
 
 		public override void initOnCreateSubAction()
 		{
-			//鍒濆鍖栨垬鎶?
+			//初始化战报
 		}
 
 

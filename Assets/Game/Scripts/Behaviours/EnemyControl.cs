@@ -1,38 +1,45 @@
-﻿using System.Collections;
-using com.kx.sglm.gs.battle.share.data;
-using com.kx.sglm.gs.battle.share.utils;
+﻿using com.kx.sglm.gs.battle.share.data;
+using com.kx.sglm.gs.hero.properties;
+using System.Collections;
 using UnityEngine;
 
+/// <summary>
+/// Enemy Controller that control behaviours of enemy.
+/// </summary>
 public class EnemyControl : MonoBehaviour
 {
+    #region Public Fields
+
     public GameObject EnemySprite;
-    public GameObject BloodBar;
-    public GameObject BloodLabel;
     public GameObject CdLabel;
 
-	public GameObject AttackLocation;
+    public GameObject AimSprite;
 
-    //public GameObject Enemy;
+    public GameObject AttackLocation;
 
+    public BloodBarController BloodController;
+
+    [HideInInspector]
     public FighterInfo Data;
 
-    private float value;
-    private float maxValue;
-//    private int baseCd;
-    private int cd;
-    private bool isShowBlood = true;
-//    private int spcd;
+    public delegate void OnClickDelegate(FighterInfo data);
 
-    //Boss sprite name of different states.
+    #endregion
+
+    #region Private Fields
+
+    private int cd;
+
     private const string BossNormal = "BossNormal";
     private const string BossWhite = "BossWhite";
     private const string BossBlack = "BossBlack";
 
     private UIEventListener MonsterClickUIEventListener;
-
-    public delegate void OnClickDelegate(FighterInfo data);
-
     private OnClickDelegate OnClickFunc;
+
+    #endregion
+
+    #region Public Methods
 
     public void Init(OnClickDelegate onclickfunc, FighterInfo data)
     {
@@ -42,85 +49,48 @@ public class EnemyControl : MonoBehaviour
         MonsterClickUIEventListener.onClick += OnClickHandler;
     }
 
-    private void OnClickHandler(GameObject game = null)
-    {
-        OnClickFunc(Data);
-    }
-
     public void OnDestory()
     {
         if (MonsterClickUIEventListener != null) MonsterClickUIEventListener.onClick -= OnClickHandler;
     }
 
-    public void playBigAttrack()
+    public void PlayBigAttrack()
     {
         StartCoroutine(DoPlayBigAttrack());
-    }
-
-    IEnumerator DoPlayBigAttrack()
-    {
-        yield return new WaitForSeconds(0.4f);
-        var tc = EnemySprite.AddComponent<TweenColor>();
-        tc.from = new Color(255, 0, 0);
-        tc.to = new Color(0, 255, 0);
-        tc.duration = 0.2f;
-        tc.style = UITweener.Style.PingPong;
-        tc.PlayForward();
-        Destroy(tc, 2);
     }
 
     public void SetValue(FighterInfo data)
     {
         Data = data;
-        value = Data.BattleProperty.get(FighterAProperty.HP); ;
-        maxValue = value;
-        ShowValue();
+
+        BloodController.CurrentValue = Data.BattleProperty[RoleAProperty.HP]; ;
+        BloodController.MaxValue = BloodController.CurrentValue;
+        BloodController.ShowValue();
+
+        SetCdLabel();
     }
 
-    public  float HP
+
+    public float Health
     {
         get
         {
-            return value;
+            return BloodController.CurrentValue;
         }
     }
 
     public void SetRoundCount(int thecd)
     {
         cd = thecd;
-        ShowValue();
+        BloodController.ShowValue();
+
+        SetCdLabel();
     }
 
-    public void SetHP(int thehp)
+    public void SetHealth(int thehp)
     {
-        var lose = value - thehp;
-        value = thehp;
-
-        ShowValue();
-    }
-
-    //处理掉血，返回是否死亡
-//    public bool LoseBlood(int lose)
-//    {
-//
-//        value = (value - lose > 0) ? value - lose : 0;
-//
-//        if (lose != 0) PopTextManager.ShowText("-" + lose, 0.6f, 0, 40, 120, gameObject.transform.localPosition);
-//
-//        ShowValue();
-//        return value <= 0;
-//    }
-
-    void ShowValue()
-    {
-        var sd = BloodBar.GetComponent<UISlider>();
-        sd.value = value / maxValue;
-        var lb = BloodLabel.GetComponent<UILabel>();
-        lb.text = value + "/" + maxValue;
-
-        lb = CdLabel.GetComponent<UILabel>();
-        lb.color = cd == 1 ? new Color(255, 0, 0) : new Color(0, 255, 0);
-        lb.text = "CD:" + cd;
+        BloodController.CurrentValue = thehp;
+        BloodController.ShowValue();
     }
 
     public void PlayBeen()
@@ -139,7 +109,23 @@ public class EnemyControl : MonoBehaviour
         return GameConfig.MonsterAttrackStepTime * 3;
     }
 
-    IEnumerator DoPlayAttarck()
+    public void ShowBlood(bool show)
+    {
+        BloodController.ShowBlood(show);
+    }
+
+    #endregion
+
+    #region Private Methods
+
+    private void SetCdLabel()
+    {
+        var cdLabel = CdLabel.GetComponent<UILabel>();
+        cdLabel.color = cd == 1 ? new Color(255, 0, 0) : new Color(0, 255, 0);
+        cdLabel.text = "CD:" + cd;
+    }
+
+    private IEnumerator DoPlayAttarck()
     {
         var sp = EnemySprite.GetComponent<UISprite>();
         yield return new WaitForSeconds(GameConfig.MonsterAttrackStepTime);
@@ -152,13 +138,22 @@ public class EnemyControl : MonoBehaviour
         sp.spriteName = BossNormal;
     }
 
-    public void ShowBlood(bool flag)
+    private void OnClickHandler(GameObject game = null)
     {
-        if (isShowBlood != flag)
-        {
-            isShowBlood = flag;
-            BloodBar.SetActive(isShowBlood);
-            BloodLabel.SetActive(isShowBlood);
-        }
+        OnClickFunc(Data);
     }
+
+    private IEnumerator DoPlayBigAttrack()
+    {
+        yield return new WaitForSeconds(0.4f);
+        var tc = EnemySprite.AddComponent<TweenColor>();
+        tc.from = new Color(255, 0, 0);
+        tc.to = new Color(0, 255, 0);
+        tc.duration = 0.2f;
+        tc.style = UITweener.Style.PingPong;
+        tc.PlayForward();
+        Destroy(tc, 2);
+    }
+
+    #endregion
 }

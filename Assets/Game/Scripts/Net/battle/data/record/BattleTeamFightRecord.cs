@@ -4,7 +4,7 @@ namespace com.kx.sglm.gs.battle.share.data.record
 {
 
 	/// <summary>
-	/// 涓�鏂归槦浼嶇殑鍑烘墜銆?<seealso cref="#getRecordList()"/>琛ㄧず姣忎釜姝﹀皢鍑烘墜鐨勫姩浣?
+	/// 一方队伍的出手。 <seealso cref="#getRecordList()"/>表示每个武将出手的动作
 	/// 
 	/// @author liyuan2
 	/// 
@@ -13,15 +13,15 @@ namespace com.kx.sglm.gs.battle.share.data.record
 	{
 
 		/// <summary>
-		/// 闃熶紞绫诲瀷
+		/// 队伍类型
 		/// </summary>
 		private int teamType;
 		/// <summary>
-		/// 闃熶紞闃佃惀
+		/// 队伍阵营
 		/// </summary>
 		private int teamSide;
 		/// <summary>
-		/// 鍑烘墜鍓嶆挱鏀炬妧鑳絝ighter鍒楄〃
+		/// 出手前播放技能fighter列表
 		/// </summary>
 		private List<int> skillFighter;
 

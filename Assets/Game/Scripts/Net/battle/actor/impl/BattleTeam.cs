@@ -15,7 +15,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 	using PropertyRawSet = com.kx.sglm.gs.battle.share.utils.PropertyRawSet;
 
 	/// <summary>
-	/// 鎶借薄鐨勬垬鏂楅槦浼?
+	/// 抽象的战斗队伍
 	/// 
 	/// @author liyuan2
 	/// 
@@ -25,20 +25,20 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 		public abstract void tryDead();
 
 		/// <summary>
-		/// 鎵�灞炵殑闃佃惀
+		/// 所属的阵营
 		/// </summary>
 		protected internal BattleSideEnum battleSide;
 		/// <summary>
-		/// 褰撳墠鍑烘墜Index
+		/// 当前出手Index
 		/// </summary>
 		protected internal int curFightIndex;
 		/// <summary>
-		/// 鏄惁宸茬粡姝讳骸
+		/// 是否已经死亡
 		/// </summary>
 		protected internal bool deadth;
 
 		/// <summary>
-		/// 闃熶紞棰濆灞炴�?
+		/// 队伍额外属性
 		/// </summary>
 		protected internal PropertyRawSet teamProps;
 
@@ -118,7 +118,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 		public abstract int getFighterColor(int fighterIndex);
 
 		/// <summary>
-		/// 鑾峰緱褰撳墠娲荤潃锛屽彲鍑哄敭鐨勬灏?
+		/// 获得当前活着，可出售的武将
 		/// 
 		/// @return
 		/// </summary>

@@ -5,7 +5,7 @@ namespace com.kx.sglm.gs.battle.share.data.record
 {
 
 	/// <summary>
-	/// åŸºç¡€è®°å½•
+	/// »ù´¡¼ÇÂ¼
 	/// @author liyuan2
 	/// 
 	/// </summary>

@@ -9,8 +9,8 @@ namespace com.kx.sglm.gs.battle.share.logic.loop
 	using com.kx.sglm.gs.battle.share.logic;
 
 	/// <summary>
-	/// å¤„ç†ä¸€ä¸ªå›žåˆï¼Œå³æˆ˜æ–—å†…æ‰€æœ‰BattleTeamçš„ä¸€æ¬¡å®Œæ•´å‡ºæ‰‹ã€?è¿™é‡Œä¼šäº§ç”Ÿå‡ºæ‰‹æŒ‚èµ·ã€?æŒ‚èµ·ç”±{@link IBattleExecuter}è§¦å‘ã€?
-	/// å‡ºæ‰‹ç»“æŸåŽï¼Œè‹¥æœªæ­»äº¡ï¼Œåˆ™ç›´æŽ¥è¿›å…¥ä¸‹ä¸€ä¸ªå›žåˆï¼Œå¦‚æžœäº§ç”Ÿæ­»äº¡ï¼Œé€šçŸ¥<seealso cref="BattleScene"/>æ˜¯å¦éœ€è¦åˆ‡æ?
+	/// ´¦ÀíÒ»¸ö»ØºÏ£¬¼´Õ½¶·ÄÚËùÓÐBattleTeamµÄÒ»´ÎÍêÕû³öÊÖ¡£ ÕâÀï»á²úÉú³öÊÖ¹ÒÆð¡£ ¹ÒÆðÓÉ<seealso cref="IBattleExecuter"/>´¥·¢¡£
+	/// ³öÊÖ½áÊøºó£¬ÈôÎ´ËÀÍö£¬ÔòÖ±½Ó½øÈëÏÂÒ»¸ö»ØºÏ£¬Èç¹û²úÉúËÀÍö£¬Í¨Öª<seealso cref="BattleScene"/>ÊÇ·ñÐèÒªÇÐ»»
 	/// 
 	/// @author liyuan2
 	/// 
@@ -20,12 +20,12 @@ namespace com.kx.sglm.gs.battle.share.logic.loop
 
 		public BattleRound(Battle battle) : base(battle, battle.BattleArmy, battle.BattleArmy)
 		{
-			//è¿™ä¸€å±‚çš„attackeræ¯”è¾ƒç‰¹æ®Šæ˜¯å®Œæ•´çš„BattleArmy
+			//ÕâÒ»²ãµÄattacker±È½ÏÌØÊâÊÇÍêÕûµÄBattleArmy
 		}
 
 		public override void onFinish()
 		{
-			//TODO æ˜¯å¦æœ‰æ¯æ¬¡å›žåˆç»“æŸçš„ç»“ç®—ï¼Œä»¥åŽå¯èƒ½ä¼šæœ‰ç›¸å…³é€»è¾‘
+			//TODO ÊÇ·ñÓÐÃ¿´Î»ØºÏ½áÊøµÄ½áËã£¬ÒÔºó¿ÉÄÜ»áÓÐÏà¹ØÂß¼­
 			BattleRoundCountRecord _roundRecord = Battle.Record.OrCreateRoundCountRecord;
 			if (!Dead)
 			{
@@ -60,13 +60,13 @@ namespace com.kx.sglm.gs.battle.share.logic.loop
 		{
 			BattleTeam _battleTeam = CurAttacker.CurActor;
 			_battleTeam.resetOnNewAction();
-			//TODO: æ¯å›žåˆå¼€å§‹å‰å°†teamå‡ºæ‰‹indexç½®ä¸º0
+			//TODO: Ã¿»ØºÏ¿ªÊ¼Ç°½«team³öÊÖindexÖÃÎª0
 			bool _needHungUp = Battle.BattleExcuter.needHungUp(this, _battleTeam);
 			if (_needHungUp)
 			{
 				Battle.updateBattleState(BattleState.HUNGUP);
 			}
-			//å¤„ç†åˆå§‹åŒ–æ“ä½œï¼Œæ¯”å¦‚è‡ªåŠ¨PVPæ—¶äº§ç”Ÿå‡ºæ‰‹ä¿¡æ¯ç­‰ç­?
+			//´¦Àí³õÊ¼»¯²Ù×÷£¬±ÈÈç×Ô¶¯PVPÊ±²úÉú³öÊÖÐÅÏ¢µÈµÈ
 			Battle.BattleExcuter.onBattleRoundStart(this, _battleTeam);
 		}
 

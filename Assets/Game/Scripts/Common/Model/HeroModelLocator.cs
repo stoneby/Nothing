@@ -1,9 +1,10 @@
-﻿using System.Linq;
-using KXSGCodec;
-using System.Collections.Generic;
+﻿using KXSGCodec;
 using Property;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Template;
-using UnityEngine;
+using Object = UnityEngine.Object;
 
 public sealed class HeroModelLocator
 {
@@ -64,14 +65,21 @@ public sealed class HeroModelLocator
         get { return skillTemplates ?? (skillTemplates = Utils.Decode<Skill>(SkillTemlatePath)); }
     }
 
-    public SkillTemplate GetLeaderSkillTemplateById(int templateid)
-    {
-        return SkillTemplates.SkillTmpl[templateid];
-    }
+    public static bool AlreadyRequest;
 
     #endregion
 
     #region Public Methods
+
+    public SkillTemplate GetLeaderSkillTemplateById(int templateid)
+    {
+        SkillTemplate result;
+        if (SkillTemplates.SkillTmpl.TryGetValue(templateid, out result))
+        {
+            return result;
+        }
+        throw new Exception("Template id: " + templateid + " could not be found in skill template ");
+    }
 
     /// <summary>
     /// Find the hero info in the hero list through the hero uid.

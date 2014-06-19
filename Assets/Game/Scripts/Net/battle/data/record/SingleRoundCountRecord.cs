@@ -4,7 +4,7 @@ namespace com.kx.sglm.gs.battle.share.data.record
 {
 
 	/// <summary>
-	/// 鍗曚釜鍥炲悎璁℃暟
+	/// 单个回合计数
 	/// 
 	/// @author liyuan2
 	/// 
@@ -13,23 +13,23 @@ namespace com.kx.sglm.gs.battle.share.data.record
 	{
 
 		/// <summary>
-		/// 闃佃惀
+		/// 阵营
 		/// </summary>
 		private int side;
 		/// <summary>
-		/// 浣嶇疆
+		/// 位置
 		/// </summary>
 		private int index;
 		/// <summary>
-		/// 鍓╀綑鍥炲悎
+		/// 剩余回合
 		/// </summary>
 		private int leftRound;
 		/// <summary>
-		/// 鍥炲悎绫诲瀷(buff銆佹妧鑳?
+		/// 回合类型(buff、技能)
 		/// </summary>
 		private int roundCountType;
 		/// <summary>
-		/// 鍔ㄤ綔鍒楄〃
+		/// 动作列表
 		/// </summary>
 		private List<SingleActionRecord> actionList;
 

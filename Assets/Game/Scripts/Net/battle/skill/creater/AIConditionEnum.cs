@@ -23,7 +23,7 @@ namespace com.kx.sglm.gs.battle.share.skill.creater
 		}
 
 		/// <summary>
-		/// 鍥炲悎鏁版潯浠? </summary>
+		/// 回合数条件 </summary>
 		public static readonly AIConditionEnum ROUND_COUNT = new AIConditionEnumAnonymousInnerClassHelper2();
 
 		private class AIConditionEnumAnonymousInnerClassHelper2 : AIConditionEnum

@@ -17,10 +17,10 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 	using TeamShotStartEvent = com.kx.sglm.gs.battle.share.@event.impl.TeamShotStartEvent;
 	using IBattleSkillManager = com.kx.sglm.gs.battle.share.skill.IBattleSkillManager;
 	using ISingletonSkillAction = com.kx.sglm.gs.battle.share.skill.ISingletonSkillAction;
-	using FighterAProperty = com.kx.sglm.gs.battle.share.utils.FighterAProperty;
+	using RoleAProperty = com.kx.sglm.gs.hero.properties.RoleAProperty;
 
 	/// <summary>
-	/// 鎴樻枟姝﹀皢锛屽寘鎷琈onster鍜孒ero
+	/// 战斗武将，包括Monster和Hero
 	/// 
 	/// @author liyuan2
 	/// 
@@ -29,35 +29,35 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 	{
 
 		/// <summary>
-		/// 鎴樻枟姝﹀皢鐨勪綅缃紝鍒濆鍖栧悗涓嶅啀鍙樺寲 </summary>
+		/// 战斗武将的位置，初始化后不再变化 </summary>
 		protected internal int index;
 
 		/// <summary>
-		/// 褰撳墠琛�閲? </summary>
+		/// 当前血量 </summary>
 		protected internal int curHp;
 
 		/// <summary>
-		/// 褰撳墠鏀诲嚮 </summary>
+		/// 当前攻击 </summary>
 		protected internal int attack;
 
 		/// <summary>
-		/// 褰撳墠鍥炲 </summary>
+		/// 当前回复 </summary>
 		protected internal int recover;
 
 		/// <summary>
-		/// 褰撳墠闃插尽 </summary>
+		/// 当前防御 </summary>
 		protected internal int defence;
 
 		/// <summary>
-		/// 褰撳墠鍏嶄激 </summary>
+		/// 当前免伤 </summary>
 		protected internal int damageFree;
 
 		/// <summary>
-		/// 鑱屼笟 </summary>
+		/// 职业 </summary>
 		protected internal int job;
 
 		/// <summary>
-		/// 姝﹀皢鍚嶅瓧 </summary>
+		/// 武将名字 </summary>
 		protected internal string name;
 
 		protected internal bool dead;
@@ -181,7 +181,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 
 
 		/// <summary>
-		/// 鍦ㄦ敾鍑绘椂锛屽鏋滀竴鍙猣ighter姝讳骸锛屾敾鍑婚槦鍒楀苟涓嶄細鏇存敼鐩爣锛屾墍浠ヤ娇鐢ㄤ簡<seealso cref="#hasHp()"/>鍜寋@link #isDead()}锛屽鐞嗕笉鍚岀殑闇�姹?
+		/// 在攻击时，如果一只fighter死亡，攻击队列并不会更改目标，所以使用了<seealso cref="#hasHp()"/>和<seealso cref="#isDead()"/>，处理不同的需求
 		/// @return
 		/// </summary>
 		public virtual bool Dead
@@ -267,7 +267,11 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 		{
 			get
 			{
-				return baseProp.BattleProperty.get(FighterAProperty.HP);
+				if (!baseProp.BattleProperty.ContainsKey(RoleAProperty.HP))
+				{
+					Logger.Log("error");
+				}
+				return baseProp.BattleProperty[RoleAProperty.HP];
 			}
 		}
 
@@ -275,7 +279,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 		{
 			get
 			{
-				return baseProp.BattleProperty.get(FighterAProperty.MP);
+				return baseProp.BattleProperty[RoleAProperty.MP];
 			}
 		}
 
@@ -328,7 +332,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 		public virtual void onRoundFinish(BattleRoundCountRecord roundRecord)
 		{
 			skillManager.countDownRound(roundRecord);
-			// buffManager.countDownRound();//TODO: 鏆傛椂娌℃湁BUFF
+			// buffManager.countDownRound();//TODO: 暂时没有BUFF
 		}
 
 		public virtual int Side

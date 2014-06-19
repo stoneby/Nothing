@@ -5,7 +5,7 @@ namespace com.kx.sglm.gs.battle.share.@event.impl
 
 
 	/// <summary>
-	/// 杩欑浜嬩欢閮芥槸鍦ㄦ垬鏂楀満鏅唴鐢熸垚鐨?
+	/// 这种事件都是在战斗场景内生成的 
 	/// @author liyuan2
 	/// 
 	/// </summary>

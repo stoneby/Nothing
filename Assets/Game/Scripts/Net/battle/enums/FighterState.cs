@@ -10,7 +10,7 @@ namespace com.kx.sglm.gs.battle.share.enums
 
 		private int index;
 		/// <summary>
-		/// 鏄惁鍙嚭鍞?
+		/// 是否可出售
 		/// </summary>
 		private bool fightAble;
 		private bool skillAble;

@@ -224,6 +224,13 @@ public class Utils
         return (long)diff.TotalMilliseconds;
     }
 
+    public static string ConvertTimeSpanToString(TimeSpan timeRemain)
+    {
+        return string.Format("{0:D2}", timeRemain.Hours) + ":" +
+               string.Format("{0:D2}", timeRemain.Minutes) + ":" +
+               string.Format("{0:D2}", timeRemain.Seconds);
+    }
+
     public static int GetActiveChildCount(Transform parent)
     {
         var childCount = 0;

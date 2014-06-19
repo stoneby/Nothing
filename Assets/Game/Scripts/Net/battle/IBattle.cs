@@ -6,7 +6,7 @@ namespace com.kx.sglm.gs.battle.share
 
 
 	/// <summary>
-	/// æˆ˜æ–—ç›¸å…³
+	/// Õ½¶·Ïà¹Ø
 	/// @author liyuan2
 	/// 
 	/// </summary>

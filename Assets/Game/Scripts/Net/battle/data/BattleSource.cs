@@ -12,8 +12,8 @@ namespace com.kx.sglm.gs.battle.share.data
 	using BattleMonsterSkillMsgAction = KXSGCodec.BattleMonsterSkillMsgAction;
 
 	/// <summary>
-	/// å¯ä»¥æž„å»ºä¸€ä¸ªå®Œæ•´æˆ˜æ–—çš„å…ƒç´ ï¼Œç”¨äº?1.ä¸Žå®¢æˆ·ç«¯é€šè®¯æž„å»ºï¼?2.åœ¨çŽ©å®¶èº«ä¸Šå­˜å‚¨æˆ˜æ–—ä¿¡æ?br>
-	/// æˆ˜æ–—ä¸­è¿™ä¸ªç±»çš„å†…å®¹ä¸ä¼šè¢«ä¿®æ”¹
+	/// ¿ÉÒÔ¹¹½¨Ò»¸öÍêÕûÕ½¶·µÄÔªËØ£¬ÓÃÓÚ 1.Óë¿Í»§¶ËÍ¨Ñ¶¹¹½¨£¬ 2.ÔÚÍæ¼ÒÉíÉÏ´æ´¢Õ½¶·ÐÅÏ¢<br>
+	/// Õ½¶·ÖÐÕâ¸öÀàµÄÄÚÈÝ²»»á±»ÐÞ¸Ä
 	/// 
 	/// @author liyuan2
 	/// 
@@ -22,35 +22,35 @@ namespace com.kx.sglm.gs.battle.share.data
 	{
 
 		/// <summary>
-		/// æˆ˜æ–—çš„UUID </summary>
+		/// Õ½¶·µÄUUID </summary>
 		protected internal long uuid;
 
 		/// <summary>
-		/// å…¨éƒ¨çš„Fighteréƒ½åœ¨è¿™é‡Œï¼Œä¸ç®¡æœ‰å‡ ä¸ªé˜µè¥ï¼Œé€šè¿‡<seealso cref="FighterInfo #battleSide"/>åŒºåˆ†é˜µè¥ </summary>
+		/// È«²¿µÄFighter¶¼ÔÚÕâÀï£¬²»¹ÜÓÐ¼¸¸öÕóÓª£¬Í¨¹ý<seealso cref="FighterInfo #battleSide"/>Çø·ÖÕóÓª </summary>
 		protected internal List<FighterInfo> fighterProp;
 
 		/// <summary>
-		/// æˆ˜æ–—ç±»åž‹ </summary>
+		/// Õ½¶·ÀàÐÍ </summary>
 		protected internal BattleType battleType;
 
 		/// <summary>
-		/// æˆ˜æ–—å…¶ä»–å±žæ€? </summary>
+		/// Õ½¶·ÆäËûÊôÐÔ </summary>
 		protected internal PropertyRawSet props;
 
 		/// <summary>
-		/// æˆ˜æ–—å¼€å§‹æ—¶é—? </summary>
+		/// Õ½¶·¿ªÊ¼Ê±¼ä </summary>
 		protected internal long startTime;
 
 		/// <summary>
-		/// è‹±é›„æŠ€èƒ½åˆ—è¡? </summary>
+		/// Ó¢ÐÛ¼¼ÄÜÁÐ±í </summary>
 		protected internal List<BattleHeroSkillMsgAction> heroSkillList;
 
 		/// <summary>
-		/// æ€ªç‰©æŠ€èƒ½åˆ—è¡? </summary>
+		/// ¹ÖÎï¼¼ÄÜÁÐ±í </summary>
 		protected internal List<BattleMonsterSkillMsgAction> monsterSkillList;
 
 		/// <summary>
-		/// æ€ªç‰©AIåˆ—è¡¨ </summary>
+		/// ¹ÖÎïAIÁÐ±í </summary>
 		protected internal List<BattleMonsterAIMsgAction> monsterAList;
 
 		public BattleSource(BattleType battleType)

@@ -14,7 +14,7 @@ namespace com.kx.sglm.gs.battle.share.skill.action
 
 	/// 
 	/// <summary>
-	/// 鍗曚緥鐨勬娊璞℃敾鍑诲姩浣?
+	/// 单例的抽象攻击动作
 	/// @author liyuan2
 	/// 
 	/// </summary>
@@ -36,7 +36,7 @@ namespace com.kx.sglm.gs.battle.share.skill.action
 
 			_attack = calcDamage(_attack, attacker, defencer);
 
-			// 鍥涜垗浜斿叆
+			// 四舍五入
 //JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
 //ORIGINAL LINE: final int _costHp = com.kx.sglm.core.util.MathUtils.float2Int(_attack);
 			int _costHp = MathUtils.float2Int(_attack);
@@ -71,7 +71,7 @@ namespace com.kx.sglm.gs.battle.share.skill.action
 
 		public virtual void onAction(BattleFighter attacker, BattleTeam defencerTeam, BattleFightRecord record)
 		{
-			// 鍒濆鍖栨敾鍑绘垬鎶?
+			// 初始化攻击战报
 			initAttackRecord(attacker, record);
 			optionBeforeAction(attacker, defencerTeam, record);
 			List<BattleFighter> _defencerList = getDefencerList(attacker, defencerTeam);
@@ -103,7 +103,7 @@ namespace com.kx.sglm.gs.battle.share.skill.action
 		}
 
 		/// <summary>
-		/// 鏀诲嚮鍚庢搷浣?
+		/// 攻击后操作
 		/// </summary>
 		/// <param name="attacker"> </param>
 		/// <param name="defencerList"> </param>
@@ -118,7 +118,7 @@ namespace com.kx.sglm.gs.battle.share.skill.action
 		}
 
 		/// <summary>
-		/// 鏀诲嚮鍚庢搷浣?
+		/// 攻击后操作
 		/// </summary>
 		/// <param name="attacker"> </param>
 		/// <param name="defencerTeam"> </param>

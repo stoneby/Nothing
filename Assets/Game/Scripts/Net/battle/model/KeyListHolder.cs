@@ -5,7 +5,7 @@ namespace com.kx.sglm.gs.battle.share.model
 
 
 	/// <summary>
-	/// 甯︽湁鍏叡Key鐨凩ist鍏冪粍锛屾垬鏂楀唴鐢ㄥ埌鐨勮繖绉嶇粨鏋勮緝澶氾紝缁熶竴澶勭悊
+	/// 带有公共Key的List元组，战斗内用到的这种结构较多，统一处理
 	/// 
 	/// @author liyuan2
 	/// </summary>

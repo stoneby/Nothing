@@ -8,13 +8,13 @@ namespace com.kx.sglm.gs.battle.share.ai
 	{
 
 		/// <summary>
-		/// 鎶�鑳藉熀鏈俊鎭? </summary>
+		/// 技能基本信息 </summary>
 		private SkillRoulettePair skillInfo;
 		/// <summary>
-		/// 浼樺厛绾? </summary>
+		/// 优先级 </summary>
 		private int priority;
 		/// <summary>
-		///鏉′欢 </summary>
+		///条件 </summary>
 		private IAICondition condition;
 
 		public virtual SkillRoulettePair getSkillInfo()

@@ -11,7 +11,7 @@ namespace com.kx.sglm.gs.battle.share.logic.loop
 	using com.kx.sglm.gs.battle.share.logic;
 
 	/// <summary>
-	/// æˆ˜æ–—åœºæ™¯ï¼Œç®¡ç†æ€»ä½“çš„æˆ˜æ–—é€»è¾‘ï¼Œæ›´å¤šçš„ä¸€ä¸ªå£³å­çš„ä½œç”¨ï¼Œäº§ç”Ÿçš„å¾ªçŽ¯ä½“æ˜¯<seealso cref="BattleScene"/>ã€?
+	/// Õ½¶·³¡¾°£¬¹ÜÀí×ÜÌåµÄÕ½¶·Âß¼­£¬¸ü¶àµÄÒ»¸ö¿Ç×ÓµÄ×÷ÓÃ£¬²úÉúµÄÑ­»·ÌåÊÇ<seealso cref="BattleScene"/>¡£
 	/// @author liyuan2
 	/// 
 	/// </summary>
@@ -33,7 +33,7 @@ namespace com.kx.sglm.gs.battle.share.logic.loop
 
 		public override void onFinish()
 		{
-			//å½“ä¸€ä¸ªBattleFieldå®Œæˆçš„æ—¶å€™æˆ˜æ–—å°±å®Œæˆäº?
+			//µ±Ò»¸öBattleFieldÍê³ÉµÄÊ±ºòÕ½¶·¾ÍÍê³ÉÁË
 			BattleEndRecord _record = Record.OrCreateEndRecord;
 			_record.EndType = BattleRecordConstants.BATTLE_ALL_END;
 //JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':

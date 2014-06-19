@@ -16,31 +16,31 @@ namespace com.kx.sglm.gs.battle.share.skill
 	using BattleMonsterSkillMsgAction = KXSGCodec.BattleMonsterSkillMsgAction;
 
 	/// <summary>
-	/// æŠ€èƒ½åŠ¨ä½œç®¡ç†å™¨ï¼Œè¿™ä¸ªç±»çŽ°åœ¨æš‚æ—¶ä¸èµ·ç¼“å­˜ä½œç”¨ï¼Œä½†æ˜¯ä»¥åŽä¸€å®šä¼šä¼˜åŒ–
+	/// ¼¼ÄÜ¶¯×÷¹ÜÀíÆ÷£¬Õâ¸öÀàÏÖÔÚÔÝÊ±²»Æð»º´æ×÷ÓÃ£¬µ«ÊÇÒÔºóÒ»¶¨»áÓÅ»¯
 	/// 
 	/// 
 	/// @author liyuan2
 	/// 
 	/// </summary>
-	// TODO: ä¼˜åŒ–SkillActionService
+	// TODO: ÓÅ»¯SkillActionService
 	public class BattleSkillActionService
 	{
 
 		/// <summary>
-		/// å› ä¸ºéœ€è¦è½¬æ¢æˆC#ä»£ç ï¼Œè¿™ä¸ªç±»æ²¡æœ‰è¢«å½’å…¥å…¨å±€çš„GSServiceï¼Œä½¿ç”¨è‡ªå·±çš„å•ä¾‹ï¼Œåœ¨å®¢æˆ·ç«¯æˆ˜æ–—ä¸­è¿™ä¸ªåœ°æ–¹æ˜¯ç”¨çš„æ—¶å€™æ‰åˆ›å»ºçš„ï¼Œè€Œä¸”ä¸åŒ…æ‹¬å…¨éƒ¨çš„æŠ€èƒ? </summary>
+		/// ÒòÎªÐèÒª×ª»»³ÉC#´úÂë£¬Õâ¸öÀàÃ»ÓÐ±»¹éÈëÈ«¾ÖµÄGSService£¬Ê¹ÓÃ×Ô¼ºµÄµ¥Àý£¬ÔÚ¿Í»§¶ËÕ½¶·ÖÐÕâ¸öµØ·½ÊÇÓÃµÄÊ±ºò²Å´´½¨µÄ£¬¶øÇÒ²»°üÀ¨È«²¿µÄ¼¼ÄÜ </summary>
 		private static BattleSkillActionService service = new BattleSkillActionService();
 
 		/// <summary>
-		/// è‹±é›„æ™®é€šæ”»å‡? </summary>
+		/// Ó¢ÐÛÆÕÍ¨¹¥»÷ </summary>
 		private BaseHeroBattleSkillAction normalHeroAttack;
 		/// <summary>
-		/// è‹±é›„æ™®é€šå›žè¡€ </summary>
+		/// Ó¢ÐÛÆÕÍ¨»ØÑª </summary>
 		private BaseHeroBattleSkillAction normalHeroRecover;
 		/// <summary>
-		/// è‹±é›„æ‰€æœ‰æŠ€èƒ½é›†å? </summary>
+		/// Ó¢ÐÛËùÓÐ¼¼ÄÜ¼¯ºÏ </summary>
 		private Dictionary<int, BaseHeroBattleSkillAction> heroSkillActionMap;
 		/// <summary>
-		/// æ€ªç‰©æ‰€æœ‰æŠ€èƒ½ç»“å? </summary>
+		/// ¹ÖÎïËùÓÐ¼¼ÄÜ½áºÏ </summary>
 		private Dictionary<int, BaseMonsterSkillAction> monsterSkillActionMap;
 
 		private Dictionary<int, MonsterAI> monsterAIMap;
@@ -115,7 +115,7 @@ namespace com.kx.sglm.gs.battle.share.skill
 			return monsterAIMap[aiId];
 		}
 		/// <summary>
-		/// åˆ›å»ºæ™®é€šåŠ¨ä½œï¼Œç›®å‰åªæœ‰ä¸¤ä¸ªï¼Œè‹±é›„æ”»å‡»å’Œè‹±é›„å›žè¡€ï¼Œæ€ªç‰©æ”»å‡»å…¨éƒ¨æ˜¯æŠ€èƒ½æ”»å‡?
+		/// ´´½¨ÆÕÍ¨¶¯×÷£¬Ä¿Ç°Ö»ÓÐÁ½¸ö£¬Ó¢ÐÛ¹¥»÷ºÍÓ¢ÐÛ»ØÑª£¬¹ÖÎï¹¥»÷È«²¿ÊÇ¼¼ÄÜ¹¥»÷
 		/// </summary>
 		public virtual void initNormalAction()
 		{
@@ -124,7 +124,7 @@ namespace com.kx.sglm.gs.battle.share.skill
 		}
 
 		/// <summary>
-		/// å°†ä¼ å…¥çš„æ‰€éœ€æŠ€èƒ½æ¨¡æ¿è½¬æ¢æˆæŠ€èƒ½ä½¿ç”¨å¯¹è±?
+		/// ½«´«ÈëµÄËùÐè¼¼ÄÜÄ£°å×ª»»³É¼¼ÄÜÊ¹ÓÃ¶ÔÏó
 		/// </summary>
 		/// <param name="dataList"> </param>
 		public virtual void initTemplateHeroSkillAction(List<BattleHeroSkillMsgAction> dataList)
@@ -147,7 +147,7 @@ namespace com.kx.sglm.gs.battle.share.skill
 			}
 		}
 		/// <summary>
-		/// åˆ›å»ºæ€ªç‰©æŠ€èƒ½ä¿¡æ¯å¯¹è±?
+		/// ´´½¨¹ÖÎï¼¼ÄÜÐÅÏ¢¶ÔÏó
 		/// </summary>
 		/// <param name="dataList"> </param>
 		public virtual void initTemplateMonsterSkillAction(List<BattleMonsterSkillMsgAction> dataList)

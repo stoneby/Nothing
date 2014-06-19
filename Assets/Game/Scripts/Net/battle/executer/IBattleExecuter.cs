@@ -14,7 +14,7 @@ namespace com.kx.sglm.gs.battle.share.executer
 	using BattleTeamShot = com.kx.sglm.gs.battle.share.logic.loop.BattleTeamShot;
 
 	/// <summary>
-	/// æ ¹æ®æˆ˜æ–—ç±»åž‹ä¸åŒå¤„ç†ä¸åŒçš„æŽ¥å£ï¼Œç”±æˆ˜æ–—ç±»åž‹å†³å®šåˆ›å»ºã€?å¯èƒ½ä¼šå¸¦æœ‰ä¸€äº›å­˜å‚¨çš„æ•°æ®
+	/// ¸ù¾ÝÕ½¶·ÀàÐÍ²»Í¬´¦Àí²»Í¬µÄ½Ó¿Ú£¬ÓÉÕ½¶·ÀàÐÍ¾ö¶¨´´½¨¡£ ¿ÉÄÜ»á´øÓÐÒ»Ð©´æ´¢µÄÊý¾Ý
 	/// 
 	/// @author liyuan2
 	/// 
@@ -38,23 +38,23 @@ namespace com.kx.sglm.gs.battle.share.executer
 
 		/// 
 		/// <param name="battleTeamShot"> </param>
-		// TODO: è®°å¾—å­ç±»é‡Œè¦åˆ¤æ–­å¦‚æžœèŒèŒæ­¦å°†æ­»äº¡å°±ä¸å†è¿›å…¥ä¸‹ä¸€è½®äº†å“¦~~
+		// TODO: ¼ÇµÃ×ÓÀàÀïÒªÅÐ¶ÏÈç¹ûÃÈÃÈÎä½«ËÀÍö¾Í²»ÔÙ½øÈëÏÂÒ»ÂÖÁËÅ¶~~
 		void onBattleTeamShotFinish(BattleTeamShot battleTeamShot);
 
 		/// <summary>
-		/// æˆ˜æ–—å›žåˆå‡ºæ‰‹ç»“æŸçš„ç±»åž‹æ“ä½?
+		/// Õ½¶·»ØºÏ³öÊÖ½áÊøµÄÀàÐÍ²Ù×÷
 		/// </summary>
 		/// <param name="battleRound"> </param>
 		void onBattleRoundFinish(BattleRound battleRound);
 
 		/// <summary>
-		/// å½“ä¸€ä¸ªæˆ˜æ–—åœºæ™¯ç»“æŸã€å³åœ¨PVEä¸­æ‰“æ­»ä¸€æ³¢æ€ªã€?
+		/// µ±Ò»¸öÕ½¶·³¡¾°½áÊø¡¾¼´ÔÚPVEÖÐ´òËÀÒ»²¨¹Ö¡¿
 		/// </summary>
 		/// <param name="battleScene"> </param>
 		void onBattleSceneFinish(BattleScene battleScene);
 
 		/// <summary>
-		/// åœ¨é˜Ÿä¼å‡ºæ‰‹åŽæ˜¯å¦éœ€è¦æŒ‚èµ·æ“ä½?
+		/// ÔÚ¶ÓÎé³öÊÖºóÊÇ·ñÐèÒª¹ÒÆð²Ù×÷
 		/// </summary>
 		/// <param name="round"> </param>
 		/// <param name="attackTeam">
@@ -62,7 +62,7 @@ namespace com.kx.sglm.gs.battle.share.executer
 		bool needHungUp(BattleRound round, BattleTeam attackTeam);
 
 		/// <summary>
-		/// å½“æˆ˜æ–—å›žåˆå¼€å§‹çš„æ“ä½œ
+		/// µ±Õ½¶·»ØºÏ¿ªÊ¼µÄ²Ù×÷
 		/// </summary>
 		/// <param name="battleRound"> </param>
 		/// <param name="attackTeam">
@@ -70,19 +70,19 @@ namespace com.kx.sglm.gs.battle.share.executer
 		void onBattleRoundStart(BattleRound battleRound, BattleTeam attackTeam);
 
 		/// <summary>
-		/// æˆ˜æ–—å…¨éƒ¨ç»“æŸ
+		/// Õ½¶·È«²¿½áÊø
 		/// </summary>
 		void onBattleFinish();
 
 		/// <summary>
-		/// æ˜¯å¦è¿˜æœ‰ä¸‹ä¸€å›žåˆåœºæ™¯ã€PVPä¸­åªæœ‰ä¸€å›žåˆï¼ŒPVEä¸­å­˜åœ¨å¤šä¸ªåœºæ™¯ã€?
+		/// ÊÇ·ñ»¹ÓÐÏÂÒ»»ØºÏ³¡¾°¡¾PVPÖÐÖ»ÓÐÒ»»ØºÏ£¬PVEÖÐ´æÔÚ¶à¸ö³¡¾°¡¿
 		/// 
 		/// @return
 		/// </summary>
 		bool hasNextBattleScene();
 
 		/// <summary>
-		/// äº§ç”Ÿä¸‹ä¸€ä¸ªæˆ˜æ–—åœºæ™?
+		/// ²úÉúÏÂÒ»¸öÕ½¶·³¡¾°
 		/// 
 		/// @return
 		/// </summary>

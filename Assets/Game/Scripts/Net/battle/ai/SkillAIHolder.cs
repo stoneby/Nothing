@@ -14,7 +14,7 @@ namespace com.kx.sglm.gs.battle.share.ai
 			Asc = false;
 		}
 
-		//TODO: 鍔犱笂鍙傛暟
+		//TODO: 加上参数
 		public virtual List<SkillRoulettePair> CanOptionSkill
 		{
 			get
@@ -29,7 +29,7 @@ namespace com.kx.sglm.gs.battle.share.ai
 			}
 		}
 
-		//TODO: 鍔犱笂鍙傛暟
+		//TODO: 加上参数
 		protected internal virtual List<SkillAI> CanOpSkillAi
 		{
 			get

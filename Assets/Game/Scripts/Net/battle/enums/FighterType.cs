@@ -4,7 +4,7 @@ namespace com.kx.sglm.gs.battle.share.enums
 	using IndexedEnum = com.kx.sglm.core.constant.IndexedEnum;
 
 	/// <summary>
-	/// 姝﹀皢绫诲瀷锛屾殏鏃跺彧鏈夎嫳闆勫拰鎬墿涓ょ
+	/// 武将类型，暂时只有英雄和怪物两种
 	/// 
 	/// @author liyuan2
 	/// 

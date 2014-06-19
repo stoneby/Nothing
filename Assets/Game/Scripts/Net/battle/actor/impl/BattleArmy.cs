@@ -6,7 +6,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 	using InnerBattleEvent = com.kx.sglm.gs.battle.share.@event.InnerBattleEvent;
 
 	/// <summary>
-	/// æˆ˜æ–—
+	/// Õ½¶·
 	/// @author liyuan2
 	/// 
 	/// </summary>

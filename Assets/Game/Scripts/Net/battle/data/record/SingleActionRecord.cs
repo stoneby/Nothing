@@ -4,7 +4,7 @@ namespace com.kx.sglm.gs.battle.share.data.record
 {
 
 	/// <summary>
-	/// 鍗曚釜鍔ㄤ綔锛屾槸涓�涓緢澶氱埗鍔ㄤ綔鍏敤鐨勭被
+	/// 单个动作，是一个很多父动作公用的类
 	/// 
 	/// @author liyuan2
 	/// 
@@ -13,19 +13,19 @@ namespace com.kx.sglm.gs.battle.share.data.record
 	{
 
 		/// <summary>
-		/// 鍔ㄤ綔绫诲瀷锛?鏀诲嚮锛?鍥炲锛?闃插尽, 3SP鏀诲嚮, 4杞壊 </summary>
+		/// 动作类型：0攻击，1回复，2防御, 3SP攻击, 4转色 </summary>
 		private int actType;
 
 		/// <summary>
-		/// 闃佃惀Index </summary>
+		/// 阵营Index </summary>
 		private int sideIndex;
 
 		/// <summary>
-		/// 鍔ㄤ綔浣嶇疆锛屼袱浣嶇粍鎴愶紝鍗佷綅鏄痵ideID锛屼釜浣嶆槸闃熶紞鍐匢ndex </summary>
+		/// 动作位置，两位组成，十位是sideID，个位是队伍内Index </summary>
 		private int index;
 
 		/// <summary>
-		/// 鐘舵�佹洿鏂?
+		/// 状态更新
 		/// </summary>
 		private List<FighterStateRecord> stateUpdateList;
 

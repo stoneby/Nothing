@@ -98,7 +98,7 @@ public class MainMenuBarWindow : Window
     /// </summary>
     private void OnSummonClicked(GameObject go)
     {
-        
+        WindowManager.Instance.Show<ChooseCardWindow>(true);
     }
 
     /// <summary>
@@ -106,7 +106,7 @@ public class MainMenuBarWindow : Window
     /// </summary>
     private void OnEquipClicked(GameObject go)
     {
-        if (ItemModeLocator.Instance.ScAllItemInfos == null)
+        if (ItemModeLocator.AlreadyRequest == false)
         {
             ItemModeLocator.Instance.GetItemPos = ItemType.GetItemInPanel;
             var csmsg = new CSQueryAllItems{ BagType = 0 };
@@ -123,7 +123,7 @@ public class MainMenuBarWindow : Window
     /// </summary>
     private void OnTeamClicked(GameObject go)
     {
-        if (HeroModelLocator.Instance.SCHeroList == null)
+        if (HeroModelLocator.AlreadyRequest == false)
         {
             HeroModelLocator.Instance.GetHeroPos = RaidType.GetHeroInHeroCreateTeam;
             var csmsg = new CSHeroList();
@@ -141,7 +141,7 @@ public class MainMenuBarWindow : Window
     /// </summary>
     private void OnHeroClicked(GameObject go)
     {
-        if (HeroModelLocator.Instance.SCHeroList == null || UIHerosDisplayWindow.IsCreateOne)
+        if (HeroModelLocator.AlreadyRequest == false || UIHerosDisplayWindow.IsCreateOne)
         {
             HeroModelLocator.Instance.GetHeroPos = RaidType.GetHeroInHeroPanel;
             var csmsg = new CSHeroList();

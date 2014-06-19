@@ -10,7 +10,7 @@ namespace com.kx.sglm.gs.battle.share.factory.creater
 	using BattleSideEnum = com.kx.sglm.gs.battle.share.enums.BattleSideEnum;
 	using FighterType = com.kx.sglm.gs.battle.share.enums.FighterType;
 	using BattleSkillActionService = com.kx.sglm.gs.battle.share.skill.BattleSkillActionService;
-	using FighterAProperty = com.kx.sglm.gs.battle.share.utils.FighterAProperty;
+	using RoleAProperty = com.kx.sglm.gs.hero.properties.RoleAProperty;
 	using BattleMsgHero = KXSGCodec.BattleMsgHero;
 	using BattleMsgMonster = KXSGCodec.BattleMsgMonster;
 
@@ -48,7 +48,7 @@ namespace com.kx.sglm.gs.battle.share.factory.creater
 		{
 			List<FighterInfo> _monsterList = new List<FighterInfo>();
 
-			// 鍦ㄥ垱寤篗onsterInfo鐨勬椂鍊欐敞鍏ceneIndex
+			// 在创建MonsterInfo的时候注入SceneIndex
 			int _sceneMonsterCount = 0;
 			int _sceneIndex = 0;
 
@@ -75,20 +75,10 @@ namespace com.kx.sglm.gs.battle.share.factory.creater
 			_info.addNormalProp(BattleKeyConstants.BATTLE_KEY_HERO_TEMPLATE, msgHero.TemplateId);
 			_info.addNormalProp(BattleKeyConstants.BATTLE_KEY_HERO_TYPE, msgHero.HeroType);
 			_info.FighterType = FighterType.HERO;
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final com.kx.sglm.gs.battle.share.utils.FighterAProperty _prop = createFighterAProp(msgHero.getFighteProp());
-			FighterAProperty _prop = createFighterAProp(msgHero.FighteProp);
-			_info.BattleProperty = _prop;
+			_info.BattleProperty = msgHero.FighteProp;
 			_info.SkillIdList = msgHero.AllSkill;
 			_info.ActiveSkillId = msgHero.ActiveSkillId;
 			return _info;
-		}
-
-		public static FighterAProperty createFighterAProp(Dictionary<int, int> fighterPropMap)
-		{
-			FighterAProperty _prop = new FighterAProperty();
-			_prop.addAllProp(fighterPropMap);
-			return _prop;
 		}
 
 		public static FighterInfo createFighterFromMsgMonster(BattleSideEnum side, BattleMsgMonster msgMonster)
@@ -99,10 +89,7 @@ namespace com.kx.sglm.gs.battle.share.factory.creater
 			_info.addNormalProp(BattleKeyConstants.BATTLE_KEY_HERO_TEMPLATE, msgMonster.TemplateId);
 			_info.FighterType = FighterType.MONSTER;
 			createMonsterDrop(_info, msgMonster.DropMap);
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final com.kx.sglm.gs.battle.share.utils.FighterAProperty _prop = createFighterAProp(msgMonster.getFighteProp());
-			FighterAProperty _prop = createFighterAProp(msgMonster.FighteProp);
-			_info.BattleProperty = _prop;
+			_info.BattleProperty = msgMonster.FighteProp;
 			_info.addNormalProp(BattleKeyConstants.BATTLE_PROP_MONSTER_AI_ID, msgMonster.AiID);
 			_info.addNormalProp(BattleKeyConstants.BATTLE_PROP_MONSTER_DEFAULT_CD, msgMonster.DefaultCD);
 			return _info;
@@ -144,24 +131,24 @@ namespace com.kx.sglm.gs.battle.share.factory.creater
 		public static FighterInfo createPropFromTest(int index, BattleSideEnum battleSide, FighterType type, bool boss)
 		{
 //JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final com.kx.sglm.gs.battle.share.utils.FighterAProperty _aProp = createTestAProp(type.isHero(), boss);
-			FighterAProperty _aProp = createTestAProp(type.Hero, boss);
+//ORIGINAL LINE: final java.util.Map<Integer, Integer> _aProp = createTestAProp(type.isHero(), boss);
+			Dictionary<int, int> _aProp = createTestAProp(type.Hero, boss);
 			FighterInfo _info = createFighterProp(index, battleSide, type, _aProp);
-			_info.addNormalProp(BattleKeyConstants.BATTLE_KEY_HERO_TEMPLATE, 1009); // 娴嬭瘯浠ｇ爜寰堢硻璇锋棤瑙?
+			_info.addNormalProp(BattleKeyConstants.BATTLE_KEY_HERO_TEMPLATE, 1009); // 测试代码很糙请无视
 			return _info;
 		}
 
 		private static int[] TEST_HP = new int[] {2000, 1500, 1000, 500, 1000};
 		private static int[] TEST_ATT = new int[] {500, 200, 200, 100, 50};
 
-		private static FighterAProperty createTestAProp(bool hero, bool boss)
+		private static Dictionary<int, int> createTestAProp(bool hero, bool boss)
 		{
-			FighterAProperty _prop = new FighterAProperty();
-			for (int _i = 0; _i < FighterAProperty._SIZE; _i++)
+			Dictionary<int, int> _prop = new Dictionary<int, int>();
+			for (int _i = 0; _i < RoleAProperty._SIZE; _i++)
 			{
 				int _val = 0;
 				int _index = hero ? 4 : (boss ? 0 : MathUtils.random(1, 3));
-				if (FighterAProperty.HP == FighterAProperty.getBattlePropKey(_i))
+				if (RoleAProperty.HP == _i)
 				{
 					_val = TEST_HP[_index];
 				}
@@ -169,12 +156,12 @@ namespace com.kx.sglm.gs.battle.share.factory.creater
 				{
 					_val = TEST_ATT[_index];
 				}
-				_prop.set(FighterAProperty.getBattlePropKey(_i), _val);
+				_prop[_i] = _val;
 			}
 			return _prop;
 		}
 
-		public static FighterInfo createFighterProp(int index, BattleSideEnum side, FighterType type, FighterAProperty prop)
+		public static FighterInfo createFighterProp(int index, BattleSideEnum side, FighterType type, Dictionary<int, int> prop)
 		{
 			FighterInfo _info = new FighterInfo();
 			_info.Index = index;

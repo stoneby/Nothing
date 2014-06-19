@@ -5,8 +5,8 @@ namespace com.kx.sglm.gs.role.properties
 	{
 
 		/// <summary>
-		/// 武将的一级属�? </summary>
-		public const int HERO_PROP_TYPE_A = 1;
+		/// 角色的一级属�? </summary>
+		public const int ROLE_PROP_TYPE_A = 1;
 
 		/// <summary>
 		/// 基础属性（角色，武将）数字类型 int </summary>

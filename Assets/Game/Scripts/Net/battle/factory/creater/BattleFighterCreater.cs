@@ -13,10 +13,10 @@ namespace com.kx.sglm.gs.battle.share.factory.creater
 	using BattleSideEnum = com.kx.sglm.gs.battle.share.enums.BattleSideEnum;
 	using BattleHeroSkillManager = com.kx.sglm.gs.battle.share.skill.manager.BattleHeroSkillManager;
 	using BattleMonsterSkillManager = com.kx.sglm.gs.battle.share.skill.manager.BattleMonsterSkillManager;
-	using FighterAProperty = com.kx.sglm.gs.battle.share.utils.FighterAProperty;
+	using RoleAProperty = com.kx.sglm.gs.hero.properties.RoleAProperty;
 
 	/// <summary>
-	/// 鎴樻枟姝﹀皢闈欐�佸垱寤鸿�?
+	/// 战斗武将静态创建者
 	/// 
 	/// @author liyuan2
 	/// 
@@ -76,11 +76,13 @@ namespace com.kx.sglm.gs.battle.share.factory.creater
 
 
 
-		public static void initFighterActFromFighterProp(BattleFighter fighter, FighterAProperty prop)
+		public static void initFighterActFromFighterProp(BattleFighter fighter, Dictionary<int, int> props)
 		{
 			fighter.CurHp = fighter.TotalHp;
-			fighter.Attack = prop.get(FighterAProperty.ATK);
-			fighter.Recover = prop.get(FighterAProperty.RECOVER);
+			int _attk = props[RoleAProperty.ATK];
+			fighter.Attack = _attk == null ? 0 : _attk;
+			int _recover = props[RoleAProperty.RECOVER];
+			fighter.Recover = _recover == null ? 0 : _recover;
 		}
 
 

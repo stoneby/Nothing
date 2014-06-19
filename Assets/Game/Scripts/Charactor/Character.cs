@@ -94,7 +94,7 @@ public class Character : MonoBehaviour
     /// <overrides/>
     public override string ToString()
     {
-        return string.Format("Character with name - {0}, index - {1}, position - {2}", name, Index, Location);
+        return string.Format("Character with name - {0}, index - {1}, position - {2}, color - {3}", name, Index, Location, ColorIndex);
     }
 
     #endregion

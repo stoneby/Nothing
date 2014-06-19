@@ -58,8 +58,6 @@ public class ItemModeLocator
         set { orderType = value; }
     }
 
-    #endregion
-
     public static ItemModeLocator Instance
     {
         get
@@ -75,6 +73,10 @@ public class ItemModeLocator
             return instance;
         }
     }
+
+    public static bool AlreadyRequest;
+
+    #endregion
 
     #region Public Methods
 

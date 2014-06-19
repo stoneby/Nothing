@@ -2,7 +2,7 @@ namespace com.kx.sglm.gs.battle.share.data.record
 {
 
 	/// <summary>
-	/// æˆ˜æ–—ç»“æŸ/åœºæ™¯åˆ‡æ¢
+	/// Õ½¶·½áÊø/³¡¾°ÇĞ»»
 	/// 
 	/// @author liyuan2
 	/// 

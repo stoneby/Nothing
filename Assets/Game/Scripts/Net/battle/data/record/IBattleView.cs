@@ -2,7 +2,7 @@ namespace com.kx.sglm.gs.battle.share.data.record
 {
 
 	/// <summary>
-	/// 鏄剧ず鎺ュ彛锛岀敤浜庡悇涓猂ecord鐨勬樉绀烘帴鍏?
+	/// 显示接口，用于各个Record的显示接入
 	/// @author liyuan2
 	/// 
 	/// </summary>

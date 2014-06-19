@@ -12,7 +12,7 @@ namespace com.kx.sglm.gs.battle.share.logic.action
 	using BattleTeamShot = com.kx.sglm.gs.battle.share.logic.loop.BattleTeamShot;
 
 	/// <summary>
-	/// é’ˆå¯¹ä¸€ä¸ª{@link BattleFighter}çš„ä¸€æ¬¡å‡ºæ‰‹ï¼Œå‡ºæ‰‹å¯¹è±¡æ˜¯ä¸€ä¸ª{@link BattleTeam}ã€?è¿™ä¸ªç±»å¼€å§‹ï¼Œä»Žæµç¨‹é€»è¾‘è½¬å‘å…·ä½“é€»è¾‘ã€?<seealso cref="BattleAttackAction"/>çš„ä¸€æ¬¡ç»“æŸæ„å‘³ç€å•ä¸ªæ­¦å°†/æ€ªç‰©å‡ºæ‰‹çš„ç»“æŸã€?/br> è¿™ä¸ªç±»åœ¨å®žé™…è¿è¡Œä¸­ç”±<seealso cref="BattleTeamShot"/>æŽ§åˆ¶å¾ªçŽ¯
+	/// Õë¶ÔÒ»¸ö<seealso cref="BattleFighter"/>µÄÒ»´Î³öÊÖ£¬³öÊÖ¶ÔÏóÊÇÒ»¸ö<seealso cref="BattleTeam"/>¡£ Õâ¸öÀà¿ªÊ¼£¬´ÓÁ÷³ÌÂß¼­×ªÏò¾ßÌåÂß¼­¡£ <seealso cref="BattleAttackAction"/>µÄÒ»´Î½áÊøÒâÎ¶×Åµ¥¸öÎä½«/¹ÖÎï³öÊÖµÄ½áÊø¡£</br> Õâ¸öÀàÔÚÊµ¼ÊÔËÐÐÖÐÓÉ<seealso cref="BattleTeamShot"/>¿ØÖÆÑ­»·
 	/// 
 	/// @author liyuan2
 	/// 
@@ -50,7 +50,7 @@ namespace com.kx.sglm.gs.battle.share.logic.action
 		{
 			if (!attacker.canAttack())
 			{
-				//TODO: å¯èƒ½æœ‰å…¶ä»–çš„é€»è¾‘å¤„ç†
+				//TODO: ¿ÉÄÜÓÐÆäËûµÄÂß¼­´¦Àí
 				return;
 			}
 			Console.WriteLine("#BattleAttackAction.onAction, hero type is " + attacker.getOwnerTeam().FighterType.Index);
@@ -92,7 +92,7 @@ namespace com.kx.sglm.gs.battle.share.logic.action
 		{
 			get
 			{
-				//å¦‚æžœæ˜?
+				//Èç¹ûÊÇ
 				return defencerTeam.FighterType == FighterType.HERO;
 			}
 		}

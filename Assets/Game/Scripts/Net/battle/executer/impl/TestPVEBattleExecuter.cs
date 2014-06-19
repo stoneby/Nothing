@@ -25,7 +25,7 @@ namespace com.kx.sglm.gs.battle.share.executer.impl
 	using BattleTeamShot = com.kx.sglm.gs.battle.share.logic.loop.BattleTeamShot;
 
 	/// <summary>
-	/// 娴嬭瘯鎴樻枟娴佺▼鎵ц鍣?
+	/// 测试战斗流程执行器
 	/// @author liyuan2
 	/// 
 	/// </summary>
@@ -94,10 +94,10 @@ namespace com.kx.sglm.gs.battle.share.executer.impl
 
 		public override void initDataOnCreate()
 		{
-			//鍒濆鍖栬嫳闆勭珯浣?
+			//初始化英雄站位
 			attackerTeam().initHero();
 			recordInitDate();
-			//璁板綍绛夊緟鍒楄〃
+			//记录等待列表
 			recordWaitingList();
 			joinWaitingHero();
 
@@ -179,7 +179,7 @@ namespace com.kx.sglm.gs.battle.share.executer.impl
 
 		protected internal virtual HeroColor randomColor()
 		{
-			// TODO: 澧炲姞姝ｅ紡閫昏緫
+			// TODO: 增加正式逻辑
 	//		int _index = MathUtils.random(HeroColor.RED.getIndex(), HeroColor.PINK.getIndex());
 			int _index = MathUtils.random(HeroColor.RED.Index, HeroColor.PINK.Index);
 			return HeroColor.Values[_index];

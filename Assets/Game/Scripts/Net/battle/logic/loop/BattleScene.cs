@@ -12,8 +12,8 @@ namespace com.kx.sglm.gs.battle.share.logic.loop
 	using com.kx.sglm.gs.battle.share.logic;
 
 	/// <summary>
-	/// æˆ˜æ–—å†…çš„ä¸€ä¸ªåœºæ™¯ï¼Œä»¥æ™®é€šPVEä¸ºä¾‹ï¼?æ³¢æ€ªå°±æ˜¯ä¸€ä¸ªsceneã€?äº§ç”Ÿçš„åŠ¨ä½œæ˜¯<seealso cref="BattleRound"/><br>
-	/// å¯¹äºŽæˆ˜æ–—æ¥è¯´ï¼Œä¸€ä¸ª{@link BattleScene}å¯ä»¥å®Œæˆä¸€åœºå®Œæ•´çš„æˆ˜æ–—
+	/// Õ½¶·ÄÚµÄÒ»¸ö³¡¾°£¬ÒÔÆÕÍ¨PVEÎªÀý£¬1²¨¹Ö¾ÍÊÇÒ»¸öscene¡£ ²úÉúµÄ¶¯×÷ÊÇ<seealso cref="BattleRound"/><br>
+	/// ¶ÔÓÚÕ½¶·À´Ëµ£¬Ò»¸ö<seealso cref="BattleScene"/>¿ÉÒÔÍê³ÉÒ»³¡ÍêÕûµÄÕ½¶·
 	/// @author liyuan2
 	/// 
 	/// </summary>
@@ -29,7 +29,7 @@ namespace com.kx.sglm.gs.battle.share.logic.loop
 
 
 		/// <summary>
-		/// åœ¨æ¯æ¬¡æˆ˜æ–—åœºæ™¯å¼€å§‹æ˜¯å…ˆæ³¨å†Œæ‰€æœ‰éœ€è¦çš„æ—¶é—´
+		/// ÔÚÃ¿´ÎÕ½¶·³¡¾°¿ªÊ¼ÊÇÏÈ×¢²áËùÓÐÐèÒªµÄÊ±¼ä
 		/// </summary>
 		protected internal virtual void regiestEventHandler()
 		{
@@ -38,7 +38,7 @@ namespace com.kx.sglm.gs.battle.share.logic.loop
 
 		public virtual void handleBattleInnerEvent(InnerBattleEvent @event)
 		{
-			//TODO: æ”¹å›žè§‚å¯Ÿè€?
+			//TODO: ¸Ä»Ø¹Û²ìÕß
 	//		eventHandler.handleEvent(event);
 		}
 
@@ -93,7 +93,7 @@ namespace com.kx.sglm.gs.battle.share.logic.loop
 		{
 			get
 			{
-				//TODO: ä»¥åŽå¯èƒ½ä¼šæœ‰å›žåˆé™åˆ¶å¤§æ¦‚
+				//TODO: ÒÔºó¿ÉÄÜ»áÓÐ»ØºÏÏÞÖÆ´ó¸Å
 				return Dead;
 			}
 		}

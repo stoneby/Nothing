@@ -4,8 +4,6 @@ public class ItemBase : MonoBehaviour
 {
     protected Transform cachedTran;
     private UISprite bg;
-
-    private const int StarsPerLevel = 3;
     private sbyte quality;
     public sbyte Quality
     {
@@ -13,7 +11,7 @@ public class ItemBase : MonoBehaviour
         protected set
         {
             quality = value;
-            var type = Mathf.CeilToInt((float)quality / StarsPerLevel);
+            var type = Mathf.CeilToInt((float)quality / ItemType.QualitiesPerStar);
             switch (type)
             {
                 case 1:
@@ -34,11 +32,11 @@ public class ItemBase : MonoBehaviour
             }
             var stars = cachedTran.FindChild("Rarity");
             var starCount = stars.transform.childCount;
-            for (int index = 0; index < quality; index++)
+            for (int index = 0; index <= quality; index++)
             {
                 NGUITools.SetActive(stars.FindChild("Star" + (starCount - index - 1)).gameObject, true);
             }
-            for (int index = starCount - quality - 1; index >= 0; index--)
+            for (int index = starCount - quality - 2; index >= 0; index--)
             {
                 NGUITools.SetActive(stars.FindChild("Star" + index).gameObject, false);
             }

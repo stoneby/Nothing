@@ -7,26 +7,26 @@ namespace com.kx.sglm.gs.battle.share.enums
 	using TestBattleFactory = com.kx.sglm.gs.battle.share.factory.TestBattleFactory;
 
 	/// <summary>
-	/// 鎴樻枟绫诲瀷鏋氫妇銆?杩欓噷浣跨敤鎶借薄绫绘槸鍥犱负瑕佽浆鎴怌#浠ｇ爜锛孞ava鏋氫妇鏃犳硶杞崲鎴怌#浠ｇ爜
+	/// 战斗类型枚举。 这里使用抽象类是因为要转成C#代码，Java枚举无法转换成C#代码
 	/// 
 	/// @author liyuan2
 	/// 
 	/// </summary>
 	public abstract class BattleType : IndexedEnum
 	{
-		// TODO 杩欎釜Factory涓嶈鍦ㄨ繖閲屽垱寤猴紝鍙︽壘浣嶇疆
+		// TODO 这个Factory不该在这里创建，另找位置
 		public static readonly IBattleFactory TEST_FACTORY = new TestBattleFactory();
 
 		/// <summary>
-		/// 鑷姩鎴樻枟flag浣嶏紝鑻ヨ浣嶆暟鍊间负1锛屽垯鏄嚜鍔ㄦ垬鏂? </summary>
+		/// 自动战斗flag位，若该位数值为1，则是自动战斗 </summary>
 		private const int AUTO_BATTLE_INDEX = 0x01;
 		/// <summary>
-		/// PVE鎴樻枟flag浣嶏紝 </summary>
+		/// PVE战斗flag位， </summary>
 		private const int PVE_BATTLE_INDEX = 0X02;
 
-		// /////////////////////////浠ヤ笅鏄垽鏂敤缁勫悎key///////////////////////////////////
+		// /////////////////////////以下是判断用组合key///////////////////////////////////
 		/// <summary>
-		/// 鎴樻枟鏄惁鍙�夋嫨鏀诲嚮Index锛屽叿浣撴柟寮忎负PVE鎴樻枟骞朵笖涓洪潪鑷姩鎴樻枟 </summary>
+		/// 战斗是否可选择攻击Index，具体方式为PVE战斗并且为非自动战斗 </summary>
 		private static readonly int TARGET_SELECTABLE = PVE_BATTLE_INDEX | (AUTO_BATTLE_INDEX & 0);
 
 		public static readonly BattleType TESTPVE = new BattleTypeAnonymousInnerClassHelper(TEST_FACTORY);

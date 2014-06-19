@@ -12,6 +12,7 @@ namespace Assets.Game.Scripts.Net.handler
             {
                 case (short)MessageType.SC_HERO_LIST:
                     HeroModelLocator.Instance.SCHeroList = msg.GetContent() as SCHeroList;
+                    HeroModelLocator.AlreadyRequest = true;
                     if (HeroModelLocator.Instance.GetHeroPos == RaidType.GetHeroInBattle)
                     {
                         WindowManager.Instance.Show(typeof(BattleConfirmTabWindow), true);

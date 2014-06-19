@@ -48,7 +48,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 				_fighter.tryDead();
 				if (_fighter.hasHp())
 				{
-					_isDead = false; // 杩欓噷涓嶈兘Break锛屽洜涓洪渶瑕佸皢鎵�鏈塮ighter灏濊瘯姝讳骸
+					_isDead = false; // 这里不能Break，因为需要将所有fighter尝试死亡
 				}
 			}
 			Deadth = _isDead;
@@ -93,7 +93,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 			if (_rightIndex)
 			{
 				BattleFighter _fighter = getActor(fighterIndex);
-				// TODO锛氬彲鑳戒互鍚庝細鏈夊叾浠栨儏鍐典笉鑳借鏀诲嚮锛岃繖閲屾殏鏃跺啓鐢熷瓨
+				// TODO：可能以后会有其他情况不能被攻击，这里暂时写生存
 				_rightIndex = _fighter.hasHp();
 			}
 			return _rightIndex;

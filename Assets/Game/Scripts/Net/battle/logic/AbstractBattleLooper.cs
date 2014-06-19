@@ -8,8 +8,8 @@ namespace com.kx.sglm.gs.battle.share.logic
 	using BattleState = com.kx.sglm.gs.battle.share.enums.BattleState;
 
 	/// <summary>
-	/// å¸¦æœ‰å­é€»è¾‘ï¼ˆå¾ªçŽ¯ä½“æœ¬èº«ï¼‰çš„å®¹å™¨ <br>
-	/// ä½†å…¶æœ¬èº«ä¹Ÿæœ‰å¯èƒ½æ˜¯è¢«å¾ªçŽ¯çš„å¯¹è±?
+	/// ´øÓÐ×ÓÂß¼­£¨Ñ­»·Ìå±¾Éí£©µÄÈÝÆ÷ <br>
+	/// µ«Æä±¾ÉíÒ²ÓÐ¿ÉÄÜÊÇ±»Ñ­»·µÄ¶ÔÏó
 	/// 
 	/// @author liyuan2
 	/// 
@@ -33,7 +33,7 @@ namespace com.kx.sglm.gs.battle.share.logic
 		private bool firstEnter;
 
 		/// <summary>
-		/// å¾ªçŽ¯æ¬¡æ•°çš„è®¡æ•?
+		/// Ñ­»·´ÎÊýµÄ¼ÆÊý
 		/// </summary>
 		private int loopCount;
 
@@ -58,13 +58,13 @@ namespace com.kx.sglm.gs.battle.share.logic
 		// @Override
 		public virtual void onAction()
 		{
-			// è¿™é‡Œå…³æ³¨çš„å…¶å®žæ˜¯å­æ“ä½œçš„å¾ªçŽ¯é€»è¾‘
+			// ÕâÀï¹Ø×¢µÄÆäÊµÊÇ×Ó²Ù×÷µÄÑ­»·Âß¼­
 			onFirstEnter();
 
-			// å¾ªçŽ¯å­åŠ¨ä½?
+			// Ñ­»·×Ó¶¯×÷
 			loopSubAction();
 
-			// å¦‚æžœä¸æ˜¯å› ä¸ºæŒ‚èµ·è·³å‡ºå¾ªçŽ¯ï¼Œé‚£è¯´æ˜Žè¿™ä¸ªActionç»“æŸäº?
+			// Èç¹û²»ÊÇÒòÎª¹ÒÆðÌø³öÑ­»·£¬ÄÇËµÃ÷Õâ¸öAction½áÊøÁË
 			if (!HangUp)
 			{
 				setFinish();
@@ -73,8 +73,8 @@ namespace com.kx.sglm.gs.battle.share.logic
 		}
 
 		/// <summary>
-		/// é¦–æ¬¡è¿›å…¥åŠ¨ä½œçš„åˆå§‹åŒ–ï¼Œä½†å¿…é¡»æ˜¯éžæŒ‚èµ·çŠ¶æ€?br>
-		/// å› ä¸ºå¦‚æžœæ˜¯æŒ‚èµ·çŠ¶æ€ï¼Œå¾ˆå¤šä¿¡æ¯æ˜¯æ²¡æœ‰çš„
+		/// Ê×´Î½øÈë¶¯×÷µÄ³õÊ¼»¯£¬µ«±ØÐëÊÇ·Ç¹ÒÆð×´Ì¬<br>
+		/// ÒòÎªÈç¹ûÊÇ¹ÒÆð×´Ì¬£¬ºÜ¶àÐÅÏ¢ÊÇÃ»ÓÐµÄ
 		/// </summary>
 		protected internal virtual void onFirstEnter()
 		{
@@ -94,13 +94,13 @@ namespace com.kx.sglm.gs.battle.share.logic
 		}
 
 		/// <summary>
-		/// æ‰§è¡Œå¾ªçŽ¯æµç¨‹
+		/// Ö´ÐÐÑ­»·Á÷³Ì
 		/// </summary>
 		protected internal virtual void loopSubAction()
 		{
 
 			bool _dead = false;
-			// è¿™é‡Œåœ¨å¾ªçŽ¯ç¬¬ç¬¬ä¸€æ­¥ç›´æŽ¥Actionæ˜¯å› ä¸ºä¼šæŒ‚èµ·ï¼Œä¸èƒ½å¾ªçŽ¯å¼€å§‹éƒ½create
+			// ÕâÀïÔÚÑ­»·µÚµÚÒ»²½Ö±½ÓActionÊÇÒòÎª»á¹ÒÆð£¬²»ÄÜÑ­»·¿ªÊ¼¶¼create
 			while (true)
 			{
 				if (curSubAction == null)
@@ -115,13 +115,13 @@ namespace com.kx.sglm.gs.battle.share.logic
 					break;
 				}
 
-				// æ‰§è¡ŒåŠ¨ä½œ
+				// Ö´ÐÐ¶¯×÷
 				optionSubAction();
 				if (HangUp)
 				{
 					break;
 				}
-				// å¦‚æžœè‡ªåŠ¨åšæ­»äº¡åˆ™å°è¯•æ­»äº¡
+				// Èç¹û×Ô¶¯×öËÀÍöÔò³¢ÊÔËÀÍö
 				if (curSubAction.Dead)
 				{
 					createDeadth();
@@ -141,13 +141,13 @@ namespace com.kx.sglm.gs.battle.share.logic
 		}
 
 		/// <summary>
-		///æ‰§è¡Œå­åŠ¨ä½?
+		///Ö´ÐÐ×Ó¶¯×÷
 		/// 
 		/// </summary>
 		protected internal virtual void optionSubAction()
 		{
 			curSubAction.onAction();
-			// å­˜åœ¨ä¸€äº›åŠ¨ä½œä¸èƒ½åšå®Œä¹‹åŽé©¬ä¸Šæ­»äº?
+			// ´æÔÚÒ»Ð©¶¯×÷²»ÄÜ×öÍêÖ®ºóÂíÉÏËÀÍö
 			if (curSubAction.DeadInTime)
 			{
 				curSubAction.createDeadth();
@@ -169,7 +169,7 @@ namespace com.kx.sglm.gs.battle.share.logic
 				return;
 			}
 			curSubAction = createSubActionByType();
-			// æ¯ç”Ÿæˆä¸€ä¸ªæ–°åŠ¨ä½œå°±ä¼šå¢žåŠ ä¸€å›žåˆ
+			// Ã¿Éú³ÉÒ»¸öÐÂ¶¯×÷¾Í»áÔö¼ÓÒ»»ØºÏ
 			loopCount++;
 			initOnCreateSubAction();
 		}
@@ -291,31 +291,31 @@ namespace com.kx.sglm.gs.battle.share.logic
 		}
 
 		/// <summary>
-		/// åœ¨åŠ¨ä½œåŽæ›´æ–°è‡ªèº«ä¿¡æ¯
+		/// ÔÚ¶¯×÷ºó¸üÐÂ×ÔÉíÐÅÏ¢
 		/// </summary>
 		public abstract void addActorIndex();
 
 		/// <summary>
-		/// æ˜¯å¦å‡ºæ‰‹å·²å®Œæˆ?
+		/// ÊÇ·ñ³öÊÖÒÑÍê³É
 		/// 
 		/// @return
 		/// </summary>
 		public abstract bool hasNextSubAction();
 
 		/// <summary>
-		/// èŽ·å–ä¸‹ä¸€ä¸ªåŠ¨ä½?
+		/// »ñÈ¡ÏÂÒ»¸ö¶¯×÷
 		/// 
 		/// @return
 		/// </summary>
 		public abstract T createSubActionByType();
 
 		/// <summary>
-		/// åˆå§‹åŒ–åˆšåˆšäº§ç”Ÿçš„åŠ¨ä½œ
+		/// ³õÊ¼»¯¸Õ¸Õ²úÉúµÄ¶¯×÷
 		/// </summary>
 		public abstract void initOnCreateSubAction();
 
 		/// <summary>
-		/// æ˜¯å¦å…¨éƒ¨åŠ¨ä½œä»¥åŠç»“æŸ
+		/// ÊÇ·ñÈ«²¿¶¯×÷ÒÔ¼°½áÊø
 		/// 
 		/// @return
 		/// </summary>

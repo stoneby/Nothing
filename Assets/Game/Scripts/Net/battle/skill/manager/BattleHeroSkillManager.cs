@@ -22,7 +22,7 @@ namespace com.kx.sglm.gs.battle.share.skill.manager
 	using ArrayUtils = com.kx.sglm.gs.battle.share.utils.ArrayUtils;
 
 	/// <summary>
-	/// 鑻遍泟鎴樻枟鍐呮妧鑳界鐞嗗櫒
+	/// 英雄战斗内技能管理器
 	/// 
 	/// @author liyuan2
 	/// 
@@ -40,10 +40,10 @@ namespace com.kx.sglm.gs.battle.share.skill.manager
 
 		public BattleHeroSkillManager(BattleFighter fighter, HeroTeam ownerTeam) : base(fighter)
 		{
-			// TODO: 杩欓噷涔嬪悗鏄崟渚嬬殑Action
+			// TODO: 这里之后是单例的Action
 			this.ownerTeam = ownerTeam;
 			init();
-			// TODO: 浠ュ悗閲嶆瀯
+			// TODO: 以后重构
 		}
 
 		public override void init()

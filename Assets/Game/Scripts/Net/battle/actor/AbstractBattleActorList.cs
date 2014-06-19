@@ -9,7 +9,7 @@ namespace com.kx.sglm.gs.battle.share.actor
 	using InnerBattleEvent = com.kx.sglm.gs.battle.share.@event.InnerBattleEvent;
 
 	/// <summary>
-	/// 甯︽湁{@code List}缁撴瀯鐨勬垬鏂楀弬涓庤�咃紝涓�鑸敤浜巤@code AbstractBattleLoopedNest}
+	/// 带有{@code List}结构的战斗参与者，一般用于{@code AbstractBattleLoopedNest}
 	/// @author liyuan2
 	/// </summary>
 	/// @param <T> </param>
@@ -73,7 +73,7 @@ namespace com.kx.sglm.gs.battle.share.actor
 		}
 
 		/// <summary>
-		/// 鍙槸鑾峰彇鍊硷紝骞朵笉鎵ц鍔犳搷浣?
+		/// 只是获取值，并不执行加操作
 		/// @return
 		/// </summary>
 		public virtual int nextActorIndex()
@@ -91,7 +91,7 @@ namespace com.kx.sglm.gs.battle.share.actor
 
 
 		/// <summary>
-		/// 澧炲姞褰撳墠鐨処ndex
+		/// 增加当前的Index
 		/// </summary>
 		public virtual void addCurIndex()
 		{

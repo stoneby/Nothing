@@ -9,7 +9,7 @@ namespace com.kx.sglm.gs.battle.share.skill.target
 	using BattleTeam = com.kx.sglm.gs.battle.share.actor.impl.BattleTeam;
 
 	/// <summary>
-	/// 閫氳繃鑱屼笟閫夋嫨鐩爣
+	/// 通过职业选择目标
 	/// 
 	/// @author liyuan2
 	/// 

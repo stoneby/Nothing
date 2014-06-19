@@ -2,7 +2,7 @@ namespace com.kx.sglm.gs.battle.share
 {
 
 	/// <summary>
-	/// 鎴樻枟閫昏緫鍐卥ey甯搁噺
+	/// 战斗逻辑内key常量
 	/// @author liyuan2
 	/// 
 	/// </summary>
@@ -12,23 +12,23 @@ namespace com.kx.sglm.gs.battle.share
 		private static int BATTLE_KEY_BASE = 0;
 
 		/// <summary>
-		/// 鐜╁闃熶紞閫夋嫨鐩爣Index </summary>
+		/// 玩家队伍选择目标Index </summary>
 		public static readonly int BATTLE_KEY_HERO_TEAM_TARGET = BATTLE_KEY_BASE++;
 
 		/// <summary>
-		/// 鎬墿寮卞寲鑱屼笟 </summary>
+		/// 怪物弱化职业 </summary>
 		public static readonly int BATTLE_KEY_MONSTER_WEEK_JOB = BATTLE_KEY_BASE++;
 
 		/// <summary>
-		/// 鍓湰ID </summary>
+		/// 副本ID </summary>
 		public static readonly int BATTLE_PROP_RAID_ID = BATTLE_KEY_BASE++;
 
 		/// <summary>
-		/// 姝﹀皢妯℃澘Id </summary>
+		/// 武将模板Id </summary>
 		public static readonly int BATTLE_KEY_HERO_TEMPLATE = BATTLE_KEY_BASE++;
 
 		/// <summary>
-		/// 鎬墿鎵�鍦ㄥ満鏅? </summary>
+		/// 怪物所在场景 </summary>
 		public static readonly int BATTLE_KEY_MONSTER_SCENE = BATTLE_KEY_BASE++;
 
 		public static readonly int BATTLE_KEY_HERO_TYPE = BATTLE_KEY_BASE++;
@@ -47,7 +47,7 @@ namespace com.kx.sglm.gs.battle.share
 
 		public static readonly int BATTLE_PROP_MONSTER_AI_ID = BATTLE_KEY_BASE++;
 
-		////////////////////////////////鎴樻枟鐘舵�乲ey//////////////////////////////////////
+		////////////////////////////////战斗状态key//////////////////////////////////////
 		private static sbyte BATTLE_STATE_KEY_BASE = 0;
 
 		public static readonly sbyte BATTLE_STATE_MONSTER_SKILL_ROUND = BATTLE_STATE_KEY_BASE++;

@@ -21,7 +21,7 @@ namespace com.kx.sglm.gs.battle.share.helper
 
 
 		/// <summary>
-		/// 鍒濆鍖栧繀瑕佺殑鏁版嵁锛氭敾鍑昏�呭姩浣滅被鍨嬶紝鏀诲嚮鑰呭垵濮嬫暟鎹?
+		/// 初始化必要的数据：攻击者动作类型，攻击者初始数据
 		/// </summary>
 		/// <param name="actType"> </param>
 		/// <param name="attacker"> </param>

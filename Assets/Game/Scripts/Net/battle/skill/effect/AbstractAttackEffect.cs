@@ -43,14 +43,14 @@ namespace com.kx.sglm.gs.battle.share.skill.effect
 		}
 
 		/// <summary>
-		/// S1=锛堟灏嗘垬鏂椾腑鏀诲嚮鍔?锛?+鏃犲弻鎶�鑳藉姞鎴愬�嶆暟锛?鎬墿闃插尽鍔涳級*浼ゅ鍔犳垚鍊嶆暟*寮辩偣鍔犳垚鍊嶆暟*甯︾浘鍑忎激鍊嶆暟*锛?-鍑忎激姣旓級*鏀诲嚮娆℃暟
+		/// S1=（武将战斗中攻击力*（1+无双技能加成倍数）-怪物防御力）*伤害加成倍数*弱点加成倍数*带盾减伤倍数*（1-减伤比）*攻击次数
 		/// </summary>
 		/// <param name="attacker"> </param>
 		/// <param name="defencer"> </param>
 		/// <param name="fightRecord"> </param>
 		public virtual void onAttack(BattleFighter attacker, BattleFighter defencer, BattleFightRecord fightRecord)
 		{
-			// TODO: afterAttack鍦ㄥ叾浠杄ffect涔熷彲鑳戒細娑夊強
+			// TODO: afterAttack在其他effect也可能会涉及
 			SingleActionRecord _record = initDefenceRecord(defencer, fightRecord);
 
 			float _attack = getAttack(attacker);
@@ -63,7 +63,7 @@ namespace com.kx.sglm.gs.battle.share.skill.effect
 			_attack = calcSingleDamage(_attack, _defence, _indexValMuti, _spValMuti, _weakRatio, _damageFree);
 
 			float _costHpFloat = _attack * this.hitCount;
-			// 鍥涜垗浜斿叆
+			// 四舍五入
 //JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
 //ORIGINAL LINE: final int _costHp = com.kx.sglm.core.util.MathUtils.float2Int(_costHpFloat);
 			int _costHp = MathUtils.float2Int(_costHpFloat);

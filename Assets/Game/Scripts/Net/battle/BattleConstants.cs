@@ -4,8 +4,8 @@ namespace com.kx.sglm.gs.battle.share
 	using HeroArrLogicHelper = com.kx.sglm.gs.battle.share.helper.HeroArrLogicHelper;
 
 	/// <summary>
-	/// æˆ˜æ–—é€»è¾‘ç›¸å…³å¸¸é‡ã€‚éƒ½æ˜¯ä¸€äº›æ•°å€¼ä¸Šçš„å¸¸é‡ï¼Œæ²¡æœ‰Mapä¸­çš„Key<br>
-	/// æŸ¥æ‰¾ç›¸å…³keyè¯·å‚ç…§{@link BattleKeyConstants}
+	/// Õ½¶·Âß¼­Ïà¹Ø³£Á¿¡£¶¼ÊÇÒ»Ð©ÊýÖµÉÏµÄ³£Á¿£¬Ã»ÓÐMapÖÐµÄKey<br>
+	/// ²éÕÒÏà¹ØkeyÇë²ÎÕÕ<seealso cref="BattleKeyConstants"/>
 	/// 
 	/// @author liyuan2
 	/// 
@@ -14,71 +14,71 @@ namespace com.kx.sglm.gs.battle.share
 	{
 
 		/// <summary>
-		/// è‹±é›„é˜Ÿä¼æ­£æ–¹å½¢å®½åº?
+		/// Ó¢ÐÛ¶ÓÎéÕý·½ÐÎ¿í¶È
 		/// </summary>
 		public const int HERO_FIGHT_SIZE = 3;
 		/// <summary>
-		/// è‹±é›„é˜Ÿä¼æ•°ç»„æ€»é•¿åº?
+		/// Ó¢ÐÛ¶ÓÎéÊý×é×Ü³¤¶È
 		/// </summary>
 		public static readonly int HERO_BATTLE_ARR_LENGTH = HERO_FIGHT_SIZE * HERO_FIGHT_SIZE;
 
 		/// <summary>
-		/// æˆ˜æ–—å†…æ‰€æœ‰æ¦‚çŽ‡éƒ½æ˜¯ä¸‡åˆ†æ¯”
+		/// Õ½¶·ÄÚËùÓÐ¸ÅÂÊ¶¼ÊÇÍò·Ö±È
 		/// </summary>
 		public const float BATTLE_RATIO_BASE = 10000.0f;
 
 		/// <summary>
-		/// æˆ˜æ–—å¼€å¯çš„æœ€å°‘é˜µè?
+		/// Õ½¶·¿ªÆôµÄ×îÉÙÕóÓª
 		/// </summary>
 		public const int BATTLE_START_LEAST_SIDE = 2;
 
 		/// <summary>
-		/// -1ä¹Ÿè¦å†™å¸¸é‡ï¼Œæˆ‘çœŸæ˜¯ä¸ªå¼ºè¿«ç—‡â€¦â€?
+		/// -1Ò²ÒªÐ´³£Á¿£¬ÎÒÕæÊÇ¸öÇ¿ÆÈÖ¢¡­¡­
 		/// </summary>
 		public const int BATTLE_FIGHTER_NON_INDEX = -1;
 
 		/// <summary>
-		/// æ”»å‡»å€æ•°åŠ æˆæ•°ç»„
+		/// ¹¥»÷±¶Êý¼Ó³ÉÊý×é
 		/// </summary>
 		public static readonly int[] BATTLE_HERO_INDEX_RATIO = new int[] {10000, 12000, 15000, 19000, 24000, 30000, 37000, 45000, 90000};
 
 		/// <summary>
-		/// ç”Ÿæˆçš„å¯è¿žæŽ¥ç‚¹æ•°ç»?
+		/// Éú³ÉµÄ¿ÉÁ¬½ÓµãÊý×é
 		/// </summary>
 		public static readonly int[] POINT_CONNECT_ARR = HeroArrLogicHelper.creatHeroPointConnecter(HERO_BATTLE_ARR_LENGTH);
 
 		/// <summary>
-		/// é“¾æŽ¥çš„æœ€å°‘ç‚¹ </summary>
+		/// Á´½ÓµÄ×îÉÙµã </summary>
 		public const int HERO_LEAST_POINT = 1;
 
 		/// <summary>
-		/// çŽ©å®¶é˜Ÿä¼çš„æœ€å°‘å‚ä¸Žæ­¦å°? </summary>
+		/// Íæ¼Ò¶ÓÎéµÄ×îÉÙ²ÎÓëÎä½« </summary>
 		public const int HERO_TEAM_LEAST_FIGHTER = 12;
 
 		/// <summary>
-		/// æ€ªç‰©å¼±èŒä¸šå¼±åŒ–å€æ•° </summary>
+		/// ¹ÖÎïÈõÖ°ÒµÈõ»¯±¶Êý </summary>
 		public const int MONSTER_WEAK_RATIO = 2;
 
 		/// <summary>
-		/// é»˜è®¤æ€ªç‰©ç›®æ ‡index </summary>
+		/// Ä¬ÈÏ¹ÖÎïÄ¿±êindex </summary>
 		public const int MONSTER_DEFAULT_TARGET_INDEX = 0;
 
 		/// <summary>
-		/// è‡ªèº«é˜Ÿä¼æ­¦å°† </summary>
+		/// ×ÔÉí¶ÓÎéÎä½« </summary>
 		public const int FIGHTER_TYPE_HERO = 1;
 		/// <summary>
-		/// å¡«ç©ºåž‹æ‰Žå? </summary>
+		/// Ìî¿ÕÐÍÔú¹Å </summary>
 		public const int FIGHTER_TYPE_GUEST = 2;
 		/// <summary>
-		/// å¥½å‹æ­¦å°† </summary>
+		/// ºÃÓÑÎä½« </summary>
 		public const int FIGHTER_TYPE_FREIND = 3;
 		/// <summary>
-		/// NPCæ­¦å°† </summary>
+		/// NPCÎä½« </summary>
 		public const int FIGHTER_TYPE_NPC = 4;
 
 		public const int TEST_TOTAL_SP = 50;
 		/// <summary>
-		/// å¯ä»¥æ”¾é˜Ÿé•¿æŠ€èƒ½çš„Indexï¼Œç¬¬0,1,2,9ä½ç½®çš„æ­¦å°†å¯ä»¥æ”¾æŠ€èƒ? </summary>
+		/// ¿ÉÒÔ·Å¶Ó³¤¼¼ÄÜµÄIndex£¬µÚ0,1,2,9Î»ÖÃµÄÎä½«¿ÉÒÔ·Å¼¼ÄÜ </summary>
 		public const int FIGHTER_ACTIVE_SKILL_FLAG = 0x207;
 
 		public const int FIGHTER_FIGHT_DEFAULT_COUNT = 1;

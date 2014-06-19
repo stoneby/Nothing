@@ -4,8 +4,8 @@ namespace com.kx.sglm.gs.battle.share.data.record
 {
 
 	/// <summary>
-	/// 鍗曚釜鏀诲嚮鑰呯殑鍔ㄤ綔锛屽彲鑳藉寘鍚涓瓙鍔ㄤ綔<br>
-	/// 鏆傛椂涓嶆敮鎸佹敾鍑昏�呯殑鏀诲嚮鍓嶅姩浣?
+	/// 单个攻击者的动作，可能包含多个子动作<br>
+	/// 暂时不支持攻击者的攻击前动作
 	/// 
 	/// @author liyuan2
 	/// 
@@ -14,23 +14,23 @@ namespace com.kx.sglm.gs.battle.share.data.record
 	{
 
 		/// <summary>
-		/// 鐩爣Index </summary>
+		/// 目标Index </summary>
 		private int sourceIndex;
 
 		/// <summary>
-		/// 鐩爣闃佃惀 </summary>
+		/// 目标阵营 </summary>
 		private int sourceSide;
 
 		/// <summary>
-		/// 鏀诲嚮鍔ㄤ綔 </summary>
+		/// 攻击动作 </summary>
 		private SingleActionRecord attackAction;
 
 		/// <summary>
-		/// 鍔ㄤ綔鍒楄〃 </summary>
+		/// 动作列表 </summary>
 		private List<SingleActionRecord> actionList;
 
 		/// <summary>
-		/// 閫昏緫鐢╟urAction </summary>
+		/// 逻辑用curAction </summary>
 		private SingleActionRecord curDefencerAction;
 
 		public BattleFightRecord()

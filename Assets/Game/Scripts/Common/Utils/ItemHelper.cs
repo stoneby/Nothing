@@ -7,11 +7,11 @@ public class ItemHelper
         Time,
         Job,
         Rarity,
-        Team,
         Attack,
         Health,
         Recover,
-        Level
+        Level,
+        Team
     }
 
     public static void ShowItem(OrderType orderType, EquipItem equipItem, int quality, short level, sbyte job, int atk, int hp, int recover)
@@ -59,8 +59,8 @@ public class ItemHelper
         int atk = -1;
         int hp = -1;
         int recover = -1;
-        var symbol = tempId / 10000;
-        if (symbol == 1)
+        var itemType = ItemModeLocator.Instance.GetItemType(tempId);
+        if (itemType == ItemModeLocator.EquipType.EquipTempl)
         {
             var equipTemp = ItemModeLocator.Instance.ItemTemplates.EquipTmpl[tempId];
             quality = equipTemp.Quality;
@@ -69,7 +69,7 @@ public class ItemHelper
             hp = equipTemp.Hp;
             recover = equipTemp.Recover;
         }
-        if (symbol == 2)
+        if (itemType == ItemModeLocator.EquipType.ArmorTemplate)
         {
             var armorTemp = ItemModeLocator.Instance.ItemTemplates.ArmorTmpl[tempId];
             quality = armorTemp.Quality;
@@ -77,7 +77,7 @@ public class ItemHelper
             hp = armorTemp.Hp;
             recover = armorTemp.Recover;
         }
-        if (symbol == 3)
+        if (itemType == ItemModeLocator.EquipType.MaterialTempl)
         {
             var materialTemp = ItemModeLocator.Instance.ItemTemplates.MaterialTmpl[tempId];
             quality = materialTemp.Quality;

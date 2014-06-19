@@ -3,7 +3,7 @@ namespace com.kx.sglm.gs.battle.share.data.record
 
 
 	/// <summary>
-	/// 鎵嬪姩閲婃斁鎶�鑳界殑璁板綍绫?
+	/// 手动释放技能的记录类
 	/// 
 	/// @author liyuan2
 	/// 
@@ -12,15 +12,15 @@ namespace com.kx.sglm.gs.battle.share.data.record
 	{
 
 		/// <summary>
-		/// 閲婃斁鑰匢ndex
+		/// 释放者Index
 		/// </summary>
 		private int index;
 		/// <summary>
-		/// 闃佃惀ID
+		/// 阵营ID
 		/// </summary>
 		private int teamSide;
 		/// <summary>
-		/// 閲婃斁鎶�鑳絀D
+		/// 释放技能ID
 		/// </summary>
 		private int skillId;
 

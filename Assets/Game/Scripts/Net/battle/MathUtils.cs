@@ -382,7 +382,7 @@ namespace com.kx.sglm.core.util
 		/// @return </param>
 		public static bool floatEquals(float floatA, float floatB)
 		{
-			return ((float?) floatA).Equals(floatB);
+			return ((float) floatA).Equals(floatB);
 		}
 
 		/// <summary>

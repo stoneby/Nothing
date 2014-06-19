@@ -1,7 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
 using KXSGCodec;
 using UnityEngine;
 
@@ -10,6 +7,8 @@ using UnityEngine;
 /// </summary>
 public class UItemsWindow : Window
 {
+    #region Private Fields
+
     private UIEventListener sortBtnLis;
     private UIPanel scrollPanel;
     private UIPanel panel;
@@ -17,14 +16,16 @@ public class UItemsWindow : Window
     private UILabel sortLabel;
     private int rowToShow;
     private List<ItemInfo> infos;
-
-    private UIEventListener.VoidDelegate itemClicked;
     private int depth;
     private int cachedDepth;
+    private UIEventListener.VoidDelegate itemClicked;
+
+    #endregion
 
     #region Public Fields
 
-    [HideInInspector] public UIGrid Items;
+    [HideInInspector] 
+    public UIGrid Items;
 
     /// <summary>
     /// The prefab of the equip item.
@@ -118,8 +119,8 @@ public class UItemsWindow : Window
     private void OnSortClicked(GameObject go)
     {
         var orderType = ItemModeLocator.Instance.OrderType;
-        orderType = (ItemHelper.OrderType)(((int)orderType + 1) % StringTable.ItemSortStrings.Count);
-        sortLabel.text = StringTable.ItemSortStrings[(int)orderType];
+        orderType = (ItemHelper.OrderType)(((int)orderType + 1) % (StringTable.SortStrings.Count - 1));
+        sortLabel.text = StringTable.SortStrings[(int)orderType];
         ItemModeLocator.Instance.OrderType = orderType;
         Refresh(infos);
     }
@@ -144,7 +145,7 @@ public class UItemsWindow : Window
     {
         UpdateItemList(newInfos.Count);
         var orderType = ItemModeLocator.Instance.OrderType;
-        sortLabel.text = StringTable.ItemSortStrings[(int)orderType];
+        sortLabel.text = StringTable.SortStrings[(int)orderType];
         ItemModeLocator.Instance.SortItemList(orderType, newInfos);
         for (int i = 0; i < newInfos.Count; i++)
         {

@@ -4,7 +4,7 @@ namespace com.kx.sglm.gs.battle.share.skill.action
 	using BattleFighter = com.kx.sglm.gs.battle.share.actor.impl.BattleFighter;
 
 	/// <summary>
-	/// 鎬墿鎶�鑳藉姩浣?
+	/// 怪物技能动作
 	/// 
 	/// @author liyuan2
 	/// 
@@ -15,7 +15,7 @@ namespace com.kx.sglm.gs.battle.share.skill.action
 		private int extraCD;
 
 		/// <summary>
-		/// 钃勫姏鍥炲悎鎻忚堪 </summary>
+		/// 蓄力回合描述 </summary>
 		private string extraCDDesc;
 
 		public virtual int ExtraCD

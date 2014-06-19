@@ -2,8 +2,8 @@ namespace com.kx.sglm.gs.battle.share.data.record
 {
 
 	/// <summary>
-	/// 姝﹀皢鍗曚釜鐘舵�?br>
-	/// 鑻@link #leftRound}涓?锛屽垯鐩存帴绉婚櫎杩欎釜鐘舵�?
+	/// 武将单个状态<br>
+	/// 若<seealso cref="#leftRound"/>为0，则直接移除这个状态
 	/// 
 	/// @author liyuan2
 	/// 

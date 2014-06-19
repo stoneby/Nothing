@@ -13,7 +13,7 @@ namespace com.kx.sglm.gs.battle.share
 	using BattleScene = com.kx.sglm.gs.battle.share.logic.loop.BattleScene;
 
 	/// <summary>
-	/// 鎴樻枟鍏ュ彛
+	/// 战斗入口
 	/// 
 	/// @author liyuan2
 	/// 
@@ -22,19 +22,19 @@ namespace com.kx.sglm.gs.battle.share
 	{
 
 		/// <summary>
-		/// 鎴樻枟鏁版嵁婧? </summary>
+		/// 战斗数据源 </summary>
 		private BattleSource battleSource;
 		/// <summary>
-		/// 鎴樻枟鍦哄湴 </summary>
+		/// 战斗场地 </summary>
 		private BattleField battleField;
 		/// <summary>
-		/// 鎴樻枟鎵ц鍣紝鏍规嵁绫诲瀷涓嶅悓鍏蜂綋閫昏緫澶勭悊涓嶅悓 </summary>
+		/// 战斗执行器，根据类型不同具体逻辑处理不同 </summary>
 		private IBattleExecuter battleExcuter;
 		/// <summary>
-		/// 鎴樻枟绫诲瀷 </summary>
+		/// 战斗类型 </summary>
 		private BattleType battleType;
 		/// <summary>
-		/// 鎴樻姤 </summary>
+		/// 战报 </summary>
 		private BattleRecord record;
 
 		public Battle(BattleType battleType, BattleSource source)
@@ -45,7 +45,7 @@ namespace com.kx.sglm.gs.battle.share
 		}
 
 		/// <summary>
-		/// 鎴樻枟寮�濮嬭Е鍙?
+		/// 战斗开始触发
 		/// </summary>
 		public virtual void start()
 		{
@@ -59,7 +59,7 @@ namespace com.kx.sglm.gs.battle.share
 		}
 
 		/// <summary>
-		/// 鎴樻枟鍔ㄤ綔
+		/// 战斗动作
 		/// </summary>
 		public virtual void onAction()
 		{
@@ -67,7 +67,7 @@ namespace com.kx.sglm.gs.battle.share
 		}
 
 		/// <summary>
-		/// 鐩墠閫昏緫涓嶅锛屼箣鍚庝細澧炲姞
+		/// 目前逻辑不多，之后会增加
 		/// 
 		/// @return
 		/// </summary>
@@ -77,7 +77,7 @@ namespace com.kx.sglm.gs.battle.share
 		}
 
 		/// <summary>
-		/// 寰幆鏇存柊鎴樻枟鐘舵�?
+		/// 循环更新战斗状态
 		/// </summary>
 		/// <param name="state"> </param>
 		public virtual void updateBattleState(BattleState state)
@@ -86,7 +86,7 @@ namespace com.kx.sglm.gs.battle.share
 		}
 
 		/// <summary>
-		/// 鎺ユ敹鎴樻枟杈撳叆鏁版嵁
+		/// 接收战斗输入数据
 		/// </summary>
 		/// <param name="event"> </param>
 		public virtual void handleBattleEvent(IBattleInputEvent @event)
@@ -108,7 +108,7 @@ namespace com.kx.sglm.gs.battle.share
 		}
 
 		/// <summary>
-		/// 杞彂鎴樻枟鍐呴儴浜嬩欢 </summary>
+		/// 转发战斗内部事件 </summary>
 		/// <param name="innerEvent"> </param>
 		public virtual void sendBattleSceneEvent(InnerBattleEvent innerEvent)
 		{
@@ -168,17 +168,17 @@ namespace com.kx.sglm.gs.battle.share
 		}
 
 		/// <summary>
-		/// 鎴樻枟缁撴潫
+		/// 战斗结束
 		/// </summary>
 		public virtual void finish()
 		{
-			// TODO 澧炲姞鍏朵粬閫昏緫
+			// TODO 增加其他逻辑
 			BattleExcuter.onBattleFinish();
 
 		}
 
 		/// <summary>
-		/// 鑾峰彇褰撳墠鎺ㄥ浘index
+		/// 获取当前推图index
 		/// 
 		/// @return
 		/// </summary>

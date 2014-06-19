@@ -4,7 +4,7 @@ namespace com.kx.sglm.gs.battle.share.data.record
 {
 
 	/// <summary>
-	/// 鎴樻枟鐜╁椤哄簭
+	/// 战斗玩家顺序
 	/// 
 	/// @author liyuan2
 	/// 
@@ -13,15 +13,15 @@ namespace com.kx.sglm.gs.battle.share.data.record
 	{
 
 		/// <summary>
-		/// 鏀诲嚮鑰匢D椤哄簭鍒楄〃锛屾垬鏂楀唴鐨処ndex鎸囪繖涓?
+		/// 攻击者ID顺序列表，战斗内的Index指这个
 		/// </summary>
 		private List<PointRecord> allPointList;
 		/// <summary>
-		/// 浣滅敤闃熶紞
+		/// 作用队伍
 		/// </summary>
 		private int targetSide;
 		/// <summary>
-		/// 棰滆壊鍒楄〃
+		/// 颜色列表
 		/// </summary>
 		private List<PointRecord> fillPointList;
 

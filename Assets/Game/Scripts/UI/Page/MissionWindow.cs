@@ -253,7 +253,7 @@ public class MissionWindow : Window
         var control = obj.GetComponent<FriendItemControl>();
 
         MissionModelLocator.Instance.FriendData = control.FriendData;
-        if (HeroModelLocator.Instance.SCHeroList == null)
+        if (HeroModelLocator.AlreadyRequest == false)
         {
             HeroModelLocator.Instance.GetHeroPos = RaidType.GetHeroInBattle;
             var csmsg = new CSHeroList();

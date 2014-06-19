@@ -4,7 +4,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 	using HeroColor = com.kx.sglm.gs.battle.share.enums.HeroColor;
 
 	/// <summary>
-	/// 鑻遍泟绔欑偣
+	/// 英雄站点
 	/// 
 	/// @author liyuan2
 	/// 
@@ -13,7 +13,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 	{
 
 		/// <summary>
-		/// 閫氱敤鐨勭┖鐐癸紝鏃犻鑹叉棤姝﹀皢
+		/// 通用的空点，无颜色无武将
 		/// </summary>
 		public static readonly HeroPoint emptyPoint = new HeroPoint(true);
 

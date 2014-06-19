@@ -6,7 +6,7 @@ namespace com.kx.sglm.gs.battle.share.logic
 	{
 
 		/// <summary>
-		/// 鎴樻枟鐨勫熀鏈姩浣?
+		/// 战斗的基本动作
 		/// </summary>
 		void onAction();
 

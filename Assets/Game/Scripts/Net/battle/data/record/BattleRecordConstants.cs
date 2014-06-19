@@ -4,7 +4,7 @@ namespace com.kx.sglm.gs.battle.share.data.record
 	using BattleSideEnum = com.kx.sglm.gs.battle.share.enums.BattleSideEnum;
 
 	/// <summary>
-	/// æˆ˜æŠ¥å¸¸é‡
+	/// Õ½±¨³£Á¿
 	/// 
 	/// @author liyuan2
 	/// 
@@ -13,47 +13,47 @@ namespace com.kx.sglm.gs.battle.share.data.record
 	{
 
 		/// <summary>
-		/// æ”»å‡» </summary>
+		/// ¹¥»÷ </summary>
 		public const int SINGLE_ACTION_TYPE_ATTACK = 0;
 
 		/// <summary>
-		/// å›žè¡€ </summary>
+		/// »ØÑª </summary>
 		public const int SINGLE_ACTION_TYPE_RECOVER = 1;
 
 		/// <summary>
-		/// é˜²å¾¡ </summary>
+		/// ·ÀÓù </summary>
 		public const int SINGLE_ACTION_TYPE_DEFENCE = 2;
 
 		/// <summary>
-		/// è¢«å›žè¡€ã€æ— åŠ¨ä½œ </summary>
+		/// ±»»ØÑª¡¾ÎÞ¶¯×÷ </summary>
 		public const int SINGLE_ACTION_TYPE_RECOVERED = 3;
 
 		/// <summary>
-		/// SPæ”»å‡» </summary>
+		/// SP¹¥»÷ </summary>
 		public const int SINGLE_ACTION_TYPE_SP_ATTACK = 4;
 
 		/// <summary>
-		/// è½¬è‰² </summary>
+		/// ×ªÉ« </summary>
 		public const int SINGLE_ACTION_TYPE_CHANGE_COLOR = 5;
 
 		/// <summary>
-		/// è¢«è½¬è‰? </summary>
+		/// ±»×ªÉ« </summary>
 		public const int SINGLE_ACTION_TYPE_CHANGED_COLOR = 6;
 
 		/// <summary>
-		/// ç›®æ ‡SideAID </summary>
+		/// Ä¿±êSideAID </summary>
 		public static readonly int TARGET_SIDE_A = BattleSideEnum.SIDEA.Index;
 
 		/// <summary>
-		/// ç›®æ ‡SideBID </summary>
+		/// Ä¿±êSideBID </summary>
 		public static readonly int TARGET_SIDE_B = BattleSideEnum.SIDEB.Index;
 
 		/// <summary>
-		/// åœºæ™¯ç»“æŸ </summary>
+		/// ³¡¾°½áÊø </summary>
 		public const int BATTLE_SCENE_END = 0;
 
 		/// <summary>
-		/// æˆ˜æ–—ç»“æŸ </summary>
+		/// Õ½¶·½áÊø </summary>
 		public const int BATTLE_ALL_END = 1;
 
 		// ////////////////////////////////////////////////////////////////////////
@@ -61,43 +61,43 @@ namespace com.kx.sglm.gs.battle.share.data.record
 		// //////////////////////////////////////////////////////////////////////
 
 		/// <summary>
-		/// æˆ˜æŠ¥ç”¨åŸºç¡€ID </summary>
+		/// Õ½±¨ÓÃ»ù´¡ID </summary>
 		private static int RECORD_PROP_KEY_BASE = 0;
 
 		/// <summary>
-		/// ç”¨äºŽ<seealso cref="SingleActionRecord"/>å½“å‰è¡€é‡? </summary>
+		/// ÓÃÓÚ<seealso cref="SingleActionRecord"/>µ±Ç°ÑªÁ¿ </summary>
 		public static readonly int SINGLE_ACTION_PROP_HP = RECORD_PROP_KEY_BASE++;
 
 		/// <summary>
-		/// ç”¨äºŽ<seealso cref="SingleActionRecord"/>å½“å‰æ”»å‡»ç›®æ ‡ </summary>
+		/// ÓÃÓÚ<seealso cref="SingleActionRecord"/>µ±Ç°¹¥»÷Ä¿±ê </summary>
 		public static readonly int SINGLE_ACTION_PROP_ATTACK_TARGET = RECORD_PROP_KEY_BASE++;
 
 		/// <summary>
-		/// æ€»è¡€é‡å€¼key </summary>
+		/// ×ÜÑªÁ¿Öµkey </summary>
 		public static readonly int BATTLE_HERO_TOTAL_HP = RECORD_PROP_KEY_BASE++;
 
 		/// <summary>
-		/// æ€»æ°”åŠ›å€¼key </summary>
+		/// ×ÜÆøÁ¦Öµkey </summary>
 		public static readonly int BATTLE_HERO_TOTAL_MP = RECORD_PROP_KEY_BASE++;
 
 		/// <summary>
-		/// æˆ˜æ–—ç»“æŸèƒœåˆ©æ–¹ID </summary>
+		/// Õ½¶·½áÊøÊ¤Àû·½ID </summary>
 		public static readonly int BATTLE_END_WIN_SIDE = RECORD_PROP_KEY_BASE++;
 
 		/// <summary>
-		/// è‹±é›„Mp </summary>
+		/// Ó¢ÐÛMp </summary>
 		public static readonly int BATTLE_HERO_PROP_MP = RECORD_PROP_KEY_BASE++;
 
 		/// <summary>
-		/// SpæŠ€èƒ½æ”»å‡»æ¬¡æ•? </summary>
+		/// Sp¼¼ÄÜ¹¥»÷´ÎÊý </summary>
 		public static readonly int BATTLE_HERO_PROP_HIT_COUNT = RECORD_PROP_KEY_BASE++;
 
 		/// <summary>
-		/// SpæŠ€èƒ½æ”»å‡»å•æ¬¡ä¼¤å®? </summary>
+		/// Sp¼¼ÄÜ¹¥»÷µ¥´ÎÉËº¦ </summary>
 		public static readonly int BATTLE_HERO_PROP_HIT_SINGLE_DAMAGE = RECORD_PROP_KEY_BASE++;
 
 		/// <summary>
-		/// SpæŠ€èƒ½æ”»å‡»å•æ¬¡ä¼¤å®? </summary>
+		/// Sp¼¼ÄÜ¹¥»÷µ¥´ÎÉËº¦ </summary>
 		public static readonly int BATTLE_HERO_PROP_COLOR_CHANGE = RECORD_PROP_KEY_BASE++;
 	}
 

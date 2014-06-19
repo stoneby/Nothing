@@ -21,7 +21,7 @@ namespace com.kx.sglm.gs.battle.share.skill.creater
 	using SkillTargetGetterMsgData = KXSGCodec.SkillTargetGetterMsgData;
 
 	/// <summary>
-	/// æŠ€èƒ½åŠ¨ä½œç”Ÿæˆç±»
+	/// ¼¼ÄÜ¶¯×÷Éú³ÉÀà
 	/// 
 	/// @author liyuan2
 	/// 
@@ -30,7 +30,7 @@ namespace com.kx.sglm.gs.battle.share.skill.creater
 	{
 
 		/// <summary>
-		/// åˆ›å»ºæ€ªç‰©AIï¼Œå’ŒæŠ€èƒ½ä¸€æ ·ä¹Ÿæ˜¯ç†è®ºä¸Šå•ä¾‹çš„ï¼Œä¸æŒæœ‰æˆ˜æ–—å¯¹è±¡çŠ¶æ€æ•°æ?
+		/// ´´½¨¹ÖÎïAI£¬ºÍ¼¼ÄÜÒ»ÑùÒ²ÊÇÀíÂÛÉÏµ¥ÀýµÄ£¬²»³ÖÓÐÕ½¶·¶ÔÏó×´Ì¬Êý¾Ý
 		/// </summary>
 		/// <param name="baseData">
 		/// @return </param>
@@ -44,7 +44,7 @@ namespace com.kx.sglm.gs.battle.share.skill.creater
 
 
 		/// <summary>
-		/// åˆ›å»ºæ€ªç‰©æŠ€èƒ½åŠ¨ä½?
+		/// ´´½¨¹ÖÎï¼¼ÄÜ¶¯×÷
 		/// </summary>
 		/// <param name="baseData">
 		/// @return </param>
@@ -67,7 +67,7 @@ namespace com.kx.sglm.gs.battle.share.skill.creater
 		}
 
 		/// <summary>
-		/// åˆ›å»ºHeroçš„æˆ˜æ–—åŸºç¡€åŠ¨ä½œï¼Œæ™®é€šå’Œå›žè¡€
+		/// ´´½¨HeroµÄÕ½¶·»ù´¡¶¯×÷£¬ÆÕÍ¨ºÍ»ØÑª
 		/// </summary>
 		/// <param name="enemySide">
 		/// @return </param>
@@ -82,7 +82,7 @@ namespace com.kx.sglm.gs.battle.share.skill.creater
 		}
 
 		/// <summary>
-		/// ä»Žæ¨¡æ¿å–å‡ºæ•°æ®æž„å»ºSkillAction
+		/// ´ÓÄ£°åÈ¡³öÊý¾Ý¹¹½¨SkillAction
 		/// </summary>
 		/// <param name="baseData">
 		/// @return </param>
@@ -93,7 +93,7 @@ namespace com.kx.sglm.gs.battle.share.skill.creater
 			List<ISkillTargetGetter> _enemyTargetGetterList = createTargetGetter(true, baseData.EnemyTargetList);
 			List<ISkillTargetGetter> _friendTargetGetterList = createTargetGetter(false, baseData.FriendTargetList);
 			List<ISkillEffect> _effectList = createEffectList(baseData.EffectList);
-			// è£…å…¥æ•°æ®
+			// ×°ÈëÊý¾Ý
 			_action.SkillId = baseData.Id;
 			_action.TriggerId = baseData.TriggerId;
 			_action.CostMp = baseData.CostMp;
@@ -107,7 +107,7 @@ namespace com.kx.sglm.gs.battle.share.skill.creater
 
 
 		/// <summary>
-		/// åˆ›å»ºæŠ€èƒ½[ID--æ¦‚çŽ‡]äºŒå…ƒç»?
+		/// ´´½¨¼¼ÄÜ[ID--¸ÅÂÊ]¶þÔª×é
 		/// </summary>
 		/// <param name="baseData">
 		/// @return </param>
@@ -136,7 +136,7 @@ namespace com.kx.sglm.gs.battle.share.skill.creater
 			if (ArrayUtils.isEmpty(_aiDataList))
 			{
 				_aiDataList = new List<MonsterSkillAIMsgData>();
-				//TODO: å¤ªç³™ï¼Œä»¥åŽé‡æž?
+				//TODO: Ì«²Ú£¬ÒÔºóÖØ¹¹
 			}
 
 			foreach (MonsterSkillAIMsgData _data in _aiDataList)
@@ -145,14 +145,14 @@ namespace com.kx.sglm.gs.battle.share.skill.creater
 				int _proiority = _ai.Priority;
 				SkillAIHolder _holder = getOrCreateAIHolder(_proiority, _holderMap);
 				_holder.addData(_ai);
-				_holderMap[_proiority] = _holder; // ä¸ºäº†ä»£ç æ¸…æ¥š
+				_holderMap[_proiority] = _holder; // ÎªÁË´úÂëÇå³þ
 			}
 
 			return _holderList;
 		}
 
 		/// <summary>
-		/// åˆ›å»ºä¸€ä¸ªä¼˜å…ˆçº§çš„æŠ€èƒ½AI
+		/// ´´½¨Ò»¸öÓÅÏÈ¼¶µÄ¼¼ÄÜAI
 		/// </summary>
 		/// <param name="proiority"> </param>
 		/// <param name="holderMap">
@@ -172,7 +172,7 @@ namespace com.kx.sglm.gs.battle.share.skill.creater
 		}
 
 		/// <summary>
-		/// åˆ›å»ºå•ä¸ªæŠ€èƒ½AI
+		/// ´´½¨µ¥¸ö¼¼ÄÜAI
 		/// </summary>
 		/// <param name="aiData">
 		/// @return </param>
@@ -199,7 +199,7 @@ namespace com.kx.sglm.gs.battle.share.skill.creater
 		}
 
 		/// <summary>
-		/// åˆ›å»ºAIæ¡ä»¶
+		/// ´´½¨AIÌõ¼þ
 		/// </summary>
 		/// <param name="aiData">
 		/// @return </param>
@@ -221,7 +221,7 @@ namespace com.kx.sglm.gs.battle.share.skill.creater
 
 
 		/// <summary>
-		/// ç”Ÿæˆé»˜è®¤çš„æ¡ä»¶åˆ—è¡¨ï¼Œç›®å‰æ¦‚çŽ‡RATEæ˜¯é»˜è®¤çš„å›ºæœ‰æ¡ä»¶
+		/// Éú³ÉÄ¬ÈÏµÄÌõ¼þÁÐ±í£¬Ä¿Ç°¸ÅÂÊRATEÊÇÄ¬ÈÏµÄ¹ÌÓÐÌõ¼þ
 		/// </summary>
 		/// <param name="baseData">
 		/// @return </param>
@@ -237,7 +237,7 @@ namespace com.kx.sglm.gs.battle.share.skill.creater
 
 
 		/// <summary>
-		/// é€šè¿‡æ¨¡æ¿æž„å»ºæ¡ä»¶åˆ—è¡¨
+		/// Í¨¹ýÄ£°å¹¹½¨Ìõ¼þÁÐ±í
 		/// </summary>
 		/// <param name="baseData">
 		/// @return </param>
@@ -254,7 +254,7 @@ namespace com.kx.sglm.gs.battle.share.skill.creater
 		}
 
 		/// <summary>
-		/// ç”ŸæˆæŠ€èƒ½æ¡ä»¶åˆ—è¡?
+		/// Éú³É¼¼ÄÜÌõ¼þÁÐ±í
 		/// </summary>
 		/// <param name="conditionDataList">
 		/// @return </param>
@@ -302,7 +302,7 @@ namespace com.kx.sglm.gs.battle.share.skill.creater
 		}
 
 		/// <summary>
-		/// ç”ŸæˆæŠ€èƒ½ç›®æ ‡é€‰æ‹©åˆ—è¡¨
+		/// Éú³É¼¼ÄÜÄ¿±êÑ¡ÔñÁÐ±í
 		/// </summary>
 		/// <param name="targetDataList">
 		/// @return </param>
@@ -328,7 +328,7 @@ namespace com.kx.sglm.gs.battle.share.skill.creater
 		}
 
 		/// <summary>
-		/// ç”ŸæˆæŠ€èƒ½æ•ˆæžœåˆ—è¡?
+		/// Éú³É¼¼ÄÜÐ§¹ûÁÐ±í
 		/// </summary>
 		/// <param name="effectDataList">
 		/// @return </param>
@@ -361,7 +361,7 @@ namespace com.kx.sglm.gs.battle.share.skill.creater
 		}
 
 		/// <summary>
-		/// åˆ›å»ºæŠ€èƒ½ç»„æˆåˆ—è¡¨çš„æ¨¡æ¿æ–¹æ³•ï¼Œé…åˆBaseFactoryEnumä½¿ç”¨ï¼Œéœ€è¦å®žçŽ°åˆ›å»ºè‡ªèº«å¯¹è±¡ï¼Œåˆ›å»ºæ—¶è°ƒç”¨BaseFactoryEnum. createSingleConditionï¼Œä¼ å…¥ä¸åŒå‚æ•°å³å?
+		/// ´´½¨¼¼ÄÜ×é³ÉÁÐ±íµÄÄ£°å·½·¨£¬ÅäºÏBaseFactoryEnumÊ¹ÓÃ£¬ÐèÒªÊµÏÖ´´½¨×ÔÉí¶ÔÏó£¬´´½¨Ê±µ÷ÓÃBaseFactoryEnum. createSingleCondition£¬´«Èë²»Í¬²ÎÊý¼´¿É
 		/// 
 		/// @author liyuan2
 		/// </summary>

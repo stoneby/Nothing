@@ -9,7 +9,7 @@ namespace com.kx.sglm.gs.battle.share.skill
 	using BattleTeam = com.kx.sglm.gs.battle.share.actor.impl.BattleTeam;
 
 	/// <summary>
-	/// 鐩爣鑾峰彇鍣紝鑷繁鐭ラ亾鏄鏁岃繕鏄宸?
+	/// 目标获取器，自己知道是对敌还是对己
 	/// 
 	/// @author liyuan2
 	/// 
@@ -18,10 +18,10 @@ namespace com.kx.sglm.gs.battle.share.skill
 	{
 
 		/// <summary>
-		/// 鏄惁鏄鏁岀殑 </summary>
+		/// 是否是对敌的 </summary>
 		private bool enemyEffect;
 		/// <summary>
-		/// 鐩爣鍒楄〃 </summary>
+		/// 目标列表 </summary>
 		private List<ISkillTargetGetter> targetGetterList;
 
 		public TargetGetterHolder(bool enemyEffect)

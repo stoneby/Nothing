@@ -51,7 +51,11 @@ namespace Assets.Game.Scripts.Net.handler
             var themsg = msg.GetContent() as SCAddItem;
             if (themsg != null)
             {
-                var infos = ItemModeLocator.Instance.ScAllItemInfos.ItemInfos ?? new List<ItemInfo>();
+                if(ItemModeLocator.Instance.ScAllItemInfos.ItemInfos == null)
+                {
+                    ItemModeLocator.Instance.ScAllItemInfos.ItemInfos = new List<ItemInfo>();
+                }
+                var infos = ItemModeLocator.Instance.ScAllItemInfos.ItemInfos;
                 infos.Add(themsg.Info);
                 var itemsWindow = WindowManager.Instance.GetWindow<UItemsWindow>();
                 itemsWindow.Refresh(infos);

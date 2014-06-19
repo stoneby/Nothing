@@ -17,7 +17,7 @@ namespace com.kx.sglm.gs.battle.share.skill.manager
 	using BaseMonsterSkillAction = com.kx.sglm.gs.battle.share.skill.action.BaseMonsterSkillAction;
 
 	/// <summary>
-	/// æˆ˜æ–—å†…æ€ªç‰©æŠ€èƒ½ç®¡ç†å™¨
+	/// Õ½¶·ÄÚ¹ÖÎï¼¼ÄÜ¹ÜÀíÆ÷
 	/// 
 	/// @author liyuan2
 	/// 
@@ -26,10 +26,10 @@ namespace com.kx.sglm.gs.battle.share.skill.manager
 	{
 
 		/// <summary>
-		/// æ€ªç‰©AIç®¡ç† </summary>
+		/// ¹ÖÎïAI¹ÜÀí </summary>
 		private MonsterAI monsterAI;
 		/// <summary>
-		/// æ€ªç‰©æŠ€èƒ½åˆ—è¡? </summary>
+		/// ¹ÖÎï¼¼ÄÜÁÐ±í </summary>
 		private Dictionary<int, BaseMonsterSkillAction> monsterSkillMap;
 		private BaseMonsterSkillAction curAction;
 		private int leftRound;
@@ -73,7 +73,7 @@ namespace com.kx.sglm.gs.battle.share.skill.manager
 
 		public override void afterAttack(BattleFightRecord record)
 		{
-			// ä¹Ÿè®¸ä¼šæ›´æ¢æŠ€èƒ?
+			// Ò²Ðí»á¸ü»»¼¼ÄÜ
 			resetLeftRound();
 			recordRound(record.getAttackAction());
 		}
@@ -86,13 +86,13 @@ namespace com.kx.sglm.gs.battle.share.skill.manager
 
 		public override void onAttack(BattleFightRecord fightRecord)
 		{
-			// å‡è®¾æ‰€æœ‰çš„æŠ€èƒ½éƒ½æœ‰é¢å¤–CDï¼Œå…ˆæ›´æ–°
+			// ¼ÙÉèËùÓÐµÄ¼¼ÄÜ¶¼ÓÐ¶îÍâCD£¬ÏÈ¸üÐÂ
 			if (!inExtraRound)
 			{
 				addExtraCDRound(fightRecord);
 				InExtraRound = true;
 			}
-			// å¦‚æžœå½“å‰å‰©ä½™å›žåˆä¸?ï¼Œæ‰§è¡ŒåŠ¨ä½?
+			// Èç¹ûµ±Ç°Ê£Óà»ØºÏÎª0£¬Ö´ÐÐ¶¯×÷
 			if (CDZero)
 			{
 				action(curAction, fightRecord);
@@ -108,7 +108,7 @@ namespace com.kx.sglm.gs.battle.share.skill.manager
 
 		protected internal virtual void addExtraCDRound(BattleFightRecord fightRecord)
 		{
-			// TODOï¼šå¦‚æžœå½“å‰æ²¡æœ‰CDï¼Œå°±ä¸ç”¨å˜äº†ï¼Œå› ä¸ºèµ°åˆ?onFightActionæ–¹æ³•çš„æ—¶å€™CDå¿…ç„¶æ˜¯é›¶
+			// TODO£ºÈç¹ûµ±Ç°Ã»ÓÐCD£¬¾Í²»ÓÃ±äÁË£¬ÒòÎª×ßµ½#onFightAction·½·¨µÄÊ±ºòCD±ØÈ»ÊÇÁã
 			leftRound = curAction.ExtraCD;
 			if (!CDZero)
 			{

@@ -18,7 +18,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 	using ArrayUtils = com.kx.sglm.gs.battle.share.utils.ArrayUtils;
 
 	/// <summary>
-	/// 鐜╁鐨勮嫳闆勯槦浼?
+	/// 玩家的英雄队伍
 	/// 
 	/// @author liyuan2
 	/// 
@@ -27,32 +27,32 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 	{
 
 		/// <summary>
-		/// 鎬昏閲忥紝鍥犱负鑻遍泟闃熶紞鏄病鏈夊崟鐙鏉＄殑 </summary>
+		/// 总血量，因为英雄队伍是没有单独血条的 </summary>
 		protected internal int totalHp;
 
 		/// <summary>
-		/// 褰撳墠鐨勮閲? </summary>
+		/// 当前的血量 </summary>
 		protected internal int curHp;
 		/// <summary>
-		/// 褰撳墠姘斿姏鍊? </summary>
+		/// 当前气力值 </summary>
 		protected internal int curMp;
 
 		/// <summary>
-		/// 鏈�澶ф皵鍔涘�? </summary>
+		/// 最大气力值 </summary>
 		protected internal int totalMp;
 
 		/// <summary>
-		/// 褰撳墠鍦ㄦ垬鏂楀唴鐨勬墍鏈夋灏嗙偣 </summary>
+		/// 当前在战斗内的所有武将点 </summary>
 		protected internal HeroPoint[] battlingHeroArr;
 
 		/// <summary>
-		/// 绛夊緟鍒楄〃涓殑姝﹀皢鐐? </summary>
+		/// 等待列表中的武将点 </summary>
 		protected internal LinkedList<HeroPoint> waitingHeroList;
 
 		protected internal HeroPoint[] indexedHeroPoint;
 
 		/// <summary>
-		/// 鍗冲皢鍑烘墜鐨勬灏嗗簭鍒? </summary>
+		/// 即将出手的武将序列 </summary>
 		protected internal int[] curActionArr;
 
 		public HeroTeam(Battle battle, BattleSideEnum side) : base(battle, side)
@@ -270,8 +270,8 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 			{
 				return false;
 			}
-			// 鍏堝垱寤轰竴涓猧ndex锛屽洜涓哄鎴风瑕佸厛浜х敓index
-			// TODO: 杩欓噷涓嶅お濂藉厛閲嶆瀯
+			// 先创建一个index，因为客户端要先产生index
+			// TODO: 这里不太好先重构
 			BattleIndexRecord _indexRecord = Battle.Record.OrCreateIndexRecord;
 			updateCurActionArr(battleIndexes);
 			calcFighterAction();

@@ -8,7 +8,7 @@ namespace com.kx.sglm.gs.battle.share.helper
 	using PointDirection = com.kx.sglm.gs.battle.share.enums.PointDirection;
 
 	/// <summary>
-	/// åŒ…å«é’ˆå¯¹<seealso cref="HeroTeam"/>å†…çš„æˆ˜æ–—åºåˆ—Arrayçš„ä¸€äº›æ£€æŸ¥å’Œç”Ÿæˆæ“ä½œ
+	/// °üº¬Õë¶Ô<seealso cref="HeroTeam"/>ÄÚµÄÕ½¶·ÐòÁÐArrayµÄÒ»Ð©¼ì²éºÍÉú³É²Ù×÷
 	/// 
 	/// @author liyuan2
 	/// 
@@ -27,13 +27,13 @@ namespace com.kx.sglm.gs.battle.share.helper
 		}
 
 		/// <summary>
-		/// åˆå§‹åŒ–ç”¨æ–¹æ³•ï¼Œåˆå§‹åŒ–æ‰€æœ‰çš„Indexçš„å¯è¿žæŽ¥ç‚¹çš„int_flagã€?br>
-		/// length ä¸?çš„æƒ…å†µï¼Œindexé¡ºåºä¸?br>
+		/// ³õÊ¼»¯ÓÃ·½·¨£¬³õÊ¼»¯ËùÓÐµÄIndexµÄ¿ÉÁ¬½ÓµãµÄint_flag¡£<br>
+		/// length Îª3µÄÇé¿ö£¬indexË³ÐòÎª<br>
 		/// 0,1,2<br>
 		/// 3,4,5<br>
 		/// 6,7,8<br>
-		/// æ¯”å¦‚2çš„å¯è¿žæŽ¥ç‚?,4,5,äºŒè¿›åˆ¶ä¸º011010,è½¬æˆintä¸?6<br>
-		/// æ–¹æ³•åˆå§‹åŒ–åœ¨<seealso cref="BattleConstants#POINT_CONNECT_ARR"/>æ•°ç»„ä¸­ï¼Œå¯ä»¥åœ¨æˆ˜æ–—ä¸­ç›´æŽ¥ä½¿ç”¨
+		/// ±ÈÈç2µÄ¿ÉÁ¬½Óµã1,4,5,¶þ½øÖÆÎª011010,×ª³ÉintÎª26<br>
+		/// ·½·¨³õÊ¼»¯ÔÚ<seealso cref="BattleConstants#POINT_CONNECT_ARR"/>Êý×éÖÐ£¬¿ÉÒÔÔÚÕ½¶·ÖÐÖ±½ÓÊ¹ÓÃ
 		/// </summary>
 		/// <param name="length">
 		/// @return </param>
@@ -55,9 +55,9 @@ namespace com.kx.sglm.gs.battle.share.helper
 		}
 
 		/// <summary>
-		/// æ˜¯å¦æ˜¯æ­£ç¡®çš„ä½ç½®åºåˆ—ï¼ŒåŒ…æ‹?.æ˜¯å¦åˆæ³•ï¼?.æ˜¯å¦å¯è¿žæŽ¥ï¼Œ3.æ˜¯å¦åŒä¸€é¢œè‰²<br>
-		/// è¿™é‡Œä¸ºäº†ä¿è¯æ–¹æ³•çš„åˆ’åˆ†ï¼Œæ²¡æœ‰ä½¿ç”¨å…¨éƒ¨çš„å¤§å¾ªçŽ¯åšï¼Œå¯èƒ½ä¼šæµªè´¹ä¸€ç‚¹æ€§èƒ½ã€?br>
-		/// æˆ˜æ–—å†…ç›®å‰æœ€é•¿çš„é“¾æŽ¥ä¸?ï¼Œè¿™ä¸ªæ•°é‡çº§ç†è®ºä¸Šä¸ä¼šå¯¹æ€§èƒ½é€ æˆå¤ªå¤§æ¶ˆè€—ã€?
+		/// ÊÇ·ñÊÇÕýÈ·µÄÎ»ÖÃÐòÁÐ£¬°üÀ¨1.ÊÇ·ñºÏ·¨£¬2.ÊÇ·ñ¿ÉÁ¬½Ó£¬3.ÊÇ·ñÍ¬Ò»ÑÕÉ«<br>
+		/// ÕâÀïÎªÁË±£Ö¤·½·¨µÄ»®·Ö£¬Ã»ÓÐÊ¹ÓÃÈ«²¿µÄ´óÑ­»·×ö£¬¿ÉÄÜ»áÀË·ÑÒ»µãÐÔÄÜ¡£<br>
+		/// Õ½¶·ÄÚÄ¿Ç°×î³¤µÄÁ´½ÓÎª9£¬Õâ¸öÊýÁ¿¼¶ÀíÂÛÉÏ²»»á¶ÔÐÔÄÜÔì³ÉÌ«´óÏûºÄ¡£
 		/// </summary>
 		/// <param name="actionArray"> </param>
 		/// <param name="battlingHeroArr">
@@ -82,8 +82,8 @@ namespace com.kx.sglm.gs.battle.share.helper
 		}
 
 		/// <summary>
-		/// æ˜¯å¦æ˜¯åˆæ³•çš„ç‚¹åºåˆ—ã€?br>
-		/// æ£€æŸ?.æ˜¯å¦æœ‰é‡å¤ï¼› 2.ç‚¹çš„å€¼æ˜¯å¦ç¬¦åˆæˆ˜æ–—çš„æ•°ç»„è®¾å®š
+		/// ÊÇ·ñÊÇºÏ·¨µÄµãÐòÁÐ¡£<br>
+		/// ¼ì²é1.ÊÇ·ñÓÐÖØ¸´£» 2.µãµÄÖµÊÇ·ñ·ûºÏÕ½¶·µÄÊý×éÉè¶¨
 		/// </summary>
 		/// <param name="indexArr">
 		/// @return </param>
@@ -112,7 +112,7 @@ namespace com.kx.sglm.gs.battle.share.helper
 		}
 
 		/// <summary>
-		/// æ˜¯å¦æ˜¯å¯è¿žæŽ¥çš„ç‚¹åºåˆ—
+		/// ÊÇ·ñÊÇ¿ÉÁ¬½ÓµÄµãÐòÁÐ
 		/// </summary>
 		/// <param name="indexArr">
 		/// @returnz </param>
@@ -132,7 +132,7 @@ namespace com.kx.sglm.gs.battle.share.helper
 		}
 
 		/// <summary>
-		/// ç‚¹åºåˆ—æ˜¯å¦å…¨éƒ¨æ˜¯åŒä¸€é¢œè‰²ï¼Œå¹¶ä¸”éžç©?
+		/// µãÐòÁÐÊÇ·ñÈ«²¿ÊÇÍ¬Ò»ÑÕÉ«£¬²¢ÇÒ·Ç¿Õ
 		/// </summary>
 		/// <param name="indexArray"> </param>
 		/// <param name="battlePoint">
@@ -150,7 +150,7 @@ namespace com.kx.sglm.gs.battle.share.helper
 //ORIGINAL LINE: final int _realIndex = indexArray[_index];
 				int _realIndex = indexArray[_index];
 				HeroColor _curColor = battlePoint[_realIndex].Color;
-				if (_curColor == null) // å¦‚æžœå–å‡ºçš„é¢œè‰²æ˜¯ç©ºï¼Œç›´æŽ¥è¿”å›žé”™è¯¯
+				if (_curColor == null) // Èç¹ûÈ¡³öµÄÑÕÉ«ÊÇ¿Õ£¬Ö±½Ó·µ»Ø´íÎó
 				{
 					_sameColor = false;
 				}
@@ -171,7 +171,7 @@ namespace com.kx.sglm.gs.battle.share.helper
 		}
 
 		/// <summary>
-		/// æ£€æŸ¥ä¸¤ä¸ªç‚¹æ˜¯å¦æ˜¯å¯è¿žæŽ¥çš„ä¸¤ç‚?
+		/// ¼ì²éÁ½¸öµãÊÇ·ñÊÇ¿ÉÁ¬½ÓµÄÁ½µã
 		/// </summary>
 		/// <param name="index"> </param>
 		/// <param name="nextIndex">
@@ -186,7 +186,7 @@ namespace com.kx.sglm.gs.battle.share.helper
 		}
 
 		/// <summary>
-		/// ä¸€ä¸ªç‚¹çš„æ•°å­—æ˜¯å¦åˆæ³?
+		/// Ò»¸öµãµÄÊý×ÖÊÇ·ñºÏ·¨
 		/// </summary>
 		/// <param name="index">
 		/// @return </param>
@@ -196,7 +196,7 @@ namespace com.kx.sglm.gs.battle.share.helper
 		}
 
 		/// <summary>
-		/// æ ¹æ®æœ€é•¿é™åˆ¶åˆ¤æ–­ä¸€ä¸ªç‚¹çš„æ•°å­—æ˜¯å¦åˆæ³?
+		/// ¸ù¾Ý×î³¤ÏÞÖÆÅÐ¶ÏÒ»¸öµãµÄÊý×ÖÊÇ·ñºÏ·¨
 		/// </summary>
 		/// <param name="length"> </param>
 		/// <param name="index">

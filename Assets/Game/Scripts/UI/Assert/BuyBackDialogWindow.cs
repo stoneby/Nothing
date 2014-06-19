@@ -47,11 +47,12 @@ public class BuyBackDialogWindow : Window
             var buyBackItem = grid.transform.GetChild(i).GetComponent<BuyBackItem>();
             buyBackItem.ItemClicked -= OnItemClicked;
         }
+        StopCoroutine("UpdateExpireTime");
     }
 
     #endregion
 
-    #region Mono
+    #region Private Methods
 
     private void Awake()
     {

@@ -4,7 +4,7 @@ namespace com.kx.sglm.gs.battle.share.skill.model
 	using BattleFightRecord = com.kx.sglm.gs.battle.share.data.record.BattleFightRecord;
 
 	/// <summary>
-	/// 鎶�鑳藉唴闇�瑕佷紶鍑虹殑鏁版嵁
+	/// 技能内需要传出的数据
 	/// @author liyuan2
 	/// 
 	/// </summary>

@@ -7,16 +7,16 @@ namespace com.kx.sglm.gs.battle.share
 		private static int BATTLE_EVENT_BASE = 0;
 
 		/// <summary>
-		/// æˆ˜æ–—åœºæ™¯å¼€å§? </summary>
+		/// Õ½¶·³¡¾°¿ªÊ¼ </summary>
 		public static readonly int BATTLE_SCENE_START = BATTLE_EVENT_BASE++;
 		/// <summary>
-		/// é˜Ÿä¼å‡ºæ‰‹å¼€å§? </summary>
+		/// ¶ÓÎé³öÊÖ¿ªÊ¼ </summary>
 		public static readonly int BATTLE_TEAM_SHOT_START = BATTLE_EVENT_BASE++;
 		/// <summary>
-		/// é˜Ÿä¼æŒ‚èµ·æ—¶ã€å³ä¸»åŠ¨æŠ€èƒ½ã€? </summary>
+		/// ¶ÓÎé¹ÒÆðÊ±¡¾¼´Ö÷¶¯¼¼ÄÜ¡¿ </summary>
 		public static readonly int BATTLE_HUNG_UP = BATTLE_EVENT_BASE++;
 		/// <summary>
-		/// æ”»å‡»æŠ€èƒ? </summary>
+		/// ¹¥»÷¼¼ÄÜ </summary>
 		public static readonly int BATTLE_FIGHTER_ATTACK = BATTLE_EVENT_BASE++;
 
 		public static readonly int SIZE = BATTLE_EVENT_BASE;

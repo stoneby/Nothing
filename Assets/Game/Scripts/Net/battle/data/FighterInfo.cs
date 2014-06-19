@@ -6,11 +6,10 @@ namespace com.kx.sglm.gs.battle.share.data
 
 	using BattleSideEnum = com.kx.sglm.gs.battle.share.enums.BattleSideEnum;
 	using FighterType = com.kx.sglm.gs.battle.share.enums.FighterType;
-	using FighterAProperty = com.kx.sglm.gs.battle.share.utils.FighterAProperty;
 	using PropertyRawSet = com.kx.sglm.gs.battle.share.utils.PropertyRawSet;
 
 	/// <summary>
-	/// 鎴樻枟鐩稿叧灞炴�?
+	/// 战斗相关属性
 	/// 
 	/// @author liyuan2
 	/// 
@@ -21,7 +20,8 @@ namespace com.kx.sglm.gs.battle.share.data
 		protected internal int index;
 		protected internal BattleSideEnum battleSide;
 		protected internal FighterType fighterType;
-		protected internal FighterAProperty battleProperty;
+		//TODO: modify prop	
+		protected internal Dictionary<int, int> battleProperties;
 		protected internal PropertyRawSet properties;
 		protected internal int activeSkillId;
 		protected internal List<int> skillIdList;
@@ -73,15 +73,15 @@ namespace com.kx.sglm.gs.battle.share.data
 			}
 		}
 
-		public virtual FighterAProperty BattleProperty
+		public virtual Dictionary<int, int> BattleProperty
 		{
 			set
 			{
-				this.battleProperty = value;
+				this.battleProperties = value;
 			}
 			get
 			{
-				return battleProperty;
+				return battleProperties;
 			}
 		}
 

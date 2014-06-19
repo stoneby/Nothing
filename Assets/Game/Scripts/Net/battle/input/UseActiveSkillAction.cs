@@ -6,7 +6,7 @@ namespace com.kx.sglm.gs.battle.share.input
 	using BattleSideEnum = com.kx.sglm.gs.battle.share.enums.BattleSideEnum;
 
 	/// <summary>
-	/// 浣跨敤涓诲姩鎶�鑳?
+	/// 使用主动技能
 	/// 
 	/// @author liyuan2
 	/// 

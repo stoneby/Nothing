@@ -7,7 +7,7 @@ namespace com.kx.sglm.gs.battle.share.skill.action
 	using BattleFighter = com.kx.sglm.gs.battle.share.actor.impl.BattleFighter;
 
 	/// <summary>
-	/// 鑻遍泟鎶�鑳?
+	/// 英雄技能
 	/// 
 	/// @author liyuan2
 	/// 
@@ -16,15 +16,15 @@ namespace com.kx.sglm.gs.battle.share.skill.action
 	{
 
 		/// <summary>
-		/// 瑙﹀彂鑺傜偣浣嶇疆ID </summary>
+		/// 触发节点位置ID </summary>
 		private int triggerId;
 
 		/// <summary>
-		/// 娑堣�桵P </summary>
+		/// 消耗MP </summary>
 		private int costMp;
 
 		/// <summary>
-		/// 鍏敤姒傜巼 </summary>
+		/// 公用概率 </summary>
 		private List<ISkillCondition> effectCondition;
 
 
@@ -81,7 +81,7 @@ namespace com.kx.sglm.gs.battle.share.skill.action
 			this.effectCondition.AddRange(conditionList);
 		}
 
-		//TODO: 鐢↖D鍒ゆ柇鏈夌偣绯欙紝浠ュ悗鏀?
+		//TODO: 用ID判断有点糙，以后改
 		public virtual bool NormalAction
 		{
 			get

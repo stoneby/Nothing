@@ -4,7 +4,7 @@ namespace com.kx.sglm.gs.battle.share.enums
 	using IndexedEnum = com.kx.sglm.core.constant.IndexedEnum;
 
 	/// <summary>
-	/// 鐐圭殑鏂瑰悜闆嗗悎锛屾病鏈変娇鐢ㄦ灇涓炬槸鍥犱负鏃犳硶杞垚c#鐨勬灇涓?
+	/// 点的方向集合，没有使用枚举是因为无法转成c#的枚举
 	/// @author liyuan2
 	/// 
 	/// </summary>

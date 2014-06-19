@@ -3,6 +3,7 @@ using com.kx.sglm.gs.battle.share.data;
 using com.kx.sglm.gs.battle.share.utils;
 using System;
 using System.Collections;
+using com.kx.sglm.gs.hero.properties;
 using Template;
 using UnityEngine;
 
@@ -115,8 +116,8 @@ public class CharacterControl : MonoBehaviour
         CharacterIndex = (tempid % 2 == 0) ? 1 : 5;
 
         JobIndex = TemplateData.Job;
-        Attrack = Data.BattleProperty.get(FighterAProperty.ATK);
-        Restore = Data.BattleProperty.get(FighterAProperty.RECOVER);
+        Attrack = Data.battleProperties[RoleAProperty.ATK];
+        Restore = Data.BattleProperty[RoleAProperty.RECOVER];
 
         var uisa = AnimObj.GetComponent<UISpriteAnimation>();
         uisa.namePrefix = "c_" + CharacterIndex + "_0_";
