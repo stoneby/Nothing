@@ -16,17 +16,21 @@ public class ChooseHeroCardWindow : Window
     private UISprite tabTemplate;
     private UITable table;
     private TabBehaviour tabBehaviour;
-    private GameObject ad1;
     private UILabel oneTimeCost;
     private UILabel tenTimeCost;
     private UILabel timeForFree;
     private UILabel freeThisTime;
     private UILabel timesForHero;
+    private UILabel totalFamous;
     private Transform heroRelated;
     private Transform itemRelated;
     private const int TenTimes = 10;
     private bool isFreeTime;
     private SCLotteryList scLotteryList;
+    private Transform tenTimesDesc;
+    private Transform elevenTimesDesc;
+    private AdvertisePlayer player;
+    private int lotteryMode = -1;
 
     #endregion
 
@@ -48,6 +52,7 @@ public class ChooseHeroCardWindow : Window
             var item = list[index];
             Destroy(item.gameObject);
         }
+        player.Reset();
     }
 
     #endregion
@@ -56,21 +61,24 @@ public class ChooseHeroCardWindow : Window
 
     private void Awake()
     {
-        backLis = UIEventListener.Get(transform.FindChild("Buttons/BackBtn").gameObject);
-        buyOneLis = UIEventListener.Get(transform.FindChild("Buttons/BuyOneBtn").gameObject);
-        buyTenLis = UIEventListener.Get(transform.FindChild("Buttons/BuyTenBtn").gameObject);
-        tabTemplate = transform.FindChild("TabTemplate").GetComponent<UISprite>();
+        backLis = UIEventListener.Get(Utils.FindChild(transform, "BackBtn").gameObject);
+        buyOneLis = UIEventListener.Get(Utils.FindChild(transform, "BuyOneBtn").gameObject);
+        buyTenLis = UIEventListener.Get(Utils.FindChild(transform, "BuyTenBtn").gameObject);
+        tabTemplate = Utils.FindChild(transform, "TabTemplate").GetComponent<UISprite>();
         tabTemplate.gameObject.SetActive(false);
-        table = transform.FindChild("TabButtons").GetComponent<UITable>();
+        table = Utils.FindChild(transform, "TabButtons").GetComponent<UITable>();
         tabBehaviour = table.GetComponent<TabBehaviour>();
-        oneTimeCost = transform.FindChild("Labels/OneTimeCost").GetComponent<UILabel>();
-        tenTimeCost = transform.FindChild("Labels/TenTimeCost").GetComponent<UILabel>();
-        timeForFree = transform.FindChild("Labels/TimeForFree").GetComponent<UILabel>();
-        freeThisTime = transform.FindChild("Labels/FreeThisTime").GetComponent<UILabel>();
-        heroRelated = transform.FindChild("HeroRelated");
-        itemRelated = transform.FindChild("ItemRelated");
+        oneTimeCost = Utils.FindChild(transform,"OneTimeCost").GetComponent<UILabel>();
+        tenTimeCost = Utils.FindChild(transform, "TenTimeCost").GetComponent<UILabel>();
+        timeForFree = Utils.FindChild(transform, "TimeForFree").GetComponent<UILabel>();
+        freeThisTime = Utils.FindChild(transform, "FreeThisTime").GetComponent<UILabel>();
+        totalFamous = Utils.FindChild(transform, "TotalRep").GetComponent<UILabel>();
+        tenTimesDesc = Utils.FindChild(transform, "TenTimes");
+        elevenTimesDesc = Utils.FindChild(transform, "ElevenTimes");
+        heroRelated = Utils.FindChild(transform, "HeroRelated");
+        itemRelated = Utils.FindChild(transform, "ItemRelated");
         timesForHero = heroRelated.FindChild("TimesForHero").GetComponent<UILabel>();
-        ad1 = transform.FindChild("Ads/Ad1").gameObject;
+        player = GetComponentInChildren<AdvertisePlayer>();
     }
 
     private void InstallHandlers()
@@ -94,25 +102,68 @@ public class ChooseHeroCardWindow : Window
 
     private void OnBuyOne(GameObject go)
     {
-        var lotteryMode = isFreeTime ? LotteryConstant.LotteryModeFree : LotteryConstant.LotteryModeOnceCharge;
+        lotteryMode = isFreeTime ? LotteryConstant.LotteryModeFree : LotteryConstant.LotteryModeOnceCharge;
+        if(isFreeTime)
+        {
+            SendBuyMessage();
+        }
+        else
+        {
+            var str = scLotteryList.LotteryType == LotteryConstant.LotteryTypeHero
+                          ? StringTable.OneTimeHeroLotteryConfirm
+                          : StringTable.OneTimeItemLotteryConfirm;
+            ShowConfirm(string.Format(str, scLotteryList.LotteryCost));
+        }
+    }
+
+    private void OnCardConfirmCancel(GameObject sender)
+    {
+        ConfirmWindowClean();
+        WindowManager.Instance.Show<AssertionWindow>(false);
+    }
+
+    private void OnCardConfirmOk(GameObject sender)
+    {
+        ConfirmWindowClean();
+        SendBuyMessage();
+    }
+
+    private void ConfirmWindowClean()
+    {
+        var assertWindow = WindowManager.Instance.GetWindow<AssertionWindow>();
+        assertWindow.OkButtonClicked -= OnCardConfirmOk;
+        assertWindow.CancelButtonClicked -= OnCardConfirmCancel;
+    }
+
+    private void SendBuyMessage()
+    {   
         var msg = new CSLottery
-                            {
-                                ActivityId = scLotteryList.ListLotteryInfo[tabBehaviour.ActiveTab].ActivityId,
-                                LotteryType = scLotteryList.LotteryType,
-                                LotteryMode = (sbyte)lotteryMode
-                            };
+                      {
+                          ActivityId = scLotteryList.ListLotteryInfo[tabBehaviour.ActiveTab].ActivityId,
+                          LotteryType = scLotteryList.LotteryType,
+                          LotteryMode = (sbyte) lotteryMode
+                      };
         NetManager.SendMessage(msg);
+    }
+
+    private void ShowConfirm(string title)
+    {
+        var assertWindow = WindowManager.Instance.GetWindow<AssertionWindow>();
+        assertWindow.AssertType = AssertionWindow.Type.OkCancel;
+        assertWindow.Message = "";
+        assertWindow.Title = title;
+        assertWindow.OkButtonClicked += OnCardConfirmOk;
+        assertWindow.CancelButtonClicked += OnCardConfirmCancel;
+        WindowManager.Instance.Show(typeof(AssertionWindow), true);
     }
 
     private void OnBuyTen(GameObject go)
     {
-        var msg = new CSLottery
-        {
-            ActivityId = scLotteryList.ListLotteryInfo[tabBehaviour.ActiveTab].ActivityId,
-            LotteryType = scLotteryList.LotteryType,
-            LotteryMode = LotteryConstant.LotteryModeTenthCharge
-        };
-        NetManager.SendMessage(msg);
+        lotteryMode = LotteryConstant.LotteryModeTenthCharge;
+        var str = scLotteryList.LotteryType == LotteryConstant.LotteryTypeHero
+                      ? StringTable.TenTimeHeroLotteryConfirm
+                      : StringTable.TenTimeItemLotteryConfirm;
+        ShowConfirm(string.Format(str, scLotteryList.LotteryCost * TenTimes));
     }
 
     private IEnumerator UpdateFreeTime(TimeSpan timeRemain)
@@ -146,6 +197,21 @@ public class ChooseHeroCardWindow : Window
         StartCoroutine("UpdateFreeTime", timeRemain);
     }
 
+    private void OnTabChanged(int activetab)
+    { 
+        var isElevenTimes = scLotteryList.ListLotteryInfo[activetab].TenLotteryGiveElevenHero;
+        elevenTimesDesc.gameObject.SetActive(isElevenTimes);
+        tenTimesDesc.gameObject.SetActive(!isElevenTimes);
+        //Just For Demo
+        SetAdvIncon(activetab);
+    }
+
+    private void SetAdvIncon(int activetab)
+    {
+        player.Back.GetComponent<UISprite>().spriteName = "Ad" + (2 * activetab + 2);
+        player.Front.GetComponent<UISprite>().spriteName = "Ad" + (2 * activetab + 1);
+    }
+
     #endregion
 
     #region Public Methods
@@ -162,10 +228,11 @@ public class ChooseHeroCardWindow : Window
             child.SetActive(true);
             Utils.MoveToParent(table.transform, child.transform);
             child.GetComponentInChildren<UILabel>().text = info.Name;
-            toggleItems.Add(child.GetComponent<UISprite>(), ad1);
+            toggleItems.Add(child.GetComponent<UISprite>(), null);
         }
         table.repositionNow = true;
         tabBehaviour.InitTab(toggleItems, 0, "FourTabN", "FourTabD");
+        tabBehaviour.TabChanged += OnTabChanged;
         var isHeroChoose = (lotteryList.LotteryType == LotteryConstant.LotteryTypeHero);
         NGUITools.SetActiveChildren(heroRelated.gameObject, isHeroChoose);
         NGUITools.SetActiveChildren(itemRelated.gameObject, !isHeroChoose);
@@ -173,6 +240,11 @@ public class ChooseHeroCardWindow : Window
         oneTimeCost.text = oneTimeCostValue.ToString(CultureInfo.InvariantCulture);
         tenTimeCost.text = (oneTimeCostValue * TenTimes).ToString(CultureInfo.InvariantCulture);
         timesForHero.text = lotteryList.Get4StarHeroRestTimes.ToString(CultureInfo.InvariantCulture);
+        totalFamous.text = PlayerModelLocator.Instance.Famous.ToString(CultureInfo.InvariantCulture);
+        var isElevenTimes = lotteryList.ListLotteryInfo[tabBehaviour.ActiveTab].TenLotteryGiveElevenHero;
+        elevenTimesDesc.gameObject.SetActive(isElevenTimes);
+        tenTimesDesc.gameObject.SetActive(!isElevenTimes);
+        player.Play();
         DisplayFreeTime(lotteryList.LastFreeLotteryTime);
     }
 
@@ -180,6 +252,11 @@ public class ChooseHeroCardWindow : Window
     {
         DisplayFreeTime(lastTime);
         timesForHero.text = restTimes.ToString(CultureInfo.InvariantCulture);
+    }
+
+    public void RefreshFamous()
+    {
+        totalFamous.text = PlayerModelLocator.Instance.Famous.ToString(CultureInfo.InvariantCulture);
     }
 
     #endregion

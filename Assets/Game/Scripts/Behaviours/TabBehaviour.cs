@@ -29,8 +29,7 @@ public class TabBehaviour : MonoBehaviour
             hLightSpriteName = hLightSpName;
             normalSpriteName = normalSpName;
             toggleItems = items;
-            activeTab = defaultIndex;
-            ShowTab(activeTab);
+            ShowTab(defaultIndex);
             if (TabChanged != null)
             {
                 TabChanged(activeTab);
@@ -52,6 +51,7 @@ public class TabBehaviour : MonoBehaviour
         var sprite = go.GetComponent<UISprite>();
         var tabIndex = GetIndex(sprite);
         ShowTab(tabIndex);
+
     }
 
     public void ShowTab(int tabIndex)
@@ -62,10 +62,10 @@ public class TabBehaviour : MonoBehaviour
             {
                 if (TabChanged != null)
                 {
-                    TabChanged(activeTab);
+                    TabChanged(tabIndex);
                 }
+                activeTab = tabIndex;
             }
-            activeTab = tabIndex;
             int index = 0;
             GameObject objectToShow = null;
             foreach (var item in toggleItems)
@@ -80,7 +80,10 @@ public class TabBehaviour : MonoBehaviour
                 else
                 {
                     sprite.spriteName = normalSpriteName;
-                    spriteObject.SetActive(false);
+                    if(spriteObject != null)
+                    {
+                        spriteObject.SetActive(false);
+                    }
                 }
                 index++;
             }
@@ -96,7 +99,6 @@ public class TabBehaviour : MonoBehaviour
         int index = 0;
         foreach (var item in toggleItems)
         {
-
             var sprite = item.Key;
             if(sprite == tabSprite)
             {

@@ -63,7 +63,6 @@ public class ChooseCardWindow : Window
 
     private void ChooseItemCard(GameObject go)
     {
-        WindowManager.Instance.Show<ChooseCardWindow>(false);
         var msg = new CSLotteryList
         {
             LotteryType = LotteryConstant.LotteryTypeItem
@@ -73,7 +72,6 @@ public class ChooseCardWindow : Window
 
     private void ChooseHeroCard(GameObject go)
     {
-        WindowManager.Instance.Show<ChooseCardWindow>(false);
         var msg = new CSLotteryList
                                 {
                                     LotteryType = LotteryConstant.LotteryTypeHero

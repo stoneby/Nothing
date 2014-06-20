@@ -36,6 +36,8 @@ public class TeamSelectController : MonoBehaviour
     public GameObjectHandler OnDeselect;
     public GameObjectHandler OnAttack;
 
+    public bool Enable;
+
     #endregion
 
     #region Private Fields
@@ -109,32 +111,6 @@ public class TeamSelectController : MonoBehaviour
         CharacterList.Clear();
     }
 
-    public void RegisterEventHandlers()
-    {
-        CharacterList.ForEach(character =>
-        {
-            var listener = UIEventListener.Get(character.gameObject);
-            listener.onDragStart += OnCharacterDragStart;
-            listener.onDragOver += OnCharacterDragOver;
-            listener.onDragEnd += OnCharacterDragEnd;
-            listener.onDragOut += OnCharacterDragOut;
-            listener.onDrag += OnCharacterDrag;
-        });
-    }
-
-    public void UnregisterEventHandlers()
-    {
-        CharacterList.ForEach(character =>
-        {
-            var listener = UIEventListener.Get(character.gameObject);
-            listener.onDragStart -= OnCharacterDragStart;
-            listener.onDragOver -= OnCharacterDragOver;
-            listener.onDragEnd -= OnCharacterDragEnd;
-            listener.onDragOut -= OnCharacterDragOut;
-            listener.onDrag -= OnCharacterDrag;
-        });
-    }
-
     public void Initialize()
     {
         if (initialized)
@@ -143,6 +119,9 @@ public class TeamSelectController : MonoBehaviour
         }
 
         initialized = true;
+        
+        // could select as default.
+        Enable = true;
 
         if (CharacterList == null)
         {
@@ -242,9 +221,20 @@ public class TeamSelectController : MonoBehaviour
             return;
         }
 
+        if (!Enable)
+        {
+            return;
+        }
+
+        var currentDrag = DragBarPool.CurrentObject;
+        if (currentDrag == null)
+        {
+            Logger.LogWarning("Current drag is null in DragBarPool.");
+            return;
+        }
         var sourcePosition = UICamera.mainCamera.WorldToScreenPoint(LastCharacter.transform.position);
         var targetPosition = UICamera.currentTouch.pos;
-        var dragbarController = DragBarPool.CurrentObject.GetComponent<AbstractDragBarController>();
+        var dragbarController = currentDrag.GetComponent<AbstractDragBarController>();
         dragbarController.SetRotate(new Vector2(sourcePosition.x, sourcePosition.y), targetPosition);
         dragbarController.SetWidth(sourcePosition, targetPosition);
         dragbarController.SetSprite("new_drag_normal");
@@ -254,7 +244,7 @@ public class TeamSelectController : MonoBehaviour
     {
         Logger.Log("On character drag start: " + sender.name);
 
-        if (EditMode)
+        if (EditMode || !Enable)
         {
             return;
         }
@@ -272,7 +262,7 @@ public class TeamSelectController : MonoBehaviour
     {
         Logger.Log("On character drag over: " + sender.name + ", dragged started game ojbect: " + draggedObject.name);
 
-        if (EditMode)
+        if (EditMode || !Enable)
         {
             return;
         }
@@ -344,7 +334,7 @@ public class TeamSelectController : MonoBehaviour
     {
         Logger.Log("On character drop end: " + sender.name + ", name:" + name);
 
-        if (EditMode)
+        if (EditMode || !Enable)
         {
             return;
         }
@@ -411,6 +401,34 @@ public class TeamSelectController : MonoBehaviour
         t.localRotation = Quaternion.identity;
         t.localScale = Vector3.one;
         childObject.SetActive(true);
+    }
+
+    private void RegisterEventHandlers()
+    {
+        Debug.Log("RegisterEventHandlers");
+        CharacterList.ForEach(character =>
+        {
+            var listener = UIEventListener.Get(character.gameObject);
+            listener.onDragStart = OnCharacterDragStart;
+            listener.onDragOver = OnCharacterDragOver;
+            listener.onDragEnd = OnCharacterDragEnd;
+            listener.onDragOut = OnCharacterDragOut;
+            listener.onDrag = OnCharacterDrag;
+        });
+    }
+
+    private void UnregisterEventHandlers()
+    {
+        Debug.Log("UnregisterEventHandlers");
+        CharacterList.ForEach(character =>
+        {
+            var listener = UIEventListener.Get(character.gameObject);
+            listener.onDragStart = null;
+            listener.onDragOver = null;
+            listener.onDragEnd = null;
+            listener.onDragOut = null;
+            listener.onDrag = null;
+        });
     }
 
     #endregion

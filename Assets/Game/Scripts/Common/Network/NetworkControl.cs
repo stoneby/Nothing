@@ -108,6 +108,9 @@ public class NetworkControl : MonoBehaviour
                     case (short)MessageType.SC_ADD_ITEMS_AND_HEROS:
                         ChooseCardHandler.OnAddItemsAndHeros(msg);
                         break;
+                    case (short)MessageType.SC_LOTTERY_CANNOT_FREE:
+                        ChooseCardHandler.OnLotteryNotFree(msg);
+                        break;
                 }
                 msg = NetManager.GetMessage();
             }

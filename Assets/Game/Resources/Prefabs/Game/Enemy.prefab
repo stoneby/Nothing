@@ -206,7 +206,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100008}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1, y: 17, z: 0}
+  m_LocalPosition: {x: 0, y: 17, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400010}
@@ -282,7 +282,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 122db2c8e438c8b498a836d561ee2e2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BloodBar: {fileID: 100006}
+  BloodBar: {fileID: 100002}
   BloodLabel: {fileID: 100004}
   CurrentValue: 0
   MaxValue: 0
@@ -600,9 +600,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EnemySprite: {fileID: 100008}
   CdLabel: {fileID: 100014}
-  AimSprite: {fileID: 0}
+  AimSprite: {fileID: 100016}
   AttackLocation: {fileID: 100012}
-  BloodController: {fileID: 0}
+  BloodController: {fileID: 11400000}
 --- !u!114 &11400020
 MonoBehaviour:
   m_ObjectHideFlags: 1

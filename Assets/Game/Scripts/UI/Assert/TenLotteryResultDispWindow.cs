@@ -11,6 +11,8 @@ public class TenLotteryResultDispWindow : Window
 
     private UIEventListener viewOkLis;
     private Transform rewardItemsTran;
+    //For Demo
+    private Transform lastItem;
 
     #endregion
 
@@ -35,6 +37,7 @@ public class TenLotteryResultDispWindow : Window
     {
         viewOkLis = UIEventListener.Get(transform.FindChild("ViewOK").gameObject);
         rewardItemsTran = transform.FindChild("RewardItems");
+        lastItem = rewardItemsTran.FindChild("LastItem");
     }
 
     private void InstallHandlers()
@@ -104,6 +107,7 @@ public class TenLotteryResultDispWindow : Window
     public void Refresh(SCLottery lottery)
     {
         var rewardItems = lottery.RewardItem;
+        NGUITools.SetActiveChildren(rewardItemsTran.gameObject, true);
         if (lottery.LotteryType == LotteryConstant.LotteryTypeHero)
         {
             for (int i = 0; i < rewardItems.Count; i++)
@@ -120,6 +124,10 @@ public class TenLotteryResultDispWindow : Window
                 var info = ItemModeLocator.Instance.FindItem(lottery.RewardItem[i].Uuid);
                 RefreshItem(rewardItemsTran.GetChild(i), info);
             }
+        }
+        if (rewardItemsTran.transform.childCount > rewardItems.Count)
+        {
+            lastItem.gameObject.SetActive(false);
         }
     }
 

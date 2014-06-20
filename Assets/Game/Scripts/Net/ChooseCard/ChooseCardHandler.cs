@@ -8,8 +8,10 @@ namespace Assets.Game.Scripts.Net.handler
          public static void OnLotteryList(ThriftSCMessage msg)
          {
             var themsg = msg.GetContent() as SCLotteryList;
-            if (themsg != null) 
+            if (themsg != null)
             {
+                PlayerModelLocator.Instance.Famous = themsg.Famous;
+                WindowManager.Instance.Show<ChooseCardWindow>(false);
                 WindowManager.Instance.Show<ChooseHeroCardWindow>(true);
                 WindowManager.Instance.GetWindow<ChooseHeroCardWindow>().Refresh(themsg);
             }
@@ -30,6 +32,7 @@ namespace Assets.Game.Scripts.Net.handler
                     var resultWin = WindowManager.Instance.Show<TenLotteryResultDispWindow>(true);
                     resultWin.Refresh(themsg);
                 }
+                WindowManager.Instance.GetWindow<ChooseHeroCardWindow>().RefreshFamous();
             }
          }
 
@@ -86,6 +89,15 @@ namespace Assets.Game.Scripts.Net.handler
                     }
                 }
             }
-         }    
+         }
+   
+        public static void OnLotteryNotFree(ThriftSCMessage msg)
+        {
+            var themsg = msg.GetContent() as SCLotteryCannotFree;
+            if (themsg != null)
+            {
+                
+            }
+        }
     }
 }

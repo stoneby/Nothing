@@ -103,6 +103,11 @@ namespace Assets.Game.Scripts.Net.handler
                             PlayerModelLocator.Instance.Level = (short) propertyChangedNumber.PropertyChanged[RoleProperties.ROLEBASE_LEVEL];
                         }
 
+                        if (propertyChangedNumber.PropertyChanged.ContainsKey(RoleProperties.ROLEBASE_FAMOUS))
+                        {
+                            PlayerModelLocator.Instance.Famous = propertyChangedNumber.PropertyChanged[RoleProperties.ROLEBASE_FAMOUS];
+                        }
+
                         var mainWindow = WindowManager.Instance.GetWindow<UIMainScreenWindow>();//.Show(typeof(UIMainScreenWindow), true);
                         mainWindow.GetComponent<UIMainScreenWindow>().refreshData();
                     }

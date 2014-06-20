@@ -23,6 +23,19 @@ public class EnemyControl : MonoBehaviour
     public FighterInfo Data;
 
     public delegate void OnClickDelegate(FighterInfo data);
+    /// <summary>
+    /// On click callback function.
+    /// </summary>
+    [HideInInspector]
+    public OnClickDelegate OnSelected;
+
+    public float Health
+    {
+        get
+        {
+            return BloodController.CurrentValue;
+        }
+    }
 
     #endregion
 
@@ -34,32 +47,15 @@ public class EnemyControl : MonoBehaviour
     private const string BossWhite = "BossWhite";
     private const string BossBlack = "BossBlack";
 
-    private UIEventListener MonsterClickUIEventListener;
-    private OnClickDelegate OnClickFunc;
+    private UIEventListener onClickEventListener;
+
+    private Vector3 originalPosition;
 
     #endregion
 
     #region Public Methods
 
-    public void Init(OnClickDelegate onclickfunc, FighterInfo data)
-    {
-        SetValue(data);
-        OnClickFunc = onclickfunc;
-        MonsterClickUIEventListener = UIEventListener.Get(gameObject);
-        MonsterClickUIEventListener.onClick += OnClickHandler;
-    }
-
-    public void OnDestory()
-    {
-        if (MonsterClickUIEventListener != null) MonsterClickUIEventListener.onClick -= OnClickHandler;
-    }
-
-    public void PlayBigAttrack()
-    {
-        StartCoroutine(DoPlayBigAttrack());
-    }
-
-    public void SetValue(FighterInfo data)
+    public void SetData(FighterInfo data)
     {
         Data = data;
 
@@ -70,15 +66,6 @@ public class EnemyControl : MonoBehaviour
         SetCdLabel();
     }
 
-
-    public float Health
-    {
-        get
-        {
-            return BloodController.CurrentValue;
-        }
-    }
-
     public void SetRoundCount(int thecd)
     {
         cd = thecd;
@@ -87,10 +74,20 @@ public class EnemyControl : MonoBehaviour
         SetCdLabel();
     }
 
-    public void SetHealth(int thehp)
+    public void SetHealth(int health)
     {
-        BloodController.CurrentValue = thehp;
+        BloodController.CurrentValue = health;
         BloodController.ShowValue();
+    }
+
+    public void SetAimTo(bool flag)
+    {
+        AimSprite.SetActive(flag);
+    }
+
+    public void PlayBigAttrack()
+    {
+        StartCoroutine(DoPlayBigAttrack());
     }
 
     public void PlayBeen()
@@ -112,6 +109,11 @@ public class EnemyControl : MonoBehaviour
     public void ShowBlood(bool show)
     {
         BloodController.ShowBlood(show);
+    }
+
+    public void Reset()
+    {
+        EnemySprite.transform.localPosition = originalPosition;
     }
 
     #endregion
@@ -138,9 +140,12 @@ public class EnemyControl : MonoBehaviour
         sp.spriteName = BossNormal;
     }
 
-    private void OnClickHandler(GameObject game = null)
+    private void OnClickHandler(GameObject sender)
     {
-        OnClickFunc(Data);
+        if (OnSelected != null)
+        {
+            OnSelected(Data);
+        }
     }
 
     private IEnumerator DoPlayBigAttrack()
@@ -153,6 +158,21 @@ public class EnemyControl : MonoBehaviour
         tc.style = UITweener.Style.PingPong;
         tc.PlayForward();
         Destroy(tc, 2);
+    }
+
+    #endregion
+
+    #region Mono
+
+    private void Awake()
+    {
+        // default hide aim sprite.
+        AimSprite.SetActive(false);
+
+        onClickEventListener = UIEventListener.Get(gameObject);
+        onClickEventListener.onClick += OnClickHandler;
+
+        originalPosition = EnemySprite.transform.localPosition;
     }
 
     #endregion

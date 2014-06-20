@@ -14,6 +14,13 @@ public class TeamSimpleController : MonoBehaviour
 
     public bool EditMode;
 
+    public delegate void Selected(GameObject sender, int index, bool selected);
+    [HideInInspector]
+    public Selected OnSelected;
+
+    [HideInInspector]
+    public Character CurrentSelect;
+
     #endregion
 
     #region Private Fields
@@ -41,6 +48,7 @@ public class TeamSimpleController : MonoBehaviour
         {
             var listener = UIEventListener.Get(character.gameObject);
             listener.onDrag -= OnCharacterDrag;
+            listener.onSelect -= OnCharacterSeleced;
         });
 
         CharacterList.Clear();
@@ -116,6 +124,7 @@ public class TeamSimpleController : MonoBehaviour
         {
             var listener = UIEventListener.Get(character.gameObject);
             listener.onDrag += OnCharacterDrag;
+            listener.onSelect += OnCharacterSeleced;
         });
 
     }
@@ -123,6 +132,18 @@ public class TeamSimpleController : MonoBehaviour
     #endregion
 
     #region Private Methods
+
+    private void OnCharacterSeleced(GameObject sender, bool selected)
+    {
+        Logger.LogWarning("On Character Selected: " + sender.name + ", selected: " + selected);
+        var character = sender.GetComponent<Character>();
+        CurrentSelect = character;
+
+        if (OnSelected != null)
+        {
+            OnSelected(sender, character.Index, selected);
+        } 
+    }
 
     private void OnCharacterDrag(GameObject sender, Vector2 delta)
     {
