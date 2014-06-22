@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 using System.Collections;
 
@@ -53,7 +53,7 @@ public class BattleController : MonoBehaviour
             // enemy hurt.
             var enemyControll = enemy.GetComponent<EnemyControl>();
             enemyControll.PlayAttrack();
-            enemyControll.PlayBeen();
+            enemyControll.PlayShake();
 
             // set run state.
             item.PlayState(Character.State.Run, true);

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class EnemyAction : MonoBehaviour
@@ -19,7 +19,7 @@ public class EnemyAction : MonoBehaviour
         // enemy attack.
         var enemyControll = attackObject.GetComponent<EnemyControl>();
         enemyControll.PlayAttrack();
-        enemyControll.PlayBeen();
+        enemyControll.PlayShake();
 
         yield return new WaitForSeconds(AttackTime);
 

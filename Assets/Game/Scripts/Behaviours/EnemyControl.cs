@@ -1,7 +1,6 @@
-﻿using com.kx.sglm.gs.battle.share.data;
-using com.kx.sglm.gs.hero.properties;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
+using com.kx.sglm.gs.battle.share.data;
 
 /// <summary>
 /// Enemy Controller that control behaviours of enemy.
@@ -12,23 +11,32 @@ public class EnemyControl : MonoBehaviour
 
     public GameObject EnemySprite;
     public GameObject CdLabel;
-
     public GameObject AimSprite;
 
+	/// <summary>
+	/// Be attacked location.
+	/// </summary>
     public GameObject AttackLocation;
 
+	/// <summary>
+	/// Blood bar controller.
+	/// </summary>
     public BloodBarController BloodController;
 
     [HideInInspector]
     public FighterInfo Data;
 
     public delegate void OnClickDelegate(FighterInfo data);
+
     /// <summary>
     /// On click callback function.
     /// </summary>
     [HideInInspector]
     public OnClickDelegate OnSelected;
 
+	/// <summary>
+	/// Enemy's health.
+	/// </summary>
     public float Health
     {
         get
@@ -41,13 +49,12 @@ public class EnemyControl : MonoBehaviour
 
     #region Private Fields
 
-    private int cd;
+    private const int WarningCdValue = 1;
+    private const string CdHead = "CD:";
 
     private const string BossNormal = "BossNormal";
     private const string BossWhite = "BossWhite";
     private const string BossBlack = "BossBlack";
-
-    private UIEventListener onClickEventListener;
 
     private Vector3 originalPosition;
 
@@ -55,60 +62,80 @@ public class EnemyControl : MonoBehaviour
 
     #region Public Methods
 
-    public void SetData(FighterInfo data)
-    {
-        Data = data;
+    /// <summary>
+    /// Set data.
+    /// </summary>
+    /// <param name="current">Current value</param>
+    /// <param name="max">Max value</param>
+	public void SetBloodBar(float current, float max)
+	{
+		BloodController.Set(current, max);
+		BloodController.UpdateUI();
+	}
 
-        BloodController.CurrentValue = Data.BattleProperty[RoleAProperty.HP]; ;
-        BloodController.MaxValue = BloodController.CurrentValue;
-        BloodController.ShowValue();
-
-        SetCdLabel();
-    }
-
-    public void SetRoundCount(int thecd)
-    {
-        cd = thecd;
-        BloodController.ShowValue();
-
-        SetCdLabel();
-    }
-
+    /// <summary>
+    /// Set health of this enemy.
+    /// </summary>
+    /// <param name="health">Health.</param>
     public void SetHealth(int health)
     {
         BloodController.CurrentValue = health;
-        BloodController.ShowValue();
+        BloodController.UpdateUI();
     }
 
-    public void SetAimTo(bool flag)
+    /// <summary>
+    /// Set cd label.
+    /// </summary>
+    /// <param name="cd">Cd value</param>
+    public void SetCdLabel(int cd)
+    {
+        var cdLabel = CdLabel.GetComponent<UILabel>();
+        cdLabel.color = (cd == WarningCdValue) ? Color.red : Color.green;
+        cdLabel.text = string.Format("{0} {1}", CdHead, cd);
+    }
+
+    /// <summary>
+    /// Show aim to sprite.
+    /// </summary>
+    /// <param name="flag">If set to <c>true</c> flag.</param>
+    public void ShowAimTo(bool flag)
     {
         AimSprite.SetActive(flag);
     }
-
-    public void PlayBigAttrack()
-    {
-        StartCoroutine(DoPlayBigAttrack());
-    }
-
-    public void PlayBeen()
+   
+    /// <summary>
+    /// Play shake.
+    /// </summary>
+    public void PlayShake()
     {
         iTweenEvent.GetEvent(EnemySprite, "ShakeTween").Play();
     }
 
-    public void PlayBigBeen()
+    /// <summary>
+    /// Play big shake.
+    /// </summary>
+    public void PlayBigShake()
     {
         iTweenEvent.GetEvent(EnemySprite, "ShakeBigTween").Play();
     }
 
+    /// <summary>
+    /// Play attack animation.
+    /// </summary>
+    /// <returns>The attrack.</returns>
     public float PlayAttrack()
     {
         StartCoroutine(DoPlayAttarck());
         return GameConfig.MonsterAttrackStepTime * 3;
     }
 
+    /// <summary>
+    /// Show blood bar.
+    /// </summary>
+    /// <param name="show">If set to <c>true</c> show.</param>
     public void ShowBlood(bool show)
     {
-        BloodController.ShowBlood(show);
+        BloodController.Show(show);
     }
 
     public void Reset()
@@ -119,13 +146,6 @@ public class EnemyControl : MonoBehaviour
     #endregion
 
     #region Private Methods
-
-    private void SetCdLabel()
-    {
-        var cdLabel = CdLabel.GetComponent<UILabel>();
-        cdLabel.color = cd == 1 ? new Color(255, 0, 0) : new Color(0, 255, 0);
-        cdLabel.text = "CD:" + cd;
-    }
 
     private IEnumerator DoPlayAttarck()
     {
@@ -140,26 +160,6 @@ public class EnemyControl : MonoBehaviour
         sp.spriteName = BossNormal;
     }
 
-    private void OnClickHandler(GameObject sender)
-    {
-        if (OnSelected != null)
-        {
-            OnSelected(Data);
-        }
-    }
-
-    private IEnumerator DoPlayBigAttrack()
-    {
-        yield return new WaitForSeconds(0.4f);
-        var tc = EnemySprite.AddComponent<TweenColor>();
-        tc.from = new Color(255, 0, 0);
-        tc.to = new Color(0, 255, 0);
-        tc.duration = 0.2f;
-        tc.style = UITweener.Style.PingPong;
-        tc.PlayForward();
-        Destroy(tc, 2);
-    }
-
     #endregion
 
     #region Mono
@@ -168,10 +168,7 @@ public class EnemyControl : MonoBehaviour
     {
         // default hide aim sprite.
         AimSprite.SetActive(false);
-
-        onClickEventListener = UIEventListener.Get(gameObject);
-        onClickEventListener.onClick += OnClickHandler;
-
+        // record original position down to restore.
         originalPosition = EnemySprite.transform.localPosition;
     }
 

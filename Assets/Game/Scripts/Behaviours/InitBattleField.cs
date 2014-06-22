@@ -1,12 +1,13 @@
-﻿using Assets.Game.Scripts.Common.Model;
-using com.kx.sglm.gs.battle.share;
-using com.kx.sglm.gs.battle.share.data.record;
-using com.kx.sglm.gs.battle.share.input;
-using KXSGCodec;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Assets.Game.Scripts.Common.Model;
+using KXSGCodec;
+using com.kx.sglm.gs.battle.share;
+using com.kx.sglm.gs.battle.share.data.record;
+using com.kx.sglm.gs.battle.share.input;
+using com.kx.sglm.gs.hero.properties;
 using Random = UnityEngine.Random;
 
 public class InitBattleField : MonoBehaviour, IBattleView
@@ -252,7 +253,9 @@ public class InitBattleField : MonoBehaviour, IBattleView
         for (var i = 0; i < EnemyController.CharacterList.Count; ++i)
         {
             var ec = EnemyController.CharacterList[i].gameObject.GetComponent<EnemyControl>();
-            ec.SetData(BattleModelLocator.Instance.MonsterList[BattleModelLocator.Instance.MonsterIndex + i]);
+            var enemyData = BattleModelLocator.Instance.MonsterList[BattleModelLocator.Instance.MonsterIndex + i];
+            var maxValue = enemyData.BattleProperty[RoleAProperty.HP];
+            ec.SetBloodBar(maxValue, maxValue);
 
             Logger.Log("Init enemy of index: " + (BattleModelLocator.Instance.MonsterIndex + i));
         }
@@ -850,14 +853,14 @@ public class InitBattleField : MonoBehaviour, IBattleView
             EffectManager.PlayEffect(EffectType.SwordEffect3, GameConfig.Attrack9SwardEffectTime, 0, 0, new Vector3(pos.x + offset, pos.y - offset, pos.z), 0, true);
             yield return new WaitForSeconds(GameConfig.Attrack9SwardWaitTime);
 
-            ec.PlayBeen();
+            ec.PlayShake();
             EffectManager.PlayEffect(EffectType.SwordEffect2, GameConfig.Attrack9SwardEffectTime, 0, 0, new Vector3(pos.x - offset, pos.y + offset, pos.z), 0, true);
             yield return new WaitForSeconds(GameConfig.Attrack9SwardWaitTime);
 
             EffectManager.PlayEffect(EffectType.SwordEffect3, GameConfig.Attrack9SwardEffectTime, 0, 0, new Vector3(pos.x + offset, pos.y + offset, pos.z), 90, true);
             yield return new WaitForSeconds(GameConfig.Attrack9SwardWaitTime);
 
-            ec.PlayBeen();
+            ec.PlayShake();
             EffectManager.PlayEffect(EffectType.SwordEffect2, GameConfig.Attrack9SwardEffectTime, 0, 0, new Vector3(pos.x - offset, pos.y - offset, pos.z), 90, true);
             yield return new WaitForSeconds(GameConfig.Attrack9SwardWaitTime);
 
@@ -865,7 +868,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
             EffectManager.PlayEffect(EffectType.SwordEffect2, GameConfig.Attrack9SwardEffectTime, 0, 0, new Vector3(pos.x + offset, pos.y - offset, pos.z), 0, true);
             yield return new WaitForSeconds(GameConfig.Attrack9SwardWaitTime);
 
-            ec.PlayBeen();
+            ec.PlayShake();
             EffectManager.PlayEffect(EffectType.SwordEffect3, GameConfig.Attrack9SwardEffectTime, 0, 0, new Vector3(pos.x - offset, pos.y + offset, pos.z), 0, true);
             yield return new WaitForSeconds(GameConfig.Attrack9SwardWaitTime);
 
@@ -1011,7 +1014,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
             var state = statelist[j];
             if (state.State == BattleKeyConstants.BATTLE_STATE_MONSTER_SKILL_ROUND)
             {
-                ec.SetRoundCount(state.LeftRound);
+                ec.SetCdLabel(state.LeftRound);
             }
         }
     }
@@ -1100,11 +1103,11 @@ public class InitBattleField : MonoBehaviour, IBattleView
             }
             else if (k > 1)
             {
-                ec.PlayBigBeen();
+                ec.PlayBigShake();
             }
             else
             {
-                ec.PlayBeen();
+                ec.PlayShake();
             }
             if (action.prop.ContainsKey(BattleRecordConstants.SINGLE_ACTION_PROP_HP))
             {
@@ -1925,7 +1928,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
         }
 
         var currentEnemy = EnemyController.CurrentSelect.GetComponent<EnemyControl>();
-        currentEnemy.SetAimTo(selected);
+        currentEnemy.ShowAimTo(selected);
     }
 
     private void OnBattleResult(bool win)
