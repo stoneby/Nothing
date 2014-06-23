@@ -14,13 +14,13 @@ namespace Assets.Game.Scripts.Common.Model
         #region Public Fields
 
         public sbyte BattleType;
-        public List<int> MonsterGroup;
+        public List<int> EnemyGroup;
         public int RaidID;
         public long Uuid;
 
         public BattleSource Source;
         public IList<FighterInfo> HeroList;
-        public IList<FighterInfo> MonsterList;
+        public IList<FighterInfo> EnemyList;
         public int MonsterIndex;
         public Battle MainBattle;
         public List<PointRecord> NextList;

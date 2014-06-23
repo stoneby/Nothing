@@ -134,7 +134,7 @@ public class UIItemLevelUpSelWindow : Window
             child.transform.localPosition = MaskOffset;
             child.SetActive(true);
             selMasks.Add(child);
-            expCanGet += info.ContribExp * (ItemHelper.IsSameJobType(mainType, mainItemInfo.BagIndex, bagIndex) ? 5 : 1);
+            expCanGet += info.ContribExp * (ItemHelper.IsSameJobType(mainType, mainItemInfo.TmplId, bagIndex) ? 5 : 1);
         }
         else
         {
@@ -143,7 +143,7 @@ public class UIItemLevelUpSelWindow : Window
             selMasks.Remove(child.gameObject);
             child.parent = null;
             Destroy(child.gameObject);
-            expCanGet -= info.ContribExp * (ItemHelper.IsSameJobType(mainType, mainItemInfo.BagIndex, bagIndex) ? 5 : 1);
+            expCanGet -= info.ContribExp * (ItemHelper.IsSameJobType(mainType, mainItemInfo.TmplId, bagIndex) ? 5 : 1);
         }
         selCountValue.text = string.Format("{0}/{1}", choiceItemIndexes.Count, UIItemLevelUpWindow.MaxSelCount);
         getExpValue.text = expCanGet.ToString(CultureInfo.InvariantCulture);

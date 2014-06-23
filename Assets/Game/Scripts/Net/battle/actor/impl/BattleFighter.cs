@@ -331,6 +331,10 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 
 		public virtual void onRoundFinish(BattleRoundCountRecord roundRecord)
 		{
+		    if (Dead)
+		    {
+		        return;
+		    }
 			skillManager.countDownRound(roundRecord);
 			// buffManager.countDownRound();//TODO: ÔÝÊ±Ã»ÓÐBUFF
 		}

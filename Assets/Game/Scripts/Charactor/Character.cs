@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using com.kx.sglm.gs.battle.share.data;
 using UnityEngine;
 
 /// <summary>
@@ -21,8 +22,6 @@ public class Character : MonoBehaviour
         Attack,
         Hurt
     }
-
-    //private CharacterStateMachine stateMachine;
 
     /// <summary>
     /// One dimenstion index base on character arrangement.
@@ -54,6 +53,12 @@ public class Character : MonoBehaviour
     /// Animation if any.
     /// </summary>
     public Animation Animation;
+
+    /// <summary>
+    /// Logic data.
+    /// </summary>
+    [HideInInspector]
+    public FighterInfo Data;
 
     #endregion
 

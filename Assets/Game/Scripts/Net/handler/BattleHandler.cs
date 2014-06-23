@@ -16,7 +16,7 @@ namespace Assets.Game.Scripts.Net.handler
             {
                 PopTextManager.PopTip("返回战斗数据");
                 BattleModelLocator.Instance.BattleType = battlestartmsg.BattleType;
-                BattleModelLocator.Instance.MonsterGroup = (List<int>)battlestartmsg.MonsterGroup;
+                BattleModelLocator.Instance.EnemyGroup = (List<int>)battlestartmsg.MonsterGroup;
                 BattleModelLocator.Instance.RaidID = battlestartmsg.RaidID;
                 BattleModelLocator.Instance.Uuid = battlestartmsg.Uuid;
 
@@ -26,10 +26,10 @@ namespace Assets.Game.Scripts.Net.handler
                 BattleModelLocator.Instance.Source.Uuid = battlestartmsg.Uuid;
 
                 BattleModelLocator.Instance.HeroList = FighterInfoCreater.createListFromMsgHero(BattleSideEnum.SIDEA, battlestartmsg.FighterList);
-                BattleModelLocator.Instance.MonsterList = FighterInfoCreater.createListFormMsgMonster(BattleSideEnum.SIDEB, battlestartmsg.MonsterGroup, battlestartmsg.MonsterList);
+                BattleModelLocator.Instance.EnemyList = FighterInfoCreater.createListFormMsgMonster(BattleSideEnum.SIDEB, battlestartmsg.MonsterGroup, battlestartmsg.MonsterList);
                 var _allFighterList = new List<FighterInfo>();
                 _allFighterList.AddRange(BattleModelLocator.Instance.HeroList);
-                _allFighterList.AddRange(BattleModelLocator.Instance.MonsterList);
+                _allFighterList.AddRange(BattleModelLocator.Instance.EnemyList);
                 BattleSource _source = BattleModelLocator.Instance.Source;
                 BattleModelLocator.Instance.Source.FighterProp = _allFighterList;
 

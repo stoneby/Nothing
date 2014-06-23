@@ -38,6 +38,14 @@ public class TeamSelectController : MonoBehaviour
 
     public bool Enable;
 
+    /// <summary>
+    /// Visible number of characters.
+    /// </summary>
+    public int VisibleCount
+    {
+        get { return Row * Col; }
+    }
+
     #endregion
 
     #region Private Fields
@@ -142,12 +150,11 @@ public class TeamSelectController : MonoBehaviour
 
         Total = CharacterList.Count;
 
-        var visableTotal = Row * Col;
-        if (CharacterList.Count < visableTotal)
+        if (CharacterList.Count < VisibleCount)
         {
             Logger.LogError("Please make sure character list count - " + CharacterList.Count +
                             " is more than visiable count - " +
-                            visableTotal);
+                            VisibleCount);
             return;
         }
 
@@ -158,7 +165,7 @@ public class TeamSelectController : MonoBehaviour
         for (var i = 0; i < CharacterList.Count; ++i)
         {
             var character = CharacterList[i];
-            if (i < visableTotal)
+            if (i < VisibleCount)
             {
                 // logic location.
                 character.Location = OneDimensionToTwo(i);

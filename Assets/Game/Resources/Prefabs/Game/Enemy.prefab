@@ -98,6 +98,7 @@ GameObject:
   - 114: {fileID: 11400018}
   - 65: {fileID: 6500000}
   - 114: {fileID: 11400014}
+  - 114: {fileID: 11400032}
   m_Layer: 8
   m_Name: Enemy
   m_TagString: Untagged
@@ -217,7 +218,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100010}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 165, y: 61, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400016}
@@ -603,6 +604,7 @@ MonoBehaviour:
   AimSprite: {fileID: 100016}
   AttackLocation: {fileID: 100012}
   BloodController: {fileID: 11400000}
+  CharacterData: {fileID: 11400014}
 --- !u!114 &11400020
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -882,6 +884,18 @@ MonoBehaviour:
   vector3Arrays: []
   transformArrays: []
   paths: []
+--- !u!114 &11400032
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfd8f2826c996426292694f042050085, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EnemyController: {fileID: 11400018}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

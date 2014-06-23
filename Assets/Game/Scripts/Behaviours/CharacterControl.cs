@@ -21,14 +21,15 @@ public class CharacterControl : MonoBehaviour
     public GameObject BuffObj;
     public GameObject FriendLabelObj;
 
-    public FighterInfo Data;
-    private HeroTemplate TemplateData;
+    public Character CharacterData;
+
+    private HeroTemplate templateData;
 
     public int CharacterIndex;
     public int FootIndex;
     public int JobIndex;
-    public int Attrack;	//攻击力，
-    public int Restore; //回复力
+    public int Attrack;
+    public int Restore;
 
     public int XIndex;
     public int YIndex;
@@ -80,10 +81,11 @@ public class CharacterControl : MonoBehaviour
         var uisp = FootObj.GetComponent<UISprite>();
         uisp.spriteName = "pck_" + footindex;
         uisp = JobObj.GetComponent<UISprite>();
-        uisp.spriteName = (FootIndex == BattleTypeConstant.FootPink) ? "job_6" : "job_" + JobIndex;
+        uisp.spriteName = (FootIndex == (int)FootColorType.Pink) ? "job_6" : "job_" + JobIndex;
         var uilb = AttrackObj.GetComponent<UILabel>();
-        uilb.text = (FootIndex == BattleTypeConstant.FootPink) ? ("" + Restore + "-" + Data.Index) : ("" + Attrack + "-" + Data.Index);
-        //uilb.text += "-" + footindex.ToString();
+        uilb.text = (FootIndex == (int) FootColorType.Pink)
+            ? ("" + Restore + "-" + CharacterData.Data.Index)
+            : ("" + Attrack + "-" + CharacterData.Data.Index);
     }
 
     public void SetCanSelect(bool flag)
@@ -105,37 +107,34 @@ public class CharacterControl : MonoBehaviour
         PlayCharacter(0);
     }
 
-    public void SetCharacter(FighterInfo data, int isfriend = BattleTypeConstant.IsHero)
+    public void SetCharacter(CharacterType characterType = CharacterType.Hero)
     {
-        Data = data;
-        var tempid = Int32.Parse(Data.getProp(BattleKeyConstants.BATTLE_KEY_HERO_TEMPLATE));
-        TemplateData = HeroModelLocator.Instance.GetHeroByTemplateId(tempid);
+        var data = CharacterData.Data;
+        var tempid = Int32.Parse(data.getProp(BattleKeyConstants.BATTLE_KEY_HERO_TEMPLATE));
+        templateData = HeroModelLocator.Instance.GetHeroByTemplateId(tempid);
 
         // character index should be range in [0, 5].
         // [NOTE] We only have 2 types of characters for now.
         CharacterIndex = (tempid % 2 == 0) ? 1 : 5;
 
-        JobIndex = TemplateData.Job;
-        Attrack = Data.battleProperties[RoleAProperty.ATK];
-        Restore = Data.BattleProperty[RoleAProperty.RECOVER];
+        JobIndex = templateData.Job;
+        Attrack = data.battleProperties[RoleAProperty.ATK];
+        Restore = data.BattleProperty[RoleAProperty.RECOVER];
 
         var uisa = AnimObj.GetComponent<UISpriteAnimation>();
         uisa.namePrefix = "c_" + CharacterIndex + "_0_";
         uisa.framesPerSecond = 8;
         var uisp = JobObj.GetComponent<UISprite>();
-        uisp.spriteName = (FootIndex == BattleTypeConstant.FootPink) ? "job_6" : "job_" + JobIndex;
+        uisp.spriteName = (FootIndex == (int)FootColorType.Pink) ? "job_6" : "job_" + JobIndex;
         var uilb = AttrackObj.GetComponent<UILabel>();
-        uilb.text = (FootIndex == BattleTypeConstant.FootPink) ? Restore.ToString() + "-" + Data.Index : Attrack.ToString() + "-" + Data.Index;
+        uilb.text = (FootIndex == (int)FootColorType.Pink) ? Restore + "-" + data.Index : Attrack + "-" + data.Index;
 
-        if (isfriend == BattleTypeConstant.IsHero)
+        var isFriend = (characterType != CharacterType.Hero);
+        FriendLabelObj.SetActive(isFriend);
+        if (isFriend)
         {
-            FriendLabelObj.SetActive(false);
-        }
-        else 
-        {
-            FriendLabelObj.SetActive(true);
             uilb = FriendLabelObj.GetComponent<UILabel>();
-            uilb.text = isfriend == BattleTypeConstant.IsFriend ? "Friend" : "Guest";
+            uilb.text = characterType.ToString();
         }
     }
 
@@ -158,12 +157,12 @@ public class CharacterControl : MonoBehaviour
         }
     }
 
-    public void PlayCharacter(int animindex)
+    public void PlayCharacter(CharacterStateType stateType)
     {
-        AnimationIndex = animindex;
+        AnimationIndex = (int)stateType;
         var uisa = AnimObj.GetComponent<UISpriteAnimation>();
-        uisa.namePrefix = "c_" + CharacterIndex + "_" + animindex + "_";
-        if (animindex == 2 || animindex == 3)
+        uisa.namePrefix = "c_" + CharacterIndex + "_" + AnimationIndex + "_";
+        if (AnimationIndex == 2 || AnimationIndex == 3)
         {
             NGUITools.SetActive(FootObj, false);
         }
@@ -205,8 +204,8 @@ public class CharacterControl : MonoBehaviour
             {
                 uilb.color = new Color(234, 240, 240);
             }
-            uilb.text = (selectindex == 0) ? "" : "X" + BattleTypeConstant.MoreHitTimes[selectindex].ToString();
-            AttrackValue = (FootIndex == BattleTypeConstant.FootPink) ? (int)(BattleTypeConstant.MoreHitTimes[selectindex] * Restore) : (int)(BattleTypeConstant.MoreHitTimes[selectindex] * Attrack);
+            uilb.text = (selectindex == 0) ? "" : "X" + BattleTypeConstant.MoreHitTimes[selectindex];
+            AttrackValue = (FootIndex == (int)FootColorType.Pink) ? (int)(BattleTypeConstant.MoreHitTimes[selectindex] * Restore) : (int)(BattleTypeConstant.MoreHitTimes[selectindex] * Attrack);
             StartCoroutine(PopPlay());
         }
         else

@@ -105,6 +105,9 @@ namespace com.kx.sglm.gs.battle.share.data.record
 			return null;
 		}
 
+	    public override string ToString()
+	    {
+	        return string.Format("Index: " + index + ", team side: " + teamSide + ", skill id: " + skillId);
+	    }
 	}
-
 }

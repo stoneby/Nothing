@@ -23,8 +23,10 @@ public class EnemyControl : MonoBehaviour
 	/// </summary>
     public BloodBarController BloodController;
 
-    [HideInInspector]
-    public FighterInfo Data;
+    /// <summary>
+    /// Character data.
+    /// </summary>
+    public Character CharacterData;
 
     public delegate void OnClickDelegate(FighterInfo data);
 
@@ -63,7 +65,7 @@ public class EnemyControl : MonoBehaviour
     #region Public Methods
 
     /// <summary>
-    /// Set data.
+    /// Set blood bar.
     /// </summary>
     /// <param name="current">Current value</param>
     /// <param name="max">Max value</param>
@@ -138,6 +140,10 @@ public class EnemyControl : MonoBehaviour
         BloodController.Show(show);
     }
 
+    /// <summary>
+    /// Resetup.
+    /// </summary>
+    /// <remarks>Reset original position to the enemy.</remarks>
     public void Reset()
     {
         EnemySprite.transform.localPosition = originalPosition;
