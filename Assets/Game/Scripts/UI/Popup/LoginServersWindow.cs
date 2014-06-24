@@ -14,12 +14,16 @@ public class LoginServersWindow : Window
 
     private UIEventListener BtnAllServerEventListener;
     private UIEventListener BtnCloseUIEventListener;
+
+    private bool HaveInit = false;
     #region Window
 
     public override void OnEnter()
     {
         BtnCloseUIEventListener.onClick += OnCloseButtonClick;
 
+        if (HaveInit) return;
+        HaveInit = true;
         var arr = ServiceManager.GetUsedServers();
         if (arr != null)
         {

@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using KXSGCodec;
+﻿using KXSGCodec;
+using System.Collections.Generic;
 
 namespace Assets.Game.Scripts.Net.handler
 {
@@ -96,7 +96,30 @@ namespace Assets.Game.Scripts.Net.handler
             var themsg = msg.GetContent() as SCLotteryCannotFree;
             if (themsg != null)
             {
-                
+                var chooseHeroCard = WindowManager.Instance.GetWindow<ChooseHeroCardWindow>();
+                chooseHeroCard.LotteryCannotFree();
+            }
+        }
+
+        public static void OnLotteryComposeList(ThriftSCMessage msg)
+        {
+            var themsg = msg.GetContent() as SCLotteryComposeList;
+            if (themsg != null)
+            {
+                WindowManager.Instance.Show<ChooseCardWindow>(false);
+                WindowManager.Instance.Show<FragmentListWindow>(true);
+                WindowManager.Instance.GetWindow<FragmentListWindow>().Refresh(themsg);
+            }
+        }
+
+        public static void OnLotteryComposeSucc(ThriftSCMessage msg)
+        {
+            var themsg = msg.GetContent() as SCLotteryComposeSucc;
+            if (themsg != null)
+            {
+                WindowManager.Instance.Show<FragmentConfirmWindow>(false);
+                FragmentListWindow tempWindow = WindowManager.Instance.GetWindow<FragmentListWindow>();
+                tempWindow.Refresh(themsg);
             }
         }
     }

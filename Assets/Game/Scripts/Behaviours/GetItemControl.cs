@@ -1,96 +1,74 @@
 ﻿using KXSGCodec;
 using UnityEngine;
-using System.Collections;
 
 public class GetItemControl : MonoBehaviour
 {
+    private GameObject containerHero;
+    private GameObject containerItem;
+    private GameObject containerBox;
 
-    private GameObject ContainerHero;
-    private GameObject ContainerItem;
-    private GameObject ContainerBox;
-
-    private GameObject HeroHeadTex;
-    private GameObject HeroLevelLabel;
-
-    private GameObject ItemTex;
-
-    private GameObject SpriteNew;
+    private GameObject spriteNew;
 
     public RewardItem Data;
 
-    private bool HaveNotInit = true;
+    private bool haveNotInit = true;
 
-    private bool IsOpen = false;
+    private bool isOpen;
 
-	// Use this for initialization
 	void Start ()
 	{
-        ContainerHero = transform.FindChild("Container hero").gameObject;
-        ContainerItem = transform.FindChild("Container item").gameObject;
-        ContainerBox = transform.FindChild("Sprite box").gameObject;
+        containerHero = transform.FindChild("Container hero").gameObject;
+        containerItem = transform.FindChild("Container item").gameObject;
+        containerBox = transform.FindChild("Sprite box").gameObject;
 
-        HeroHeadTex = transform.FindChild("Container hero/Texture head").gameObject;
-        HeroLevelLabel = transform.FindChild("Container hero/Label level").gameObject;
-
-        ItemTex = transform.FindChild("Container item/Texture item").gameObject;
-
-        SpriteNew = transform.FindChild("Sprite new").gameObject;
-	    HaveNotInit = false;
+        spriteNew = transform.FindChild("Sprite new").gameObject;
+	    haveNotInit = false;
 	    Reset();
 	}
 	
-	// Update is called once per frame
     public void SetData(RewardItem thedata)
     {
         Data = thedata;
-        IsOpen = false;
+        isOpen = false;
         Reset();
     }
 
     private void Reset()
     {
-        if (HaveNotInit) return;
-       
+        if (haveNotInit) return;
 
-        if (Data.IsNew)
-        {
-            SpriteNew.SetActive(true);
-        }
-        else
-        {
-            SpriteNew.SetActive(false);
-        }
+        spriteNew.SetActive(Data.IsNew);
         SetOpen();
     }
 
     public void Open()
     {
-        IsOpen = true;
-        if (ContainerBox == null) return;
+        isOpen = true;
+        if (containerBox == null) return;
 
         SetOpen();
     }
 
     private void SetOpen()
     {
-        if (IsOpen)
+        if (isOpen)
         {
-            ContainerBox.SetActive(false);
+            containerBox.SetActive(false);
             
             if (Data.RewardType == 1)
             {
-                ContainerHero.SetActive(true);
+                containerHero.SetActive(true);
             }
             else
             {
-                ContainerItem.SetActive(true);
+                containerItem.SetActive(true);
             }
         }
         else
         {
-            ContainerHero.SetActive(false);
-            ContainerItem.SetActive(false);
-            ContainerBox.SetActive(true);
+            containerHero.SetActive(false);
+            containerItem.SetActive(false);
+            containerBox.SetActive(true);
         }
     }
 }

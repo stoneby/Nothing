@@ -1,51 +1,40 @@
 ﻿using KXSGCodec;
 using Template;
 using UnityEngine;
-using System.Collections;
 
 public class MissionItemControl : KxItemRender
 {
-//    private UIEventListener BtnClickUIEventListener;
-    private GameObject TitleLable;
+    private GameObject titleLable;
 
-    private GameObject EventBox;
-    private GameObject EnergyCountLabel;
-    private GameObject FlagSprite;
+    private GameObject eventBox;
+    private GameObject energyCountLabel;
+    private GameObject flagSprite;
 
-    private GameObject EventSprite;
-    private GameObject EventName;
-    private GameObject EventTime;
+    private GameObject eventSprite;
+    private GameObject eventName;
+    private GameObject eventTime;
 
-    private GameObject Stars;
-    private GameObject StarLabel;
-    private GameObject Star1;
-    private GameObject Star2;
-    private GameObject Star3;
-	// Use this for initialization
-	void Start ()
-	{
-        TitleLable = transform.FindChild("Titlle Label").gameObject;
-        EventBox = transform.FindChild("Event Container").gameObject;
-        EventSprite = transform.FindChild("Event Container/Event Sprite").gameObject;
-        EventName = transform.FindChild("Event Container/Event Label").gameObject;
-        EventTime = transform.FindChild("Event Container/Left Label").gameObject;
-        EnergyCountLabel = transform.FindChild("Energy Count Label").gameObject;
-        FlagSprite = transform.FindChild("Flag Sprite").gameObject;
-        Stars = transform.FindChild("Star Container").gameObject;
-        StarLabel = transform.FindChild("Star Container/Process Label").gameObject;
-        Star1 = transform.FindChild("Star Container/Sprite1").gameObject;
-        Star2 = transform.FindChild("Star Container/Sprite2").gameObject;
-        Star3 = transform.FindChild("Star Container/Sprite3").gameObject;
+    private GameObject stars;
+    private GameObject starLabel;
+    private GameObject star2;
+    private GameObject star3;
 
-//        BtnClickUIEventListener = UIEventListener.Get(gameObject);
-//        BtnClickUIEventListener.onClick += OnItemClick;
-	    setContent();
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    void Start()
+    {
+        titleLable = transform.FindChild("Titlle Label").gameObject;
+        eventBox = transform.FindChild("Event Container").gameObject;
+        eventSprite = transform.FindChild("Event Container/Event Sprite").gameObject;
+        eventName = transform.FindChild("Event Container/Event Label").gameObject;
+        eventTime = transform.FindChild("Event Container/Left Label").gameObject;
+        energyCountLabel = transform.FindChild("Energy Count Label").gameObject;
+        flagSprite = transform.FindChild("Flag Sprite").gameObject;
+        stars = transform.FindChild("Star Container").gameObject;
+        starLabel = transform.FindChild("Star Container/Process Label").gameObject;
+        star2 = transform.FindChild("Star Container/Sprite2").gameObject;
+        star3 = transform.FindChild("Star Container/Sprite3").gameObject;
+
+        SetContent();
+    }
 
     public bool IsRaid;
     public int RaidIndex;
@@ -61,7 +50,6 @@ public class MissionItemControl : KxItemRender
 
     public override void SetData<T>(T data)
     {
-        //throw new System.NotImplementedException();
         if (data is RaidInfo)
         {
             IsRaid = true;
@@ -69,7 +57,7 @@ public class MissionItemControl : KxItemRender
             RaidIndex = ItemIndex;
             RaidTemp = MissionModelLocator.Instance.GetRaidByTemplateId(RaidData.TemplateId);
             RaidAdditionData = MissionModelLocator.Instance.GetAdditionInfoByRaidTemplateID(RaidData.TemplateId);
-            setContent();
+            SetContent();
         }
         else
         {
@@ -77,21 +65,21 @@ public class MissionItemControl : KxItemRender
             StageData = data as RaidStageInfo;
             StageIndex = ItemIndex;
             StageTemp = MissionModelLocator.Instance.GetRaidStagrByTemplateId(StageData.TemplateId);
-           
-            setContent();
+
+            SetContent();
         }
     }
 
-    private void setContent()
+    private void SetContent()
     {
-        if (TitleLable == null) return;
-        var lb = TitleLable.GetComponent<UILabel>();
-        var sp = FlagSprite.GetComponent<UISprite>();
+        if (titleLable == null) return;
+        var lb = titleLable.GetComponent<UILabel>();
+        var sp = flagSprite.GetComponent<UISprite>();
         if (IsRaid)
         {
             lb.text = RaidTemp.Name;
-            EnergyCountLabel.SetActive(false);
-            int starcount = MissionModelLocator.Instance.GetRaidStarCount(RaidData.TemplateId);
+            energyCountLabel.SetActive(false);
+            var starcount = MissionModelLocator.Instance.GetRaidStarCount(RaidData.TemplateId);
             if (starcount <= 0)
             {
                 sp.spriteName = "new";
@@ -104,56 +92,56 @@ public class MissionItemControl : KxItemRender
             {
                 sp.spriteName = "passed";
             }
-            Stars.SetActive(true);
-            StarLabel.SetActive(true);
-            Star2.SetActive(false);
-            Star3.SetActive(false);
-            //RaidTemp.
-            lb = StarLabel.GetComponent<UILabel>();
+            stars.SetActive(true);
+            starLabel.SetActive(true);
+            star2.SetActive(false);
+            star3.SetActive(false);
+
+            lb = starLabel.GetComponent<UILabel>();
             lb.text = MissionModelLocator.Instance.GetStageCountByRaidId(RaidTemp.Id);
         }
         else
         {
             lb.text = StageTemp.StageName;
-            EnergyCountLabel.SetActive(true);
-            lb = EnergyCountLabel.GetComponent<UILabel>();
+            energyCountLabel.SetActive(true);
+            lb = energyCountLabel.GetComponent<UILabel>();
             lb.text = "消耗体力 " + StageTemp.CostEnergy + "  次数 " + MissionModelLocator.Instance.GetStageFinishTimeByTemplateId(StageData.TemplateId)
                 + "/" + StageTemp.DailyLimitTimes;
             if (StageData.Star > 0)
             {
                 sp.spriteName = "passed";
-                Stars.SetActive(true);
-                StarLabel.SetActive(false);
+                stars.SetActive(true);
+                starLabel.SetActive(false);
                 switch (StageData.Star)
                 {
                     case 2:
-                        Star2.SetActive(true);
-                    Star3.SetActive(false);
+                        star2.SetActive(true);
+                        star3.SetActive(false);
                         break;
                     case 3:
-                        Star2.SetActive(true);
-                    Star3.SetActive(true);
+                        star2.SetActive(true);
+                        star3.SetActive(true);
                         break;
                     default:
-                        Star2.SetActive(false);
-                    Star3.SetActive(false);
+                        star2.SetActive(false);
+                        star3.SetActive(false);
                         break;
                 }
             }
             else
             {
                 sp.spriteName = "new";
-                Stars.SetActive(false);
+                stars.SetActive(false);
             }
         }
 
         if (IsRaid && RaidAdditionData != null)
         {
-            EventBox.SetActive(true);
-            sp = EventSprite.GetComponent<UISprite>();
-            var lbname = EventName.GetComponent<UILabel>();
-            var lbtime = EventTime.GetComponent<UILabel>();
-            //金币150%、武魂150%、体力消耗50%、掉落概率150%
+            eventBox.SetActive(true);
+            sp = eventSprite.GetComponent<UISprite>();
+            var lbname = eventName.GetComponent<UILabel>();
+            var lbtime = eventTime.GetComponent<UILabel>();
+
             switch (RaidAdditionData.AddtionType)
             {
                 case RaidType.RaidAddtionTypeDrop:
@@ -177,7 +165,7 @@ public class MissionItemControl : KxItemRender
         }
         else
         {
-            EventBox.SetActive(false);
+            eventBox.SetActive(false);
         }
     }
 }

@@ -91,7 +91,7 @@ public class UIMaterialInfoWindow : Window
         {
             NGUITools.SetActive(stars.GetChild(index).gameObject, false);
         }
-        Utils.FindChild(transform, "Job-Value").GetComponent<UISprite>().spriteName = UIHerosDisplayWindow.JobPrefix +
+        Utils.FindChild(transform, "Job-Value").GetComponent<UISprite>().spriteName = HeroConstant.HeroJobPrefix +
                                                                                       ItemModeLocator.Instance.GetJob(
                                                                                           itemInfo.TmplId);
         explainName.text = ItemModeLocator.Instance.GetName(itemInfo.TmplId);

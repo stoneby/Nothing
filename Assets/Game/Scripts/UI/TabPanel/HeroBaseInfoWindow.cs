@@ -11,7 +11,6 @@ public class HeroBaseInfoWindow : Window
     #region Private Fields
 
     private EndlessSwipeEffect endlessSwipeEffect;
-    private Vector3 endlessPosCached;
     private int curHeroIndex;
     private HeroInfo heroInfo;
     public HeroInfo HeroInfo
@@ -77,7 +76,6 @@ public class HeroBaseInfoWindow : Window
     public override void OnExit()
     {
         UnInstallHandlers();
-        endlessSwipeEffect.transform.position = endlessPosCached;
     }
 
     #endregion
@@ -93,7 +91,6 @@ public class HeroBaseInfoWindow : Window
         lvBtnLis = UIEventListener.Get(Utils.FindChild(transform, "Button-LV").gameObject);
         limitBtnLis = UIEventListener.Get(Utils.FindChild(transform, "Button-Limit").gameObject);
         endlessSwipeEffect = GetComponentInChildren<EndlessSwipeEffect>();
-        endlessPosCached = endlessSwipeEffect.transform.position;
         endlessSwipeEffect.UpdateData += UpdateData;
         item1Lis = UIEventListener.Get(Utils.FindChild(transform, "Item1").gameObject);
         item2Lis = UIEventListener.Get(Utils.FindChild(transform, "Item2").gameObject);
@@ -180,7 +177,7 @@ public class HeroBaseInfoWindow : Window
         Utils.FindChild(infoTran, "LV-Value").GetComponent<UILabel>().text = string.Format("{0}/{1}", HeroInfo.Lvl, heroTemplate.LvlLimit);
         Utils.FindChild(infoTran, "Limit-Value").GetComponent<UILabel>().text = string.Format("{0}/{1}", HeroInfo.BreakTimes, heroTemplate.BreakLimit);
         Utils.FindChild(infoTran, "Luck-Value").GetComponent<UILabel>().text = heroTemplate.Lucky.ToString(CultureInfo.InvariantCulture);
-        Utils.FindChild(infoTran, "Job-Value").GetComponent<UISprite>().spriteName = UIHerosDisplayWindow.JobPrefix + heroTemplate.Job;
+        Utils.FindChild(infoTran, "Job-Value").GetComponent<UISprite>().spriteName = HeroConstant.HeroJobPrefix + heroTemplate.Job;
         var equips = HeroInfo.EquipUuid;
         for (int i = 0; i < equips.Count; i++)
         {

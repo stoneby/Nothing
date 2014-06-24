@@ -6,7 +6,7 @@ using Object = UnityEngine.Object;
 /// <summary>
 /// The class is to use number sprite to show number text instead of number text.
 /// </summary>
-public class Int2Sprite 
+public class Int2Sprite
 {
     /// <summary>
     /// Convert integer to char list.
@@ -36,8 +36,7 @@ public class Int2Sprite
         var charList = I2CharList(value) as List<char>;
         var spriteWidth = template.width;
         var spriteHeight = template.height;
-        int index = 1;
-        if (objlist == null)objlist = new List<GameObject>();
+        if (objlist == null) objlist = new List<GameObject>();
         for (var i = 0; i < objlist.Count; i++)
         {
             objlist[i].SetActive(false);
@@ -52,7 +51,6 @@ public class Int2Sprite
             }
             obj.SetActive(true);
             var sprite = obj.GetComponent<UISprite>();
-            //sprite.spriteName = "" + charItem;
             sprite.width = spriteWidth;
             sprite.height = spriteHeight;
             obj.transform.parent = parent.transform;
@@ -60,7 +58,6 @@ public class Int2Sprite
             obj.transform.localRotation = Quaternion.identity;
             obj.transform.localScale = Vector3.one;
             objlist.Add(obj);
-            //index++;
         }
 
         for (var i = 0; i < charList.Count; i++)
@@ -71,23 +68,5 @@ public class Int2Sprite
 
         }
         return objlist;
-//        foreach (var charItem in charList)
-//        {
-//            var obj = Object.Instantiate(template.gameObject) as GameObject;
-//            if (obj == null)
-//            {
-//                return;
-//            }
-//            obj.SetActive(true);
-//            var sprite = obj.GetComponent<UISprite>();
-//            sprite.spriteName = "" + charItem;
-//            sprite.width = spriteWidth;
-//            sprite.height = spriteHeight;
-//            obj.transform.parent = parent.transform;
-//            obj.transform.localPosition = Vector3.right * spriteWidth * index;
-//            obj.transform.localRotation = Quaternion.identity;
-//            obj.transform.localScale = Vector3.one;
-//            index++;
-//        }
     }
 }

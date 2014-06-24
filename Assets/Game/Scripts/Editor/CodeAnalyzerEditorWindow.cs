@@ -8,13 +8,11 @@ public class CodeAnalyzerEditorWindow : EditorWindow
 {
     private const string Script = ".cs";
     private Dictionary<string, List<KeyValuePair<string, int>>> codeDict = new Dictionary<string, List<KeyValuePair<string, int>>>();
-    private bool show;
 
     private void OnGUI()
     {
         if (GUILayout.Button("Analyze"))
         {
-            show = true;
             Analyze();
     
             ShowResult();
@@ -46,8 +44,8 @@ public class CodeAnalyzerEditorWindow : EditorWindow
 
     private void ShowResult()
     {
-        int totalCount = 0;
-        int fileCount = 0;
+        var totalCount = 0;
+        var fileCount = 0;
         var text = new StringBuilder();
         foreach (var pair in codeDict)
         {
@@ -64,6 +62,5 @@ public class CodeAnalyzerEditorWindow : EditorWindow
         Logger.Log(text);
         Logger.Log("Total file count: " + fileCount);
         Logger.Log("Total code lines: " + totalCount);
-        //GUILayout.TextArea(text.ToString(), 100);
     }
 }

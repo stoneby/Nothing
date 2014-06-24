@@ -1,4 +1,3 @@
-using System.Runtime.InteropServices;
 using KXSGCodec;
 using Property;
 using UnityEngine;
@@ -33,7 +32,7 @@ public class BattleConfirmWindowWindow : Window
 
     public override void OnEnter()
     {
-        
+
         var friend = FriendItem.GetComponent<AtkHeroItemControl>();
         friend.SetData(MissionModelLocator.Instance.FriendData.Data, MissionModelLocator.Instance.FriendData.IsFriend);
         var hero =
@@ -41,13 +40,11 @@ public class BattleConfirmWindowWindow : Window
                 MissionModelLocator.Instance.FriendData.Data.HeroProp[0].HeroTemplateId);
         var lb = LabelFriendLeader.GetComponent<UILabel>();
         lb.text = HeroModelLocator.Instance.GetLeaderSkillTemplateById(hero.LeaderSkill).Desc;
-            
-//        LabelFriendLeader
-        
+
         var hor = HorContainer.GetComponent<KxListRender>();
         hor.Init(HeroModelLocator.Instance.SCHeroList.TeamList, "Prefabs/Component/AtkHeroGroup", 0, 630, 430, OnSelectedhandler);
 
-        
+
 
         BattleUIEventListener.onClick += OnBattleButtonClick;
         LeftUIEventListener.onClick += OnLeftClick;
@@ -92,7 +89,7 @@ public class BattleConfirmWindowWindow : Window
     // Use this for initialization
     void Start()
     {
-        
+
 
     }
 
@@ -104,7 +101,7 @@ public class BattleConfirmWindowWindow : Window
         csMsg.RaidId = MissionModelLocator.Instance.SelectedStageId;
         csMsg.FriendId = MissionModelLocator.Instance.FriendData.Data.FriendUuid;
         var hor = HorContainer.GetComponent<KxListRender>();
-        csMsg.TeamIndex = (sbyte) hor.CurrentIndex;
+        csMsg.TeamIndex = (sbyte)hor.CurrentIndex;
         NetManager.SendMessage(csMsg);
         MissionModelLocator.Instance.MissionStep = RaidType.StepStageList;
     }
@@ -129,8 +126,7 @@ public class BattleConfirmWindowWindow : Window
 
     private void OnSelectedhandler(GameObject obj = null)
     {
-        //var item = obj.GetComponent<AtkHeroGroupControl>();
-        var friend = FriendItem.GetComponent<AtkHeroItemControl>();
+        FriendItem.GetComponent<AtkHeroItemControl>();
         HorContainer = transform.FindChild("Swipe Container").gameObject;
         var hor = HorContainer.GetComponent<KxListRender>();
         var team = HeroModelLocator.Instance.SCHeroList.TeamList[hor.CurrentIndex];

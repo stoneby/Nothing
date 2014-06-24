@@ -61,7 +61,7 @@ public class TenLotteryResultDispWindow : Window
         SetHeroIcon(addedItem, true);
         var jobIcon = Utils.FindChild(addedItem, "JobIcon").GetComponent<UISprite>();
         var heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpl[info.TemplateId];
-        jobIcon.spriteName = UIHerosDisplayWindow.JobPrefix + heroTemplate.Job;
+        jobIcon.spriteName = HeroConstant.HeroJobPrefix + heroTemplate.Job;
 
         var stars = addedItem.FindChild("Rarity");
         var starCount = stars.transform.childCount;

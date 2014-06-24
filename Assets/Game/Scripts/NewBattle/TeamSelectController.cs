@@ -158,7 +158,10 @@ public class TeamSelectController : MonoBehaviour
             return;
         }
 
-        var boxCollider = gameObject.GetComponent<BoxCollider>() ?? gameObject.AddComponent<BoxCollider>();
+        if (gameObject.GetComponent<BoxCollider>() == null)
+        {
+            gameObject.AddComponent<BoxCollider>();
+        }
 
         // get latest formation list as default.
         var positionList = FormationController.LatestPositionList;
@@ -217,8 +220,6 @@ public class TeamSelectController : MonoBehaviour
 
     private void OnCharacterDrag(GameObject sender, Vector2 delta)
     {
-        //Logger.Log("On character drag: " + sender.name + " with delta: " + delta);
-
         if (EditMode)
         {
             var target = UICamera.currentTouch.pos;
@@ -232,6 +233,8 @@ public class TeamSelectController : MonoBehaviour
         {
             return;
         }
+
+        //Logger.Log("On character drag: " + sender.name + " with delta: " + delta);
 
         var currentDrag = DragBarPool.CurrentObject;
         if (currentDrag == null)
@@ -249,12 +252,12 @@ public class TeamSelectController : MonoBehaviour
 
     private void OnCharacterDragStart(GameObject sender)
     {
-        Logger.Log("On character drag start: " + sender.name);
-
         if (EditMode || !Enable)
         {
             return;
         }
+
+        Logger.Log("On character drag start: " + sender.name);
 
         dragStart = true;
         SelectedCharacterList.Clear();
@@ -267,12 +270,12 @@ public class TeamSelectController : MonoBehaviour
 
     private void OnCharacterDragOver(GameObject sender, GameObject draggedObject)
     {
-        Logger.Log("On character drag over: " + sender.name + ", dragged started game ojbect: " + draggedObject.name);
-
         if (EditMode || !Enable)
         {
             return;
         }
+
+        Logger.Log("On character drag over: " + sender.name + ", dragged started game ojbect: " + draggedObject.name);
 
         if (!dragStart)
         {
@@ -339,12 +342,12 @@ public class TeamSelectController : MonoBehaviour
 
     private void OnCharacterDragEnd(GameObject sender)
     {
-        Logger.Log("On character drop end: " + sender.name + ", name:" + name);
-
         if (EditMode || !Enable)
         {
             return;
         }
+
+        Logger.Log("On character drop end: " + sender.name + ", name:" + name);
 
         // PVP attach is on going.
         if (targetObject != null)
@@ -373,6 +376,11 @@ public class TeamSelectController : MonoBehaviour
 
     private void OnCharacterDragOut(GameObject sender, GameObject draggedObject)
     {
+        if (EditMode || !Enable)
+        {
+            return;
+        }
+
         Logger.Log("On character drag out: " + sender.name + ", dragged started game ojbect: " + draggedObject.name);
     }
 

@@ -154,7 +154,9 @@ public class Utils
 
     public static T Decode<T>(string path) where T :  TBase, new()
     {
-        var membuffer = new TMemoryBuffer(Resources.Load<TextAsset>(path).bytes);
+        var membuffer = (string.IsNullOrEmpty(ServiceManager.ServerData.DataUrl)) ? 
+            new TMemoryBuffer(Resources.Load<TextAsset>(path).bytes) :
+            new TMemoryBuffer(HttpResourceManager.LoadData(path));
         TProtocol protocol = (new TCompactProtocol(membuffer));
         var temp = new T();
         temp.Read(protocol);
@@ -226,7 +228,7 @@ public class Utils
 
     public static string ConvertTimeSpanToString(TimeSpan timeRemain)
     {
-        return string.Format("{0:D2}", timeRemain.Hours) + ":" +
+        return string.Format("{0:D2}", (int)timeRemain.TotalHours) + ":" +
                string.Format("{0:D2}", timeRemain.Minutes) + ":" +
                string.Format("{0:D2}", timeRemain.Seconds);
     }

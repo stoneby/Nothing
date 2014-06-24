@@ -54,19 +54,16 @@ public class CameraAdjuster : MonoBehaviour
     /// </summary>
     private void Adjust()
     {
-        float standardAspect = StandardWidth / StandardHeight;
-        float deviceAspect = deviceWidth / deviceHeight;
+        var standardAspect = StandardWidth / StandardHeight;
+        var deviceAspect = deviceWidth / deviceHeight;
         if(deviceAspect < standardAspect)
         {
             camera.orthographicSize = standardAspect / deviceAspect;
         }
 
-        float r1 = StandardWidth/deviceWidth;
-        float r2 = StandardHeight/deviceHeight;
+        CameraScale = deviceWidth / StandardWidth;
 
-        CameraScale = 1/r1;
-
-        Logger.Log("Scale " + CameraScale.ToString());
+        Logger.Log("Scale " + CameraScale);
     }
 
     #endregion

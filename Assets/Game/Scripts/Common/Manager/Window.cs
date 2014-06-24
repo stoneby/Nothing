@@ -44,23 +44,7 @@ public abstract class Window : MonoBehaviour
 
     #endregion
 
-    #region Message
-
-    /// <summary>
-    /// Send out OnOpen event.
-    /// </summary>
-    public void Open()
-    {
-        gameObject.SendMessage(OnOpenMethod, null, SendMessageOptions.DontRequireReceiver);
-    }
-
-    /// <summary>
-    /// Send out OnClose event.
-    /// </summary>
-    public void Close()
-    {
-        gameObject.SendMessage(OnCloseMethod, null, SendMessageOptions.DontRequireReceiver);
-    }
+    #region Template Methods
 
     public abstract void OnEnter();
 

@@ -123,6 +123,10 @@ public class InitBattleField : MonoBehaviour, IBattleView
         InitTopDataBar();
     }
 
+    /// <summary>
+    /// Start battle of the whole level.
+    /// </summary>
+    /// <remarks>Called once per map level.</remarks>
     public void StartBattle()
     {
         leftContainerObj = GameObject.Find("BattleFieldWidgetLeft");
@@ -133,6 +137,13 @@ public class InitBattleField : MonoBehaviour, IBattleView
 
         InitCharacterList();
 
+        // [FIXME] enemy ground controller.
+        currentEnemyGroupIndex = 0;
+        InitEnemyList();
+
+        InitWaitingStackList();
+
+        // [FIXME] belongs to battle background controller.
         var bg = BattleBG.GetComponent<BattleBGControl>();
         bgIndex++;
         bg.SetData("00" + bgIndex);
@@ -150,6 +161,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
         EnergyCount = 0;
         GoldCount = 0;
 
+        // [FIXME] belongs to hp / mp / stars controller.
         star = 3;
         star1.SetActive(true);
         star2.SetActive(true);
@@ -157,14 +169,10 @@ public class InitBattleField : MonoBehaviour, IBattleView
 
         ShowTopData();
         EventManager.Instance.AddListener<LeaderUseEvent>(OnLeaderUseHandler);
-        currentEnemyGroupIndex = 0;
         ResetLeaderData();
-        InitEnemyList();
-
-        InitWaitingStackList();
 
         // init character list & attack wait list from team selection controller.
-        AdjustCharacterList();
+        SyncCharacterList();
 
         RequestRecords();
 
@@ -173,6 +181,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
 
     private void InitTeamController()
     {
+        TeamController.Cleanup();
         TeamController.Total = BattleModelLocator.Instance.HeroList.Count;
         TeamController.Row = 3;
         TeamController.Col = 3;
@@ -197,48 +206,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
         }
     }
 
-    private void AdjustCharacterList()
-    {
-        if (attackWaitList == null)
-        {
-            attackWaitList = new List<GameObject>();
-        }
-
-        attackWaitList.Clear();
-        for (var i = 0; i < TeamController.Total; ++i)
-        {
-            var character = TeamController.CharacterList[i];
-            if (i >= TeamController.VisibleCount)
-            {
-                attackWaitList.Add(character.gameObject);
-                Logger.LogWarning("Add wait list: color, " + character.ColorIndex);
-            }
-            else
-            {
-                charactersLeft[i / TeamController.Row, i % TeamController.Col] = character.gameObject;
-                Logger.LogWarning("Add team list: color, " + character.ColorIndex);
-            }
-        }
-    }
-
-    private void AdjustTeamController()
-    {
-        TeamController.CharacterList.Clear();
-        for (var i = 0; i < TeamController.Col; i++)
-        {
-            for (var j = 0; j < TeamController.Row; j++)
-            {
-                var character = charactersLeft[i, j].GetComponent<Character>();
-                character.Location = new Position { X = i, Y = j };
-                TeamController.CharacterList.Add(character);
-            }
-        }
-        foreach (var character in attackWaitList.Select(wait => wait.GetComponent<Character>()))
-        {
-            TeamController.CharacterList.Add(character);
-        }
-    }
-
     private void InitCharacterList()
     {
         for (var i = 0; i < TeamController.Total; i++)
@@ -248,14 +215,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
             var data = BattleModelLocator.Instance.HeroList[i];
             cc.CharacterData.Data = data;
 
-            if (i > 8)
-            {
-                cc.SetCharacter(CharacterType.Friend);
-            }
-            else
-            {
-                cc.SetCharacter();
-            }
+            cc.SetCharacter((i >= TeamController.VisibleCount) ? CharacterType.Friend : CharacterType.Hero);
             cc.SetSelect(false);
         }
     }
@@ -271,6 +231,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
     {
         var enemyGroup = BattleModelLocator.Instance.EnemyGroup;
         var enemyList = BattleModelLocator.Instance.EnemyList;
+
         Logger.Log("Enemy group count: " + enemyGroup.Count + ", current emeny group index: " + currentEnemyGroupIndex +
                    ", total enemy count: " + enemyList.Count);
 
@@ -296,7 +257,67 @@ public class InitBattleField : MonoBehaviour, IBattleView
         Logger.Log("Next monster index: " + BattleModelLocator.Instance.MonsterIndex);
     }
 
-    public void DestroyBattle()
+    private void SyncCharacterList()
+    {
+        if (attackWaitList == null)
+        {
+            attackWaitList = new List<GameObject>();
+        }
+
+        attackWaitList.Clear();
+        for (var i = 0; i < TeamController.Total; ++i)
+        {
+            var character = TeamController.CharacterList[i];
+            if (i >= TeamController.VisibleCount)
+            {
+                attackWaitList.Add(character.gameObject);
+                Logger.LogWarning("Add wait list: color, " + character.ColorIndex);
+            }
+            else
+            {
+                charactersLeft[i / TeamController.Row, i % TeamController.Col] = character.gameObject;
+                Logger.LogWarning("Add team list: color, " + character.ColorIndex);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Sync back to team controller's character list.
+    /// </summary>
+    /// <remarks>
+    /// After rearrangement, we need to sync updated character list to team selection controller for selecting.
+    /// </remarks>
+    private void SyncTeamController()
+    {
+        TeamController.CharacterList.Clear();
+        for (var i = 0; i < TeamController.Col; i++)
+        {
+            for (var j = 0; j < TeamController.Row; j++)
+            {
+                var character = charactersLeft[i, j].GetComponent<Character>();
+                character.Location = new Position { X = i, Y = j };
+                TeamController.CharacterList.Add(character);
+            }
+        }
+        foreach (var character in attackWaitList.Select(wait => wait.GetComponent<Character>()))
+        {
+            TeamController.CharacterList.Add(character);
+        }
+
+        Validate();
+    }
+
+    private void Validate()
+    {
+        var expectWaitingCount = TeamController.Total - TeamController.VisibleCount;
+        var resultWaitingCount = attackWaitList.Count;
+        if (expectWaitingCount != resultWaitingCount)
+        {
+            Logger.LogError("Expected waiting count: " + expectWaitingCount + ", is not the same as result waiting count: " + resultWaitingCount);
+        }
+    }
+
+    public void ResetBattle()
     {
         for (var i = 0; i < 3; i++)
         {
@@ -314,7 +335,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
         EventManager.Instance.RemoveListener<LeaderUseEvent>(OnLeaderUseHandler);
     }
 
-    //后面的武将补位
     IEnumerator MakeUpOneByOne(bool needresetcharacter = true)
     {
         float runStepTime = (needresetcharacter) ? GameConfig.RunStepNeedTime : GameConfig.ShortTime;
@@ -324,10 +344,10 @@ public class InitBattleField : MonoBehaviour, IBattleView
         {
             for (var j = 0; j < TeamController.Row; j++)
             {
-                CharacterControl cc;
                 if (charactersLeft[i, j] == null)
                 {
                     var flag = true;
+                    CharacterControl cc;
                     for (int k = i + 1; k < 3; k++)
                     {
                         if (charactersLeft[k, j] != null)
@@ -363,11 +383,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
                         charactersLeft[i, j].SetActive(true);
                         cc = charactersLeft[i, j].GetComponent<CharacterControl>();
 
-                        //cc.SetFootIndex(footManager.GetNext());
                         cc.PlayCharacter(CharacterStateType.Run);
-
-                        //var character = cc.GetComponent<Character>();
-                        //character.ColorIndex = cc.FootIndex;
 
                         duration = (2 - i) * GameConfig.RunStepNeedTime + GameConfig.RunStepNeedTime;
 
@@ -375,7 +391,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
                         {
                             cc.SetCharacterAfter(duration);
                         }
-
 
                         // Move to target from delta left.
                         var index = TeamController.TwoDimensionToOne(i, j);
@@ -394,7 +409,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
             }
         }
 
-        AdjustTeamController();
+        SyncTeamController();
 
         if (needresetcharacter)
         {
@@ -424,12 +439,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
 
     void Update()
     {
-        if (Time.realtimeSinceStartup - realTime > 0.1)
-        {
-            ResetCharacters();
-        }
-        realTime = Time.realtimeSinceStartup;
-
         MoveCharacterUpdate();
     }
 
@@ -482,6 +491,8 @@ public class InitBattleField : MonoBehaviour, IBattleView
             var selectedList = TeamController.SelectedCharacterList.Select(item => TeamController.TwoDimensionToOne(item.Location));
             DoAttack(selectedList.ToArray());
 
+            // Disable team selection.
+            TeamController.Enable = false;
             // add selected characters to attack waiting list.
             attackWaitList.AddRange(TeamController.SelectedCharacterList.Select(item => item.gameObject));
         }
@@ -972,6 +983,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
         DealWithRecord();
         SetCharacterCanSelect(true);
 
+        Logger.LogWarning("Team controller selected to false");
         TeamController.Enable = true;
     }
 
@@ -1108,20 +1120,12 @@ public class InitBattleField : MonoBehaviour, IBattleView
         cc.PlayCharacter(0);
 
         // Move to target.
-        iTween.MoveTo(obj,
-            iTween.Hash("position", CharacterWaitingTrans.position, "duration", duration, "oncomplete",
-                "OnRunReturnComplete", "oncompletetarget", gameObject, "oncompleteparams", obj));
+        iTween.MoveTo(obj, iTween.Hash("position", CharacterWaitingTrans.position, "duration", duration));
 
         var character = obj.GetComponent<Character>();
         charactersLeft[character.Location.X, character.Location.Y] = null;
-        //attackWaitList.Add(obj);
 
         Debug.LogWarning("Return object: " + obj.name + ", location: " + character.Location);
-    }
-
-    private void OnRunReturnComplete(GameObject target)
-    {
-        // nothing to do here right now.
     }
 
     private void PlayMoveCamera(GameObject obj)
@@ -1370,12 +1374,12 @@ public class InitBattleField : MonoBehaviour, IBattleView
     private void PlayWarning(float playtime)
     {
         EffectManager.PlayAllEffect(false);
-        GameObject effectbg1 = WarningBg1;
-        GameObject effectbg2 = WarningBg2;
+        var effectbg1 = WarningBg1;
+        var effectbg2 = WarningBg2;
         effectbg1.SetActive(true);
         effectbg2.SetActive(true);
 
-        TweenPosition tp1 = effectbg1.GetComponent<TweenPosition>();
+        var tp1 = effectbg1.GetComponent<TweenPosition>();
         tp1.duration = playtime;
         tp1.PlayForward();
 
@@ -1425,33 +1429,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
         WarningBg1.SetActive(false);
         WarningBg2.SetActive(false);
         WarningText.SetActive(false);
-    }
-
-    //处理游戏重新激活时动画播放太快
-    private void ResetCharacters()
-    {
-        if (charactersLeft == null || attackWaitList == null) return;
-
-        for (var i = 0; i < 3; i++)
-        {
-            for (var j = 0; j < 3; j++)
-            {
-                if (charactersLeft[i, j] != null)
-                {
-                    ResetCharacter(charactersLeft[i, j] as GameObject);
-                }
-            }
-        }
-        foreach (var t in attackWaitList)
-        {
-            ResetCharacter(t as GameObject);
-        }
-    }
-
-    private void ResetCharacter(GameObject obj)
-    {
-        var cc = obj.GetComponent<CharacterControl>();
-        cc.ResetCharacter();
     }
 
     //播放sp攻击残影拖尾效果
@@ -1520,6 +1497,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
             }
         }
     }
+
     //播放动画
     void PlayTweenAlpha(GameObject obj, float playtime, float from, float to)
     {
@@ -1687,7 +1665,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
     /// <param name="battleSkillRecord">Battle skill record</param>
     public void showBattleSkillRecord(BattleSkillRecord battleSkillRecord)
     {
-        Logger.Log("[RECORD] - battle skill record: " + battleSkillRecord);
+        Logger.Log("[-----RECORD-----] - battle skill record: " + battleSkillRecord);
 
         if (battleSkillRecord.TeamSide == BattleRecordConstants.TARGET_SIDE_A)
         {
@@ -1708,14 +1686,11 @@ public class InitBattleField : MonoBehaviour, IBattleView
     /// </remarks>
     public void showBattleTeamFightRecord(BattleTeamFightRecord battleTeamFightRecord)
     {
-        Logger.Log("[RECORD] - battle team fight record: " + battleTeamFightRecord.RecordList.Count);
+        Logger.Log("[-----RECORD-----] - battle team fight record: " + battleTeamFightRecord.RecordList.Count + ", " + battleTeamFightRecord);
 
         battleTeamRecord = battleTeamFightRecord;
         if (battleTeamRecord.TeamSide == BattleRecordConstants.TARGET_SIDE_A)
         {
-            // Disable team selection.
-            TeamController.Enable = false;
-
             DoAttrackLeft();
         }
         else
@@ -1730,28 +1705,18 @@ public class InitBattleField : MonoBehaviour, IBattleView
     /// <param name="roundCountRecord">Round cout record</param>
     public void showBattleRoundCountRecord(BattleRoundCountRecord roundCountRecord)
     {
-        Logger.Log("[RECORD] - Round count record: " + roundCountRecord.RecordList.Count);
+        Logger.Log("[-----RECORD-----] - Round count record: " + roundCountRecord.RecordList.Count);
+
         if (roundCountRecord.RecordList != null && roundCountRecord.RecordList.Count > 0)
         {
             for (int i = 0; i < roundCountRecord.RecordList.Count; i++)
             {
-                SingleActionRecord action = roundCountRecord.RecordList[i];
+                var action = roundCountRecord.RecordList[i];
 
                 Logger.LogWarning("------------" + action);
 
                 if (action.SideIndex == BattleRecordConstants.TARGET_SIDE_A)
                 {
-                    var obj = GetCharacterByAction(action);
-                    var cc = obj.GetComponent<CharacterControl>();
-                    for (int j = 0; j < action.StateUpdateList.Count; j++)
-                    {
-                        var state = action.StateUpdateList[j];
-                        switch (state.State)
-                        {
-                            default:
-                                break;
-                        }
-                    }
                 }
                 else
                 {
@@ -1783,7 +1748,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
     /// <param name="battleIndexRecord">Battle index record</param>
     public void showBattleIndexRecord(BattleIndexRecord battleIndexRecord)
     {
-        Logger.Log("[RECORD] - battle index record: " + battleIndexRecord);
+        Logger.Log("[-----RECORD-----] - battle index record: " + battleIndexRecord);
 
         var battleModelLocator = BattleModelLocator.Instance;
         // first time battle set all colors according to fill point list, which contains everything.
@@ -1803,8 +1768,9 @@ public class InitBattleField : MonoBehaviour, IBattleView
         else
         {
             battleModelLocator.NextList = battleIndexRecord.FillPointList;
-            // Remove redurant colors that already taken from attack waiting list.
-            // [NOTE] New colors left for selected characters.
+            // Remove redurant colors that already taken last round.
+            // New colors are only left for selected characters.
+            // Server send client colors that including waiting list color (we known) plus selected list color (unknown).
             for (var i = 0; i < TeamController.Total - TeamController.VisibleCount; ++i)
             {
                 battleModelLocator.NextList.RemoveAt(0);
@@ -1836,7 +1802,8 @@ public class InitBattleField : MonoBehaviour, IBattleView
     /// <param name="battleEndRecord">Battle end record</param>
     public void showBattleEndRecord(BattleEndRecord battleEndRecord)
     {
-        Logger.Log("战斗结束 = " + battleEndRecord.EndType);
+        Logger.Log("[-----RECORD-----] showBattleEndRecord: " + battleEndRecord);
+
         switch (battleEndRecord.EndType)
         {
             case BattleRecordConstants.BATTLE_SCENE_END:
@@ -1932,7 +1899,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
     public void showBattleErrorRecord(BattleErrorRecord battleErrorRecord)
     {
         Logger.LogWarning("I got an error.");
-        //TeamController.RegisterEventHandlers();
     }
 
     private List<IBattleViewRecord> recordList;
@@ -1957,26 +1923,9 @@ public class InitBattleField : MonoBehaviour, IBattleView
 
     private void SetCharacterCanSelect(bool flag)
     {
-        for (var i = 0; i < 3; i++)
+        foreach (var characterControl in TeamController.CharacterList.Select(character => character.GetComponent<CharacterControl>()))
         {
-            for (var j = 0; j < 3; j++)
-            {
-                var obj = charactersLeft[i, j];
-                if (obj != null)
-                {
-                    var cc = obj.GetComponent<CharacterControl>();
-                    cc.SetCanSelect(flag);
-                }
-            }
-        }
-        for (var i = 0; i < attackWaitList.Count; i++)
-        {
-            var obj = attackWaitList[i];
-            if (obj != null)
-            {
-                var cc = obj.GetComponent<CharacterControl>();
-                cc.SetCanSelect(flag);
-            }
+            characterControl.SetCanSelect(flag);
         }
     }
 }

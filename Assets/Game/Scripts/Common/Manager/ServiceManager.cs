@@ -42,7 +42,9 @@ public class ServiceManager
     public static AccountVO AccountData;
     public static List<AccountVO> AccountArray;//最后一个是最新的
 
-    //初始化账号信息
+    /// <summary>
+    /// Initialize user account.
+    /// </summary>
     public static void InitAccount()
     {
         AccountArray = new List<AccountVO>();
@@ -51,7 +53,6 @@ public class ServiceManager
         try
         {
             var f = new FileInfo(GameConfig.CookieAddress);
-            //return;
             if (!f.Exists)
             {
                 if (f.Directory == null || !f.Directory.Exists)
@@ -60,8 +61,6 @@ public class ServiceManager
                 }
 
                 f.Create();
-                //File.WriteAllText(GameConfig.CookieAddress, "");
-                //File.Create(GameConfig.CookieAddress);
 
                 return;
             }
@@ -88,14 +87,16 @@ public class ServiceManager
                 AccountArray.Add(obj);
             }
         }
-        catch (Exception e)
+        catch (Exception)
         {
             Logger.LogWarning("InitAccount Exception ===============");
         }
         
     }
 
-    //本地保存账号信息
+    /// <summary>
+    /// Save account to disk.
+    /// </summary>
     public static void SaveAccount()
     {
         //return;
@@ -168,7 +169,6 @@ public class ServiceManager
 
     public static void DeleteAccount(AccountVO obj)
     {
-        var flag = true;
         for (int i = 0; i < AccountArray.Count; i++)
         {
             if (AccountArray[i].Account == obj.Account)
@@ -186,30 +186,28 @@ public class ServiceManager
         {
             return AccountArray[AccountArray.Count - 1];
         }
-        else
-        {
-            return null;
-        }
+        return null;
     }
 
-    //设置服务器列表
+    /// <summary>
+    /// Set server list.
+    /// </summary>
+    /// <param name="serverMap">Server xml element.</param>
     public static void SetServers(XElement serverMap)
     {
         Logger.Log(serverMap);
         var servers = serverMap.Elements("server");
-        ServiceManager.AllServerArray = new List<ServerVO>();
-        ServiceManager.UsedServerArray = new List<ServerVO>();
-        foreach (XElement node in servers)
+        AllServerArray = new List<ServerVO>();
+        UsedServerArray = new List<ServerVO>();
+        foreach (var server in servers.Select(item => ServerVO.Parse(item)))
         {
-            var server = ServerVO.Parse(node);
-            //Logger.Log("SystemInfo.deviceType" + SystemInfo.deviceType);
             if (SystemInfo.deviceType == DeviceType.Desktop)
             {
-                ServiceManager.AllServerArray.Add(server);
+                AllServerArray.Add(server);
             }
             else if (!server.IsTest)
             {
-                ServiceManager.AllServerArray.Add(server);
+                AllServerArray.Add(server);
             }
         }
         ServerData = AllServerArray[0];
@@ -233,17 +231,13 @@ public class ServiceManager
 
     public static ServerVO GetServerByUrl(string url)
     {
-        for (int i = 0; i < AllServerArray.Count; i++)
-        {
-            if (AllServerArray[i].Url == url)
-            {
-                return AllServerArray[i];
-            }
-        }
-        return null;
+        return AllServerArray.FirstOrDefault(t => t.Url == url);
     }
 
-    //获取当前默认登录的服务器
+    /// <summary>
+    /// Get default server.
+    /// </summary>
+    /// <returns>The default server.</returns>
     public static ServerVO GetDefaultServer()
     {
         return ServerData;

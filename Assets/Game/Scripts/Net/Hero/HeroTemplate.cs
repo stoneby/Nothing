@@ -43,6 +43,7 @@ namespace Template
     private int _MPAddtion;
     private int _lucky;
     private int _price;
+    private int _composeCount;
     private int _leaderSkill;
     private int _activeSkill;
     private int _spSkill;
@@ -369,6 +370,22 @@ namespace Template
     }
 
     /// <summary>
+    /// 合成数量
+    /// </summary>
+    public int ComposeCount
+    {
+      get
+      {
+        return _composeCount;
+      }
+      set
+      {
+        __isset.composeCount = true;
+        this._composeCount = value;
+      }
+    }
+
+    /// <summary>
     /// 队长技能
     /// </summary>
     public int LeaderSkill
@@ -506,6 +523,7 @@ namespace Template
       public bool MPAddtion;
       public bool lucky;
       public bool price;
+      public bool composeCount;
       public bool leaderSkill;
       public bool activeSkill;
       public bool spSkill;
@@ -670,49 +688,56 @@ namespace Template
               TProtocolUtil.Skip(iprot, field.Type);
             }
             break;
-          case 22:
-            if (field.Type == TType.I32) {
-              LeaderSkill = iprot.ReadI32();
-            } else { 
-              TProtocolUtil.Skip(iprot, field.Type);
-            }
-            break;
           case 23:
             if (field.Type == TType.I32) {
-              ActiveSkill = iprot.ReadI32();
+              ComposeCount = iprot.ReadI32();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
             break;
           case 24:
             if (field.Type == TType.I32) {
-              SpSkill = iprot.ReadI32();
+              LeaderSkill = iprot.ReadI32();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
             break;
           case 25:
             if (field.Type == TType.I32) {
-              PassiveSkill1 = iprot.ReadI32();
+              ActiveSkill = iprot.ReadI32();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
             break;
           case 26:
             if (field.Type == TType.I32) {
-              PassiveSkill2 = iprot.ReadI32();
+              SpSkill = iprot.ReadI32();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
             break;
           case 27:
             if (field.Type == TType.I32) {
-              PassiveSkill3 = iprot.ReadI32();
+              PassiveSkill1 = iprot.ReadI32();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
             break;
           case 28:
+            if (field.Type == TType.I32) {
+              PassiveSkill2 = iprot.ReadI32();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 29:
+            if (field.Type == TType.I32) {
+              PassiveSkill3 = iprot.ReadI32();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 30:
             if (field.Type == TType.I32) {
               PassiveSkill4 = iprot.ReadI32();
             } else { 
@@ -892,10 +917,18 @@ namespace Template
         oprot.WriteI32(Price);
         oprot.WriteFieldEnd();
       }
+      if (__isset.composeCount) {
+        field.Name = "composeCount";
+        field.Type = TType.I32;
+        field.ID = 23;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteI32(ComposeCount);
+        oprot.WriteFieldEnd();
+      }
       if (__isset.leaderSkill) {
         field.Name = "leaderSkill";
         field.Type = TType.I32;
-        field.ID = 22;
+        field.ID = 24;
         oprot.WriteFieldBegin(field);
         oprot.WriteI32(LeaderSkill);
         oprot.WriteFieldEnd();
@@ -903,7 +936,7 @@ namespace Template
       if (__isset.activeSkill) {
         field.Name = "activeSkill";
         field.Type = TType.I32;
-        field.ID = 23;
+        field.ID = 25;
         oprot.WriteFieldBegin(field);
         oprot.WriteI32(ActiveSkill);
         oprot.WriteFieldEnd();
@@ -911,7 +944,7 @@ namespace Template
       if (__isset.spSkill) {
         field.Name = "spSkill";
         field.Type = TType.I32;
-        field.ID = 24;
+        field.ID = 26;
         oprot.WriteFieldBegin(field);
         oprot.WriteI32(SpSkill);
         oprot.WriteFieldEnd();
@@ -919,7 +952,7 @@ namespace Template
       if (__isset.passiveSkill1) {
         field.Name = "passiveSkill1";
         field.Type = TType.I32;
-        field.ID = 25;
+        field.ID = 27;
         oprot.WriteFieldBegin(field);
         oprot.WriteI32(PassiveSkill1);
         oprot.WriteFieldEnd();
@@ -927,7 +960,7 @@ namespace Template
       if (__isset.passiveSkill2) {
         field.Name = "passiveSkill2";
         field.Type = TType.I32;
-        field.ID = 26;
+        field.ID = 28;
         oprot.WriteFieldBegin(field);
         oprot.WriteI32(PassiveSkill2);
         oprot.WriteFieldEnd();
@@ -935,7 +968,7 @@ namespace Template
       if (__isset.passiveSkill3) {
         field.Name = "passiveSkill3";
         field.Type = TType.I32;
-        field.ID = 27;
+        field.ID = 29;
         oprot.WriteFieldBegin(field);
         oprot.WriteI32(PassiveSkill3);
         oprot.WriteFieldEnd();
@@ -943,7 +976,7 @@ namespace Template
       if (__isset.passiveSkill4) {
         field.Name = "passiveSkill4";
         field.Type = TType.I32;
-        field.ID = 28;
+        field.ID = 30;
         oprot.WriteFieldBegin(field);
         oprot.WriteI32(PassiveSkill4);
         oprot.WriteFieldEnd();
@@ -994,6 +1027,8 @@ namespace Template
       sb.Append(Lucky);
       sb.Append(",Price: ");
       sb.Append(Price);
+      sb.Append(",ComposeCount: ");
+      sb.Append(ComposeCount);
       sb.Append(",LeaderSkill: ");
       sb.Append(LeaderSkill);
       sb.Append(",ActiveSkill: ");

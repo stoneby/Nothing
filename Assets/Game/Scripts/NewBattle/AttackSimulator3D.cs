@@ -41,13 +41,4 @@ public class AttackSimulator3D : AttackSimulator
         yield return new WaitForSeconds(ReturnTime / 2);
         selectAnimator.SetTrigger("Idle");
     }
-
-    #region Mono
-
-    void Start()
-    {
-
-    }
-
-    #endregion
 }

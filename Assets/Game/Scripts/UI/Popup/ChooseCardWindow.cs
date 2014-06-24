@@ -81,7 +81,8 @@ public class ChooseCardWindow : Window
 
     private void OnFragCombine(GameObject go)
     {
-        WindowManager.Instance.Show<ChooseCardWindow>(false);
+        CSLotteryComposeList csMsg = new CSLotteryComposeList();
+        NetManager.SendMessage(csMsg);
     }
 
     #endregion

@@ -1,9 +1,7 @@
 ﻿using com.kx.sglm.gs.battle.share;
-using com.kx.sglm.gs.battle.share.data;
-using com.kx.sglm.gs.battle.share.utils;
+using com.kx.sglm.gs.hero.properties;
 using System;
 using System.Collections;
-using com.kx.sglm.gs.hero.properties;
 using Template;
 using UnityEngine;
 
@@ -141,20 +139,6 @@ public class CharacterControl : MonoBehaviour
     public string GetNamePrefix()
     {
         return "c_" + CharacterIndex + "_";
-    }
-
-    public void ResetCharacter()
-    {
-        if (AnimObj != null)
-        {
-            AnimObj.SetActive(false);
-            AnimObj.SetActive(true);
-        }
-        if (SpriteObj != null)
-        {
-            SpriteObj.SetActive(false);
-            SpriteObj.SetActive(true);
-        }
     }
 
     public void PlayCharacter(CharacterStateType stateType)

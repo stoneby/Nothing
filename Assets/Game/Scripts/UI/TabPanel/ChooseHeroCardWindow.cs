@@ -109,10 +109,7 @@ public class ChooseHeroCardWindow : Window
         }
         else
         {
-            var str = scLotteryList.LotteryType == LotteryConstant.LotteryTypeHero
-                          ? StringTable.OneTimeHeroLotteryConfirm
-                          : StringTable.OneTimeItemLotteryConfirm;
-            ShowConfirm(string.Format(str, scLotteryList.LotteryCost));
+            ShowOneConfirm();
         }
     }
 
@@ -157,13 +154,26 @@ public class ChooseHeroCardWindow : Window
         WindowManager.Instance.Show(typeof(AssertionWindow), true);
     }
 
+    private void ShowTenConfirm()
+    {
+        var str = scLotteryList.LotteryType == LotteryConstant.LotteryTypeHero
+                  ? StringTable.TenTimeHeroLotteryConfirm
+                  : StringTable.TenTimeItemLotteryConfirm;
+        ShowConfirm(string.Format(str, scLotteryList.LotteryCost * TenTimes));
+    }
+
+    private void ShowOneConfirm()
+    {
+        var str = scLotteryList.LotteryType == LotteryConstant.LotteryTypeHero
+                  ? StringTable.OneTimeHeroLotteryConfirm
+                  : StringTable.OneTimeItemLotteryConfirm;
+        ShowConfirm(string.Format(str, scLotteryList.LotteryCost));
+    }
+
     private void OnBuyTen(GameObject go)
     {
         lotteryMode = LotteryConstant.LotteryModeTenthCharge;
-        var str = scLotteryList.LotteryType == LotteryConstant.LotteryTypeHero
-                      ? StringTable.TenTimeHeroLotteryConfirm
-                      : StringTable.TenTimeItemLotteryConfirm;
-        ShowConfirm(string.Format(str, scLotteryList.LotteryCost * TenTimes));
+        ShowTenConfirm();
     }
 
     private IEnumerator UpdateFreeTime(TimeSpan timeRemain)
@@ -239,13 +249,12 @@ public class ChooseHeroCardWindow : Window
         var oneTimeCostValue = lotteryList.LotteryCost;
         oneTimeCost.text = oneTimeCostValue.ToString(CultureInfo.InvariantCulture);
         tenTimeCost.text = (oneTimeCostValue * TenTimes).ToString(CultureInfo.InvariantCulture);
-        timesForHero.text = lotteryList.Get4StarHeroRestTimes.ToString(CultureInfo.InvariantCulture);
         totalFamous.text = PlayerModelLocator.Instance.Famous.ToString(CultureInfo.InvariantCulture);
         var isElevenTimes = lotteryList.ListLotteryInfo[tabBehaviour.ActiveTab].TenLotteryGiveElevenHero;
         elevenTimesDesc.gameObject.SetActive(isElevenTimes);
         tenTimesDesc.gameObject.SetActive(!isElevenTimes);
         player.Play();
-        DisplayFreeTime(lotteryList.LastFreeLotteryTime);
+        RefreshTimes(lotteryList.LastFreeLotteryTime, lotteryList.Get4StarHeroRestTimes);
     }
 
     public void RefreshTimes(long lastTime, int restTimes)
@@ -257,6 +266,13 @@ public class ChooseHeroCardWindow : Window
     public void RefreshFamous()
     {
         totalFamous.text = PlayerModelLocator.Instance.Famous.ToString(CultureInfo.InvariantCulture);
+    }
+
+    public void LotteryCannotFree()
+    {
+        isFreeTime = false;
+        lotteryMode = LotteryConstant.LotteryModeOnceCharge;
+        ShowOneConfirm();
     }
 
     #endregion

@@ -115,8 +115,10 @@ public class GameConfiguration : Singleton<GameConfiguration>
 
     private IEnumerator DoReadRemoteServiceXml()
     {
-        Logger.Log("加载Service.xml=" + GameConfig.ServicePath);
-        var www = new WWW(GameConfig.ServicePath);
+        var str = GameConfig.ServicePath + "?" + DateTime.Now.ToFileTime();
+        Logger.Log("加载Service.xml=" + str);
+
+        var www = new WWW(str);
         yield return www;
 
         if (!String.IsNullOrEmpty(www.error))

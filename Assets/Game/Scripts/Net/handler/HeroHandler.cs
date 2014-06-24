@@ -29,88 +29,42 @@ namespace Assets.Game.Scripts.Net.handler
 
                 case (short)MessageType.SC_HERO_CREATE_ONE:
                     var createOneMsg = msg.GetContent() as SCHeroCreateOne;
-                    HeroModelLocator.Instance.SCHeroList.HeroList.Add(createOneMsg.NewHero);
-                    WindowManager.Instance.GetWindow<UIHeroItemsPageWindow>().Refresh();
+                    if(createOneMsg != null)
+                    {
+                        HeroModelLocator.Instance.SCHeroList.HeroList.Add(createOneMsg.NewHero);
+                        WindowManager.Instance.GetWindow<UIHeroItemsPageWindow>().Refresh();
+                    }
                     break;
                 case (short)MessageType.SC_HERO_MODIFY_TEAM:
                     var md5Msg = msg.GetContent() as SCHeroModifyTeam;
-                    HeroModelLocator.Instance.SCHeroList.TeamList[md5Msg.TeamIndex].ListHeroUuid = md5Msg.NewTeamInfo;
-                    WindowManager.Instance.GetWindow<UITeamBuildWindow>().Refresh();
-                    WindowManager.Instance.Show(typeof(UITeamEditWindow), false);
+                    if (md5Msg != null)
+                    {
+                        HeroModelLocator.Instance.SCHeroList.TeamList[md5Msg.TeamIndex].ListHeroUuid = md5Msg.NewTeamInfo;
+                        WindowManager.Instance.GetWindow<UITeamBuildWindow>().Refresh();
+                        WindowManager.Instance.Show(typeof(UITeamEditWindow), false);
+                    }
                     break;
 
                 case (short)MessageType.SC_HERO_SELL:
-                    var sellList = (msg.GetContent() as SCHeroSell).SellList;
-                    var heroList = HeroModelLocator.Instance.SCHeroList.HeroList;
-                    for (var index = 0; index < heroList.Count; index++)
+                    var scHeroSell = msg.GetContent() as SCHeroSell;
+                    if(scHeroSell != null)
                     {
-                        if (sellList.Contains(heroList[index].Uuid))
+                        var sellList = scHeroSell.SellList;
+                        var heroList = HeroModelLocator.Instance.SCHeroList.HeroList;
+                        for (var index = 0; index < heroList.Count; index++)
                         {
-                            heroList.Remove(heroList[index]);
-                            index--;
+                            if (sellList.Contains(heroList[index].Uuid))
+                            {
+                                heroList.Remove(heroList[index]);
+                                index--;
+                            }
                         }
+                        WindowManager.Instance.GetWindow<UIHeroSellWindow>().SellOverUpdate();
                     }
-                    WindowManager.Instance.GetWindow<UIHeroSellWindow>().SellOverUpdate();
                     break;
 
                 case (short)MessageType.SC_HERO_LVL_UP:
                     WindowManager.Instance.GetWindow<UILevelUpWindow>().ShowLevelOver();
-                    break;
-
-                case (short)MessageType.SC_PROPERTY_CHANGED_NUMBER:
-                    var propertyChangedMsg = msg.GetContent() as SCPropertyChangedNumber;
-                    if (propertyChangedMsg.RoleType == 2)
-                    {
-                        WindowManager.Instance.GetWindow<UILevelUpWindow>().PropertyChangedNumber
-                            = msg.GetContent() as SCPropertyChangedNumber;
-                    }
-                    if (propertyChangedMsg.RoleType == 1)
-                    {
-                        var propertyChangedNumber = msg.GetContent() as SCPropertyChangedNumber;
-
-                        if (propertyChangedNumber.PropertyChanged.ContainsKey(RoleProperties.ROLEBASE_DIAMOND))
-                        {
-                            PlayerModelLocator.Instance.Diamond = propertyChangedNumber.PropertyChanged[RoleProperties.ROLEBASE_DIAMOND];
-                        }
-                        if (propertyChangedNumber.PropertyChanged.ContainsKey(RoleProperties.ROLEBASE_HERO_SPIRIT))
-                        {
-                            PlayerModelLocator.Instance.Sprit = propertyChangedNumber.PropertyChanged[RoleProperties.ROLEBASE_HERO_SPIRIT];
-                        }
-                        if (propertyChangedNumber.PropertyChanged.ContainsKey(RoleProperties.ROLEBASE_GOLD))
-                        {
-                            PlayerModelLocator.Instance.Gold = propertyChangedNumber.PropertyChanged[RoleProperties.ROLEBASE_GOLD];
-                        }
-
-                        if (propertyChangedNumber.PropertyChanged.ContainsKey(RoleProperties.ROLEBASE_CURRENT_EXP))
-                        {
-                            PlayerModelLocator.Instance.Exp = propertyChangedNumber.PropertyChanged[RoleProperties.ROLEBASE_CURRENT_EXP];
-                        }
-                        if (propertyChangedNumber.PropertyChanged.ContainsKey(RoleProperties.ROLEBASE_ENERGY))
-                        {
-                            PlayerModelLocator.Instance.Energy = propertyChangedNumber.PropertyChanged[RoleProperties.ROLEBASE_ENERGY];
-                        }
-                        if (propertyChangedNumber.PropertyChanged.ContainsKey(RoleProperties.ROLEBASE_EXTEND_HREO_BAG_TIMES))
-                        {
-                            PlayerModelLocator.Instance.ExtendHeroTimes = propertyChangedNumber.PropertyChanged[RoleProperties.ROLEBASE_EXTEND_HREO_BAG_TIMES];
-                        }
-                        if (propertyChangedNumber.PropertyChanged.ContainsKey(RoleProperties.ROLEBASE_EXTEND_ITEM_BAG_TIMES))
-                        {
-                            PlayerModelLocator.Instance.ExtendItemTimes = propertyChangedNumber.PropertyChanged[RoleProperties.ROLEBASE_EXTEND_ITEM_BAG_TIMES];
-                        }
-
-                        if (propertyChangedNumber.PropertyChanged.ContainsKey(RoleProperties.ROLEBASE_LEVEL))
-                        {
-                            PlayerModelLocator.Instance.Level = (short) propertyChangedNumber.PropertyChanged[RoleProperties.ROLEBASE_LEVEL];
-                        }
-
-                        if (propertyChangedNumber.PropertyChanged.ContainsKey(RoleProperties.ROLEBASE_FAMOUS))
-                        {
-                            PlayerModelLocator.Instance.Famous = propertyChangedNumber.PropertyChanged[RoleProperties.ROLEBASE_FAMOUS];
-                        }
-
-                        var mainWindow = WindowManager.Instance.GetWindow<UIMainScreenWindow>();//.Show(typeof(UIMainScreenWindow), true);
-                        mainWindow.GetComponent<UIMainScreenWindow>().refreshData();
-                    }
                     break;
                 case (short)MessageType.SC_HERO_MAX_EXTEND:
                     var themsg = msg.GetContent() as SCHeroMaxExtend;

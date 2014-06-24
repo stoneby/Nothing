@@ -1,22 +1,18 @@
-﻿using System.Collections.Generic;
-using KXSGCodec;
-using UnityEngine;
-using System.Collections;
+﻿using UnityEngine;
 
-public class BuyBackHandler : MonoBehaviour 
+public class BuyBackHandler : MonoBehaviour
 {
     public event UIEventListener.VoidDelegate OkClicked;
     public event UIEventListener.VoidDelegate CancelClicked;
 
     private UIEventListener okLis;
     private UIEventListener cancelLis;
-    private UILabel costCoins;
 
     private void Awake()
     {
         okLis = UIEventListener.Get(transform.Find("OK").gameObject);
         cancelLis = UIEventListener.Get(transform.Find("Cancel").gameObject);
-        costCoins = Utils.FindChild(transform, "CostValue").GetComponent<UILabel>();
+        Utils.FindChild(transform, "CostValue").GetComponent<UILabel>();
     }
 
     private void InstallHandlers()
@@ -57,10 +53,5 @@ public class BuyBackHandler : MonoBehaviour
             CancelClicked(go);
         }
         Destroy(gameObject);
-    }
-
-    public void Show(List<ItemInfo> infos)
-    {
-        
     }
 }

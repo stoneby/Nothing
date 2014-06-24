@@ -1,11 +1,9 @@
 using KXSGCodec;
 using UnityEngine;
-using System.Collections;
 
 public class UIHerosDisplayWindow : TabPanelBase 
 {
     public static bool IsCreateOne;
-    public const string JobPrefix = "icon_zhiye_";
 
     private sbyte cachedOrderType;
     private SCHeroList scHeroList;

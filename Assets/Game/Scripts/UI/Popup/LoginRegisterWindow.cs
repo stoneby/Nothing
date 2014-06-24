@@ -5,8 +5,7 @@ using UnityEngine;
 /// </summary>
 public class LoginRegisterWindow : Window
 {
-    private GameObject BtnRegister;
-    private GameObject BtnReturn;
+    private GameObject btnReturn;
 
     #region Window
 
@@ -25,11 +24,8 @@ public class LoginRegisterWindow : Window
     // Use this for initialization
     void Start()
     {
-        BtnRegister = transform.FindChild("Image Button - register").gameObject;
-        //BtnRegister.AddComponent<DoRegisterHandler>();
-
-        BtnReturn = transform.FindChild("Image Button - back").gameObject;
-        BtnReturn.AddComponent<CloseRegisterHandler>();
+        btnReturn = transform.FindChild("Image Button - back").gameObject;
+        btnReturn.AddComponent<CloseRegisterHandler>();
     }
 
     #endregion

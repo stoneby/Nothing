@@ -18,6 +18,8 @@ public class UIHeroInfoWindow : Window
     private UILabel recover;
     private UILabel mp;
     private HeroInfo heroInfo;
+    private bool needShowLevelUp;
+    private SCPropertyChangedNumber propertychanged;
     private HeroTemplate heroTemplate;
 
     #endregion
@@ -76,6 +78,13 @@ public class UIHeroInfoWindow : Window
         backBtnLis.onClick -= OnBackBtnClicked;
     }
 
+    private void OnHeroPeopertyChanged(SCPropertyChangedNumber scpropertychanged)
+    {
+        needShowLevelUp = true;
+        propertychanged = scpropertychanged;
+
+    }
+
     /// <summary>
     /// Use this for initialization.
     /// </summary>
@@ -87,6 +96,7 @@ public class UIHeroInfoWindow : Window
         hp = Utils.FindChild(property, "HPValue").GetComponent<UILabel>();
         recover = Utils.FindChild(property, "RecoverValue").GetComponent<UILabel>();
         mp = Utils.FindChild(property, "MPValue").GetComponent<UILabel>();
+        CommonHandler.HeroPropertyChanged += OnHeroPeopertyChanged;
     }
 
     /// <summary>
@@ -125,6 +135,11 @@ public class UIHeroInfoWindow : Window
             Utils.FindChild(skillOne, "Desc").GetComponent<UILabel>().text = passiveSkill.Desc;
             NGUITools.SetActive(TalentContent, false);
         }
+        if(needShowLevelUp)
+        {
+            StartCoroutine("ShowLevelUpEffect", propertychanged);
+            needShowLevelUp = false;
+        }
     }
 
     public void RefreshData(HeroInfo info)
@@ -145,14 +160,6 @@ public class UIHeroInfoWindow : Window
     }
 
     /// <summary>
-    /// Show the effect of level up over.
-    /// </summary>
-    public void ShowLevelUp(SCPropertyChangedNumber changedNumber)
-    {
-        StartCoroutine("ShowLevelUpEffect", changedNumber);
-    }
-
-    /// <summary>
     /// The coroutine to show the effect of the result of level up.
     /// </summary>
     private IEnumerator ShowLevelUpEffect(object obj)
@@ -165,16 +172,8 @@ public class UIHeroInfoWindow : Window
             var hpBefore = heroInfo.Prop[RoleProperties.HERO_HP];
             var recoverBefore = heroInfo.Prop[RoleProperties.HERO_RECOVER];
             var mpBefore = heroInfo.Prop[RoleProperties.HERO_MP];
-            SetHeroInfo(changedNumber, RoleProperties.ROLEBASE_LEVEL);
 
-            if (changedNumber.PropertyChanged.ContainsKey(RoleProperties.ROLEBASE_LEVEL))
-            {
-                heroInfo.Lvl = (short)changedNumber.PropertyChanged[RoleProperties.ROLEBASE_LEVEL];
-            }
-            SetHeroInfo(changedNumber, RoleProperties.HERO_ATK);
-            SetHeroInfo(changedNumber, RoleProperties.HERO_HP);
-            SetHeroInfo(changedNumber, RoleProperties.HERO_RECOVER);
-            SetHeroInfo(changedNumber, RoleProperties.HERO_MP);
+            SetHeroInfo(changedNumber);
             var changedLvl = heroInfo.Lvl - lvlBefore;
             var changedAtk = changedNumber.PropertyChanged[RoleProperties.HERO_ATK] - atkBefore;
             var changedHp = changedNumber.PropertyChanged[RoleProperties.HERO_HP] - hpBefore;
@@ -186,42 +185,68 @@ public class UIHeroInfoWindow : Window
 
             while (true)
             {
-                lvLabel.color = UILevelUpWindow.NonChangedColor;
-                lvLabel.text = string.Format("{0}/{1}", heroInfo.Lvl, heroTemplate.LvlLimit);
-                attack.color = UILevelUpWindow.NonChangedColor;
-                attack.text = heroInfo.Prop[RoleProperties.HERO_ATK].ToString();
-                hp.color = UILevelUpWindow.NonChangedColor;
-                hp.text = heroInfo.Prop[RoleProperties.HERO_HP].ToString();
-                recover.color = UILevelUpWindow.NonChangedColor;
-                recover.text = heroInfo.Prop[RoleProperties.HERO_RECOVER].ToString();
-                mp.color = UILevelUpWindow.NonChangedColor;
-                mp.text = heroInfo.Prop[RoleProperties.HERO_MP].ToString();
+                ShowNormalLabels(lvLabel);
                 yield return new WaitForSeconds(1f);
-                lvLabel.color = UILevelUpWindow.ChangedColor;
-                lvLabel.text = string.Format("(+{0})", changedLvl);
-                attack.color = UILevelUpWindow.ChangedColor;
-                attack.text = string.Format("(+{0})", changedAtk);
-                hp.color = UILevelUpWindow.ChangedColor;
-                hp.text = string.Format("(+{0})", changedHp);
-                recover.color = UILevelUpWindow.ChangedColor;
-                recover.text = string.Format("(+{0})", changedRecover);
-                mp.color = UILevelUpWindow.ChangedColor;
-                mp.text = string.Format("(+{0})", changedMp);
+                SetLevelUpLevels(lvLabel, changedLvl, changedAtk, changedHp, changedRecover, changedMp);
                 yield return new WaitForSeconds(1f);
             }
         }   
+    }
+
+    private void SetLevelUpLevels(UILabel lvLabel, int changedLvl, int changedAtk, int changedHp, int changedRecover,
+                                  int changedMp)
+    {
+        lvLabel.color = UILevelUpWindow.ChangedColor;
+        lvLabel.text = string.Format("(+{0})", changedLvl);
+        attack.color = UILevelUpWindow.ChangedColor;
+        attack.text = string.Format("(+{0})", changedAtk);
+        hp.color = UILevelUpWindow.ChangedColor;
+        hp.text = string.Format("(+{0})", changedHp);
+        recover.color = UILevelUpWindow.ChangedColor;
+        recover.text = string.Format("(+{0})", changedRecover);
+        mp.color = UILevelUpWindow.ChangedColor;
+        mp.text = string.Format("(+{0})", changedMp);
+    }
+
+    private void ShowNormalLabels(UILabel lvLabel)
+    {
+        lvLabel.color = UILevelUpWindow.NonChangedColor;
+        lvLabel.text = string.Format("{0}/{1}", heroInfo.Lvl, heroTemplate.LvlLimit);
+        attack.color = UILevelUpWindow.NonChangedColor;
+        attack.text = heroInfo.Prop[RoleProperties.HERO_ATK].ToString(CultureInfo.InvariantCulture);
+        hp.color = UILevelUpWindow.NonChangedColor;
+        hp.text = heroInfo.Prop[RoleProperties.HERO_HP].ToString(CultureInfo.InvariantCulture);
+        recover.color = UILevelUpWindow.NonChangedColor;
+        recover.text = heroInfo.Prop[RoleProperties.HERO_RECOVER].ToString(CultureInfo.InvariantCulture);
+        mp.color = UILevelUpWindow.NonChangedColor;
+        mp.text = heroInfo.Prop[RoleProperties.HERO_MP].ToString(CultureInfo.InvariantCulture);
     }
 
     /// <summary>
     /// Set the hero info with special key.
     /// </summary>
     /// <param name="changedNumber">The property changed number.</param>
-    /// <param name="key">The key which reprent special property of hero.</param>
-    private void SetHeroInfo(SCPropertyChangedNumber changedNumber, int key)
+    private void SetHeroInfo(SCPropertyChangedNumber changedNumber)
     {
-        if(changedNumber.PropertyChanged.ContainsKey(key))
+        if (changedNumber.PropertyChanged.ContainsKey(RoleProperties.ROLEBASE_LEVEL))
         {
-            heroInfo.Prop[key] = changedNumber.PropertyChanged[key];
+            heroInfo.Lvl = (short)changedNumber.PropertyChanged[RoleProperties.ROLEBASE_LEVEL];
+        }
+        if (changedNumber.PropertyChanged.ContainsKey(RoleProperties.HERO_ATK))
+        {
+            heroInfo.Prop[RoleProperties.HERO_ATK] = changedNumber.PropertyChanged[RoleProperties.HERO_ATK];
+        }
+        if (changedNumber.PropertyChanged.ContainsKey(RoleProperties.HERO_HP))
+        {
+            heroInfo.Prop[RoleProperties.HERO_ATK] = changedNumber.PropertyChanged[RoleProperties.HERO_HP];
+        }
+        if (changedNumber.PropertyChanged.ContainsKey(RoleProperties.HERO_RECOVER))
+        {
+            heroInfo.Prop[RoleProperties.HERO_ATK] = changedNumber.PropertyChanged[RoleProperties.HERO_RECOVER];
+        }
+        if (changedNumber.PropertyChanged.ContainsKey(RoleProperties.HERO_MP))
+        {
+            heroInfo.Prop[RoleProperties.HERO_ATK] = changedNumber.PropertyChanged[RoleProperties.HERO_MP];
         }
     }
 

@@ -77,7 +77,7 @@ public class ItemBaseInfoWindow : Window
         Utils.FindChild(transform, "LV-Value").GetComponent<UILabel>().text = string.Format("{0}/{1}", itemInfo.Level, itemInfo.MaxLvl);
         Utils.FindChild(transform, "Limit-Value").GetComponent<UILabel>().text = string.Format("{0}/{1}", itemInfo.UpVal, ItemModeLocator.Instance.GetUpLimit(itemInfo.TmplId));
         Utils.FindChild(transform, "Luck-Value").GetComponent<UILabel>().text = "20";
-        Utils.FindChild(transform, "Job-Value").GetComponent<UISprite>().spriteName = UIHerosDisplayWindow.JobPrefix + ItemModeLocator.Instance.GetJob(itemInfo.TmplId);
+        Utils.FindChild(transform, "Job-Value").GetComponent<UISprite>().spriteName = HeroConstant.HeroJobPrefix + ItemModeLocator.Instance.GetJob(itemInfo.TmplId);
 
         attack.text = ItemModeLocator.Instance.GetAttack(itemInfo.TmplId, itemInfo.Level).ToString(CultureInfo.InvariantCulture);
         hp.text = ItemModeLocator.Instance.GetHp(itemInfo.TmplId, itemInfo.Level).ToString(CultureInfo.InvariantCulture);

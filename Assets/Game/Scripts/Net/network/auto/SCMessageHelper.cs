@@ -24,6 +24,10 @@ namespace KXSGCodec
             {
                 return new SCBattlePveStartMsg();
             }
+			            if (type == MessageType.SC_HERO_BIND_SUCC.GetHashCode())
+            {
+                return new SCHeroBindSucc();
+            }
 			            if (type == MessageType.SC_HERO_CHANGE_EQUIP.GetHashCode())
             {
                 return new SCHeroChangeEquip();
@@ -111,6 +115,14 @@ namespace KXSGCodec
 			            if (type == MessageType.SC_LOTTERY_CANNOT_FREE.GetHashCode())
             {
                 return new SCLotteryCannotFree();
+            }
+			            if (type == MessageType.SC_LOTTERY_COMPOSE_LIST.GetHashCode())
+            {
+                return new SCLotteryComposeList();
+            }
+			            if (type == MessageType.SC_LOTTERY_COMPOSE_SUCC.GetHashCode())
+            {
+                return new SCLotteryComposeSucc();
             }
 			            if (type == MessageType.SC_LOTTERY_LIST.GetHashCode())
             {

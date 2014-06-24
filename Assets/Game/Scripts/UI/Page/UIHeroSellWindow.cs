@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using Template;
 using UnityEngine;
+using OrderType = ItemHelper.OrderType;
 
 /// <summary>
 /// The sell heros window.
@@ -166,7 +167,7 @@ public class UIHeroSellWindow : Window
             var info = scHeroList.HeroList[index];
             CheckState(item.transform, uUid);
             item.InitItem(info);
-            HeroUtils.ShowHero(orderType, item, info);
+            HeroUtils.ShowHero((OrderType)orderType, item, info);
         }
     }
 
@@ -257,7 +258,7 @@ public class UIHeroSellWindow : Window
             var item = herosGrid.transform.GetChild(i).GetComponent<HeroItem>();
             var info = scHeroList.HeroList[i];
             item.InitItem(info);
-            HeroUtils.ShowHero(orderType, item, info);
+            HeroUtils.ShowHero((OrderType)orderType, item, info);
         }
     }
 

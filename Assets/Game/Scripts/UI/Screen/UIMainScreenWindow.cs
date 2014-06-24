@@ -21,17 +21,8 @@ public class UIMainScreenWindow : Window
     public override void OnEnter()
     {
         InstallHandlers();
-		refreshData ();
+		RefreshData ();
     }
-
-	public void refreshData()
-	{
-	    if (diamond == null) return;
-		diamond.text = PlayerModelLocator.Instance.Diamond.ToString ();
-		gold.text = PlayerModelLocator.Instance.Gold.ToString ();
-		sprit.text = PlayerModelLocator.Instance.Sprit.ToString ();
-	    nameLabel.text = PlayerModelLocator.Instance.Name;
-	}
 
     public override void OnExit()
     {
@@ -54,6 +45,7 @@ public class UIMainScreenWindow : Window
 		gold = transform.FindChild("Fortune/Coins/Coins-Value").GetComponent<UILabel>();
 		sprit = transform.FindChild("Fortune/Souls/Coins-Value").GetComponent<UILabel>();
         nameLabel = transform.FindChild("Info/Name - Label").GetComponent<UILabel>();
+        CommonHandler.PlayerPropertyChanged += OnPlayerPropertyChanged;
     }
 
     private void InstallHandlers()
@@ -70,6 +62,20 @@ public class UIMainScreenWindow : Window
         addMp.onClick -= OnAddMpClicked;
         startGameLis.onClick -= OnStartGameClicked;
         filpLeftLis.onClick -= OnFlipLeftClicked;
+    }
+
+    private void RefreshData()
+    {
+        if (diamond == null) return;
+        diamond.text = PlayerModelLocator.Instance.Diamond.ToString();
+        gold.text = PlayerModelLocator.Instance.Gold.ToString();
+        sprit.text = PlayerModelLocator.Instance.Sprit.ToString();
+        nameLabel.text = PlayerModelLocator.Instance.Name;
+    }
+
+    private void OnPlayerPropertyChanged(SCPropertyChangedNumber scpropertychanged)
+    {
+        RefreshData();
     }
 
     private void OnAddMoneyClicked(GameObject go)

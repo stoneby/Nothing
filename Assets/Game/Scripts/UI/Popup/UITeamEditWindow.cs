@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Linq;
 using KXSGCodec;
 using Property;
-using Template;
+using OrderType = ItemHelper.OrderType;
 using UnityEngine;
 
 /// <summary>
@@ -148,7 +148,7 @@ public class UITeamEditWindow : Window
             var info = scHeroList.HeroList[i];
             var item = herosGrid.transform.GetChild(i).GetComponent<HeroItem>();
             item.InitItem(info);
-            HeroUtils.ShowHero(orderType, item, info);
+            HeroUtils.ShowHero((OrderType)orderType, item, info);
         }
     }
 
@@ -284,7 +284,7 @@ public class UITeamEditWindow : Window
             var info = scHeroList.HeroList[heroIndex];
             var item = herosGrid.transform.GetChild(heroIndex).GetComponent<HeroItem>();
             item.InitItem(info);
-            HeroUtils.ShowHero(orderType, item, info);
+            HeroUtils.ShowHero((OrderType)orderType, item, info);
             var uUid = info.Uuid;
             if (uUids.Contains(uUid))
             {

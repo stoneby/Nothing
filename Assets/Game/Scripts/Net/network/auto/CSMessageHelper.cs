@@ -24,6 +24,7 @@ namespace KXSGCodec
         {
         	            MSG_TYPE_DICT[typeof(CSBattlePveFinishMsg)] = (short)MessageType.CS_BATTLE_PVE_FINISH_MSG.GetHashCode();
 			            MSG_TYPE_DICT[typeof(CSRaidBattleStartMsg)] = (short)MessageType.CS_RAID_BATTLE_START_MSG.GetHashCode();
+			            MSG_TYPE_DICT[typeof(CSHeroBind)] = (short)MessageType.CS_HERO_BIND.GetHashCode();
 			            MSG_TYPE_DICT[typeof(CSHeroChangeEquip)] = (short)MessageType.CS_HERO_CHANGE_EQUIP.GetHashCode();
 			            MSG_TYPE_DICT[typeof(CSHeroChangeOrder)] = (short)MessageType.CS_HERO_CHANGE_ORDER.GetHashCode();
 			            MSG_TYPE_DICT[typeof(CSHeroChangeTeam)] = (short)MessageType.CS_HERO_CHANGE_TEAM.GetHashCode();
@@ -46,6 +47,8 @@ namespace KXSGCodec
 			            MSG_TYPE_DICT[typeof(CSPasswdLoginMsg)] = (short)MessageType.CS_PASSWD_LOGIN_MSG.GetHashCode();
 			            MSG_TYPE_DICT[typeof(CSQuickLoginMsg)] = (short)MessageType.CS_QUICK_LOGIN_MSG.GetHashCode();
 			            MSG_TYPE_DICT[typeof(CSLottery)] = (short)MessageType.CS_LOTTERY.GetHashCode();
+			            MSG_TYPE_DICT[typeof(CSLotteryCompose)] = (short)MessageType.CS_LOTTERY_COMPOSE.GetHashCode();
+			            MSG_TYPE_DICT[typeof(CSLotteryComposeList)] = (short)MessageType.CS_LOTTERY_COMPOSE_LIST.GetHashCode();
 			            MSG_TYPE_DICT[typeof(CSLotteryList)] = (short)MessageType.CS_LOTTERY_LIST.GetHashCode();
 			            MSG_TYPE_DICT[typeof(CSRaidLoadingAll)] = (short)MessageType.CS_RAID_LOADING_ALL.GetHashCode();
 			            MSG_TYPE_DICT[typeof(CSRaidQueryFriend)] = (short)MessageType.CS_RAID_QUERY_FRIEND.GetHashCode();

@@ -9,7 +9,7 @@ public class EnemyControlTest : MonoBehaviour
     private string maxValue = string.Empty;
     private string cd = string.Empty;
 
-    // Use this for initialization
+#if UNITY_EDITOR
     void OnGUI()
     {
         if (GUILayout.Button("PlayAttack"))
@@ -48,4 +48,5 @@ public class EnemyControlTest : MonoBehaviour
             EnemyController.SetCdLabel(int.Parse(cd));
         }
     }
+#endif
 }

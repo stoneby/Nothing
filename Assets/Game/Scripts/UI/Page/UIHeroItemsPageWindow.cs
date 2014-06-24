@@ -1,6 +1,8 @@
+using System.Collections.Generic;
 using System.Linq;
 using KXSGCodec;
 using UnityEngine;
+using OrderType = ItemHelper.OrderType;
 
 /// <summary>
 /// The hero list window to show all heros.
@@ -204,13 +206,13 @@ public class UIHeroItemsPageWindow : Window
         var orderType = scHeroList.OrderType;
         sortLabel.text = StringTable.SortStrings[orderType];
         heroNums.text = string.Format("{0}/{1}", scHeroList.HeroList.Count, PlayerModelLocator.Instance.HeroMax);
-        HeroModelLocator.Instance.SortHeroList((ItemHelper.OrderType)orderType, scHeroList.HeroList);
+        HeroModelLocator.Instance.SortHeroList((OrderType)orderType, scHeroList.HeroList);
         for (int i = 0; i < scHeroList.HeroList.Count; i++)
         {
             var heroInfo = scHeroList.HeroList[i];
             var item = grid.transform.GetChild(i).GetComponent<HeroItem>();
             item.InitItem(heroInfo);
-            HeroUtils.ShowHero(orderType, item, heroInfo);
+            HeroUtils.ShowHero((OrderType)orderType, item, heroInfo);
         }
     }
 
@@ -228,11 +230,13 @@ public class UIHeroItemsPageWindow : Window
         {
             var job = (sbyte)UIToggle.current.GetComponent<JobFilterInfo>().Job;
             var heros = HeroModelLocator.Instance.FilterByJob(job, scHeroList.HeroList);
+            var filterObjects = new List<Transform>();
             for (int i = 0; i < scHeroList.HeroList.Count; i++)
             {
                 if (i < heros.Count)
                 {
                     var item = grid.transform.GetChild(i).GetComponent<HeroItem>();
+                    filterObjects.Add(item.transform);
                     NGUITools.SetActive(item.gameObject, true);
                     item.GetComponent<BoxCollider>().enabled = true;
                 }
@@ -244,13 +248,10 @@ public class UIHeroItemsPageWindow : Window
                 }
             }
             grid.repositionNow = true;
-            for (int i = 0; i < scHeroList.HeroList.Count; i++)
+            for (int i = 0; i < filterObjects.Count; i++)
             {
-                if(i < heros.Count)
-                {
-                    var item = grid.transform.GetChild(i).GetComponent<HeroItem>();
-                    HeroUtils.ShowHero(scHeroList.OrderType, item, scHeroList.HeroList[i]);
-                }
+                var item = filterObjects[i].GetComponent<HeroItem>();
+                HeroUtils.ShowHero((OrderType)scHeroList.OrderType, item, heros[i]);
             }
         }
     }

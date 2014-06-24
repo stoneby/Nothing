@@ -1,9 +1,8 @@
-﻿using System.ComponentModel;
-using System.Text;
-using com.kx.sglm.gs.battle.share;
+﻿using com.kx.sglm.gs.battle.share;
 using com.kx.sglm.gs.battle.share.data;
 using com.kx.sglm.gs.battle.share.data.record;
 using System.Collections.Generic;
+using System.Text;
 using Template;
 using UnityEngine;
 

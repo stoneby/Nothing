@@ -131,7 +131,6 @@ public class GameEventGenerator : EditorWindow
     private void GenerateFile()
     {
         var content = templateFile.text;
-        var insertIndex = content.IndexOf('}');
 
         var contentBuilder = new StringBuilder(content);
         // Change class name.

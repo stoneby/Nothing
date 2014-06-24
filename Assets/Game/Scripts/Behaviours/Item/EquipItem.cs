@@ -1,5 +1,5 @@
-﻿using System.Globalization;
-using KXSGCodec;
+﻿using KXSGCodec;
+using System.Globalization;
 using UnityEngine;
 
 public class EquipItem : ItemBase
@@ -67,7 +67,7 @@ public class EquipItem : ItemBase
         if (job != -1)
         {
             NGUITools.SetActive(jobSymobl.gameObject, true);
-            jobSymobl.spriteName = UIHerosDisplayWindow.JobPrefix + job;
+            jobSymobl.spriteName = HeroConstant.HeroJobPrefix + job;
             attackValue.text = atk != -1 ? atk.ToString(CultureInfo.InvariantCulture) : "-";
         }
         else

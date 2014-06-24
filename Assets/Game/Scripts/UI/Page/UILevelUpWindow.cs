@@ -52,7 +52,6 @@ public class UILevelUpWindow : Window
     private readonly int[] additions = new int[5];
     public static readonly Color NonChangedColor = Color.white;
     public static readonly Color ChangedColor = Color.cyan;
-    public SCPropertyChangedNumber PropertyChangedNumber;
 
     #endregion
 
@@ -75,7 +74,7 @@ public class UILevelUpWindow : Window
 
     #endregion
 
-    #region Mono
+    #region Private Methods
 
     /// <summary>
     /// Use this for initialization.
@@ -231,7 +230,7 @@ public class UILevelUpWindow : Window
         WindowManager.Instance.GetWindow<HeroBaseInfoWindow>().Toggle(1);
         if(isLevelOver)
         {
-            WindowManager.Instance.GetWindow<UIHeroInfoWindow>().ShowLevelUp(PropertyChangedNumber);
+            WindowManager.Instance.Show<UIHeroInfoWindow>(true);
             WindowManager.Instance.GetWindow<HeroBaseInfoWindow>().ShowButtons(true);
             NGUITools.SetActive(title.gameObject, true);
             NGUITools.SetActive(smallHero.gameObject, false);

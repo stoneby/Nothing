@@ -4,12 +4,11 @@
 // Copyright (c) 2013 Niklas Borglund. All rights reserved.
 // @NiklasBorglund
 
-using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
-using System.Xml;
-using System.IO;
 using System.Globalization;
+using System.IO;
+using System.Xml;
+using UnityEngine;
 
 /// <summary>
 /// Change language event handler.
@@ -127,8 +126,10 @@ public class LanguageManager : Singleton<LanguageManager>
             Logger.LogError("LanguageManager.cs: No language is available! Use Window->Smart Localization tool to create a language");
         }
     }
-    void OnDestroy()
+    public override void OnDestroy()
     {
+        base.OnDestroy();
+
         //Clear the event handler
         OnChangeLanguage = null;
     }

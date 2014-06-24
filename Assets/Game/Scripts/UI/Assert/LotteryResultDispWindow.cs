@@ -61,7 +61,7 @@ public class LotteryResultDispWindow : Window
         itemIcon.enabled = false;
         var jobIcon = Utils.FindChild(transform, "JobIcon").GetComponent<UISprite>();
         var heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpl[info.TemplateId];
-        jobIcon.spriteName = UIHerosDisplayWindow.JobPrefix + heroTemplate.Job;
+        jobIcon.spriteName = HeroConstant.HeroJobPrefix + heroTemplate.Job;
 
         var stars = transform.FindChild("RewardItem/Rarity");
         var starCount = stars.transform.childCount;
@@ -112,7 +112,7 @@ public class LotteryResultDispWindow : Window
         }
         else
         {
-            jobIcon.spriteName = UIHerosDisplayWindow.JobPrefix + job;
+            jobIcon.spriteName = HeroConstant.HeroJobPrefix + job;
         }
     }
 

@@ -11,6 +11,7 @@ public class ServerVO
     public string ServerName;
     public string Url;
     public bool IsTest;
+    public string DataUrl;
 
     public static ServerVO Parse(XElement data)
     {
@@ -21,6 +22,7 @@ public class ServerVO
         app.ServerName = data.Attribute("ServerName").Value;
         app.Url = data.Attribute("Url").Value;
         app.IsTest = bool.Parse(data.Attribute("IsTest").Value);
+        app.DataUrl = data.Attribute("DataUrl").Value;
 
 //        Logger.Log(app.ID);
 //        Logger.Log(app.RequestClientVersion);

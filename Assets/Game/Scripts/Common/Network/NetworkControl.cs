@@ -36,11 +36,13 @@ public class NetworkControl : MonoBehaviour
                     case (short) MessageType.SC_HERO_MODIFY_TEAM:
                     case (short) MessageType.SC_HERO_SELL:
                     case (short) MessageType.SC_HERO_LVL_UP:
-                    case (short) MessageType.SC_PROPERTY_CHANGED_NUMBER:
                     case (short) MessageType.SC_HERO_CREATE_ONE:
                     case (short) MessageType.SC_HERO_MAX_EXTEND:
                     case (short) MessageType.SC_HERO_CHANGE_EQUIP:
                         HeroHandler.OnHeroMessage(msg);
+                        break;
+                    case (short) MessageType.SC_PROPERTY_CHANGED_NUMBER:
+                        CommonHandler.OnPropertyChangedNumber(msg);
                         break;
                     case (short) MessageType.SC_RAID_ADDTION:
                         RaidHandler.OnRaidAddition(msg);
@@ -60,56 +62,62 @@ public class NetworkControl : MonoBehaviour
                     case (short) MessageType.SC_RAID_ENTER_FAIL:
                         RaidHandler.OnRaidEnterFail(msg);
                         break;
-                    case (short)MessageType.SC_RAID_NEW_STAGE:
+                    case (short) MessageType.SC_RAID_NEW_STAGE:
                         RaidHandler.OnRaidNewStage(msg);
                         break;
-                    case (short)MessageType.SC_RAID_RECEIVE_AWARDS:
+                    case (short) MessageType.SC_RAID_RECEIVE_AWARDS:
                         RaidHandler.OnRaidReceiveReward(msg);
                         break;
                     case (short) MessageType.SC_ALL_ITEM_INFOS:
                         ItemHandler.OnAllItemInfos(msg);
-                        break;     
+                        break;
                     case (short) MessageType.SC_SERVER_CONFIG_MSG:
                         ItemHandler.OnServerConfigMsg(msg);
-                        break; 
+                        break;
                     case (short) MessageType.SC_ADD_ITEM:
                         ItemHandler.OnAddItem(msg);
                         break;
-                    case (short)MessageType.SC_ITEM_DETAIL:
+                    case (short) MessageType.SC_ITEM_DETAIL:
                         ItemHandler.OnItemDetail(msg);
                         break;
-                    case (short)MessageType.SC_STRENGTH_ITEM_SUCC:
+                    case (short) MessageType.SC_STRENGTH_ITEM_SUCC:
                         ItemHandler.OnStrengthItemSucc(msg);
                         break;
-                    case (short)MessageType.SC_ITEM_SELL_SUCC:
+                    case (short) MessageType.SC_ITEM_SELL_SUCC:
                         ItemHandler.OnItemSellSucc(msg);
-                        break;     
-                    case (short)MessageType.SC_EVOLUTE_ITEM_SUCC:
+                        break;
+                    case (short) MessageType.SC_EVOLUTE_ITEM_SUCC:
                         ItemHandler.OnEvoluteItemSucc(msg);
                         break;
-                    case (short)MessageType.SC_EXTEND_ITEM_BAG_SUCC:
+                    case (short) MessageType.SC_EXTEND_ITEM_BAG_SUCC:
                         ItemHandler.OnExtendItemBagSucc(msg);
-                        break;   
-                    case (short)MessageType.SC_ITEM_LOCK_OPER_SUCC:
+                        break;
+                    case (short) MessageType.SC_ITEM_LOCK_OPER_SUCC:
                         ItemHandler.OnItemLockOperSucc(msg);
                         break;
-                    case (short)MessageType.SC_BUY_BACK_ITEM_SUCC:
+                    case (short) MessageType.SC_BUY_BACK_ITEM_SUCC:
                         ItemHandler.OnBuyBackItemSucc(msg);
                         break;
-                    case (short)MessageType.SC_LOTTERY_LIST:
+                    case (short) MessageType.SC_LOTTERY_LIST:
                         ChooseCardHandler.OnLotteryList(msg);
                         break;
-                    case (short)MessageType.SC_LOTTERY:
+                    case (short) MessageType.SC_LOTTERY:
                         ChooseCardHandler.OnLottery(msg);
-                        break;      
-                    case (short)MessageType.SC_LOTTERY_REFRESH_TIMES:
+                        break;
+                    case (short) MessageType.SC_LOTTERY_REFRESH_TIMES:
                         ChooseCardHandler.OnLotteryRefreshTimes(msg);
-                        break;                  
-                    case (short)MessageType.SC_ADD_ITEMS_AND_HEROS:
+                        break;
+                    case (short) MessageType.SC_ADD_ITEMS_AND_HEROS:
                         ChooseCardHandler.OnAddItemsAndHeros(msg);
                         break;
-                    case (short)MessageType.SC_LOTTERY_CANNOT_FREE:
+                    case (short) MessageType.SC_LOTTERY_CANNOT_FREE:
                         ChooseCardHandler.OnLotteryNotFree(msg);
+                        break;
+                    case (short)MessageType.SC_LOTTERY_COMPOSE_LIST:
+                        ChooseCardHandler.OnLotteryComposeList(msg);                        
+                        break;
+                    case (short)MessageType.SC_LOTTERY_COMPOSE_SUCC:
+                        ChooseCardHandler.OnLotteryComposeSucc(msg);
                         break;
                 }
                 msg = NetManager.GetMessage();

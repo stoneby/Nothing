@@ -43,7 +43,10 @@ public class NextFootManager : MonoBehaviour
     /// <summary>
     /// On stage color list.
     /// </summary>
-    /// <remarks>Should be count the same as FootList</remarks>
+    /// <remarks>
+    /// Should be greater than onStageSize.
+    /// Setup at initialize state, on stage but will just hold if there is no enough room for others.
+    /// </remarks>
     public List<int> OnStageColorList;
 
     /// <summary>
@@ -60,7 +63,13 @@ public class NextFootManager : MonoBehaviour
     /// <summary>
     /// Size of foot all we have.
     /// </summary>
-    private int size;
+    /// <remarks>
+    /// On stage size equals to exactly visible foot symbols.
+    /// Equals to FootList's size - BufferCount.
+    /// </remarks>
+    private int onStageSize;
+
+    private List<int> candidateColorList; 
 
     private List<Vector3> positionList;
 
@@ -91,17 +100,23 @@ public class NextFootManager : MonoBehaviour
 
         initialized = true;
 
+        if (candidateColorList == null)
+        {
+            candidateColorList = new List<int>();
+        }
+        candidateColorList.Clear();
+
         if (OnStageColorList == null || OnStageColorList.Count == 0)
         {
             Logger.LogError("On stage color list is null or empty, there is nothing foot prefab to spawn with.");
             return;
         }
 
-        size = OnStageColorList.Count;
+        onStageSize = FootList.Count - BufferCount;
 
-        if (size != FootList.Count - BufferCount)
+        if (OnStageColorList.Count < onStageSize)
         {
-            Logger.LogError("Size: " + size + " + buffer count: " + BufferCount + " should be equals to foot list count: " + FootList.Count);
+            Logger.LogError("OnStageColorList size: " + OnStageColorList.Count + " should be greater or equals to onStageSize: " + onStageSize);
             return;
         }
 
@@ -140,15 +155,22 @@ public class NextFootManager : MonoBehaviour
     /// </summary>
     public void Move()
     {
+        candidateColorList.AddRange(WaitingColorList);
+
+        Logger.LogWarning("Ready candidate color list:" + candidateColorList.Count);
+
         StartCoroutine(DoMove());
     }
 
     private IEnumerator DoMove()
     {
-        for (var i = 0; i < WaitingColorList.Count; ++i)
+        var moveCount = WaitingColorList.Count;
+        for (var i = 0; i < moveCount; ++i)
         {
             // Set first sprite in hiding list.
-            SetSprite(FootList[0], WaitingColorList[i]);
+            SetSprite(FootList[0], candidateColorList[0]);
+            // update candidate color list.
+            candidateColorList.RemoveAt(0);
 
             MoveOneRound();
             yield return new WaitForSeconds(StepMoveDuration);
@@ -162,7 +184,7 @@ public class NextFootManager : MonoBehaviour
     public void MoveOneRound()
     {
         // iterate all but not including the last one.
-        for (var i = 0; i <= size; ++i)
+        for (var i = 0; i <= onStageSize; ++i)
         {
             var fromObject = FootList[i];
             var toObject = FootList[i + 1];
@@ -176,7 +198,7 @@ public class NextFootManager : MonoBehaviour
             }
 
             // the last object should scale and fade out.
-            if (i == size)
+            if (i == onStageSize)
             {
                 ScaleTo(fromObject, ScaleVector);
                 ColorTo(fromObject, fadeColor);
@@ -197,10 +219,25 @@ public class NextFootManager : MonoBehaviour
     public void SetOnStageSprite()
     {
         // set up visiable sprites.
-        for (var i = size; i >= 1; --i)
+        for (var i = onStageSize; i >= 1; --i)
         {
-            SetSprite(FootList[i], OnStageColorList[size - i]);
+            SetSprite(FootList[i], OnStageColorList[onStageSize - i]);
         }
+
+        for (var i = 0; i < OnStageColorList.Count; ++i)
+        {
+            // set foot list index in between 0.. [1, the one before last]... last one.
+            if (i < onStageSize)
+            {
+                SetSprite(FootList[i + 1], OnStageColorList[i]);
+            }
+            else
+            {
+                candidateColorList.Add(OnStageColorList[i]);
+            }
+        }
+
+        Logger.LogWarning("Initial candidate color list:" + candidateColorList.Count);
     }
 
     private void ScaleTo(GameObject fromObject, Vector3 newScale)
@@ -230,12 +267,12 @@ public class NextFootManager : MonoBehaviour
     public void ResetOneRound()
     {
         // reset last object normalized.
-        var lastFoot = FootList[size];
+        var lastFoot = FootList[onStageSize];
         lastFoot.transform.position = positionList[0];
         lastFoot.transform.localScale = Vector3.one;
 
         // circle reuse of foot object.
-        FootList.RemoveAt(size);
+        FootList.RemoveAt(onStageSize);
         FootList.Insert(0, lastFoot);
     }
 

@@ -17,7 +17,7 @@ public class HeroItem : HeroItemBase
     {
         var jobSymobl = Utils.FindChild(sortRelatedTran, "JobSymbol").GetComponent<UISprite>();
         var attack = Utils.FindChild(sortRelatedTran, "Attack").GetComponent<UILabel>();
-        jobSymobl.spriteName = UIHerosDisplayWindow.JobPrefix + job;
+        jobSymobl.spriteName = HeroConstant.HeroJobPrefix + job;
         attack.text = atk.ToString(CultureInfo.InvariantCulture);
         NGUITools.SetActiveChildren(sortRelatedTran.gameObject, false);
         NGUITools.SetActive(jobSymobl.gameObject, true);

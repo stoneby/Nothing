@@ -40,6 +40,8 @@ namespace Assets.Game.Scripts.Net.handler
             WindowManager.Instance.Show(typeof(UIMainScreenWindow), true);
             WindowManager.Instance.Show(typeof(MainMenuBarWindow), true);
             WindowManager.Instance.Show(WindowGroupType.Popup, false);
+
+            HttpResourceManager.LoadAll();
         }
     }
 }

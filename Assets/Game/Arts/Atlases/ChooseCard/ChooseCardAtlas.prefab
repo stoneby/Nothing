@@ -27,6 +27,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
+  m_RootOrder: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -68,7 +69,7 @@ MonoBehaviour:
     paddingBottom: 0
   - name: Ad3
     x: 787
-    y: 3041
+    y: 3570
     width: 786
     height: 526
     borderLeft: 0
@@ -80,8 +81,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: Ad4
-    x: 0
-    y: 2514
+    x: 787
+    y: 3041
     width: 786
     height: 526
     borderLeft: 0
@@ -94,7 +95,7 @@ MonoBehaviour:
     paddingBottom: 0
   - name: Ad5
     x: 787
-    y: 3570
+    y: 2514
     width: 786
     height: 526
     borderLeft: 0
@@ -106,7 +107,7 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: Ad6
-    x: 787
+    x: 0
     y: 2514
     width: 786
     height: 526
@@ -133,7 +134,7 @@ MonoBehaviour:
     paddingBottom: 0
   - name: BackD
     x: 1975
-    y: 4049
+    y: 4001
     width: 58
     height: 47
     borderLeft: 0
@@ -146,7 +147,7 @@ MonoBehaviour:
     paddingBottom: 0
   - name: BackN
     x: 1975
-    y: 4001
+    y: 4049
     width: 58
     height: 47
     borderLeft: 0
@@ -171,8 +172,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: BuyBtnD
-    x: 1824
-    y: 3619
+    x: 1574
+    y: 3091
     width: 172
     height: 76
     borderLeft: 0
@@ -184,8 +185,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: BuyBtnN
-    x: 1574
-    y: 3091
+    x: 1824
+    y: 3619
     width: 172
     height: 76
     borderLeft: 0
@@ -250,7 +251,7 @@ MonoBehaviour:
     paddingBottom: 0
   - name: DeclareD
     x: 1839
-    y: 2629
+    y: 2685
     width: 125
     height: 55
     borderLeft: 0
@@ -263,7 +264,7 @@ MonoBehaviour:
     paddingBottom: 0
   - name: DeclareN
     x: 1839
-    y: 2685
+    y: 2629
     width: 125
     height: 55
     borderLeft: 0
@@ -276,13 +277,26 @@ MonoBehaviour:
     paddingBottom: 0
   - name: Decorate
     x: 1928
-    y: 3352
+    y: 3247
     width: 100
     height: 100
     borderLeft: 10
     borderRight: 10
     borderTop: 10
     borderBottom: 10
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: DivideF
+    x: 0
+    y: 1895
+    width: 1024
+    height: 42
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
     paddingLeft: 0
     paddingRight: 0
     paddingTop: 0
@@ -302,7 +316,7 @@ MonoBehaviour:
     paddingBottom: 0
   - name: FourTabD
     x: 1852
-    y: 3094
+    y: 3157
     width: 189
     height: 62
     borderLeft: 0
@@ -315,7 +329,7 @@ MonoBehaviour:
     paddingBottom: 0
   - name: FourTabN
     x: 1852
-    y: 3157
+    y: 3094
     width: 189
     height: 62
     borderLeft: 0
@@ -353,8 +367,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: Frame2
-    x: 1928
-    y: 3251
+    x: 1936
+    y: 2940
     width: 100
     height: 100
     borderLeft: 25
@@ -430,9 +444,22 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
+  - name: NoCombine
+    x: 1928
+    y: 3348
+    width: 104
+    height: 104
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 7
+    paddingRight: 7
+    paddingTop: 7
+    paddingBottom: 7
   - name: OKD
     x: 1574
-    y: 2588
+    y: 2532
     width: 140
     height: 55
     borderLeft: 0
@@ -445,7 +472,7 @@ MonoBehaviour:
     paddingBottom: 0
   - name: OKN
     x: 1574
-    y: 2532
+    y: 2588
     width: 140
     height: 55
     borderLeft: 0
@@ -461,10 +488,10 @@ MonoBehaviour:
     y: 3067
     width: 100
     height: 100
-    borderLeft: 0
-    borderRight: 0
-    borderTop: 0
-    borderBottom: 0
+    borderLeft: 40
+    borderRight: 40
+    borderTop: 40
+    borderBottom: 40
     paddingLeft: 0
     paddingRight: 0
     paddingTop: 0
@@ -487,6 +514,32 @@ MonoBehaviour:
     y: 3576
     width: 197
     height: 42
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: ScrollBar
+    x: 1539
+    y: 2028
+    width: 10
+    height: 485
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: ScrollBarCursor
+    x: 2019
+    y: 3755
+    width: 25
+    height: 26
     borderLeft: 0
     borderRight: 0
     borderTop: 0
@@ -523,7 +576,7 @@ MonoBehaviour:
     paddingBottom: 0
   - name: SixTabD
     x: 1574
-    y: 3570
+    y: 3633
     width: 249
     height: 62
     borderLeft: 0
@@ -536,7 +589,7 @@ MonoBehaviour:
     paddingBottom: 0
   - name: SixTabN
     x: 1574
-    y: 3633
+    y: 3570
     width: 249
     height: 62
     borderLeft: 0
@@ -578,6 +631,19 @@ MonoBehaviour:
     y: 3168
     width: 277
     height: 51
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: Times
+    x: 836
+    y: 2151
+    width: 132
+    height: 303
     borderLeft: 0
     borderRight: 0
     borderTop: 0

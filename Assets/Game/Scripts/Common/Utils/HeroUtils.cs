@@ -1,51 +1,50 @@
 ﻿using KXSGCodec;
 using Property;
-using UnityEngine;
-using System.Collections;
+using OrderType = ItemHelper.OrderType;
 
 public class HeroUtils
  {
-    public static void ShowHero(short orderType, HeroItem heroItem, int quality, short level, sbyte job, int atk, int hp, int recover)
+    public static void ShowHero(OrderType orderType, HeroItem heroItem, int quality, short level, sbyte job, int atk, int hp, int recover)
     {
         switch (orderType)
         {
             //入手顺序排序
-            case 0:
+            case OrderType.Time:
                 heroItem.ShowByLvl(level);
                 break;
 
             //武将职业排序
-            case 1:
+            case OrderType.Job:
                 heroItem.ShowByJob(job, atk);
                 break;
 
             //武将稀有度排序
-            case 2:
+            case OrderType.Rarity:
                 heroItem.ShowByLvl(level);
                 break;
 
             //照队伍顺序排序
-            case 3:
+            case OrderType.Team:
                 heroItem.ShowByLvl(level);
                 break;
 
             //攻击力排序
-            case 4:
+            case OrderType.Attack:
                 heroItem.ShowByJob(job, atk);
                 break;
 
             //HP排序
-            case 5:
+            case OrderType.Health:
                 heroItem.ShowByHp(hp);
                 break;
 
             //回复力排序
-            case 6:
+            case OrderType.Recover:
                 heroItem.ShowByRecover(recover);
                 break;
 
             //等级排序
-            case 7:
+            case OrderType.Level:
                 heroItem.ShowByLvl(level);
                 break;
         }
@@ -57,7 +56,7 @@ public class HeroUtils
      /// <param name="orderType">The order type of </param>
      /// <param name="heroTran">The transform of item.</param>
      /// <param name="heroInfo">The info of item.</param>
-     public static void ShowHero(short orderType, HeroItem heroTran, HeroInfo heroInfo)
+    public static void ShowHero(OrderType orderType, HeroItem heroTran, HeroInfo heroInfo)
      {
          var heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpl[heroInfo.TemplateId];
          var quality = heroTemplate.Star;

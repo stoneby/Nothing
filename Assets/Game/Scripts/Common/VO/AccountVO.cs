@@ -15,13 +15,14 @@ public class AccountVO
 
     public void AddServer(string server)
     {
-        if (Servers == null)Servers = new List<string>();
-        bool flag = true;
+        if (Servers == null)
+        {
+            Servers = new List<string>();
+        }
         for (int i = 0; i < Servers.Count; i++)
         {
             if (Servers[i] == server)
             {
-                flag = false;
                 Servers.RemoveAt(i);
                 break;
             }
@@ -36,10 +37,10 @@ public class AccountVO
         if (index >= 0)
         {
             var arr = str.Split(',');
-            data = new AccountVO();
-            data.Account = arr[0];
-            data.Password = arr[1];
-            data.Servers = new List<string>();
+            data = new AccountVO
+            {
+                Account = arr[0], Password = arr[1], Servers = new List<string>()
+            };
             for (var i = 2; i < arr.Length; i++)
             {
                 data.Servers.Add(arr[i]);

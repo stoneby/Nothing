@@ -12,7 +12,6 @@ public class UITeamBuildWindow : Window
     #region private Fields
 
     private EndlessSwipeEffect endlessSwipeEffect;
-    private Vector3 endlessPosCached;
     private UIEventListener editBtnLis;
     private UIEventListener flipLBtnLis;
     private UIEventListener flipRBtnLis;
@@ -20,6 +19,7 @@ public class UITeamBuildWindow : Window
     private Transform properties;
     private float heroCellWidth;
     private int curTeamIndex = -1;
+    private const int LeaderCount = 3;
     private int teamCount;
     private readonly List<Transform> heros = new List<Transform>();
     private UISprite teamSprite;
@@ -82,7 +82,6 @@ public class UITeamBuildWindow : Window
     public override void OnExit()
     {
         UnInstallHandlers();
-        endlessSwipeEffect.transform.position = endlessPosCached;
     }
 
     #endregion
@@ -99,7 +98,6 @@ public class UITeamBuildWindow : Window
         teamSprite = Utils.FindChild(transform, "TeamValue").GetComponent<UISprite>();
         teamSpritePrefix = teamSprite.spriteName.Remove(teamSprite.spriteName.Length - 1);
         endlessSwipeEffect = GetComponentInChildren<EndlessSwipeEffect>();
-        endlessPosCached = endlessSwipeEffect.transform.position;
         endlessSwipeEffect.UpdateData += UpdateData;
     }
 
@@ -155,7 +153,7 @@ public class UITeamBuildWindow : Window
                     leaderInfo = heroInfo;
                 }
                 //If it is not a leader.
-                if (index >= 3)
+                if (index >= LeaderCount)
                 {
                     heros[index].FindChild("Hero").gameObject.SetActive(true);
                 }

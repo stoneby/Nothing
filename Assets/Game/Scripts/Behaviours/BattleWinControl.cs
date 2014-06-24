@@ -239,7 +239,7 @@ public class BattleWinControl : MonoBehaviour
     {
         var currentScreen = WindowManager.Instance.CurrentWindowMap[WindowGroupType.Screen];
         var battlemanager = currentScreen.GetComponent<InitBattleField>();
-        battlemanager.DestroyBattle();
+        battlemanager.ResetBattle();
 
         WindowManager.Instance.Show(WindowGroupType.Popup, false);
         WindowManager.Instance.Show(typeof(UIMainScreenWindow), true);
