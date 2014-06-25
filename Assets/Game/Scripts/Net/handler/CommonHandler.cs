@@ -68,6 +68,12 @@ public class CommonHandler
                     PlayerModelLocator.Instance.Famous =
                         propertyChangedMsg.PropertyChanged[RoleProperties.ROLEBASE_FAMOUS];
                 }
+
+                if (propertyChangedMsg.PropertyChanged.ContainsKey(RoleProperties.ROLEBASE_SUPER_CHIP))
+                {
+                    PlayerModelLocator.Instance.SuperChip =
+                        propertyChangedMsg.PropertyChanged[RoleProperties.ROLEBASE_SUPER_CHIP];
+                }
                 if (PlayerPropertyChanged != null)
                 {
                     PlayerPropertyChanged(propertyChangedMsg);

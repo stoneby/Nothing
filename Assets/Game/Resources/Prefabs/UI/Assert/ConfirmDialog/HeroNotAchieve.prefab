@@ -138,6 +138,7 @@ MonoBehaviour:
     target: {fileID: 0}
     relative: 1
     absolute: 0
+  updateAnchors: 1
   mColor: {r: .242647052, g: .242647052, b: .242647052, a: 1}
   mPivot: 4
   mWidth: 400
@@ -147,12 +148,13 @@ MonoBehaviour:
   hideIfOffScreen: 0
   keepAspectRatio: 0
   aspectRatio: 8
-  keepCrispWhenShrunk: 1
-  mTrueTypeFont: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-  mFont: {fileID: 0}
+  keepCrispWhenShrunk: 2
+  mTrueTypeFont: {fileID: 0}
+  mFont: {fileID: 11400000, guid: 30054980c4ab28942a48b10c3d67cac5, type: 2}
   mText: "\u672A\u8FBE\u6210\u6B66\u5C06\u6536\u96C6\u6761\u4EF6"
   mFontSize: 30
   mFontStyle: 0
+  mAlignment: 0
   mEncoding: 1
   mMaxLineCount: 0
   mEffectStyle: 0
@@ -198,6 +200,7 @@ MonoBehaviour:
     target: {fileID: 0}
     relative: 1
     absolute: 0
+  updateAnchors: 1
   mColor: {r: .147058845, g: .147058845, b: .147058845, a: 1}
   mPivot: 4
   mWidth: 470
@@ -207,18 +210,19 @@ MonoBehaviour:
   hideIfOffScreen: 0
   keepAspectRatio: 0
   aspectRatio: 235
-  mAtlas: {fileID: 11400000, guid: 7a5b8a5a3ed372d43bf8c47dcc5108ce, type: 2}
-  mSpriteName: cut_off
   mType: 1
   mFillDirection: 4
   mFillAmount: 1
   mInvert: 0
-  mFillCenter: 1
+  mFlip: 0
   centerType: 1
   leftType: 1
   rightType: 1
   bottomType: 1
   topType: 1
+  mAtlas: {fileID: 11400000, guid: 7a5b8a5a3ed372d43bf8c47dcc5108ce, type: 2}
+  mSpriteName: cut_off
+  mFillCenter: 1
 --- !u!114 &11400004
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -246,6 +250,7 @@ MonoBehaviour:
     target: {fileID: 0}
     relative: 1
     absolute: 0
+  updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
   mWidth: 604
@@ -255,18 +260,19 @@ MonoBehaviour:
   hideIfOffScreen: 0
   keepAspectRatio: 0
   aspectRatio: 1.92356694
-  mAtlas: {fileID: 11400000, guid: 7a5b8a5a3ed372d43bf8c47dcc5108ce, type: 2}
-  mSpriteName: main_frame
   mType: 1
   mFillDirection: 4
   mFillAmount: 1
   mInvert: 0
-  mFillCenter: 1
+  mFlip: 0
   centerType: 1
   leftType: 1
   rightType: 1
   bottomType: 1
   topType: 1
+  mAtlas: {fileID: 11400000, guid: 7a5b8a5a3ed372d43bf8c47dcc5108ce, type: 2}
+  mSpriteName: main_frame
+  mFillCenter: 1
 --- !u!114 &11400006
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -294,6 +300,7 @@ MonoBehaviour:
     target: {fileID: 0}
     relative: 1
     absolute: 0
+  updateAnchors: 1
   mColor: {r: 1, g: .517241359, b: 0, a: 1}
   mPivot: 4
   mWidth: 500
@@ -303,12 +310,13 @@ MonoBehaviour:
   hideIfOffScreen: 0
   keepAspectRatio: 0
   aspectRatio: 3.33333325
-  keepCrispWhenShrunk: 1
-  mTrueTypeFont: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-  mFont: {fileID: 0}
+  keepCrispWhenShrunk: 2
+  mTrueTypeFont: {fileID: 0}
+  mFont: {fileID: 11400000, guid: 30054980c4ab28942a48b10c3d67cac5, type: 2}
   mText: "\u6B66\u5C06\u8FBE\u5230\u6EE1\u7EA7\uFF0C\u6EE1\u4E0A\u9650\u503C\u53EF\u9886\u53D65\u94BB\u77F3\u5956\u52B1\uFF08\u76F8\u540C\u6B66\u5C06\u53EA\u80FD\u9886\u53D6\u4E00\u6B21\uFF09"
   mFontSize: 30
   mFontStyle: 0
+  mAlignment: 0
   mEncoding: 1
   mMaxLineCount: 0
   mEffectStyle: 0

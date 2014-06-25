@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using KXSGCodec;
-using UnityEngine;
 
 namespace Assets.Game.Scripts.Net.handler
 {
@@ -15,12 +13,12 @@ namespace Assets.Game.Scripts.Net.handler
             {
                 if (ItemModeLocator.Instance.GetItemPos == ItemType.GetItemInPanel)
                 {
-                    if (themsg.BagType == 0)
+                    if (themsg.BagType == ItemType.MainItemBagType)
                     {
                         ItemModeLocator.Instance.ScAllItemInfos = themsg;
                         Utils.ShowWithoutDestory(typeof(UIEquipDispTabWindow));
                     }
-                    if (themsg.BagType == 1)
+                    if (themsg.BagType == ItemType.BuyBackItemBagType)
                     {
                         ItemModeLocator.Instance.BuyBackItems = themsg;
                         WindowManager.Instance.Show<BuyBackDialogWindow>(true);
@@ -28,7 +26,7 @@ namespace Assets.Game.Scripts.Net.handler
                 }
                 else
                 {
-                    if (themsg.BagType == 0)
+                    if (themsg.BagType == ItemType.MainItemBagType)
                     {
                         ItemModeLocator.Instance.ScAllItemInfos = themsg;
                         WindowManager.Instance.GetWindow<HeroBaseInfoWindow>().ShowHeroSelItems();

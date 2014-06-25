@@ -17,6 +17,7 @@ public sealed class PlayerModelLocator
     public int ExtendHeroTimes;
     public int ExtendItemTimes;
     public int Famous;
+    public int SuperChip;
 
     private static volatile PlayerModelLocator instance;
     private static readonly object SyncRoot = new Object();

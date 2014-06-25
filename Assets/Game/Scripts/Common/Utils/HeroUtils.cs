@@ -62,9 +62,9 @@ public class HeroUtils
          var quality = heroTemplate.Star;
          var level = heroInfo.Lvl;
          var job = heroTemplate.Job;
-         var atk = heroInfo.Prop[RoleProperties.HERO_ATK];
-         var hp = heroInfo.Prop[RoleProperties.HERO_HP]; ;
-         var recover = heroInfo.Prop[RoleProperties.HERO_RECOVER]; ;
+         var atk = heroInfo.Prop[RoleProperties.ROLE_ATK];
+         var hp = heroInfo.Prop[RoleProperties.ROLE_HP]; ;
+         var recover = heroInfo.Prop[RoleProperties.ROLE_RECOVER]; ;
          ShowHero(orderType, heroTran, quality, level, job, atk, hp, recover);
      }
  }

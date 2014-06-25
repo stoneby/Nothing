@@ -1,15 +1,15 @@
 using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using KXSGCodec;
-using UnityEngine;
 
 /// <summary>
 /// Specific window controller.
 /// </summary>
 public class UIEquipDispTabWindow : Window
 {
+    #region Private Fields
+
     private UItemsWindow itemsWindow;
+
+    #endregion
 
     #region Public Fields
 
@@ -43,7 +43,7 @@ public class UIEquipDispTabWindow : Window
 
     private void InstallHandlers()
     {
-        for (int i = 0; i < Toggles.Count; i++)
+        for (var i = 0; i < Toggles.Count; i++)
         {
             EventDelegate.Add(Toggles[i].onChange, OnToggleChanged);
         }

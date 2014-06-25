@@ -83,13 +83,15 @@ public class UIMaterialInfoWindow : Window
         Utils.FindChild(transform, "Name").GetComponent<UILabel>().text = ItemModeLocator.Instance.GetName(itemInfo.TmplId);
         var stars = Utils.FindChild(transform, "Stars");
         var quality = ItemModeLocator.Instance.GetQuality(itemInfo.TmplId);
-        for (int index = 0; index < quality; index++)
+        var starCount = Mathf.CeilToInt((float)quality / ItemType.QualitiesPerStar);
+        var childCount = stars.transform.childCount;
+        for (int index = 0; index < starCount; index++)
         {
-            NGUITools.SetActive(stars.GetChild(index).gameObject, true);
+            NGUITools.SetActive(stars.FindChild("Star" + (childCount - index - 1)).gameObject, true);
         }
-        for (int index = quality; index < stars.childCount; index++)
+        for (int index = childCount - starCount - 1; index >= 0; index--)
         {
-            NGUITools.SetActive(stars.GetChild(index).gameObject, false);
+            NGUITools.SetActive(stars.FindChild("Star" + index).gameObject, false);
         }
         Utils.FindChild(transform, "Job-Value").GetComponent<UISprite>().spriteName = HeroConstant.HeroJobPrefix +
                                                                                       ItemModeLocator.Instance.GetJob(

@@ -67,7 +67,7 @@ public class UIHeroInfoWindow : Window
     /// </summary>
     private void InstallHandlers()
     {
-        backBtnLis.onClick += OnBackBtnClicked;
+        backBtnLis.onClick = OnBackBtnClicked;
     }
 
     /// <summary>
@@ -75,7 +75,7 @@ public class UIHeroInfoWindow : Window
     /// </summary>
     private void UnInstallHandlers()
     {
-        backBtnLis.onClick -= OnBackBtnClicked;
+        backBtnLis.onClick = null;
     }
 
     private void OnHeroPeopertyChanged(SCPropertyChangedNumber scpropertychanged)
@@ -104,10 +104,10 @@ public class UIHeroInfoWindow : Window
     /// </summary>
     private void RefreshData()
     {
-        attack.text = heroInfo.Prop[RoleProperties.HERO_ATK].ToString(CultureInfo.InvariantCulture);
-        hp.text = heroInfo.Prop[RoleProperties.HERO_HP].ToString(CultureInfo.InvariantCulture);
-        recover.text = heroInfo.Prop[RoleProperties.HERO_RECOVER].ToString(CultureInfo.InvariantCulture);
-        mp.text = heroInfo.Prop[RoleProperties.HERO_MP].ToString(CultureInfo.InvariantCulture);
+        attack.text = heroInfo.Prop[RoleProperties.ROLE_ATK].ToString(CultureInfo.InvariantCulture);
+        hp.text = heroInfo.Prop[RoleProperties.ROLE_HP].ToString(CultureInfo.InvariantCulture);
+        recover.text = heroInfo.Prop[RoleProperties.ROLE_RECOVER].ToString(CultureInfo.InvariantCulture);
+        mp.text = heroInfo.Prop[RoleProperties.ROLE_MP].ToString(CultureInfo.InvariantCulture);
 
         var skillTmp = HeroModelLocator.Instance.SkillTemplates.SkillTmpl;
         var leaderSkillTemp = skillTmp[heroTemplate.LeaderSkill];
@@ -168,17 +168,17 @@ public class UIHeroInfoWindow : Window
         if(changedNumber != null)
         {
             var lvlBefore = heroInfo.Lvl;
-            var atkBefore = heroInfo.Prop[RoleProperties.HERO_ATK];
-            var hpBefore = heroInfo.Prop[RoleProperties.HERO_HP];
-            var recoverBefore = heroInfo.Prop[RoleProperties.HERO_RECOVER];
-            var mpBefore = heroInfo.Prop[RoleProperties.HERO_MP];
+            var atkBefore = heroInfo.Prop[RoleProperties.ROLE_ATK];
+            var hpBefore = heroInfo.Prop[RoleProperties.ROLE_HP];
+            var recoverBefore = heroInfo.Prop[RoleProperties.ROLE_RECOVER];
+            var mpBefore = heroInfo.Prop[RoleProperties.ROLE_MP];
 
             SetHeroInfo(changedNumber);
             var changedLvl = heroInfo.Lvl - lvlBefore;
-            var changedAtk = changedNumber.PropertyChanged[RoleProperties.HERO_ATK] - atkBefore;
-            var changedHp = changedNumber.PropertyChanged[RoleProperties.HERO_HP] - hpBefore;
-            var changedRecover = changedNumber.PropertyChanged[RoleProperties.HERO_RECOVER] - recoverBefore;
-            var changedMp = changedNumber.PropertyChanged[RoleProperties.HERO_MP] - mpBefore;
+            var changedAtk = changedNumber.PropertyChanged[RoleProperties.ROLE_ATK] - atkBefore;
+            var changedHp = changedNumber.PropertyChanged[RoleProperties.ROLE_HP] - hpBefore;
+            var changedRecover = changedNumber.PropertyChanged[RoleProperties.ROLE_RECOVER] - recoverBefore;
+            var changedMp = changedNumber.PropertyChanged[RoleProperties.ROLE_MP] - mpBefore;
 
             var heroBase = WindowManager.Instance.GetWindow<HeroBaseInfoWindow>();
             var lvLabel = Utils.FindChild(heroBase.transform, "LV-Value").GetComponent<UILabel>();
@@ -213,13 +213,13 @@ public class UIHeroInfoWindow : Window
         lvLabel.color = UILevelUpWindow.NonChangedColor;
         lvLabel.text = string.Format("{0}/{1}", heroInfo.Lvl, heroTemplate.LvlLimit);
         attack.color = UILevelUpWindow.NonChangedColor;
-        attack.text = heroInfo.Prop[RoleProperties.HERO_ATK].ToString(CultureInfo.InvariantCulture);
+        attack.text = heroInfo.Prop[RoleProperties.ROLE_ATK].ToString(CultureInfo.InvariantCulture);
         hp.color = UILevelUpWindow.NonChangedColor;
-        hp.text = heroInfo.Prop[RoleProperties.HERO_HP].ToString(CultureInfo.InvariantCulture);
+        hp.text = heroInfo.Prop[RoleProperties.ROLE_HP].ToString(CultureInfo.InvariantCulture);
         recover.color = UILevelUpWindow.NonChangedColor;
-        recover.text = heroInfo.Prop[RoleProperties.HERO_RECOVER].ToString(CultureInfo.InvariantCulture);
+        recover.text = heroInfo.Prop[RoleProperties.ROLE_RECOVER].ToString(CultureInfo.InvariantCulture);
         mp.color = UILevelUpWindow.NonChangedColor;
-        mp.text = heroInfo.Prop[RoleProperties.HERO_MP].ToString(CultureInfo.InvariantCulture);
+        mp.text = heroInfo.Prop[RoleProperties.ROLE_MP].ToString(CultureInfo.InvariantCulture);
     }
 
     /// <summary>
@@ -232,21 +232,21 @@ public class UIHeroInfoWindow : Window
         {
             heroInfo.Lvl = (short)changedNumber.PropertyChanged[RoleProperties.ROLEBASE_LEVEL];
         }
-        if (changedNumber.PropertyChanged.ContainsKey(RoleProperties.HERO_ATK))
+        if (changedNumber.PropertyChanged.ContainsKey(RoleProperties.ROLE_ATK))
         {
-            heroInfo.Prop[RoleProperties.HERO_ATK] = changedNumber.PropertyChanged[RoleProperties.HERO_ATK];
+            heroInfo.Prop[RoleProperties.ROLE_ATK] = changedNumber.PropertyChanged[RoleProperties.ROLE_ATK];
         }
-        if (changedNumber.PropertyChanged.ContainsKey(RoleProperties.HERO_HP))
+        if (changedNumber.PropertyChanged.ContainsKey(RoleProperties.ROLE_HP))
         {
-            heroInfo.Prop[RoleProperties.HERO_ATK] = changedNumber.PropertyChanged[RoleProperties.HERO_HP];
+            heroInfo.Prop[RoleProperties.ROLE_ATK] = changedNumber.PropertyChanged[RoleProperties.ROLE_HP];
         }
-        if (changedNumber.PropertyChanged.ContainsKey(RoleProperties.HERO_RECOVER))
+        if (changedNumber.PropertyChanged.ContainsKey(RoleProperties.ROLE_RECOVER))
         {
-            heroInfo.Prop[RoleProperties.HERO_ATK] = changedNumber.PropertyChanged[RoleProperties.HERO_RECOVER];
+            heroInfo.Prop[RoleProperties.ROLE_ATK] = changedNumber.PropertyChanged[RoleProperties.ROLE_RECOVER];
         }
-        if (changedNumber.PropertyChanged.ContainsKey(RoleProperties.HERO_MP))
+        if (changedNumber.PropertyChanged.ContainsKey(RoleProperties.ROLE_MP))
         {
-            heroInfo.Prop[RoleProperties.HERO_ATK] = changedNumber.PropertyChanged[RoleProperties.HERO_MP];
+            heroInfo.Prop[RoleProperties.ROLE_ATK] = changedNumber.PropertyChanged[RoleProperties.ROLE_MP];
         }
     }
 

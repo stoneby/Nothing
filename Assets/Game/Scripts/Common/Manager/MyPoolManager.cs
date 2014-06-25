@@ -21,6 +21,15 @@ public class MyPoolManager : MonoBehaviour
 
     #endregion
 
+    #region Private Fields
+
+    /// <summary>
+    /// Flag indicates if initialized or not.
+    /// </summary>
+    private bool initialized;
+
+    #endregion
+
     #region Public Methods
 
     /// <summary>
@@ -60,6 +69,50 @@ public class MyPoolManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Initialize pool manager.
+    /// </summary>
+    public void Initialize()
+    {
+        if (initialized)
+        {
+            return;
+        }
+
+        initialized = true;
+
+        if (ObjectList == null)
+        {
+            ObjectList = new List<GameObject>(Capacity);
+        }
+        else
+        {
+            while (ObjectList.Count > Capacity)
+            {
+                // double capacity if object list already hold more than capacity value.
+                Capacity += Capacity;
+            }
+        }
+
+        FillObjectList(Capacity - ObjectList.Count);
+    }
+
+    /// <summary>
+    /// Cleanup pool manager.
+    /// </summary>
+    public void Cleanup()
+    {
+        if (!initialized)
+        {
+            return;
+        }
+
+        initialized = false;
+
+        ObjectList.Clear();
+        Capacity = DefaultCapcity;
+    }
+
     #endregion
 
     #region Private Methods
@@ -92,20 +145,7 @@ public class MyPoolManager : MonoBehaviour
 
     void Awake()
     {
-        if (ObjectList == null)
-        {
-            ObjectList = new List<GameObject>(Capacity);
-        }
-        else 
-        {
-            while (ObjectList.Count > Capacity)
-            {
-                // double capacity if object list already hold more than capacity value.
-                Capacity += Capacity;
-            }
-        }
-
-        FillObjectList(Capacity - ObjectList.Count);
+        Initialize();
     }
 
     #endregion

@@ -21,12 +21,20 @@ public class Int2Sprite
             throw new Exception("The integer value is not valid to convert.");
         }
         var result = new List<char>();
-        while (value != 0)
+        if (value == 0)
         {
-            var charToAdd = (char)(value % 10 + '0');
-            result.Add(charToAdd);
-            value /= 10;
+            result.Add('0');
         }
+        else
+        {
+            while (value != 0)
+            {
+                var charToAdd = (char)(value % 10 + '0');
+                result.Add(charToAdd);
+                value /= 10;
+            }
+        }
+        
         result.Reverse(0, result.Count);
         return result;
     }

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using com.kx.sglm.gs.battle.share.data;
 using UnityEngine;
 
 /// <summary>
@@ -229,7 +228,7 @@ public class TeamSelectController : MonoBehaviour
             return;
         }
 
-        if (!Enable)
+        if (!Enable || !dragStart)
         {
             return;
         }
@@ -340,9 +339,19 @@ public class TeamSelectController : MonoBehaviour
         }
     }
 
+    private void OnCharacterDragOut(GameObject sender, GameObject draggedObject)
+    {
+        if (EditMode || !Enable || !dragStart)
+        {
+            return;
+        }
+
+        Logger.Log("On character drag out: " + sender.name + ", dragged started game ojbect: " + draggedObject.name);
+    }
+
     private void OnCharacterDragEnd(GameObject sender)
     {
-        if (EditMode || !Enable)
+        if (EditMode || !Enable || !dragStart)
         {
             return;
         }
@@ -372,16 +381,6 @@ public class TeamSelectController : MonoBehaviour
         var worldPos = Camera.main.ScreenToWorldPoint(pos);
         var bounds = collider.bounds;
         return bounds.Contains(worldPos);
-    }
-
-    private void OnCharacterDragOut(GameObject sender, GameObject draggedObject)
-    {
-        if (EditMode || !Enable)
-        {
-            return;
-        }
-
-        Logger.Log("On character drag out: " + sender.name + ", dragged started game ojbect: " + draggedObject.name);
     }
 
     private void DrawDragBar(GameObject sender)

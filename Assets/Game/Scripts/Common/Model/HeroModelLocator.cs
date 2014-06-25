@@ -204,7 +204,7 @@ public sealed class HeroModelLocator
     /// <returns>The result of the comparation</returns>
     private int CompareHeroByAttack(HeroInfo p1, HeroInfo p2)
     {
-        int compareResult = p2.Prop[RoleProperties.HERO_ATK].CompareTo(p1.Prop[RoleProperties.HERO_ATK]);
+        int compareResult = p2.Prop[RoleProperties.ROLE_ATK].CompareTo(p1.Prop[RoleProperties.ROLE_ATK]);
         if (compareResult == 0)
         {
             return p2.TemplateId.CompareTo(p1.TemplateId);
@@ -220,7 +220,7 @@ public sealed class HeroModelLocator
     /// <returns>The result of the comparation</returns>
     private int CompareHeroByHp(HeroInfo p1, HeroInfo p2)
     {
-        int compareResult = p2.Prop[RoleProperties.HERO_HP].CompareTo(p1.Prop[RoleProperties.HERO_HP]);
+        int compareResult = p2.Prop[RoleProperties.ROLE_HP].CompareTo(p1.Prop[RoleProperties.ROLE_HP]);
         if (compareResult == 0)
         {
             return p2.TemplateId.CompareTo(p1.TemplateId);
@@ -236,7 +236,7 @@ public sealed class HeroModelLocator
     /// <returns>The result of the comparation</returns>
     private int CompareHeroByRecover(HeroInfo p1, HeroInfo p2)
     {
-        int compareResult = p2.Prop[RoleProperties.HERO_RECOVER].CompareTo(p1.Prop[RoleProperties.HERO_RECOVER]);
+        int compareResult = p2.Prop[RoleProperties.ROLE_RECOVER].CompareTo(p1.Prop[RoleProperties.ROLE_RECOVER]);
         if (compareResult == 0)
         {
             return p2.TemplateId.CompareTo(p1.TemplateId);

@@ -1,8 +1,7 @@
 using System.Collections.Generic;
-using System.Security.Cryptography;
 using KXSGCodec;
+using Template;
 using UnityEngine;
-using System.Collections;
 
 public class FragmentListWindow : Window
 {
@@ -26,9 +25,6 @@ public class FragmentListWindow : Window
 
     public GameObject FragmentHero;
 
-    public string FragmentNum;
-    public string FragmentInfo;
-
     #endregion
 
     #region Public Methods
@@ -36,98 +32,133 @@ public class FragmentListWindow : Window
     //initialize FragmentList info.
     public void Refresh(SCLotteryComposeList msg)
     {
-        //initialize the supermaterialcount info.
+        //initialize the SuperChip info.
         scLotteryComposeList = msg;
-        fragmentNum.text = scLotteryComposeList.SuperMaterialCount.ToString();
+        fragmentNum.text = scLotteryComposeList.SuperChip.ToString();
 
-        //initialize the hero info.
-        for (int i = 0; i < scLotteryComposeList.Star5Material.Count; i++)
+        #region initialize grid5 hero info
+
+        while (grid5.transform.childCount > scLotteryComposeList.Star5Chip.Count)
+        {
+            var herotemp= grid5.transform.GetChild(0);
+            herotemp.parent = null;
+            Destroy(herotemp);
+        }
+        while (grid5.transform.childCount < scLotteryComposeList.Star5Chip.Count)
         {
             var herotemp = Instantiate(FragmentHero) as GameObject;
-            Dictionary<int, int>.KeyCollection keyCol = scLotteryComposeList.Star5Material[i].Keys;
+            herotemp.SetActive(true);
+            Utils.MoveToParent(grid5.transform, herotemp.transform);
+        }
+        for (int i = 0; i < scLotteryComposeList.Star5Chip.Count; i++)
+        {
+            var herotemp = grid5.transform.GetChild(i);
+            Dictionary<int, int>.KeyCollection keyCol = scLotteryComposeList.Star5Chip[i].Keys;
             if (keyCol.Count != 1)
             {
-                Debug.LogError("Incorrect Star5Material info, check the server info.");
+                Debug.LogError("Incorrect Star5Chip info, check the server info.");
                 return;
             }
             foreach (int item in keyCol)
             {
                 herotemp.GetComponent<FragmentHero>().TemplateID = item;
                 herotemp.GetComponent<FragmentHero>().MaterialCount =
-                    scLotteryComposeList.Star5Material[i][item];
+                    scLotteryComposeList.Star5Chip[i][item];
             }
-            if (herotemp.GetComponent<FragmentHero>().MaterialCount < 40 ||
-                herotemp.GetComponent<FragmentHero>().MaterialCount + scLotteryComposeList.SuperMaterialCount < 50)
+            int composeCount =
+                HeroModelLocator.Instance.HeroTemplates.HeroTmpl[herotemp.GetComponent<FragmentHero>().TemplateID].ComposeCount;
+            if (herotemp.GetComponent<FragmentHero>().MaterialCount < composeCount*0.8 ||
+                herotemp.GetComponent<FragmentHero>().MaterialCount + scLotteryComposeList.SuperChip < composeCount)
             {
-                herotemp.GetComponent<FragmentHero>().UnInstallHandlers();
+                herotemp.GetComponent<FragmentHero>().SwitchColorGrey();
             }
             else
             {
-                herotemp.GetComponent<FragmentHero>().InstallHandlers();
+                herotemp.GetComponent<FragmentHero>().SwitchColorWhite();
             }
 
-            herotemp.SetActive(true);           
-            Utils.MoveToParent(grid5.transform, herotemp.transform);           
+            herotemp.gameObject.SetActive(true);                                 
             herotemp.GetComponent<FragmentHero>().Refresh();
         }
 
-        for (int i = 0; i < scLotteryComposeList.Star4Material.Count; i++)
+        #endregion
+
+        #region initialize grid4 hero info
+
+        while (grid4.transform.childCount > scLotteryComposeList.Star4Chip.Count)
+        {
+            var herotemp = grid4.transform.GetChild(0);
+            herotemp.parent = null;
+            Destroy(herotemp);
+        }
+        while (grid4.transform.childCount < scLotteryComposeList.Star4Chip.Count)
         {
             var herotemp = Instantiate(FragmentHero) as GameObject;
-            Dictionary<int, int>.KeyCollection keyCol = scLotteryComposeList.Star4Material[i].Keys;
-            if (keyCol.Count != 1)
-            {
-                Debug.LogError("Incorrect Star4Material info, check the server info.");
-                return;
-            }
-            foreach (int item in keyCol)
-            {
-                herotemp.GetComponent<FragmentHero>().TemplateID = item;
-                herotemp.GetComponent<FragmentHero>().MaterialCount =
-                    scLotteryComposeList.Star4Material[i][item];
-            }
-            if (herotemp.GetComponent<FragmentHero>().MaterialCount < 40 ||
-                herotemp.GetComponent<FragmentHero>().MaterialCount + scLotteryComposeList.SuperMaterialCount < 50)
-            {
-                herotemp.GetComponent<FragmentHero>().UnInstallHandlers();
-            }
-            else
-            {
-                herotemp.GetComponent<FragmentHero>().InstallHandlers();
-            }
-
             herotemp.SetActive(true);
             Utils.MoveToParent(grid4.transform, herotemp.transform);
+        }
+        for (int i = 0; i < scLotteryComposeList.Star4Chip.Count; i++)
+        {
+            var herotemp = grid4.transform.GetChild(i);
+            Dictionary<int, int>.KeyCollection keyCol = scLotteryComposeList.Star4Chip[i].Keys;
+            if (keyCol.Count != 1)
+            {
+                Debug.LogError("Incorrect Star4Chip info, check the server info.");
+                return;
+            }
+            foreach (int item in keyCol)
+            {
+                herotemp.GetComponent<FragmentHero>().TemplateID = item;
+                herotemp.GetComponent<FragmentHero>().MaterialCount =
+                    scLotteryComposeList.Star4Chip[i][item];
+            }
+            int composeCount =
+                HeroModelLocator.Instance.HeroTemplates.HeroTmpl[herotemp.GetComponent<FragmentHero>().TemplateID].ComposeCount;
+            if (herotemp.GetComponent<FragmentHero>().MaterialCount < composeCount*0.8 ||
+                herotemp.GetComponent<FragmentHero>().MaterialCount + scLotteryComposeList.SuperChip < composeCount)
+            {
+                herotemp.GetComponent<FragmentHero>().SwitchColorGrey();
+            }
+            else
+            {
+                herotemp.GetComponent<FragmentHero>().SwitchColorWhite();
+            }
+
+            herotemp.gameObject.SetActive(true);
             herotemp.GetComponent<FragmentHero>().Refresh();
         }
 
+        #endregion
+
         //initialize the starbar4 position.
-        grid4.transform.position = new Vector3(0, 118 - ((scLotteryComposeList.Star5Material.Count - 1) / 8 + 1) * 119,0);
+        starBar4.transform.localPosition = new Vector3(0, 119 - ((scLotteryComposeList.Star5Chip.Count - 1) / 8 + 1) * 119,0);
     }
 
     //override Refresh function for changing FragmentList info.
     public void Refresh(SCLotteryComposeSucc msg)
     {
         scLotteryComposeSucc = msg;
-        fragmentNum.text = scLotteryComposeSucc.SuperMaterialCount.ToString();
+        fragmentNum.text = PlayerModelLocator.Instance.SuperChip.ToString();
         FragmentHero[] tempFragmentHeros= transform.GetComponentsInChildren<FragmentHero>();
         foreach (var item in tempFragmentHeros)
         {
             if (item.TemplateID == msg.TemplateId)
             {
-                item.MaterialCount = msg.MaterialCount;
-                if (item.MaterialCount < 40 ||
-                item.MaterialCount + scLotteryComposeSucc.SuperMaterialCount < 50)
+                int composeCount = HeroModelLocator.Instance.HeroTemplates.HeroTmpl[item.TemplateID].ComposeCount;
+                item.MaterialCount = msg.ChipCount;
+                if (item.MaterialCount < composeCount * 0.8 || item.MaterialCount + PlayerModelLocator.Instance.SuperChip < composeCount)
                 {
-                    item.UnInstallHandlers();
+                    item.SwitchColorGrey();
                 }
                 else
                 {
-                    item.InstallHandlers();
+                    item.SwitchColorWhite();
                 }
-                Debug.Log("Combine succeed, FragmentList changed.");
+                item.gameObject.SetActive(true);
+                item.Refresh();
             }
         }
+        PopTextManager.PopTip("合成成功！");
     }
 
     #endregion
@@ -141,7 +172,7 @@ public class FragmentListWindow : Window
 
     public override void OnExit()
     {
-       
+        
     }
 
     #endregion
@@ -152,7 +183,8 @@ public class FragmentListWindow : Window
     {
         fragmentNum = transform.Find("Frame1/Frame2/SpriteInfo/Label").gameObject.GetComponent<UILabel>();              
         grid4 = transform.Find("Frame1/Frame2/ScrollView/StarBar4/Grid").gameObject;
-        grid5 = transform.Find("Frame1/Frame2/ScrollView/StarBar5/Grid").gameObject;      
+        grid5 = transform.Find("Frame1/Frame2/ScrollView/StarBar5/Grid").gameObject;
+        starBar4 = transform.Find("Frame1/Frame2/ScrollView/StarBar4").gameObject;
     }
 
     #endregion

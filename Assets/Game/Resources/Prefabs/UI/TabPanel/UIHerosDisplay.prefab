@@ -235,7 +235,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100002}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 562.597229, y: 138.095276, z: 0}
+  m_LocalPosition: {x: 562.650879, y: 138.117249, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400000}
@@ -247,7 +247,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100006}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 562.597229, y: 250.095276, z: 0}
+  m_LocalPosition: {x: 562.633789, y: 250.113403, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400002}
@@ -259,7 +259,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100010}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 562.597168, y: 357.095276, z: 0}
+  m_LocalPosition: {x: 562.616699, y: 357.106262, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400004}
@@ -476,7 +476,7 @@ MonoBehaviour:
   autoResizeBoxCollider: 1
   hideIfOffScreen: 0
   keepAspectRatio: 0
-  aspectRatio: 1.50467288
+  aspectRatio: .0186915882
   mType: 1
   mFillDirection: 4
   mFillAmount: 1
@@ -757,9 +757,9 @@ MonoBehaviour:
   hideIfOffScreen: 0
   keepAspectRatio: 0
   aspectRatio: 1.25
-  keepCrispWhenShrunk: 1
-  mTrueTypeFont: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-  mFont: {fileID: 0}
+  keepCrispWhenShrunk: 2
+  mTrueTypeFont: {fileID: 0}
+  mFont: {fileID: 11400000, guid: 30054980c4ab28942a48b10c3d67cac5, type: 2}
   mText: Create One
   mFontSize: 30
   mFontStyle: 0
@@ -913,11 +913,18 @@ MonoBehaviour:
   ToggleItems:
   - UiSprite: {fileID: 11400020}
     Window: {fileID: 11400000, guid: cd80c2289a3b48740a1254ec6c237a35, type: 2}
+    ItemIndex: 0
   - UiSprite: {fileID: 11400014}
     Window: {fileID: 11400066, guid: e18e5e508a1737f4e886279e5ad814a2, type: 2}
+    ItemIndex: 0
+  - UiSprite: {fileID: 11400006}
+    Window: {fileID: 11400026, guid: 10606f3dff764b1468449ac05eb36276, type: 2}
+    ItemIndex: 0
   CurItem:
     UiSprite: {fileID: 0}
     Window: {fileID: 0}
+    ItemIndex: 0
+  CurrIndex: 0
   DefaultItemIndex: 0
   HlightSpriteName: BtnD
 --- !u!1001 &100100000

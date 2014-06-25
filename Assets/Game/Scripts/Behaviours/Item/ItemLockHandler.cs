@@ -3,15 +3,29 @@ using System.Linq;
 using UnityEngine;
 using KXSGCodec;
 
+/// <summary>
+/// The handler to handle the item lock operation.
+/// </summary>
 public class ItemLockHandler : MonoBehaviour
 {
-    private readonly List<short> lockList = new List<short>();
+    #region Public Fields
+
     public static List<short> ChangedLockList { get; private set; }
-    private readonly List<short> LastLockList = new List<short>();
+   
+    #endregion
+
+    #region Private Fields
+
+    private readonly List<short> lockList = new List<short>();
+    private readonly List<short> lastLockList = new List<short>();
     private UILabel bindCount;
     private int cachedLockCount;
     private short lockCountLimit;
     private UItemsWindow itemsWindow;
+
+    #endregion
+
+    #region Public Methods
 
     public void ItemLockClicked(GameObject go)
     {
@@ -37,12 +51,16 @@ public class ItemLockHandler : MonoBehaviour
         bindCount.text = string.Format("{0}/{1}", cachedLockCount, capacity);
     }
 
+    #endregion
+
+    #region Private Methods
+
     private void OnDisable()
     {
         var changed = LockStateChanged();
         if (changed)
         {
-            ChangedLockList = lockList.Union(LastLockList).Except(lockList.Intersect(LastLockList)).ToList();
+            ChangedLockList = lockList.Union(lastLockList).Except(lockList.Intersect(lastLockList)).ToList();
             var msg = new CSItemLockOper { OperItemIndex = ChangedLockList };
             NetManager.SendMessage(msg);
         }
@@ -69,7 +87,7 @@ public class ItemLockHandler : MonoBehaviour
     private void InitLockData()
     {
         lockList.Clear();
-        LastLockList.Clear();
+        lastLockList.Clear();
         var infos = ItemModeLocator.Instance.ScAllItemInfos.ItemInfos;
         cachedLockCount = 0;
         if (infos == null)
@@ -83,7 +101,7 @@ public class ItemLockHandler : MonoBehaviour
             {
                 cachedLockCount++;
                 var bagIndex = info.BagIndex;
-                LastLockList.Add(bagIndex);
+                lastLockList.Add(bagIndex);
                 lockList.Add(bagIndex);
                 ShowLockMask(bagIndex, true);
             }
@@ -106,7 +124,7 @@ public class ItemLockHandler : MonoBehaviour
 
     private bool LockStateChanged()
     {
-        if(lockList.Count != LastLockList.Count)
+        if(lockList.Count != lastLockList.Count)
         {
             return true;
         }
@@ -116,14 +134,16 @@ public class ItemLockHandler : MonoBehaviour
         }
         var lockListTemp = new List<short>(lockList);
         lockListTemp.Sort();
-        LastLockList.Sort();
+        lastLockList.Sort();
         for (int i = 0; i < lockList.Count; i++)
         {
-            if(lockListTemp[i] != LastLockList[i])
+            if(lockListTemp[i] != lastLockList[i])
             {
                 return true;
             }
         }
         return false;
     }
+
+    #endregion
 }

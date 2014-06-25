@@ -2,10 +2,11 @@
 using System.Linq;
 using KXSGCodec;
 using UnityEngine;
-using System.Collections;
 
-public class ItemViewHandler : MonoBehaviour 
+public class ItemViewHandler : MonoBehaviour
 {
+    #region Private Fields
+
     private UIEventListener extendBagLis;
     private UIEventListener addOneLis;
     private List<ItemInfo> infos;
@@ -13,7 +14,15 @@ public class ItemViewHandler : MonoBehaviour
     private ExtendBag itemExtendConfirm;
     private UItemsWindow itemsWindow;
 
+    #endregion 
+
+    #region Public Fields
+
     public GameObject ItemExtendConfirm;
+
+    #endregion
+
+    #region Private Methods
 
     private void Awake()
     {
@@ -26,15 +35,15 @@ public class ItemViewHandler : MonoBehaviour
 
     private void OnEnable()
     {
-        addOneLis.onClick += OnAdd;
-        extendBagLis.onClick += OnExtenBag;
+        addOneLis.onClick = OnAdd;
+        extendBagLis.onClick = OnExtenBag;
         Refresh();
     }
 
     private void OnDisable()
     {
-        addOneLis.onClick -= OnAdd;
-        extendBagLis.onClick -= OnExtenBag;
+        addOneLis.onClick = null;
+        extendBagLis.onClick = null;
         extendBagLis.gameObject.SetActive(false);
     }
 
@@ -63,20 +72,12 @@ public class ItemViewHandler : MonoBehaviour
         NetManager.SendMessage(msg);
     }
 
-    public void Refresh()
-    {
-        infos = ItemModeLocator.Instance.ScAllItemInfos.ItemInfos ?? new List<ItemInfo>();
-        var capacity = ItemModeLocator.Instance.ScAllItemInfos.Capacity;
-        equipNums.text = string.Format("{0}/{1}", infos.Count, capacity);
-        extendBagLis.gameObject.SetActive(true);
-    }
-
     private void OnReposition()
     {
         var items = itemsWindow.Items.transform;
         var childCount = items.childCount;
         Utils.MoveToParent(items, extendBagLis.transform);
-        if(childCount != 0)
+        if (childCount != 0)
         {
             var maxPerLine = itemsWindow.Items.maxPerLine;
             if (childCount % maxPerLine != 0)
@@ -88,11 +89,23 @@ public class ItemViewHandler : MonoBehaviour
             else
             {
                 extendBagLis.transform.localPosition = new Vector3(0,
-                                                                   -itemsWindow.Items.cellHeight *(childCount / maxPerLine),
+                                                                   -itemsWindow.Items.cellHeight * (childCount / maxPerLine),
                                                                    0);
             }
         }
         extendBagLis.transform.parent = items.parent;
+    }
+
+    #endregion
+
+    #region Public Methods
+
+    public void Refresh()
+    {
+        infos = ItemModeLocator.Instance.ScAllItemInfos.ItemInfos ?? new List<ItemInfo>();
+        var capacity = ItemModeLocator.Instance.ScAllItemInfos.Capacity;
+        equipNums.text = string.Format("{0}/{1}", infos.Count, capacity);
+        extendBagLis.gameObject.SetActive(true);
     }
 
     public void ItemInfoClicked(GameObject go)
@@ -102,4 +115,6 @@ public class ItemViewHandler : MonoBehaviour
         var csmsg = new CSQueryItemDetail { BagIndex = bagIndex };
         NetManager.SendMessage(csmsg);
     }
+
+    #endregion
 }

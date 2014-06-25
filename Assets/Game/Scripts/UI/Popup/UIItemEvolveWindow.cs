@@ -5,10 +5,12 @@ using Template;
 using UnityEngine;
 
 /// <summary>
-/// Specific window controller.
+/// The window to show the item evolve operation.
 /// </summary>
 public class UIItemEvolveWindow : Window
 {
+    #region Private Fields
+
     private UIEventListener backBtnLis;
     private UIEventListener evolveBtnLis;
     private Transform leftItem;
@@ -21,7 +23,6 @@ public class UIItemEvolveWindow : Window
     private ItemInfo itemInfo;
     private readonly List<int> curCounts = new List<int>();
     private readonly List<int> needsCounts = new List<int>();
-
     private EvolveState evState;
     private EvolveState EvState
     {
@@ -32,6 +33,10 @@ public class UIItemEvolveWindow : Window
             evolveBtnLis.GetComponent<UISprite>().color = value == EvolveState.EvolveOk ? Color.white : Color.gray;
         }
     }
+
+    #endregion
+
+    #region Public Fields
 
     public Transform ItemPrefab;
     public Transform EvolveMatPrefab;
@@ -44,6 +49,8 @@ public class UIItemEvolveWindow : Window
         EvolveOk,
         Invalid
     }
+
+    #endregion 
 
     #region Window
 
@@ -61,7 +68,7 @@ public class UIItemEvolveWindow : Window
 
     #endregion
 
-    #region Mono
+    #region Private Methods
 
     // Use this for initialization
     void Awake()
@@ -76,14 +83,14 @@ public class UIItemEvolveWindow : Window
 
     private void InstallHandlers()
     {
-        backBtnLis.onClick += OnBack;
-        evolveBtnLis.onClick += OnEvolve;
+        backBtnLis.onClick = OnBack;
+        evolveBtnLis.onClick = OnEvolve;
     }
 
     private void UnInstallHandlers()
     {
-        backBtnLis.onClick -= OnBack;
-        evolveBtnLis.onClick -= OnEvolve;
+        backBtnLis.onClick = null;
+        evolveBtnLis.onClick = null;
     }
 
 

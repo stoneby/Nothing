@@ -51,8 +51,8 @@ public class FriendItemControl : KxItemRender
 
         for (int i = 0; i < FriendData.Data.HeroProp.Count; i++)
         {
-            AtkValue += FriendData.Data.HeroProp[i].Prop[RoleProperties.HERO_ATK];
-            HpValue += FriendData.Data.HeroProp[i].Prop[RoleProperties.HERO_HP];
+            AtkValue += FriendData.Data.HeroProp[i].Prop[RoleProperties.ROLE_ATK];
+            HpValue += FriendData.Data.HeroProp[i].Prop[RoleProperties.ROLE_HP];
         }
         ShowData();
         

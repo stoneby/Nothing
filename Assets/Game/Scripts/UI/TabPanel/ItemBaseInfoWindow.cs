@@ -8,7 +8,14 @@ using UnityEngine;
 /// </summary>
 public class ItemBaseInfoWindow : Window
 {
+    #region Public Fileds
+
     public static SCItemDetail ItemDetail;
+
+    #endregion 
+
+    #region Private Fileds
+
     private ItemInfo itemInfo;
     private UILabel bindlabel;
     private UILabel nBindLabel;
@@ -19,6 +26,8 @@ public class ItemBaseInfoWindow : Window
 
     private const string ColorString = "[56ff0b](";
     private const string ColorEndString = ")[-]";
+
+    #endregion
 
     #region Window
 
@@ -34,7 +43,7 @@ public class ItemBaseInfoWindow : Window
 
     #endregion
 
-    #region Mono
+    #region Private Methods
 
     // Use this for initialization
     void Awake()
@@ -66,13 +75,15 @@ public class ItemBaseInfoWindow : Window
         Utils.FindChild(transform, "Name").GetComponent<UILabel>().text = ItemModeLocator.Instance.GetName(itemInfo.TmplId);
         var stars = Utils.FindChild(transform, "Stars");
         var quality = ItemModeLocator.Instance.GetQuality(itemInfo.TmplId);
-        for (int index = 0; index < quality; index++)
+        var starCount = Mathf.CeilToInt((float)quality / ItemType.QualitiesPerStar);
+        var childCount = stars.transform.childCount;
+        for (int index = 0; index < starCount; index++)
         {
-            NGUITools.SetActive(stars.GetChild(index).gameObject, true);
+            NGUITools.SetActive(stars.FindChild("Star" + (childCount - index - 1)).gameObject, true);
         }
-        for (int index = quality; index < stars.childCount; index++)
+        for (int index = childCount - starCount - 1; index >= 0; index--)
         {
-            NGUITools.SetActive(stars.GetChild(index).gameObject, false);
+            NGUITools.SetActive(stars.FindChild("Star" + index).gameObject, false);
         }
         Utils.FindChild(transform, "LV-Value").GetComponent<UILabel>().text = string.Format("{0}/{1}", itemInfo.Level, itemInfo.MaxLvl);
         Utils.FindChild(transform, "Limit-Value").GetComponent<UILabel>().text = string.Format("{0}/{1}", itemInfo.UpVal, ItemModeLocator.Instance.GetUpLimit(itemInfo.TmplId));

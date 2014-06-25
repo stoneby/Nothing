@@ -23,46 +23,46 @@ namespace KXSGCodec
   #endif
   public partial class SCLotteryComposeList : TBase
   {
-    private int _superMaterialCount;
-    private List<Dictionary<int, int>> _star5Material;
-    private List<Dictionary<int, int>> _star4Material;
+    private int _superChip;
+    private List<Dictionary<int, int>> _star5Chip;
+    private List<Dictionary<int, int>> _star4Chip;
 
-    public int SuperMaterialCount
+    public int SuperChip
     {
       get
       {
-        return _superMaterialCount;
+        return _superChip;
       }
       set
       {
-        __isset.superMaterialCount = true;
-        this._superMaterialCount = value;
+        __isset.superChip = true;
+        this._superChip = value;
       }
     }
 
-    public List<Dictionary<int, int>> Star5Material
+    public List<Dictionary<int, int>> Star5Chip
     {
       get
       {
-        return _star5Material;
+        return _star5Chip;
       }
       set
       {
-        __isset.star5Material = true;
-        this._star5Material = value;
+        __isset.star5Chip = true;
+        this._star5Chip = value;
       }
     }
 
-    public List<Dictionary<int, int>> Star4Material
+    public List<Dictionary<int, int>> Star4Chip
     {
       get
       {
-        return _star4Material;
+        return _star4Chip;
       }
       set
       {
-        __isset.star4Material = true;
-        this._star4Material = value;
+        __isset.star4Chip = true;
+        this._star4Chip = value;
       }
     }
 
@@ -72,9 +72,9 @@ namespace KXSGCodec
     [Serializable]
     #endif
     public struct Isset {
-      public bool superMaterialCount;
-      public bool star5Material;
-      public bool star4Material;
+      public bool superChip;
+      public bool star5Chip;
+      public bool star4Chip;
     }
 
     public SCLotteryComposeList() {
@@ -94,7 +94,7 @@ namespace KXSGCodec
         {
           case 1:
             if (field.Type == TType.I32) {
-              SuperMaterialCount = iprot.ReadI32();
+              SuperChip = iprot.ReadI32();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
@@ -102,7 +102,7 @@ namespace KXSGCodec
           case 2:
             if (field.Type == TType.List) {
               {
-                Star5Material = new List<Dictionary<int, int>>();
+                Star5Chip = new List<Dictionary<int, int>>();
                 TList _list8 = iprot.ReadListBegin();
                 for( int _i9 = 0; _i9 < _list8.Count; ++_i9)
                 {
@@ -120,7 +120,7 @@ namespace KXSGCodec
                     }
                     iprot.ReadMapEnd();
                   }
-                  Star5Material.Add(_elem10);
+                  Star5Chip.Add(_elem10);
                 }
                 iprot.ReadListEnd();
               }
@@ -131,7 +131,7 @@ namespace KXSGCodec
           case 3:
             if (field.Type == TType.List) {
               {
-                Star4Material = new List<Dictionary<int, int>>();
+                Star4Chip = new List<Dictionary<int, int>>();
                 TList _list15 = iprot.ReadListBegin();
                 for( int _i16 = 0; _i16 < _list15.Count; ++_i16)
                 {
@@ -149,7 +149,7 @@ namespace KXSGCodec
                     }
                     iprot.ReadMapEnd();
                   }
-                  Star4Material.Add(_elem17);
+                  Star4Chip.Add(_elem17);
                 }
                 iprot.ReadListEnd();
               }
@@ -170,22 +170,22 @@ namespace KXSGCodec
       TStruct struc = new TStruct("SCLotteryComposeList");
       oprot.WriteStructBegin(struc);
       TField field = new TField();
-      if (__isset.superMaterialCount) {
-        field.Name = "superMaterialCount";
+      if (__isset.superChip) {
+        field.Name = "superChip";
         field.Type = TType.I32;
         field.ID = 1;
         oprot.WriteFieldBegin(field);
-        oprot.WriteI32(SuperMaterialCount);
+        oprot.WriteI32(SuperChip);
         oprot.WriteFieldEnd();
       }
-      if (Star5Material != null && __isset.star5Material) {
-        field.Name = "star5Material";
+      if (Star5Chip != null && __isset.star5Chip) {
+        field.Name = "star5Chip";
         field.Type = TType.List;
         field.ID = 2;
         oprot.WriteFieldBegin(field);
         {
-          oprot.WriteListBegin(new TList(TType.Map, Star5Material.Count));
-          foreach (Dictionary<int, int> _iter22 in Star5Material)
+          oprot.WriteListBegin(new TList(TType.Map, Star5Chip.Count));
+          foreach (Dictionary<int, int> _iter22 in Star5Chip)
           {
             {
               oprot.WriteMapBegin(new TMap(TType.I32, TType.I32, _iter22.Count));
@@ -201,14 +201,14 @@ namespace KXSGCodec
         }
         oprot.WriteFieldEnd();
       }
-      if (Star4Material != null && __isset.star4Material) {
-        field.Name = "star4Material";
+      if (Star4Chip != null && __isset.star4Chip) {
+        field.Name = "star4Chip";
         field.Type = TType.List;
         field.ID = 3;
         oprot.WriteFieldBegin(field);
         {
-          oprot.WriteListBegin(new TList(TType.Map, Star4Material.Count));
-          foreach (Dictionary<int, int> _iter24 in Star4Material)
+          oprot.WriteListBegin(new TList(TType.Map, Star4Chip.Count));
+          foreach (Dictionary<int, int> _iter24 in Star4Chip)
           {
             {
               oprot.WriteMapBegin(new TMap(TType.I32, TType.I32, _iter24.Count));
@@ -230,12 +230,12 @@ namespace KXSGCodec
 
     public override string ToString() {
       StringBuilder sb = new StringBuilder("SCLotteryComposeList(");
-      sb.Append("SuperMaterialCount: ");
-      sb.Append(SuperMaterialCount);
-      sb.Append(",Star5Material: ");
-      sb.Append(Star5Material);
-      sb.Append(",Star4Material: ");
-      sb.Append(Star4Material);
+      sb.Append("SuperChip: ");
+      sb.Append(SuperChip);
+      sb.Append(",Star5Chip: ");
+      sb.Append(Star5Chip);
+      sb.Append(",Star4Chip: ");
+      sb.Append(Star4Chip);
       sb.Append(")");
       return sb.ToString();
     }

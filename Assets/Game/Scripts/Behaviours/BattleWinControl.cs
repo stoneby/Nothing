@@ -120,11 +120,12 @@ public class BattleWinControl : MonoBehaviour
         InfoContainer.SetActive(true);
         GetContainer.SetActive(false);
         yield return new WaitForSeconds(0.1f);
-        GoldSprites = Int2Sprite.Show(CoinValues, Template, MissionModelLocator.Instance.BattleReward.Money[RoleProperties.ROLEBASE_GOLD], GoldSprites);
+        GoldSprites = Int2Sprite.Show(CoinValues, Template, GetValueByKey(RoleProperties.ROLEBASE_GOLD), GoldSprites);
         yield return new WaitForSeconds(Delay);
-        SpiritSprites = Int2Sprite.Show(SoulValues, Template, MissionModelLocator.Instance.BattleReward.Money[RoleProperties.ROLEBASE_HERO_SPIRIT], SpiritSprites);
+        SpiritSprites = Int2Sprite.Show(SoulValues, Template, GetValueByKey(RoleProperties.ROLEBASE_HERO_SPIRIT), SpiritSprites);
         yield return new WaitForSeconds(Delay);
-        RepuSprites = Int2Sprite.Show(RepValues, Template, MissionModelLocator.Instance.BattleReward.Money[RoleProperties.ROLEBASE_REPUTATION], RepuSprites);
+        RepuSprites = Int2Sprite.Show(RepValues, Template, GetValueByKey(RoleProperties.ROLEBASE_REPUTATION), RepuSprites);
+ 
         yield return new WaitForSeconds(Delay);
         ExpSprites = Int2Sprite.Show(ExpValues, Template, MissionModelLocator.Instance.BattleReward.Exp, ExpSprites);
 
@@ -133,6 +134,16 @@ public class BattleWinControl : MonoBehaviour
         bar.value = (float)(MissionModelLocator.Instance.OldExp + MissionModelLocator.Instance.BattleReward.Exp) / temp.MaxExp;
         IsPlaying = false;
         SpriteClick.SetActive(true);
+    }
+
+    private int GetValueByKey(int thekey)
+    {
+        int k = 0;
+        if (MissionModelLocator.Instance.BattleReward.Money.ContainsKey(thekey))
+        {
+            k = MissionModelLocator.Instance.BattleReward.Money[thekey];
+        }
+        return k;
     }
 
     private void ShowExp()

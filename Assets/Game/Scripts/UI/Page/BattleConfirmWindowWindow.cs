@@ -147,21 +147,21 @@ public class BattleConfirmWindowWindow : Window
                     HeroModelLocator.Instance.GetHeroByTemplateId(hero.TemplateId).LeaderSkill).Desc;
             }
             if (hero == null) continue;
-            if (hero.Prop.ContainsKey(RoleProperties.HERO_ATK))
+            if (hero.Prop.ContainsKey(RoleProperties.ROLE_ATK))
             {
-                v0 += hero.Prop[RoleProperties.HERO_ATK];
+                v0 += hero.Prop[RoleProperties.ROLE_ATK];
             }
-            if (hero.Prop.ContainsKey(RoleProperties.HERO_HP))
+            if (hero.Prop.ContainsKey(RoleProperties.ROLE_HP))
             {
-                v1 += hero.Prop[RoleProperties.HERO_HP];
+                v1 += hero.Prop[RoleProperties.ROLE_HP];
             }
-            if (hero.Prop.ContainsKey(RoleProperties.HERO_RECOVER))
+            if (hero.Prop.ContainsKey(RoleProperties.ROLE_RECOVER))
             {
-                v2 += hero.Prop[RoleProperties.HERO_RECOVER];
+                v2 += hero.Prop[RoleProperties.ROLE_RECOVER];
             }
-            if (hero.Prop.ContainsKey(RoleProperties.HERO_MP))
+            if (hero.Prop.ContainsKey(RoleProperties.ROLE_MP))
             {
-                v3 += hero.Prop[RoleProperties.HERO_MP];
+                v3 += hero.Prop[RoleProperties.ROLE_MP];
             }
         }
 

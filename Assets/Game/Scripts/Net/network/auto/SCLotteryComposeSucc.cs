@@ -25,8 +25,7 @@ namespace KXSGCodec
   {
     private long _uuid;
     private int _templateId;
-    private int _superMaterialCount;
-    private int _materialCount;
+    private int _chipCount;
 
     public long Uuid
     {
@@ -54,29 +53,16 @@ namespace KXSGCodec
       }
     }
 
-    public int SuperMaterialCount
+    public int ChipCount
     {
       get
       {
-        return _superMaterialCount;
+        return _chipCount;
       }
       set
       {
-        __isset.superMaterialCount = true;
-        this._superMaterialCount = value;
-      }
-    }
-
-    public int MaterialCount
-    {
-      get
-      {
-        return _materialCount;
-      }
-      set
-      {
-        __isset.materialCount = true;
-        this._materialCount = value;
+        __isset.chipCount = true;
+        this._chipCount = value;
       }
     }
 
@@ -88,8 +74,7 @@ namespace KXSGCodec
     public struct Isset {
       public bool uuid;
       public bool templateId;
-      public bool superMaterialCount;
-      public bool materialCount;
+      public bool chipCount;
     }
 
     public SCLotteryComposeSucc() {
@@ -123,14 +108,7 @@ namespace KXSGCodec
             break;
           case 3:
             if (field.Type == TType.I32) {
-              SuperMaterialCount = iprot.ReadI32();
-            } else { 
-              TProtocolUtil.Skip(iprot, field.Type);
-            }
-            break;
-          case 4:
-            if (field.Type == TType.I32) {
-              MaterialCount = iprot.ReadI32();
+              ChipCount = iprot.ReadI32();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
@@ -164,20 +142,12 @@ namespace KXSGCodec
         oprot.WriteI32(TemplateId);
         oprot.WriteFieldEnd();
       }
-      if (__isset.superMaterialCount) {
-        field.Name = "superMaterialCount";
+      if (__isset.chipCount) {
+        field.Name = "chipCount";
         field.Type = TType.I32;
         field.ID = 3;
         oprot.WriteFieldBegin(field);
-        oprot.WriteI32(SuperMaterialCount);
-        oprot.WriteFieldEnd();
-      }
-      if (__isset.materialCount) {
-        field.Name = "materialCount";
-        field.Type = TType.I32;
-        field.ID = 4;
-        oprot.WriteFieldBegin(field);
-        oprot.WriteI32(MaterialCount);
+        oprot.WriteI32(ChipCount);
         oprot.WriteFieldEnd();
       }
       oprot.WriteFieldStop();
@@ -190,10 +160,8 @@ namespace KXSGCodec
       sb.Append(Uuid);
       sb.Append(",TemplateId: ");
       sb.Append(TemplateId);
-      sb.Append(",SuperMaterialCount: ");
-      sb.Append(SuperMaterialCount);
-      sb.Append(",MaterialCount: ");
-      sb.Append(MaterialCount);
+      sb.Append(",ChipCount: ");
+      sb.Append(ChipCount);
       sb.Append(")");
       return sb.ToString();
     }

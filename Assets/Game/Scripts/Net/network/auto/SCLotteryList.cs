@@ -29,6 +29,7 @@ namespace KXSGCodec
     private int _get4StarHeroRestTimes;
     private int _lotteryCost;
     private int _famous;
+    private int _superChip;
 
     /// <summary>
     /// 抽奖类型1武将抽奖2道具抽奖
@@ -123,6 +124,22 @@ namespace KXSGCodec
       }
     }
 
+    /// <summary>
+    /// 万能碎片
+    /// </summary>
+    public int SuperChip
+    {
+      get
+      {
+        return _superChip;
+      }
+      set
+      {
+        __isset.superChip = true;
+        this._superChip = value;
+      }
+    }
+
 
     public Isset __isset;
     #if !SILVERLIGHT
@@ -135,6 +152,7 @@ namespace KXSGCodec
       public bool get4StarHeroRestTimes;
       public bool lotteryCost;
       public bool famous;
+      public bool superChip;
     }
 
     public SCLotteryList() {
@@ -201,6 +219,13 @@ namespace KXSGCodec
           case 6:
             if (field.Type == TType.I32) {
               Famous = iprot.ReadI32();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 7:
+            if (field.Type == TType.I32) {
+              SuperChip = iprot.ReadI32();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
@@ -273,6 +298,14 @@ namespace KXSGCodec
         oprot.WriteI32(Famous);
         oprot.WriteFieldEnd();
       }
+      if (__isset.superChip) {
+        field.Name = "superChip";
+        field.Type = TType.I32;
+        field.ID = 7;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteI32(SuperChip);
+        oprot.WriteFieldEnd();
+      }
       oprot.WriteFieldStop();
       oprot.WriteStructEnd();
     }
@@ -291,6 +324,8 @@ namespace KXSGCodec
       sb.Append(LotteryCost);
       sb.Append(",Famous: ");
       sb.Append(Famous);
+      sb.Append(",SuperChip: ");
+      sb.Append(SuperChip);
       sb.Append(")");
       return sb.ToString();
     }

@@ -39,6 +39,7 @@ public class UIHeroSellWindow : Window
     private List<long> teamMembers = new List<long>(); 
     private readonly CSHeroSell csHeroSell = new CSHeroSell { SellList = new List<long>() };
     private readonly List<GameObject> sellHeros = new List<GameObject>();
+    private readonly List<Transform> canNotSells = new List<Transform>(); 
     private readonly Color disableColor = Color.gray;
     private const int MaxHeroCountCanSell = 10;
 
@@ -50,15 +51,15 @@ public class UIHeroSellWindow : Window
     {
         sortLabel.text = StringTable.SortStrings[scHeroList.OrderType];
         InstallHandlers();
-        FillHeroList();
         InitData();
         Refresh();
+        RefreshSelAndSoul();
     }
 
     public override void OnExit()
     {
         UnInstallHandlers();
-        DespawnHeros();
+        CleanUp();
     }
 
     #endregion
@@ -95,11 +96,11 @@ public class UIHeroSellWindow : Window
     /// </summary>
     private void InstallHandlers()
     {
-        okLis.onClick += OnOkClicked;
-        cancelLis.onClick += OnCancelClicked;
-        sellOkLis.onClick += OnSellOkClicked;
-        sellCancelLis.onClick += OnSellCancelClicked;
-        sortBtnLis.onClick += OnSortClicked;
+        okLis.onClick = OnOkClicked;
+        cancelLis.onClick = OnCancelClicked;
+        sellOkLis.onClick = OnSellOkClicked;
+        sellCancelLis.onClick = OnSellCancelClicked;
+        sortBtnLis.onClick = OnSortClicked;
     }
     
     /// <summary>
@@ -107,34 +108,30 @@ public class UIHeroSellWindow : Window
     /// </summary>
     private void UnInstallHandlers()
     {
-        okLis.onClick -= OnOkClicked;
-        cancelLis.onClick -= OnCancelClicked;
-        sellOkLis.onClick -= OnSellOkClicked;
-        sellCancelLis.onClick -= OnSellCancelClicked;
-        sortBtnLis.onClick -= OnSortClicked;
+        okLis.onClick = null;
+        cancelLis.onClick = null;
+        sellOkLis.onClick = null;
+        sellCancelLis.onClick = null;
+        sortBtnLis.onClick = null;
     }
 
-    /// <summary>
-    /// Add the heros.
-    /// </summary>
-    private void FillHeroList()
+    private void UpdateHeroList()
     {
-        var heroCount = scHeroList.HeroList.Count;
-        for (int index = 0; index < heroCount; index++)
+        var heroCount = HeroModelLocator.Instance.SCHeroList.HeroList.Count;
+        var childCount = herosGrid.transform.childCount;
+        if (childCount != heroCount)
         {
-            var item = PoolManager.Pools["Heros"].Spawn(HeroPrefab.transform);
-            Utils.MoveToParent(herosGrid.transform, item);
-            NGUITools.SetActive(item.gameObject, true);
-            item.name = item.name + index;
-            UIEventListener.Get(item.gameObject).onClick += OnHeroItemClicked;
+            var isAdd = childCount < heroCount;
+            Utils.AddOrDelItems(herosGrid.transform, HeroPrefab.transform, isAdd, Mathf.Abs(heroCount - childCount), "Heros",
+                                OnHeroItemClicked);
+            herosGrid.repositionNow = true;
         }
-        herosGrid.Reposition();
     }
 
     /// <summary>
     /// Refresh some ui items when we needed.
     /// </summary>
-    private void Refresh()
+    private void RefreshSelAndSoul()
     {
         selectCount.text = sellHeros.Count.ToString(CultureInfo.InvariantCulture);
         soulCount.text = totalSoul.ToString(CultureInfo.InvariantCulture);
@@ -158,8 +155,13 @@ public class UIHeroSellWindow : Window
             }
         }
         teamMembers = teamMembers.Distinct().ToList();
+    }
+
+    public void Refresh()
+    {
+        UpdateHeroList();
         var orderType = HeroModelLocator.Instance.SCHeroList.OrderType;
-        HeroModelLocator.Instance.SortHeroList((ItemHelper.OrderType)orderType, scHeroList.HeroList);
+        HeroModelLocator.Instance.SortHeroList((OrderType)orderType, scHeroList.HeroList);
         for (int index = 0; index < scHeroList.HeroList.Count; index++)
         {
             var item = herosGrid.transform.GetChild(index).GetComponent<HeroItem>();
@@ -169,21 +171,6 @@ public class UIHeroSellWindow : Window
             item.InitItem(info);
             HeroUtils.ShowHero((OrderType)orderType, item, info);
         }
-    }
-
-    /// <summary>
-    /// Reset back of some variables.
-    /// </summary>
-    private void Reset()
-    {
-        var list = sellGrid.transform.Cast<Transform>().ToList();
-        for (int index = list.Count - 1; index >= 0; index--)
-        {
-            Destroy(list[index].gameObject);
-        }
-        sellDialog.gameObject.SetActive(false);
-        sellHeros.Clear();
-        totalSoul = 0;
     }
 
     /// <summary>
@@ -205,6 +192,7 @@ public class UIHeroSellWindow : Window
     {
         if (!CanSell(uUid))
         {
+            canNotSells.Add(heroObj);
             heroObj.GetComponent<BoxCollider>().enabled = false;
             heroObj.FindChild("BG").GetComponent<UISprite>().color = disableColor;
             heroObj.FindChild("Hero").GetComponent<UISprite>().color = disableColor;
@@ -218,32 +206,6 @@ public class UIHeroSellWindow : Window
     }
 
     /// <summary>
-    /// Despawn hero instance to the hero pool.
-    /// </summary>
-    private void DespawnHeros()
-    {
-        if (PoolManager.Pools.ContainsKey("Heros"))
-        {
-            var list = herosGrid.transform.Cast<Transform>().ToList();
-            for (int index = 0; index < list.Count; index++)
-            {
-                var item = list[index];
-                var maskToDel = item.FindChild("Mask(Clone)");
-                if (maskToDel != null)
-                {
-                    Destroy(maskToDel.gameObject);
-                }    
-                item.FindChild("Hero").GetComponent<UISprite>().color = Color.white;
-                item.FindChild("BG").GetComponent<UISprite>().color = Color.white;
-                item.GetComponent<BoxCollider>().enabled = true;
-                UIEventListener.Get(item.gameObject).onClick -= OnHeroItemClicked;
-                item.parent = PoolManager.Pools["Heros"].transform;
-                PoolManager.Pools["Heros"].Despawn(item);
-            }
-        }
-    }
-
-    /// <summary>
     /// The callback of clicking sort button.
     /// </summary>
     private void OnSortClicked(GameObject go)
@@ -252,7 +214,7 @@ public class UIHeroSellWindow : Window
         orderType = (sbyte)((orderType + 1) % StringTable.SortStrings.Count);
         scHeroList.OrderType = orderType;
         sortLabel.text = StringTable.SortStrings[scHeroList.OrderType];
-        HeroModelLocator.Instance.SortHeroList((ItemHelper.OrderType)orderType, scHeroList.HeroList);
+        HeroModelLocator.Instance.SortHeroList((OrderType)orderType, scHeroList.HeroList);
         for (int i = 0; i < scHeroList.HeroList.Count; i++)
         {
             var item = herosGrid.transform.GetChild(i).GetComponent<HeroItem>();
@@ -275,12 +237,7 @@ public class UIHeroSellWindow : Window
     /// </summary>
     private void OnSellCancelClicked(GameObject go)
     {
-        var list = sellGrid.transform.Cast<Transform>().ToList();
-        for (int index = list.Count - 1; index >= 0; index--)
-        {
-            Destroy(list[index].gameObject);
-        }
-        sellDialog.gameObject.SetActive(false);
+        CleanSellDialog();
     }
 
     /// <summary>
@@ -315,7 +272,7 @@ public class UIHeroSellWindow : Window
             go.transform.FindChild("BG").GetComponent<UISprite>().color = Color.white;
             totalSoul -= (long)(baseSoul + costSoul * hero.BaseTmpl[1].SellCoeff);
         }
-        Refresh();
+        RefreshSelAndSoul();
     }
 
     /// <summary>
@@ -389,8 +346,41 @@ public class UIHeroSellWindow : Window
         csHeroSell.SellList.Clear();
         sellHeros.Clear();
         totalSoul = 0;
-        Refresh();
+        RefreshSelAndSoul();
     }
+
+    private void CleanUp()
+    {
+        for (var index = 0; index < sellHeros.Count; index++)
+        {
+            Destroy(sellHeros[index].transform.FindChild("Mask(Clone)").gameObject);
+            sellHeros[index].transform.FindChild("BG").GetComponent<UISprite>().color = Color.white;
+        }
+        csHeroSell.SellList.Clear();
+        sellHeros.Clear();
+        totalSoul = 0;
+        RefreshSelAndSoul();
+
+        for (var i = 0; i < canNotSells.Count; i++)
+        {
+            var heroObj = canNotSells[i].transform;
+            heroObj.GetComponent<BoxCollider>().enabled = true;
+            heroObj.FindChild("BG").GetComponent<UISprite>().color = Color.white;
+            heroObj.FindChild("Hero").GetComponent<UISprite>().color = Color.white;
+        }
+        canNotSells.Clear();
+    }
+
+    private void CleanSellDialog()
+    {
+        var list = sellGrid.transform.Cast<Transform>().ToList();
+        for (int index = list.Count - 1; index >= 0; index--)
+        {
+            Destroy(list[index].gameObject);
+        }
+        sellDialog.gameObject.SetActive(false);
+    }
+
 
     #endregion
 
@@ -401,21 +391,22 @@ public class UIHeroSellWindow : Window
     /// </summary>
     public void SellOverUpdate()
     {
+        CleanSellDialog();
         heroNums.text = string.Format("{0}/{1}", scHeroList.HeroList.Count, PlayerModelLocator.Instance.HeroMax);
-        var count = herosGrid.transform.childCount;
-        var uuids = scHeroList.HeroList.Select(item => item.Uuid).ToList();
-        for (int index = 0; index < count; index++)
+        for (var index = 0; index < sellHeros.Count; index++)
         {
-            var item = herosGrid.transform.GetChild(index).gameObject;
-            if (!uuids.Contains(item.GetComponent<HeroItem>().Uuid))
-            {
-                Destroy(item);
-            }
+            var item = sellHeros[index];
+            Destroy(sellHeros[index].transform.FindChild("Mask(Clone)").gameObject);
+            sellHeros[index].transform.FindChild("BG").GetComponent<UISprite>().color = Color.white;
+            item.transform.parent = PoolManager.Pools["Heros"].transform;
+            PoolManager.Pools["Heros"].Despawn(item.transform);
+
         }
+        csHeroSell.SellList.Clear();
+        sellHeros.Clear();
+        totalSoul = 0;
+        RefreshSelAndSoul();
         herosGrid.repositionNow = true;
-        OnCancelClicked(null);
-        Reset();
-        Refresh();
     }
 
     #endregion

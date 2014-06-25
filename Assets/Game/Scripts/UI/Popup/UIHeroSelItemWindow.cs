@@ -73,9 +73,9 @@ public class UIHeroSelItemWindow : Window
     /// </summary>
     private void InstallHandlers()
     {
-        backLis.onClick += OnBack;
-        unLoadLis.onClick += OnUnload;
-        oKLis.onClick += OnOk;
+        backLis.onClick = OnBack;
+        unLoadLis.onClick = OnUnload;
+        oKLis.onClick = OnOk;
     }
 
     /// <summary>
@@ -83,9 +83,9 @@ public class UIHeroSelItemWindow : Window
     /// </summary>
     private void UnInstallHandlers()
     {
-        backLis.onClick -= OnBack;
-        unLoadLis.onClick -= OnUnload;
-        oKLis.onClick -= OnOk;
+        backLis.onClick = null;
+        unLoadLis.onClick = null;
+        oKLis.onClick = null;
     }
 
     /// <summary>
@@ -169,8 +169,8 @@ public class UIHeroSelItemWindow : Window
                {
                    longPress = child.gameObject.AddComponent<NGUILongPress>();
                    longPress.LongClickDuration = 1f;
-                   longPress.OnLongPress += OnLongPress;
-                   longPress.OnNormalPress += OnNormalPress;
+                   longPress.OnLongPress = OnLongPress;
+                   longPress.OnNormalPress = OnNormalPress;
                }
            }
        }
@@ -190,8 +190,8 @@ public class UIHeroSelItemWindow : Window
                 var longPress = child.GetComponent<NGUILongPress>();
                 if (longPress != null)
                 {
-                    longPress.OnLongPress -= OnLongPress;
-                    longPress.OnNormalPress -= OnNormalPress;
+                    longPress.OnLongPress = null;
+                    longPress.OnNormalPress = null;
                     Destroy(longPress);
                 }
             }
@@ -278,13 +278,13 @@ public class UIHeroSelItemWindow : Window
     private void Refresh()
     {
         Utils.FindChild(properties, "Attack-Value").GetComponent<UILabel>().text =
-                                    heroInfo.Prop[RoleProperties.HERO_ATK].ToString(CultureInfo.InvariantCulture);
+                                    heroInfo.Prop[RoleProperties.ROLE_ATK].ToString(CultureInfo.InvariantCulture);
         Utils.FindChild(properties, "HP-Value").GetComponent<UILabel>().text =
-                                    heroInfo.Prop[RoleProperties.HERO_HP].ToString(CultureInfo.InvariantCulture);
+                                    heroInfo.Prop[RoleProperties.ROLE_HP].ToString(CultureInfo.InvariantCulture);
         Utils.FindChild(properties, "Recover-Value").GetComponent<UILabel>().text =
-                                    heroInfo.Prop[RoleProperties.HERO_RECOVER].ToString(CultureInfo.InvariantCulture);
+                                    heroInfo.Prop[RoleProperties.ROLE_RECOVER].ToString(CultureInfo.InvariantCulture);
         Utils.FindChild(properties, "MP-Value").GetComponent<UILabel>().text =
-                                    heroInfo.Prop[RoleProperties.HERO_MP].ToString(CultureInfo.InvariantCulture);
+                                    heroInfo.Prop[RoleProperties.ROLE_MP].ToString(CultureInfo.InvariantCulture);
         var capacity = ItemModeLocator.Instance.ScAllItemInfos.Capacity;
         equipNums.text = string.Format("{0}/{1}", nonMatItems.Count, capacity);
     }

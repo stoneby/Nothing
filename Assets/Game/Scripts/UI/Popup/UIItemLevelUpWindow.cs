@@ -9,6 +9,8 @@ using UnityEngine;
 /// </summary>
 public class UIItemLevelUpWindow : Window
 {
+    #region Private Fields
+
     private UIEventListener backBtnLis;
     private UIEventListener cancelBtnLis;
     private UIEventListener lvlUpBtnLis;
@@ -27,8 +29,12 @@ public class UIItemLevelUpWindow : Window
     private bool isPreShow;
     private ItemInfo mainItemInfo;
     private ItemModeLocator.EquipType mainType;
-
     private int getExp;
+
+    #endregion
+
+    #region Public Fields
+
     public int GetExp
     {
         get { return getExp;}
@@ -67,6 +73,8 @@ public class UIItemLevelUpWindow : Window
     public static int ExpToFullLvl { get; private set; }
     public GameObject LvlUpItem;
     public GameObject ItemUpConfirm;
+
+    #endregion
 
     #region Window
 
@@ -111,25 +119,25 @@ public class UIItemLevelUpWindow : Window
 
     private void InstallHandlers()
     {
-        backBtnLis.onClick += OnBack;
-        cancelBtnLis.onClick += OnCancel;
-        lvlUpBtnLis.onClick += OnLevelUp;
-        oneKeyAddLis.onClick += OnOneKeyAdd;
+        backBtnLis.onClick = OnBack;
+        cancelBtnLis.onClick = OnCancel;
+        lvlUpBtnLis.onClick = OnLevelUp;
+        oneKeyAddLis.onClick = OnOneKeyAdd;
         for (int i = 0; i < lvlUpSelBtns.Count; i++)
         {
-            UIEventListener.Get(lvlUpSelBtns[i].gameObject).onClick += OnLevelUpSel;
+            UIEventListener.Get(lvlUpSelBtns[i].gameObject).onClick = OnLevelUpSel;
         }
     }
 
     private void UnInstallHandlers()
     {
-        backBtnLis.onClick -= OnBack;
-        cancelBtnLis.onClick -= OnCancel;
-        lvlUpBtnLis.onClick -= OnLevelUp;
-        oneKeyAddLis.onClick -= OnOneKeyAdd;
+        backBtnLis.onClick = null;
+        cancelBtnLis.onClick = null;
+        lvlUpBtnLis.onClick = null;
+        oneKeyAddLis.onClick = null;
         for (int i = 0; i < lvlUpSelBtns.Count; i++)
         {
-            UIEventListener.Get(lvlUpSelBtns[i].gameObject).onClick -= OnLevelUpSel;
+            UIEventListener.Get(lvlUpSelBtns[i].gameObject).onClick = null;
         }
     }
 

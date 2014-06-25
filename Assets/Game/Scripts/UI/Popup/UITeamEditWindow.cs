@@ -313,10 +313,10 @@ public class UITeamEditWindow : Window
         var heroInfo = HeroModelLocator.Instance.FindHero(uUid);
         int flag = add ? 1 : -1;
 
-        totalAttack += heroInfo.Prop[RoleProperties.HERO_ATK] * flag;
-        totalHp += heroInfo.Prop[RoleProperties.HERO_HP] * flag;
-        totalRecover += heroInfo.Prop[RoleProperties.HERO_RECOVER] * flag;
-        totalMp += heroInfo.Prop[RoleProperties.HERO_MP] * flag;
+        totalAttack += heroInfo.Prop[RoleProperties.ROLE_ATK] * flag;
+        totalHp += heroInfo.Prop[RoleProperties.ROLE_HP] * flag;
+        totalRecover += heroInfo.Prop[RoleProperties.ROLE_RECOVER] * flag;
+        totalMp += heroInfo.Prop[RoleProperties.ROLE_MP] * flag;
 
         attack.text = totalAttack.ToString(CultureInfo.InvariantCulture);
         hp.text = totalHp.ToString(CultureInfo.InvariantCulture);

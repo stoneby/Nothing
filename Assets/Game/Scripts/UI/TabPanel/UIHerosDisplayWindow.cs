@@ -1,13 +1,21 @@
 using KXSGCodec;
 using UnityEngine;
 
-public class UIHerosDisplayWindow : TabPanelBase 
+public class UIHerosDisplayWindow : TabPanelBase
 {
+    #region Public Fields
+
     public static bool IsCreateOne;
+
+    #endregion 
+
+    #region Private Fields
 
     private sbyte cachedOrderType;
     private SCHeroList scHeroList;
     private UIEventListener createOneLis;
+
+    #endregion
 
     #region Window
 
@@ -15,7 +23,7 @@ public class UIHerosDisplayWindow : TabPanelBase
     {
         base.OnEnter();
         createOneLis = UIEventListener.Get(Utils.FindChild(transform, "Button-CreateOne").gameObject);
-        createOneLis.onClick += OnCreateOne;
+        createOneLis.onClick = OnCreateOne;
         scHeroList = HeroModelLocator.Instance.SCHeroList;
         cachedOrderType = scHeroList.OrderType;
         IsCreateOne = false;
@@ -24,7 +32,7 @@ public class UIHerosDisplayWindow : TabPanelBase
     public override void OnExit()
     {
         base.OnExit();
-        createOneLis.onClick -= OnCreateOne;
+        createOneLis.onClick = null;
         if (scHeroList.OrderType != cachedOrderType)
         {
             var csmsg = new CSHeroChangeOrder { OrderType = scHeroList.OrderType };

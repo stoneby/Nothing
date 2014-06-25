@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using KXSGCodec;
+using Property;
 using UnityEngine;
 using System.Collections;
 
@@ -22,6 +23,7 @@ public class ChooseHeroCardWindow : Window
     private UILabel freeThisTime;
     private UILabel timesForHero;
     private UILabel totalFamous;
+    private UILabel totalChips;
     private Transform heroRelated;
     private Transform itemRelated;
     private const int TenTimes = 10;
@@ -73,33 +75,66 @@ public class ChooseHeroCardWindow : Window
         timeForFree = Utils.FindChild(transform, "TimeForFree").GetComponent<UILabel>();
         freeThisTime = Utils.FindChild(transform, "FreeThisTime").GetComponent<UILabel>();
         totalFamous = Utils.FindChild(transform, "TotalRep").GetComponent<UILabel>();
+        totalChips = Utils.FindChild(transform, "TotalChips").GetComponent<UILabel>();
         tenTimesDesc = Utils.FindChild(transform, "TenTimes");
         elevenTimesDesc = Utils.FindChild(transform, "ElevenTimes");
         heroRelated = Utils.FindChild(transform, "HeroRelated");
         itemRelated = Utils.FindChild(transform, "ItemRelated");
         timesForHero = heroRelated.FindChild("TimesForHero").GetComponent<UILabel>();
         player = GetComponentInChildren<AdvertisePlayer>();
+        CommonHandler.PlayerPropertyChanged += OnPlayerPropertyChanged;
+    }
+
+    /// <summary>
+    /// Used to do some clean work before destorying.
+    /// </summary>
+    private void OnDestory()
+    {
+        CommonHandler.PlayerPropertyChanged -= OnPlayerPropertyChanged;
     }
 
     private void InstallHandlers()
     {
-        backLis.onClick += OnBack;
-        buyOneLis.onClick += OnBuyOne;
-        buyTenLis.onClick += OnBuyTen;
+        backLis.onClick = OnBack;
+        buyOneLis.onClick = OnBuyOne;
+        buyTenLis.onClick = OnBuyTen;
     }
 
     private void UnInstallHandlers()
     {
-        backLis.onClick -= OnBack;
-        buyOneLis.onClick -= OnBuyOne;
-        buyTenLis.onClick -= OnBuyTen;
+        backLis.onClick = null;
+        buyOneLis.onClick = null;
+        buyTenLis.onClick = null;
     }
 
+    /// <summary>
+    /// The call back of the property changed number message of player.
+    /// </summary>
+    /// <param name="scpropertychanged"></param>
+    private void OnPlayerPropertyChanged(SCPropertyChangedNumber scpropertychanged)
+    {
+        var propertyChanged = scpropertychanged.PropertyChanged;
+        if (propertyChanged != null &&
+            (propertyChanged.ContainsKey(RoleProperties.ROLEBASE_FAMOUS)
+            || propertyChanged.ContainsKey(RoleProperties.ROLEBASE_SUPER_CHIP)))
+        {
+            RefreshFamousAndChips();
+        }
+    }
+
+    /// <summary>
+    /// The call back of back button.
+    /// </summary>
+    /// <param name="go">The sender.</param>
     private void OnBack(GameObject go)
     {
         WindowManager.Instance.Show<ChooseHeroCardWindow>(false);
     }
 
+    /// <summary>
+    /// The call back of buying one hero or item event.
+    /// </summary>
+    /// <param name="go">The sender.</param>
     private void OnBuyOne(GameObject go)
     {
         lotteryMode = isFreeTime ? LotteryConstant.LotteryModeFree : LotteryConstant.LotteryModeOnceCharge;
@@ -113,18 +148,29 @@ public class ChooseHeroCardWindow : Window
         }
     }
 
+    /// <summary>
+    /// The call back of choosing card confirm cancel event.
+    /// </summary>
+    /// <param name="sender">The sender.</param>
     private void OnCardConfirmCancel(GameObject sender)
     {
         ConfirmWindowClean();
         WindowManager.Instance.Show<AssertionWindow>(false);
     }
 
+    /// <summary>
+    /// The call back of choosing card confirm ok event.
+    /// </summary>
+    /// <param name="sender">The sender.</param>
     private void OnCardConfirmOk(GameObject sender)
     {
         ConfirmWindowClean();
         SendBuyMessage();
     }
 
+    /// <summary>
+    /// Clean the varibles of confirm window.
+    /// </summary>
     private void ConfirmWindowClean()
     {
         var assertWindow = WindowManager.Instance.GetWindow<AssertionWindow>();
@@ -132,6 +178,9 @@ public class ChooseHeroCardWindow : Window
         assertWindow.CancelButtonClicked -= OnCardConfirmCancel;
     }
 
+    /// <summary>
+    /// Send the buy message from client side to server side.
+    /// </summary>
     private void SendBuyMessage()
     {   
         var msg = new CSLottery
@@ -143,6 +192,10 @@ public class ChooseHeroCardWindow : Window
         NetManager.SendMessage(msg);
     }
 
+    /// <summary>
+    /// Show the confirm window with special title.
+    /// </summary>
+    /// <param name="title">The title of the confirm window to show.</param>
     private void ShowConfirm(string title)
     {
         var assertWindow = WindowManager.Instance.GetWindow<AssertionWindow>();
@@ -154,6 +207,9 @@ public class ChooseHeroCardWindow : Window
         WindowManager.Instance.Show(typeof(AssertionWindow), true);
     }
 
+    /// <summary>
+    /// Show the confirm window for choose ten times.
+    /// </summary>
     private void ShowTenConfirm()
     {
         var str = scLotteryList.LotteryType == LotteryConstant.LotteryTypeHero
@@ -162,6 +218,9 @@ public class ChooseHeroCardWindow : Window
         ShowConfirm(string.Format(str, scLotteryList.LotteryCost * TenTimes));
     }
 
+    /// <summary>
+    /// Show the confirm window for choose one time.
+    /// </summary>
     private void ShowOneConfirm()
     {
         var str = scLotteryList.LotteryType == LotteryConstant.LotteryTypeHero
@@ -170,12 +229,20 @@ public class ChooseHeroCardWindow : Window
         ShowConfirm(string.Format(str, scLotteryList.LotteryCost));
     }
 
+    /// <summary>
+    /// The handler of the choose ten times card.
+    /// </summary>
+    /// <param name="go"></param>
     private void OnBuyTen(GameObject go)
     {
         lotteryMode = LotteryConstant.LotteryModeTenthCharge;
         ShowTenConfirm();
     }
 
+    /// <summary>
+    /// Start a coroutine to update time remain for free choose card.
+    /// </summary>
+    /// <param name="timeRemain">The time remain to free choose card.</param>
     private IEnumerator UpdateFreeTime(TimeSpan timeRemain)
     {
         if(timeRemain.TotalSeconds > 0)
@@ -195,6 +262,9 @@ public class ChooseHeroCardWindow : Window
         }
     }
 
+    /// <summary>
+    /// Update the free time.
+    /// </summary>
     private void DisplayFreeTime(long lastTime)
     {
         StopAllCoroutines();
@@ -207,16 +277,24 @@ public class ChooseHeroCardWindow : Window
         StartCoroutine("UpdateFreeTime", timeRemain);
     }
 
+    /// <summary>
+    /// The call back of tab changed event.
+    /// </summary>
+    /// <param name="activetab">The current active tab.</param>
     private void OnTabChanged(int activetab)
     { 
         var isElevenTimes = scLotteryList.ListLotteryInfo[activetab].TenLotteryGiveElevenHero;
         elevenTimesDesc.gameObject.SetActive(isElevenTimes);
         tenTimesDesc.gameObject.SetActive(!isElevenTimes);
         //Just For Demo
-        SetAdvIncon(activetab);
+        SetAdvIcon(activetab);
     }
 
-    private void SetAdvIncon(int activetab)
+    /// <summary>
+    /// Set adv icons, this is for demo.
+    /// </summary>
+    /// <param name="activetab">The current active tab.</param>
+    private void SetAdvIcon(int activetab)
     {
         player.Back.GetComponent<UISprite>().spriteName = "Ad" + (2 * activetab + 2);
         player.Front.GetComponent<UISprite>().spriteName = "Ad" + (2 * activetab + 1);
@@ -226,12 +304,16 @@ public class ChooseHeroCardWindow : Window
 
     #region Public Methods
 
+    /// <summary>
+    /// Used to refresh the main window ui.
+    /// </summary>
+    /// <param name="lotteryList"></param>
     public void Refresh(SCLotteryList lotteryList)
     {
         scLotteryList = lotteryList;
         var infos = lotteryList.ListLotteryInfo;
         var toggleItems = new Dictionary<UISprite, GameObject>();
-        for (int i = 0; i < infos.Count; i++)
+        for (var i = 0; i < infos.Count; i++)
         {
             var info = infos[i];
             var child = Instantiate(tabTemplate.gameObject) as GameObject;
@@ -246,10 +328,12 @@ public class ChooseHeroCardWindow : Window
         var isHeroChoose = (lotteryList.LotteryType == LotteryConstant.LotteryTypeHero);
         NGUITools.SetActiveChildren(heroRelated.gameObject, isHeroChoose);
         NGUITools.SetActiveChildren(itemRelated.gameObject, !isHeroChoose);
+
         var oneTimeCostValue = lotteryList.LotteryCost;
         oneTimeCost.text = oneTimeCostValue.ToString(CultureInfo.InvariantCulture);
         tenTimeCost.text = (oneTimeCostValue * TenTimes).ToString(CultureInfo.InvariantCulture);
         totalFamous.text = PlayerModelLocator.Instance.Famous.ToString(CultureInfo.InvariantCulture);
+        totalChips.text = PlayerModelLocator.Instance.SuperChip.ToString(CultureInfo.InvariantCulture);
         var isElevenTimes = lotteryList.ListLotteryInfo[tabBehaviour.ActiveTab].TenLotteryGiveElevenHero;
         elevenTimesDesc.gameObject.SetActive(isElevenTimes);
         tenTimesDesc.gameObject.SetActive(!isElevenTimes);
@@ -257,17 +341,29 @@ public class ChooseHeroCardWindow : Window
         RefreshTimes(lotteryList.LastFreeLotteryTime, lotteryList.Get4StarHeroRestTimes);
     }
 
+    /// <summary>
+    /// Update the time with the last free time and times for free.
+    /// </summary>
+    /// <param name="lastTime"></param>
+    /// <param name="restTimes"></param>
     public void RefreshTimes(long lastTime, int restTimes)
     {
         DisplayFreeTime(lastTime);
         timesForHero.text = restTimes.ToString(CultureInfo.InvariantCulture);
     }
 
-    public void RefreshFamous()
+    /// <summary>
+    /// Update the famous and chips on ui.
+    /// </summary>
+    public void RefreshFamousAndChips()
     {
         totalFamous.text = PlayerModelLocator.Instance.Famous.ToString(CultureInfo.InvariantCulture);
+        totalChips.text = PlayerModelLocator.Instance.SuperChip.ToString(CultureInfo.InvariantCulture);
     }
 
+    /// <summary>
+    /// Show ui for lottery can not be free.
+    /// </summary>
     public void LotteryCannotFree()
     {
         isFreeTime = false;

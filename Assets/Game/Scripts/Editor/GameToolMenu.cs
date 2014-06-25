@@ -35,7 +35,7 @@ public static class GameToolMenu
     [MenuItem("Tool/Switch Font", false, 0)]
     static public void OpenSwitchFont()
     {
-        EditorWindow.GetWindow<SwitchFontWizard>(false, "Switch Font", true);
+        EditorWindow.GetWindow<SwitchFontEditorWindow>(false, "Switch Font", true);
     }
 
     #endregion

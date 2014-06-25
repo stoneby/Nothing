@@ -2,8 +2,13 @@
 using KXSGCodec;
 using UnityEngine;
 
-public class ItemSellHandler : MonoBehaviour 
+/// <summary>
+/// The handler to handle the item sell operation.
+/// </summary>
+public class ItemSellHandler : MonoBehaviour
 {
+    #region Private Fields
+
     private readonly List<short> sellList = new List<short>();
     private readonly List<GameObject> sellMasks = new List<GameObject>();
     private UILabel sellCount;
@@ -15,44 +20,15 @@ public class ItemSellHandler : MonoBehaviour
     private UIEventListener sellOkLis;
     private UIEventListener buyBackLis;
 
-    public void ItemSellClicked(GameObject go)
-    {
-        var itemPack = go.GetComponent<EquipItem>();
-        var bagIndex = itemPack.BagIndex;
-        var info = ItemModeLocator.Instance.FindItem(bagIndex);
-        //已装备或已绑定的话，不响应
-        if (info.BindStatus == 1 || info.EquipStatus == 1)
-        {
-            return;
-        }
-        if (!sellList.Contains(bagIndex))
-        {
-            if (sellList.Count >= MaxSellCount)
-            {
-                return;
-            }
-            sellList.Add(bagIndex);
-            var child = NGUITools.AddChild(go, sellMask);
-            child.transform.localPosition = MaskOffset;
-            child.SetActive(true);
-            sellMasks.Add(child);
-        }
-        else
-        {
-            sellList.Remove(bagIndex);
-            var child = go.transform.FindChild("SellMask(Clone)");
-            sellMasks.Remove(child.gameObject);
-            child.parent = null;
-            Destroy(child.gameObject);
-        }
-        sellCount.text = string.Format("{0}/{1}", sellList.Count, MaxSellCount);
-    }
+    #endregion
+
+    #region Private Methods
 
     private void OnDisable()
     {
-        sellCancelLis.onClick -= OnSellCancel;
-        sellOkLis.onClick -= OnSellOk;
-        buyBackLis.onClick -= OnBuyBack;
+        sellCancelLis.onClick = null;
+        sellOkLis.onClick = null;
+        buyBackLis.onClick = null;
         CleanMasks();
     }
 
@@ -60,9 +36,9 @@ public class ItemSellHandler : MonoBehaviour
     {
         sellList.Clear();
         sellCount.text = string.Format("{0}/{1}", 0, MaxSellCount);
-        sellCancelLis.onClick += OnSellCancel;
-        sellOkLis.onClick += OnSellOk;
-        buyBackLis.onClick += OnBuyBack;
+        sellCancelLis.onClick = OnSellCancel;
+        sellOkLis.onClick = OnSellOk;
+        buyBackLis.onClick = OnBuyBack;
     }
 
     private void Awake()
@@ -158,6 +134,10 @@ public class ItemSellHandler : MonoBehaviour
         sellMasks.Clear(); 
     }
 
+    #endregion
+
+    #region Public Methods
+
     public void CleanUp()
     {
         CleanMasks();
@@ -170,4 +150,40 @@ public class ItemSellHandler : MonoBehaviour
         var itemsWindow = WindowManager.Instance.GetWindow<UItemsWindow>();
         itemsWindow.ItemClicked = ItemSellClicked;
     }
+
+    public void ItemSellClicked(GameObject go)
+    {
+        var itemPack = go.GetComponent<EquipItem>();
+        var bagIndex = itemPack.BagIndex;
+        var info = ItemModeLocator.Instance.FindItem(bagIndex);
+        //已装备或已绑定的话，不响应
+        if (info.BindStatus == 1 || info.EquipStatus == 1)
+        {
+            return;
+        }
+        if (!sellList.Contains(bagIndex))
+        {
+            if (sellList.Count >= MaxSellCount)
+            {
+                return;
+            }
+            sellList.Add(bagIndex);
+            var child = NGUITools.AddChild(go, sellMask);
+            child.transform.localPosition = MaskOffset;
+            child.SetActive(true);
+            sellMasks.Add(child);
+        }
+        else
+        {
+            sellList.Remove(bagIndex);
+            var child = go.transform.FindChild("SellMask(Clone)");
+            sellMasks.Remove(child.gameObject);
+            child.parent = null;
+            Destroy(child.gameObject);
+        }
+        sellCount.text = string.Format("{0}/{1}", sellList.Count, MaxSellCount);
+    }
+
+
+    #endregion
 }

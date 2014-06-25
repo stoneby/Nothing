@@ -140,8 +140,8 @@ public class UIHeroItemsPageWindow : Window
     /// </summary>
     private void InstallHandlers()
     {
-        extendBagLis.onClick += OnExtenBag;
-        sortBtnLis.onClick += OnSortClicked;
+        extendBagLis.onClick = OnExtenBag;
+        sortBtnLis.onClick = OnSortClicked;
         for (int i = 0; i < toggles.Length; i++)
         {
             EventDelegate.Add(toggles[i].onChange, ExcuteFilter);
@@ -153,8 +153,8 @@ public class UIHeroItemsPageWindow : Window
     /// </summary>
     private void UnInstallHandlers()
     {
-        sortBtnLis.onClick -= OnSortClicked;
-        extendBagLis.onClick -= OnExtenBag;
+        sortBtnLis.onClick = null;
+        extendBagLis.onClick = null;
         for (int i = 0; i < toggles.Length; i++)
         {
             EventDelegate.Remove(toggles[i].onChange, ExcuteFilter);

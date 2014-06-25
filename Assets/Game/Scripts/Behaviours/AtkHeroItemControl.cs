@@ -63,29 +63,29 @@ public class AtkHeroItemControl : MonoBehaviour
         TheLevel = FriendData.FriendLvl;
         for (int i = 0; i < FriendData.HeroProp.Count; i++)
         {
-            if (FriendData.HeroProp[i].Prop.ContainsKey(RoleProperties.HERO_ATK))
+            if (FriendData.HeroProp[i].Prop.ContainsKey(RoleProperties.ROLE_ATK))
             {
-                Attrack += FriendData.HeroProp[i].Prop[RoleProperties.HERO_ATK];
+                Attrack += FriendData.HeroProp[i].Prop[RoleProperties.ROLE_ATK];
                 if (i == 0)
                 {
-                    LeaderAtk = FriendData.HeroProp[i].Prop[RoleProperties.HERO_ATK];
+                    LeaderAtk = FriendData.HeroProp[i].Prop[RoleProperties.ROLE_ATK];
                 }
             }
-            if (FriendData.HeroProp[i].Prop.ContainsKey(RoleProperties.HERO_HP))
+            if (FriendData.HeroProp[i].Prop.ContainsKey(RoleProperties.ROLE_HP))
             {
-                Hp += FriendData.HeroProp[i].Prop[RoleProperties.HERO_HP];
+                Hp += FriendData.HeroProp[i].Prop[RoleProperties.ROLE_HP];
                 if (i == 0)
                 {
-                    LeaderHp = FriendData.HeroProp[i].Prop[RoleProperties.HERO_HP];
+                    LeaderHp = FriendData.HeroProp[i].Prop[RoleProperties.ROLE_HP];
                 }
             }
-            if (FriendData.HeroProp[i].Prop.ContainsKey(RoleProperties.HERO_MP))
+            if (FriendData.HeroProp[i].Prop.ContainsKey(RoleProperties.ROLE_MP))
             {
-                Mp += FriendData.HeroProp[i].Prop[RoleProperties.HERO_MP];
+                Mp += FriendData.HeroProp[i].Prop[RoleProperties.ROLE_MP];
             }
-            if (FriendData.HeroProp[i].Prop.ContainsKey(RoleProperties.HERO_RECOVER))
+            if (FriendData.HeroProp[i].Prop.ContainsKey(RoleProperties.ROLE_RECOVER))
             {
-                Recover += FriendData.HeroProp[i].Prop[RoleProperties.HERO_RECOVER];
+                Recover += FriendData.HeroProp[i].Prop[RoleProperties.ROLE_RECOVER];
             }
         }
 
@@ -108,29 +108,29 @@ public class AtkHeroItemControl : MonoBehaviour
         for (int i = 0; i < HeroList.Count; i++)
         {
             if (HeroList[i] == null) continue;
-            if (HeroList[i].Prop.ContainsKey(RoleProperties.HERO_ATK))
+            if (HeroList[i].Prop.ContainsKey(RoleProperties.ROLE_ATK))
             {
-                Attrack += HeroList[i].Prop[RoleProperties.HERO_ATK];
+                Attrack += HeroList[i].Prop[RoleProperties.ROLE_ATK];
                 if (i == 0)
                 {
-                    LeaderAtk = HeroList[i].Prop[RoleProperties.HERO_ATK];
+                    LeaderAtk = HeroList[i].Prop[RoleProperties.ROLE_ATK];
                 }
             }
-            if (HeroList[i].Prop.ContainsKey(RoleProperties.HERO_HP))
+            if (HeroList[i].Prop.ContainsKey(RoleProperties.ROLE_HP))
             {
-                Hp += HeroList[i].Prop[RoleProperties.HERO_HP];
+                Hp += HeroList[i].Prop[RoleProperties.ROLE_HP];
                 if (i == 0)
                 {
-                    LeaderHp = HeroList[i].Prop[RoleProperties.HERO_HP];
+                    LeaderHp = HeroList[i].Prop[RoleProperties.ROLE_HP];
                 }
             }
-            if (HeroList[i].Prop.ContainsKey(RoleProperties.HERO_RECOVER))
+            if (HeroList[i].Prop.ContainsKey(RoleProperties.ROLE_RECOVER))
             {
-                Recover += HeroList[i].Prop[RoleProperties.HERO_RECOVER];
+                Recover += HeroList[i].Prop[RoleProperties.ROLE_RECOVER];
             }
-            if (HeroList[i].Prop.ContainsKey(RoleProperties.HERO_MP))
+            if (HeroList[i].Prop.ContainsKey(RoleProperties.ROLE_MP))
             {
-                Mp += HeroList[i].Prop[RoleProperties.HERO_MP];
+                Mp += HeroList[i].Prop[RoleProperties.ROLE_MP];
             }
         }
 

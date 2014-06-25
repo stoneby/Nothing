@@ -11,6 +11,7 @@ namespace Assets.Game.Scripts.Net.handler
             if (themsg != null)
             {
                 PlayerModelLocator.Instance.Famous = themsg.Famous;
+                PlayerModelLocator.Instance.SuperChip = themsg.SuperChip;
                 WindowManager.Instance.Show<ChooseCardWindow>(false);
                 WindowManager.Instance.Show<ChooseHeroCardWindow>(true);
                 WindowManager.Instance.GetWindow<ChooseHeroCardWindow>().Refresh(themsg);
@@ -32,7 +33,7 @@ namespace Assets.Game.Scripts.Net.handler
                     var resultWin = WindowManager.Instance.Show<TenLotteryResultDispWindow>(true);
                     resultWin.Refresh(themsg);
                 }
-                WindowManager.Instance.GetWindow<ChooseHeroCardWindow>().RefreshFamous();
+                //WindowManager.Instance.GetWindow<ChooseHeroCardWindow>().RefreshFamousAndChips();
             }
          }
 
@@ -64,7 +65,7 @@ namespace Assets.Game.Scripts.Net.handler
                         HeroModelLocator.Instance.SCHeroList.HeroList = new List<HeroInfo>();
                         cachedInfos = HeroModelLocator.Instance.SCHeroList.HeroList;
                     }
-                    for (int i = 0; i < heroInfos.Count; i++)
+                    for (var i = 0; i < heroInfos.Count; i++)
                     {
                         cachedInfos.Add(heroInfos[i]);
                     }
@@ -83,7 +84,7 @@ namespace Assets.Game.Scripts.Net.handler
                         ItemModeLocator.Instance.ScAllItemInfos.ItemInfos = new List<ItemInfo>();
                         cachedInfos = ItemModeLocator.Instance.ScAllItemInfos.ItemInfos;
                     }
-                    for (int i = 0; i < itemInfos.Count; i++)
+                    for (var i = 0; i < itemInfos.Count; i++)
                     {
                         cachedInfos.Add(itemInfos[i]);
                     }
@@ -118,7 +119,7 @@ namespace Assets.Game.Scripts.Net.handler
             if (themsg != null)
             {
                 WindowManager.Instance.Show<FragmentConfirmWindow>(false);
-                FragmentListWindow tempWindow = WindowManager.Instance.GetWindow<FragmentListWindow>();
+                var tempWindow = WindowManager.Instance.GetWindow<FragmentListWindow>();
                 tempWindow.Refresh(themsg);
             }
         }

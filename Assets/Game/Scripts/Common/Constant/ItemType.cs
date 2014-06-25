@@ -13,4 +13,7 @@ public class ItemType : MonoBehaviour
     /// 每三个稀有度等级代表一颗星星
     /// </summary>
     public const int QualitiesPerStar = 3;
+
+    public const sbyte MainItemBagType = 0;
+    public const sbyte BuyBackItemBagType = 1;
 }

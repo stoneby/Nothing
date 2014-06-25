@@ -39,6 +39,7 @@ public class NetworkControl : MonoBehaviour
                     case (short) MessageType.SC_HERO_CREATE_ONE:
                     case (short) MessageType.SC_HERO_MAX_EXTEND:
                     case (short) MessageType.SC_HERO_CHANGE_EQUIP:
+                    case (short)MessageType.SC_HERO_BIND_SUCC:
                         HeroHandler.OnHeroMessage(msg);
                         break;
                     case (short) MessageType.SC_PROPERTY_CHANGED_NUMBER:

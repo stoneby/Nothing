@@ -1,13 +1,31 @@
 ﻿using System.Globalization;
+using KXSGCodec;
 using UnityEngine;
 
 public class HeroItem : HeroItemBase
 {
     private Transform sortRelatedTran;
+    private Transform lockMaskTran;
+    private Transform lockedIcon;
+
+    private bool bindState;
+    public bool BindState
+    {
+        get { return bindState; }
+        set
+        {
+            bindState = value;
+            lockedIcon.gameObject.SetActive(bindState);
+        }
+    }
+
     protected override void Awake()
     {
         base.Awake();
         sortRelatedTran = cachedTran.FindChild("SortRelated");
+        lockMaskTran = cachedTran.FindChild("BindMask");
+        lockedIcon = cachedTran.FindChild("BindIcon");
+        ShowLockMask(false);
     }
 
     /// <summary>
@@ -61,5 +79,19 @@ public class HeroItem : HeroItemBase
         NGUITools.SetActiveChildren(sortRelatedTran.gameObject, false);
         NGUITools.SetActive(lvTitle.gameObject, true);
         NGUITools.SetActive(lvValue.gameObject, true);
+    }
+
+
+    public void ShowLockMask(bool show)
+    {
+        lockMaskTran.gameObject.SetActive(show);
+    }
+
+    public override void InitItem(HeroInfo heroInfo)
+    {
+        var heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpl[heroInfo.TemplateId];
+        Quality = heroTemplate.Star;
+        Uuid = heroInfo.Uuid;
+        BindState = heroInfo.Bind;
     }
 }

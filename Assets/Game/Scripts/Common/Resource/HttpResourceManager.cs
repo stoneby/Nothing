@@ -51,7 +51,9 @@ public class HttpResourceManager : MonoBehaviour
         var str = ".bytes?" + DateTime.Now.ToFileTime();
         for (int i = 0; i < ResourcePath.ByteFiles.Length; i++)
         {
-            WWW www = new WWW(ServiceManager.ServerData.DataUrl + ResourcePath.ByteFiles[i] + str);
+            var theurl = ServiceManager.ServerData.DataUrl + ResourcePath.ByteFiles[i] + str;
+            Logger.Log(theurl);
+            WWW www = new WWW(theurl);
             
             // Wait for download to complete
             yield return www;

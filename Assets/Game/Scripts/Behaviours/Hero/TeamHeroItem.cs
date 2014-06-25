@@ -22,7 +22,7 @@ public class TeamHeroItem : HeroItemBase
     {
         base.InitItem(heroInfo);
         lvLabel.text = heroInfo.Lvl.ToString(CultureInfo.InvariantCulture);
-        attackLabel.text = heroInfo.Prop[RoleProperties.HERO_ATK].ToString(CultureInfo.InvariantCulture);
-        hpLabel.text = heroInfo.Prop[RoleProperties.HERO_ATK].ToString(CultureInfo.InvariantCulture);
+        attackLabel.text = heroInfo.Prop[RoleProperties.ROLE_ATK].ToString(CultureInfo.InvariantCulture);
+        hpLabel.text = heroInfo.Prop[RoleProperties.ROLE_ATK].ToString(CultureInfo.InvariantCulture);
     }
 }

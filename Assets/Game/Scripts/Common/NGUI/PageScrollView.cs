@@ -6,7 +6,13 @@
 
 public class PageScrollView : MonoBehaviour
 {
-    public float springStrength = 8.0f;
+    #region Public Fields
+
+    public float SpringStrength = 8.0f;
+
+    #endregion
+
+    #region Private Fields
 
     private UIScrollView scrollView;
     private int elementsPerPage;
@@ -14,8 +20,12 @@ public class PageScrollView : MonoBehaviour
     private Vector3 startingScrollPosition;
     private UIGrid grid;
 
+    #endregion
+
+    #region Private Methods
+
     // Use this for initialization
-    void Start()
+    private void Start()
     {
         if (scrollView == null)
         {
@@ -30,8 +40,8 @@ public class PageScrollView : MonoBehaviour
             grid = GetComponent<UIGrid>();
             //This supports horizontal and vertical movement only. 
             elementsPerPage = scrollView.movement == UIScrollView.Movement.Horizontal
-                                  ? (int) (scrollView.panel.clipRange.z / grid.cellWidth)
-                                  : (int) (scrollView.panel.clipRange.w / grid.cellHeight);
+                                  ? (int) (scrollView.panel.finalClipRegion.z / grid.cellWidth)
+                                  : (int)(scrollView.panel.finalClipRegion.w / grid.cellHeight);
             currentScrolledElements = 0;
             startingScrollPosition = scrollView.panel.cachedTransform.localPosition;
         }
@@ -40,14 +50,18 @@ public class PageScrollView : MonoBehaviour
     /// <summary>
     /// Scrolls until target position matches target panelAnchorPosition (may be the center of the panel, one of its sides, etc)
     /// </summary>	
-    void MoveBy(Vector3 target)
+    private void MoveBy(Vector3 target)
     {
         if (scrollView != null && scrollView.panel != null)
         {
             // Spring the panel to this calculated position
-            SpringPanel.Begin(scrollView.panel.cachedGameObject, startingScrollPosition - target, springStrength);
+            SpringPanel.Begin(scrollView.panel.cachedGameObject, startingScrollPosition - target, SpringStrength);
         }
     }
+
+    #endregion
+
+    #region Public Methods
 
     public void NextPage()
     {
@@ -86,4 +100,6 @@ public class PageScrollView : MonoBehaviour
             MoveBy(target);
         }
     }
+
+    #endregion
 }

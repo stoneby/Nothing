@@ -10,13 +10,21 @@ using UnityEngine;
 /// </summary>
 public class BuyBackDialogWindow : Window
 {
+    #region Private Fields
+
     private UIEventListener okLis;
     private UIEventListener cancelLis;
     private UILabel costCoins;
     private UIGrid grid;
     private List<ItemInfo> infos;
-    private readonly List<BuyBackItem> buyBackItems = new List<BuyBackItem>(); 
+    private readonly List<BuyBackItem> buyBackItems = new List<BuyBackItem>();
+    private readonly List<short> buyBacks = new List<short>();
     private int costCoinValue;
+
+    #endregion Private Fields
+
+    #region Public Fields
+
     public int CostCoinValue
     {
         get { return costCoinValue; }
@@ -26,9 +34,10 @@ public class BuyBackDialogWindow : Window
             costCoins.text = costCoinValue.ToString(CultureInfo.InvariantCulture);
         }
     }
-    private readonly List<short> buyBacks = new List<short>();
 
     public Transform ItemPrefab;
+
+    #endregion
 
     #region Window
 
@@ -112,7 +121,7 @@ public class BuyBackDialogWindow : Window
                             if (PoolManager.Pools.ContainsKey("Items"))
                             {
                                 var item = buyBackItems[i].transform;
-                                UIEventListener.Get(buyBackItems[i].transform.gameObject).onClick -= OnItemClicked;
+                                UIEventListener.Get(buyBackItems[i].transform.gameObject).onClick = null;
                                 item.parent = PoolManager.Pools["Items"].transform;
                                 PoolManager.Pools["Items"].Despawn(item);
                             }
@@ -136,14 +145,14 @@ public class BuyBackDialogWindow : Window
 
     private void InstallHandlers()
     {
-        okLis.onClick += OnOK;
-        cancelLis.onClick += OnCancel;
+        okLis.onClick = OnOK;
+        cancelLis.onClick = OnCancel;
     }
 
     private void UnInstallHandlers()
     {
-        okLis.onClick -= OnOK;
-        cancelLis.onClick -= OnCancel;
+        okLis.onClick = null;
+        cancelLis.onClick = null;
     }
 
     private void OnOK(GameObject go)

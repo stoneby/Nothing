@@ -48,6 +48,14 @@ public class UIMainScreenWindow : Window
         CommonHandler.PlayerPropertyChanged += OnPlayerPropertyChanged;
     }
 
+    /// <summary>
+    /// Used to do some clean work before destorying.
+    /// </summary>
+    private void OnDestory()
+    {
+        CommonHandler.PlayerPropertyChanged -= OnPlayerPropertyChanged;
+    }
+
     private void InstallHandlers()
     {
         addMoneyLis.onClick += OnAddMoneyClicked;

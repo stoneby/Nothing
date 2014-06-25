@@ -1,6 +1,4 @@
-﻿using KXSGCodec;
-using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class FragmentHero : MonoBehaviour
 {
@@ -24,7 +22,14 @@ public class FragmentHero : MonoBehaviour
         FragmentConfirmWindow tempWindow = WindowManager.Instance.GetWindow<FragmentConfirmWindow>();
         tempWindow.TemplateID = templateID;
         tempWindow.MaterialCount = materialCount;
-        tempWindow.Refresh();
+        if (heroImage.color == Color.white)
+        {
+            tempWindow.Refresh(true);
+        }
+        else
+        {
+            tempWindow.Refresh(false);
+        }
     }
 
     #endregion
@@ -53,23 +58,22 @@ public class FragmentHero : MonoBehaviour
     {
         //intialize or refresh the cornorsprite, heroimage, stars and UIEventListener state.
         var heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpl[templateID];
-        cornorSprite.name=HeroConstant.HeroJobPrefix+heroTemplate.Job;
+        cornorSprite.spriteName=HeroConstant.HeroJobPrefix+heroTemplate.Job;
 
         star = heroTemplate.Star;
         for (int i = 0; i < star; i++)
         {
             transform.Find("Star" + (i + 1)).gameObject.SetActive(true);
         }
-    }
-    public void InstallHandlers()
-    {
         fragHeroLis.onClick = OnFragmentHero;
+    }
+    public void SwitchColorWhite()
+    {
         heroImage.color = Color.white;
     }
 
-    public void UnInstallHandlers()
+    public void SwitchColorGrey()
     {
-        fragHeroLis.onClick = null;
         heroImage.color = Color.grey;
     }
 
@@ -82,7 +86,6 @@ public class FragmentHero : MonoBehaviour
         fragHeroLis = UIEventListener.Get(transform.gameObject);
         cornorSprite = transform.Find("Cornor/CornorSprite").gameObject.GetComponent<UISprite>();
         heroImage = transform.Find("HeroImage").gameObject.GetComponent<UISprite>();
-
     }
 
     void Start()

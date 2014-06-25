@@ -8,6 +8,8 @@ using UnityEngine;
 /// </summary>
 public class UIItemLevelUpSelWindow : Window
 {
+    #region Private Fields
+
     private List<ItemInfo> infos;
     private UILabel itemNums;
     private int capacity;
@@ -30,7 +32,13 @@ public class UIItemLevelUpSelWindow : Window
     private ItemInfo mainItemInfo;
     private int expCanGet;
 
+    #endregion
+
+    #region Public Fileds
+
     public Vector3 MaskOffset = new Vector3(0, 13, 0);
+
+    #endregion
 
     #region Window
 
@@ -71,16 +79,16 @@ public class UIItemLevelUpSelWindow : Window
 
     private void InstallHandlers()
     {
-        cancelLis.onClick += OnCancel;
-        okLis.onClick += OnOk;
-        backLis.onClick += OnBack;
+        cancelLis.onClick = OnCancel;
+        okLis.onClick = OnOk;
+        backLis.onClick = OnBack;
     }
 
     private void UnInstallHandlers()
     {
-        cancelLis.onClick -= OnCancel;
-        okLis.onClick -= OnOk;
-        backLis.onClick -= OnBack;
+        cancelLis.onClick = null;
+        okLis.onClick = null;
+        backLis.onClick = null;
     }
 
     private void OnCancel(GameObject go)

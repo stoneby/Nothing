@@ -158,10 +158,10 @@ public class UITeamBuildWindow : Window
                     heros[index].FindChild("Hero").gameObject.SetActive(true);
                 }
                 heros[index].GetComponent<HeroItemBase>().InitItem(heroInfo);
-                attack += heroInfo.Prop[RoleProperties.HERO_ATK];
-                hp += heroInfo.Prop[RoleProperties.HERO_HP];
-                recover += heroInfo.Prop[RoleProperties.HERO_RECOVER];
-                mp += heroInfo.Prop[RoleProperties.HERO_MP];
+                attack += heroInfo.Prop[RoleProperties.ROLE_ATK];
+                hp += heroInfo.Prop[RoleProperties.ROLE_HP];
+                recover += heroInfo.Prop[RoleProperties.ROLE_RECOVER];
+                mp += heroInfo.Prop[RoleProperties.ROLE_MP];
             }
         }
         if (heroUuids.Count < UITeamEditWindow.MaxHeroCount)
