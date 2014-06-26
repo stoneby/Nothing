@@ -97,9 +97,11 @@ public class BattleConfirmWindowWindow : Window
 
     private void OnBattleButtonClick(GameObject game)
     {
-        var csMsg = new CSRaidBattleStartMsg();
-        csMsg.RaidId = MissionModelLocator.Instance.SelectedStageId;
-        csMsg.FriendId = MissionModelLocator.Instance.FriendData.Data.FriendUuid;
+        var csMsg = new CSRaidBattleStartMsg
+        {
+            RaidId = MissionModelLocator.Instance.SelectedStageId,
+            FriendId = MissionModelLocator.Instance.FriendData.Data.FriendUuid
+        };
         var hor = HorContainer.GetComponent<KxListRender>();
         csMsg.TeamIndex = (sbyte)hor.CurrentIndex;
         NetManager.SendMessage(csMsg);

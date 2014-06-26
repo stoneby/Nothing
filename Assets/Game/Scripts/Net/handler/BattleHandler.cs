@@ -16,36 +16,37 @@ namespace Assets.Game.Scripts.Net.handler
             {
                 PopTextManager.PopTip("返回战斗数据");
                 BattleModelLocator.Instance.BattleType = battlestartmsg.BattleType;
-                BattleModelLocator.Instance.EnemyGroup = (List<int>)battlestartmsg.MonsterGroup;
+                BattleModelLocator.Instance.EnemyGroup = battlestartmsg.MonsterGroup;
                 BattleModelLocator.Instance.RaidID = battlestartmsg.RaidID;
                 BattleModelLocator.Instance.Uuid = battlestartmsg.Uuid;
 
-                //构建服务器开始战斗逻辑
+                // server logic data.
                 var type = BattleType.getValue(battlestartmsg.BattleType);
-                BattleModelLocator.Instance.Source = new BattleSource(type);
-                BattleModelLocator.Instance.Source.Uuid = battlestartmsg.Uuid;
+                BattleModelLocator.Instance.Source = new BattleSource(type)
+                {
+                    Uuid = battlestartmsg.Uuid
+                };
 
                 BattleModelLocator.Instance.HeroList = FighterInfoCreater.createListFromMsgHero(BattleSideEnum.SIDEA, battlestartmsg.FighterList);
                 BattleModelLocator.Instance.EnemyList = FighterInfoCreater.createListFormMsgMonster(BattleSideEnum.SIDEB, battlestartmsg.MonsterGroup, battlestartmsg.MonsterList);
-                var _allFighterList = new List<FighterInfo>();
-                _allFighterList.AddRange(BattleModelLocator.Instance.HeroList);
-                _allFighterList.AddRange(BattleModelLocator.Instance.EnemyList);
-                BattleSource _source = BattleModelLocator.Instance.Source;
-                BattleModelLocator.Instance.Source.FighterProp = _allFighterList;
+                var allFighterList = new List<FighterInfo>();
+                allFighterList.AddRange(BattleModelLocator.Instance.HeroList);
+                allFighterList.AddRange(BattleModelLocator.Instance.EnemyList);
+                var source = BattleModelLocator.Instance.Source;
+                BattleModelLocator.Instance.Source.FighterProp = allFighterList;
 
-                
-                _source.heroSkillList.AddRange(battlestartmsg.HeroSkillList);
-                _source.MonsterAList.AddRange(battlestartmsg.MonsterAIList);
-                _source.monsterSkillList.AddRange(battlestartmsg.MonsterSkillList);
+                source.heroSkillList.AddRange(battlestartmsg.HeroSkillList);
+                source.MonsterAList.AddRange(battlestartmsg.MonsterAIList);
+                source.monsterSkillList.AddRange(battlestartmsg.MonsterSkillList);
 
-                FighterInfoCreater.initBattleSkillService(_source);
-                
+                FighterInfoCreater.initBattleSkillService(source);
 
-                var _factory = type.Factory;
-                BattleModelLocator.Instance.MainBattle = _factory.createBattle(BattleModelLocator.Instance.Source);
+                var factory = type.Factory;
+                BattleModelLocator.Instance.MainBattle = factory.createBattle(BattleModelLocator.Instance.Source);
                 BattleModelLocator.Instance.MainBattle.start();
                 BattleModelLocator.Instance.MonsterIndex = 0;
-                //客户端显示战斗
+
+                // client side show.
                 var window = WindowManager.Instance.Show(typeof(BattleWindow), true).gameObject;
                 WindowManager.Instance.Show(typeof(MissionTabWindow), false);
                 WindowManager.Instance.Show(typeof(MainMenuBarWindow), false);

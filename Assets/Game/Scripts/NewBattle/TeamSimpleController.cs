@@ -14,9 +14,10 @@ public class TeamSimpleController : MonoBehaviour
 
     public bool EditMode;
 
-    public delegate void Selected(GameObject sender, int index, bool selected);
+    public delegate void SelectedChanged(GameObject currentObject, GameObject lastObject);
+
     [HideInInspector]
-    public Selected OnSelected;
+    public SelectedChanged OnSelectedChanged;
 
     [HideInInspector]
     public Character CurrentSelect;
@@ -30,6 +31,44 @@ public class TeamSimpleController : MonoBehaviour
     #endregion
 
     #region Public Methods
+
+    /// <summary>
+    /// Return index of character list back.
+    /// </summary>
+    /// <param name="index">Index</param>
+    public void ReturnAt(int index)
+    {
+        if (index < 0 || index >= CharacterList.Count)
+        {
+            Logger.LogError("Index: " + index + " is out of range of character list count: " + CharacterList.Count);
+            return;
+        }
+        // [NOTE:] enemy controller will take care of object reuse itself, just deactive it is okay.
+        var character = CharacterList[index];
+
+        CharacterList.RemoveAt(index);
+        CharacterPool.Return(character.gameObject);
+
+        if (CurrentSelect == character)
+        {
+            // update current select in case current select has been removed.
+            SetDefaultCurrentSelect();
+        }
+    }
+
+    /// <summary>
+    /// Set current select default value.
+    /// </summary>
+    /// <remarks>Always set to index of 0 if any.</remarks>
+    public void SetDefaultCurrentSelect()
+    {
+        CurrentSelect = (CharacterList.Count > 0 ? CharacterList[0] : null);
+
+        if (CurrentSelect != null)
+        {
+            OnSelectedChanged(CurrentSelect.gameObject, CurrentSelect.gameObject);
+        }
+    }
 
     public void Cleanup()
     {
@@ -47,11 +86,13 @@ public class TeamSimpleController : MonoBehaviour
         CharacterList.ForEach(character =>
         {
             var listener = UIEventListener.Get(character.gameObject);
-            listener.onDrag -= OnCharacterDrag;
-            listener.onSelect -= OnCharacterSeleced;
+            listener.onDrag = null;
+            listener.onSelect = null;
         });
 
         CharacterList.Clear();
+
+        CurrentSelect = null;
     }
 
     public void Initialize()
@@ -123,10 +164,9 @@ public class TeamSimpleController : MonoBehaviour
         CharacterList.ForEach(character =>
         {
             var listener = UIEventListener.Get(character.gameObject);
-            listener.onDrag += OnCharacterDrag;
-            listener.onSelect += OnCharacterSeleced;
+            listener.onDrag = OnCharacterDrag;
+            listener.onSelect = OnCharacterSeleced;
         });
-
     }
 
     #endregion
@@ -136,13 +176,16 @@ public class TeamSimpleController : MonoBehaviour
     private void OnCharacterSeleced(GameObject sender, bool selected)
     {
         Logger.LogWarning("On Character Selected: " + sender.name + ", selected: " + selected);
-        var character = sender.GetComponent<Character>();
-        CurrentSelect = character;
 
-        if (OnSelected != null)
+        var character = sender.GetComponent<Character>();
+        if (selected)
         {
-            OnSelected(sender, character.Index, selected);
-        } 
+            if (OnSelectedChanged != null)
+            {
+                OnSelectedChanged(character.gameObject, CurrentSelect.gameObject);
+            }
+            CurrentSelect = character;
+        }
     }
 
     private void OnCharacterDrag(GameObject sender, Vector2 delta)

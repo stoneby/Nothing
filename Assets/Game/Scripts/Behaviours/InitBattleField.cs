@@ -35,6 +35,8 @@ public class InitBattleField : MonoBehaviour, IBattleView
     public GameObject TexSwardBg91;
     public GameObject Text91;
 
+    public CameraLikeEffect CameraEffect;
+
     public GameObject CharacterAttrackValueLabel;
 
     /// <summary>
@@ -139,6 +141,8 @@ public class InitBattleField : MonoBehaviour, IBattleView
 
         // [FIXME] enemy ground controller.
         currentEnemyGroupIndex = 0;
+
+        EnemyController.OnSelectedChanged = OnEnemySelected;
         InitEnemyList();
 
         InitWaitingStackList();
@@ -238,20 +242,23 @@ public class InitBattleField : MonoBehaviour, IBattleView
         EnemyController.Cleanup();
         EnemyController.Total = enemyGroup[currentEnemyGroupIndex];
         EnemyController.Initialize();
-        //EnemyController.OnSelected += OnEnemySelected;
 
         Logger.Log("Current level enemy's count: " + EnemyController.Total);
 
         for (var i = 0; i < EnemyController.CharacterList.Count; ++i)
         {
-            var ec = EnemyController.CharacterList[i].gameObject.GetComponent<EnemyControl>();
+            var enemyController = EnemyController.CharacterList[i].gameObject.GetComponent<EnemyControl>();
             var enemyData = enemyList[BattleModelLocator.Instance.MonsterIndex + i];
             var maxValue = enemyData.BattleProperty[RoleAProperty.HP];
-            ec.SetBloodBar(maxValue, maxValue);
-            ec.CharacterData.Data = enemyData;
+            enemyController.Reset();
+            enemyController.SetBloodBar(maxValue, maxValue);
+            enemyController.CharacterData.Data = enemyData;
 
             Logger.Log("Init enemy of index: " + (BattleModelLocator.Instance.MonsterIndex + i));
         }
+
+        // set default current select to index of 0.
+        EnemyController.SetDefaultCurrentSelect();
 
         BattleModelLocator.Instance.MonsterIndex += EnemyController.Total;
         Logger.Log("Next monster index: " + BattleModelLocator.Instance.MonsterIndex);
@@ -490,11 +497,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
         {
             var selectedList = TeamController.SelectedCharacterList.Select(item => TeamController.TwoDimensionToOne(item.Location));
             DoAttack(selectedList.ToArray());
-
-            // Disable team selection.
-            TeamController.Enable = false;
-            // add selected characters to attack waiting list.
-            attackWaitList.AddRange(TeamController.SelectedCharacterList.Select(item => item.gameObject));
         }
         else
         {
@@ -540,8 +542,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
             return;
         }
 
-        var enemy = EnemyController.CurrentSelect ?? EnemyController.CharacterList[0];
-
+        var enemy = EnemyController.CurrentSelect;
         Logger.LogWarning("Attack to emeny: " + enemy);
 
         var action = new ProduceFighterIndexAction
@@ -684,7 +685,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
                     monster = GetEnemyByAction(record.ActionList[0]);
                     RunReturn(obj, GameConfig.ShortTime);
                     yield return new WaitForSeconds(AddMoveCharacter(obj, monster));
-                    PlayEnemyBeenAttrack(cc, record.ActionList);
+                    PlayEnemyBeenAttrack(record.ActionList);
                 }
                 break;
             case BattleRecordConstants.SINGLE_ACTION_TYPE_RECOVER:
@@ -706,7 +707,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
                     yield return new WaitForSeconds(GameConfig.RunToAttrackPosTime);
                     cc.PlayCharacter(CharacterStateType.Attack);
                     yield return new WaitForSeconds(GameConfig.PlayAttrackTime);
-                    PlayEnemyBeenAttrack(cc, record.ActionList);
+                    PlayEnemyBeenAttrack(record.ActionList);
                     RunReturn(obj, GameConfig.HeroRunReturnTime);
                 }
                 break;
@@ -759,7 +760,10 @@ public class InitBattleField : MonoBehaviour, IBattleView
             obj = TeamController.SelectedCharacterList[TeamController.SelectedCharacterList.Count - 1].gameObject;
             cc = obj.GetComponent<CharacterControl>();
 
-            PlayMoveCamera(obj);
+            CameraEffect.LookAt = obj.transform;
+            //CameraEffect.LookAtTime = GameConfig.MoveCameraTime;
+            CameraEffect.LookInto();
+
             cc.Stop();
             yield return new WaitForSeconds(GameConfig.MoveCameraTime);//显示遮罩
             Picture91.SetActive(true);
@@ -768,7 +772,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
             EffectManager.PlayEffect(EffectType.NineAttrack, GameConfig.Attrack9PlayEffectTime, -25, 0, obj.transform.position);
             yield return new WaitForSeconds(GameConfig.Attrack9PlayEffectTime);
             //人物大图飞入
-            UITexture tt = EffectObject.GetComponent<UITexture>();
+            var tt = EffectObject.GetComponent<UITexture>();
             tt.mainTexture = (Texture2D)Resources.Load(EffectType.LeaderTextures[Random.Range(0, 11)], typeof(Texture2D));
             tt.alpha = 1;
             EffectObject.transform.localPosition = new Vector3(Screen.width / 2 + 300, -80, 0);
@@ -803,7 +807,9 @@ public class InitBattleField : MonoBehaviour, IBattleView
             //镜头拉回
             Text91.SetActive(false);
             TextBG91.SetActive(false);
-            PlayMoveCameraEnd();
+
+            CameraEffect.LookOut();
+
             yield return new WaitForSeconds(GameConfig.MoveCameraTime);
             //攻击动作
             cc.Play();
@@ -848,7 +854,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
             EffectManager.PlayEffect(EffectType.SwordEffect2, GameConfig.Attrack9SwardEffectTime, 0, 0, new Vector3(pos.x - offset, pos.y - offset, pos.z), 90, true);
             yield return new WaitForSeconds(GameConfig.Attrack9TotalSwardTime);
             TexSwardBg91.SetActive(false);
-            PlayEnemyBeenAttrack(cc, record.ActionList, true);
+            PlayEnemyBeenAttrack(record.ActionList, true);
 
             yield return new WaitForSeconds(.4f);
 
@@ -897,8 +903,9 @@ public class InitBattleField : MonoBehaviour, IBattleView
         var enemyIndexBase = (currentEnemyGroupIndex == 0) ? 0 : BattleModelLocator.Instance.EnemyGroup[currentEnemyGroupIndex - 1];
         Logger.LogWarning("Check enemy index base: " + enemyIndexBase);
         var deadList = new List<int>();
-        foreach (var character in EnemyController.CharacterList)
+        for (var i = 0; i < EnemyController.CharacterList.Count; ++i)
         {
+            var character = EnemyController.CharacterList[i];
             var enemyController = character.GetComponent<EnemyControl>();
             if (enemyController.Health <= 0)
             {
@@ -916,10 +923,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
 
                 ShowTopData();
 
-                enemyController.Reset();
-                EnemyController.CharacterPool.Return(character.gameObject);
-
-                deadList.Add(character.Index);
+                deadList.Add(i);
                 Logger.LogWarning("Enemy is dead: " + character);
             }
         }
@@ -927,7 +931,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
         // remove enemy from back end order.
         for (var i = deadList.Count - 1; i >= 0; --i)
         {
-            EnemyController.CharacterList.RemoveAt(i);
+            EnemyController.ReturnAt(deadList[i]);
         }
     }
 
@@ -936,10 +940,8 @@ public class InitBattleField : MonoBehaviour, IBattleView
         SetCharacterCanSelect(false);
         if (battleTeamRecord.RecordList.Count > 0)
         {
-            BattleFightRecord record;
-            for (int i = 0; i < battleTeamRecord.RecordList.Count; i++)
+            foreach (BattleFightRecord record in battleTeamRecord.RecordList)
             {
-                record = battleTeamRecord.RecordList[i];
                 var enemy = GetEnemyByAction(record.getAttackAction());
                 if (enemy == null) continue;
                 var ec = enemy.GetComponent<EnemyControl>();
@@ -947,11 +949,17 @@ public class InitBattleField : MonoBehaviour, IBattleView
                 switch (record.getAttackAction().ActType)
                 {
                     case BattleRecordConstants.SINGLE_ACTION_TYPE_SP_ATTACK:
-                        PlayMoveCamera(enemy);
+
+                        CameraEffect.LookAt = enemy.transform;
+                        //CameraEffect.LookAtTime = GameConfig.MoveCameraTime;
+                        CameraEffect.LookInto();
+
                         yield return new WaitForSeconds(GameConfig.MoveCameraTime);
                         EffectManager.PlayEffect(EffectType.EnemySprite, GameConfig.PlayMonsterEffectTime, 0, 0, enemy.transform.position);
                         yield return new WaitForSeconds(GameConfig.PlayMonsterEffectTime);
-                        PlayMoveCameraEnd();
+
+                        CameraEffect.LookOut();
+
                         yield return new WaitForSeconds(GameConfig.MoveCameraTime);
                         yield return StartCoroutine(PlayCharacterBeenAttrack(record.ActionList));
                         break;
@@ -975,7 +983,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
         DealWithRecord();
         SetCharacterCanSelect(true);
 
-        Logger.LogWarning("Team controller selected to false");
+        Logger.LogWarning("Team controller selected to true");
         TeamController.Enable = true;
     }
 
@@ -1019,9 +1027,8 @@ public class InitBattleField : MonoBehaviour, IBattleView
 
     private IEnumerator PlayCharacterBeenAttrack(List<SingleActionRecord> actionlist)
     {
-        for (var i = 0; i < actionlist.Count; i++)
+        foreach (var action in actionlist)
         {
-            var action = actionlist[i];
             var obj = GetCharacterByAction(action);
             if (obj != null)
             {
@@ -1034,9 +1041,8 @@ public class InitBattleField : MonoBehaviour, IBattleView
         }
 
         yield return new WaitForSeconds(GameConfig.HeroBeenAttrackTime);
-        for (var j = 0; j < actionlist.Count; j++)
+        foreach (var action in actionlist)
         {
-            var action = actionlist[j];
             var obj = GetCharacterByAction(action);
             if (obj != null)
             {
@@ -1053,11 +1059,10 @@ public class InitBattleField : MonoBehaviour, IBattleView
         iTween.MoveTo(obj, enemyController.AttackLocation.transform.position, duration);
     }
 
-    private void PlayEnemyBeenAttrack(CharacterControl cc, List<SingleActionRecord> enemylist, bool showbig = false)
+    private void PlayEnemyBeenAttrack(IEnumerable<SingleActionRecord> actionList, bool showbig = false)
     {
-        for (int i = 0; i < enemylist.Count; i++)
+        foreach (var action in actionList)
         {
-            var action = enemylist[i];
             var enemy = GetEnemyByAction(action);
             if (enemy == null) continue;
 
@@ -1073,24 +1078,23 @@ public class InitBattleField : MonoBehaviour, IBattleView
                 EffectManager.PlayEffect(EffectType.Attrack, 0.8f, 0, -20, enemy.transform.position);
             }
 
-            var ec = enemy.GetComponent<EnemyControl>();
+            var enemyController = enemy.GetComponent<EnemyControl>();
 
             if (showbig)
             {
-                var obj = GameObject.Find("BattleFieldPanel");
-                iTweenEvent.GetEvent(obj, "ShakeTweener").Play();
+                CameraEffect.Shake();
             }
             else if (k > 1)
             {
-                ec.PlayBigShake();
+                enemyController.PlayBigShake();
             }
             else
             {
-                ec.PlayShake();
+                enemyController.PlayShake();
             }
             if (action.prop.ContainsKey(BattleRecordConstants.SINGLE_ACTION_PROP_HP))
             {
-                ec.SetHealth(action.getIntProp(BattleRecordConstants.SINGLE_ACTION_PROP_HP));
+                enemyController.SetHealth(action.getIntProp(BattleRecordConstants.SINGLE_ACTION_PROP_HP));
             }
         }
     }
@@ -1118,42 +1122,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
         charactersLeft[character.Location.X, character.Location.Y] = null;
 
         Logger.LogWarning("Return object: " + obj.name + ", location: " + character.Location);
-    }
-
-    private void PlayMoveCamera(GameObject obj)
-    {
-        tempGameObj = obj;
-        var containerobj = GameObject.Find("BattleFieldPanel");
-        var tp = containerobj.GetComponent<TweenPosition>();
-        tp.ResetToBeginning();
-        tp.from = new Vector3(0, 0, 0);
-        tp.to = new Vector3(-tempGameObj.transform.localPosition.x * 2.5f, -tempGameObj.transform.localPosition.y * 2.5f, 0);
-        tp.duration = GameConfig.MoveCameraTime;
-        tp.PlayForward();
-        var ts = containerobj.GetComponent<TweenScale>();
-        ts.ResetToBeginning();
-        ts.from = new Vector3(1, 1, 1);
-        ts.to = new Vector3(2.5f, 2.5f, 1);
-        ts.duration = GameConfig.MoveCameraTime;
-        ts.PlayForward();
-    }
-
-    private void PlayMoveCameraEnd()
-    {
-        GameObject containerobj = GameObject.Find("BattleFieldPanel");
-        var tp = containerobj.GetComponent<TweenPosition>();
-        tp.ResetToBeginning();
-        tp.from = new Vector3(-tempGameObj.transform.localPosition.x * 2.5f, -tempGameObj.transform.localPosition.y * 2.5f, 0);
-        tp.to = new Vector3(0, 0, 0);
-        tp.duration = GameConfig.MoveCameraTime / 2.5f;
-        tp.PlayForward();
-        var ts = containerobj.GetComponent<TweenScale>();
-        while (ts.onFinished.Count > 0) ts.onFinished.RemoveAt(0);
-        ts.ResetToBeginning();
-        ts.from = new Vector3(2.5f, 2.5f, 1);
-        ts.to = new Vector3(1, 1, 1);
-        ts.duration = GameConfig.MoveCameraTime / 2.5f;
-        ts.PlayForward();
     }
 
     private void OnLeaderUseHandler(LeaderUseEvent e)
@@ -1683,6 +1651,12 @@ public class InitBattleField : MonoBehaviour, IBattleView
         battleTeamRecord = battleTeamFightRecord;
         if (battleTeamRecord.TeamSide == BattleRecordConstants.TARGET_SIDE_A)
         {
+            Logger.LogWarning("Team controller selected to false");
+            // Disable team selection.
+            TeamController.Enable = false;
+            // add selected characters to attack waiting list.
+            attackWaitList.AddRange(TeamController.SelectedCharacterList.Select(item => item.gameObject));
+
             DoAttrackLeft();
         }
         else
@@ -1851,22 +1825,18 @@ public class InitBattleField : MonoBehaviour, IBattleView
     private void ResetAll()
     {
         BattleModelLocator.Instance.NextList = null;
-        //EnemyController.OnSelected -= OnEnemySelected;
+        EnemyController.OnSelectedChanged = null;
         FootManager.Reset();
     }
 
-    private void OnEnemySelected(GameObject sender, int index, bool selected)
+    private void OnEnemySelected(GameObject currentSelected, GameObject lastSelected)
     {
-        Logger.LogWarning("On enemy select: sender, " + sender.name + ", index: " + index);
+        Logger.LogWarning("On enemy select: sender, " + currentSelected.name + ", last selected: " + lastSelected.name);
 
-        if (index < 0 || index >= EnemyController.CharacterList.Count)
-        {
-            Logger.LogError("Selected index: " + index + ", is out of boundary of enemy character list, which count in: " + EnemyController.CharacterList.Count);
-            return;
-        }
-
-        var currentEnemy = EnemyController.CurrentSelect.GetComponent<EnemyControl>();
-        currentEnemy.ShowAimTo(selected);
+        var lastEnemy = lastSelected.GetComponent<EnemyControl>();
+        lastEnemy.ShowAimTo(false);
+        var currentEnemy = currentSelected.GetComponent<EnemyControl>();
+        currentEnemy.ShowAimTo(true);
     }
 
     private void OnBattleResult(bool win)

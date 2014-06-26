@@ -147,6 +147,8 @@ public class EnemyControl : MonoBehaviour
     public void Reset()
     {
         EnemySprite.transform.localPosition = originalPosition;
+        ShowBlood(true);
+        ShowAimTo(false);
     }
 
     #endregion
