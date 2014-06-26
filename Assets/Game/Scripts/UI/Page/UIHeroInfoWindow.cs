@@ -42,6 +42,9 @@ public class UIHeroInfoWindow : Window
 
     public override void OnEnter()
     {
+        // enable finger guester.
+        FingerGestures.Instance.enabled = true;
+
         heroInfo = HeroModelLocator.Instance.FindHero(HeroBaseInfoWindow.CurUuid);
         heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpl[heroInfo.TemplateId];
         RefreshData();
@@ -56,6 +59,9 @@ public class UIHeroInfoWindow : Window
         recover.color = UILevelUpWindow.NonChangedColor;
         mp.color = UILevelUpWindow.NonChangedColor;
         UnInstallHandlers();
+
+        // disable finger guester.
+        FingerGestures.Instance.enabled = false;
     }
 
     #endregion

@@ -73,6 +73,9 @@ public class UITeamBuildWindow : Window
 
     public override void OnEnter()
     {
+        // enable finger guester.
+        FingerGestures.Instance.enabled = true;
+
         InstallHandlers();
         CurTeamIndex = HeroModelLocator.Instance.SCHeroList.CurrentTeamIndex;
         endlessSwipeEffect.InitCustomData(CurTeamIndex, HeroModelLocator.Instance.SCHeroList.TeamList.Count);
@@ -82,6 +85,9 @@ public class UITeamBuildWindow : Window
     public override void OnExit()
     {
         UnInstallHandlers();
+
+        // disable finger gester.
+        FingerGestures.Instance.enabled = false;
     }
 
     #endregion
