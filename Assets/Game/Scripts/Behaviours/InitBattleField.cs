@@ -682,8 +682,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
             case BattleRecordConstants.SINGLE_ACTION_TYPE_SP_ATTACK:
                 {
                     monster = GetEnemyByAction(record.ActionList[0]);
-                    var ec = monster.GetComponent<EnemyControl>();
-                    ec.ShowBlood(true);
                     RunReturn(obj, GameConfig.ShortTime);
                     yield return new WaitForSeconds(AddMoveCharacter(obj, monster));
                     PlayEnemyBeenAttrack(cc, record.ActionList);
@@ -704,8 +702,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
             default:
                 {
                     monster = GetEnemyByAction(record.ActionList[0]);
-                    var ec = monster.GetComponent<EnemyControl>();
-                    ec.ShowBlood(true);
                     RunToAttrackPlace(obj, monster);
                     yield return new WaitForSeconds(GameConfig.RunToAttrackPosTime);
                     cc.PlayCharacter(CharacterStateType.Attack);
@@ -739,10 +735,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
             }
             else
             {
-                foreach (var ec in EnemyController.CharacterList.Select(character => character.GetComponent<EnemyControl>()))
-                {
-                    ec.ShowBlood(false);
-                }
                 yield return StartCoroutine(PlayOneAction(record));
             }
         }
