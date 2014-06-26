@@ -1125,7 +1125,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
         var character = obj.GetComponent<Character>();
         charactersLeft[character.Location.X, character.Location.Y] = null;
 
-        Debug.LogWarning("Return object: " + obj.name + ", location: " + character.Location);
+        Logger.LogWarning("Return object: " + obj.name + ", location: " + character.Location);
     }
 
     private void PlayMoveCamera(GameObject obj)
