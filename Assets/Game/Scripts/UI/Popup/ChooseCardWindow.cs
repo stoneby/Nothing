@@ -42,18 +42,18 @@ public class ChooseCardWindow : Window
 
     private void InstallHandlers()
     {
-        dimmerLis.onClick += OnDimmer;
-        chooseItemLis.onClick += ChooseItemCard;
-        chooseHeroLis.onClick += ChooseHeroCard;
-        fragCombineLis.onClick += OnFragCombine;
+        dimmerLis.onClick = OnDimmer;
+        chooseItemLis.onClick = ChooseItemCard;
+        chooseHeroLis.onClick = ChooseHeroCard;
+        fragCombineLis.onClick = OnFragCombine;
     }
 
     private void UnInstallHandlers()
     {
-        dimmerLis.onClick -= OnDimmer;
-        chooseItemLis.onClick -= ChooseItemCard;
-        chooseHeroLis.onClick -= ChooseHeroCard;
-        fragCombineLis.onClick -= OnFragCombine;
+        dimmerLis.onClick = null;
+        chooseItemLis.onClick = null;
+        chooseHeroLis.onClick = null;
+        fragCombineLis.onClick = null;
     }
 
     private void OnDimmer(GameObject go)

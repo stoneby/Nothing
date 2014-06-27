@@ -94,7 +94,7 @@ public class MissionWindow : Window
         MissionModelLocator.Instance.ComputeStagecount();
 
         Raids = MissionModelLocator.Instance.GetCurrentRaids();
-        var table = ItemsContainer.GetComponent<KxVScrollRender>();
+        var table = ItemsContainer.GetComponent<KxVListRender>();
         List<RaidInfo> temp;
         if (MissionModelLocator.Instance.CurrRaidType == RaidType.RaidNormal)
         {
@@ -169,7 +169,7 @@ public class MissionWindow : Window
             RewardBox.SetActive(false);
         }
 
-        var table = ItemsContainer.GetComponent<KxVScrollRender>();
+        var table = ItemsContainer.GetComponent<KxVListRender>();
         var stages = GetStages(raid);
         List<RaidStageInfo> temp;
         if (MissionModelLocator.Instance.CurrRaidType == RaidType.RaidNormal)
@@ -180,6 +180,7 @@ public class MissionWindow : Window
         {
             temp = new List<RaidStageInfo>(stages.OrderBy(stageinfo => stageinfo.TemplateId));
         }
+
         table.Init(temp, "Prefabs/Component/MissionItem", 537, 521, 537, 160, OnItemClicktHandler);
         
 
@@ -244,6 +245,8 @@ public class MissionWindow : Window
             friendlist.Add(friend);
         }
 
+
+
         var box = FriendContainer.GetComponent<KxVListRender>();
         box.Init(friendlist, "Prefabs/Component/FriendItem", 1034, 522, 1034, 160, OnFriendSelected);
     }
@@ -285,7 +288,7 @@ public class MissionWindow : Window
         MapInfoLabel = transform.FindChild("Map Container/Map Info Label").gameObject;
 //        RaidContainer = transform.FindChild("Items Container").gameObject;
         FriendContainer = transform.FindChild("VList Friend").gameObject;
-        ItemsContainer = transform.FindChild("VScrollList").gameObject;
+        ItemsContainer = transform.FindChild("VList Items").gameObject;
 
         MapEvent = transform.FindChild("Map Container/Event Container").gameObject;
 

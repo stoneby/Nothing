@@ -13,19 +13,6 @@ public class HeroBaseInfoWindow : Window
     private EndlessSwipeEffect endlessSwipeEffect;
     private int curHeroIndex;
     private HeroInfo heroInfo;
-    public HeroInfo HeroInfo
-    {
-        get { return heroInfo; }
-        private set
-        {
-            if(heroInfo != value)
-            {
-                heroInfo = value;
-                heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpl[heroInfo.TemplateId];
-                CurUuid = heroInfo.Uuid;
-            }
-        }
-    }
     private UIEventListener skillBtnLis;
     private UIEventListener lvBtnLis;
     private UIEventListener limitBtnLis;
@@ -37,6 +24,30 @@ public class HeroBaseInfoWindow : Window
     #endregion
 
     #region Public Fields
+
+    public enum HeroInfoTabName
+    {
+        SkillTab,
+        LevelUpTab,
+        LimitTabBreak
+    }
+
+    /// <summary>
+    /// The current hero info.
+    /// </summary>
+    public HeroInfo HeroInfo
+    {
+        get { return heroInfo; }
+        private set
+        {
+            if (heroInfo != value)
+            {
+                heroInfo = value;
+                heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpl[heroInfo.TemplateId];
+                CurUuid = heroInfo.Uuid;
+            }
+        }
+    }
 
     /// <summary>
     /// The uuid of current hero info.
@@ -65,8 +76,13 @@ public class HeroBaseInfoWindow : Window
 
     public override void OnEnter()
     {
+        // Enable finger guester.
+        if (FingerGestures.Instance != null)
+        {
+            FingerGestures.Instance.enabled = true;
+        }
         InstallHandlers();
-        Toggle(1);
+        Toggle(HeroInfoTabName.SkillTab);
         HeroInfo = HeroModelLocator.Instance.FindHero(CurUuid);
         curHeroIndex = HeroModelLocator.Instance.SCHeroList.HeroList.IndexOf(HeroInfo);
         endlessSwipeEffect.InitCustomData(curHeroIndex, HeroModelLocator.Instance.SCHeroList.HeroList.Count);
@@ -76,6 +92,11 @@ public class HeroBaseInfoWindow : Window
     public override void OnExit()
     {
         UnInstallHandlers();
+        // Disable finger guester.
+        if (FingerGestures.Instance != null)
+        {
+            FingerGestures.Instance.enabled = true;
+        }
     }
 
     #endregion
@@ -108,27 +129,15 @@ public class HeroBaseInfoWindow : Window
     }
 
     /// <summary>
-    /// Initialize the endless swipe effect in case it has dependence.
-    /// </summary>
-    private void Start()
-    {
-        //Toggle(1);
-        //HeroInfo = HeroModelLocator.Instance.FindHero(CurUuid);
-        //curHeroIndex = HeroModelLocator.Instance.SCHeroList.HeroList.IndexOf(HeroInfo);
-        //endlessSwipeEffect.InitCustomData(curHeroIndex, HeroModelLocator.Instance.SCHeroList.HeroList.Count);
-        //Refresh();
-    }
-
-    /// <summary>
     /// Install all handlers.
     /// </summary>
     private void InstallHandlers()
     {
-        skillBtnLis.onClick += OnSkillBtnClicked;
-        lvBtnLis.onClick += OnLvBtnClicked;
-        limitBtnLis.onClick += OnLimitBtnClicked;
-        item1Lis.onClick += HeroSelItemHandler;
-        item2Lis.onClick += HeroSelItemHandler;
+        skillBtnLis.onClick = OnSkillBtnClicked;
+        lvBtnLis.onClick = OnLvBtnClicked;
+        limitBtnLis.onClick = OnLimitBtnClicked;
+        item1Lis.onClick = HeroSelItemHandler;
+        item2Lis.onClick = HeroSelItemHandler;
     }
 
     /// <summary>
@@ -136,20 +145,24 @@ public class HeroBaseInfoWindow : Window
     /// </summary>
     private void UnInstallHandlers()
     {
-        skillBtnLis.onClick -= OnSkillBtnClicked;
-        lvBtnLis.onClick -= OnLvBtnClicked;
-        limitBtnLis.onClick -= OnLimitBtnClicked;
-        item1Lis.onClick -= HeroSelItemHandler;
-        item2Lis.onClick -= HeroSelItemHandler;
+        skillBtnLis.onClick = null;
+        lvBtnLis.onClick = null;
+        limitBtnLis.onClick = null;
+        item1Lis.onClick = null;
+        item2Lis.onClick = null;
     }
 
+    /// <summary>
+    /// The call back of click equip item.
+    /// </summary>
+    /// <param name="go"></param>
     private void HeroSelItemHandler(GameObject go)
     {
-        CurEquipIndex = (sbyte)(go == item1Lis.gameObject ? 0 : 1);
+        CurEquipIndex = (sbyte)(go == item1Lis.gameObject ? HeroConstant.HeroFirstEquip : HeroConstant.HeroSecondEquip);
         if(ItemModeLocator.Instance.ScAllItemInfos == null)
         {
             ItemModeLocator.Instance.GetItemPos = ItemType.GetItemInHeroInfo;
-            var csmsg = new CSQueryAllItems { BagType = 0 };
+            var csmsg = new CSQueryAllItems { BagType = ItemType.MainItemBagType };
             NetManager.SendMessage(csmsg);       
         }
         else
@@ -209,7 +222,7 @@ public class HeroBaseInfoWindow : Window
     /// </summary>
     private void OnLvBtnClicked(GameObject go)
     {
-        Toggle(2);
+        Toggle(HeroInfoTabName.LevelUpTab);
         WindowManager.Instance.Show(typeof(UILevelUpWindow), true);
     }
 
@@ -218,7 +231,7 @@ public class HeroBaseInfoWindow : Window
     /// </summary>
     private void OnSkillBtnClicked(GameObject go)
     {
-        Toggle(1);
+        Toggle(HeroInfoTabName.SkillTab);
         WindowManager.Instance.Show(typeof(UIHeroInfoWindow), true);
     }
 
@@ -240,22 +253,22 @@ public class HeroBaseInfoWindow : Window
     /// <summary>
     /// Toggle the button's color.
     /// </summary>
-    /// <param name="index">Indicates which button will have the highlight color.</param>
-    public void Toggle(int index)
+    /// <param name="heroInfoTabName">Indicates which button will have the highlight color.</param>
+    public void Toggle(HeroInfoTabName heroInfoTabName)
     {
-        switch(index)
+        switch (heroInfoTabName)
         {
-            case 1:
+            case HeroInfoTabName.SkillTab:
                 skillBtnLis.GetComponent<UISprite>().spriteName = DownBtnSpriteName;
                 lvBtnLis.GetComponent<UISprite>().spriteName = NormalBtnSpriteName;
                 limitBtnLis.GetComponent<UISprite>().spriteName = NormalBtnSpriteName;
                 break;
-            case 2:
+            case HeroInfoTabName.LevelUpTab:
                 lvBtnLis.GetComponent<UISprite>().spriteName = DownBtnSpriteName;
                 skillBtnLis.GetComponent<UISprite>().spriteName = NormalBtnSpriteName;
                 limitBtnLis.GetComponent<UISprite>().spriteName = NormalBtnSpriteName;
                 break;
-            case 3:
+            case HeroInfoTabName.LimitTabBreak:
                 limitBtnLis.GetComponent<UISprite>().spriteName = DownBtnSpriteName;
                 skillBtnLis.GetComponent<UISprite>().spriteName = NormalBtnSpriteName;
                 lvBtnLis.GetComponent<UISprite>().spriteName = NormalBtnSpriteName;
@@ -263,11 +276,18 @@ public class HeroBaseInfoWindow : Window
         }
     }
 
+    /// <summary>
+    /// The interface to enable or disable the endless effect.
+    /// </summary>
+    /// <param name="enable"></param>
     public void EnableSwipeEffect(bool enable)
     {
         endlessSwipeEffect.enabled = enable;
     }
 
+    /// <summary>
+    /// Show the window of hero select items.
+    /// </summary>
     public void ShowHeroSelItems()
     {
         WindowManager.Instance.Show<UIHeroSelItemWindow>(true);

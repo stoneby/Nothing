@@ -10,22 +10,25 @@ public class FragmentConfirmWindow : Window
 
     private UIEventListener confirmLis;
     private UIEventListener closeLis;
-
-    private int templateID;
+    
+    // Combine info get from sever.
+    private int templateId;
     private int materialCount;
 
+    //Interface info.
     private UISprite cornorSprite;
     private UISprite heroImage;
     private int star;
-    private UILabel gong;
+    private UILabel attack;
     private UILabel hp;
-    private UILabel huiFu;
-    private UILabel qiLi;
-    private UILabel huoDeTuJing;
-    private UILabel suiPianShuLiang;
+    private UILabel recover;
+    private UILabel mp;
+    private UILabel accessibleWay;
+    private UILabel combineCount;
     private UILabel cost;
+    private UILabel costLabel1;
+    private UILabel costLabel2;
     private UISprite confirmBTN;
-    private UISprite closeBTN;
     private UIButton confirmHoverEffect;
      
     #endregion
@@ -42,14 +45,21 @@ public class FragmentConfirmWindow : Window
         closeLis.onClick -= OnClose;
     }
 
+    /// <summary>
+    /// Response event of click confirmBTN.
+    /// </summary>
+    /// <param name="go"></param>
     private void OnConfirm(GameObject go)
     {
-        CSLotteryCompose msg=new CSLotteryCompose();
-        msg.HeroTemplateId = templateID;
+        var msg = new CSLotteryCompose {HeroTemplateId = templateId};
         NetManager.SendMessage(msg);
         WindowManager.Instance.Show<FragmentConfirmWindow>(false);
     }
 
+    /// <summary>
+    /// Response event of click CloseBTN.
+    /// </summary>
+    /// <param name="go"></param>
     private void OnClose(GameObject go)
     {
         WindowManager.Instance.Show<FragmentConfirmWindow>(false);
@@ -59,36 +69,44 @@ public class FragmentConfirmWindow : Window
 
     #region Public Fields
 
+    /// <summary>
+    /// Initialize or refresh private fields.
+    /// </summary>
+    /// <param name="isWhite"></param>
     public void Refresh(bool isWhite)
     {
         //initialze or refresh the private fields.
-        var heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpl[templateID];
+        var heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpl[templateId];
         cornorSprite.spriteName = HeroConstant.HeroJobPrefix + heroTemplate.Job;
 
         star = heroTemplate.Star;
         for (int i = 0; i < star; i++)
         {
-            transform.Find("Hero/Star" + (i + 1).ToString()).gameObject.SetActive(true);
+            transform.Find("Hero/Star" + (i + 1)).gameObject.SetActive(true);
         }
 
-        gong.text = heroTemplate.Attack.ToString();
+        attack.text = heroTemplate.Attack.ToString();
         hp.text = heroTemplate.HP.ToString();
-        huiFu.text = heroTemplate.Recover.ToString();
-        qiLi.text = heroTemplate.MP.ToString();
-        huoDeTuJing.text = heroTemplate.Desc;
-        suiPianShuLiang.text = materialCount.ToString() + "/" + heroTemplate.ComposeCount;
-        if (isWhite == true)
+        recover.text = heroTemplate.Recover.ToString();
+        mp.text = heroTemplate.MP.ToString();
+        accessibleWay.text = heroTemplate.Desc;
+        combineCount.text = materialCount + "/" + heroTemplate.ComposeCount;
+        if (isWhite)
         {
             confirmBTN.color = Color.white;
             confirmLis.onClick = OnConfirm;
             confirmHoverEffect.enabled = true;
             if (materialCount < heroTemplate.ComposeCount)
             {
-                cost.text = "需消耗万能碎片" + (heroTemplate.ComposeCount - materialCount) + "个";
+                cost.text = (heroTemplate.ComposeCount - materialCount).ToString();
+                costLabel1.enabled = true;
+                costLabel2.enabled = true;
             }
             else
             {
                 cost.text = "";
+                costLabel1.enabled = false;
+                costLabel2.enabled = false;
             }
         }
         else
@@ -97,14 +115,16 @@ public class FragmentConfirmWindow : Window
             confirmLis.onClick = null;
             confirmHoverEffect.enabled = false;
             cost.text = "";
+            costLabel1.enabled = false;
+            costLabel2.enabled = false;
         }
     }
 
-    public int TemplateID
+    public int TemplateId
     {
-        get { return templateID; }
+        get { return templateId; }
 
-        set { templateID = value; }
+        set { templateId = value; }
     }
 
     public int MaterialCount
@@ -132,22 +152,25 @@ public class FragmentConfirmWindow : Window
 
     #region Mono
 
-    // Use this for initialization
+    /// <summary>
+    /// Use this for initialization.
+    /// </summary>
     void Awake()
     {
         confirmLis = UIEventListener.Get(transform.Find("ConfirmBTN").gameObject);
         closeLis = UIEventListener.Get(transform.Find("CloseBTN").gameObject);
         cornorSprite = transform.Find("Hero/Cornor/Sprite").gameObject.GetComponent<UISprite>();
         heroImage = transform.Find("Hero/HeroImage").gameObject.GetComponent<UISprite>();
-        gong = transform.Find("HeroInfo/Gong").gameObject.GetComponent<UILabel>();
+        attack = transform.Find("HeroInfo/Attack").gameObject.GetComponent<UILabel>();
         hp = transform.Find("HeroInfo/Hp").gameObject.GetComponent<UILabel>();
-        huiFu = transform.Find("HeroInfo/Huifu").gameObject.GetComponent<UILabel>();
-        qiLi = transform.Find("HeroInfo/Qili").gameObject.GetComponent<UILabel>();
-        huoDeTuJing = transform.Find("CombineInfo/Huoqutujing").gameObject.GetComponent<UILabel>();
-        suiPianShuLiang = transform.Find("CombineInfo/Suipianshuliang").gameObject.GetComponent<UILabel>();
+        recover = transform.Find("HeroInfo/Recover").gameObject.GetComponent<UILabel>();
+        mp = transform.Find("HeroInfo/Mp").gameObject.GetComponent<UILabel>();
+        accessibleWay = transform.Find("CombineInfo/AccessibleWay").gameObject.GetComponent<UILabel>();
+        combineCount = transform.Find("CombineInfo/CombineCount").gameObject.GetComponent<UILabel>();
         cost = transform.Find("CombineInfo/Cost").gameObject.GetComponent<UILabel>();
+        costLabel1 = transform.Find("CombineInfo/CostLabel1").gameObject.GetComponent<UILabel>();
+        costLabel2 = transform.Find("CombineInfo/CostLabel2").gameObject.GetComponent<UILabel>();
         confirmBTN = transform.Find("ConfirmBTN").gameObject.GetComponent<UISprite>();
-        closeBTN = transform.Find("CloseBTN").gameObject.GetComponent<UISprite>();
         confirmHoverEffect = transform.Find("ConfirmBTN").gameObject.GetComponent<UIButton>();
     }
 

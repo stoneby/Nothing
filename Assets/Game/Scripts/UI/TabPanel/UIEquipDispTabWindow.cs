@@ -17,6 +17,12 @@ public class UIEquipDispTabWindow : Window
     public ItemLockHandler ItemLockHandler;
     public ItemSellHandler ItemSellHandler;
     public ItemViewHandler ItemViewHandler;
+    public enum ItemListTabName
+    {
+        ItemView = 0,
+        ItemSell,
+        ItemBind
+    }
 
     #endregion
 
@@ -63,19 +69,19 @@ public class UIEquipDispTabWindow : Window
         if (val)
         {
             itemsWindow = itemsWindow ?? WindowManager.Instance.GetWindow<UItemsWindow>();
-            var toggleIndex = Toggles.FindIndex(toggle => toggle == UIToggle.current);
-            switch (toggleIndex)
+            var curTab = (ItemListTabName)Toggles.FindIndex(toggle => toggle == UIToggle.current);
+            switch (curTab)
             {
-                case 0:
-                    itemsWindow.RowToShow = 3;
+                case ItemListTabName.ItemView:
+                    itemsWindow.RowToShow = HeroConstant.ThreeRowsVisble;
                     itemsWindow.ItemClicked = ItemViewHandler.ItemInfoClicked;
                     break;
-                case 1:
-                    itemsWindow.RowToShow = 2;
+                case ItemListTabName.ItemSell:
+                    itemsWindow.RowToShow = HeroConstant.TwoRowsVisible;
                     itemsWindow.ItemClicked = ItemSellHandler.ItemSellClicked;
                     break;
-                case 2:
-                    itemsWindow.RowToShow = 3;
+                case ItemListTabName.ItemBind:
+                    itemsWindow.RowToShow = HeroConstant.ThreeRowsVisble;
                     itemsWindow.ItemClicked = ItemLockHandler.ItemLockClicked;
                     break;
             }

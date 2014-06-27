@@ -165,7 +165,7 @@ public class UIHeroItemsPageWindow : Window
     {
         extendConfirm = NGUITools.AddChild(transform.gameObject, ExtendConfirm).GetComponent<ExtendBag>();
         var bases = ItemModeLocator.Instance.Bag;
-        var costDict = bases.ItemExtTmpl.ToDictionary(item => item.Value.Id, item => item.Value.Cost);
+        var costDict = bases.HeroExtTmpl.ToDictionary(item => item.Value.Id, item => item.Value.Cost);
         extendConfirm.Init(PlayerModelLocator.Instance.ExtendItemTimes + 1, bases.BagBaseTmpl[1].EachExtItemNum,
                            costDict);
         extendConfirm.OkClicked += OnExendBagOk;

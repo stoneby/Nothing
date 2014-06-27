@@ -40,19 +40,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   material: {fileID: 2100000, guid: 8b15a174ef2878b4a8f3266893965cee, type: 2}
   mSprites:
-  - name: ChatFrame
-    x: 0
-    y: 910
-    width: 329
-    height: 55
-    borderLeft: 0
-    borderRight: 0
-    borderTop: 0
-    borderBottom: 0
-    paddingLeft: 0
-    paddingRight: 0
-    paddingTop: 0
-    paddingBottom: 0
   - name: ChatInputFrame
     x: 0
     y: 966
@@ -66,15 +53,28 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
-  - name: FriendChatFrame
+  - name: ChatPop
+    x: 0
+    y: 910
+    width: 329
+    height: 55
+    borderLeft: 30
+    borderRight: 30
+    borderTop: 36
+    borderBottom: 13
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: FriendChatPop
     x: 330
     y: 910
     width: 328
     height: 55
-    borderLeft: 0
-    borderRight: 0
-    borderTop: 0
-    borderBottom: 0
+    borderLeft: 30
+    borderRight: 30
+    borderTop: 36
+    borderBottom: 13
     paddingLeft: 1
     paddingRight: 0
     paddingTop: 0

@@ -1,7 +1,5 @@
-﻿using System;
-using KXSGCodec;
+﻿using KXSGCodec;
 using UnityEngine;
-using System.Collections;
 
 public class MainMenuBarWindow : Window
 {
@@ -55,13 +53,13 @@ public class MainMenuBarWindow : Window
     /// </summary>
     private void InstallHandlers()
     {
-        homeLis.onClick += OnHomeClicked;
-        heroLis.onClick += OnHeroClicked;
-        teamLis.onClick += OnTeamClicked;
-        equipLis.onClick += OnEquipClicked;
-        summonLis.onClick += OnSummonClicked;
-        menuLis.onClick += OnMenuClicked;
-        logLis.onClick += OnLogClicked;
+        homeLis.onClick = OnHomeClicked;
+        heroLis.onClick = OnHeroClicked;
+        teamLis.onClick = OnTeamClicked;
+        equipLis.onClick = OnEquipClicked;
+        summonLis.onClick = OnSummonClicked;
+        menuLis.onClick = OnMenuClicked;
+        logLis.onClick = OnLogClicked;
     }
 
     /// <summary>
@@ -69,11 +67,11 @@ public class MainMenuBarWindow : Window
     /// </summary>
     private void UnInstallHandlers()
     {
-        homeLis.onClick -= OnHomeClicked;
-        heroLis.onClick -= OnHeroClicked;
-        teamLis.onClick -= OnTeamClicked;
-        equipLis.onClick -= OnEquipClicked;
-        summonLis.onClick -= OnSummonClicked;
+        homeLis.onClick = null;
+        heroLis.onClick = null;
+        teamLis.onClick = null;
+        equipLis.onClick = null;
+        summonLis.onClick = null;
     }
 
     /// <summary>
@@ -141,7 +139,7 @@ public class MainMenuBarWindow : Window
     /// </summary>
     private void OnHeroClicked(GameObject go)
     {
-        if (HeroModelLocator.AlreadyRequest == false || UIHerosDisplayWindow.IsCreateOne)
+        if (HeroModelLocator.AlreadyRequest == false)
         {
             HeroModelLocator.Instance.GetHeroPos = RaidType.GetHeroInHeroPanel;
             var csmsg = new CSHeroList();
@@ -149,7 +147,7 @@ public class MainMenuBarWindow : Window
         }
         else
         {
-            Utils.ShowWithoutDestory(typeof(UIHerosDisplayWindow));
+            Utils.ShowWithoutDestory(typeof(UIHeroDispTabWindow));
         }
     }
 

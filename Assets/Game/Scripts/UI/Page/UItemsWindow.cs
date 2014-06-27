@@ -147,7 +147,7 @@ public class UItemsWindow : Window
         var orderType = ItemModeLocator.Instance.OrderType;
         sortLabel.text = StringTable.SortStrings[(int)orderType];
         ItemModeLocator.Instance.SortItemList(orderType, newInfos);
-        for (int i = 0; i < newInfos.Count; i++)
+        for (var i = 0; i < newInfos.Count; i++)
         {
             var equipItem = Items.transform.GetChild(i).GetComponent<EquipItem>();
             equipItem.InitItem(newInfos[i]);
@@ -164,7 +164,7 @@ public class UItemsWindow : Window
         }
         var list = new List<Transform>();
         var childCount = Items.transform.childCount;
-        for(int i = 0; i < bagIndexs.Count; i++)
+        for(var i = 0; i < bagIndexs.Count; i++)
         {
             var bagIndex = bagIndexs[i];
             for(int j = 0; j < childCount; j++)
@@ -176,14 +176,14 @@ public class UItemsWindow : Window
                 }
             }
         }
-        if(PoolManager.Pools.ContainsKey("Items"))
+        if(PoolManager.Pools.ContainsKey("Heros"))
         {
             for(int index = 0; index < list.Count; index++)
             {
                 var item = list[index];
                 UIEventListener.Get(item.gameObject).onClick = null;
-                item.parent = PoolManager.Pools["Items"].transform;
-                PoolManager.Pools["Items"].Despawn(item);
+                item.parent = PoolManager.Pools["Heros"].transform;
+                PoolManager.Pools["Heros"].Despawn(item);
             }
         }
         Items.repositionNow = true;

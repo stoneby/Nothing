@@ -148,7 +148,7 @@ public class UIHeroSellWindow : Window
         {
             for (int uUidIndex = 0; uUidIndex < scHeroList.TeamList[teamIndex].ListHeroUuid.Count; uUidIndex++)
             {
-                if (scHeroList.TeamList[teamIndex].ListHeroUuid[uUidIndex] != UITeamEditWindow.DefaultNonHero)
+                if (scHeroList.TeamList[teamIndex].ListHeroUuid[uUidIndex] != HeroConstant.NoneInitHeroUuid)
                 {
                     teamMembers.Add(scHeroList.TeamList[teamIndex].ListHeroUuid[uUidIndex]);
                 }

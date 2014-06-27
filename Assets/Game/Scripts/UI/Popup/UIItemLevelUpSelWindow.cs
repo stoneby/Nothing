@@ -174,7 +174,7 @@ public class UIItemLevelUpSelWindow : Window
     {
         cachedItemsWindow = WindowManager.Instance.Show<UItemsWindow>(true);
         cachedRow = cachedItemsWindow.RowToShow;
-        cachedItemsWindow.RowToShow = 2;
+        cachedItemsWindow.RowToShow = HeroConstant.TwoRowsVisible;
         itemClickDelegate = cachedItemsWindow.ItemClicked;
         cachedItemsWindow.ItemClicked = OnItemClicked;
     }

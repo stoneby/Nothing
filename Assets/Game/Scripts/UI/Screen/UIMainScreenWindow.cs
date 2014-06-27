@@ -58,18 +58,18 @@ public class UIMainScreenWindow : Window
 
     private void InstallHandlers()
     {
-        addMoneyLis.onClick += OnAddMoneyClicked;
-        addMp.onClick += OnAddMpClicked;
-        startGameLis.onClick += OnStartGameClicked;
-        filpLeftLis.onClick += OnFlipLeftClicked;
+        addMoneyLis.onClick = OnAddMoneyClicked;
+        addMp.onClick = OnAddMpClicked;
+        startGameLis.onClick = OnStartGameClicked;
+        filpLeftLis.onClick = OnFlipLeftClicked;
     }
 
     private void UnstallHandlers()
     {
-        addMoneyLis.onClick -= OnAddMoneyClicked;
-        addMp.onClick -= OnAddMpClicked;
-        startGameLis.onClick -= OnStartGameClicked;
-        filpLeftLis.onClick -= OnFlipLeftClicked;
+        addMoneyLis.onClick = null;
+        addMp.onClick = null;
+        startGameLis.onClick = null;
+        filpLeftLis.onClick = null;
     }
 
     private void RefreshData()

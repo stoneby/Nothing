@@ -118,12 +118,12 @@ public class BuyBackDialogWindow : Window
                         if(infos[j].BagIndex == buyBackItems[i].BagIndex)
                         {
                             infos.Remove(infos[j]);
-                            if (PoolManager.Pools.ContainsKey("Items"))
+                            if (PoolManager.Pools.ContainsKey("Heros"))
                             {
                                 var item = buyBackItems[i].transform;
                                 UIEventListener.Get(buyBackItems[i].transform.gameObject).onClick = null;
-                                item.parent = PoolManager.Pools["Items"].transform;
-                                PoolManager.Pools["Items"].Despawn(item);
+                                item.parent = PoolManager.Pools["Heros"].transform;
+                                PoolManager.Pools["Heros"].Despawn(item);
                             }
                             buyBackItems.RemoveAt(i);
                             grid.repositionNow = true;
@@ -145,7 +145,7 @@ public class BuyBackDialogWindow : Window
 
     private void InstallHandlers()
     {
-        okLis.onClick = OnOK;
+        okLis.onClick = OnOk;
         cancelLis.onClick = OnCancel;
     }
 
@@ -155,7 +155,7 @@ public class BuyBackDialogWindow : Window
         cancelLis.onClick = null;
     }
 
-    private void OnOK(GameObject go)
+    private void OnOk(GameObject go)
     {
        if(buyBacks.Count > 0)
        {

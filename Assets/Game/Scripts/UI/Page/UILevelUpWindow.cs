@@ -114,10 +114,10 @@ public class UILevelUpWindow : Window
     /// </summary>
     private void InstallHandlers()
     {
-        backBtnLis.onClick += OnBackBtnClicked;
-        addLis.onClick += OnAddBtnClicked;
-        subLis.onClick += OnSubLisClicked;
-        okLis.onClick += OnOkBtnClicked;
+        backBtnLis.onClick = OnBackBtnClicked;
+        addLis.onClick = OnAddBtnClicked;
+        subLis.onClick = OnSubLisClicked;
+        okLis.onClick = OnOkBtnClicked;
     }
 
     /// <summary>
@@ -125,9 +125,9 @@ public class UILevelUpWindow : Window
     /// </summary>
     private void UnInstallHandlers()
     {
-        backBtnLis.onClick -= OnBackBtnClicked;
-        addLis.onClick -= OnAddBtnClicked;
-        subLis.onClick -= OnSubLisClicked;
+        backBtnLis.onClick = null;
+        addLis.onClick = null;
+        subLis.onClick = null;
     }
 
     /// <summary>
@@ -145,7 +145,7 @@ public class UILevelUpWindow : Window
             subLis.GetComponent<UISprite>().color = Color.gray;
             subLis.GetComponent<BoxCollider>().enabled = false;
         }
-        ownedSoul.text = PlayerModelLocator.Instance.Sprit.ToString();
+        ownedSoul.text = PlayerModelLocator.Instance.Sprit.ToString(CultureInfo.InvariantCulture);
 
         baseLvl.text = string.Format("{0}/{1}", curLvl, heroTemplate.LvlLimit);
         baseAtk.text = heroTemplate.Attack.ToString(CultureInfo.InvariantCulture);
@@ -227,7 +227,7 @@ public class UILevelUpWindow : Window
     private void OnBackBtnClicked(GameObject go)
     {
         WindowManager.Instance.Show(typeof(UIHeroInfoWindow), true);
-        WindowManager.Instance.GetWindow<HeroBaseInfoWindow>().Toggle(1);
+        WindowManager.Instance.GetWindow<HeroBaseInfoWindow>().Toggle(HeroBaseInfoWindow.HeroInfoTabName.SkillTab);
         if(isLevelOver)
         {
             WindowManager.Instance.Show<UIHeroInfoWindow>(true);

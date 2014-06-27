@@ -88,18 +88,18 @@ public class ExtendBag : MonoBehaviour
 
     private void InstallHandlers()
     {
-        okLis.onClick += OnOK;
-        cancelLis.onClick += OnCancel;
-        increaseLis.onClick += OnIncrease;
-        decreaseLis.onClick += OnDecrease;
+        okLis.onClick = OnOk;
+        cancelLis.onClick = OnCancel;
+        increaseLis.onClick = OnIncrease;
+        decreaseLis.onClick = OnDecrease;
     }
 
     private void UnInstallHandlers()
     {
-        okLis.onClick -= OnOK;
-        cancelLis.onClick -= OnCancel;
-        increaseLis.onClick -= OnIncrease;
-        decreaseLis.onClick -= OnDecrease;
+        okLis.onClick = null;
+        cancelLis.onClick = null;
+        increaseLis.onClick = null;
+        decreaseLis.onClick = null;
     }
 
     private void OnEnable()
@@ -112,7 +112,7 @@ public class ExtendBag : MonoBehaviour
         UnInstallHandlers();
     }
 
-    private void OnOK(GameObject go)
+    private void OnOk(GameObject go)
     {
         if(OkClicked != null)
         {

@@ -111,20 +111,20 @@ public class UIItemInfoWindow : Window
 
     private void InstallHandlers()
     {
-        backBtnLis.onClick += OnBackBtnClicked;
-        lvUpBtnLis.onClick += OnLvUpBtnClicked;
-        lvEvolveBtnLis.onClick += OnEvolveBtnLis;
-        skillTabLis.onClick += OnSkillTab;
-        explainTabLis.onClick += OnExplainTab;
+        backBtnLis.onClick = OnBackBtnClicked;
+        lvUpBtnLis.onClick = OnLvUpBtnClicked;
+        lvEvolveBtnLis.onClick = OnEvolveBtnLis;
+        skillTabLis.onClick = OnSkillTab;
+        explainTabLis.onClick = OnExplainTab;
     }
 
     private void UnInstallHandlers()
     {
-        backBtnLis.onClick -= OnBackBtnClicked;
-        lvUpBtnLis.onClick -= OnLvUpBtnClicked;
-        lvEvolveBtnLis.onClick -= OnEvolveBtnLis;
-        skillTabLis.onClick -= OnSkillTab;
-        explainTabLis.onClick -= OnExplainTab;
+        backBtnLis.onClick = null;
+        lvUpBtnLis.onClick = null;
+        lvEvolveBtnLis.onClick = null;
+        skillTabLis.onClick = null;
+        explainTabLis.onClick = null;
     }
 
     private void OnSkillTab(GameObject go)

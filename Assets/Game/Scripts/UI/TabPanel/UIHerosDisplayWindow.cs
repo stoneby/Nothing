@@ -5,7 +5,7 @@ public class UIHerosDisplayWindow : TabPanelBase
 {
     #region Public Fields
 
-    public static bool IsCreateOne;
+    //public static bool IsCreateOne;
 
     #endregion 
 
@@ -13,7 +13,7 @@ public class UIHerosDisplayWindow : TabPanelBase
 
     private sbyte cachedOrderType;
     private SCHeroList scHeroList;
-    private UIEventListener createOneLis;
+    //private UIEventListener createOneLis;
 
     #endregion
 
@@ -22,17 +22,15 @@ public class UIHerosDisplayWindow : TabPanelBase
     public override void OnEnter()
     {
         base.OnEnter();
-        createOneLis = UIEventListener.Get(Utils.FindChild(transform, "Button-CreateOne").gameObject);
-        createOneLis.onClick = OnCreateOne;
+        //createOneLis = UIEventListener.Get(Utils.FindChild(transform, "Button-CreateOne").gameObject);
         scHeroList = HeroModelLocator.Instance.SCHeroList;
         cachedOrderType = scHeroList.OrderType;
-        IsCreateOne = false;
+        //IsCreateOne = false;
     }
 
     public override void OnExit()
     {
         base.OnExit();
-        createOneLis.onClick = null;
         if (scHeroList.OrderType != cachedOrderType)
         {
             var csmsg = new CSHeroChangeOrder { OrderType = scHeroList.OrderType };
@@ -43,17 +41,6 @@ public class UIHerosDisplayWindow : TabPanelBase
     #endregion
 
     #region Private Methods
-
-    /// <summary>
-    /// The create one button click handler.
-    /// </summary>
-    /// <param name="go">The sender of click event.</param>
-    private void OnCreateOne(GameObject go)
-    {
-        IsCreateOne = true;
-        var csmsg = new CSHeroCreateOne();
-        NetManager.SendMessage(csmsg);
-    }
 
     #endregion
 }

@@ -313,14 +313,17 @@ public class ChooseHeroCardWindow : Window
         scLotteryList = lotteryList;
         var infos = lotteryList.ListLotteryInfo;
         var toggleItems = new Dictionary<UISprite, GameObject>();
+        int depthAdjust = infos.Count;
         for (var i = 0; i < infos.Count; i++)
         {
             var info = infos[i];
             var child = Instantiate(tabTemplate.gameObject) as GameObject;
+            var childSprite = child.GetComponent<UISprite>();
+            Utils.AdjustDepth(childSprite, depthAdjust--);
             child.SetActive(true);
             Utils.MoveToParent(table.transform, child.transform);
             child.GetComponentInChildren<UILabel>().text = info.Name;
-            toggleItems.Add(child.GetComponent<UISprite>(), null);
+            toggleItems.Add(childSprite, null);
         }
         table.repositionNow = true;
         tabBehaviour.InitTab(toggleItems, 0, "FourTabN", "FourTabD");

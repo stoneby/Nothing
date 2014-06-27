@@ -11,8 +11,8 @@ public class ItemBase : MonoBehaviour
         protected set
         {
             quality = value;
-            var type = Mathf.CeilToInt((float)quality / ItemType.QualitiesPerStar);
-            switch (type)
+            var starCount = Mathf.CeilToInt((float)quality / ItemType.QualitiesPerStar);
+            switch (starCount)
             {
                 case 1:
                     bg.spriteName = "FrameW";
@@ -31,12 +31,12 @@ public class ItemBase : MonoBehaviour
                     break;
             }
             var stars = cachedTran.FindChild("Rarity");
-            var starCount = stars.transform.childCount;
-            for (int index = 0; index <= quality; index++)
+            var childCount = stars.transform.childCount;
+            for (int index = 0; index < starCount; index++)
             {
-                NGUITools.SetActive(stars.FindChild("Star" + (starCount - index - 1)).gameObject, true);
+                NGUITools.SetActive(stars.FindChild("Star" + (childCount - index - 1)).gameObject, true);
             }
-            for (int index = starCount - quality - 2; index >= 0; index--)
+            for (int index = childCount - starCount - 1; index >= 0; index--)
             {
                 NGUITools.SetActive(stars.FindChild("Star" + index).gameObject, false);
             }

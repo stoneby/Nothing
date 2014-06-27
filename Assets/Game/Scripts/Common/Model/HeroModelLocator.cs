@@ -48,7 +48,7 @@ public sealed class HeroModelLocator
     /// <summary>
     /// Order type
     /// </summary>
-    public ItemHelper.OrderType Type;
+    public ItemHelper.OrderType OrderType;
 
     public int GetHeroPos;
     public SCHeroList SCHeroList;

@@ -245,4 +245,22 @@ public class Utils
         }
         return childCount;
     }
+
+    public static void AdjustDepth(UIWidget uiWidget, int depthAdjust, bool includeChild = true)
+    {
+        if(uiWidget == null)
+        {
+            return;
+        }
+        if (includeChild == false)
+        {
+            uiWidget.depth += depthAdjust;
+            return;
+        }
+        var widgets = uiWidget.GetComponentsInChildren<UIWidget>(true);
+        foreach(var widget in widgets)
+        {
+            widget.depth += depthAdjust;
+        }
+    }
 }

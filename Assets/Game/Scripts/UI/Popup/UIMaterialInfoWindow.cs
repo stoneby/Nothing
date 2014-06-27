@@ -44,12 +44,12 @@ public class UIMaterialInfoWindow : Window
 
     private void InstallHandlers()
     {
-        backBtnLis.onClick += OnBackBtnClicked;
+        backBtnLis.onClick = OnBackBtnClicked;
     }
 
     private void UnInstallHandlers()
     {
-        backBtnLis.onClick -= OnBackBtnClicked;
+        backBtnLis.onClick = null;
     }
 
     private void OnBackBtnClicked(GameObject go)

@@ -102,6 +102,7 @@ namespace Assets.Game.Scripts.Net.handler
             }
         }
 
+        //Response event of SCLotteryComposeList message.
         public static void OnLotteryComposeList(ThriftSCMessage msg)
         {
             var themsg = msg.GetContent() as SCLotteryComposeList;
@@ -113,6 +114,7 @@ namespace Assets.Game.Scripts.Net.handler
             }
         }
 
+        //Response event of SCLotteryComposeSucc message.
         public static void OnLotteryComposeSucc(ThriftSCMessage msg)
         {
             var themsg = msg.GetContent() as SCLotteryComposeSucc;

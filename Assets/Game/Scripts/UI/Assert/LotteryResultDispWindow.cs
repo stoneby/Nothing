@@ -42,12 +42,12 @@ public class LotteryResultDispWindow : Window
 
     private void InstallHandlers()
     {
-        viewOkLis.onClick += OnViewOk;
+        viewOkLis.onClick = OnViewOk;
     }
 
     private void UnInstallHandlers()
     {
-        viewOkLis.onClick -= OnViewOk;
+        viewOkLis.onClick = null;
     }
 
     private void OnViewOk(GameObject go)

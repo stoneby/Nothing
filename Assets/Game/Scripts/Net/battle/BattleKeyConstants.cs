@@ -28,16 +28,18 @@ namespace com.kx.sglm.gs.battle.share
 		public static readonly int BATTLE_KEY_HERO_TEMPLATE = BATTLE_KEY_BASE++;
 
 		/// <summary>
-		/// 怪物所在场景 </summary>
+		/// 怪物所在场旿 </summary>
 		public static readonly int BATTLE_KEY_MONSTER_SCENE = BATTLE_KEY_BASE++;
 
 		public static readonly int BATTLE_KEY_HERO_TYPE = BATTLE_KEY_BASE++;
-
+        
 		public static readonly int BATTLE_PROP_MONSTER_GROUP = BATTLE_KEY_BASE++;
 
 		public static readonly int BATTLE_PROP_MONSTER_DROP_ITEM = BATTLE_KEY_BASE++;
 
 		public static readonly int BATTLE_PROP_MONSTER_DROP_HERO = BATTLE_KEY_BASE++;
+
+		public static readonly int BATTLE_PROP_MONSTER_DROP_CHIP = BATTLE_KEY_BASE++;
 
 		public static readonly int BATTLE_PROP_MONSTER_DROP_COIN = BATTLE_KEY_BASE++;
 

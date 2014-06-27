@@ -20,6 +20,7 @@ public class UITeamBuildWindow : Window
     private float heroCellWidth;
     private int curTeamIndex = -1;
     private const int LeaderCount = 3;
+    private const int LeaderPosInTeam = 0;
     private int teamCount;
     private readonly List<Transform> heros = new List<Transform>();
     private UISprite teamSprite;
@@ -73,8 +74,11 @@ public class UITeamBuildWindow : Window
 
     public override void OnEnter()
     {
-        // enable finger guester.
-        FingerGestures.Instance.enabled = true;
+        // Enable finger guester.
+        if (FingerGestures.Instance != null)
+        {
+            FingerGestures.Instance.enabled = true;
+        }
 
         InstallHandlers();
         CurTeamIndex = HeroModelLocator.Instance.SCHeroList.CurrentTeamIndex;
@@ -86,8 +90,11 @@ public class UITeamBuildWindow : Window
     {
         UnInstallHandlers();
 
-        // disable finger gester.
-        FingerGestures.Instance.enabled = false;
+        // Disable finger guester.
+        if (FingerGestures.Instance != null)
+        {
+            FingerGestures.Instance.enabled = false;
+        }
     }
 
     #endregion
@@ -146,7 +153,7 @@ public class UITeamBuildWindow : Window
         var leaderInfo = new HeroInfo();
         for (int index = 0; index < heros.Count; index++)
         {
-            if (index < heroUuids.Count && heroUuids[index] == UITeamEditWindow.DefaultNonHero)
+            if (index < heroUuids.Count && heroUuids[index] == HeroConstant.NoneInitHeroUuid)
             {
                 heros[index].FindChild("Hero").gameObject.SetActive(false);
                 continue;
@@ -154,7 +161,7 @@ public class UITeamBuildWindow : Window
             if (index < heroUuids.Count)
             {
                 var heroInfo = HeroModelLocator.Instance.FindHero(heroUuids[index]);
-                if (index == 0)
+                if (index == LeaderPosInTeam)
                 {
                     leaderInfo = heroInfo;
                 }
@@ -170,9 +177,9 @@ public class UITeamBuildWindow : Window
                 mp += heroInfo.Prop[RoleProperties.ROLE_MP];
             }
         }
-        if (heroUuids.Count < UITeamEditWindow.MaxHeroCount)
+        if (heroUuids.Count < HeroConstant.MaxHerosPerTeam)
         {
-            for (var index = heroUuids.Count; index < UITeamEditWindow.MaxHeroCount; index++)
+            for (var index = heroUuids.Count; index < HeroConstant.MaxHerosPerTeam; index++)
             {
                 heros[index].FindChild("Hero").gameObject.SetActive(false);
             }
@@ -182,10 +189,17 @@ public class UITeamBuildWindow : Window
         Utils.FindChild(properties, "HP-Value").GetComponent<UILabel>().text = hp.ToString(CultureInfo.InvariantCulture);
         Utils.FindChild(properties, "Recover-Value").GetComponent<UILabel>().text = recover.ToString(CultureInfo.InvariantCulture);
         Utils.FindChild(properties, "MP-Value").GetComponent<UILabel>().text = mp.ToString(CultureInfo.InvariantCulture);
-        var leaderTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpl[leaderInfo.TemplateId];
-        var skillTmp = HeroModelLocator.Instance.SkillTemplates.SkillTmpl;
-        var leaderSkillTemp = skillTmp[leaderTemplate.LeaderSkill];
-        Utils.FindChild(properties, "LSkill-Value").GetComponent<UILabel>().text = leaderSkillTemp.Desc;
+        var heroTemp = HeroModelLocator.Instance.HeroTemplates.HeroTmpl;
+        if(heroTemp.ContainsKey(leaderInfo.TemplateId))
+        {
+            var leaderTemplate = heroTemp[leaderInfo.TemplateId];
+            var skillTmp = HeroModelLocator.Instance.SkillTemplates.SkillTmpl;
+            if(skillTmp.ContainsKey(leaderTemplate.LeaderSkill))
+            {
+                var leaderSkillTemp = skillTmp[leaderTemplate.LeaderSkill];
+                Utils.FindChild(properties, "LSkill-Value").GetComponent<UILabel>().text = leaderSkillTemp.Desc;
+            }
+        }
     }
 
     /// <summary>
@@ -193,9 +207,9 @@ public class UITeamBuildWindow : Window
     /// </summary>
     private void InstallHandlers()
     {
-        editBtnLis.onClick += OnEditBtnClicked;
-        flipLBtnLis.onClick += OnFlipLClicked;
-        flipRBtnLis.onClick += OnFlipRClicked;
+        editBtnLis.onClick = OnEditBtnClicked;
+        flipLBtnLis.onClick = OnFlipLClicked;
+        flipRBtnLis.onClick = OnFlipRClicked;
     }
 
     /// <summary>
@@ -203,9 +217,9 @@ public class UITeamBuildWindow : Window
     /// </summary>
     private void UnInstallHandlers()
     {
-        editBtnLis.onClick -= OnEditBtnClicked;
-        flipLBtnLis.onClick -= OnFlipLClicked;
-        flipRBtnLis.onClick -= OnFlipRClicked;
+        editBtnLis.onClick = null;
+        flipLBtnLis.onClick = null;
+        flipRBtnLis.onClick = null;
     }
 
     /// <summary>

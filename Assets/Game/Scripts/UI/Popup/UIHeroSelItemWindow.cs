@@ -204,9 +204,13 @@ public class UIHeroSelItemWindow : Window
     /// <returns>The item info list of all items after filtering.</returns>
     private List<ItemInfo> FilterItems()
     {
-        return
-            ItemModeLocator.Instance.ScAllItemInfos.ItemInfos.FindAll(
-                item => ItemModeLocator.Instance.GetItemType(item.TmplId) != ItemModeLocator.EquipType.MaterialTempl);
+        if (ItemModeLocator.Instance.ScAllItemInfos.ItemInfos != null)
+        {
+            return
+                ItemModeLocator.Instance.ScAllItemInfos.ItemInfos.FindAll(
+                    item => ItemModeLocator.Instance.GetItemType(item.TmplId) != ItemModeLocator.EquipType.MaterialTempl);
+        }
+        return new List<ItemInfo>();
     }
 
     /// <summary>

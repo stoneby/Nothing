@@ -6,8 +6,11 @@ public class FragmentHero : MonoBehaviour
 
     private UIEventListener fragHeroLis;
 
-    private int templateID;
+    //Combine info from sever.
+    private int templateId;
     private int materialCount;
+
+    //Interface info.
     private UISprite cornorSprite;
     private UISprite heroImage;
     private int star;
@@ -16,11 +19,15 @@ public class FragmentHero : MonoBehaviour
 
     #region Private Methods
 
+    /// <summary>
+    /// Response event of click gameobject.
+    /// </summary>
+    /// <param name="go"></param>
     private void OnFragmentHero(GameObject go)
     {        
         WindowManager.Instance.Show<FragmentConfirmWindow>(true);
         FragmentConfirmWindow tempWindow = WindowManager.Instance.GetWindow<FragmentConfirmWindow>();
-        tempWindow.TemplateID = templateID;
+        tempWindow.TemplateId = templateId;
         tempWindow.MaterialCount = materialCount;
         if (heroImage.color == Color.white)
         {
@@ -36,11 +43,11 @@ public class FragmentHero : MonoBehaviour
 
     #region Public Fields
 
-    public int TemplateID
+    public int TemplateId
     {
-        get { return templateID; }
+        get { return templateId; }
 
-        set { templateID = value; }
+        set { templateId = value; }
     }
 
     public int MaterialCount
@@ -54,10 +61,12 @@ public class FragmentHero : MonoBehaviour
 
     #region Public Methods
 
+    /// <summary>
+    /// Initialize or refresh private fields.
+    /// </summary>
     public void Refresh()
     {
-        //intialize or refresh the cornorsprite, heroimage, stars and UIEventListener state.
-        var heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpl[templateID];
+        var heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpl[templateId];
         cornorSprite.spriteName=HeroConstant.HeroJobPrefix+heroTemplate.Job;
 
         star = heroTemplate.Star;
@@ -67,35 +76,24 @@ public class FragmentHero : MonoBehaviour
         }
         fragHeroLis.onClick = OnFragmentHero;
     }
-    public void SwitchColorWhite()
-    {
-        heroImage.color = Color.white;
-    }
 
-    public void SwitchColorGrey()
+    public void SwitchColor(Color color)
     {
-        heroImage.color = Color.grey;
+        heroImage.color = color;
     }
 
     #endregion
 
     #region Mono
 
+    /// <summary>
+    /// Use this for initialization.
+    /// </summary>
     private void Awake()
     {
         fragHeroLis = UIEventListener.Get(transform.gameObject);
         cornorSprite = transform.Find("Cornor/CornorSprite").gameObject.GetComponent<UISprite>();
         heroImage = transform.Find("HeroImage").gameObject.GetComponent<UISprite>();
-    }
-
-    void Start()
-    {
-        
-    }
-
-    void Update()
-    {
-        
     }
 
     #endregion    	

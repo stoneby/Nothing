@@ -42,9 +42,6 @@ public class UIHeroInfoWindow : Window
 
     public override void OnEnter()
     {
-        // enable finger guester.
-        FingerGestures.Instance.enabled = true;
-
         heroInfo = HeroModelLocator.Instance.FindHero(HeroBaseInfoWindow.CurUuid);
         heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpl[heroInfo.TemplateId];
         RefreshData();
@@ -59,9 +56,6 @@ public class UIHeroInfoWindow : Window
         recover.color = UILevelUpWindow.NonChangedColor;
         mp.color = UILevelUpWindow.NonChangedColor;
         UnInstallHandlers();
-
-        // disable finger guester.
-        FingerGestures.Instance.enabled = false;
     }
 
     #endregion
@@ -114,23 +108,33 @@ public class UIHeroInfoWindow : Window
         hp.text = heroInfo.Prop[RoleProperties.ROLE_HP].ToString(CultureInfo.InvariantCulture);
         recover.text = heroInfo.Prop[RoleProperties.ROLE_RECOVER].ToString(CultureInfo.InvariantCulture);
         mp.text = heroInfo.Prop[RoleProperties.ROLE_MP].ToString(CultureInfo.InvariantCulture);
-
         var skillTmp = HeroModelLocator.Instance.SkillTemplates.SkillTmpl;
-        var leaderSkillTemp = skillTmp[heroTemplate.LeaderSkill];
-        var activeSkillTemp = skillTmp[heroTemplate.ActiveSkill];
-        var spSkillTemp = skillTmp[heroTemplate.SpSkill];
-        var activeSkill = Utils.FindChild(SkillContent.transform, "Skill-Active");
-        var leaderSkill = Utils.FindChild(transform, "Skill-Leader");
-        var spSkill = Utils.FindChild(SkillContent.transform, "Skill-SP");
-        Utils.FindChild(activeSkill, "Name").GetComponent<UILabel>().text = activeSkillTemp.Name;
-        Utils.FindChild(activeSkill, "Desc").GetComponent<UILabel>().text = activeSkillTemp.Desc;
-        Utils.FindChild(activeSkill, "Cost").GetComponent<UILabel>().text = activeSkillTemp.CostMp.ToString(CultureInfo.InvariantCulture);
-        Utils.FindChild(leaderSkill, "Name").GetComponent<UILabel>().text = leaderSkillTemp.Name;
-        Utils.FindChild(leaderSkill, "Desc").GetComponent<UILabel>().text = leaderSkillTemp.Desc;
-        Utils.FindChild(spSkill, "Name").GetComponent<UILabel>().text = spSkillTemp.Name;
-        Utils.FindChild(spSkill, "Desc").GetComponent<UILabel>().text = spSkillTemp.Desc;
-        Utils.FindChild(spSkill, "LV-Value").GetComponent<UILabel>().text = (spSkillTemp.Id % 10).ToString(CultureInfo.InvariantCulture);
-        Utils.FindChild(spSkill, "Probability-Value").GetComponent<UILabel>().text = spSkillTemp.OccorRate + "%";
+        if (skillTmp.ContainsKey(heroTemplate.SpSkill))
+        {
+            var activeSkillTemp = skillTmp[heroTemplate.ActiveSkill];
+            var activeSkill = Utils.FindChild(SkillContent.transform, "Skill-Active");
+            Utils.FindChild(activeSkill, "Name").GetComponent<UILabel>().text = activeSkillTemp.Name;
+            Utils.FindChild(activeSkill, "Desc").GetComponent<UILabel>().text = activeSkillTemp.Desc;
+            Utils.FindChild(activeSkill, "Cost").GetComponent<UILabel>().text = activeSkillTemp.CostMp.ToString(CultureInfo.InvariantCulture);
+        }
+       
+        if (skillTmp.ContainsKey(heroTemplate.LeaderSkill))
+        {
+            var leaderSkillTemp = skillTmp[heroTemplate.LeaderSkill];
+            var leaderSkill = Utils.FindChild(transform, "Skill-Leader");
+            Utils.FindChild(leaderSkill, "Name").GetComponent<UILabel>().text = leaderSkillTemp.Name;
+            Utils.FindChild(leaderSkill, "Desc").GetComponent<UILabel>().text = leaderSkillTemp.Desc;
+        }
+
+        if (skillTmp.ContainsKey(heroTemplate.SpSkill))
+        {
+            var spSkillTemp = skillTmp[heroTemplate.SpSkill];
+            var spSkill = Utils.FindChild(SkillContent.transform, "Skill-SP");
+            Utils.FindChild(spSkill, "Name").GetComponent<UILabel>().text = spSkillTemp.Name;
+            Utils.FindChild(spSkill, "Desc").GetComponent<UILabel>().text = spSkillTemp.Desc;
+            Utils.FindChild(spSkill, "LV-Value").GetComponent<UILabel>().text = (spSkillTemp.Id % 10).ToString(CultureInfo.InvariantCulture);
+            Utils.FindChild(spSkill, "Probability-Value").GetComponent<UILabel>().text = spSkillTemp.OccorRate + "%";
+        }
 
         if(skillTmp.ContainsKey(heroTemplate.PassiveSkill1))
         {
@@ -161,7 +165,7 @@ public class UIHeroInfoWindow : Window
     /// </summary>
     private void OnBackBtnClicked(GameObject go)
     {
-        WindowManager.Instance.Show(typeof(UIHerosDisplayWindow), true);
+        WindowManager.Instance.Show(typeof(UIHeroDispTabWindow), true);
         WindowManager.Instance.Show(typeof(UIHeroInfoWindow), false);
     }
 

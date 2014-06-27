@@ -14,8 +14,8 @@ public class UITeamEditWindow : Window
     #region Public Fields
 
     public GameObject HeroPrefab;
-    public const long DefaultNonHero = -1;
-    public const int MaxHeroCount = 9;
+
+    public int HerosPanelDepth = 10;
 
     #endregion
 
@@ -24,8 +24,6 @@ public class UITeamEditWindow : Window
     private UIEventListener backLis;
     private UIEventListener canceAlllLis;
     private UIEventListener okLis;
-    private UIEventListener sortBtnLis;
-    private UIGrid herosGrid;
     private GameObject smallHero;
     private GameObject items;
     private GameObject mask;
@@ -39,11 +37,55 @@ public class UITeamEditWindow : Window
     private int totalHp;
     private int totalRecover;
     private int totalMp;
-    private UILabel sortLabel;
     private readonly Color greyOkColor = Color.gray;
     private readonly Vector3 maskOffset = new Vector3(0, 10, 0);
     private readonly List<int> minHeroIndex = new List<int> { 1, 2, 3 };
     private readonly Dictionary<GameObject, int> selectedItems = new Dictionary<GameObject, int>();
+
+    private UIHerosPageWindow cachedHerosWindow;
+    private int cachedRow;
+    private UIEventListener.VoidDelegate heroClickDelegate;
+    private static bool isShuttingDown;
+
+    private int TotalAttack
+    {
+        get { return totalAttack; }
+        set
+        {
+            totalAttack = value;
+            attack.text = totalAttack.ToString(CultureInfo.InvariantCulture);
+        }
+    }
+
+    private int TotalHp
+    {
+        get { return totalHp; }
+        set
+        {
+            totalHp = value;
+            hp.text = totalHp.ToString(CultureInfo.InvariantCulture);
+        }
+    }  
+    
+    private int TotalRecover
+    {
+        get { return totalRecover; }
+        set
+        {
+            totalRecover = value;
+            recover.text = totalRecover.ToString(CultureInfo.InvariantCulture);
+        }
+    }
+
+    private int TotalMp
+    {
+        get { return totalMp; }
+        set
+        {
+            totalMp = value;
+            mp.text = totalMp.ToString(CultureInfo.InvariantCulture);
+        }
+    }
 
     #endregion
 
@@ -51,17 +93,15 @@ public class UITeamEditWindow : Window
 
     public override void OnEnter()
     {
-        sortLabel.text = StringTable.SortStrings[scHeroList.OrderType];
         InstallHandlers();
-        Reset();
-        FillHeroList();
+        Init();
         Refresh();
     }
 
     public override void OnExit()
     {
         UnInstallHandlers();
-        DespawnHeros();
+        CleanUp();
     }
 
     #endregion
@@ -76,39 +116,57 @@ public class UITeamEditWindow : Window
         backLis = UIEventListener.Get(Utils.FindChild(transform, "Button-Back").gameObject);
         canceAlllLis = UIEventListener.Get(Utils.FindChild(transform, "Button-CancelAll").gameObject);
         okLis = UIEventListener.Get(Utils.FindChild(transform, "Button-Ok").gameObject); 
-        sortBtnLis = UIEventListener.Get(Utils.FindChild(transform, "Button-Sort").gameObject);
-        sortLabel = sortBtnLis.GetComponentInChildren<UILabel>();
-
         var property = Utils.FindChild(transform, "Property");
         attack = Utils.FindChild(property, "Attack-Value").GetComponent<UILabel>();
         hp = Utils.FindChild(property, "HP-Value").GetComponent<UILabel>();
         recover = Utils.FindChild(property, "Recover-Value").GetComponent<UILabel>();
         mp = Utils.FindChild(property, "MP-Value").GetComponent<UILabel>();
-        heroNums = Utils.FindChild(transform, "HeroNums").GetComponent<UILabel>();
-        herosGrid = GetComponentInChildren<UIGrid>();
-
         smallHero = Utils.FindChild(transform, "SmallHero").gameObject;
         items = Utils.FindChild(transform, "Items").gameObject;
         mask = Utils.FindChild(transform, "Mask").gameObject;
         mask.SetActive(false);
         smallHero.SetActive(false);
         scHeroList = HeroModelLocator.Instance.SCHeroList;
+        heroNums = Utils.FindChild(transform, "HeroNums").GetComponent<UILabel>();
     }
 
-    /// <summary>
-    /// Reset back of some variables.
-    /// </summary>
-    private void Reset()
+    private void Init()
     {
-        attack.text = "0";
-        hp.text = "0";
-        recover.text = "0";
-        mp.text = "0";
+        cachedHerosWindow = WindowManager.Instance.Show<UIHerosPageWindow>(true);
+        cachedRow = cachedHerosWindow.RowToShow;
+        cachedHerosWindow.RowToShow = HeroConstant.TwoRowsVisible;
+        heroClickDelegate = cachedHerosWindow.ItemClicked;
+        cachedHerosWindow.ItemClicked = OnHeroItemClicked;
+        cachedHerosWindow.Depth = HerosPanelDepth;
+        ResetProperty();
+    }
 
-        totalAttack = 0;
-        totalHp = 0;
+    private void CleanUp()
+    {
+        if (!isShuttingDown)
+        {
+            cachedHerosWindow.RowToShow = cachedRow;
+        }
+        cachedHerosWindow.ItemClicked = heroClickDelegate;
+        cachedHerosWindow.ResetDepth();
+        if (WindowManager.Instance != null)
+        {
+            WindowManager.Instance.Show<UIHerosPageWindow>(false);
+        }
+        CleanEditItems();
+    }
+
+    private void ResetProperty()
+    {
+        TotalAttack = 0;
+        TotalHp = 0;
         totalRecover = 0;
-        totalMp = 0;
+        TotalMp = 0;
+    }
+
+    private void OnApplicationQuit()
+    {
+        isShuttingDown = true;
     }
 
     /// <summary>
@@ -116,10 +174,9 @@ public class UITeamEditWindow : Window
     /// </summary>
     private void InstallHandlers()
     {
-        backLis.onClick += OnBackClick;
-        canceAlllLis.onClick += OnCancelAllClick;
-        okLis.onClick += OnOkClick;
-        sortBtnLis.onClick += OnSortClicked;
+        backLis.onClick = OnBackClick;
+        canceAlllLis.onClick = OnCancelAllClick;
+        okLis.onClick = OnOkClick;
     }
 
     /// <summary>
@@ -127,29 +184,9 @@ public class UITeamEditWindow : Window
     /// </summary>
     private void UnInstallHandlers()
     {
-        backLis.onClick -= OnBackClick;
-        canceAlllLis.onClick -= OnCancelAllClick;
-        okLis.onClick -= OnOkClick;
-        sortBtnLis.onClick -= OnSortClicked;
-    }
-
-    /// <summary>
-    /// The callback of clicking sort button.
-    /// </summary>
-    private void OnSortClicked(GameObject go)
-    {
-        var orderType = HeroModelLocator.Instance.SCHeroList.OrderType;
-        orderType = (sbyte)((orderType + 1) % StringTable.SortStrings.Count);
-        scHeroList.OrderType = orderType;
-        sortLabel.text = StringTable.SortStrings[scHeroList.OrderType];
-        HeroModelLocator.Instance.SortHeroList((ItemHelper.OrderType)orderType, scHeroList.HeroList);
-        for (int i = 0; i < scHeroList.HeroList.Count; i++)
-        {
-            var info = scHeroList.HeroList[i];
-            var item = herosGrid.transform.GetChild(i).GetComponent<HeroItem>();
-            item.InitItem(info);
-            HeroUtils.ShowHero((OrderType)orderType, item, info);
-        }
+        backLis.onClick = null;
+        canceAlllLis.onClick = null;
+        okLis.onClick = null;
     }
 
     /// <summary>
@@ -166,6 +203,11 @@ public class UITeamEditWindow : Window
     /// </summary>
     private void OnCancelAllClick(GameObject go)
     {
+        CleanEditItems();
+    }
+
+    private void CleanEditItems()
+    {
         var objList = selectedItems.Keys.ToList();
         for (int index = 0; index < objList.Count; index++)
         {
@@ -179,7 +221,6 @@ public class UITeamEditWindow : Window
         selectedItems.Clear();
         okLis.GetComponent<UISprite>().color = Color.white;
         okLis.enabled = false;
-        Reset();
     }
 
     /// <summary>
@@ -193,7 +234,7 @@ public class UITeamEditWindow : Window
         var uUids = new List<long>();
         int index = 0;
         int count = keys.Count;
-        for(int keyIndex = 0; keyIndex < MaxHeroCount; keyIndex++)
+        for (int keyIndex = 0; keyIndex < HeroConstant.MaxHerosPerTeam; keyIndex++)
         {
             if (index < count && keyIndex + 1 == keys[index])
             {
@@ -202,7 +243,7 @@ public class UITeamEditWindow : Window
             }
             else
             {
-                uUids.Add(DefaultNonHero);
+                uUids.Add(HeroConstant.NoneInitHeroUuid);
             }
         }
         var csmsg = new CSHeroModifyTeam
@@ -211,23 +252,6 @@ public class UITeamEditWindow : Window
                             NewTeamList =uUids,
                         };
         NetManager.SendMessage(csmsg);
-    }
-
-    /// <summary>
-    /// This will be optimized in future, as this is done similar thing in ui hero items page window.
-    /// Some other functions will be also optimized in the future.
-    /// </summary> 
-    private void FillHeroList()
-    {
-        var heroCount = scHeroList.HeroList.Count;
-        for (int index = 0; index < heroCount; index++)
-        {
-            var item = PoolManager.Pools["Heros"].Spawn(HeroPrefab.transform);
-            Utils.MoveToParent(herosGrid.transform, item);
-            NGUITools.SetActive(item.gameObject, true);
-            UIEventListener.Get(item.gameObject).onClick += OnHeroItemClicked;
-        }
-        herosGrid.Reposition();
     }
 
     /// <summary>
@@ -246,7 +270,7 @@ public class UITeamEditWindow : Window
         }
         else
         {
-            if (selectedItems.Count >= MaxHeroCount)
+            if (selectedItems.Count >= HeroConstant.MaxHerosPerTeam)
             {
                 return;
             }
@@ -273,22 +297,20 @@ public class UITeamEditWindow : Window
     /// </summary>
     private void Refresh()
     {
-        heroNums.text = string.Format("{0}/{1}", scHeroList.HeroList.Count, PlayerModelLocator.Instance.HeroMax);
+        var infos = HeroModelLocator.Instance.SCHeroList.HeroList ?? new List<HeroInfo>();
+        var capacity = PlayerModelLocator.Instance.HeroMax;
+        heroNums.text = string.Format("{0}/{1}", infos.Count, capacity);
         selectedItems.Clear();
         var index = scHeroList.CurrentTeamIndex;
-        var uUids = scHeroList.TeamList[index].ListHeroUuid;
-        var orderType = scHeroList.OrderType;
-        HeroModelLocator.Instance.SortHeroList((ItemHelper.OrderType)orderType, scHeroList.HeroList);
-        for (int heroIndex = 0; heroIndex < scHeroList.HeroList.Count; heroIndex++)
+        var curTeamUuids = scHeroList.TeamList[index].ListHeroUuid;
+        var herosTran = cachedHerosWindow.Heros.transform;
+        for (var heroIndex = 0; heroIndex < herosTran.childCount; heroIndex++)
         {
-            var info = scHeroList.HeroList[heroIndex];
-            var item = herosGrid.transform.GetChild(heroIndex).GetComponent<HeroItem>();
-            item.InitItem(info);
-            HeroUtils.ShowHero((OrderType)orderType, item, info);
-            var uUid = info.Uuid;
-            if (uUids.Contains(uUid))
+            var item = herosTran.GetChild(heroIndex);
+            var uUid = item.GetComponent<HeroItem>().Uuid;
+            if (curTeamUuids.Contains(uUid))
             {
-                var numIndex = uUids.IndexOf(uUid) + 1;
+                var numIndex = curTeamUuids.IndexOf(uUid) + 1;
                 var maskToShow = NGUITools.AddChild(item.gameObject, mask);
                 maskToShow.SetActive(true);
                 maskToShow.transform.localPosition = maskOffset;
@@ -297,7 +319,7 @@ public class UITeamEditWindow : Window
                 var smallItem = items.transform.FindChild("Item" + numIndex);
                 var child = NGUITools.AddChild(smallItem.gameObject, smallHero);
                 child.SetActive(true);
-                AddSelectedItem(item.gameObject, uUids.IndexOf(uUid) + 1);
+                AddSelectedItem(item.gameObject, curTeamUuids.IndexOf(uUid) + 1);
                 RefreshProperty(uUid, true);
             }
         }
@@ -313,15 +335,11 @@ public class UITeamEditWindow : Window
         var heroInfo = HeroModelLocator.Instance.FindHero(uUid);
         int flag = add ? 1 : -1;
 
-        totalAttack += heroInfo.Prop[RoleProperties.ROLE_ATK] * flag;
-        totalHp += heroInfo.Prop[RoleProperties.ROLE_HP] * flag;
-        totalRecover += heroInfo.Prop[RoleProperties.ROLE_RECOVER] * flag;
-        totalMp += heroInfo.Prop[RoleProperties.ROLE_MP] * flag;
+        TotalAttack += heroInfo.Prop[RoleProperties.ROLE_ATK] * flag;
+        TotalHp += heroInfo.Prop[RoleProperties.ROLE_HP] * flag;
+        TotalRecover += heroInfo.Prop[RoleProperties.ROLE_RECOVER] * flag;
+        TotalMp += heroInfo.Prop[RoleProperties.ROLE_MP] * flag;
 
-        attack.text = totalAttack.ToString(CultureInfo.InvariantCulture);
-        hp.text = totalHp.ToString(CultureInfo.InvariantCulture);
-        recover.GetComponent<UILabel>().text = totalRecover.ToString(CultureInfo.InvariantCulture);
-        mp.text = totalMp.ToString(CultureInfo.InvariantCulture);
     }
 
     /// <summary>
@@ -356,28 +374,28 @@ public class UITeamEditWindow : Window
         }
     }
 
-    /// <summary>
-    /// Despawn hero instance to the hero pool.
-    /// </summary>
-    private void DespawnHeros()
-    {
-        if (PoolManager.Pools.ContainsKey("Heros"))
-        {
-            var list = herosGrid.transform.Cast<Transform>().ToList();
-            for(int index = 0; index < list.Count; index++)
-            {
-                var item = list[index];
-                var maskToDel = item.FindChild("Mask(Clone)");
-                if(maskToDel != null)
-                {
-                    Destroy(maskToDel.gameObject);
-                }
-                UIEventListener.Get(item.gameObject).onClick -= OnHeroItemClicked;
-                item.parent = PoolManager.Pools["Heros"].transform;
-                PoolManager.Pools["Heros"].Despawn(item);
-            }
-        }
-    }
+    ///// <summary>
+    ///// Despawn hero instance to the hero pool.
+    ///// </summary>
+    //private void DespawnHeros()
+    //{
+    //    if (PoolManager.Pools.ContainsKey("Heros"))
+    //    {
+    //        var list = herosGrid.transform.Cast<Transform>().ToList();
+    //        for(int index = 0; index < list.Count; index++)
+    //        {
+    //            var item = list[index];
+    //            var maskToDel = item.FindChild("Mask(Clone)");
+    //            if(maskToDel != null)
+    //            {
+    //                Destroy(maskToDel.gameObject);
+    //            }
+    //            UIEventListener.Get(item.gameObject).onClick -= OnHeroItemClicked;
+    //            item.parent = PoolManager.Pools["Heros"].transform;
+    //            PoolManager.Pools["Heros"].Despawn(item);
+    //        }
+    //    }
+    //}
 
     #endregion
 }

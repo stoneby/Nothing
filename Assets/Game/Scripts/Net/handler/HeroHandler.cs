@@ -1,4 +1,5 @@
-﻿using KXSGCodec;
+﻿using System.Collections.Generic;
+using KXSGCodec;
 
 namespace Assets.Game.Scripts.Net.handler
 {
@@ -17,7 +18,7 @@ namespace Assets.Game.Scripts.Net.handler
                     }
                     else if(HeroModelLocator.Instance.GetHeroPos == RaidType.GetHeroInHeroPanel)
                     {
-                        Utils.ShowWithoutDestory(typeof(UIHerosDisplayWindow));
+                        Utils.ShowWithoutDestory(typeof(UIHeroDispTabWindow));
                     }
                     else if(HeroModelLocator.Instance.GetHeroPos == RaidType.GetHeroInHeroCreateTeam)
                     {
@@ -29,8 +30,17 @@ namespace Assets.Game.Scripts.Net.handler
                     var createOneMsg = msg.GetContent() as SCHeroCreateOne;
                     if(createOneMsg != null)
                     {
-                        HeroModelLocator.Instance.SCHeroList.HeroList.Add(createOneMsg.NewHero);
-                        WindowManager.Instance.GetWindow<UIHeroItemsPageWindow>().Refresh();
+                        if (HeroModelLocator.Instance.SCHeroList.HeroList == null)
+                        {
+                            HeroModelLocator.Instance.SCHeroList.HeroList = new List<HeroInfo>();
+                        }
+                        var infos = HeroModelLocator.Instance.SCHeroList.HeroList;
+                        infos.Add(createOneMsg.NewHero);
+                        var herosWindow = WindowManager.Instance.GetWindow<UIHerosPageWindow>();
+                        herosWindow.Refresh(infos);
+                        var viewHandler = WindowManager.Instance.GetWindow<UIHeroDispTabWindow>().HeroViewHandler;
+                        herosWindow.ItemClicked = viewHandler.OnHeroItemClicked;
+                        viewHandler.Refresh();
                     }
                     break;
                 case (short) MessageType.SC_HERO_MODIFY_TEAM:
@@ -58,7 +68,11 @@ namespace Assets.Game.Scripts.Net.handler
                                 index--;
                             }
                         }
-                        WindowManager.Instance.GetWindow<UIHeroSellWindow>().SellOverUpdate();
+                        WindowManager.Instance.Show<UISellDialogWindow>(false);
+                        var heroSellHandler = WindowManager.Instance.GetWindow<UIHeroDispTabWindow>().HeroSellHandler;
+                        heroSellHandler.CleanUp();
+                        WindowManager.Instance.GetWindow<UIHerosPageWindow>().Refresh(heroList);
+                        heroSellHandler.FreshSellStates();    
                     }
                     break;
 
@@ -70,7 +84,7 @@ namespace Assets.Game.Scripts.Net.handler
                     if(themsg != null)
                     {
                         PlayerModelLocator.Instance.HeroMax = themsg.RefreshHeroCountLimit;
-                        WindowManager.Instance.GetWindow<UIHeroItemsPageWindow>().RefreshHeroCount();
+                        WindowManager.Instance.GetWindow<UIHeroDispTabWindow>().HeroViewHandler.Refresh();
                     }
                     break;
                 case (short) MessageType.SC_HERO_CHANGE_EQUIP:
@@ -89,26 +103,17 @@ namespace Assets.Game.Scripts.Net.handler
                     var heroBindSucc = msg.GetContent() as SCHeroBindSucc;
                     if(heroBindSucc != null)
                     {
-                        var changedList = UIHeroBindWindow.ChangedLockList;
+                        var changedList = HeroLockHandler.ChangedLockList;
                         for (int i = 0; i < changedList.Count; i++)
                         {
                             var uid = changedList[i];
-                            var itemInfo = HeroModelLocator.Instance.FindHero(uid);
-                            itemInfo.Bind = !itemInfo.Bind;
-                            var win = WindowManager.Instance.GetWindow<UIHerosDisplayWindow>();
-                            if(win.CurrIndex == 0)
-                            {
-                                WindowManager.Instance.GetWindow<UIHeroItemsPageWindow>().Refresh();
-                            }
-                            else
-                            {
-                                WindowManager.Instance.GetWindow<UIHeroSellWindow>().Refresh();
-                            }
+                            var heroInfo = HeroModelLocator.Instance.FindHero(uid);
+                            heroInfo.Bind = !heroInfo.Bind;
                         }
+                        WindowManager.Instance.GetWindow<UIHerosPageWindow>().Refresh(HeroModelLocator.Instance.SCHeroList.HeroList);
                     }
                     break;
             }
-
         }
     }
 }

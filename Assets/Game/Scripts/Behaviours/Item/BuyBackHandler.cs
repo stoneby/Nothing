@@ -17,14 +17,14 @@ public class BuyBackHandler : MonoBehaviour
 
     private void InstallHandlers()
     {
-        okLis.onClick += OnOK;
-        cancelLis.onClick += OnCancel;
+        okLis.onClick = OnOk;
+        cancelLis.onClick = OnCancel;
     }
 
     private void UnInstallHandlers()
     {
-        okLis.onClick -= OnOK;
-        cancelLis.onClick -= OnCancel;
+        okLis.onClick = null;
+        cancelLis.onClick = null;
     }
 
     private void OnEnable()
@@ -37,7 +37,7 @@ public class BuyBackHandler : MonoBehaviour
         UnInstallHandlers();
     }
 
-    private void OnOK(GameObject go)
+    private void OnOk(GameObject go)
     {
         if (OkClicked != null)
         {
