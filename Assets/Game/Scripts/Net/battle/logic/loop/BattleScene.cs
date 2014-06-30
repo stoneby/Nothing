@@ -48,7 +48,8 @@ namespace com.kx.sglm.gs.battle.share.logic.loop
 			Battle.BattleExcuter.beforeBattleStart(this, _record);
 	//		regiestEventHandler();
 			Record.finishCurRoundCountRecord();
-		}
+            Record.FinishDebugRecord();
+        }
 
 		public override bool Dead
 		{

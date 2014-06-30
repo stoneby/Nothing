@@ -7,6 +7,13 @@ public class BoundsGenerator : MonoBehaviour
 {
     public bool IncludeInactiveChild;
 
+    /// <summary>
+    /// The generated bounds scale.
+    /// </summary>
+    /// <remarks>1 as default, which is just bounds in all children.</remarks>
+    [Range(0f, 2f)]
+    public float Scale;
+
     [ContextMenu("Generate")]
     public void Generate()
     {
@@ -26,17 +33,14 @@ public class BoundsGenerator : MonoBehaviour
             }
             bounds.Encapsulate(child.collider.bounds);
         }
-        var collider = GetComponent<BoxCollider>();
-        if (collider == null)
-        {
-            collider = gameObject.AddComponent<BoxCollider>();
-        }
+        var boxCollider = GetComponent<BoxCollider>() ?? gameObject.AddComponent<BoxCollider>();
         // convert world space to local space.
         // Note: bounds using world space, but box collider using local space.
         var localMin = transform.InverseTransformPoint(bounds.min);
         var localMax = transform.InverseTransformPoint(bounds.max);
-        collider.center = (localMin + localMax) / 2;
-        collider.size = localMax - localMin;
+        boxCollider.center = (localMin + localMax) / 2;
+        boxCollider.size = localMax - localMin;
+        boxCollider.size *= Scale;
     }
 
     void Start()

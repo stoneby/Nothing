@@ -1,3 +1,5 @@
+using com.kx.sglm.gs.battle.share.data.record;
+
 namespace com.kx.sglm.gs.battle.share.helper
 {
 
@@ -45,6 +47,20 @@ namespace com.kx.sglm.gs.battle.share.helper
 			initSingleRecord(fighter, singleRecord);
 			singleRecord.addState(key, value);
 		}
+
+        public static void FillDebugRecord(BattleDebugRecord debugRecord, HeroTeam heroTeam)
+        {
+            debugRecord.PointList.Clear();
+            foreach (var hero in heroTeam.battlingHeroArr)
+            {
+                debugRecord.PointList.Add(new PointRecord(hero.fighter.index, hero.Color.Index));
+            }
+
+            foreach (var wait in heroTeam.waitingHeroList)
+            {
+                debugRecord.PointList.Add(new PointRecord(wait.fighter.index, wait.color.Index));
+            }
+        }
 
 		public static void recordFillIndex(HeroTeam heroTeam, BattleIndexRecord record)
 		{

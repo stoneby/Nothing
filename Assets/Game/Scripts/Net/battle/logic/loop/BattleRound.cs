@@ -32,6 +32,7 @@ namespace com.kx.sglm.gs.battle.share.logic.loop
 				CurAttacker.onRoundFinish(_roundRecord);
 			}
 			Battle.Record.finishCurRoundCountRecord();
+            Record.FinishDebugRecord();
 		}
 
 		public override bool hasNextSubAction()

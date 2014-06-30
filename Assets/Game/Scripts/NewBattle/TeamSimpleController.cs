@@ -157,10 +157,6 @@ public class TeamSimpleController : MonoBehaviour
             character.transform.position = positionList[i];
         }
 
-        // generate bounds according to its children.
-        var boundGenerator = GetComponent<BoundsGenerator>() ?? gameObject.AddComponent<BoundsGenerator>();
-        boundGenerator.Generate();
-
         CharacterList.ForEach(character =>
         {
             var listener = UIEventListener.Get(character.gameObject);

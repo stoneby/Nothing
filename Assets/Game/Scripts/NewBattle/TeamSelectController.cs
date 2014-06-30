@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
 /// <summary>
@@ -193,10 +194,13 @@ public class TeamSelectController : MonoBehaviour
         RegisterEventHandlers();
     }
 
-    public void Print()
+    public override string ToString()
     {
+        var result = new StringBuilder('{');
         CharacterList.ForEach(
-            item => Logger.LogWarning("Character: " + item.name + ", position: " + item.transform.position));
+            item => result.Append("(name: " + item.name + ", color: " + item.ColorIndex + ")\n"));
+        result.Append('}');
+        return result.ToString();
     }
 
     public void Reset()

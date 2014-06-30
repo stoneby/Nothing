@@ -1,54 +1,47 @@
 ﻿using KXSGCodec;
 using UnityEngine;
-using System.Collections;
 
 public class GmControl : MonoBehaviour
 {
-    private GameObject BtnOpen;
-    private GameObject BtnConfirm;
-    private GameObject GmBox;
-    private GameObject InputInfo;
+    private GameObject btnOpen;
+    private GameObject btnConfirm;
+    private GameObject gmBox;
+    private GameObject inputInfo;
 
-    private bool IsShow = false;
-	// Use this for initialization
-	void Start ()
-	{
+    private bool isShow;
+    // Use this for initialization
+    void Start()
+    {
         gameObject.SetActive(true);
 
-        BtnOpen = transform.FindChild("Button open").gameObject;
-	    var btn = BtnOpen.GetComponent<UIButton>();
+        btnOpen = transform.FindChild("Button open").gameObject;
+        var btn = btnOpen.GetComponent<UIButton>();
         btn.onClick.Add(new EventDelegate(OpenBox));
 
-	    var spobj = BtnOpen.transform.FindChild("Background").gameObject;
+        var spobj = btnOpen.transform.FindChild("Background").gameObject;
         spobj.SetActive(false);
 
-        BtnConfirm = transform.FindChild("Container box/Image Button").gameObject;
-        btn = BtnConfirm.GetComponent<UIButton>();
+        btnConfirm = transform.FindChild("Container box/Image Button").gameObject;
+        btn = btnConfirm.GetComponent<UIButton>();
         btn.onClick.Add(new EventDelegate(GmConfirm));
 
-        GmBox = transform.FindChild("Container box").gameObject;
-        GmBox.transform.localPosition = new Vector3(0, 450, 0);
-        GmBox.SetActive(IsShow);
+        gmBox = transform.FindChild("Container box").gameObject;
+        gmBox.transform.localPosition = new Vector3(0, 450, 0);
+        gmBox.SetActive(isShow);
 
-        InputInfo = transform.FindChild("Container box/Input").gameObject;
-        var thein = InputInfo.GetComponent<UIInput>();
+        inputInfo = transform.FindChild("Container box/Input").gameObject;
+        var thein = inputInfo.GetComponent<UIInput>();
         thein.defaultText = "请输入GM指令";
-	}
-	
-	// Update is called once per frame
-	void Update ()
-	{
-	    
-	}
+    }
 
     private void OpenBox()
     {
-        IsShow = !IsShow;
-        GmBox.SetActive(IsShow);
-        
-        if (IsShow)
+        isShow = !isShow;
+        gmBox.SetActive(isShow);
+
+        if (isShow)
         {
-            var tween = GmBox.AddComponent<TweenPosition>();
+            var tween = gmBox.AddComponent<TweenPosition>();
             tween.from = new Vector3(0, 450, 0);
             tween.to = new Vector3(0, -100, 0);
             tween.duration = 0.4f;
@@ -57,7 +50,7 @@ public class GmControl : MonoBehaviour
         }
         else
         {
-            var tween = GmBox.AddComponent<TweenPosition>();
+            var tween = gmBox.AddComponent<TweenPosition>();
             tween.from = new Vector3(0, -100, 0);
             tween.to = new Vector3(0, 450, 0);
             tween.duration = 0.4f;
@@ -68,9 +61,9 @@ public class GmControl : MonoBehaviour
 
     private void GmConfirm()
     {
-        var thein = InputInfo.GetComponent<UIInput>();
+        var thein = inputInfo.GetComponent<UIInput>();
         var str = thein.value;
-        if (str == "" || str == null)
+        if (string.IsNullOrEmpty(str))
         {
             PopTextManager.PopTip("请输入GM指令");
             return;

@@ -424,12 +424,12 @@ public class InitBattleField : MonoBehaviour, IBattleView
         }
     }
 
-    private static void SetColors(List<Character> characterList)
+    private static void SetColors(IList<Character> characterList)
     {
         var nextColorList = BattleModelLocator.Instance.NextList;
         if (nextColorList.Count != characterList.Count)
         {
-            Logger.LogError("Next colors count: " + nextColorList.Count + " does not match client character list: " + characterList.Count);
+            Logger.LogError("Next colors count: " + nextColorList.Count + " does not match client selected character list count: " + characterList.Count);
             return;
         }
 
@@ -703,7 +703,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
             default:
                 {
                     monster = GetEnemyByAction(record.ActionList[0]);
-                    RunToAttrackPlace(obj, monster);
+                    RunToAttackPlace(obj, monster);
                     yield return new WaitForSeconds(GameConfig.RunToAttrackPosTime);
                     cc.PlayCharacter(CharacterStateType.Attack);
                     yield return new WaitForSeconds(GameConfig.PlayAttrackTime);
@@ -724,7 +724,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
 
         BattleFightRecord record;
         GameObject obj;
-        CharacterControl cc;
         isRecover = false;
 
         if (battleTeamRecord.RecordList.Count > 0)
@@ -742,12 +741,15 @@ public class InitBattleField : MonoBehaviour, IBattleView
 
         if (battleTeamRecord.RecordList.Count > 1)
         {
-            var thecount = (battleTeamRecord.RecordList.Count != 9 || isRecover) ? battleTeamRecord.RecordList.Count : battleTeamRecord.RecordList.Count - 1;
-            for (var i = 1; i < thecount; i++)
+            var count = (battleTeamRecord.RecordList.Count != 9 || isRecover) ? battleTeamRecord.RecordList.Count : battleTeamRecord.RecordList.Count - 1;
+            for (var i = 1; i < count; i++)
             {
                 record = battleTeamRecord.RecordList[i];
                 StartCoroutine(PlayOneAction(record));
-                if (!isRecover) yield return new WaitForSeconds(GameConfig.NextAttrackWaitTime);
+                if (!isRecover)
+                {
+                    yield return new WaitForSeconds(GameConfig.NextAttrackWaitTime);
+                }
             }
         }
 
@@ -758,63 +760,68 @@ public class InitBattleField : MonoBehaviour, IBattleView
             var monster = GetEnemyByAction(record.ActionList[0]);
             var ec = monster.GetComponent<EnemyControl>();
             obj = TeamController.SelectedCharacterList[TeamController.SelectedCharacterList.Count - 1].gameObject;
-            cc = obj.GetComponent<CharacterControl>();
+            var cc = obj.GetComponent<CharacterControl>();
 
-            CameraEffect.LookAt = obj.transform;
+            Logger.LogWarning("Nine fighting character: " + obj.name);
+
+            //CameraEffect.LookAt = obj.transform;
             //CameraEffect.LookAtTime = GameConfig.MoveCameraTime;
-            CameraEffect.LookInto();
+            //CameraEffect.LookInto();
 
-            cc.Stop();
-            yield return new WaitForSeconds(GameConfig.MoveCameraTime);//显示遮罩
-            Picture91.SetActive(true);
+            CameraEffect.LookAround();
 
-            //播放角色特效
-            EffectManager.PlayEffect(EffectType.NineAttrack, GameConfig.Attrack9PlayEffectTime, -25, 0, obj.transform.position);
-            yield return new WaitForSeconds(GameConfig.Attrack9PlayEffectTime);
-            //人物大图飞入
-            var tt = EffectObject.GetComponent<UITexture>();
-            tt.mainTexture = (Texture2D)Resources.Load(EffectType.LeaderTextures[Random.Range(0, 11)], typeof(Texture2D));
-            tt.alpha = 1;
-            EffectObject.transform.localPosition = new Vector3(Screen.width / 2 + 300, -80, 0);
-            EffectObject.transform.localScale = new Vector3(1, 1, 1);
-            EffectObject.SetActive(true);
+            //cc.Stop();
+            //yield return new WaitForSeconds(GameConfig.MoveCameraTime);//显示遮罩
+            //Picture91.SetActive(true);
 
-            PlayTweenPosition(EffectObject, GameConfig.Attrack9HeroInTime, new Vector3(Screen.width / 2 + 300, -80, 0), new Vector3(0, -80, 0));
-            yield return new WaitForSeconds(GameConfig.Attrack9HeroInTime);
-            //显示文字背景
-            PlayTweenPosition(EffectObject, 1.2f, new Vector3(0, -80, 0), new Vector3(-25, -80, 0));
-            TextBG91.SetActive(true);
-            tt = TextBG91.GetComponent<UITexture>();
-            tt.alpha = 1;
-            yield return new WaitForSeconds(0.1f);
-            //文字出现
-            Text91.SetActive(true);
-            Text91.transform.localScale = new Vector3(5, 5, 1);
-            PlayTweenScale(Text91, GameConfig.Attrack9TextInTime, new Vector3(5, 5, 1), new Vector3(1, 1, 1));
-            UILabel lb = Text91.GetComponent<UILabel>();
-            lb.alpha = 1;
-            yield return new WaitForSeconds(GameConfig.Attrack9TextShowTime);
-            //文字消失
-            PlayTweenScale(Text91, GameConfig.Attrack9TextFadeTime, new Vector3(1, 1, 1), new Vector3(5, 5, 1));
-            PlayTweenAlpha(Text91, GameConfig.Attrack9TextFadeTime, 1, 0);
-            PlayTweenAlpha(TextBG91, GameConfig.Attrack9TextFadeTime, 1, 0);
-            yield return new WaitForSeconds(GameConfig.Attrack9TextFadeTime / 2);
-            //遮罩和大图消失
-            Picture91.SetActive(false);
-            PlayTweenAlpha(EffectObject, GameConfig.Attrack9HeroFadeTime, 1, 0);
-            PlayTweenScale(EffectObject, GameConfig.Attrack9HeroFadeTime, new Vector3(1, 1, 1), new Vector3(5, 5, 1));
-            yield return new WaitForSeconds(GameConfig.Attrack9HeroFadeTime);
-            //镜头拉回
-            Text91.SetActive(false);
-            TextBG91.SetActive(false);
+            ////播放角色特效
+            //EffectManager.PlayEffect(EffectType.NineAttrack, GameConfig.Attrack9PlayEffectTime, -25, 0, obj.transform.position);
+            //yield return new WaitForSeconds(GameConfig.Attrack9PlayEffectTime);
+            ////人物大图飞入
+            //var tt = EffectObject.GetComponent<UITexture>();
+            //tt.mainTexture = (Texture2D)Resources.Load(EffectType.LeaderTextures[Random.Range(0, 11)], typeof(Texture2D));
+            //tt.alpha = 1;
+            //EffectObject.transform.localPosition = new Vector3(Screen.width / 2 + 300, -80, 0);
+            //EffectObject.transform.localScale = new Vector3(1, 1, 1);
+            //EffectObject.SetActive(true);
 
-            CameraEffect.LookOut();
+            //PlayTweenPosition(EffectObject, GameConfig.Attrack9HeroInTime, new Vector3(Screen.width / 2 + 300, -80, 0), new Vector3(0, -80, 0));
+            //yield return new WaitForSeconds(GameConfig.Attrack9HeroInTime);
+            ////显示文字背景
+            //PlayTweenPosition(EffectObject, 1.2f, new Vector3(0, -80, 0), new Vector3(-25, -80, 0));
+            //TextBG91.SetActive(true);
+            //tt = TextBG91.GetComponent<UITexture>();
+            //tt.alpha = 1;
+            //yield return new WaitForSeconds(0.1f);
+            ////文字出现
+            //Text91.SetActive(true);
+            //Text91.transform.localScale = new Vector3(5, 5, 1);
+            //PlayTweenScale(Text91, GameConfig.Attrack9TextInTime, new Vector3(5, 5, 1), new Vector3(1, 1, 1));
+            //UILabel lb = Text91.GetComponent<UILabel>();
+            //lb.alpha = 1;
+            //yield return new WaitForSeconds(GameConfig.Attrack9TextShowTime);
+            ////文字消失
+            //PlayTweenScale(Text91, GameConfig.Attrack9TextFadeTime, new Vector3(1, 1, 1), new Vector3(5, 5, 1));
+            //PlayTweenAlpha(Text91, GameConfig.Attrack9TextFadeTime, 1, 0);
+            //PlayTweenAlpha(TextBG91, GameConfig.Attrack9TextFadeTime, 1, 0);
+            //yield return new WaitForSeconds(GameConfig.Attrack9TextFadeTime / 2);
+            ////遮罩和大图消失
+            //Picture91.SetActive(false);
+            //PlayTweenAlpha(EffectObject, GameConfig.Attrack9HeroFadeTime, 1, 0);
+            //PlayTweenScale(EffectObject, GameConfig.Attrack9HeroFadeTime, new Vector3(1, 1, 1), new Vector3(5, 5, 1));
+            //yield return new WaitForSeconds(GameConfig.Attrack9HeroFadeTime);
+            ////镜头拉回
+            //Text91.SetActive(false);
+            //TextBG91.SetActive(false);
 
             yield return new WaitForSeconds(GameConfig.MoveCameraTime);
+
+            //CameraEffect.LookOut();
+
             //攻击动作
             cc.Play();
 
-            RunToAttrackPlace(obj, monster);
+            RunToAttackPlace(obj, monster);
             yield return new WaitForSeconds(GameConfig.RunToAttrackPosTime);
 
             cc.PlayCharacter(CharacterStateType.Attack);
@@ -883,9 +890,11 @@ public class InitBattleField : MonoBehaviour, IBattleView
         yield return new WaitForSeconds(GameConfig.TotalHeroAttrackTime + temp);
         CheckEnemyDead();
 
-        // Set colors to waiting character list.
+        // Set colors to selected character list, which are appended to attack waiting list already.
+        // make color here is because those characters are invisible for now.
         SetColors(TeamController.SelectedCharacterList);
 
+        // Move foot manager one round.
         FootManager.Move();
 
         yield return StartCoroutine(MakeUpOneByOne());
@@ -1052,11 +1061,12 @@ public class InitBattleField : MonoBehaviour, IBattleView
         }
     }
 
-    private static void RunToAttrackPlace(GameObject obj, GameObject enemy)
+    private static void RunToAttackPlace(GameObject obj, GameObject enemy)
     {
         var enemyController = enemy.GetComponent<EnemyControl>();
         var duration = GameConfig.RunToAttrackPosTime;
-        iTween.MoveTo(obj, enemyController.AttackLocation.transform.position, duration);
+        var increment = enemyController.AttackLocation.transform.position - obj.transform.position;
+        iTween.MoveBy(obj, increment, duration);
     }
 
     private void PlayEnemyBeenAttrack(IEnumerable<SingleActionRecord> actionList, bool showbig = false)
@@ -1099,10 +1109,10 @@ public class InitBattleField : MonoBehaviour, IBattleView
         }
     }
 
-    private IEnumerator MultPopText(GameObject obj, int count, int value)
+    private static IEnumerator MultPopText(GameObject obj, int count, int value)
     {
         var v = obj.transform.localPosition;
-        for (int i = 0; i < count; i++)
+        for (var i = 0; i < count; i++)
         {
             PopTextManager.ShowText("-" + value, 0.6f, 0, 40, 120, v);
             yield return new WaitForSeconds(0.2f);
@@ -1116,7 +1126,8 @@ public class InitBattleField : MonoBehaviour, IBattleView
         cc.PlayCharacter(0);
 
         // Move to target.
-        iTween.MoveTo(obj, iTween.Hash("position", CharacterWaitingTrans.position, "duration", duration));
+        var increment = CharacterWaitingTrans.position - obj.transform.position;
+        iTween.MoveBy(obj, increment, duration);
 
         var character = obj.GetComponent<Character>();
         charactersLeft[character.Location.X, character.Location.Y] = null;
@@ -1652,6 +1663,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
         if (battleTeamRecord.TeamSide == BattleRecordConstants.TARGET_SIDE_A)
         {
             Logger.LogWarning("Team controller selected to false");
+
             // Disable team selection.
             TeamController.Enable = false;
             // add selected characters to attack waiting list.
@@ -1664,6 +1676,29 @@ public class InitBattleField : MonoBehaviour, IBattleView
             DoAttrackRight();
         }
     }
+
+    public void showBattleDebugRecord(BattleDebugRecord battleDebugRecord)
+    {
+        Logger.LogWarning("[-----RECORD-----] - Battle Debug Record: \n" + battleDebugRecord);
+
+        Logger.LogWarning(TeamController);
+
+        for (var i = 0; i < battleDebugRecord.PointList.Count; ++i)
+        {
+            var left = battleDebugRecord.PointList[i];
+            var right = TeamController.CharacterList[i];
+            if (left.Color != right.ColorIndex)
+            {
+                throw new Exception("Color index is not correct. please double check and fix it. logic is: " +
+                                    (FootColorType) left.Color + ", presentation is: " +
+                                    (FootColorType) right.ColorIndex);
+            }
+        }
+
+        ++recordIndex;
+        DealWithRecord();
+    }
+
 
     /// <summary>
     /// Show record of round counting.
@@ -1678,8 +1713,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
             for (int i = 0; i < roundCountRecord.RecordList.Count; i++)
             {
                 var action = roundCountRecord.RecordList[i];
-
-                Logger.LogWarning("------------" + action);
 
                 if (action.SideIndex == BattleRecordConstants.TARGET_SIDE_A)
                 {
@@ -1869,6 +1902,12 @@ public class InitBattleField : MonoBehaviour, IBattleView
     private void RequestRecords()
     {
         recordList = BattleModelLocator.Instance.MainBattle.Record.reportRecordListAndClear();
+
+        foreach (var record in recordList)
+        {
+            Logger.LogWarning("RequestRecords: " + record);
+        }
+
         recordIndex = 0;
         DealWithRecord();
     }

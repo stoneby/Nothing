@@ -219,19 +219,16 @@ public class NextFootManager : MonoBehaviour
     public void SetOnStageSprite()
     {
         // set up visiable sprites.
+        // set foot list index in between 0.. [1, the one before last]... last one (in foot list game objects).
         for (var i = onStageSize; i >= 1; --i)
         {
             SetSprite(FootList[i], OnStageColorList[onStageSize - i]);
         }
 
+        // holding down colors to candidate color list, which will not show on stage but we hold them.
         for (var i = 0; i < OnStageColorList.Count; ++i)
         {
-            // set foot list index in between 0.. [1, the one before last]... last one.
-            if (i < onStageSize)
-            {
-                SetSprite(FootList[i + 1], OnStageColorList[i]);
-            }
-            else
+            if (i >= onStageSize)
             {
                 candidateColorList.Add(OnStageColorList[i]);
             }

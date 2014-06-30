@@ -39,6 +39,8 @@ public class Utils
     /// </summary>
     public const string UIBasePath = "Prefabs/UI";
 
+    private static UIRoot root;
+
     #region Window Manager Methods
 
     /// <summary>
@@ -113,6 +115,15 @@ public class Utils
     public static Quaternion GetRotation(Vector2 source, Vector2 target)
     {
         return GetRotation(new Vector3(source.x, source.y, 0), new Vector3(target.x, target.y, 0));
+    }
+
+    #endregion
+
+    #region Object Finding
+
+    public static UIRoot Root
+    {
+        get { return root ?? (root = GameObject.FindGameObjectWithTag("Root").GetComponent<UIRoot>()); }
     }
 
     #endregion

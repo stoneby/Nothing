@@ -25,6 +25,8 @@ namespace com.kx.sglm.gs.battle.share.data.record
 
 		private BattleErrorRecord errorRecord;
 
+	    private BattleDebugRecord debugRecord;
+
 		public BattleRecord()
 		{
 			recordList = new List<IBattleViewRecord>();
@@ -43,7 +45,6 @@ namespace com.kx.sglm.gs.battle.share.data.record
 				return curEndRecord;
 			}
 		}
-
 
 		public virtual void finishCurEndRecord()
 		{
@@ -128,6 +129,25 @@ namespace com.kx.sglm.gs.battle.share.data.record
 			Console.WriteLine(_sb.ToString());
 			curIndexRecord = null;
 		}
+
+        public virtual BattleDebugRecord OrCreateDebugRecord
+        {
+            get
+            {
+                if (debugRecord == null)
+                {
+                    debugRecord = new BattleDebugRecord();
+                    addList(debugRecord);
+                }
+                return debugRecord;
+            }
+        }
+
+
+	    public virtual void FinishDebugRecord()
+	    {
+	        debugRecord = null;
+	    }
 
 		protected internal virtual void addList(IBattleViewRecord record)
 		{

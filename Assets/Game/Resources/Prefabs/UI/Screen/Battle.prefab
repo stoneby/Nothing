@@ -401,6 +401,7 @@ GameObject:
   - 114: {fileID: 11400054}
   - 114: {fileID: 11400128}
   - 114: {fileID: 11400124}
+  - 114: {fileID: 11400016}
   m_Layer: 8
   m_Name: BattleFieldWidgetLeft
   m_TagString: Untagged
@@ -4502,6 +4503,19 @@ MonoBehaviour:
   mDepth: 1
   mSortingOrder: 0
   mClipOffset: {x: 0, y: 0}
+--- !u!114 &11400016
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100048}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4e934f5232e42f4b8edfbb07a36de22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IncludeInactiveChild: 0
+  Scale: 1.14999998
 --- !u!114 &11400018
 MonoBehaviour:
   m_ObjectHideFlags: 1

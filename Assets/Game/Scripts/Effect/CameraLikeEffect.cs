@@ -40,7 +40,8 @@ public class CameraLikeEffect : MonoBehaviour
     /// </summary>
     public void LookInto()
     {
-        iTween.MoveTo(gameObject, -LookAt.position * LookAtScale, LookAtTime);
+        var increment = -LookAt.position - gameObject.transform.position;
+        iTween.MoveBy(gameObject, increment * LookAtScale, LookAtTime);
         iTween.ScaleTo(gameObject, new Vector3(LookAtScale, LookAtScale, 0) , LookAtTime);
     }
 
@@ -49,7 +50,8 @@ public class CameraLikeEffect : MonoBehaviour
     /// </summary>
     public void LookOut()
     {
-        iTween.MoveTo(gameObject, originalPosition, LookAtTime);
+        var increment = originalPosition - gameObject.transform.position;
+        iTween.MoveBy(gameObject, increment, LookAtTime);
         iTween.ScaleTo(gameObject, new Vector3(originalScale, originalScale, 0), LookAtTime);
     }
 
