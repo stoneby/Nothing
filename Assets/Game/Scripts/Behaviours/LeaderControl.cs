@@ -20,7 +20,7 @@ public class LeaderControl : MonoBehaviour
     private int cd;
 
     private bool alertFlag = true;
-    private FighterInfo data;
+    private FighterInfo figherData;
     private SkillTemplate skillData;
 
     private UIEventListener headUIEventListener;
@@ -48,8 +48,8 @@ public class LeaderControl : MonoBehaviour
     public void SetData(FighterInfo data, int theindex)
     {
         LeaderIndex = theindex;
-        this.data = data;
-        skillData = HeroModelLocator.Instance.GetLeaderSkillTemplateById(this.data.ActiveSkillId);
+        figherData = data;
+        skillData = HeroModelLocator.Instance.GetLeaderSkillTemplateById(figherData.ActiveSkillId);
         var sp = SpriteHead.GetComponent<UISprite>();
         if (skillData == null)
         {

@@ -122,7 +122,7 @@ public class UIHeroSellWindow : Window
         if (childCount != heroCount)
         {
             var isAdd = childCount < heroCount;
-            Utils.AddOrDelItems(herosGrid.transform, HeroPrefab.transform, isAdd, Mathf.Abs(heroCount - childCount), "Heros",
+            HeroUtils.AddOrDelItems(herosGrid.transform, HeroPrefab.transform, isAdd, Mathf.Abs(heroCount - childCount), HeroConstant.HeroPoolName,
                                 OnHeroItemClicked);
             herosGrid.repositionNow = true;
         }
@@ -398,8 +398,8 @@ public class UIHeroSellWindow : Window
             var item = sellHeros[index];
             Destroy(sellHeros[index].transform.FindChild("Mask(Clone)").gameObject);
             sellHeros[index].transform.FindChild("BG").GetComponent<UISprite>().color = Color.white;
-            item.transform.parent = PoolManager.Pools["Heros"].transform;
-            PoolManager.Pools["Heros"].Despawn(item.transform);
+            item.transform.parent = PoolManager.Pools[HeroConstant.HeroPoolName].transform;
+            PoolManager.Pools[HeroConstant.HeroPoolName].Despawn(item.transform);
 
         }
         csHeroSell.SellList.Clear();

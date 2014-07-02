@@ -8,6 +8,7 @@ namespace com.kx.sglm.gs.battle.share.factory.creater
 	using BattleTeam = com.kx.sglm.gs.battle.share.actor.impl.BattleTeam;
 	using HeroTeam = com.kx.sglm.gs.battle.share.actor.impl.HeroTeam;
 	using MonsterTeam = com.kx.sglm.gs.battle.share.actor.impl.MonsterTeam;
+	using BattleBuffManager = com.kx.sglm.gs.battle.share.buff.BattleBuffManager;
 	using BattleSource = com.kx.sglm.gs.battle.share.data.BattleSource;
 	using FighterInfo = com.kx.sglm.gs.battle.share.data.FighterInfo;
 	using BattleSideEnum = com.kx.sglm.gs.battle.share.enums.BattleSideEnum;
@@ -50,17 +51,41 @@ namespace com.kx.sglm.gs.battle.share.factory.creater
 		protected internal static BattleFighter createHeroFighterFromBattleProp(HeroTeam heroTeam, FighterInfo fighterProps)
 		{
 			BattleFighter _fighter = createBattleFighterFromBattleProp(heroTeam, fighterProps);
-			BattleHeroSkillManager _skillaManager = new BattleHeroSkillManager(_fighter, heroTeam);
-			_fighter.SkillManager = _skillaManager;
+			setHeroSkillManager(_fighter, heroTeam);
+			FighterBuffManager = _fighter;
 			return _fighter;
 		}
 
 		protected internal static BattleFighter createMonsterFighterFromBattleProp(MonsterTeam monsterTeam, FighterInfo fighterProps)
 		{
 			BattleFighter _fighter = createBattleFighterFromBattleProp(monsterTeam, fighterProps);
-			BattleMonsterSkillManager _skillaManager = new BattleMonsterSkillManager(_fighter);
-			_fighter.SkillManager = _skillaManager;
+			MonsterSkillManager = _fighter;
+			FighterBuffManager = _fighter;
 			return _fighter;
+		}
+
+		protected internal static void setHeroSkillManager(BattleFighter fighter, HeroTeam heroTeam)
+		{
+			BattleHeroSkillManager _skillaManager = new BattleHeroSkillManager(fighter, heroTeam);
+			fighter.SkillManager = _skillaManager;
+		}
+
+		protected internal static BattleFighter MonsterSkillManager
+		{
+			set
+			{
+				BattleMonsterSkillManager _skillaManager = new BattleMonsterSkillManager(value);
+				value.SkillManager = _skillaManager;
+			}
+		}
+
+		protected internal static BattleFighter FighterBuffManager
+		{
+			set
+			{
+				BattleBuffManager _bufferManager = new BattleBuffManager(value);
+				value.BuffManager = _bufferManager;
+			}
 		}
 
 
@@ -78,7 +103,7 @@ namespace com.kx.sglm.gs.battle.share.factory.creater
 
 		public static void initFighterActFromFighterProp(BattleFighter fighter, Dictionary<int, int> props)
 		{
-			fighter.CurHp = fighter.TotalHp;
+			fighter.CurHp = fighter.FighterTotalHp;
 			int _attk = props[RoleAProperty.ATK];
 			fighter.Attack = _attk == null ? 0 : _attk;
 			int _recover = props[RoleAProperty.RECOVER];

@@ -1,6 +1,10 @@
-﻿using KXSGCodec;
+﻿using System.Collections.Generic;
+using System.Linq;
+using KXSGCodec;
 using Property;
+using UnityEngine;
 using OrderType = ItemHelper.OrderType;
+using LeaderState = HeroConstant.LeaderState;
 
 public class HeroUtils
  {
@@ -67,4 +71,83 @@ public class HeroUtils
          var recover = heroInfo.Prop[RoleProperties.ROLE_RECOVER]; ;
          ShowHero(orderType, heroTran, quality, level, job, atk, hp, recover);
      }
+    
+    /// <summary>
+    /// Get the leader state of the hero info with special uuid, current team uuids and all team uuids.
+    /// </summary>
+    /// <param name="uuid">The uuid of the hero info whose leader state is needed to get.</param>
+    /// <param name="curTeam">The uuids of current team.</param>
+    /// <param name="allTeams">The all uuids of all teams.</param>
+    /// <returns></returns>
+    public static LeaderState GetLeaderState(long uuid, List<long> curTeam, List<long> allTeams)
+    {
+        if(curTeam.Contains(uuid))
+        {
+            var index = curTeam.IndexOf(uuid);
+            switch (index)
+            {
+                case  HeroConstant.LeaderPosInTeam:
+                    {
+                        return LeaderState.MainLeader;
+                    }
+
+                case HeroConstant.SecondLeaderPosInTeam:
+                    {
+                        return LeaderState.SecondLeader;
+                    }
+
+                case HeroConstant.ThirdLeaderPosInTeam:
+                    {
+                        return LeaderState.ThirdLeader;
+                    }
+                default:
+                    {
+                        return LeaderState.Member;
+                    }
+            }
+        }
+
+        if(allTeams.Contains(uuid))
+        {
+            return LeaderState.MemberInOtherTeam;
+        }
+        return LeaderState.NotInTeam;
+    }
+
+    /// <summary>
+    /// Spawn or despawn the new game object, and install or uninstall handler. 
+    /// </summary>
+    /// <param name="parent">The parent of all items.</param>
+    /// <param name="childPrefab">The prefab of child item.</param>
+    /// <param name="isAdd">If true, add child to the parent.</param>
+    /// <param name="count">The number of item to be added or deleted.</param>
+    /// <param name="poolName">The name of pool.</param>
+    /// <param name="dDelegate">The handler to install or uninstall.</param>
+    public static void AddOrDelItems(Transform parent, Transform childPrefab, bool isAdd, int count, string poolName, UIEventListener.VoidDelegate dDelegate)
+    {
+        if (isAdd)
+        {
+            for (int i = 0; i < count; i++)
+            {
+                var item = PoolManager.Pools[poolName].Spawn(childPrefab);
+                Utils.MoveToParent(parent, item);
+                NGUITools.SetActive(item.gameObject, true);
+                UIEventListener.Get(item.gameObject).onClick += dDelegate;
+            }
+        }
+        else
+        {
+            if (PoolManager.Pools.ContainsKey(poolName))
+            {
+                var list = parent.Cast<Transform>().ToList();
+                for (int index = 0; index < count; index++)
+                {
+                    var item = list[index];
+                    UIEventListener.Get(item.gameObject).onClick -= dDelegate;
+                    item.parent = PoolManager.Pools[poolName].transform;
+                    PoolManager.Pools[poolName].Despawn(item);
+                }
+            }
+        }
+    }
  }

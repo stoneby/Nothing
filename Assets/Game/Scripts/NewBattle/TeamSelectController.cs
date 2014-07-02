@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Text;
+using Template;
 using UnityEngine;
 
 /// <summary>
@@ -37,6 +38,17 @@ public class TeamSelectController : MonoBehaviour
     public GameObjectHandler OnAttack;
 
     public bool Enable;
+
+    /// <summary>
+    /// Normal dragbar depth.
+    /// </summary>
+    /// <remarks>Color index range [1, 5].</remarks>
+    private int normalDepth;
+    /// <summary>
+    /// Lower dragbar depth.
+    /// </summary>
+    /// <remarks>Rotating dragbar, gray color in our case.</remarks>
+    private int lowerDepth;
 
     /// <summary>
     /// Visible number of characters.
@@ -191,6 +203,9 @@ public class TeamSelectController : MonoBehaviour
 
         SelectedCharacterList = new List<Character>(CharacterList.Count);
 
+        normalDepth = DragBarPool.SpawnObject.GetComponent<AbstractDragBarController>().GetDepth();
+        lowerDepth = normalDepth - 1;
+
         RegisterEventHandlers();
     }
 
@@ -220,6 +235,25 @@ public class TeamSelectController : MonoBehaviour
     #endregion
 
     #region Private Methods
+
+    private void OnCharacterClick(GameObject sender)
+    {
+        if (EditMode || !Enable)
+        {
+            return;
+        }
+
+        Logger.LogWarning("On character click: " + sender.name);
+
+        SelectedCharacterList.Clear();
+        var currentCharacter = sender.GetComponent<Character>();
+        SelectedCharacterList.Add(currentCharacter);
+
+        if (OnStop != null)
+        {
+            OnStop(true);
+        }
+    }
 
     private void OnCharacterDrag(GameObject sender, Vector2 delta)
     {
@@ -251,6 +285,7 @@ public class TeamSelectController : MonoBehaviour
         dragbarController.SetRotate(new Vector2(sourcePosition.x, sourcePosition.y), targetPosition);
         dragbarController.SetWidth(sourcePosition, targetPosition);
         dragbarController.SetSprite("new_drag_normal");
+        dragbarController.SetDepth(lowerDepth);
     }
 
     private void OnCharacterDragStart(GameObject sender)
@@ -401,6 +436,7 @@ public class TeamSelectController : MonoBehaviour
             var color = (sender.GetComponent<Character>()).ColorIndex;
             var spriteName = string.Format("new_drag_{0}", color);
             dragbarController.SetSprite(spriteName);
+            dragbarController.SetDepth(normalDepth);
 
             Logger.LogWarning("Source position: " + sourcePosition + ", target position: " + targetPosition + ", rotation: " + DragBarPool.CurrentObject.transform.rotation);
         }
@@ -432,6 +468,7 @@ public class TeamSelectController : MonoBehaviour
             listener.onDragEnd = OnCharacterDragEnd;
             listener.onDragOut = OnCharacterDragOut;
             listener.onDrag = OnCharacterDrag;
+            listener.onClick = OnCharacterClick;
         });
     }
 
@@ -446,6 +483,7 @@ public class TeamSelectController : MonoBehaviour
             listener.onDragEnd = null;
             listener.onDragOut = null;
             listener.onDrag = null;
+            listener.onClick = null;
         });
     }
 

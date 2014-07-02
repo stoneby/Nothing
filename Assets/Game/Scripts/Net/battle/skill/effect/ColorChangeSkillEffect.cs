@@ -1,3 +1,5 @@
+using System;
+
 namespace com.kx.sglm.gs.battle.share.skill.effect
 {
 
@@ -19,9 +21,9 @@ namespace com.kx.sglm.gs.battle.share.skill.effect
 		private int colorIndex;
 
 
-		public override void build(params int[] param)
+		public override void build(params string[] param)
 		{
-			this.colorIndex = param[0];
+			this.colorIndex = Convert.ToInt32(param[0]);
 		}
 
 		protected internal override void initRecord(BattleFighter attacker, BattleFightRecord fightRecord)

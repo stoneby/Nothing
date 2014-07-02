@@ -1,3 +1,5 @@
+using System;
+
 namespace com.kx.sglm.gs.battle.share.skill.effect
 {
 
@@ -25,9 +27,9 @@ namespace com.kx.sglm.gs.battle.share.skill.effect
 			_singleRecord.ResultHp = defencer.getOwnerTeam().CurHp;
 		}
 
-		public override void build(params int[] param)
+		public override void build(params string[] param)
 		{
-			this.percent = param[0];
+			this.percent = Convert.ToInt32(param[0]);
 		}
 
 	}

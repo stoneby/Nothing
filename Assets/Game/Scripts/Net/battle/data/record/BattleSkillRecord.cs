@@ -42,6 +42,15 @@ namespace com.kx.sglm.gs.battle.share.data.record
 			}
 		}
 
+		public override bool Empty
+		{
+			get
+			{
+				//because there are some other msg not in #recordList
+				return false;
+			}
+		}
+
 		public virtual int Index
 		{
 			get
@@ -105,9 +114,6 @@ namespace com.kx.sglm.gs.battle.share.data.record
 			return null;
 		}
 
-	    public override string ToString()
-	    {
-	        return string.Format("Index: " + index + ", team side: " + teamSide + ", skill id: " + skillId);
-	    }
 	}
+
 }

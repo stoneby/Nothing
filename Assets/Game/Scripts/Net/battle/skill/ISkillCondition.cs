@@ -2,9 +2,9 @@ namespace com.kx.sglm.gs.battle.share.skill
 {
 
 	using BattleFighter = com.kx.sglm.gs.battle.share.actor.impl.BattleFighter;
-	using ISkillPartInfo = com.kx.sglm.gs.battle.share.skill.creater.ISkillPartInfo;
+	using IBattlePartInfo = com.kx.sglm.gs.battle.share.enums.IBattlePartInfo;
 
-	public abstract class ISkillCondition : ISkillPartInfo
+	public abstract class ISkillCondition : IBattlePartInfo
 	{
 
 

@@ -7,6 +7,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 
 	/// <summary>
 	/// Õ½¶·
+	/// 
 	/// @author liyuan2
 	/// 
 	/// </summary>
@@ -69,7 +70,6 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 		}
 
 
-
 		public override void doResetReset()
 		{
 			deadBattleSide = null;
@@ -94,7 +94,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 
 		public override void fireBattleEvent(InnerBattleEvent @event)
 		{
-			//do nothing cur
+			// do nothing cur
 		}
 
 	}

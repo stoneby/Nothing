@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+//using Assets.Game.Scripts.Net.battle.data.record;
 using UnityEngine;
 using Assets.Game.Scripts.Common.Model;
 using KXSGCodec;
@@ -764,59 +765,57 @@ public class InitBattleField : MonoBehaviour, IBattleView
 
             Logger.LogWarning("Nine fighting character: " + obj.name);
 
-            //CameraEffect.LookAt = obj.transform;
-            //CameraEffect.LookAtTime = GameConfig.MoveCameraTime;
-            //CameraEffect.LookInto();
+            CameraEffect.LookAt = obj.transform;
+            CameraEffect.LookAtTime = GameConfig.MoveCameraTime;
+            CameraEffect.LookInto();
 
-            CameraEffect.LookAround();
+            cc.Stop();
+            yield return new WaitForSeconds(GameConfig.MoveCameraTime);//显示遮罩
+            Picture91.SetActive(true);
 
-            //cc.Stop();
-            //yield return new WaitForSeconds(GameConfig.MoveCameraTime);//显示遮罩
-            //Picture91.SetActive(true);
+            //播放角色特效
+            EffectManager.PlayEffect(EffectType.NineAttrack, GameConfig.Attrack9PlayEffectTime, -25, 0, obj.transform.position);
+            yield return new WaitForSeconds(GameConfig.Attrack9PlayEffectTime);
+            //人物大图飞入
+            var tt = EffectObject.GetComponent<UITexture>();
+            tt.mainTexture = (Texture2D)Resources.Load(EffectType.LeaderTextures[Random.Range(0, 11)], typeof(Texture2D));
+            tt.alpha = 1;
+            EffectObject.transform.localPosition = new Vector3(Screen.width / 2 + 300, -80, 0);
+            EffectObject.transform.localScale = new Vector3(1, 1, 1);
+            EffectObject.SetActive(true);
 
-            ////播放角色特效
-            //EffectManager.PlayEffect(EffectType.NineAttrack, GameConfig.Attrack9PlayEffectTime, -25, 0, obj.transform.position);
-            //yield return new WaitForSeconds(GameConfig.Attrack9PlayEffectTime);
-            ////人物大图飞入
-            //var tt = EffectObject.GetComponent<UITexture>();
-            //tt.mainTexture = (Texture2D)Resources.Load(EffectType.LeaderTextures[Random.Range(0, 11)], typeof(Texture2D));
-            //tt.alpha = 1;
-            //EffectObject.transform.localPosition = new Vector3(Screen.width / 2 + 300, -80, 0);
-            //EffectObject.transform.localScale = new Vector3(1, 1, 1);
-            //EffectObject.SetActive(true);
-
-            //PlayTweenPosition(EffectObject, GameConfig.Attrack9HeroInTime, new Vector3(Screen.width / 2 + 300, -80, 0), new Vector3(0, -80, 0));
-            //yield return new WaitForSeconds(GameConfig.Attrack9HeroInTime);
-            ////显示文字背景
-            //PlayTweenPosition(EffectObject, 1.2f, new Vector3(0, -80, 0), new Vector3(-25, -80, 0));
-            //TextBG91.SetActive(true);
-            //tt = TextBG91.GetComponent<UITexture>();
-            //tt.alpha = 1;
-            //yield return new WaitForSeconds(0.1f);
-            ////文字出现
-            //Text91.SetActive(true);
-            //Text91.transform.localScale = new Vector3(5, 5, 1);
-            //PlayTweenScale(Text91, GameConfig.Attrack9TextInTime, new Vector3(5, 5, 1), new Vector3(1, 1, 1));
-            //UILabel lb = Text91.GetComponent<UILabel>();
-            //lb.alpha = 1;
-            //yield return new WaitForSeconds(GameConfig.Attrack9TextShowTime);
-            ////文字消失
-            //PlayTweenScale(Text91, GameConfig.Attrack9TextFadeTime, new Vector3(1, 1, 1), new Vector3(5, 5, 1));
-            //PlayTweenAlpha(Text91, GameConfig.Attrack9TextFadeTime, 1, 0);
-            //PlayTweenAlpha(TextBG91, GameConfig.Attrack9TextFadeTime, 1, 0);
-            //yield return new WaitForSeconds(GameConfig.Attrack9TextFadeTime / 2);
-            ////遮罩和大图消失
-            //Picture91.SetActive(false);
-            //PlayTweenAlpha(EffectObject, GameConfig.Attrack9HeroFadeTime, 1, 0);
-            //PlayTweenScale(EffectObject, GameConfig.Attrack9HeroFadeTime, new Vector3(1, 1, 1), new Vector3(5, 5, 1));
-            //yield return new WaitForSeconds(GameConfig.Attrack9HeroFadeTime);
-            ////镜头拉回
-            //Text91.SetActive(false);
-            //TextBG91.SetActive(false);
+            PlayTweenPosition(EffectObject, GameConfig.Attrack9HeroInTime, new Vector3(Screen.width / 2 + 300, -80, 0), new Vector3(0, -80, 0));
+            yield return new WaitForSeconds(GameConfig.Attrack9HeroInTime);
+            //显示文字背景
+            PlayTweenPosition(EffectObject, 1.2f, new Vector3(0, -80, 0), new Vector3(-25, -80, 0));
+            TextBG91.SetActive(true);
+            tt = TextBG91.GetComponent<UITexture>();
+            tt.alpha = 1;
+            yield return new WaitForSeconds(0.1f);
+            //文字出现
+            Text91.SetActive(true);
+            Text91.transform.localScale = new Vector3(5, 5, 1);
+            PlayTweenScale(Text91, GameConfig.Attrack9TextInTime, new Vector3(5, 5, 1), new Vector3(1, 1, 1));
+            UILabel lb = Text91.GetComponent<UILabel>();
+            lb.alpha = 1;
+            yield return new WaitForSeconds(GameConfig.Attrack9TextShowTime);
+            //文字消失
+            PlayTweenScale(Text91, GameConfig.Attrack9TextFadeTime, new Vector3(1, 1, 1), new Vector3(5, 5, 1));
+            PlayTweenAlpha(Text91, GameConfig.Attrack9TextFadeTime, 1, 0);
+            PlayTweenAlpha(TextBG91, GameConfig.Attrack9TextFadeTime, 1, 0);
+            yield return new WaitForSeconds(GameConfig.Attrack9TextFadeTime / 2);
+            //遮罩和大图消失
+            Picture91.SetActive(false);
+            PlayTweenAlpha(EffectObject, GameConfig.Attrack9HeroFadeTime, 1, 0);
+            PlayTweenScale(EffectObject, GameConfig.Attrack9HeroFadeTime, new Vector3(1, 1, 1), new Vector3(5, 5, 1));
+            yield return new WaitForSeconds(GameConfig.Attrack9HeroFadeTime);
+            //镜头拉回
+            Text91.SetActive(false);
+            TextBG91.SetActive(false);
 
             yield return new WaitForSeconds(GameConfig.MoveCameraTime);
 
-            //CameraEffect.LookOut();
+            CameraEffect.LookOut();
 
             //攻击动作
             cc.Play();
@@ -960,7 +959,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
                     case BattleRecordConstants.SINGLE_ACTION_TYPE_SP_ATTACK:
 
                         CameraEffect.LookAt = enemy.transform;
-                        //CameraEffect.LookAtTime = GameConfig.MoveCameraTime;
+                        CameraEffect.LookAtTime = GameConfig.MoveCameraTime;
                         CameraEffect.LookInto();
 
                         yield return new WaitForSeconds(GameConfig.MoveCameraTime);
@@ -985,7 +984,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
                 }
 
                 //yield return new WaitForSeconds(GameConfig.TotalHeroAttrackTime);
-                ResetMonsterStates(ec, record.getAttackAction().StateUpdateList);
+                ResetMonsterStates(ec, record.getAttackAction());
             }
         }
         recordIndex++;
@@ -996,16 +995,16 @@ public class InitBattleField : MonoBehaviour, IBattleView
         TeamController.Enable = true;
     }
 
-    private void ResetMonsterStates(EnemyControl ec, List<FighterStateRecord> statelist)
+    private void ResetMonsterStates(EnemyControl ec, SingleActionRecord monsterRecord)
     {
-        for (int j = 0; j < statelist.Count; j++)
-        {
-            var state = statelist[j];
-            if (state.State == BattleKeyConstants.BATTLE_STATE_MONSTER_SKILL_ROUND)
-            {
-                ec.SetCdLabel(state.LeftRound);
-            }
-        }
+//        for (int j = 0; j < statelist.Count; j++)
+//        {
+//            var state = statelist[j];
+//            if (state.State == BattleKeyConstants.BATTLE_STATE_MONSTER_SKILL_ROUND)
+//            {
+                ec.SetCdLabel(monsterRecord.getIntProp(BattleRecordConstants.BATTLE_MONSTER_SKILL_ROUND));
+//            }
+//        }
     }
 
     private GameObject GetCharacterByAction(SingleActionRecord action)
@@ -1295,21 +1294,16 @@ public class InitBattleField : MonoBehaviour, IBattleView
         {
             PlayBloodFullEffect();
             var obj = GetCharacterByAction(attrack);
-            var k =
-                attrack.getIntProp(
-                    BattleRecordConstants.SINGLE_ACTION_PROP_HP);
-            if (obj != null)
-            {
-                CharacterLoseBlood(obj.transform.localPosition, k);
-            }
-            else
-            {
-                CharacterLoseBlood(new Vector3(0, 0, 0), k);
-            }
+            var k = attrack.getIntProp(BattleRecordConstants.SINGLE_ACTION_PROP_HP);
+            CharacterLoseBlood(obj != null ? obj.transform.localPosition : new Vector3(0, 0, 0), k);
         }
+
         ShowMp();
         EffectManager.PlayAllEffect(true);
         BattleModelLocator.Instance.CanSelectHero = true;
+
+        recordIndex++;
+        DealWithRecord();
     }
 
     //播放sp技能特效
@@ -1643,7 +1637,11 @@ public class InitBattleField : MonoBehaviour, IBattleView
             leaderSkillRecord = battleSkillRecord;
 
             StartCoroutine(PlayLeaderEffect());
-
+        }
+        else
+        {
+            recordIndex++;
+            DealWithRecord();
         }
     }
 
@@ -1723,7 +1721,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
                     if (monster != null)
                     {
                         var ec = monster.GetComponent<EnemyControl>();
-                        ResetMonsterStates(ec, action.StateUpdateList);
+                        ResetMonsterStates(ec, action);
                     }
                 }
             }
@@ -1791,6 +1789,14 @@ public class InitBattleField : MonoBehaviour, IBattleView
         }
         ShowHp();
         ShowMp();
+        recordIndex++;
+        DealWithRecord();
+    }
+
+    public void showBattleBuffRecord(BattleBuffRecord battleBuffRecord)
+    {
+        Logger.Log("[-----RECORD-----] showBattleBuffRecord: " + battleBuffRecord);
+
         recordIndex++;
         DealWithRecord();
     }

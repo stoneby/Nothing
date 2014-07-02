@@ -9,7 +9,13 @@ public static class Alert
         assertWindow.Title = title;
         assertWindow.Message = msg;
         WindowManager.Instance.Show(typeof(AssertionWindow), true);
-        if (confimfunc != null) assertWindow.OkButtonClicked += confimfunc;
-        if (cancelfunc != null) assertWindow.CancelButtonClicked += cancelfunc;
+        if (confimfunc != null)
+        {
+            assertWindow.OkButtonClicked += confimfunc;
+        }
+        if (cancelfunc != null)
+        {
+            assertWindow.CancelButtonClicked += cancelfunc;
+        }
     }
 }

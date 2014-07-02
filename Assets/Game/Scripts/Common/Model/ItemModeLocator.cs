@@ -2,6 +2,7 @@
 using KXSGCodec;
 using Template;
 using UnityEngine;
+using OrderType = ItemHelper.OrderType;
 
 public class ItemModeLocator 
 {
@@ -16,7 +17,7 @@ public class ItemModeLocator
     private Bag bag;
     private Item itemTemplates;
     private ItemConfig itemConfig;
-    private ItemHelper.OrderType orderType = ItemHelper.OrderType.Job;
+    private OrderType orderType = OrderType.Job;
 
     #endregion
 
@@ -52,7 +53,7 @@ public class ItemModeLocator
         get { return itemConfig ?? (itemConfig = Utils.Decode<ItemConfig>(ItemConfigPath)); }
     }
 
-    public ItemHelper.OrderType OrderType
+    public OrderType OrderType
     {
         get { return orderType; }
         set { orderType = value; }
@@ -85,35 +86,35 @@ public class ItemModeLocator
     /// </summary>
     /// <param name="sortType">The specific order type.</param>
     /// <param name="items">The list of hero info to be sorted.</param>
-    public void SortItemList(ItemHelper.OrderType sortType, List<ItemInfo> items)
+    public void SortItemList(OrderType sortType, List<ItemInfo> items)
     {
         switch (sortType)
         {
-            case ItemHelper.OrderType.Time:
+            case OrderType.Time:
                 items.Sort(CompareItemByTime);
                 break;
 
-            case ItemHelper.OrderType.Job:
+            case OrderType.Job:
                 items.Sort(CompareItemByJob);
                 break;
 
-            case ItemHelper.OrderType.Rarity:
+            case OrderType.Rarity:
                 items.Sort(CompareItemByQuality);
                 break;
 
-            case ItemHelper.OrderType.Attack:
+            case OrderType.Attack:
                 items.Sort(CompareItemByAttack);
                 break;
 
-            case ItemHelper.OrderType.Health:
+            case OrderType.Health:
                 items.Sort(CompareItemByHp);
                 break;
 
-            case ItemHelper.OrderType.Recover:
+            case OrderType.Recover:
                 items.Sort(CompareItemByRecover);
                 break;
 
-            case ItemHelper.OrderType.Level:
+            case OrderType.Level:
                 items.Sort(CompareItemByLv);
                 break;
         }
@@ -151,7 +152,7 @@ public class ItemModeLocator
     /// <returns>The result of the comparation</returns>
     private int CompareItemByJob(ItemInfo p1, ItemInfo p2)
     {
-        int compareResult = GetJob(p2.TmplId).CompareTo(GetJob(p1.TmplId));
+        int compareResult = GetJob(p1.TmplId).CompareTo(GetJob(p2.TmplId));
         if (compareResult == 0)
         {
             return p2.TmplId.CompareTo(p1.TmplId);

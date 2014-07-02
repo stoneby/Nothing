@@ -1,5 +1,4 @@
-﻿using UnityEngine;
-
+﻿
 public class DragBarNo2Controller : AbstractDragBarController
 {
     #region Public Fields
@@ -20,6 +19,17 @@ public class DragBarNo2Controller : AbstractDragBarController
     {
         BarSprite.spriteName = spriteName;
         CenterSprite.spriteName = spriteName;
+    }
+
+    public override void SetDepth(int depth)
+    {
+        BarSprite.depth = depth;
+        CenterSprite.depth = depth;
+    }
+
+    public override int GetDepth()
+    {
+        return BarSprite.depth;
     }
 
     #endregion

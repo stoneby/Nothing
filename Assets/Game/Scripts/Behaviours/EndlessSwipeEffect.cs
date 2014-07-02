@@ -88,12 +88,6 @@ public class EndlessSwipeEffect : MonoBehaviour
     private void Awake()
     {
         GetComponent<ScreenRaycaster>().Cameras[0] = UICamera.currentCamera;
-        cellCount = cachedGrid.transform.childCount;
-        for (var i = 0; i < cellCount; ++i)
-        {
-            var t = cachedGrid.transform.GetChild(i);
-            itemList.Add(t);
-        }
         GetComponent<DragRecognizer>().EventMessageName = "OnGestureDrag";
     }
 
@@ -264,6 +258,13 @@ public class EndlessSwipeEffect : MonoBehaviour
         {
             cachedGrid = GetComponent<UIGrid>();
             cellWidth = cachedGrid.cellWidth;
+        }
+        cellCount = cachedGrid.transform.childCount;
+        itemList.Clear();
+        for (var i = 0; i < cellCount; ++i)
+        {
+            var t = cachedGrid.transform.GetChild(i);
+            itemList.Add(t);
         }
         curCustomIndex = index;
         customDataCount = count;

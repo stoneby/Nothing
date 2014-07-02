@@ -27,12 +27,12 @@ namespace com.kx.sglm.gs.battle.share.logic.loop
 		{
 			//TODO 是否有每次回合结束的结算，以后可能会有相关逻辑
 			BattleRoundCountRecord _roundRecord = Battle.Record.OrCreateRoundCountRecord;
+			//TODO: 这里和Fighter中都是用了isDead()，这是重复的，以后要重构
 			if (!Dead)
 			{
 				CurAttacker.onRoundFinish(_roundRecord);
 			}
 			Battle.Record.finishCurRoundCountRecord();
-            Record.FinishDebugRecord();
 		}
 
 		public override bool hasNextSubAction()

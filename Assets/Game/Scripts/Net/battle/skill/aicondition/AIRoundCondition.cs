@@ -1,3 +1,5 @@
+using System;
+
 namespace com.kx.sglm.gs.battle.share.skill.aicondition
 {
 
@@ -15,9 +17,9 @@ namespace com.kx.sglm.gs.battle.share.skill.aicondition
 			return round <= _curRound;
 		}
 
-		public override void build(params int[] param)
+		public override void build(params string[] param)
 		{
-			round = param[0];
+			round = Convert.ToInt32(param[0]);
 		}
 
 	}

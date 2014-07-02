@@ -8,6 +8,7 @@ namespace com.kx.sglm.gs.battle.share.skill.manager
 	using BattleFighter = com.kx.sglm.gs.battle.share.actor.impl.BattleFighter;
 	using MonsterAI = com.kx.sglm.gs.battle.share.ai.MonsterAI;
 	using BattleFightRecord = com.kx.sglm.gs.battle.share.data.record.BattleFightRecord;
+	using BattleRecordConstants = com.kx.sglm.gs.battle.share.data.record.BattleRecordConstants;
 	using BattleRoundCountRecord = com.kx.sglm.gs.battle.share.data.record.BattleRoundCountRecord;
 	using BattleTeamFightRecord = com.kx.sglm.gs.battle.share.data.record.BattleTeamFightRecord;
 	using SingleActionRecord = com.kx.sglm.gs.battle.share.data.record.SingleActionRecord;
@@ -44,7 +45,7 @@ namespace com.kx.sglm.gs.battle.share.skill.manager
 		public override void init()
 		{
 			monsterSkillMap = new Dictionary<int, BaseMonsterSkillAction>();
-			int _aiId = Fighter.BaseProp.AiId;
+			int _aiId = Owner.BaseProp.AiId;
 			monsterAI = SkillService.getMonsterAI(_aiId);
 			Dictionary<int, BaseMonsterSkillAction> _aiSKills = SkillService.getSkillActions(monsterAI);
 			foreach (KeyValuePair<int, BaseMonsterSkillAction> _entry in _aiSKills)
@@ -62,7 +63,7 @@ namespace com.kx.sglm.gs.battle.share.skill.manager
 
 		public override void beforeBattleStart(BattleRoundCountRecord roundRecord)
 		{
-			this.leftRound = Fighter.getFighterOtherProp(BattleKeyConstants.BATTLE_PROP_MONSTER_DEFAULT_CD);
+			this.leftRound = Owner.getFighterOtherProp(BattleKeyConstants.BATTLE_PROP_MONSTER_DEFAULT_CD);
 			recordRoundCount(roundRecord);
 		}
 
@@ -149,7 +150,8 @@ namespace com.kx.sglm.gs.battle.share.skill.manager
 
 		protected internal virtual void recordRound(SingleActionRecord singleRecord)
 		{
-			BattleRecordHelper.recordSingleRecordState(Fighter, singleRecord, BattleKeyConstants.BATTLE_STATE_MONSTER_SKILL_ROUND, LeftRound);
+			BattleRecordHelper.initSingleRecord(Owner, singleRecord);
+			singleRecord.addProp(BattleRecordConstants.BATTLE_MONSTER_SKILL_ROUND, LeftRound);
 		}
 
 		public virtual bool needAttack()
@@ -182,7 +184,7 @@ namespace com.kx.sglm.gs.battle.share.skill.manager
 		{
 			get
 			{
-				return Fighter.getFighterOtherProp(BattleKeyConstants.BATTLE_PROP_MONSTER_DEFAULT_CD);
+				return Owner.getFighterOtherProp(BattleKeyConstants.BATTLE_PROP_MONSTER_DEFAULT_CD);
 			}
 		}
 
@@ -194,7 +196,7 @@ namespace com.kx.sglm.gs.battle.share.skill.manager
 		protected internal virtual void countDownRound()
 		{
 			leftRound--;
-			Console.WriteLine("cur left round is " + leftRound + ", index is " + Fighter.Index);
+			Console.WriteLine("cur left round is " + leftRound + ", index is " + Owner.Index);
 		}
 
 		protected internal virtual BaseMonsterSkillAction getAction(int skillId)
@@ -215,7 +217,7 @@ namespace com.kx.sglm.gs.battle.share.skill.manager
 			calcCurAction();
 		}
 
-		public override void onHandleEvent(BattleTeamFightRecord record)
+		public override void onHandleInputAction(BattleTeamFightRecord record)
 		{
 			// TODO Auto-generated method stub
 

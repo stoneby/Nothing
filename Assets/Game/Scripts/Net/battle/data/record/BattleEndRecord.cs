@@ -25,6 +25,14 @@ namespace com.kx.sglm.gs.battle.share.data.record
 		}
 
 
+		public override bool Empty
+		{
+			get
+			{
+				return false;
+			}
+		}
+
 		public override void show(IBattleView viewObj)
 		{
 			viewObj.showBattleEndRecord(this);
@@ -41,10 +49,6 @@ namespace com.kx.sglm.gs.battle.share.data.record
 			return null;
 		}
 
-	    public override string ToString()
-	    {
-	        return string.Format("EndType: " + endType);
-	    }
 	}
 
 }

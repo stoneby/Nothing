@@ -3,7 +3,6 @@ using System.Globalization;
 using System.Linq;
 using KXSGCodec;
 using Property;
-using OrderType = ItemHelper.OrderType;
 using UnityEngine;
 
 /// <summary>
@@ -13,8 +12,14 @@ public class UITeamEditWindow : Window
 {
     #region Public Fields
 
+    /// <summary>
+    /// The hero prefab used in this window.
+    /// </summary>
     public GameObject HeroPrefab;
 
+    /// <summary>
+    /// The depth of heros page's panel in this window showing.
+    /// </summary>
     public int HerosPanelDepth = 10;
 
     #endregion
@@ -37,11 +42,13 @@ public class UITeamEditWindow : Window
     private int totalHp;
     private int totalRecover;
     private int totalMp;
-    private readonly Color greyOkColor = Color.gray;
     private readonly Vector3 maskOffset = new Vector3(0, 10, 0);
     private readonly List<int> minHeroIndex = new List<int> { 1, 2, 3 };
-    private readonly Dictionary<GameObject, int> selectedItems = new Dictionary<GameObject, int>();
 
+    /// <summary>
+    /// The key is the uuid of the hero, the value is the position in the team.
+    /// </summary>
+    private readonly Dictionary<long, int> selectedItems = new Dictionary<long, int>();
     private UIHerosPageWindow cachedHerosWindow;
     private int cachedRow;
     private UIEventListener.VoidDelegate heroClickDelegate;
@@ -130,6 +137,9 @@ public class UITeamEditWindow : Window
         heroNums = Utils.FindChild(transform, "HeroNums").GetComponent<UILabel>();
     }
 
+    /// <summary>
+    /// Init some varibles.
+    /// </summary>
     private void Init()
     {
         cachedHerosWindow = WindowManager.Instance.Show<UIHerosPageWindow>(true);
@@ -138,9 +148,47 @@ public class UITeamEditWindow : Window
         heroClickDelegate = cachedHerosWindow.ItemClicked;
         cachedHerosWindow.ItemClicked = OnHeroItemClicked;
         cachedHerosWindow.Depth = HerosPanelDepth;
+        cachedHerosWindow.OnSortOrderChanged += SortOrderChanged;
         ResetProperty();
     }
 
+    /// <summary>
+    /// The call back of the sort order changed.
+    /// </summary>
+    /// <param name="go">The sender of the event.</param>
+    private void SortOrderChanged(GameObject go)
+    {
+        var herosTran = cachedHerosWindow.Heros.transform;
+        for (int i = 0; i < herosTran.childCount; i++)
+        {
+            var child = herosTran.GetChild(i);
+            var maskToDel = child.FindChild("Mask(Clone)");
+            if(maskToDel != null)
+            {
+                Destroy(maskToDel.gameObject);
+            }
+        }
+        var uuids = selectedItems.Keys.ToList();
+        for (var i = 0; i < uuids.Count; i++)
+        {
+            var uuid = uuids[i];
+            for (var j = 0; j < herosTran.childCount; j++)
+            {
+                var child = herosTran.GetChild(j);
+                if (child.GetComponent<HeroItem>().Uuid == uuid)
+                {
+                    var maskToShow = NGUITools.AddChild(child.gameObject, mask);
+                    maskToShow.SetActive(true);
+                    maskToShow.transform.localPosition = maskOffset;
+                    maskToShow.transform.GetChild(0).GetComponent<UISprite>().spriteName = selectedItems[uuid].ToString(CultureInfo.InvariantCulture);
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// Do the clean up job.
+    /// </summary>
     private void CleanUp()
     {
         if (!isShuttingDown)
@@ -154,8 +202,12 @@ public class UITeamEditWindow : Window
             WindowManager.Instance.Show<UIHerosPageWindow>(false);
         }
         CleanEditItems();
+        cachedHerosWindow.OnSortOrderChanged -= SortOrderChanged;
     }
 
+    /// <summary>
+    /// Reset the values of properties.
+    /// </summary>
     private void ResetProperty()
     {
         TotalAttack = 0;
@@ -164,6 +216,9 @@ public class UITeamEditWindow : Window
         TotalMp = 0;
     }
 
+    /// <summary>
+    /// The call back of application quit.
+    /// </summary>
     private void OnApplicationQuit()
     {
         isShuttingDown = true;
@@ -206,21 +261,32 @@ public class UITeamEditWindow : Window
         CleanEditItems();
     }
 
+    /// <summary>
+    /// Clean up the edited items.
+    /// </summary>
     private void CleanEditItems()
     {
-        var objList = selectedItems.Keys.ToList();
-        for (int index = 0; index < objList.Count; index++)
+        var uuids = selectedItems.Keys.ToList();
+        var herosTran = cachedHerosWindow.Heros.transform;
+        for (var i = 0; i < uuids.Count; i++)
         {
-            var maskToDel = objList[index].transform.FindChild("Mask(Clone)");
-            Destroy(maskToDel.gameObject);
+            var uuid = uuids[i];
+            for (var j = 0; j < herosTran.childCount; j++)
+            {
+                var child = herosTran.GetChild(j);
+                if (child.GetComponent<HeroItem>().Uuid == uuid)
+                {
+                    var maskToDel = child.FindChild("Mask(Clone)");
+                    Destroy(maskToDel.gameObject);
 
-            var item = items.transform.FindChild("Item" + selectedItems[objList[index]]);
-            var smallHeroToDel = item.FindChild("SmallHero(Clone)");
-            Destroy(smallHeroToDel.gameObject);
+                    var item = items.transform.FindChild("Item" + selectedItems[uuid]);
+                    var smallHeroToDel = item.FindChild("SmallHero(Clone)");
+                    Destroy(smallHeroToDel.gameObject);
+                }
+            }   
         }
         selectedItems.Clear();
-        okLis.GetComponent<UISprite>().color = Color.white;
-        okLis.enabled = false;
+        okLis.GetComponent<UIButton>().isEnabled = false;
     }
 
     /// <summary>
@@ -228,7 +294,7 @@ public class UITeamEditWindow : Window
     /// </summary>
     private void OnOkClick(GameObject go)
     {
-        Dictionary<int, GameObject> temp = selectedItems.ToDictionary(item => item.Value, item => item.Key);
+        Dictionary<int, long> temp = selectedItems.ToDictionary(item => item.Value, item => item.Key);
         var keys = temp.Keys.ToList();
         keys.Sort();
         var uUids = new List<long>();
@@ -238,7 +304,7 @@ public class UITeamEditWindow : Window
         {
             if (index < count && keyIndex + 1 == keys[index])
             {
-                uUids.Add(temp[keyIndex + 1].GetComponent<HeroItem>().Uuid);
+                uUids.Add(temp[keyIndex + 1]);
                 index++;
             }
             else
@@ -260,12 +326,12 @@ public class UITeamEditWindow : Window
     private void OnHeroItemClicked(GameObject go)
     {
         var uUid = go.GetComponent<HeroItem>().Uuid;
-        if (selectedItems.ContainsKey(go))
+        if (selectedItems.ContainsKey(uUid))
         {
-            var item = items.transform.FindChild("Item" + selectedItems[go]);
+            var item = items.transform.FindChild("Item" + selectedItems[uUid]);
             Destroy(item.FindChild("SmallHero(Clone)").gameObject);
             Destroy(go.transform.FindChild("Mask(Clone)").gameObject);
-            RemoveSelectedItem(go);
+            RemoveSelectedItem(uUid);
             RefreshProperty(uUid, false);
         }
         else
@@ -286,7 +352,7 @@ public class UITeamEditWindow : Window
             var item = items.transform.FindChild("Item" + firstValue);
             var child = NGUITools.AddChild(item.gameObject, smallHero);
             child.SetActive(true);
-            AddSelectedItem(go, firstValue);
+            AddSelectedItem(uUid, firstValue);
             RefreshProperty(uUid, true);
         }
 
@@ -319,7 +385,7 @@ public class UITeamEditWindow : Window
                 var smallItem = items.transform.FindChild("Item" + numIndex);
                 var child = NGUITools.AddChild(smallItem.gameObject, smallHero);
                 child.SetActive(true);
-                AddSelectedItem(item.gameObject, curTeamUuids.IndexOf(uUid) + 1);
+                AddSelectedItem(uUid, curTeamUuids.IndexOf(uUid) + 1);
                 RefreshProperty(uUid, true);
             }
         }
@@ -345,57 +411,31 @@ public class UITeamEditWindow : Window
     /// <summary>
     /// Add the key/value pair to the selected item dictionary.
     /// </summary>
-    /// <param name="itemToAdd">The key of the item pair to be added.</param>
+    /// <param name="uuidToAdd">The key of the item pair to be added.</param>
     /// <param name="numIndex">The value of the item pair to be added.</param>
-    private void AddSelectedItem(GameObject itemToAdd, int numIndex)
+    private void AddSelectedItem(long uuidToAdd, int numIndex)
     {
-        selectedItems.Add(itemToAdd, numIndex);
+        selectedItems.Add(uuidToAdd, numIndex);
 
         //Set the color to normal.
         if (selectedItems.Values.ToList().Intersect(minHeroIndex).Count() == minHeroIndex.Count)
         {
-            okLis.GetComponent<UISprite>().color = Color.white;
-            okLis.GetComponent<BoxCollider>().enabled = true;
+            okLis.GetComponent<UIButton>().isEnabled = true;
         }
     }
 
     /// <summary>
     /// Considering performance, we don't check the existence, the user need take care of it.
     /// </summary>
-    /// <param name="itemToAdd">The game object need removed from the selected item dictionary.</param>
-    private void RemoveSelectedItem(GameObject itemToAdd)
+    /// <param name="uuidToAdd">The uuid of hero item need removed from the selected item dictionary.</param>
+    private void RemoveSelectedItem(long uuidToAdd)
     {
-        selectedItems.Remove(itemToAdd);
-        //Set the color to grey.
+        selectedItems.Remove(uuidToAdd);
         if (selectedItems.Values.ToList().Intersect(minHeroIndex).Count() < minHeroIndex.Count)
         {
-            okLis.GetComponent<UISprite>().color = greyOkColor;
-            okLis.GetComponent<BoxCollider>().enabled = false;
+            okLis.GetComponent<UIButton>().isEnabled = false;
         }
     }
-
-    ///// <summary>
-    ///// Despawn hero instance to the hero pool.
-    ///// </summary>
-    //private void DespawnHeros()
-    //{
-    //    if (PoolManager.Pools.ContainsKey("Heros"))
-    //    {
-    //        var list = herosGrid.transform.Cast<Transform>().ToList();
-    //        for(int index = 0; index < list.Count; index++)
-    //        {
-    //            var item = list[index];
-    //            var maskToDel = item.FindChild("Mask(Clone)");
-    //            if(maskToDel != null)
-    //            {
-    //                Destroy(maskToDel.gameObject);
-    //            }
-    //            UIEventListener.Get(item.gameObject).onClick -= OnHeroItemClicked;
-    //            item.parent = PoolManager.Pools["Heros"].transform;
-    //            PoolManager.Pools["Heros"].Despawn(item);
-    //        }
-    //    }
-    //}
 
     #endregion
 }

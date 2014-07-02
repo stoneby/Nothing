@@ -11,8 +11,36 @@ namespace com.kx.sglm.gs.battle.share.data.record
 	public class FighterStateRecord
 	{
 
+		private int buffId;
 		private sbyte state;
+		private int showId;
 		private sbyte leftRound;
+
+		public virtual int BuffId
+		{
+			get
+			{
+				return buffId;
+			}
+			set
+			{
+				this.buffId = value;
+			}
+		}
+
+
+		public virtual int ShowId
+		{
+			get
+			{
+				return showId;
+			}
+			set
+			{
+				this.showId = value;
+			}
+		}
+
 
 		public virtual sbyte State
 		{

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using com.kx.sglm.gs.battle.share.data.record;
 
 namespace com.kx.sglm.gs.battle.share.executer.impl
 {
@@ -82,10 +81,7 @@ namespace com.kx.sglm.gs.battle.share.executer.impl
 			BattleRecord _record = Battle.Record;
 			BattleTeamFightRecord _fightRecord = _record.OrCreateTeamFighterRecord;
 			_fightRecord.addProp(BattleRecordConstants.BATTLE_HERO_PROP_MP, attackerTeam().CurMp);
-
-            var debugRecord = Battle.Record.OrCreateDebugRecord;
-            BattleRecordHelper.FillDebugRecord(debugRecord, attackerTeam());
-        }
+		}
 
 
 		protected internal virtual void recordAllIndexedRecord()

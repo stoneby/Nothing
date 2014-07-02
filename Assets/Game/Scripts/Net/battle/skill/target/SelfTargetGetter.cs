@@ -18,7 +18,7 @@ namespace com.kx.sglm.gs.battle.share.skill.target
 
 		}
 
-		public override void build(params int[] param)
+		public override void build(params string[] param)
 		{
 
 		}

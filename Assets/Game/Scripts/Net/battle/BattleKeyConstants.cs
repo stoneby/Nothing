@@ -3,6 +3,7 @@ namespace com.kx.sglm.gs.battle.share
 
 	/// <summary>
 	/// 战斗逻辑内key常量
+	/// 
 	/// @author liyuan2
 	/// 
 	/// </summary>
@@ -28,11 +29,11 @@ namespace com.kx.sglm.gs.battle.share
 		public static readonly int BATTLE_KEY_HERO_TEMPLATE = BATTLE_KEY_BASE++;
 
 		/// <summary>
-		/// 怪物所在场旿 </summary>
+		/// 怪物所在场景 </summary>
 		public static readonly int BATTLE_KEY_MONSTER_SCENE = BATTLE_KEY_BASE++;
 
 		public static readonly int BATTLE_KEY_HERO_TYPE = BATTLE_KEY_BASE++;
-        
+
 		public static readonly int BATTLE_PROP_MONSTER_GROUP = BATTLE_KEY_BASE++;
 
 		public static readonly int BATTLE_PROP_MONSTER_DROP_ITEM = BATTLE_KEY_BASE++;
@@ -48,11 +49,6 @@ namespace com.kx.sglm.gs.battle.share
 		public static readonly int BATTLE_PROP_MONSTER_DEFAULT_CD = BATTLE_KEY_BASE++;
 
 		public static readonly int BATTLE_PROP_MONSTER_AI_ID = BATTLE_KEY_BASE++;
-
-		////////////////////////////////战斗状态key//////////////////////////////////////
-		private static sbyte BATTLE_STATE_KEY_BASE = 0;
-
-		public static readonly sbyte BATTLE_STATE_MONSTER_SKILL_ROUND = BATTLE_STATE_KEY_BASE++;
 
 	}
 

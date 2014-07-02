@@ -32,6 +32,14 @@ namespace com.kx.sglm.gs.battle.share.data.record
 			fillPointList = new List<PointRecord>();
 		}
 
+		public override bool Empty
+		{
+			get
+			{
+				return false;
+			}
+		}
+
 		public virtual List<PointRecord> FillPointList
 		{
 			get
@@ -94,10 +102,6 @@ namespace com.kx.sglm.gs.battle.share.data.record
 			return null;
 		}
 
-	    public override string ToString()
-	    {
-	        return string.Format("target side: " + targetSide + ", fill point list count: " + fillPointList.Count);
-	    }
 	}
 
 }

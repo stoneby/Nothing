@@ -102,12 +102,19 @@ namespace com.kx.sglm.gs.battle.share.data.record
 			}
 		}
 
-		public virtual void addState(sbyte key, int round)
+		public virtual void addState(int buffId, int showId, sbyte state, int round)
 		{
 			FighterStateRecord _state = new FighterStateRecord();
-			_state.State = key;
+			_state.State = state;
+			_state.BuffId = buffId;
+			_state.ShowId = showId;
 			_state.LeftRound = (sbyte)round;
 			stateUpdateList.Add(_state);
+		}
+
+		public virtual void clearState()
+		{
+			this.stateUpdateList.Clear();
 		}
 
 		public virtual List<FighterStateRecord> StateUpdateList
@@ -118,12 +125,6 @@ namespace com.kx.sglm.gs.battle.share.data.record
 			}
 		}
 
-
-	    public override string ToString()
-	    {
-	        return
-	            string.Format("Index: " + index + ", Act type: " + actType + ", side index: " + sideIndex);
-	    }
 	}
 
 }

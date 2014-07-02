@@ -47,8 +47,7 @@ public class UIItemInfoWindow : Window
         set
         {
             canLvlUp = value;
-            lvUpBtnLis.GetComponent<UISprite>().color = canLvlUp ? Color.white : Color.gray;
-            lvUpBtnLis.GetComponent<BoxCollider>().enabled = canLvlUp;
+            lvUpBtnLis.GetComponent<UIButton>().isEnabled = canLvlUp;
         }
     }
     
@@ -63,8 +62,7 @@ public class UIItemInfoWindow : Window
         {
 
             canEvolve = value;
-            lvEvolveBtnLis.GetComponent<UISprite>().color = canEvolve ? Color.white : Color.gray;
-            lvEvolveBtnLis.GetComponent<BoxCollider>().enabled = canEvolve;
+            lvEvolveBtnLis.GetComponent<UIButton>().isEnabled = canEvolve;
         }
     }
 

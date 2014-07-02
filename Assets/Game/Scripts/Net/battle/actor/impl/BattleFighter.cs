@@ -1,19 +1,16 @@
-using System.Collections.Generic;
-
 namespace com.kx.sglm.gs.battle.share.actor.impl
 {
 
-
-	using IBattleBuffManager = com.kx.sglm.gs.battle.share.buff.IBattleBuffManager;
+	using BattleBuffManager = com.kx.sglm.gs.battle.share.buff.BattleBuffManager;
 	using FighterInfo = com.kx.sglm.gs.battle.share.data.FighterInfo;
 	using BattleFightRecord = com.kx.sglm.gs.battle.share.data.record.BattleFightRecord;
 	using BattleRoundCountRecord = com.kx.sglm.gs.battle.share.data.record.BattleRoundCountRecord;
 	using BattleTeamFightRecord = com.kx.sglm.gs.battle.share.data.record.BattleTeamFightRecord;
 	using SingleActionRecord = com.kx.sglm.gs.battle.share.data.record.SingleActionRecord;
 	using BattleSideEnum = com.kx.sglm.gs.battle.share.enums.BattleSideEnum;
-	using FighterState = com.kx.sglm.gs.battle.share.enums.FighterState;
 	using HeroColor = com.kx.sglm.gs.battle.share.enums.HeroColor;
 	using InnerBattleEvent = com.kx.sglm.gs.battle.share.@event.InnerBattleEvent;
+	using SceneStartEvent = com.kx.sglm.gs.battle.share.@event.impl.SceneStartEvent;
 	using TeamShotStartEvent = com.kx.sglm.gs.battle.share.@event.impl.TeamShotStartEvent;
 	using IBattleSkillManager = com.kx.sglm.gs.battle.share.skill.IBattleSkillManager;
 	using ISingletonSkillAction = com.kx.sglm.gs.battle.share.skill.ISingletonSkillAction;
@@ -37,22 +34,6 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 		protected internal int curHp;
 
 		/// <summary>
-		/// 当前攻击 </summary>
-		protected internal int attack;
-
-		/// <summary>
-		/// 当前回复 </summary>
-		protected internal int recover;
-
-		/// <summary>
-		/// 当前防御 </summary>
-		protected internal int defence;
-
-		/// <summary>
-		/// 当前免伤 </summary>
-		protected internal int damageFree;
-
-		/// <summary>
 		/// 职业 </summary>
 		protected internal int job;
 
@@ -66,18 +47,20 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 
 		protected internal BattleTeam ownerTeam;
 
-		protected internal IBattleBuffManager buffManager;
+		protected internal BattleBuffManager buffManager;
 
 		protected internal IBattleSkillManager skillManager;
 
-		protected internal List<FighterState> stateList;
+		protected internal FighterStateManager stateManager;
 
+		protected internal BattleFighterPropty fighterProp;
 
 		public BattleFighter(BattleTeam ownerTeam, FighterInfo baseProp)
 		{
 			this.baseProp = baseProp;
 			this.dead = false;
-			this.stateList = new List<FighterState>();
+			this.stateManager = new FighterStateManager(this);
+			this.fighterProp = new BattleFighterPropty(this);
 		}
 
 		public virtual IBattleSkillManager SkillManager
@@ -99,23 +82,23 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 			{
 				_canAttack = skillManager.canAttack();
 			}
-			foreach (FighterState _state in stateList)
+			if (_canAttack)
 			{
-				if (!_canAttack)
-				{
-					break;
-				}
-				_canAttack = _state.FightAble;
+				_canAttack = stateManager.canStateAttack();
 			}
 			return _canAttack;
 
+		}
+
+		public virtual void updateStateRecord(SingleActionRecord record)
+		{
+			stateManager.updateStateRecord(record);
 		}
 
 		public virtual void afterAttack(BattleFightRecord record)
 		{
 			skillManager.afterAttack(record);
 		}
-
 
 		public virtual void afterDefence(BattleFightRecord record)
 		{
@@ -125,6 +108,11 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 		public virtual void useActiveSkill()
 		{
 			skillManager.onActiveOption();
+		}
+
+		public virtual void activeBuff(int buffFlag)
+		{
+			buffManager.activeAllBuff(buffFlag);
 		}
 
 		public virtual void onCostHp(int costHp)
@@ -149,11 +137,19 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 			return ownerTeam;
 		}
 
+		public virtual int FighterState
+		{
+			get
+			{
+				return stateManager.FighterStateFlag;
+			}
+		}
+
 		public virtual int AttackVal
 		{
 			get
 			{
-				return attack;
+				return fighterProp.BattleProp.getAsInt(RoleAProperty.ATK);
 			}
 		}
 
@@ -161,11 +157,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 		{
 			get
 			{
-				return damageFree;
-			}
-			set
-			{
-				this.damageFree = value;
+				return fighterProp.BattleProp.getAsInt(RoleAProperty.DECRDAMAGE);
 			}
 		}
 
@@ -179,9 +171,9 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 			return CurHp > 0;
 		}
 
-
 		/// <summary>
 		/// 在攻击时，如果一只fighter死亡，攻击队列并不会更改目标，所以使用了<seealso cref="#hasHp()"/>和<seealso cref="#isDead()"/>，处理不同的需求
+		/// 
 		/// @return
 		/// </summary>
 		public virtual bool Dead
@@ -200,11 +192,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 		{
 			get
 			{
-				return defence;
-			}
-			set
-			{
-				this.defence = value;
+				return fighterProp.BattleProp.getAsInt(RoleAProperty.DEFENSE);
 			}
 		}
 
@@ -221,12 +209,12 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 		}
 
 
-		public virtual void addBuff()
+		public virtual void addBuff(int buffId)
 		{
-			// TODO: add buff logic
+			buffManager.addBuff(buffId);
 		}
 
-		public virtual IBattleBuffManager BuffManager
+		public virtual BattleBuffManager BuffManager
 		{
 			get
 			{
@@ -241,6 +229,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 		public virtual void onAttack(BattleFightRecord fightRecord)
 		{
 			skillManager.onAttack(fightRecord);
+			buffManager.onAttack(fightRecord);
 		}
 
 		public virtual ISingletonSkillAction FightAction
@@ -251,9 +240,39 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 			}
 		}
 
+		public virtual void onSceneStart(SceneStartEvent @event)
+		{
+			skillManager.onSceneStart(@event);
+			buffManager.activeAllBuff(BattleConstants.BUFF_ALL_FALG);
+		}
+
+
+		public virtual void onSceneStop()
+		{
+			buffManager.clearAllBuff();
+		}
+
+
 		public virtual void onTeamShotStart(TeamShotStartEvent @event)
 		{
 			skillManager.onTeamShotStart(@event);
+			buffManager.onTeamShotStart(@event);
+			FighterProp.recalcBattleProp();
+		}
+
+		public virtual void onHandleFightInputAction(BattleTeamFightRecord record)
+		{
+			skillManager.onHandleInputAction(record);
+		}
+
+		public virtual void onRoundFinish(BattleRoundCountRecord roundRecord)
+		{
+			if (Dead)
+			{
+				return;
+			}
+			skillManager.countDownRound(roundRecord);
+			buffManager.onRoundFinish(roundRecord);
 		}
 
 		public virtual int getFighterOtherProp(int key)
@@ -262,8 +281,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 		}
 
 
-
-		public virtual int TotalHp
+		public virtual int FighterTotalHp
 		{
 			get
 			{
@@ -286,9 +304,9 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 		public virtual void changeCurHp(int addHp)
 		{
 			int _totalHp = addHp + CurHp;
-			if (_totalHp >= TotalHp)
+			if (_totalHp >= FighterTotalHp)
 			{
-				_totalHp = TotalHp;
+				_totalHp = FighterTotalHp;
 			}
 			if (_totalHp < 0)
 			{
@@ -296,7 +314,6 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 			}
 			CurHp = _totalHp;
 		}
-
 
 
 		public virtual void onDead()
@@ -329,14 +346,15 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 			}
 		}
 
-		public virtual void onRoundFinish(BattleRoundCountRecord roundRecord)
+
+		public virtual void clearState()
 		{
-		    if (Dead)
-		    {
-		        return;
-		    }
-			skillManager.countDownRound(roundRecord);
-			// buffManager.countDownRound();//TODO: 暂时没有BUFF
+			stateManager.clearState();
+		}
+
+		public virtual void addState(BattleFighterState state)
+		{
+			stateManager.addState(state);
 		}
 
 		public virtual int Side
@@ -360,31 +378,17 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 		}
 
 
-		public virtual int Attack
-		{
-			get
-			{
-				return attack;
-			}
-			set
-			{
-				this.attack = value;
-			}
-		}
-
-
 		public virtual int Recover
 		{
 			get
 			{
-				return recover;
+				return fighterProp.BattleProp.getAsInt(RoleAProperty.RECOVER);
 			}
 			set
 			{
-				this.recover = value;
+				fighterProp.BaseProp.set(RoleAProperty.RECOVER, value);
 			}
 		}
-
 
 		public virtual string Name
 		{
@@ -399,19 +403,6 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 		}
 
 
-		public virtual List<FighterState> StateList
-		{
-			get
-			{
-				return stateList;
-			}
-			set
-			{
-				this.stateList = value;
-			}
-		}
-
-
 		public virtual FighterInfo BaseProp
 		{
 			get
@@ -419,8 +410,6 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 				return baseProp;
 			}
 		}
-
-
 
 
 		public virtual void setOwnerTeam(BattleTeam ownerTeam)
@@ -448,10 +437,46 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 			}
 		}
 
-		public virtual void onHandleFightEvent(BattleTeamFightRecord record)
+		public virtual BattleFighterPropty FighterProp
 		{
-			skillManager.onHandleEvent(record);
+			get
+			{
+				return fighterProp;
+			}
 		}
+
+		public virtual int BattleTotalHp
+		{
+			get
+			{
+				return Hero ? getOwnerTeam().TotalHp : FighterTotalHp;
+			}
+		}
+
+		public virtual bool Hero
+		{
+			get
+			{
+				return getOwnerTeam().FighterType.Hero;
+			}
+		}
+
+		public virtual int AliveCostMaxHp
+		{
+			get
+			{
+				return BattleTotalHp - BattleConstants.FIGHTER_ALIVE_MIN_HP;
+			}
+		}
+
+		public virtual int Attack
+		{
+			set
+			{
+				fighterProp.BaseProp.set(RoleAProperty.ATK, value);
+			}
+		}
+
 
 	}
 

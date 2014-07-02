@@ -89,7 +89,31 @@ namespace com.kx.sglm.gs.battle.share
 
 		public const int TARGET_GETTER_FOR_FRIEND_INDEX = 1;
 
-		public const int INT_SIZE = 32;
+		public const int BUFF_MAX_SIZE = 8;
+
+		public const int DEBUFF_MAX_SIZE = 8;
+
+		public static readonly int BUFF_ALL_MAX_SIZE = BUFF_MAX_SIZE + DEBUFF_MAX_SIZE;
+
+		public const int BUFF_FLAG = 0x01;
+
+		public const int DEBUFF_FALG = 0x02;
+
+		public static readonly int BUFF_ALL_FALG = BUFF_FLAG | DEBUFF_FALG;
+
+		public const int FIGHTER_ALIVE_MIN_HP = 1;
+		/// <summary>
+		/// 可攻击的标识 </summary>
+		public const int ATTACK_DIS_FLAG = 0X01;
+		/// <summary>
+		/// 可使用技能的标识 </summary>
+		public const int SKILL_DIS_FLAG = 0X02;
+		/// <summary>
+		/// 攻击不为0 </summary>
+		public const int ATTACK_ZERO_FLAG = 0X04;
+
+		public const int DISABLE_FLAG = 0xffff;
 	}
+
 
 }

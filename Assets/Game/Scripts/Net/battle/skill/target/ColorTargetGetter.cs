@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace com.kx.sglm.gs.battle.share.skill.target
@@ -38,9 +39,9 @@ namespace com.kx.sglm.gs.battle.share.skill.target
 			return MathUtils.hasFlagIndex(colorFlag, _colorIndex);
 		}
 
-		public override void build(params int[] param)
+		public override void build(params string[] param)
 		{
-			colorFlag = MathUtils.changeDecToBinFlag(param[0], true);
+			colorFlag = MathUtils.changeDecToBinFlag(Convert.ToInt32(param[0]), true);
 
 		}
 

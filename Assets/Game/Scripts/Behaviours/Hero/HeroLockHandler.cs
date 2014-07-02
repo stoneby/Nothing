@@ -2,8 +2,6 @@
 using System.Linq;
 using KXSGCodec;
 using UnityEngine;
-using System.Collections;
-using OrderType = ItemHelper.OrderType;
 
 public class HeroLockHandler : MonoBehaviour 
 {

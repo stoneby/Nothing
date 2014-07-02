@@ -1,12 +1,64 @@
-﻿using System.Globalization;
+﻿using System.Collections.Generic;
+using System.Globalization;
 using KXSGCodec;
 using UnityEngine;
+using LeaderState = HeroConstant.LeaderState;
+using System.Linq;
 
 public class HeroItem : HeroItemBase
 {
+    public string LeaderSpriteName;
+    public string SecondLeaderSpriteName;
+    public string ThirdLeaderSpriteName;
+    public string MemberSpriteName;
+    public string MemberInOtherSpriteName;
+
     private Transform sortRelatedTran;
     private Transform lockMaskTran;
     private Transform lockedIcon;
+    private UISprite leaderStateSprite;
+
+    private LeaderState leaderState;
+    public LeaderState LeaderState
+    {
+        get { return leaderState; }
+        set
+        {
+            leaderState = value;
+            switch(leaderState)
+            {
+                case LeaderState.MainLeader:
+                    {
+                        leaderStateSprite.spriteName = LeaderSpriteName;
+                        break;
+                    }
+
+                case LeaderState.SecondLeader:
+                    {
+                        leaderStateSprite.spriteName = SecondLeaderSpriteName;
+                        break;
+                    }     
+                case LeaderState.ThirdLeader:
+                    {
+                        leaderStateSprite.spriteName = ThirdLeaderSpriteName;
+                        break;
+                    }
+
+                case LeaderState.Member:
+                    {
+                        leaderStateSprite.spriteName = MemberSpriteName;
+                        break;
+                    } 
+                case LeaderState.MemberInOtherTeam:
+                    {
+                        leaderStateSprite.spriteName = MemberInOtherSpriteName;
+                        break;
+                    }
+            }
+            leaderStateSprite.enabled = leaderState != LeaderState.NotInTeam;
+            NGUITools.MakePixelPerfect(leaderStateSprite.transform);
+        }
+    }
 
     private bool bindState;
     public bool BindState
@@ -26,6 +78,27 @@ public class HeroItem : HeroItemBase
         lockMaskTran = cachedTran.FindChild("BindMask");
         lockedIcon = cachedTran.FindChild("BindIcon");
         ShowLockMask(false);
+        leaderStateSprite = cachedTran.FindChild("LeaderState").GetComponent<UISprite>();
+    }
+
+
+    private void SetLeaderState(HeroInfo heroInfo)
+    {
+        var heroList = HeroModelLocator.Instance.SCHeroList;
+        var curTeamIndex = heroList.CurrentTeamIndex;
+        var curTeamUuids = new List<long>();
+        var allTeamUuids = new List<long>();
+        for (var i = 0; i < heroList.TeamList.Count; i++)
+        {
+            var uUids = heroList.TeamList[i].ListHeroUuid.Where(id => id != HeroConstant.NoneInitHeroUuid).ToList();
+            if (curTeamIndex == i)
+            {
+                curTeamUuids = uUids.ToList();
+            }
+            allTeamUuids.AddRange(uUids);
+        }
+        allTeamUuids = allTeamUuids.Distinct().ToList();
+        LeaderState = HeroUtils.GetLeaderState(heroInfo.Uuid, curTeamUuids, allTeamUuids);
     }
 
     /// <summary>
@@ -87,11 +160,12 @@ public class HeroItem : HeroItemBase
         lockMaskTran.gameObject.SetActive(show);
     }
 
-    public override void InitItem(HeroInfo heroInfo)
+    public override void InitItem(HeroInfo heroInfo, List<long> curTeam, List<long> allTeams)
     {
         var heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpl[heroInfo.TemplateId];
         Quality = heroTemplate.Star;
         Uuid = heroInfo.Uuid;
         BindState = heroInfo.Bind;
+        LeaderState = HeroUtils.GetLeaderState(Uuid, curTeam, allTeams);
     }
 }

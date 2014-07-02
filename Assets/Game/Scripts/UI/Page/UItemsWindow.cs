@@ -134,8 +134,8 @@ public class UItemsWindow : Window
         if(childCount != itemCounts)
         {
             var isAdd = childCount < itemCounts;
-            Utils.AddOrDelItems(Items.transform, ItemPrefab.transform, isAdd, Mathf.Abs(itemCounts - childCount),
-                                "Heros",
+            HeroUtils.AddOrDelItems(Items.transform, ItemPrefab.transform, isAdd, Mathf.Abs(itemCounts - childCount),
+                                HeroConstant.HeroPoolName,
                                 null);
         }
         Items.repositionNow = true;
@@ -176,14 +176,14 @@ public class UItemsWindow : Window
                 }
             }
         }
-        if(PoolManager.Pools.ContainsKey("Heros"))
+        if (PoolManager.Pools.ContainsKey(HeroConstant.HeroPoolName))
         {
             for(int index = 0; index < list.Count; index++)
             {
                 var item = list[index];
                 UIEventListener.Get(item.gameObject).onClick = null;
-                item.parent = PoolManager.Pools["Heros"].transform;
-                PoolManager.Pools["Heros"].Despawn(item);
+                item.parent = PoolManager.Pools[HeroConstant.HeroPoolName].transform;
+                PoolManager.Pools[HeroConstant.HeroPoolName].Despawn(item);
             }
         }
         Items.repositionNow = true;

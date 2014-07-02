@@ -64,7 +64,7 @@ namespace com.kx.sglm.gs.battle.share.skill.manager
 
 		protected internal virtual void initAllSkill()
 		{
-			List<int> _skillIds = Fighter.BaseProp.SkillIdList;
+			List<int> _skillIds = Owner.BaseProp.SkillIdList;
 			List<BaseHeroBattleSkillAction> _allSkills = SkillService.getSkillAction(_skillIds);
 			foreach (BaseHeroBattleSkillAction _action in _allSkills)
 			{
@@ -114,7 +114,7 @@ namespace com.kx.sglm.gs.battle.share.skill.manager
 		{
 			if (!attackAction.NormalAction)
 			{
-				record.addSkillFighter(Fighter.TemplateId);
+				record.addSkillFighter(Owner.TemplateId);
 			}
 		}
 
@@ -126,10 +126,21 @@ namespace com.kx.sglm.gs.battle.share.skill.manager
 			SkillActionHolder _holder = getActionHolder(eventIndex);
 			if (_holder != null)
 			{
-				_actionList.AddRange(_holder.getActAction(Fighter));
+				_actionList.AddRange(_holder.getActAction(Owner));
 			}
 
 			return _actionList;
+		}
+
+		protected internal virtual void actionOnEventIndex(int eventIndex, BattleSkillRecord record)
+		{
+			List<BaseHeroBattleSkillAction> _actionList = getToActList(eventIndex);
+			BattleFightRecord _fightRecord = record.OrCreateFightRecord;
+			foreach (BaseHeroBattleSkillAction _action in _actionList)
+			{
+				_action.onAction(Owner, _fightRecord);
+			}
+			record.finishCurRecord();
 		}
 
 		public override ISingletonSkillAction AttackAction
@@ -181,15 +192,15 @@ namespace com.kx.sglm.gs.battle.share.skill.manager
 
 		public override void onActiveOption()
 		{
-			if (!canActiveSkill())
-			{
-				return;
-			}
+			// TODO: ¸Ä»ØÀ´
+			// if (!canActiveSkill()) {
+			// return;
+			// }
 			BattleRecord _record = Battle.Record;
 			BattleSkillRecord _actSkillRecord = _record.OrCreateSkillRecord;
-			BattleRecordHelper.initBattelSkill(_actSkillRecord, Fighter);
+			BattleRecordHelper.initBattelSkill(_actSkillRecord, Owner);
 			BattleFightRecord _fightRecord = _actSkillRecord.OrCreateFightRecord;
-			if (!activeAction.canOption(Fighter))
+			if (!activeAction.canOption(Owner))
 			{
 				Logger.Log("cannot.option.activeSkill");
 				return;
@@ -200,7 +211,6 @@ namespace com.kx.sglm.gs.battle.share.skill.manager
 			_record.finishCurSkillRecord();
 		}
 
-
 		protected internal virtual bool canActiveSkill()
 		{
 			return hasEnoughMP() && ActiveFighter;
@@ -208,14 +218,14 @@ namespace com.kx.sglm.gs.battle.share.skill.manager
 
 		protected internal virtual bool hasEnoughMP()
 		{
-			return Fighter.getOwnerTeam().CurMp >= activeAction.CostMp;
+			return Owner.getOwnerTeam().CurMp >= activeAction.CostMp;
 		}
 
 		protected internal virtual bool ActiveFighter
 		{
 			get
 			{
-				return MathUtils.hasFlagIndex(BattleConstants.FIGHTER_ACTIVE_SKILL_FLAG, Fighter.Index);
+				return MathUtils.hasFlagIndex(BattleConstants.FIGHTER_ACTIVE_SKILL_FLAG, Owner.Index);
 			}
 		}
 
@@ -243,7 +253,9 @@ namespace com.kx.sglm.gs.battle.share.skill.manager
 
 		public override void onSceneStart(SceneStartEvent @event)
 		{
-
+			BattleSkillRecord _skillRecord = Battle.Record.OrCreateSkillRecord;
+			actionOnEventIndex(@event.EventType, _skillRecord);
+			Battle.Record.finishCurSkillRecord();
 		}
 
 		public override void onTeamShotStart(TeamShotStartEvent @event)
@@ -266,7 +278,7 @@ namespace com.kx.sglm.gs.battle.share.skill.manager
 			}
 		}
 
-		public override void onHandleEvent(BattleTeamFightRecord record)
+		public override void onHandleInputAction(BattleTeamFightRecord record)
 		{
 			calcAttackBattleAction(record);
 		}

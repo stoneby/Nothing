@@ -1,3 +1,5 @@
+using System;
+
 namespace com.kx.sglm.gs.battle.share.skill.condition
 {
 
@@ -14,9 +16,9 @@ namespace com.kx.sglm.gs.battle.share.skill.condition
 			return false;
 		}
 
-		public override void build(params int[] param)
+		public override void build(params string[] param)
 		{
-			this.hpRate = param[0];
+			this.hpRate = Convert.ToInt32(param[0]);
 		}
 
 	}

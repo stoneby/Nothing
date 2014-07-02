@@ -84,7 +84,11 @@ public class UIHerosPageWindow : Window
             }
         }
     }
-
+    
+    /// <summary>
+    /// The call back of the sort order changed.
+    /// </summary>
+    public UIEventListener.VoidDelegate OnSortOrderChanged;
 
     #endregion
 
@@ -125,6 +129,10 @@ public class UIHerosPageWindow : Window
         sortLabel.text = StringTable.SortStrings[(int)orderType];
         HeroModelLocator.Instance.OrderType = orderType;
         Refresh(infos);
+        if(OnSortOrderChanged != null)
+        {
+            OnSortOrderChanged(go);
+        }
     }
 
     /// <summary>
@@ -136,13 +144,17 @@ public class UIHerosPageWindow : Window
         if (childCount != heroCount)
         {
             var isAdd = childCount < heroCount;
-            Utils.AddOrDelItems(Heros.transform, HeroPrefab.transform, isAdd, Mathf.Abs(heroCount - childCount),
-                                "Heros",
+            HeroUtils.AddOrDelItems(Heros.transform, HeroPrefab.transform, isAdd, Mathf.Abs(heroCount - childCount),
+                                HeroConstant.HeroPoolName,
                                 null);
         }
         Heros.repositionNow = true;
     }
 
+    /// <summary>
+    /// Refresh the heros page window with the special hero info list.
+    /// </summary>
+    /// <param name="newInfos">The hero info list to refresh data.</param>
     public void Refresh(List<HeroInfo> newInfos)
     {
         UpdateItemList(newInfos.Count);
@@ -153,7 +165,10 @@ public class UIHerosPageWindow : Window
         {
             var heroItem = Heros.transform.GetChild(i).GetComponent<HeroItem>();
             var info = newInfos[i];
-            heroItem.InitItem(info);
+            List<long> curTeamUuids;
+            List<long> allTeamUuids;
+            HeroModelLocator.Instance.GetTeamUuids(out curTeamUuids, out allTeamUuids);
+            heroItem.InitItem(info, curTeamUuids, allTeamUuids);
             HeroUtils.ShowHero(orderType, heroItem, info);
         }
         scrollPanel.GetComponent<UIScrollView>().ResetPosition();
@@ -163,6 +178,9 @@ public class UIHerosPageWindow : Window
 
     #region Public Methods
 
+    /// <summary>
+    /// Set back the panel depth.
+    /// </summary>
     public void ResetDepth()
     {
         Depth = cachedDepth;

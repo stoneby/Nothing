@@ -93,10 +93,6 @@ namespace Assets.Game.Scripts.Net.handler
                     {
                         var heroBaseWindow = WindowManager.Instance.GetWindow<HeroBaseInfoWindow>();
                         heroBaseWindow.HeroInfo.EquipUuid[heroBaseWindow.CurEquipIndex] = hChangeEquipMsg.EquipUuid;
-                        WindowManager.Instance.Show<UIHeroSelItemWindow>(false);
-                        WindowManager.Instance.Show<HeroBaseInfoWindow>(true);
-                        WindowManager.Instance.Show<UIHeroInfoWindow>(true);
-                        WindowManager.Instance.Show<UItemsWindow>(false);
                     }
                     break;
                 case (short) MessageType.SC_HERO_BIND_SUCC:

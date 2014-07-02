@@ -8,6 +8,7 @@ public class BattleController : MonoBehaviour
     public List<GameObject> EnemyList;
 
     public Transform AttackStackPoint;
+    public int ColorIndex;
 
     public float RunTime = 0.2f;
     public float AttackTime = 0.3f;
@@ -103,5 +104,10 @@ public class BattleController : MonoBehaviour
         SelectController.OnSelect += OnSelected;
         SelectController.OnStart += OnStart;
         SelectController.OnStop += OnStop;
+
+        SelectController.CharacterList.ForEach(item =>
+        {
+            item.ColorIndex = ColorIndex;
+        });
     }
 }

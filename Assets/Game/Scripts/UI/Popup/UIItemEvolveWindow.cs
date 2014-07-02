@@ -16,7 +16,6 @@ public class UIItemEvolveWindow : Window
     private Transform leftItem;
     private Transform rightItem;
     private UIGrid evolveMats;
-    private const string PoolName = "Heros";
     private const int MaterialCount = 4;
     private short operItemIndex;
     private ItemEvoluteTemplate curEvoluteTmp;
@@ -186,11 +185,11 @@ public class UIItemEvolveWindow : Window
 
     private void FillItems()
     {
-        var item = PoolManager.Pools[PoolName].Spawn(ItemPrefab);
+        var item = PoolManager.Pools[HeroConstant.HeroPoolName].Spawn(ItemPrefab);
         Utils.MoveToParent(leftItem, item);
         NGUITools.SetActive(item.gameObject, true);
 
-        item = PoolManager.Pools[PoolName].Spawn(ItemPrefab);
+        item = PoolManager.Pools[HeroConstant.HeroPoolName].Spawn(ItemPrefab);
         Utils.MoveToParent(rightItem, item);
         NGUITools.SetActive(item.gameObject, true);
 

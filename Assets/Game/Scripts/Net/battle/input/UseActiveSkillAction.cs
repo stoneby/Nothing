@@ -26,6 +26,10 @@ namespace com.kx.sglm.gs.battle.share.input
 			}
 			BattleFighter _fighter = _heroTeam.getActor(fighterIndex);
 			_fighter.useActiveSkill();
+
+			//暂时只支持Hero队和对方对，不支持第三支队伍
+			_heroTeam.activeAllBuff(BattleConstants.BUFF_FLAG);
+			_heroTeam.OppositeTeam.activeAllBuff(BattleConstants.DEBUFF_FALG);
 		}
 
 		public virtual int FighterIndex

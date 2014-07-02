@@ -47,6 +47,19 @@ public abstract class AbstractDragBarController : MonoBehaviour
         SetRotate(quater);
     }
 
+    /// <summary>
+    /// Set dragbar depth.
+    /// </summary>
+    /// <param name="depth">Depth</param>
+    /// <remarks>Used for overlapped dragbar's controlling.</remarks>
+    public abstract void SetDepth(int depth);
+
+    /// <summary>
+    /// Get dragbar depth.
+    /// </summary>
+    /// <returns>The dragbar depth.</returns>
+    public abstract int GetDepth();
+
     protected virtual void Start()
     {
         Factor = UIRoot.GetPixelSizeAdjustment(gameObject);

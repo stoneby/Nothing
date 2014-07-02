@@ -1,3 +1,5 @@
+using System;
+
 namespace com.kx.sglm.gs.battle.share.skill.effect
 {
 
@@ -20,10 +22,10 @@ namespace com.kx.sglm.gs.battle.share.skill.effect
 		}
 
 
-		public override void build(params int[] param)
+		public override void build(params string[] param)
 		{
-			this.attackValMuti = param[0];
-			this.hitCount = param[1];
+			this.attackValMuti = Convert.ToInt32(param[0]);
+			this.hitCount = Convert.ToInt32(param[1]);
 		}
 
 		protected internal override int AttackType

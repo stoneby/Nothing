@@ -27,6 +27,7 @@ public class HeroSellHandler : MonoBehaviour
     private const int MaxHeroCountCanSell = 10;
     private Hero hero;
     private long totalSoul;
+    private UIHerosPageWindow cachedHerosWindow;
 
     #endregion
 
@@ -42,6 +43,7 @@ public class HeroSellHandler : MonoBehaviour
     {
         sellCount.text = string.Format("{0}/{1}", csHeroSell.SellList.Count, MaxSellCount);
         InstallHandlers();
+        GetTeamMembers();
         FreshSellStates();
     }
 
@@ -56,6 +58,7 @@ public class HeroSellHandler : MonoBehaviour
         sellMask.SetActive(false);
         hero = HeroModelLocator.Instance.HeroTemplates;
         scHeroList = HeroModelLocator.Instance.SCHeroList;
+        cachedHerosWindow = WindowManager.Instance.GetWindow<UIHerosPageWindow>();
     }
 
     /// <summary>
@@ -65,6 +68,7 @@ public class HeroSellHandler : MonoBehaviour
     {
         okLis.onClick = OnOkClicked;
         cancelLis.onClick = OnCancelClicked;
+        cachedHerosWindow.OnSortOrderChanged += SortOrderChanged;
     }
 
     /// <summary>
@@ -74,6 +78,24 @@ public class HeroSellHandler : MonoBehaviour
     {
         okLis.onClick = null;
         cancelLis.onClick = null;
+        cachedHerosWindow.OnSortOrderChanged -= SortOrderChanged;
+    }
+
+    /// <summary>
+    /// The call back of the sort order type changed.
+    /// </summary>
+    /// <param name="go">The event sender.</param>
+    private void SortOrderChanged(GameObject go)
+    {
+        CleanMasks();
+        for (var i = 0; i < canNotSells.Count; i++)
+        {
+            var heroObj = canNotSells[i].transform;
+            heroObj.GetComponent<BoxCollider>().enabled = true;
+            heroObj.FindChild("BG").GetComponent<UISprite>().color = Color.white;
+            heroObj.FindChild("Hero").GetComponent<UISprite>().color = Color.white;
+        }
+        FreshSellStates();
     }
 
     /// <summary>
@@ -108,12 +130,20 @@ public class HeroSellHandler : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// The call back of the ok button clicked.
+    /// </summary>
+    /// <param name="go">The sender of the event.</param>
     private void OnOkClicked(GameObject go)
     {
         var sellDialog = WindowManager.Instance.Show<UISellDialogWindow>(true);
         sellDialog.InitDialog(csHeroSell.SellList);
     }
 
+    /// <summary>
+    /// The call back of the cancel button clicked.
+    /// </summary>
+    /// <param name="go">The sender of the event.</param>
     private void OnCancelClicked(GameObject go)
     {
         CleanMasks();
@@ -123,6 +153,9 @@ public class HeroSellHandler : MonoBehaviour
         RefreshSelAndSoul();
     }
 
+    /// <summary>
+    /// Set color back to normal and destory mask game objects.
+    /// </summary>
     private void CleanMasks()
     {
         for (int i = 0; i < sellMasks.Count; i++)
@@ -189,14 +222,10 @@ public class HeroSellHandler : MonoBehaviour
         soulCount.text = totalSoul.ToString(CultureInfo.InvariantCulture);
     }
 
-    #endregion
-
-    #region Public Methods
-
     /// <summary>
-    /// Init the ui data when we enter the window.
+    /// Get the the team members.
     /// </summary>
-    public void FreshSellStates()
+    private void GetTeamMembers()
     {
         var count = scHeroList.TeamList.Count;
         for (int teamIndex = 0; teamIndex < count; teamIndex++)
@@ -210,7 +239,18 @@ public class HeroSellHandler : MonoBehaviour
             }
         }
         teamMembers = teamMembers.Distinct().ToList();
-        var heros = WindowManager.Instance.GetWindow<UIHerosPageWindow>().Heros.transform;
+    }
+
+    #endregion
+
+    #region Public Methods
+
+    /// <summary>
+    /// Init the ui data when we enter the window.
+    /// </summary>
+    public void FreshSellStates()
+    {
+        var heros = cachedHerosWindow.Heros.transform;
         for (int i = 0; i < heros.childCount; i++)
         {
             var heroTran = heros.GetChild(i);
@@ -219,6 +259,9 @@ public class HeroSellHandler : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Do the clean up job.
+    /// </summary>
     public void CleanUp()
     {
         CleanMasks();
@@ -237,12 +280,19 @@ public class HeroSellHandler : MonoBehaviour
         canNotSells.Clear();
     }
 
+    /// <summary>
+    /// Refresh the ui.
+    /// </summary>
     public void Refresh()
     {
         var herosWindow = WindowManager.Instance.GetWindow<UItemsWindow>();
         herosWindow.ItemClicked = HeroSellClicked;
     }
 
+    /// <summary>
+    /// The call back of the hero sell item clicked.
+    /// </summary>
+    /// <param name="go">The event sender.</param>
     public void HeroSellClicked(GameObject go)
     {
         var uUid = go.GetComponent<HeroItem>().Uuid;

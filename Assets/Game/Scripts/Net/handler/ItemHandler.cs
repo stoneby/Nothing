@@ -144,7 +144,8 @@ namespace Assets.Game.Scripts.Net.handler
             {
                 WindowManager.Instance.GetWindow<BuyBackDialogWindow>().CleanUp();
                 var buyBackInfos = ItemModeLocator.Instance.BuyBackItems.ItemInfos;
-                var infos = ItemModeLocator.Instance.ScAllItemInfos.ItemInfos; 
+                var infos = ItemModeLocator.Instance.ScAllItemInfos.ItemInfos ??
+                            (ItemModeLocator.Instance.ScAllItemInfos.ItemInfos = new List<ItemInfo>());
                 foreach (var indexeChange in themsg.ItemIndexeChanges)
                 {
                     var buyBackIndex = indexeChange.Key;

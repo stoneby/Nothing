@@ -1,0 +1,819 @@
+fileFormatVersion: 2
+guid: 765f411e9be58364689c2be97d6fd58b
+ModelImporter:
+  serializedVersion: 16
+  fileIDToRecycleName:
+    100000: Bone004
+    100002: Bone015
+    100004: Bone016
+    100006: Bone020
+    100008: Bone022
+    100010: Bone_Head
+    100012: Bone_Head_D
+    100014: Bone_L_Calf
+    100016: Bone_L_Calf_D
+    100018: Bone_L_Forearm
+    100020: Bone_L_Forearm_D
+    100022: Bone_L_Hand
+    100024: Bone_L_Hand_1
+    100026: Bone_L_Hand_1_D
+    100028: Bone_L_Hand_D
+    100030: Bone_L_Thigh
+    100032: Bone_L_Thigh_1
+    100034: Bone_L_Thigh_1_D
+    100036: Bone_L_Thigh_D
+    100038: Bone_L_UpperArm
+    100040: Bone_L_UpperArm_1
+    100042: Bone_L_UpperArm_1_D
+    100044: Bone_L_UpperArm_D
+    100046: Bone_R_Calf
+    100048: Bone_R_Calf_D
+    100050: Bone_R_Forearm
+    100052: Bone_R_Forearm_D
+    100054: Bone_R_Hand
+    100056: Bone_R_Hand_1
+    100058: Bone_R_Hand_1_D
+    100060: Bone_R_Hand_D
+    100062: Bone_R_Thigh
+    100064: Bone_R_Thigh_1
+    100066: Bone_R_Thigh_1_D
+    100068: Bone_R_Thigh_D
+    100070: Bone_R_UpperArm
+    100072: Bone_R_UpperArm_1
+    100074: Bone_R_UpperArm_1_D
+    100076: Bone_R_UpperArm_D
+    100078: Bone_Spine
+    100080: Bone_Spine_1
+    100082: Bone_Spine_1_D
+    100084: Bone_Spine_D
+    100086: //RootNode
+    100088: IK Chain001
+    100090: IK Chain003
+    100092: IK Chain004
+    100094: IK Chain005
+    100096: IK_L_Down_D
+    100098: IK_L_Up_D
+    100100: IK_R_Down_D
+    100102: IK_R_Up_D
+    400000: Bone004
+    400002: Bone015
+    400004: Bone016
+    400006: Bone020
+    400008: Bone022
+    400010: Bone_Head
+    400012: Bone_Head_D
+    400014: Bone_L_Calf
+    400016: Bone_L_Calf_D
+    400018: Bone_L_Forearm
+    400020: Bone_L_Forearm_D
+    400022: Bone_L_Hand
+    400024: Bone_L_Hand_1
+    400026: Bone_L_Hand_1_D
+    400028: Bone_L_Hand_D
+    400030: Bone_L_Thigh
+    400032: Bone_L_Thigh_1
+    400034: Bone_L_Thigh_1_D
+    400036: Bone_L_Thigh_D
+    400038: Bone_L_UpperArm
+    400040: Bone_L_UpperArm_1
+    400042: Bone_L_UpperArm_1_D
+    400044: Bone_L_UpperArm_D
+    400046: Bone_R_Calf
+    400048: Bone_R_Calf_D
+    400050: Bone_R_Forearm
+    400052: Bone_R_Forearm_D
+    400054: Bone_R_Hand
+    400056: Bone_R_Hand_1
+    400058: Bone_R_Hand_1_D
+    400060: Bone_R_Hand_D
+    400062: Bone_R_Thigh
+    400064: Bone_R_Thigh_1
+    400066: Bone_R_Thigh_1_D
+    400068: Bone_R_Thigh_D
+    400070: Bone_R_UpperArm
+    400072: Bone_R_UpperArm_1
+    400074: Bone_R_UpperArm_1_D
+    400076: Bone_R_UpperArm_D
+    400078: Bone_Spine
+    400080: Bone_Spine_1
+    400082: Bone_Spine_1_D
+    400084: Bone_Spine_D
+    400086: //RootNode
+    400088: IK Chain001
+    400090: IK Chain003
+    400092: IK Chain004
+    400094: IK Chain005
+    400096: IK_L_Down_D
+    400098: IK_L_Up_D
+    400100: IK_R_Down_D
+    400102: IK_R_Up_D
+    7400000: Take 001
+    7400002: Take idel01
+    7400004: Take attack01
+    7400006: Take run01
+    7400008: Take hurt01
+    9500000: //RootNode
+    11100000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Take 001
+      takeName: Take 001
+      firstFrame: 0
+      lastFrame: 76
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 1
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Bone_Spine
+        weight: 1
+      - path: Bone_Spine/Bone_L_Thigh
+        weight: 1
+      - path: Bone_Spine/Bone_L_Thigh/Bone_L_Calf
+        weight: 1
+      - path: Bone_Spine/Bone_L_Thigh/Bone_L_Calf/Bone015
+        weight: 1
+      - path: Bone_Spine/Bone_L_Thigh/Bone_L_Calf/Bone_L_Calf_D
+        weight: 1
+      - path: Bone_Spine/Bone_L_Thigh/Bone_L_Thigh_D
+        weight: 1
+      - path: Bone_Spine/Bone_L_Thigh_1
+        weight: 1
+      - path: Bone_Spine/Bone_L_Thigh_1/Bone_L_Thigh_1_D
+        weight: 1
+      - path: Bone_Spine/Bone_R_Thigh
+        weight: 1
+      - path: Bone_Spine/Bone_R_Thigh/Bone_R_Calf
+        weight: 1
+      - path: Bone_Spine/Bone_R_Thigh/Bone_R_Calf/Bone016
+        weight: 1
+      - path: Bone_Spine/Bone_R_Thigh/Bone_R_Calf/Bone_R_Calf_D
+        weight: 1
+      - path: Bone_Spine/Bone_R_Thigh/Bone_R_Thigh_D
+        weight: 1
+      - path: Bone_Spine/Bone_R_Thigh_1
+        weight: 1
+      - path: Bone_Spine/Bone_R_Thigh_1/Bone_R_Thigh_1_D
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_Head
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_Head/Bone004
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_Head/Bone_Head_D
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_L_UpperArm
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_L_UpperArm/Bone_L_Forearm
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_L_UpperArm/Bone_L_Forearm/Bone_L_Forearm_D
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_L_UpperArm/Bone_L_Forearm/Bone_L_Hand
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_L_UpperArm/Bone_L_Forearm/Bone_L_Hand/Bone_L_Hand_D
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_L_UpperArm/Bone_L_UpperArm_D
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_L_UpperArm_1
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_L_UpperArm_1/Bone_L_UpperArm_1_D
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_R_UpperArm
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_R_UpperArm/Bone_R_Forearm
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_R_UpperArm/Bone_R_Forearm/Bone_R_Forearm_D
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_R_UpperArm/Bone_R_Forearm/Bone_R_Hand
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_R_UpperArm/Bone_R_Forearm/Bone_R_Hand/Bone_R_Hand_D
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_R_UpperArm/Bone_R_UpperArm_D
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_R_UpperArm_1
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_R_UpperArm_1/Bone_R_UpperArm_1_D
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_Spine_1_D
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_D
+        weight: 1
+      - path: IK Chain001
+        weight: 1
+      - path: IK Chain001/Bone_R_Hand_1
+        weight: 1
+      - path: IK Chain001/Bone_R_Hand_1/Bone020
+        weight: 1
+      - path: IK Chain001/Bone_R_Hand_1/Bone_R_Hand_1_D
+        weight: 1
+      - path: IK Chain003
+        weight: 1
+      - path: IK Chain004
+        weight: 1
+      - path: IK Chain005
+        weight: 1
+      - path: IK Chain005/Bone_L_Hand_1
+        weight: 1
+      - path: IK Chain005/Bone_L_Hand_1/Bone022
+        weight: 1
+      - path: IK Chain005/Bone_L_Hand_1/Bone_L_Hand_1_D
+        weight: 1
+      - path: IK_L_Down_D
+        weight: 1
+      - path: IK_L_Up_D
+        weight: 1
+      - path: IK_R_Down_D
+        weight: 1
+      - path: IK_R_Up_D
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Take idel01
+      takeName: Take 001
+      firstFrame: 1
+      lastFrame: 20
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 1
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Bone_Spine
+        weight: 1
+      - path: Bone_Spine/Bone_L_Thigh
+        weight: 1
+      - path: Bone_Spine/Bone_L_Thigh/Bone_L_Calf
+        weight: 1
+      - path: Bone_Spine/Bone_L_Thigh/Bone_L_Calf/Bone015
+        weight: 1
+      - path: Bone_Spine/Bone_L_Thigh/Bone_L_Calf/Bone_L_Calf_D
+        weight: 1
+      - path: Bone_Spine/Bone_L_Thigh/Bone_L_Thigh_D
+        weight: 1
+      - path: Bone_Spine/Bone_L_Thigh_1
+        weight: 1
+      - path: Bone_Spine/Bone_L_Thigh_1/Bone_L_Thigh_1_D
+        weight: 1
+      - path: Bone_Spine/Bone_R_Thigh
+        weight: 1
+      - path: Bone_Spine/Bone_R_Thigh/Bone_R_Calf
+        weight: 1
+      - path: Bone_Spine/Bone_R_Thigh/Bone_R_Calf/Bone016
+        weight: 1
+      - path: Bone_Spine/Bone_R_Thigh/Bone_R_Calf/Bone_R_Calf_D
+        weight: 1
+      - path: Bone_Spine/Bone_R_Thigh/Bone_R_Thigh_D
+        weight: 1
+      - path: Bone_Spine/Bone_R_Thigh_1
+        weight: 1
+      - path: Bone_Spine/Bone_R_Thigh_1/Bone_R_Thigh_1_D
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_Head
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_Head/Bone004
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_Head/Bone_Head_D
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_L_UpperArm
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_L_UpperArm/Bone_L_Forearm
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_L_UpperArm/Bone_L_Forearm/Bone_L_Forearm_D
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_L_UpperArm/Bone_L_Forearm/Bone_L_Hand
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_L_UpperArm/Bone_L_Forearm/Bone_L_Hand/Bone_L_Hand_D
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_L_UpperArm/Bone_L_UpperArm_D
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_L_UpperArm_1
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_L_UpperArm_1/Bone_L_UpperArm_1_D
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_R_UpperArm
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_R_UpperArm/Bone_R_Forearm
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_R_UpperArm/Bone_R_Forearm/Bone_R_Forearm_D
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_R_UpperArm/Bone_R_Forearm/Bone_R_Hand
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_R_UpperArm/Bone_R_Forearm/Bone_R_Hand/Bone_R_Hand_D
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_R_UpperArm/Bone_R_UpperArm_D
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_R_UpperArm_1
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_R_UpperArm_1/Bone_R_UpperArm_1_D
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_Spine_1_D
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_D
+        weight: 1
+      - path: IK Chain001
+        weight: 1
+      - path: IK Chain001/Bone_R_Hand_1
+        weight: 1
+      - path: IK Chain001/Bone_R_Hand_1/Bone020
+        weight: 1
+      - path: IK Chain001/Bone_R_Hand_1/Bone_R_Hand_1_D
+        weight: 1
+      - path: IK Chain003
+        weight: 1
+      - path: IK Chain004
+        weight: 1
+      - path: IK Chain005
+        weight: 1
+      - path: IK Chain005/Bone_L_Hand_1
+        weight: 1
+      - path: IK Chain005/Bone_L_Hand_1/Bone022
+        weight: 1
+      - path: IK Chain005/Bone_L_Hand_1/Bone_L_Hand_1_D
+        weight: 1
+      - path: IK_L_Down_D
+        weight: 1
+      - path: IK_L_Up_D
+        weight: 1
+      - path: IK_R_Down_D
+        weight: 1
+      - path: IK_R_Up_D
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Take attack01
+      takeName: Take 001
+      firstFrame: 21
+      lastFrame: 43
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 1
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Bone_Spine
+        weight: 1
+      - path: Bone_Spine/Bone_L_Thigh
+        weight: 1
+      - path: Bone_Spine/Bone_L_Thigh/Bone_L_Calf
+        weight: 1
+      - path: Bone_Spine/Bone_L_Thigh/Bone_L_Calf/Bone015
+        weight: 1
+      - path: Bone_Spine/Bone_L_Thigh/Bone_L_Calf/Bone_L_Calf_D
+        weight: 1
+      - path: Bone_Spine/Bone_L_Thigh/Bone_L_Thigh_D
+        weight: 1
+      - path: Bone_Spine/Bone_L_Thigh_1
+        weight: 1
+      - path: Bone_Spine/Bone_L_Thigh_1/Bone_L_Thigh_1_D
+        weight: 1
+      - path: Bone_Spine/Bone_R_Thigh
+        weight: 1
+      - path: Bone_Spine/Bone_R_Thigh/Bone_R_Calf
+        weight: 1
+      - path: Bone_Spine/Bone_R_Thigh/Bone_R_Calf/Bone016
+        weight: 1
+      - path: Bone_Spine/Bone_R_Thigh/Bone_R_Calf/Bone_R_Calf_D
+        weight: 1
+      - path: Bone_Spine/Bone_R_Thigh/Bone_R_Thigh_D
+        weight: 1
+      - path: Bone_Spine/Bone_R_Thigh_1
+        weight: 1
+      - path: Bone_Spine/Bone_R_Thigh_1/Bone_R_Thigh_1_D
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_Head
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_Head/Bone004
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_Head/Bone_Head_D
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_L_UpperArm
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_L_UpperArm/Bone_L_Forearm
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_L_UpperArm/Bone_L_Forearm/Bone_L_Forearm_D
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_L_UpperArm/Bone_L_Forearm/Bone_L_Hand
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_L_UpperArm/Bone_L_Forearm/Bone_L_Hand/Bone_L_Hand_D
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_L_UpperArm/Bone_L_UpperArm_D
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_L_UpperArm_1
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_L_UpperArm_1/Bone_L_UpperArm_1_D
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_R_UpperArm
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_R_UpperArm/Bone_R_Forearm
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_R_UpperArm/Bone_R_Forearm/Bone_R_Forearm_D
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_R_UpperArm/Bone_R_Forearm/Bone_R_Hand
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_R_UpperArm/Bone_R_Forearm/Bone_R_Hand/Bone_R_Hand_D
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_R_UpperArm/Bone_R_UpperArm_D
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_R_UpperArm_1
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_R_UpperArm_1/Bone_R_UpperArm_1_D
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_Spine_1_D
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_D
+        weight: 1
+      - path: IK Chain001
+        weight: 1
+      - path: IK Chain001/Bone_R_Hand_1
+        weight: 1
+      - path: IK Chain001/Bone_R_Hand_1/Bone020
+        weight: 1
+      - path: IK Chain001/Bone_R_Hand_1/Bone_R_Hand_1_D
+        weight: 1
+      - path: IK Chain003
+        weight: 1
+      - path: IK Chain004
+        weight: 1
+      - path: IK Chain005
+        weight: 1
+      - path: IK Chain005/Bone_L_Hand_1
+        weight: 1
+      - path: IK Chain005/Bone_L_Hand_1/Bone022
+        weight: 1
+      - path: IK Chain005/Bone_L_Hand_1/Bone_L_Hand_1_D
+        weight: 1
+      - path: IK_L_Down_D
+        weight: 1
+      - path: IK_L_Up_D
+        weight: 1
+      - path: IK_R_Down_D
+        weight: 1
+      - path: IK_R_Up_D
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Take run01
+      takeName: Take 001
+      firstFrame: 60
+      lastFrame: 75
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 1
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Bone_Spine
+        weight: 1
+      - path: Bone_Spine/Bone_L_Thigh
+        weight: 1
+      - path: Bone_Spine/Bone_L_Thigh/Bone_L_Calf
+        weight: 1
+      - path: Bone_Spine/Bone_L_Thigh/Bone_L_Calf/Bone015
+        weight: 1
+      - path: Bone_Spine/Bone_L_Thigh/Bone_L_Calf/Bone_L_Calf_D
+        weight: 1
+      - path: Bone_Spine/Bone_L_Thigh/Bone_L_Thigh_D
+        weight: 1
+      - path: Bone_Spine/Bone_L_Thigh_1
+        weight: 1
+      - path: Bone_Spine/Bone_L_Thigh_1/Bone_L_Thigh_1_D
+        weight: 1
+      - path: Bone_Spine/Bone_R_Thigh
+        weight: 1
+      - path: Bone_Spine/Bone_R_Thigh/Bone_R_Calf
+        weight: 1
+      - path: Bone_Spine/Bone_R_Thigh/Bone_R_Calf/Bone016
+        weight: 1
+      - path: Bone_Spine/Bone_R_Thigh/Bone_R_Calf/Bone_R_Calf_D
+        weight: 1
+      - path: Bone_Spine/Bone_R_Thigh/Bone_R_Thigh_D
+        weight: 1
+      - path: Bone_Spine/Bone_R_Thigh_1
+        weight: 1
+      - path: Bone_Spine/Bone_R_Thigh_1/Bone_R_Thigh_1_D
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_Head
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_Head/Bone004
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_Head/Bone_Head_D
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_L_UpperArm
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_L_UpperArm/Bone_L_Forearm
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_L_UpperArm/Bone_L_Forearm/Bone_L_Forearm_D
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_L_UpperArm/Bone_L_Forearm/Bone_L_Hand
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_L_UpperArm/Bone_L_Forearm/Bone_L_Hand/Bone_L_Hand_D
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_L_UpperArm/Bone_L_UpperArm_D
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_L_UpperArm_1
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_L_UpperArm_1/Bone_L_UpperArm_1_D
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_R_UpperArm
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_R_UpperArm/Bone_R_Forearm
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_R_UpperArm/Bone_R_Forearm/Bone_R_Forearm_D
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_R_UpperArm/Bone_R_Forearm/Bone_R_Hand
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_R_UpperArm/Bone_R_Forearm/Bone_R_Hand/Bone_R_Hand_D
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_R_UpperArm/Bone_R_UpperArm_D
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_R_UpperArm_1
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_R_UpperArm_1/Bone_R_UpperArm_1_D
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_Spine_1_D
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_D
+        weight: 1
+      - path: IK Chain001
+        weight: 1
+      - path: IK Chain001/Bone_R_Hand_1
+        weight: 1
+      - path: IK Chain001/Bone_R_Hand_1/Bone020
+        weight: 1
+      - path: IK Chain001/Bone_R_Hand_1/Bone_R_Hand_1_D
+        weight: 1
+      - path: IK Chain003
+        weight: 1
+      - path: IK Chain004
+        weight: 1
+      - path: IK Chain005
+        weight: 1
+      - path: IK Chain005/Bone_L_Hand_1
+        weight: 1
+      - path: IK Chain005/Bone_L_Hand_1/Bone022
+        weight: 1
+      - path: IK Chain005/Bone_L_Hand_1/Bone_L_Hand_1_D
+        weight: 1
+      - path: IK_L_Down_D
+        weight: 1
+      - path: IK_L_Up_D
+        weight: 1
+      - path: IK_R_Down_D
+        weight: 1
+      - path: IK_R_Up_D
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Take hurt01
+      takeName: Take 001
+      firstFrame: 43
+      lastFrame: 59
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 1
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Bone_Spine
+        weight: 1
+      - path: Bone_Spine/Bone_L_Thigh
+        weight: 1
+      - path: Bone_Spine/Bone_L_Thigh/Bone_L_Calf
+        weight: 1
+      - path: Bone_Spine/Bone_L_Thigh/Bone_L_Calf/Bone015
+        weight: 1
+      - path: Bone_Spine/Bone_L_Thigh/Bone_L_Calf/Bone_L_Calf_D
+        weight: 1
+      - path: Bone_Spine/Bone_L_Thigh/Bone_L_Thigh_D
+        weight: 1
+      - path: Bone_Spine/Bone_L_Thigh_1
+        weight: 1
+      - path: Bone_Spine/Bone_L_Thigh_1/Bone_L_Thigh_1_D
+        weight: 1
+      - path: Bone_Spine/Bone_R_Thigh
+        weight: 1
+      - path: Bone_Spine/Bone_R_Thigh/Bone_R_Calf
+        weight: 1
+      - path: Bone_Spine/Bone_R_Thigh/Bone_R_Calf/Bone016
+        weight: 1
+      - path: Bone_Spine/Bone_R_Thigh/Bone_R_Calf/Bone_R_Calf_D
+        weight: 1
+      - path: Bone_Spine/Bone_R_Thigh/Bone_R_Thigh_D
+        weight: 1
+      - path: Bone_Spine/Bone_R_Thigh_1
+        weight: 1
+      - path: Bone_Spine/Bone_R_Thigh_1/Bone_R_Thigh_1_D
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_Head
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_Head/Bone004
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_Head/Bone_Head_D
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_L_UpperArm
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_L_UpperArm/Bone_L_Forearm
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_L_UpperArm/Bone_L_Forearm/Bone_L_Forearm_D
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_L_UpperArm/Bone_L_Forearm/Bone_L_Hand
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_L_UpperArm/Bone_L_Forearm/Bone_L_Hand/Bone_L_Hand_D
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_L_UpperArm/Bone_L_UpperArm_D
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_L_UpperArm_1
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_L_UpperArm_1/Bone_L_UpperArm_1_D
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_R_UpperArm
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_R_UpperArm/Bone_R_Forearm
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_R_UpperArm/Bone_R_Forearm/Bone_R_Forearm_D
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_R_UpperArm/Bone_R_Forearm/Bone_R_Hand
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_R_UpperArm/Bone_R_Forearm/Bone_R_Hand/Bone_R_Hand_D
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_R_UpperArm/Bone_R_UpperArm_D
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_R_UpperArm_1
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_R_UpperArm_1/Bone_R_UpperArm_1_D
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_1/Bone_Spine_1_D
+        weight: 1
+      - path: Bone_Spine/Bone_Spine_D
+        weight: 1
+      - path: IK Chain001
+        weight: 1
+      - path: IK Chain001/Bone_R_Hand_1
+        weight: 1
+      - path: IK Chain001/Bone_R_Hand_1/Bone020
+        weight: 1
+      - path: IK Chain001/Bone_R_Hand_1/Bone_R_Hand_1_D
+        weight: 1
+      - path: IK Chain003
+        weight: 1
+      - path: IK Chain004
+        weight: 1
+      - path: IK Chain005
+        weight: 1
+      - path: IK Chain005/Bone_L_Hand_1
+        weight: 1
+      - path: IK Chain005/Bone_L_Hand_1/Bone022
+        weight: 1
+      - path: IK Chain005/Bone_L_Hand_1/Bone_L_Hand_1_D
+        weight: 1
+      - path: IK_L_Down_D
+        weight: 1
+      - path: IK_L_Up_D
+        weight: 1
+      - path: IK_R_Down_D
+        weight: 1
+      - path: IK_R_Up_D
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: .00999999978
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 1
+  additionalBone: 0
+  userData: 

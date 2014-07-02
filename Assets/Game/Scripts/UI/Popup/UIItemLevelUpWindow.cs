@@ -89,6 +89,7 @@ public class UIItemLevelUpWindow : Window
     public override void OnExit()
     {
         UnInstallHandlers();
+        CleanUp();
     }
 
     #endregion
@@ -326,7 +327,6 @@ public class UIItemLevelUpWindow : Window
 
     private void OnBack(GameObject go)
     {
-        CleanUp();
         cachedBaseWindow.RefreshChangedData();
         WindowManager.Instance.Show<UIItemInfoWindow>(true);
     }

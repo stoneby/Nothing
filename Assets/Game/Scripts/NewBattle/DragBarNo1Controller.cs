@@ -12,12 +12,22 @@ public class DragBarNo1Controller : AbstractDragBarController
     #region Abstract Dragbar Controller
     public override void SetWidth(float width)
     {
-        DragBar.width = (int)(width + OffSet.x);
+        DragBar.width = (int)(width + OffSet.x + OffSet.x);
     }
 
     public override void SetSprite(string spriteName)
     {
         DragBar.spriteName = spriteName;
+    }
+
+    public override void SetDepth(int depth)
+    {
+        DragBar.depth = depth;
+    }
+
+    public override int GetDepth()
+    {
+        return DragBar.depth;
     }
 
     #endregion

@@ -112,13 +112,13 @@ namespace KXSGCodec
             if (field.Type == TType.List) {
               {
                 DefaultSkills = new List<SkillRatePairMsgData>();
-                TList _list28 = iprot.ReadListBegin();
-                for( int _i29 = 0; _i29 < _list28.Count; ++_i29)
+                TList _list40 = iprot.ReadListBegin();
+                for( int _i41 = 0; _i41 < _list40.Count; ++_i41)
                 {
-                  SkillRatePairMsgData _elem30 = new SkillRatePairMsgData();
-                  _elem30 = new SkillRatePairMsgData();
-                  _elem30.Read(iprot);
-                  DefaultSkills.Add(_elem30);
+                  SkillRatePairMsgData _elem42 = new SkillRatePairMsgData();
+                  _elem42 = new SkillRatePairMsgData();
+                  _elem42.Read(iprot);
+                  DefaultSkills.Add(_elem42);
                 }
                 iprot.ReadListEnd();
               }
@@ -130,13 +130,13 @@ namespace KXSGCodec
             if (field.Type == TType.List) {
               {
                 AiSkills = new List<MonsterSkillAIMsgData>();
-                TList _list31 = iprot.ReadListBegin();
-                for( int _i32 = 0; _i32 < _list31.Count; ++_i32)
+                TList _list43 = iprot.ReadListBegin();
+                for( int _i44 = 0; _i44 < _list43.Count; ++_i44)
                 {
-                  MonsterSkillAIMsgData _elem33 = new MonsterSkillAIMsgData();
-                  _elem33 = new MonsterSkillAIMsgData();
-                  _elem33.Read(iprot);
-                  AiSkills.Add(_elem33);
+                  MonsterSkillAIMsgData _elem45 = new MonsterSkillAIMsgData();
+                  _elem45 = new MonsterSkillAIMsgData();
+                  _elem45.Read(iprot);
+                  AiSkills.Add(_elem45);
                 }
                 iprot.ReadListEnd();
               }
@@ -172,9 +172,9 @@ namespace KXSGCodec
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.Struct, DefaultSkills.Count));
-          foreach (SkillRatePairMsgData _iter34 in DefaultSkills)
+          foreach (SkillRatePairMsgData _iter46 in DefaultSkills)
           {
-            _iter34.Write(oprot);
+            _iter46.Write(oprot);
           }
           oprot.WriteListEnd();
         }
@@ -187,9 +187,9 @@ namespace KXSGCodec
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.Struct, AiSkills.Count));
-          foreach (MonsterSkillAIMsgData _iter35 in AiSkills)
+          foreach (MonsterSkillAIMsgData _iter47 in AiSkills)
           {
-            _iter35.Write(oprot);
+            _iter47.Write(oprot);
           }
           oprot.WriteListEnd();
         }

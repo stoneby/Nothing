@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class EnemyControlTest : MonoBehaviour
 {
@@ -15,22 +14,28 @@ public class EnemyControlTest : MonoBehaviour
         if (GUILayout.Button("PlayAttack"))
         {
             EnemyController.PlayAttrack();
-        } else if (GUILayout.Button("Play shake"))
+        }
+        else if (GUILayout.Button("Play shake"))
         {
             EnemyController.PlayShake();
-        } else if (GUILayout.Button("Play Big Shake"))
+        }
+        else if (GUILayout.Button("Play Big Shake"))
         {
             EnemyController.PlayBigShake();
-        } else if (GUILayout.Button("Show Aim To"))
+        }
+        else if (GUILayout.Button("Show Aim To"))
         {
             EnemyController.ShowAimTo(true);
-        } else if (GUILayout.Button("Hide Aim To"))
+        }
+        else if (GUILayout.Button("Hide Aim To"))
         {
             EnemyController.ShowAimTo(false);
-        } else if (GUILayout.Button("Show Blood Bar"))
+        }
+        else if (GUILayout.Button("Show Blood Bar"))
         {
             EnemyController.ShowBlood(true);
-        } else if (GUILayout.Button("Hide Blood Bar"))
+        }
+        else if (GUILayout.Button("Hide Blood Bar"))
         {
             EnemyController.ShowBlood(false);
         }

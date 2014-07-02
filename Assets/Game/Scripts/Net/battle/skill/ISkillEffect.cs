@@ -4,10 +4,10 @@ namespace com.kx.sglm.gs.battle.share.skill
 {
 
 	using BattleFighter = com.kx.sglm.gs.battle.share.actor.impl.BattleFighter;
-	using ISkillPartInfo = com.kx.sglm.gs.battle.share.skill.creater.ISkillPartInfo;
+	using IBattlePartInfo = com.kx.sglm.gs.battle.share.enums.IBattlePartInfo;
 	using SkillDataHolder = com.kx.sglm.gs.battle.share.skill.model.SkillDataHolder;
 
-	public abstract class ISkillEffect : ISkillPartInfo
+	public abstract class ISkillEffect : IBattlePartInfo
 	{
 
 		public abstract void onAction(BattleFighter attacker, List<BattleFighter> defencerList, SkillDataHolder resultData);

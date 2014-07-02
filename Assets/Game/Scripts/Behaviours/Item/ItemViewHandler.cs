@@ -8,7 +8,6 @@ public class ItemViewHandler : MonoBehaviour
     #region Private Fields
 
     private UIEventListener extendBagLis;
-    private UIEventListener addOneLis;
     private List<ItemInfo> infos;
     private UILabel equipNums;
     private ExtendBag itemExtendConfirm;
@@ -27,7 +26,6 @@ public class ItemViewHandler : MonoBehaviour
     private void Awake()
     {
         extendBagLis = UIEventListener.Get(Utils.FindChild(transform, "ExtendBag").gameObject);
-        addOneLis = UIEventListener.Get(Utils.FindChild(transform, "Button-Add").gameObject);
         equipNums = Utils.FindChild(transform, "EquipNums").GetComponent<UILabel>();
         itemsWindow = WindowManager.Instance.Show<UItemsWindow>(true);
         itemsWindow.Items.onReposition += OnReposition;
@@ -35,14 +33,12 @@ public class ItemViewHandler : MonoBehaviour
 
     private void OnEnable()
     {
-        addOneLis.onClick = OnAdd;
         extendBagLis.onClick = OnExtenBag;
         Refresh();
     }
 
     private void OnDisable()
     {
-        addOneLis.onClick = null;
         extendBagLis.onClick = null;
         extendBagLis.gameObject.SetActive(false);
     }

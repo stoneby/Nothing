@@ -20,11 +20,11 @@ public class UITeamBuildWindow : Window
     private float heroCellWidth;
     private int curTeamIndex = -1;
     private const int LeaderCount = 3;
-    private const int LeaderPosInTeam = 0;
     private int teamCount;
     private readonly List<Transform> heros = new List<Transform>();
     private UISprite teamSprite;
     private string teamSpritePrefix;
+    private readonly List<Vector3> endlessItemPostions = new List<Vector3>();
 
     #endregion
 
@@ -46,19 +46,19 @@ public class UITeamBuildWindow : Window
                 }
                 if (curTeamIndex == 0)
                 {
-                    EnableButton(flipRBtnLis.GetComponent<UISprite>(), true);
+                    flipRBtnLis.GetComponent<UIButton>().isEnabled = true;
                 }
                 if(curTeamIndex == teamCount - 1)
                 {
-                    EnableButton(flipLBtnLis.GetComponent<UISprite>(), true);
+                    flipLBtnLis.GetComponent<UIButton>().isEnabled = true;
                 }
                 if(value == 0)
                 {
-                    EnableButton(flipRBtnLis.GetComponent<UISprite>(), false);
+                    flipRBtnLis.GetComponent<UIButton>().isEnabled = false;
                 }
                 if (value == teamCount - 1)
                 {
-                    EnableButton(flipLBtnLis.GetComponent<UISprite>(), false);
+                    flipLBtnLis.GetComponent<UIButton>().isEnabled = false;
                 }
                 curTeamIndex = value;
                 HeroModelLocator.Instance.SCHeroList.CurrentTeamIndex = (sbyte)curTeamIndex;
@@ -81,6 +81,7 @@ public class UITeamBuildWindow : Window
         }
 
         InstallHandlers();
+        ResetEndlessItemsPos();
         CurTeamIndex = HeroModelLocator.Instance.SCHeroList.CurrentTeamIndex;
         endlessSwipeEffect.InitCustomData(CurTeamIndex, HeroModelLocator.Instance.SCHeroList.TeamList.Count);
         Refresh();
@@ -112,6 +113,33 @@ public class UITeamBuildWindow : Window
         teamSpritePrefix = teamSprite.spriteName.Remove(teamSprite.spriteName.Length - 1);
         endlessSwipeEffect = GetComponentInChildren<EndlessSwipeEffect>();
         endlessSwipeEffect.UpdateData += UpdateData;
+        CacheEndlessItemsPos();
+    }
+
+    /// <summary>
+    /// Cache the local positions of endless swipe and its children.
+    /// </summary>
+    private void CacheEndlessItemsPos()
+    {
+        var endlessTran = endlessSwipeEffect.transform;
+        endlessItemPostions.Add(endlessTran.localPosition);
+        for(int i = 0; i < endlessTran.childCount; i++)
+        {
+            endlessItemPostions.Add(endlessSwipeEffect.transform.GetChild(i).localPosition);
+        }
+    }
+
+    /// <summary>
+    /// Reset the local positions of endless swipe and its children.
+    /// </summary>
+    private void ResetEndlessItemsPos()
+    {
+        //The first cached for endless swipe effect's transform local position, and others for its children.
+        endlessSwipeEffect.transform.localPosition = endlessItemPostions[0];
+        for (int i = 0; i < endlessSwipeEffect.transform.childCount; i++)
+        {
+            endlessSwipeEffect.transform.GetChild(i).localPosition = endlessItemPostions[i + 1];
+        }
     }
 
     private void UpdateData()
@@ -161,7 +189,7 @@ public class UITeamBuildWindow : Window
             if (index < heroUuids.Count)
             {
                 var heroInfo = HeroModelLocator.Instance.FindHero(heroUuids[index]);
-                if (index == LeaderPosInTeam)
+                if (index == HeroConstant.LeaderPosInTeam)
                 {
                     leaderInfo = heroInfo;
                 }
@@ -241,21 +269,6 @@ public class UITeamBuildWindow : Window
     private void OnEditBtnClicked(GameObject go)
     {
         WindowManager.Instance.Show(typeof(UITeamEditWindow), true);
-    }
-
-    /// <summary>
-    /// Enable a button to be clickable or not.
-    /// </summary>
-    private void EnableButton(UISprite sprite, bool enable)
-    {
-        var spCollider = sprite.GetComponent<BoxCollider>();
-        if (spCollider == null)
-        {
-            Logger.LogWarning("The button to be set enable has no collider attached.");
-            return;
-        }
-        spCollider.enabled = enable;
-        sprite.color = enable ? Color.white : Color.grey;
     }
 
     #endregion

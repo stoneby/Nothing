@@ -1,4 +1,5 @@
-﻿using KXSGCodec;
+﻿using System.Collections.Generic;
+using KXSGCodec;
 using UnityEngine;
 
 public class HeroItemBase : MonoBehaviour 
@@ -55,6 +56,13 @@ public class HeroItemBase : MonoBehaviour
     }
 
     public virtual void InitItem(HeroInfo heroInfo)
+    {
+        var heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpl[heroInfo.TemplateId];
+        Quality = heroTemplate.Star;
+        Uuid = heroInfo.Uuid;
+    } 
+    
+    public virtual void InitItem(HeroInfo heroInfo, List<long> curTeam, List<long> allTeams)
     {
         var heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpl[heroInfo.TemplateId];
         Quality = heroTemplate.Star;

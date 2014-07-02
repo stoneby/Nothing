@@ -7,6 +7,7 @@ namespace com.kx.sglm.gs.battle.share.data.record
 	public abstract class BaseViewRecord<T> : AbstractBaseRecord, IBattleViewRecord where T : AbstractBaseRecord
 	{
 		public override abstract string toReportStr();
+		public abstract bool Empty {get;}
 		public abstract void show(IBattleView viewObj);
 
 		private List<T> recordList;
@@ -21,6 +22,7 @@ namespace com.kx.sglm.gs.battle.share.data.record
 		/// @return
 		/// </summary>
 		internal abstract T createRecord();
+
 
 		public virtual T OrCreateRecord
 		{

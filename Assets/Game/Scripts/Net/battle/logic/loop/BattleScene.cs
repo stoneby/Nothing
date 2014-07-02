@@ -9,6 +9,7 @@ namespace com.kx.sglm.gs.battle.share.logic.loop
 	using BattleRoundCountRecord = com.kx.sglm.gs.battle.share.data.record.BattleRoundCountRecord;
 	using BattleState = com.kx.sglm.gs.battle.share.enums.BattleState;
 	using InnerBattleEvent = com.kx.sglm.gs.battle.share.@event.InnerBattleEvent;
+	using SceneStartEvent = com.kx.sglm.gs.battle.share.@event.impl.SceneStartEvent;
 	using com.kx.sglm.gs.battle.share.logic;
 
 	/// <summary>
@@ -44,12 +45,17 @@ namespace com.kx.sglm.gs.battle.share.logic.loop
 
 		public override void onStart()
 		{
+			SceneStartEvent _event = new SceneStartEvent(this);
 			BattleRoundCountRecord _record = Record.OrCreateRoundCountRecord;
 			Battle.BattleExcuter.beforeBattleStart(this, _record);
-	//		regiestEventHandler();
+			optionActorBeforeSceneStart(_event);
 			Record.finishCurRoundCountRecord();
-            Record.FinishDebugRecord();
-        }
+		}
+
+		protected internal virtual void optionActorBeforeSceneStart(SceneStartEvent @event)
+		{
+			CurAttacker.onSceneStart(@event);
+		}
 
 		public override bool Dead
 		{
@@ -62,6 +68,7 @@ namespace com.kx.sglm.gs.battle.share.logic.loop
 
 		public override void onFinish()
 		{
+			CurAttacker.onSceneStop();
 			BattleEndRecord _record = Record.OrCreateEndRecord;
 			Console.WriteLine("#BattleScene.onFinish()------BattleSceneEnd");
 			_record.EndType = BattleRecordConstants.BATTLE_SCENE_END;

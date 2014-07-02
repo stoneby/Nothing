@@ -272,24 +272,4 @@ public class NextFootManager : MonoBehaviour
         FootList.RemoveAt(onStageSize);
         FootList.Insert(0, lastFoot);
     }
-
-#if UNITY_EDITOR
-    private void OnGUI()
-    {
-        if (GUILayout.Button("Make One Round"))
-        {
-            MoveOneRound();
-        }
-
-        if (GUILayout.Button("Reset One Round"))
-        {
-            ResetOneRound();
-        }
-
-        if (GUILayout.Button("Move"))
-        {
-            Move();
-        }
-    }
-#endif
 }

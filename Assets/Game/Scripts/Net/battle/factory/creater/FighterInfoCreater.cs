@@ -9,7 +9,6 @@ namespace com.kx.sglm.gs.battle.share.factory.creater
 	using FighterInfo = com.kx.sglm.gs.battle.share.data.FighterInfo;
 	using BattleSideEnum = com.kx.sglm.gs.battle.share.enums.BattleSideEnum;
 	using FighterType = com.kx.sglm.gs.battle.share.enums.FighterType;
-	using BattleSkillActionService = com.kx.sglm.gs.battle.share.skill.BattleSkillActionService;
 	using RoleAProperty = com.kx.sglm.gs.hero.properties.RoleAProperty;
 	using BattleMsgHero = KXSGCodec.BattleMsgHero;
 	using BattleMsgMonster = KXSGCodec.BattleMsgMonster;
@@ -23,13 +22,14 @@ namespace com.kx.sglm.gs.battle.share.factory.creater
 	public class FighterInfoCreater
 	{
 
-		public static void initBattleSkillService(BattleSource battelSource)
+		public static void initBattleSkillService(BattleSource battleSource)
 		{
-			BattleSkillActionService _service = BattleSkillActionService.Service;
+			BattleActionService _service = BattleActionService.Service;
 			_service.initNormalAction();
-			_service.initAllMonsterAI(battelSource.MonsterAList);
-			_service.initTemplateHeroSkillAction(battelSource.HeroSkillList);
-			_service.initTemplateMonsterSkillAction(battelSource.MonsterSkillList);
+			_service.initAllMonsterAI(battleSource.MonsterAIList);
+			_service.initTemplateHeroSkillAction(battleSource.HeroSkillList);
+			_service.initTemplateMonsterSkillAction(battleSource.MonsterSkillList);
+			_service.initTemplateBuffAction(battleSource.BuffList);
 		}
 
 
@@ -101,6 +101,7 @@ namespace com.kx.sglm.gs.battle.share.factory.creater
 			setMonsterDrop(BattleKeyConstants.BATTLE_PROP_MONSTER_DROP_SPRIT, info, dropMap);
 			setMonsterDrop(BattleKeyConstants.BATTLE_PROP_MONSTER_DROP_HERO, info, dropMap);
 			setMonsterDrop(BattleKeyConstants.BATTLE_PROP_MONSTER_DROP_ITEM, info, dropMap);
+			setMonsterDrop(BattleKeyConstants.BATTLE_PROP_MONSTER_DROP_CHIP, info, dropMap);
 		}
 
 		protected internal static void setMonsterDrop(int key, FighterInfo info, Dictionary<sbyte, int> dropMap)
@@ -134,7 +135,7 @@ namespace com.kx.sglm.gs.battle.share.factory.creater
 //ORIGINAL LINE: final java.util.Map<Integer, Integer> _aProp = createTestAProp(type.isHero(), boss);
 			Dictionary<int, int> _aProp = createTestAProp(type.Hero, boss);
 			FighterInfo _info = createFighterProp(index, battleSide, type, _aProp);
-			_info.addNormalProp(BattleKeyConstants.BATTLE_KEY_HERO_TEMPLATE, 1009); // 测试代码很糙请无视
+			_info.addNormalProp(BattleKeyConstants.BATTLE_KEY_HERO_TEMPLATE, 111001); // 测试代码很糙请无视
 			return _info;
 		}
 

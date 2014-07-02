@@ -54,7 +54,7 @@ public class UIHeroBindWindow : Window
 
     #endregion
 
-    #region Mono
+    #region Private Methods
 
     // Use this for initialization
     void Awake()
@@ -76,7 +76,7 @@ public class UIHeroBindWindow : Window
         if (childCount != heroCount)
         {
             var isAdd = childCount < heroCount;
-            Utils.AddOrDelItems(herosGrid.transform, HeroPrefab.transform, isAdd, Mathf.Abs(heroCount - childCount), "Heros",
+            HeroUtils.AddOrDelItems(herosGrid.transform, HeroPrefab.transform, isAdd, Mathf.Abs(heroCount - childCount), HeroConstant.HeroPoolName,
                                 OnHeroItemClicked);
             herosGrid.repositionNow = true;
         }

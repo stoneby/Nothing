@@ -43,6 +43,15 @@ namespace com.kx.sglm.gs.battle.share.data.record
 			viewObj.showBattleErrorRecord(this);
 		}
 
+
+		public virtual bool Empty
+		{
+			get
+			{
+				return errorStrList.Count == 0;
+			}
+		}
+
 	}
 
 }

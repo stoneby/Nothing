@@ -219,12 +219,12 @@ namespace KXSGCodec
             if (field.Type == TType.List) {
               {
                 ShieldList = new List<sbyte>();
-                TList _list36 = iprot.ReadListBegin();
-                for( int _i37 = 0; _i37 < _list36.Count; ++_i37)
+                TList _list48 = iprot.ReadListBegin();
+                for( int _i49 = 0; _i49 < _list48.Count; ++_i49)
                 {
-                  sbyte _elem38 = 0;
-                  _elem38 = iprot.ReadByte();
-                  ShieldList.Add(_elem38);
+                  sbyte _elem50 = 0;
+                  _elem50 = iprot.ReadByte();
+                  ShieldList.Add(_elem50);
                 }
                 iprot.ReadListEnd();
               }
@@ -236,14 +236,14 @@ namespace KXSGCodec
             if (field.Type == TType.Map) {
               {
                 FighteProp = new Dictionary<int, int>();
-                TMap _map39 = iprot.ReadMapBegin();
-                for( int _i40 = 0; _i40 < _map39.Count; ++_i40)
+                TMap _map51 = iprot.ReadMapBegin();
+                for( int _i52 = 0; _i52 < _map51.Count; ++_i52)
                 {
-                  int _key41;
-                  int _val42;
-                  _key41 = iprot.ReadI32();
-                  _val42 = iprot.ReadI32();
-                  FighteProp[_key41] = _val42;
+                  int _key53;
+                  int _val54;
+                  _key53 = iprot.ReadI32();
+                  _val54 = iprot.ReadI32();
+                  FighteProp[_key53] = _val54;
                 }
                 iprot.ReadMapEnd();
               }
@@ -255,14 +255,14 @@ namespace KXSGCodec
             if (field.Type == TType.Map) {
               {
                 DropMap = new Dictionary<sbyte, int>();
-                TMap _map43 = iprot.ReadMapBegin();
-                for( int _i44 = 0; _i44 < _map43.Count; ++_i44)
+                TMap _map55 = iprot.ReadMapBegin();
+                for( int _i56 = 0; _i56 < _map55.Count; ++_i56)
                 {
-                  sbyte _key45;
-                  int _val46;
-                  _key45 = iprot.ReadByte();
-                  _val46 = iprot.ReadI32();
-                  DropMap[_key45] = _val46;
+                  sbyte _key57;
+                  int _val58;
+                  _key57 = iprot.ReadByte();
+                  _val58 = iprot.ReadI32();
+                  DropMap[_key57] = _val58;
                 }
                 iprot.ReadMapEnd();
               }
@@ -281,12 +281,12 @@ namespace KXSGCodec
             if (field.Type == TType.List) {
               {
                 SkillList = new List<int>();
-                TList _list47 = iprot.ReadListBegin();
-                for( int _i48 = 0; _i48 < _list47.Count; ++_i48)
+                TList _list59 = iprot.ReadListBegin();
+                for( int _i60 = 0; _i60 < _list59.Count; ++_i60)
                 {
-                  int _elem49 = 0;
-                  _elem49 = iprot.ReadI32();
-                  SkillList.Add(_elem49);
+                  int _elem61 = 0;
+                  _elem61 = iprot.ReadI32();
+                  SkillList.Add(_elem61);
                 }
                 iprot.ReadListEnd();
               }
@@ -338,9 +338,9 @@ namespace KXSGCodec
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.Byte, ShieldList.Count));
-          foreach (sbyte _iter50 in ShieldList)
+          foreach (sbyte _iter62 in ShieldList)
           {
-            oprot.WriteByte(_iter50);
+            oprot.WriteByte(_iter62);
           }
           oprot.WriteListEnd();
         }
@@ -353,10 +353,10 @@ namespace KXSGCodec
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteMapBegin(new TMap(TType.I32, TType.I32, FighteProp.Count));
-          foreach (int _iter51 in FighteProp.Keys)
+          foreach (int _iter63 in FighteProp.Keys)
           {
-            oprot.WriteI32(_iter51);
-            oprot.WriteI32(FighteProp[_iter51]);
+            oprot.WriteI32(_iter63);
+            oprot.WriteI32(FighteProp[_iter63]);
           }
           oprot.WriteMapEnd();
         }
@@ -369,10 +369,10 @@ namespace KXSGCodec
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteMapBegin(new TMap(TType.Byte, TType.I32, DropMap.Count));
-          foreach (sbyte _iter52 in DropMap.Keys)
+          foreach (sbyte _iter64 in DropMap.Keys)
           {
-            oprot.WriteByte(_iter52);
-            oprot.WriteI32(DropMap[_iter52]);
+            oprot.WriteByte(_iter64);
+            oprot.WriteI32(DropMap[_iter64]);
           }
           oprot.WriteMapEnd();
         }
@@ -393,9 +393,9 @@ namespace KXSGCodec
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.I32, SkillList.Count));
-          foreach (int _iter53 in SkillList)
+          foreach (int _iter65 in SkillList)
           {
-            oprot.WriteI32(_iter53);
+            oprot.WriteI32(_iter65);
           }
           oprot.WriteListEnd();
         }

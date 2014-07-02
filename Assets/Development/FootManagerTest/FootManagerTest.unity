@@ -530,6 +530,7 @@ GameObject:
   - 4: {fileID: 1181988763}
   - 114: {fileID: 1181988765}
   - 114: {fileID: 1181988764}
+  - 114: {fileID: 1181988766}
   m_Layer: 8
   m_Name: FootManager
   m_TagString: Untagged
@@ -625,6 +626,18 @@ MonoBehaviour:
   mAtlas: {fileID: 11400000, guid: c756b7e0779433e48add498d07ffe3b1, type: 2}
   mSpriteName: nextbar
   mFillCenter: 1
+--- !u!114 &1181988766
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1181988762}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e09c8e86ac272d04d92b703a103c0bea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FootManager: {fileID: 1181988764}
 --- !u!1 &1367438298
 GameObject:
   m_ObjectHideFlags: 0

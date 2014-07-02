@@ -17,12 +17,23 @@ public class UIHeroSelItemWindow : Window
     private Transform properties;
     private HeroInfo heroInfo;
     private UILabel equipNums;
+    private UILabel atkValue;
+    private UILabel hpValue;
+    private UILabel recoverValue;
+    private UILabel mpValue;
+
     private UItemsWindow cachedItemsWindow;
+    private HeroBaseInfoWindow heroBaseInfoWindow;
     private int cachedRowToShow;
     private UIEventListener.VoidDelegate itemClickDelegate;
     private static bool isShuttingDown;
     private EquipItem currentEquipItem;
     private List<ItemInfo> nonMatItems;
+
+    private const string IncColorStr = "[56ff0b](+";
+    private const string DesColorStr = "[ff0000](-";
+    private const string ColorEndString = ")[-]";
+    private ItemInfo infoBeforeChange;
  
     #endregion
 
@@ -66,6 +77,10 @@ public class UIHeroSelItemWindow : Window
         oKLis = UIEventListener.Get(buttons.FindChild("Button-Ok").gameObject);
         properties = Utils.FindChild(transform, "Properties");
         equipNums = Utils.FindChild(transform, "EquipNums").GetComponent<UILabel>();
+        atkValue = Utils.FindChild(properties, "Attack-Value").GetComponent<UILabel>();
+        hpValue = Utils.FindChild(properties, "HP-Value").GetComponent<UILabel>();  
+        recoverValue = Utils.FindChild(properties, "Recover-Value").GetComponent<UILabel>();
+        mpValue = Utils.FindChild(properties, "MP-Value").GetComponent<UILabel>();
     }
 
     /// <summary>
@@ -76,6 +91,7 @@ public class UIHeroSelItemWindow : Window
         backLis.onClick = OnBack;
         unLoadLis.onClick = OnUnload;
         oKLis.onClick = OnOk;
+        CommonHandler.HeroPropertyChanged += OnHeroPropertyChanged;
     }
 
     /// <summary>
@@ -86,6 +102,15 @@ public class UIHeroSelItemWindow : Window
         backLis.onClick = null;
         unLoadLis.onClick = null;
         oKLis.onClick = null;
+        CommonHandler.HeroPropertyChanged -= OnHeroPropertyChanged;
+    }
+
+    private void OnHeroPropertyChanged(SCPropertyChangedNumber scpropertychanged)
+    {
+        WindowManager.Instance.Show<UIHeroSelItemWindow>(false);
+        WindowManager.Instance.Show<HeroBaseInfoWindow>(true);
+        WindowManager.Instance.Show<UIHeroInfoWindow>(true);
+        WindowManager.Instance.Show<UItemsWindow>(false);
     }
 
     /// <summary>
@@ -124,7 +149,6 @@ public class UIHeroSelItemWindow : Window
         {
             info = ItemModeLocator.Instance.FindItem(currentEquipItem.BagIndex);
         }
-        var heroBaseInfoWindow = WindowManager.Instance.GetWindow<HeroBaseInfoWindow>();
         if (heroBaseInfoWindow.HeroInfo.EquipUuid[heroBaseInfoWindow.CurEquipIndex] != info.Id)
         {
             var msg = new CSHeroChangeEquip()
@@ -151,6 +175,30 @@ public class UIHeroSelItemWindow : Window
         itemClickDelegate = cachedItemsWindow.ItemClicked;
         cachedItemsWindow.ItemClicked = null;
         RegisterLongPress();
+        InitCurEquipItem();
+    }
+
+    /// <summary>
+    /// Init the current equip item.
+    /// </summary>
+    private void InitCurEquipItem()
+    {
+        heroBaseInfoWindow = WindowManager.Instance.GetWindow<HeroBaseInfoWindow>();
+        var currentItemUuid = heroBaseInfoWindow.HeroInfo.EquipUuid[heroBaseInfoWindow.CurEquipIndex];
+        var itemsTran = cachedItemsWindow.Items.transform;
+        infoBeforeChange = ItemModeLocator.Instance.FindItem(currentItemUuid);
+        if (infoBeforeChange != null)
+        {
+            for (var i = 0; i < itemsTran.childCount; i++)
+            {
+                var equipItem = itemsTran.GetChild(i).GetComponent<EquipItem>();
+                if (equipItem != null && equipItem.BagIndex == infoBeforeChange.BagIndex)
+                {
+                    currentEquipItem = equipItem;
+                    currentEquipItem.ShowEquipMask(true);
+                }
+            }
+        }
     }
 
     /// <summary>
@@ -264,16 +312,80 @@ public class UIHeroSelItemWindow : Window
             currentEquipItem.ShowEquipMask(false);
         }
         var item = go.GetComponent<EquipItem>();
+        var newInfo = (item != null) ? ItemModeLocator.Instance.FindItem(item.BagIndex) : null;
+        RefreshProperties(infoBeforeChange, newInfo);
         if(item == currentEquipItem)
         {
-            item.ShowEquipMask(false);
+            if(item != null)
+            {
+                item.ShowEquipMask(false);
+            }
             currentEquipItem = null;
         }
         else
         {
             currentEquipItem = item;
-            currentEquipItem.ShowEquipMask(true);
+            if(currentEquipItem != null)
+            {
+                currentEquipItem.ShowEquipMask(true);
+            }
         }
+    }
+
+    private void RefreshProperties(ItemInfo oldInfo, ItemInfo newInfo)
+    {
+        var oldAtk = 0;
+        var oldHp = 0;
+        var oldRecover = 0;
+        var oldMp = 0;   
+        var newAtk = 0;
+        var newHp = 0;
+        var newRecover = 0;
+        var newMp = 0;
+        if(oldInfo != null)
+        {
+            GetProproties(oldInfo, out oldAtk, out oldHp, out oldRecover, out oldMp);
+        }
+        if (newInfo != null)
+        {
+            GetProproties(newInfo, out newAtk, out newHp, out newRecover, out newMp);
+        }
+        var changedAtk = newAtk - oldAtk;
+        if(changedAtk != 0)
+        {
+            atkValue.text = string.Format("{0}{1}{2}{3}", heroInfo.Prop[RoleProperties.ROLE_ATK],
+                                  changedAtk > 0 ? IncColorStr : DesColorStr, Mathf.Abs(changedAtk),
+                                  ColorEndString);  
+        }
+        var changedHp = newHp - oldHp;
+        if(changedHp != 0)
+        {
+            hpValue.text = string.Format("{0}{1}{2}{3}", heroInfo.Prop[RoleProperties.ROLE_HP],
+                                  changedHp > 0 ? IncColorStr : DesColorStr, Mathf.Abs(changedHp),
+                                  ColorEndString); 
+        }
+        var changedRecover = newRecover - oldRecover;
+        if (changedRecover != 0)
+        {
+            recoverValue.text = string.Format("{0}{1}{2}{3}", heroInfo.Prop[RoleProperties.ROLE_RECOVER],
+                                  changedRecover > 0 ? IncColorStr : DesColorStr, Mathf.Abs(changedRecover),
+                                  ColorEndString);  
+        }
+        var changedMp = newMp - oldMp;
+        if (changedMp != 0)
+        {
+            mpValue.text = string.Format("{0}{1}{2}{3}", heroInfo.Prop[RoleProperties.ROLE_MP],
+                                  changedMp > 0 ? IncColorStr : DesColorStr, Mathf.Abs(changedMp),
+                                  ColorEndString);
+        }
+    }
+
+    private void GetProproties(ItemInfo itemInfo, out int atk, out int hp, out int recover, out int mp)
+    {
+        atk = ItemModeLocator.Instance.GetAttack(itemInfo.TmplId, itemInfo.Level);
+        hp = ItemModeLocator.Instance.GetHp(itemInfo.TmplId, itemInfo.Level);
+        recover = ItemModeLocator.Instance.GetRecover(itemInfo.TmplId, itemInfo.Level);
+        mp = ItemModeLocator.Instance.GetMp(itemInfo.TmplId);
     }
 
     /// <summary>
@@ -281,14 +393,10 @@ public class UIHeroSelItemWindow : Window
     /// </summary>
     private void Refresh()
     {
-        Utils.FindChild(properties, "Attack-Value").GetComponent<UILabel>().text =
-                                    heroInfo.Prop[RoleProperties.ROLE_ATK].ToString(CultureInfo.InvariantCulture);
-        Utils.FindChild(properties, "HP-Value").GetComponent<UILabel>().text =
-                                    heroInfo.Prop[RoleProperties.ROLE_HP].ToString(CultureInfo.InvariantCulture);
-        Utils.FindChild(properties, "Recover-Value").GetComponent<UILabel>().text =
-                                    heroInfo.Prop[RoleProperties.ROLE_RECOVER].ToString(CultureInfo.InvariantCulture);
-        Utils.FindChild(properties, "MP-Value").GetComponent<UILabel>().text =
-                                    heroInfo.Prop[RoleProperties.ROLE_MP].ToString(CultureInfo.InvariantCulture);
+        atkValue.text = heroInfo.Prop[RoleProperties.ROLE_ATK].ToString(CultureInfo.InvariantCulture);
+        hpValue.text = heroInfo.Prop[RoleProperties.ROLE_HP].ToString(CultureInfo.InvariantCulture);
+        recoverValue.text = heroInfo.Prop[RoleProperties.ROLE_RECOVER].ToString(CultureInfo.InvariantCulture);
+        mpValue.text = heroInfo.Prop[RoleProperties.ROLE_MP].ToString(CultureInfo.InvariantCulture);
         var capacity = ItemModeLocator.Instance.ScAllItemInfos.Capacity;
         equipNums.text = string.Format("{0}/{1}", nonMatItems.Count, capacity);
     }

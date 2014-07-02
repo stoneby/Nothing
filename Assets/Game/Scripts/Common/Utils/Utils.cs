@@ -187,43 +187,6 @@ public class Utils
         WindowManager.Instance.DestroyLastWindow = destroyLastWindow;
     }
 
-    /// <summary>
-    /// Spawn or despawn the new game object, and install or uninstall handler. 
-    /// </summary>
-    /// <param name="parent">The parent of all items.</param>
-    /// <param name="childPrefab">The prefab of child item.</param>
-    /// <param name="isAdd">If true, add child to the parent.</param>
-    /// <param name="count">The number of item to be added or deleted.</param>
-    /// <param name="poolName">The name of pool.</param>
-    /// <param name="dDelegate">The handler to install or uninstall.</param>
-    public static void AddOrDelItems(Transform parent, Transform childPrefab, bool isAdd, int count, string poolName, UIEventListener.VoidDelegate dDelegate)
-    {
-        if (isAdd)
-        {
-            for (int i = 0; i < count; i++)
-            {
-                var item = PoolManager.Pools[poolName].Spawn(childPrefab);
-                MoveToParent(parent, item);
-                NGUITools.SetActive(item.gameObject, true);
-                UIEventListener.Get(item.gameObject).onClick += dDelegate;
-            }
-        }
-        else
-        {
-            if (PoolManager.Pools.ContainsKey(poolName))
-            {
-                var list = parent.Cast<Transform>().ToList();
-                for (int index = 0; index < count; index++)
-                {
-                    var item = list[index];
-                    UIEventListener.Get(item.gameObject).onClick -= dDelegate;
-                    item.parent = PoolManager.Pools[poolName].transform;
-                    PoolManager.Pools[poolName].Despawn(item);
-                }
-            }
-        }
-    }
-
     public static DateTime ConvertFromJavaTimestamp(long timestamp)
     {
         var origin = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);

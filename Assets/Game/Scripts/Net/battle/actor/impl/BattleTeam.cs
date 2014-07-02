@@ -86,6 +86,21 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 			}
 		}
 
+		//TODO: add record
+		public virtual void activeAllBuff(int buffFlag)
+		{
+			foreach (BattleFighter _actor in ActorList)
+			{
+				if (_actor.Dead)
+				{
+					continue;
+				}
+				_actor.activeBuff(buffFlag);
+			}
+		}
+
+
+
 		public abstract bool hasFightFighter();
 
 		public abstract bool handleBattleFightInfo(int targetIndex, int[] battleIndexes);

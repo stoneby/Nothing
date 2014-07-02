@@ -29,6 +29,7 @@ namespace Assets.Game.Scripts.Net.handler
 
                 BattleModelLocator.Instance.HeroList = FighterInfoCreater.createListFromMsgHero(BattleSideEnum.SIDEA, battlestartmsg.FighterList);
                 BattleModelLocator.Instance.EnemyList = FighterInfoCreater.createListFormMsgMonster(BattleSideEnum.SIDEB, battlestartmsg.MonsterGroup, battlestartmsg.MonsterList);
+
                 var allFighterList = new List<FighterInfo>();
                 allFighterList.AddRange(BattleModelLocator.Instance.HeroList);
                 allFighterList.AddRange(BattleModelLocator.Instance.EnemyList);
@@ -36,9 +37,12 @@ namespace Assets.Game.Scripts.Net.handler
                 BattleModelLocator.Instance.Source.FighterProp = allFighterList;
 
                 source.heroSkillList.AddRange(battlestartmsg.HeroSkillList);
-                source.MonsterAList.AddRange(battlestartmsg.MonsterAIList);
+                source.MonsterAIList.AddRange(battlestartmsg.MonsterAIList);
                 source.monsterSkillList.AddRange(battlestartmsg.MonsterSkillList);
-
+                if (battlestartmsg.BuffList != null)
+                {
+                    source.buffList.AddRange(battlestartmsg.BuffList);
+                }
                 FighterInfoCreater.initBattleSkillService(source);
 
                 var factory = type.Factory;

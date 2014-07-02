@@ -82,7 +82,6 @@ public class UIHeroInfoWindow : Window
     {
         needShowLevelUp = true;
         propertychanged = scpropertychanged;
-
     }
 
     /// <summary>
@@ -206,16 +205,31 @@ public class UIHeroInfoWindow : Window
     private void SetLevelUpLevels(UILabel lvLabel, int changedLvl, int changedAtk, int changedHp, int changedRecover,
                                   int changedMp)
     {
-        lvLabel.color = UILevelUpWindow.ChangedColor;
-        lvLabel.text = string.Format("(+{0})", changedLvl);
-        attack.color = UILevelUpWindow.ChangedColor;
-        attack.text = string.Format("(+{0})", changedAtk);
-        hp.color = UILevelUpWindow.ChangedColor;
-        hp.text = string.Format("(+{0})", changedHp);
-        recover.color = UILevelUpWindow.ChangedColor;
-        recover.text = string.Format("(+{0})", changedRecover);
-        mp.color = UILevelUpWindow.ChangedColor;
-        mp.text = string.Format("(+{0})", changedMp);
+        if (changedLvl > 0)
+        {
+            lvLabel.color = UILevelUpWindow.ChangedColor;
+            lvLabel.text = string.Format("(+{0})", changedLvl);
+        }
+        if (changedAtk > 0)
+        {
+            attack.color = UILevelUpWindow.ChangedColor;
+            attack.text = string.Format("(+{0})", changedAtk);
+        }
+        if(changedHp > 0)
+        {
+            hp.color = UILevelUpWindow.ChangedColor;
+            hp.text = string.Format("(+{0})", changedHp);
+        }
+        if (changedRecover > 0)
+        {
+            recover.color = UILevelUpWindow.ChangedColor;
+            recover.text = string.Format("(+{0})", changedRecover);
+        }
+        if (changedMp > 0)
+        {
+            mp.color = UILevelUpWindow.ChangedColor;
+            mp.text = string.Format("(+{0})", changedMp);
+        }
     }
 
     private void ShowNormalLabels(UILabel lvLabel)

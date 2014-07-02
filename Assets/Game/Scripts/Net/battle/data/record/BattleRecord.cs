@@ -21,11 +21,12 @@ namespace com.kx.sglm.gs.battle.share.data.record
 
 		private BattleSkillRecord curSkillRecord;
 
+		private BattleBuffRecord curBuffRecord;
+
 		private BattleEndRecord curEndRecord;
 
 		private BattleErrorRecord errorRecord;
 
-	    private BattleDebugRecord debugRecord;
 
 		public BattleRecord()
 		{
@@ -41,14 +42,15 @@ namespace com.kx.sglm.gs.battle.share.data.record
 				if (curEndRecord == null)
 				{
 					curEndRecord = new BattleEndRecord();
+					addList(curEndRecord);
 				}
 				return curEndRecord;
 			}
 		}
 
+
 		public virtual void finishCurEndRecord()
 		{
-			addList(curEndRecord);
 			this.curEndRecord = null;
 		}
 
@@ -83,9 +85,27 @@ namespace com.kx.sglm.gs.battle.share.data.record
 			}
 		}
 
+		public virtual BattleBuffRecord OrCreateBuffRecord
+		{
+			get
+			{
+				if (curBuffRecord == null)
+				{
+					curBuffRecord = new BattleBuffRecord();
+					addList(curBuffRecord);
+				}
+				return curBuffRecord;
+			}
+		}
+
 		public virtual void finishCurTeamRecord()
 		{
 			this.curFightRecord = null;
+		}
+
+		public virtual void finishCurBuffRecord()
+		{
+			this.curBuffRecord = null;
 		}
 
 		public virtual BattleRoundCountRecord OrCreateRoundCountRecord
@@ -130,25 +150,6 @@ namespace com.kx.sglm.gs.battle.share.data.record
 			curIndexRecord = null;
 		}
 
-        public virtual BattleDebugRecord OrCreateDebugRecord
-        {
-            get
-            {
-                if (debugRecord == null)
-                {
-                    debugRecord = new BattleDebugRecord();
-                    addList(debugRecord);
-                }
-                return debugRecord;
-            }
-        }
-
-
-	    public virtual void FinishDebugRecord()
-	    {
-	        debugRecord = null;
-	    }
-
 		protected internal virtual void addList(IBattleViewRecord record)
 		{
 			this.recordList.Add(record);
@@ -165,7 +166,15 @@ namespace com.kx.sglm.gs.battle.share.data.record
 
 		public virtual List<IBattleViewRecord> reportRecordListAndClear()
 		{
-			List<IBattleViewRecord> _recordList = new List<IBattleViewRecord>(toReportRecordList);
+			List<IBattleViewRecord> _recordList = new List<IBattleViewRecord>();
+			foreach (IBattleViewRecord _record in toReportRecordList)
+			{
+				if (_record.Empty)
+				{
+					continue;
+				}
+				_recordList.Add(_record);
+			}
 			toReportRecordList.Clear();
 			return _recordList;
 		}

@@ -6,6 +6,8 @@ namespace com.kx.sglm.gs.battle.share.data.record
 
 		void show(IBattleView viewObj);
 
+		bool Empty {get;}
+
 	}
 
 }

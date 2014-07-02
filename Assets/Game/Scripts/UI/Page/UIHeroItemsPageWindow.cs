@@ -104,7 +104,7 @@ public class UIHeroItemsPageWindow : Window
         if (childCount != heroCount)
         {
             var isAdd = childCount < heroCount;
-            Utils.AddOrDelItems(grid.transform, HeroPrefab.transform, isAdd, Mathf.Abs(heroCount - childCount), "Heros",
+            HeroUtils.AddOrDelItems(grid.transform, HeroPrefab.transform, isAdd, Mathf.Abs(heroCount - childCount), HeroConstant.HeroPoolName,
                                 OnHeroInfoClicked);
             grid.repositionNow = true;
         }

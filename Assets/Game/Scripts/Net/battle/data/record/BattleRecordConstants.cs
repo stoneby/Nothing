@@ -41,6 +41,10 @@ namespace com.kx.sglm.gs.battle.share.data.record
 		public const int SINGLE_ACTION_TYPE_CHANGED_COLOR = 6;
 
 		/// <summary>
+		/// 被转色 </summary>
+		public const int SINGLE_ACTION_TYPE_BUFF_STATE = 7;
+
+		/// <summary>
 		/// 目标SideAID </summary>
 		public static readonly int TARGET_SIDE_A = BattleSideEnum.SIDEA.Index;
 
@@ -99,7 +103,37 @@ namespace com.kx.sglm.gs.battle.share.data.record
 		/// <summary>
 		/// Sp技能攻击单次伤害 </summary>
 		public static readonly int BATTLE_HERO_PROP_COLOR_CHANGE = RECORD_PROP_KEY_BASE++;
+
+		/// <summary>
+		/// 怪物技能CD </summary>
+		public static readonly int BATTLE_MONSTER_SKILL_ROUND = RECORD_PROP_KEY_BASE++;
+
+		/// <summary>
+		/// Fighter状态位 </summary>
+		public static readonly int BATTLE_FIGHTER_STATE_FLAG = RECORD_PROP_KEY_BASE++;
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -34,6 +34,7 @@ namespace KXSGCodec
     private List<SkillTargetGetterMsgData> _enemyTargetList;
     private List<SkillTargetGetterMsgData> _friendTargetList;
     private List<SkillBattleEffectMsgData> _effectList;
+    private List<int> _buffIdList;
 
     public int Id
     {
@@ -139,6 +140,19 @@ namespace KXSGCodec
       }
     }
 
+    public List<int> BuffIdList
+    {
+      get
+      {
+        return _buffIdList;
+      }
+      set
+      {
+        __isset.buffIdList = true;
+        this._buffIdList = value;
+      }
+    }
+
 
     public Isset __isset;
     #if !SILVERLIGHT
@@ -153,6 +167,7 @@ namespace KXSGCodec
       public bool enemyTargetList;
       public bool friendTargetList;
       public bool effectList;
+      public bool buffIdList;
     }
 
     public BattleHeroSkillMsgAction() {
@@ -202,13 +217,13 @@ namespace KXSGCodec
             if (field.Type == TType.List) {
               {
                 ConditionList = new List<BattleSkillMsgCondition>();
-                TList _list0 = iprot.ReadListBegin();
-                for( int _i1 = 0; _i1 < _list0.Count; ++_i1)
+                TList _list4 = iprot.ReadListBegin();
+                for( int _i5 = 0; _i5 < _list4.Count; ++_i5)
                 {
-                  BattleSkillMsgCondition _elem2 = new BattleSkillMsgCondition();
-                  _elem2 = new BattleSkillMsgCondition();
-                  _elem2.Read(iprot);
-                  ConditionList.Add(_elem2);
+                  BattleSkillMsgCondition _elem6 = new BattleSkillMsgCondition();
+                  _elem6 = new BattleSkillMsgCondition();
+                  _elem6.Read(iprot);
+                  ConditionList.Add(_elem6);
                 }
                 iprot.ReadListEnd();
               }
@@ -220,13 +235,13 @@ namespace KXSGCodec
             if (field.Type == TType.List) {
               {
                 EnemyTargetList = new List<SkillTargetGetterMsgData>();
-                TList _list3 = iprot.ReadListBegin();
-                for( int _i4 = 0; _i4 < _list3.Count; ++_i4)
+                TList _list7 = iprot.ReadListBegin();
+                for( int _i8 = 0; _i8 < _list7.Count; ++_i8)
                 {
-                  SkillTargetGetterMsgData _elem5 = new SkillTargetGetterMsgData();
-                  _elem5 = new SkillTargetGetterMsgData();
-                  _elem5.Read(iprot);
-                  EnemyTargetList.Add(_elem5);
+                  SkillTargetGetterMsgData _elem9 = new SkillTargetGetterMsgData();
+                  _elem9 = new SkillTargetGetterMsgData();
+                  _elem9.Read(iprot);
+                  EnemyTargetList.Add(_elem9);
                 }
                 iprot.ReadListEnd();
               }
@@ -238,13 +253,13 @@ namespace KXSGCodec
             if (field.Type == TType.List) {
               {
                 FriendTargetList = new List<SkillTargetGetterMsgData>();
-                TList _list6 = iprot.ReadListBegin();
-                for( int _i7 = 0; _i7 < _list6.Count; ++_i7)
+                TList _list10 = iprot.ReadListBegin();
+                for( int _i11 = 0; _i11 < _list10.Count; ++_i11)
                 {
-                  SkillTargetGetterMsgData _elem8 = new SkillTargetGetterMsgData();
-                  _elem8 = new SkillTargetGetterMsgData();
-                  _elem8.Read(iprot);
-                  FriendTargetList.Add(_elem8);
+                  SkillTargetGetterMsgData _elem12 = new SkillTargetGetterMsgData();
+                  _elem12 = new SkillTargetGetterMsgData();
+                  _elem12.Read(iprot);
+                  FriendTargetList.Add(_elem12);
                 }
                 iprot.ReadListEnd();
               }
@@ -256,13 +271,30 @@ namespace KXSGCodec
             if (field.Type == TType.List) {
               {
                 EffectList = new List<SkillBattleEffectMsgData>();
-                TList _list9 = iprot.ReadListBegin();
-                for( int _i10 = 0; _i10 < _list9.Count; ++_i10)
+                TList _list13 = iprot.ReadListBegin();
+                for( int _i14 = 0; _i14 < _list13.Count; ++_i14)
                 {
-                  SkillBattleEffectMsgData _elem11 = new SkillBattleEffectMsgData();
-                  _elem11 = new SkillBattleEffectMsgData();
-                  _elem11.Read(iprot);
-                  EffectList.Add(_elem11);
+                  SkillBattleEffectMsgData _elem15 = new SkillBattleEffectMsgData();
+                  _elem15 = new SkillBattleEffectMsgData();
+                  _elem15.Read(iprot);
+                  EffectList.Add(_elem15);
+                }
+                iprot.ReadListEnd();
+              }
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 9:
+            if (field.Type == TType.List) {
+              {
+                BuffIdList = new List<int>();
+                TList _list16 = iprot.ReadListBegin();
+                for( int _i17 = 0; _i17 < _list16.Count; ++_i17)
+                {
+                  int _elem18 = 0;
+                  _elem18 = iprot.ReadI32();
+                  BuffIdList.Add(_elem18);
                 }
                 iprot.ReadListEnd();
               }
@@ -322,9 +354,9 @@ namespace KXSGCodec
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.Struct, ConditionList.Count));
-          foreach (BattleSkillMsgCondition _iter12 in ConditionList)
+          foreach (BattleSkillMsgCondition _iter19 in ConditionList)
           {
-            _iter12.Write(oprot);
+            _iter19.Write(oprot);
           }
           oprot.WriteListEnd();
         }
@@ -337,9 +369,9 @@ namespace KXSGCodec
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.Struct, EnemyTargetList.Count));
-          foreach (SkillTargetGetterMsgData _iter13 in EnemyTargetList)
+          foreach (SkillTargetGetterMsgData _iter20 in EnemyTargetList)
           {
-            _iter13.Write(oprot);
+            _iter20.Write(oprot);
           }
           oprot.WriteListEnd();
         }
@@ -352,9 +384,9 @@ namespace KXSGCodec
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.Struct, FriendTargetList.Count));
-          foreach (SkillTargetGetterMsgData _iter14 in FriendTargetList)
+          foreach (SkillTargetGetterMsgData _iter21 in FriendTargetList)
           {
-            _iter14.Write(oprot);
+            _iter21.Write(oprot);
           }
           oprot.WriteListEnd();
         }
@@ -367,9 +399,24 @@ namespace KXSGCodec
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.Struct, EffectList.Count));
-          foreach (SkillBattleEffectMsgData _iter15 in EffectList)
+          foreach (SkillBattleEffectMsgData _iter22 in EffectList)
           {
-            _iter15.Write(oprot);
+            _iter22.Write(oprot);
+          }
+          oprot.WriteListEnd();
+        }
+        oprot.WriteFieldEnd();
+      }
+      if (BuffIdList != null && __isset.buffIdList) {
+        field.Name = "buffIdList";
+        field.Type = TType.List;
+        field.ID = 9;
+        oprot.WriteFieldBegin(field);
+        {
+          oprot.WriteListBegin(new TList(TType.I32, BuffIdList.Count));
+          foreach (int _iter23 in BuffIdList)
+          {
+            oprot.WriteI32(_iter23);
           }
           oprot.WriteListEnd();
         }
@@ -397,6 +444,8 @@ namespace KXSGCodec
       sb.Append(FriendTargetList);
       sb.Append(",EffectList: ");
       sb.Append(EffectList);
+      sb.Append(",BuffIdList: ");
+      sb.Append(BuffIdList);
       sb.Append(")");
       return sb.ToString();
     }

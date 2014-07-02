@@ -26,6 +26,7 @@ namespace KXSGCodec
     private sbyte _raidType;
     private sbyte _addtionType;
     private List<int> _raidTemplateId;
+    private short _addtionRate;
 
     public sbyte RaidType
     {
@@ -66,6 +67,19 @@ namespace KXSGCodec
       }
     }
 
+    public short AddtionRate
+    {
+      get
+      {
+        return _addtionRate;
+      }
+      set
+      {
+        __isset.addtionRate = true;
+        this._addtionRate = value;
+      }
+    }
+
 
     public Isset __isset;
     #if !SILVERLIGHT
@@ -75,6 +89,7 @@ namespace KXSGCodec
       public bool raidType;
       public bool addtionType;
       public bool raidTemplateId;
+      public bool addtionRate;
     }
 
     public RaidAddtionInfo() {
@@ -123,6 +138,13 @@ namespace KXSGCodec
               TProtocolUtil.Skip(iprot, field.Type);
             }
             break;
+          case 4:
+            if (field.Type == TType.I16) {
+              AddtionRate = iprot.ReadI16();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
           default: 
             TProtocolUtil.Skip(iprot, field.Type);
             break;
@@ -167,6 +189,14 @@ namespace KXSGCodec
         }
         oprot.WriteFieldEnd();
       }
+      if (__isset.addtionRate) {
+        field.Name = "addtionRate";
+        field.Type = TType.I16;
+        field.ID = 4;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteI16(AddtionRate);
+        oprot.WriteFieldEnd();
+      }
       oprot.WriteFieldStop();
       oprot.WriteStructEnd();
     }
@@ -179,6 +209,8 @@ namespace KXSGCodec
       sb.Append(AddtionType);
       sb.Append(",RaidTemplateId: ");
       sb.Append(RaidTemplateId);
+      sb.Append(",AddtionRate: ");
+      sb.Append(AddtionRate);
       sb.Append(")");
       return sb.ToString();
     }

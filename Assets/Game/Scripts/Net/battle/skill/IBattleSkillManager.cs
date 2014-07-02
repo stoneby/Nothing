@@ -1,12 +1,13 @@
 namespace com.kx.sglm.gs.battle.share.skill
 {
 
+	using IFighterOwner = com.kx.sglm.gs.battle.share.actor.IFighterOwner;
 	using BattleFightRecord = com.kx.sglm.gs.battle.share.data.record.BattleFightRecord;
 	using BattleTeamFightRecord = com.kx.sglm.gs.battle.share.data.record.BattleTeamFightRecord;
 	using SceneStartEvent = com.kx.sglm.gs.battle.share.@event.impl.SceneStartEvent;
 	using TeamShotStartEvent = com.kx.sglm.gs.battle.share.@event.impl.TeamShotStartEvent;
 
-	public interface IBattleSkillManager : IRoundCounter
+	public interface IBattleSkillManager : IRoundCounter, IFighterOwner
 	{
 
 
@@ -26,7 +27,7 @@ namespace com.kx.sglm.gs.battle.share.skill
 
 		void onAttack(BattleFightRecord fightRecord);
 
-		void onHandleEvent(BattleTeamFightRecord record);
+		void onHandleInputAction(BattleTeamFightRecord record);
 
 	}
 

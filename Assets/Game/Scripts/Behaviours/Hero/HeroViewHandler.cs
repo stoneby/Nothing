@@ -8,7 +8,6 @@ public class HeroViewHandler : MonoBehaviour
     #region Private Fields
 
     private UIEventListener extendBagLis;
-    private UIEventListener createOneLis;
     private List<HeroInfo> infos;
     private UILabel heroNums;
     private ExtendBag itemExtendConfirm;
@@ -27,7 +26,6 @@ public class HeroViewHandler : MonoBehaviour
     private void Awake()
     {
         extendBagLis = UIEventListener.Get(Utils.FindChild(transform, "ExtendBag").gameObject);
-        createOneLis = UIEventListener.Get(Utils.FindChild(transform, "Button-CreateOne").gameObject);
         heroNums = Utils.FindChild(transform, "HeroNums").GetComponent<UILabel>();
         herosWindow = WindowManager.Instance.Show<UIHerosPageWindow>(true);
         herosWindow.Heros.onReposition += OnReposition;
@@ -35,27 +33,14 @@ public class HeroViewHandler : MonoBehaviour
 
     private void OnEnable()
     {
-        createOneLis.onClick = OnCreateOne;
         extendBagLis.onClick = OnExtenBag;
         Refresh();
     }
 
     private void OnDisable()
     {
-        createOneLis.onClick = null;
         extendBagLis.onClick = null;
         extendBagLis.gameObject.SetActive(false);
-    }
-
-
-    /// <summary>
-    /// The create one button click handler.
-    /// </summary>
-    /// <param name="go">The sender of click event.</param>
-    private void OnCreateOne(GameObject go)
-    {
-        var csmsg = new CSHeroCreateOne();
-        NetManager.SendMessage(csmsg);
     }
 
     private void OnExtenBag(GameObject go)

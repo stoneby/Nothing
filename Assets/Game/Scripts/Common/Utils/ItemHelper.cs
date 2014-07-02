@@ -2,6 +2,9 @@
 
 public class ItemHelper
 {
+    /// <summary>
+    /// The sort order types.
+    /// </summary>
     public enum OrderType
     {
         Time,
@@ -14,6 +17,17 @@ public class ItemHelper
         Team
     }
 
+    /// <summary>
+    /// Show the info of the item.
+    /// </summary>
+    /// <param name="orderType">The order type of item.</param>
+    /// <param name="equipItem">The equip item script on the item.</param>
+    /// <param name="quality">The quality of the item.</param>
+    /// <param name="level">The level of the item.</param>
+    /// <param name="job">The job of the item.</param>
+    /// <param name="atk">The attack of the item.</param>
+    /// <param name="hp">The hp value of the item.</param>
+    /// <param name="recover">The recover value of the item.</param>
     public static void ShowItem(OrderType orderType, EquipItem equipItem, int quality, short level, sbyte job, int atk, int hp, int recover)
     {
         switch (orderType)
@@ -52,6 +66,13 @@ public class ItemHelper
         }
     }
 
+    /// <summary>
+    /// Show the info of the item.
+    /// </summary>
+    /// <param name="orderType">The order type of item.</param>
+    /// <param name="itemTran">The transform of item.</param>
+    /// <param name="tempId">The template id of the item.</param>
+    /// <param name="level">The level of the item.</param>
     public static void ShowItem(OrderType orderType, EquipItem itemTran, int tempId, short level)
     {
         int quality = 0;
@@ -89,7 +110,7 @@ public class ItemHelper
     /// <summary>
     /// Show the info of the item.
     /// </summary>
-    /// <param name="orderType">The order type of </param>
+    /// <param name="orderType">The order type of item.</param>
     /// <param name="itemTran">The transform of item.</param>
     /// <param name="itemInfo">The info of item.</param>
     public static void ShowItem(OrderType orderType, EquipItem itemTran, ItemInfo itemInfo)
@@ -103,6 +124,13 @@ public class ItemHelper
         ShowItem(orderType, itemTran, quality, level, job, atk, hp, recover);
     }
 
+    /// <summary>
+    /// To check if the item with special bag index is the same job type with the special main item.
+    /// </summary>
+    /// <param name="mainType">The type of the main item.</param>
+    /// <param name="mainTemId">The template id of the main item.</param>
+    /// <param name="bagIndex">The bag index of the item to check.</param>
+    /// <returns>True, if it has the same job type with main item.</returns>
     public static bool IsSameJobType(ItemModeLocator.EquipType mainType, int mainTemId, short bagIndex)
     {
         if (mainType == ItemModeLocator.EquipType.InvalidTempl || mainType == ItemModeLocator.EquipType.MaterialTempl)

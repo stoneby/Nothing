@@ -7,6 +7,7 @@ namespace com.kx.sglm.gs.battle.share.data
 	using BattleSideEnum = com.kx.sglm.gs.battle.share.enums.BattleSideEnum;
 	using BattleType = com.kx.sglm.gs.battle.share.enums.BattleType;
 	using PropertyRawSet = com.kx.sglm.gs.battle.share.utils.PropertyRawSet;
+	using BattleBuffMsgData = KXSGCodec.BattleBuffMsgData;
 	using BattleHeroSkillMsgAction = KXSGCodec.BattleHeroSkillMsgAction;
 	using BattleMonsterAIMsgAction = KXSGCodec.BattleMonsterAIMsgAction;
 	using BattleMonsterSkillMsgAction = KXSGCodec.BattleMonsterSkillMsgAction;
@@ -51,7 +52,9 @@ namespace com.kx.sglm.gs.battle.share.data
 
 		/// <summary>
 		/// π÷ŒÔAI¡–±Ì </summary>
-		protected internal List<BattleMonsterAIMsgAction> monsterAList;
+		protected internal List<BattleMonsterAIMsgAction> monsterAIList;
+
+		protected internal List<BattleBuffMsgData> buffList;
 
 		public BattleSource(BattleType battleType)
 		{
@@ -60,7 +63,8 @@ namespace com.kx.sglm.gs.battle.share.data
 			this.props = new PropertyRawSet();
 			this.heroSkillList = new List<BattleHeroSkillMsgAction>();
 			this.monsterSkillList = new List<BattleMonsterSkillMsgAction>();
-			this.monsterAList = new List<BattleMonsterAIMsgAction>();
+			this.monsterAIList = new List<BattleMonsterAIMsgAction>();
+			this.buffList = new List<BattleBuffMsgData>();
 		}
 
 		public virtual long Uuid
@@ -156,17 +160,32 @@ namespace com.kx.sglm.gs.battle.share.data
 		}
 
 
-		public virtual List<BattleMonsterAIMsgAction> MonsterAList
+		public virtual List<BattleMonsterAIMsgAction> MonsterAIList
 		{
 			get
 			{
-				return monsterAList;
+				return monsterAIList;
 			}
 			set
 			{
-				this.monsterAList = value;
+				this.monsterAIList = value;
 			}
 		}
+
+
+		public virtual List<BattleBuffMsgData> BuffList
+		{
+			get
+			{
+				return buffList;
+			}
+			set
+			{
+				this.buffList = value;
+			}
+		}
+
+
 
 
 

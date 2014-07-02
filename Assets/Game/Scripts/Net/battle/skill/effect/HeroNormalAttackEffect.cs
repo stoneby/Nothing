@@ -4,6 +4,7 @@ namespace com.kx.sglm.gs.battle.share.skill.effect
 	using BattleFighter = com.kx.sglm.gs.battle.share.actor.impl.BattleFighter;
 	using BattleRecordConstants = com.kx.sglm.gs.battle.share.data.record.BattleRecordConstants;
 	using SingleActionRecord = com.kx.sglm.gs.battle.share.data.record.SingleActionRecord;
+	using BattleLogicHelper = com.kx.sglm.gs.battle.share.helper.BattleLogicHelper;
 	using HeroArrLogicHelper = com.kx.sglm.gs.battle.share.helper.HeroArrLogicHelper;
 
 	public class HeroNormalAttackEffect : AbstractAttackEffect
@@ -37,11 +38,10 @@ namespace com.kx.sglm.gs.battle.share.skill.effect
 
 		public override void costHp(int costHp, BattleFighter defencer, SingleActionRecord record)
 		{
-			defencer.changeCurHp(-costHp);
-			record.ResultHp = defencer.CurHp;
+			BattleLogicHelper.costMonsterHp(costHp, defencer, record);
 		}
 
-		public override void build(params int[] param)
+		public override void build(params string[] param)
 		{
 
 		}

@@ -40,8 +40,7 @@ public class CameraLikeEffect : MonoBehaviour
     /// </summary>
     public void LookInto()
     {
-        var increment = -LookAt.position - gameObject.transform.position;
-        iTween.MoveBy(gameObject, increment * LookAtScale, LookAtTime);
+        iTween.MoveTo(gameObject, -LookAt.position * LookAtScale, LookAtTime);
         iTween.ScaleTo(gameObject, new Vector3(LookAtScale, LookAtScale, 0) , LookAtTime);
     }
 
@@ -50,8 +49,7 @@ public class CameraLikeEffect : MonoBehaviour
     /// </summary>
     public void LookOut()
     {
-        var increment = originalPosition - gameObject.transform.position;
-        iTween.MoveBy(gameObject, increment, LookAtTime);
+        iTween.MoveTo(gameObject, originalPosition, LookAtTime);
         iTween.ScaleTo(gameObject, new Vector3(originalScale, originalScale, 0), LookAtTime);
     }
 
@@ -92,31 +90,6 @@ public class CameraLikeEffect : MonoBehaviour
         // let's assume scaling in same size on both x and y.
         originalScale = gameObject.transform.localScale.x;
     }
-
-#if UNITY_EDITOR
-    private void OnGUI()
-    {
-        if (GUILayout.Button("Look Into"))
-        {
-            LookInto();
-        }
-
-        if (GUILayout.Button("Look Out"))
-        {
-            LookOut();
-        }
-
-        if (GUILayout.Button("Look Around"))
-        {
-            LookAround();
-        }
-
-        if (GUILayout.Button("Shake"))
-        {
-            Shake();
-        }
-    }
-#endif
 
     #endregion
 }

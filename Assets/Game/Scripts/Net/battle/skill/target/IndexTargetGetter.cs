@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace com.kx.sglm.gs.battle.share.skill.target
@@ -20,9 +21,9 @@ namespace com.kx.sglm.gs.battle.share.skill.target
 			return _curFighterList;
 		}
 
-		public override void build(params int[] param)
+		public override void build(params string[] param)
 		{
-			// TODO Auto-generated method stub
+			this.index = Convert.ToInt32(param[0]);
 
 		}
 

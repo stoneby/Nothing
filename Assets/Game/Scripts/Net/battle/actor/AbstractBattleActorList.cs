@@ -7,6 +7,7 @@ namespace com.kx.sglm.gs.battle.share.actor
 
 	using BattleRoundCountRecord = com.kx.sglm.gs.battle.share.data.record.BattleRoundCountRecord;
 	using InnerBattleEvent = com.kx.sglm.gs.battle.share.@event.InnerBattleEvent;
+	using SceneStartEvent = com.kx.sglm.gs.battle.share.@event.impl.SceneStartEvent;
 
 	/// <summary>
 	/// 带有{@code List}结构的战斗参与者，一般用于{@code AbstractBattleLoopedNest}
@@ -31,6 +32,23 @@ namespace com.kx.sglm.gs.battle.share.actor
 			this.battle = battle;
 		}
 
+
+		public virtual void onSceneStart(SceneStartEvent @event)
+		{
+			foreach (T _actor in actorList)
+			{
+				_actor.onSceneStart(@event);
+			}
+		}
+
+
+		public virtual void onSceneStop()
+		{
+			foreach (T _actor in actorList)
+			{
+				_actor.onSceneStop();
+			}
+		}
 
 		public virtual T CurActor
 		{

@@ -38,6 +38,11 @@ public class UIItemLevelUpSelWindow : Window
 
     public Vector3 MaskOffset = new Vector3(0, 13, 0);
 
+    /// <summary>
+    /// The depth of the items window's panel. 
+    /// </summary>
+    public int ItemsWindowDepth = 10;
+
     #endregion
 
     #region Window
@@ -177,6 +182,7 @@ public class UIItemLevelUpSelWindow : Window
         cachedItemsWindow.RowToShow = HeroConstant.TwoRowsVisible;
         itemClickDelegate = cachedItemsWindow.ItemClicked;
         cachedItemsWindow.ItemClicked = OnItemClicked;
+        cachedItemsWindow.Depth = ItemsWindowDepth;
     }
 
     private void CleanUp()
@@ -186,7 +192,8 @@ public class UIItemLevelUpSelWindow : Window
             cachedItemsWindow.RowToShow = cachedRow;
         }
         cachedItemsWindow.ItemClicked = itemClickDelegate;
-        for(int i = 0; i < selMasks.Count; i++)
+        cachedItemsWindow.ResetDepth();
+        for(var i = 0; i < selMasks.Count; i++)
         {  
             selMasks[i].transform.parent = null;
             Destroy(selMasks[i]);

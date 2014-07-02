@@ -20,8 +20,8 @@ namespace com.kx.sglm.gs.battle.share.ai
 			get
 			{
 				List<SkillRoulettePair> _resultList = new List<SkillRoulettePair>();
-				List<SkillAI> _aList = CanOpSkillAi;
-				foreach (SkillAI _ai in _aList)
+				List<SkillAI> _aiList = CanOpSkillAi;
+				foreach (SkillAI _ai in _aiList)
 				{
 					_resultList.Add(_ai.getSkillInfo());
 				}

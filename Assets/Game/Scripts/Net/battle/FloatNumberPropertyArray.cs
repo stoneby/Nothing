@@ -169,8 +169,6 @@ namespace com.kx.sglm.core.model
 			}
 		}
 
-
-
 		/// <summary>
 		/// 取得属性的个数
 		/// 

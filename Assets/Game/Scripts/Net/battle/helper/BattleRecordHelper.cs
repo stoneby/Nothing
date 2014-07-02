@@ -1,13 +1,17 @@
-using com.kx.sglm.gs.battle.share.data.record;
+using System.Collections.Generic;
 
 namespace com.kx.sglm.gs.battle.share.helper
 {
 
 	using BattleFighter = com.kx.sglm.gs.battle.share.actor.impl.BattleFighter;
+	using BattleTeam = com.kx.sglm.gs.battle.share.actor.impl.BattleTeam;
 	using HeroPoint = com.kx.sglm.gs.battle.share.actor.impl.HeroPoint;
 	using HeroTeam = com.kx.sglm.gs.battle.share.actor.impl.HeroTeam;
+	using BattleBuffRecord = com.kx.sglm.gs.battle.share.data.record.BattleBuffRecord;
 	using BattleFightRecord = com.kx.sglm.gs.battle.share.data.record.BattleFightRecord;
 	using BattleIndexRecord = com.kx.sglm.gs.battle.share.data.record.BattleIndexRecord;
+	using BattleRecord = com.kx.sglm.gs.battle.share.data.record.BattleRecord;
+	using BattleRecordConstants = com.kx.sglm.gs.battle.share.data.record.BattleRecordConstants;
 	using BattleSkillRecord = com.kx.sglm.gs.battle.share.data.record.BattleSkillRecord;
 	using SingleActionRecord = com.kx.sglm.gs.battle.share.data.record.SingleActionRecord;
 
@@ -20,7 +24,6 @@ namespace com.kx.sglm.gs.battle.share.helper
 			record.SkillId = fighter.BaseProp.ActiveSkillId;
 			record.TeamSide = fighter.Side;
 		}
-
 
 		/// <summary>
 		/// 初始化必要的数据：攻击者动作类型，攻击者初始数据
@@ -42,25 +45,36 @@ namespace com.kx.sglm.gs.battle.share.helper
 			record.SideIndex = fighter.Side;
 		}
 
-		public static void recordSingleRecordState(BattleFighter fighter, SingleActionRecord singleRecord, sbyte key, int value)
+		public static void initDefencerRecord(BattleFighter fighter, SingleActionRecord record)
 		{
-			initSingleRecord(fighter, singleRecord);
-			singleRecord.addState(key, value);
+			initSingleRecord(fighter, record);
+			record.ActType = BattleRecordConstants.SINGLE_ACTION_TYPE_DEFENCE;
 		}
 
-        public static void FillDebugRecord(BattleDebugRecord debugRecord, HeroTeam heroTeam)
-        {
-            debugRecord.PointList.Clear();
-            foreach (var hero in heroTeam.battlingHeroArr)
-            {
-                debugRecord.PointList.Add(new PointRecord(hero.fighter.index, hero.Color.Index));
-            }
+		public static void recordTeamBuffState(BattleTeam team)
+		{
+			BattleRecord _record = team.Battle.Record;
+			BattleBuffRecord _buffRecord = _record.OrCreateBuffRecord;
+			_buffRecord.SideIndex = team.BattleSide.Index;
+			recordBuffState(_buffRecord, team.ActorList);
+			_record.finishCurBuffRecord();
+		}
 
-            foreach (var wait in heroTeam.waitingHeroList)
-            {
-                debugRecord.PointList.Add(new PointRecord(wait.fighter.index, wait.color.Index));
-            }
-        }
+		public static void recordBuffState(BattleBuffRecord _buffRecord, List<BattleFighter> fighterList)
+		{
+			foreach (BattleFighter _fighter in fighterList)
+			{
+				if (_fighter.Dead)
+				{
+					continue;
+				}
+				SingleActionRecord _singleRecord = _buffRecord.OrCreateRecord;
+				BattleRecordHelper.initSingleRecord(_fighter, _singleRecord);
+				_singleRecord.ActType = BattleRecordConstants.SINGLE_ACTION_TYPE_BUFF_STATE;
+				_fighter.updateStateRecord(_singleRecord);
+			}
+		}
+
 
 		public static void recordFillIndex(HeroTeam heroTeam, BattleIndexRecord record)
 		{

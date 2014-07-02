@@ -137,13 +137,11 @@ public class UILevelUpWindow : Window
     {
         if (curLvl == heroTemplate.LvlLimit)
         {
-            addLis.GetComponent<UISprite>().color = Color.gray;
-            addLis.GetComponent<BoxCollider>().enabled = false;
+            addLis.GetComponent<UIButton>().isEnabled = false;
         }
         if (curLvl == heroInfo.Lvl)
         {
-            subLis.GetComponent<UISprite>().color = Color.gray;
-            subLis.GetComponent<BoxCollider>().enabled = false;
+            subLis.GetComponent<UIButton>().isEnabled = false;
         }
         ownedSoul.text = PlayerModelLocator.Instance.Sprit.ToString(CultureInfo.InvariantCulture);
 
@@ -248,13 +246,11 @@ public class UILevelUpWindow : Window
         LevelUp(true);
         if(curLvl == heroTemplate.LvlLimit)
         {
-            addLis.GetComponent<UISprite>().color = Color.gray;
-            addLis.GetComponent<BoxCollider>().enabled = false;
+            addLis.GetComponent<UIButton>().isEnabled = false;
         }
         if (curLvl == heroInfo.Lvl + 1)
         {
-            subLis.GetComponent<UISprite>().color = Color.white;
-            subLis.GetComponent<BoxCollider>().enabled = true;
+            subLis.GetComponent<UIButton>().isEnabled = true;
         }
     }
 
@@ -266,13 +262,11 @@ public class UILevelUpWindow : Window
         LevelUp(false);
         if (curLvl == heroTemplate.LvlLimit - 1)
         {
-            addLis.GetComponent<UISprite>().color = Color.white;
-            addLis.GetComponent<BoxCollider>().enabled = true;
+            addLis.GetComponent<UIButton>().isEnabled = true;
         }
         if (curLvl == heroInfo.Lvl)
         {
-            subLis.GetComponent<UISprite>().color = Color.gray;
-            subLis.GetComponent<BoxCollider>().enabled = false;
+            subLis.GetComponent<UIButton>().isEnabled = false;
         }
     }
 
@@ -297,6 +291,20 @@ public class UILevelUpWindow : Window
         RefreshLevelData();
     }
 
+    private IEnumerator PlayEffect(float time)
+    {
+        var pss = LevelUpEffect.GetComponents<ParticleSystem>();
+        foreach (var system in pss)
+        {
+            system.Play();
+        }
+        yield return new WaitForSeconds(time);
+        foreach (var system in pss)
+        {
+            system.Stop();
+        }
+    }
+
     #endregion
 
     #region Public Methods
@@ -314,33 +322,6 @@ public class UILevelUpWindow : Window
         NGUITools.SetActive(soulCost.gameObject, false);
         NGUITools.SetActive(LevelUpEffect.gameObject, true);
         StartCoroutine("PlayEffect", 1.5f);
-    }
-
-    private IEnumerator PlayEffect(float time)
-    {
-        var pss = LevelUpEffect.GetComponents<ParticleSystem>();
-        foreach (var system in pss)
-        {
-            system.Play();
-        }
-        yield return new WaitForSeconds(time);
-        foreach (var system in pss)
-        {
-            system.Stop();
-        }
-    }
-
-    private void Update()
-    {
-        if(Input.GetKeyDown("space"))
-        {
-            NGUITools.SetActive(LevelUpEffect.gameObject, true);
-            var pss = LevelUpEffect.GetComponents<ParticleSystem>();
-            foreach(var system in pss)
-            {
-                system.Play();
-            }
-        }
     }
 
     #endregion

@@ -114,8 +114,7 @@ namespace com.kx.sglm.gs.battle.share.skill.effect
 		protected internal virtual SingleActionRecord initDefenceRecord(BattleFighter defencer, BattleFightRecord fightRecord)
 		{
 			SingleActionRecord _singleRecord = fightRecord.OrCreateDefence;
-			BattleRecordHelper.initSingleRecord(defencer, _singleRecord);
-			_singleRecord.ActType = BattleRecordConstants.SINGLE_ACTION_TYPE_DEFENCE;
+			BattleRecordHelper.initDefencerRecord(defencer, _singleRecord);
 			return _singleRecord;
 		}
 

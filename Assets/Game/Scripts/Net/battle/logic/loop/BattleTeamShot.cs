@@ -5,6 +5,7 @@ namespace com.kx.sglm.gs.battle.share.logic.loop
 	using BattleTeam = com.kx.sglm.gs.battle.share.actor.impl.BattleTeam;
 	using BattleTeamFightRecord = com.kx.sglm.gs.battle.share.data.record.BattleTeamFightRecord;
 	using TeamShotStartEvent = com.kx.sglm.gs.battle.share.@event.impl.TeamShotStartEvent;
+	using BattleLogicHelper = com.kx.sglm.gs.battle.share.helper.BattleLogicHelper;
 	using com.kx.sglm.gs.battle.share.logic;
 	using BattleAttackAction = com.kx.sglm.gs.battle.share.logic.action.BattleAttackAction;
 
@@ -34,14 +35,14 @@ namespace com.kx.sglm.gs.battle.share.logic.loop
 			TeamShotStartEvent _event = new TeamShotStartEvent(Battle.CurScene);
 			_event.TeamFightRecord = _teamReocrd;
 			CurAttacker.onTeamShotStart(_event);
-	//		getBattle().sendBattleSceneEvent(_event);
 		}
 
 		public override void onFinish()
 		{
-			// 结算RoundCounter
-			CurAttacker.calcRoundCounter();
-			CurDefencer.calcRoundCounter();
+			// 结算自己的BUFF
+			CurAttacker.activeAllBuff(BattleConstants.BUFF_ALL_FALG);
+			//刷新所有人的显示状态
+			BattleLogicHelper.refreshState(Battle.BattleArmy);
 			// 如果是玩家处理下一批武将的入场
 			Battle.BattleExcuter.onBattleTeamShotFinish(this);
 			Record.finishCurTeamRecord();

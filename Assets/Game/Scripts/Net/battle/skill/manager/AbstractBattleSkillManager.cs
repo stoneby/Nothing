@@ -11,7 +11,7 @@ namespace com.kx.sglm.gs.battle.share.skill.manager
 	/// </summary>
 	public abstract class AbstractBattleSkillManager : IBattleSkillManager
 	{
-		public abstract void onHandleEvent(com.kx.sglm.gs.battle.share.data.record.BattleTeamFightRecord record);
+		public abstract void onHandleInputAction(com.kx.sglm.gs.battle.share.data.record.BattleTeamFightRecord record);
 		public abstract void onAttack(BattleFightRecord fightRecord);
 		public abstract void onTeamShotStart(com.kx.sglm.gs.battle.share.@event.impl.TeamShotStartEvent @event);
 		public abstract void onSceneStart(com.kx.sglm.gs.battle.share.@event.impl.SceneStartEvent @event);
@@ -66,7 +66,7 @@ namespace com.kx.sglm.gs.battle.share.skill.manager
 
 		protected internal virtual void action(ISingletonSkillAction skillAction, BattleFightRecord record)
 		{
-			skillAction.onAction(Fighter, record);
+			skillAction.onAction(Owner, record);
 		}
 
 		/* java to c#语法需要
@@ -77,16 +77,6 @@ namespace com.kx.sglm.gs.battle.share.skill.manager
 			// TODO Auto-generated method stub
 
 		}
-
-
-		public virtual BattleFighter Fighter
-		{
-			get
-			{
-				return fighter;
-			}
-		}
-
 
 		/* 没有Override——java to c#语法需要
 		 * @see com.kx.sglm.gs.battle.IBattle#getBattle()
@@ -99,14 +89,22 @@ namespace com.kx.sglm.gs.battle.share.skill.manager
 			}
 		}
 
-		public virtual BattleSkillActionService SkillService
+		public virtual BattleActionService SkillService
 		{
 			get
 			{
-				return BattleSkillActionService.Service;
+				return BattleActionService.Service;
 			}
 		}
 
+
+		public virtual BattleFighter Owner
+		{
+			get
+			{
+				return fighter;
+			}
+		}
 
 	}
 

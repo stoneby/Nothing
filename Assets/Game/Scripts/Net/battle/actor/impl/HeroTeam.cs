@@ -1,7 +1,5 @@
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Text;
-using com.kx.sglm.gs.battle.share.helper;
 
 namespace com.kx.sglm.gs.battle.share.actor.impl
 {
@@ -45,7 +43,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 
 		/// <summary>
 		/// 当前在战斗内的所有武将点 </summary>
-		public HeroPoint[] battlingHeroArr;
+		protected internal HeroPoint[] battlingHeroArr;
 
 		/// <summary>
 		/// 等待列表中的武将点 </summary>
@@ -88,7 +86,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 		{
 			foreach (BattleFighter _fighter in actorList)
 			{
-				totalHp += _fighter.TotalHp;
+				totalHp += _fighter.FighterTotalHp;
 				totalMp += _fighter.TotalMp;
 			}
 			curHp = totalHp;
@@ -313,11 +311,8 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 				{
 					continue;
 				}
-				_point.Fighter.onHandleFightEvent(_record);
+				_point.Fighter.onHandleFightInputAction(_record);
 			}
-
-		    var debugRecord = Battle.Record.OrCreateDebugRecord;
-            BattleRecordHelper.FillDebugRecord(debugRecord, this);
 		}
 
 		public virtual void clearPoint()

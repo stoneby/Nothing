@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Globalization;
 using KXSGCodec;
 using Template;
@@ -20,6 +21,7 @@ public class HeroBaseInfoWindow : Window
     private UIEventListener item1Lis;
     private UIEventListener item2Lis;
     private sbyte curEquipIndex = -1;
+    private readonly List<Vector3> endlessItemPostions = new List<Vector3>();
 
     #endregion
 
@@ -84,6 +86,7 @@ public class HeroBaseInfoWindow : Window
         InstallHandlers();
         Toggle(HeroInfoTabName.SkillTab);
         HeroInfo = HeroModelLocator.Instance.FindHero(CurUuid);
+        ResetEndlessItemsPos();
         curHeroIndex = HeroModelLocator.Instance.SCHeroList.HeroList.IndexOf(HeroInfo);
         endlessSwipeEffect.InitCustomData(curHeroIndex, HeroModelLocator.Instance.SCHeroList.HeroList.Count);
         Refresh();
@@ -115,6 +118,33 @@ public class HeroBaseInfoWindow : Window
         endlessSwipeEffect.UpdateData += UpdateData;
         item1Lis = UIEventListener.Get(Utils.FindChild(transform, "Item1").gameObject);
         item2Lis = UIEventListener.Get(Utils.FindChild(transform, "Item2").gameObject);
+        CacheEndlessItemsPos();
+    }
+
+    /// <summary>
+    /// Cache the local positions of endless swipe and its children.
+    /// </summary>
+    private void CacheEndlessItemsPos()
+    {
+        var endlessTran = endlessSwipeEffect.transform;
+        endlessItemPostions.Add(endlessTran.localPosition);
+        for (int i = 0; i < endlessTran.childCount; i++)
+        {
+            endlessItemPostions.Add(endlessSwipeEffect.transform.GetChild(i).localPosition);
+        }
+    }
+
+    /// <summary>
+    /// Reset the local positions of endless swipe and its children.
+    /// </summary>
+    private void ResetEndlessItemsPos()
+    {
+        //The first cached for endless swipe effect's transform local position, and others for its children.
+        endlessSwipeEffect.transform.localPosition = endlessItemPostions[0];
+        for (int i = 0; i < endlessSwipeEffect.transform.childCount; i++)
+        {
+            endlessSwipeEffect.transform.GetChild(i).localPosition = endlessItemPostions[i + 1];
+        }
     }
 
     /// <summary>

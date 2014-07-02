@@ -1,3 +1,5 @@
+using System;
+
 namespace com.kx.sglm.gs.battle.share.skill.condition
 {
 
@@ -14,9 +16,9 @@ namespace com.kx.sglm.gs.battle.share.skill.condition
 			return MathUtils.randomRate(rate, BattleConstants.BATTLE_RATIO_BASE);
 		}
 
-		public override void build(params int[] param)
+		public override void build(params string[] param)
 		{
-			this.rate = param[0];
+			this.rate = Convert.ToInt32(param[0]);
 
 		}
 

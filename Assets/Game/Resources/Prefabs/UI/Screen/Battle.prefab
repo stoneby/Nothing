@@ -120,7 +120,6 @@ GameObject:
   - 4: {fileID: 400014}
   - 114: {fileID: 11400014}
   - 54: {fileID: 5400002}
-  - 114: {fileID: 11400004}
   m_Layer: 8
   m_Name: BattleFieldPanel
   m_TagString: Untagged
@@ -186,6 +185,8 @@ GameObject:
   - 4: {fileID: 400022}
   - 114: {fileID: 11400024}
   - 114: {fileID: 11400022}
+  - 114: {fileID: 11400392}
+  - 114: {fileID: 11400026}
   m_Layer: 8
   m_Name: Battle
   m_TagString: Untagged
@@ -4259,22 +4260,6 @@ MonoBehaviour:
   mAtlas: {fileID: 11400000, guid: c756b7e0779433e48add498d07ffe3b1, type: 2}
   mSpriteName: MP_1
   mFillCenter: 1
---- !u!114 &11400004
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100014}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e77dd786e045c2499aa7107250b6675, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  LookAt: {fileID: 0}
-  LookAtScale: 2.5
-  LookAtTime: .25
-  ShakeAmount: {x: .150000006, y: .150000006, z: 0}
-  ShakeTime: .5
 --- !u!114 &11400006
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4664,7 +4649,7 @@ MonoBehaviour:
   TextBG91: {fileID: 100058}
   TexSwardBg91: {fileID: 100062}
   Text91: {fileID: 100060}
-  CameraEffect: {fileID: 11400004}
+  CameraEffect: {fileID: 11400392}
   CharacterAttrackValueLabel: {fileID: 100010}
   TeamController: {fileID: 11400124}
   EnemyController: {fileID: 11400130}
@@ -4674,6 +4659,18 @@ MonoBehaviour:
   - {fileID: 100276}
   - {fileID: 100274}
   - {fileID: 100252}
+--- !u!114 &11400026
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75bcd9b992f524c4cbb603633f32f8a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Effect: {fileID: 11400392}
 --- !u!114 &11400028
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -12621,6 +12618,22 @@ MonoBehaviour:
   mAtlas: {fileID: 11400000, guid: c756b7e0779433e48add498d07ffe3b1, type: 2}
   mSpriteName: pck_1
   mFillCenter: 1
+--- !u!114 &11400392
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e77dd786e045c2499aa7107250b6675, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LookAt: {fileID: 0}
+  LookAtScale: 2.5
+  LookAtTime: .25
+  ShakeAmount: {x: .150000006, y: .150000006, z: 0}
+  ShakeTime: .5
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

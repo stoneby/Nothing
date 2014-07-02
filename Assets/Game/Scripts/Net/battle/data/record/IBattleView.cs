@@ -17,11 +17,13 @@ namespace com.kx.sglm.gs.battle.share.data.record
 
 		void showBattleIndexRecord(BattleIndexRecord battleIndexRecord);
 
+		void showBattleBuffRecord(BattleBuffRecord battleErrorRecord);
+
 		void showBattleEndRecord(BattleEndRecord battleEndRecord);
 
 		void showBattleErrorRecord(BattleErrorRecord battleErrorRecord);
 
-        void showBattleDebugRecord(BattleDebugRecord battleDebugRecord);
+	    void showBattleDebugRecord(BattleDebugRecord battleDebugRecord);
 	}
 
 }

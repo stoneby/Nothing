@@ -24,7 +24,7 @@ namespace KXSGCodec
   public partial class BattleSkillMsgCondition : TBase
   {
     private int _conditionKey;
-    private int _conditionVal;
+    private string _conditionVal;
 
     /// <summary>
     /// 条件类型
@@ -45,7 +45,7 @@ namespace KXSGCodec
     /// <summary>
     /// 条件参数
     /// </summary>
-    public int ConditionVal
+    public string ConditionVal
     {
       get
       {
@@ -91,8 +91,8 @@ namespace KXSGCodec
             }
             break;
           case 2:
-            if (field.Type == TType.I32) {
-              ConditionVal = iprot.ReadI32();
+            if (field.Type == TType.String) {
+              ConditionVal = iprot.ReadString();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
@@ -118,12 +118,12 @@ namespace KXSGCodec
         oprot.WriteI32(ConditionKey);
         oprot.WriteFieldEnd();
       }
-      if (__isset.conditionVal) {
+      if (ConditionVal != null && __isset.conditionVal) {
         field.Name = "conditionVal";
-        field.Type = TType.I32;
+        field.Type = TType.String;
         field.ID = 2;
         oprot.WriteFieldBegin(field);
-        oprot.WriteI32(ConditionVal);
+        oprot.WriteString(ConditionVal);
         oprot.WriteFieldEnd();
       }
       oprot.WriteFieldStop();

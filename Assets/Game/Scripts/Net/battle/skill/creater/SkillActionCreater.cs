@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace com.kx.sglm.gs.battle.share.skill.creater
@@ -8,9 +9,19 @@ namespace com.kx.sglm.gs.battle.share.skill.creater
 	using SkillAI = com.kx.sglm.gs.battle.share.ai.SkillAI;
 	using SkillAIHolder = com.kx.sglm.gs.battle.share.ai.SkillAIHolder;
 	using SkillRoulettePair = com.kx.sglm.gs.battle.share.ai.SkillRoulettePair;
+	using IBuffAction = com.kx.sglm.gs.battle.share.buff.IBuffAction;
+	using AbstractBuffEffect = com.kx.sglm.gs.battle.share.buff.effect.AbstractBuffEffect;
+	using BuffEffectEnum = com.kx.sglm.gs.battle.share.buff.enums.BuffEffectEnum;
+	using BaseBattleFactoryEnum = com.kx.sglm.gs.battle.share.enums.BaseBattleFactoryEnum;
+	using IBattlePartInfo = com.kx.sglm.gs.battle.share.enums.IBattlePartInfo;
 	using BaseHeroBattleSkillAction = com.kx.sglm.gs.battle.share.skill.action.BaseHeroBattleSkillAction;
 	using BaseMonsterSkillAction = com.kx.sglm.gs.battle.share.skill.action.BaseMonsterSkillAction;
+	using AIConditionEnum = com.kx.sglm.gs.battle.share.skill.enums.AIConditionEnum;
+	using SkillConditionEnum = com.kx.sglm.gs.battle.share.skill.enums.SkillConditionEnum;
+	using SkillEffectEnum = com.kx.sglm.gs.battle.share.skill.enums.SkillEffectEnum;
+	using SkillTargetEnum = com.kx.sglm.gs.battle.share.skill.enums.SkillTargetEnum;
 	using ArrayUtils = com.kx.sglm.gs.battle.share.utils.ArrayUtils;
+	using BattleBuffMsgData = KXSGCodec.BattleBuffMsgData;
 	using BattleHeroSkillMsgAction = KXSGCodec.BattleHeroSkillMsgAction;
 	using BattleMonsterAIMsgAction = KXSGCodec.BattleMonsterAIMsgAction;
 	using BattleMonsterSkillMsgAction = KXSGCodec.BattleMonsterSkillMsgAction;
@@ -30,6 +41,38 @@ namespace com.kx.sglm.gs.battle.share.skill.creater
 	{
 
 		/// <summary>
+		/// 创建BUFFAction </summary>
+		/// <param name="msgDataList">
+		/// @return </param>
+		public static List<IBuffAction> createBuffActions(List<BattleBuffMsgData> msgDataList)
+		{
+			SkillPartInfoCreater<IBuffAction, BuffEffectEnum, BattleBuffMsgData> _creater = new SkillPartInfoCreaterAnonymousInnerClassHelper();
+			return _creater.createInfoList(msgDataList, BuffEffectEnum.values());
+		}
+
+		private class SkillPartInfoCreaterAnonymousInnerClassHelper : SkillPartInfoCreater<IBuffAction, BuffEffectEnum, BattleBuffMsgData>
+		{
+			public SkillPartInfoCreaterAnonymousInnerClassHelper()
+			{
+			}
+
+
+			internal override IBuffAction createObj(BuffEffectEnum[] values, BattleBuffMsgData obj)
+			{
+				AbstractBuffEffect _buffAction = (AbstractBuffEffect) values[obj.Buffkey].createInstance();
+				_buffAction.Id = obj.BuffId;
+				_buffAction.BuffFlag = obj.Buffkey;
+				_buffAction.TypeA = obj.TypeA;
+				_buffAction.TypeB = obj.TypeB;
+				_buffAction.CDRound = obj.Round;
+				_buffAction.Priority = obj.Proiority;
+				_buffAction.BuffShowId = obj.BuffShowId;
+				_buffAction.build(obj.BuffParam);
+				return _buffAction;
+			}
+		}
+
+		/// <summary>
 		/// 创建怪物AI，和技能一样也是理论上单例的，不持有战斗对象状态数据
 		/// </summary>
 		/// <param name="baseData">
@@ -41,7 +84,6 @@ namespace com.kx.sglm.gs.battle.share.skill.creater
 			_ai.AllAISkill = createSkillAIHolderFromTemp(baseData);
 			return _ai;
 		}
-
 
 		/// <summary>
 		/// 创建怪物技能动作
@@ -74,7 +116,7 @@ namespace com.kx.sglm.gs.battle.share.skill.creater
 		public static BaseHeroBattleSkillAction createDefaultNormalAction(bool enemySide)
 		{
 			BaseHeroBattleSkillAction _action = new BaseHeroBattleSkillAction();
-			_action.addCondition(createDefaultCondition((int) BattleConstants.BATTLE_RATIO_BASE));
+			_action.addCondition(createDefaultCondition(Convert.ToString((int)BattleConstants.BATTLE_RATIO_BASE)));
 			_action.addEnemyTargetGetter(createTargetGetter(enemySide, null));
 			_action.addFriendTargetGetter(createTargetGetter(enemySide, null));
 			_action.addEffectList(createDefaultAction(enemySide));
@@ -104,7 +146,6 @@ namespace com.kx.sglm.gs.battle.share.skill.creater
 
 			return _action;
 		}
-
 
 		/// <summary>
 		/// 创建技能[ID--概率]二元组
@@ -136,7 +177,7 @@ namespace com.kx.sglm.gs.battle.share.skill.creater
 			if (ArrayUtils.isEmpty(_aiDataList))
 			{
 				_aiDataList = new List<MonsterSkillAIMsgData>();
-				//TODO: 太糙，以后重构
+				// TODO: 太糙，以后重构
 			}
 
 			foreach (MonsterSkillAIMsgData _data in _aiDataList)
@@ -209,7 +250,7 @@ namespace com.kx.sglm.gs.battle.share.skill.creater
 			IAICondition _condition = null;
 			if (_conditionType != null)
 			{
-				_condition = (IAICondition)_conditionType.createInfo(aiData.ConditionParam);
+				_condition = (IAICondition) _conditionType.createInfo(aiData.ConditionParam);
 			}
 			else
 			{
@@ -218,23 +259,20 @@ namespace com.kx.sglm.gs.battle.share.skill.creater
 			return _condition;
 		}
 
-
-
 		/// <summary>
 		/// 生成默认的条件列表，目前概率RATE是默认的固有条件
 		/// </summary>
 		/// <param name="baseData">
 		/// @return </param>
-		protected internal static List<ISkillCondition> createDefaultCondition(int param)
+		protected internal static List<ISkillCondition> createDefaultCondition(string param)
 		{
 			List<ISkillCondition> _defaultList = new List<ISkillCondition>();
 			SkillConditionEnum _rate = SkillConditionEnum.RATE;
-			ISkillCondition _condition = (ISkillCondition)_rate.createInfo(param);
+			ISkillCondition _condition = (ISkillCondition) _rate.createInfo(param);
 			_defaultList.Add(_condition);
 			return _defaultList;
 
 		}
-
 
 		/// <summary>
 		/// 通过模板构建条件列表
@@ -244,7 +282,7 @@ namespace com.kx.sglm.gs.battle.share.skill.creater
 		public static List<ISkillCondition> createCondition(BattleHeroSkillMsgAction baseData)
 		{
 			List<ISkillCondition> _allCondition = new List<ISkillCondition>();
-			List<ISkillCondition> _defaultCondition = createDefaultCondition(baseData.TriggerRate);
+			List<ISkillCondition> _defaultCondition = createDefaultCondition(Convert.ToString(baseData.TriggerRate));
 			List<ISkillCondition> _conditionList = createConditionListFromList(baseData.ConditionList);
 
 			_allCondition.AddRange(_defaultCondition);
@@ -261,20 +299,20 @@ namespace com.kx.sglm.gs.battle.share.skill.creater
 		public static List<ISkillCondition> createConditionListFromList(List<BattleSkillMsgCondition> conditionDataList)
 		{
 
-			SkillPartInfoCreater<ISkillCondition, SkillConditionEnum, BattleSkillMsgCondition> _creater = new SkillPartInfoCreaterAnonymousInnerClassHelper();
+			SkillPartInfoCreater<ISkillCondition, SkillConditionEnum, BattleSkillMsgCondition> _creater = new SkillPartInfoCreaterAnonymousInnerClassHelper2();
 			return _creater.createInfoList(conditionDataList, SkillConditionEnum.values());
 		}
 
-		private class SkillPartInfoCreaterAnonymousInnerClassHelper : SkillPartInfoCreater<ISkillCondition, SkillConditionEnum, BattleSkillMsgCondition>
+		private class SkillPartInfoCreaterAnonymousInnerClassHelper2 : SkillPartInfoCreater<ISkillCondition, SkillConditionEnum, BattleSkillMsgCondition>
 		{
-			public SkillPartInfoCreaterAnonymousInnerClassHelper()
+			public SkillPartInfoCreaterAnonymousInnerClassHelper2()
 			{
 			}
 
 
 			internal override ISkillCondition createObj(SkillConditionEnum[] values, BattleSkillMsgCondition obj)
 			{
-				return (ISkillCondition)createSingleCondition(values, obj.ConditionKey, obj.ConditionVal);
+				return (ISkillCondition) createSingleCondition(values, obj.ConditionKey, obj.ConditionVal);
 			}
 		}
 
@@ -297,7 +335,7 @@ namespace com.kx.sglm.gs.battle.share.skill.creater
 		{
 			List<ISkillTargetGetter> _defaultList = new List<ISkillTargetGetter>();
 			SkillTargetEnum _defaultType = enemySide ? SkillTargetEnum.DEFAULT_TARGET : SkillTargetEnum.SELF_TARGET;
-			_defaultList.Add((ISkillTargetGetter)_defaultType.createInfo());
+			_defaultList.Add((ISkillTargetGetter) _defaultType.createInfo());
 			return _defaultList;
 		}
 
@@ -309,21 +347,21 @@ namespace com.kx.sglm.gs.battle.share.skill.creater
 		public static List<ISkillTargetGetter> createTargetGetterFromList(List<SkillTargetGetterMsgData> targetDataList)
 		{
 
-			SkillPartInfoCreater<ISkillTargetGetter, SkillTargetEnum, SkillTargetGetterMsgData> _creater = new SkillPartInfoCreaterAnonymousInnerClassHelper2();
+			SkillPartInfoCreater<ISkillTargetGetter, SkillTargetEnum, SkillTargetGetterMsgData> _creater = new SkillPartInfoCreaterAnonymousInnerClassHelper3();
 
 			return _creater.createInfoList(targetDataList, SkillTargetEnum.values());
 		}
 
-		private class SkillPartInfoCreaterAnonymousInnerClassHelper2 : SkillPartInfoCreater<ISkillTargetGetter, SkillTargetEnum, SkillTargetGetterMsgData>
+		private class SkillPartInfoCreaterAnonymousInnerClassHelper3 : SkillPartInfoCreater<ISkillTargetGetter, SkillTargetEnum, SkillTargetGetterMsgData>
 		{
-			public SkillPartInfoCreaterAnonymousInnerClassHelper2()
+			public SkillPartInfoCreaterAnonymousInnerClassHelper3()
 			{
 			}
 
 
 			internal override ISkillTargetGetter createObj(SkillTargetEnum[] values, SkillTargetGetterMsgData obj)
 			{
-				return (ISkillTargetGetter)createSingleCondition(values, obj.TargetType, obj.TargetValue);
+				return (ISkillTargetGetter) createSingleCondition(values, obj.TargetType, obj.TargetValue);
 			}
 		}
 
@@ -334,20 +372,20 @@ namespace com.kx.sglm.gs.battle.share.skill.creater
 		/// @return </param>
 		public static List<ISkillEffect> createEffectList(List<SkillBattleEffectMsgData> effectDataList)
 		{
-			SkillPartInfoCreater<ISkillEffect, SkillEffectEnum, SkillBattleEffectMsgData> _creater = new SkillPartInfoCreaterAnonymousInnerClassHelper3();
+			SkillPartInfoCreater<ISkillEffect, SkillEffectEnum, SkillBattleEffectMsgData> _creater = new SkillPartInfoCreaterAnonymousInnerClassHelper4();
 			return _creater.createInfoList(effectDataList, SkillEffectEnum.values());
 		}
 
-		private class SkillPartInfoCreaterAnonymousInnerClassHelper3 : SkillPartInfoCreater<ISkillEffect, SkillEffectEnum, SkillBattleEffectMsgData>
+		private class SkillPartInfoCreaterAnonymousInnerClassHelper4 : SkillPartInfoCreater<ISkillEffect, SkillEffectEnum, SkillBattleEffectMsgData>
 		{
-			public SkillPartInfoCreaterAnonymousInnerClassHelper3()
+			public SkillPartInfoCreaterAnonymousInnerClassHelper4()
 			{
 			}
 
 
 			internal override ISkillEffect createObj(SkillEffectEnum[] values, SkillBattleEffectMsgData obj)
 			{
-				return (ISkillEffect)createSingleCondition(values, obj.BattleEffectType, obj.BattleEffectParam1, obj.BattleEffectParam2, obj.BattleEffectParam3);
+				return (ISkillEffect) createSingleCondition(values, obj.BattleEffectType, obj.BattleEffectParam1, obj.BattleEffectParam2, obj.BattleEffectParam3);
 			}
 		}
 
@@ -355,22 +393,29 @@ namespace com.kx.sglm.gs.battle.share.skill.creater
 		{
 			List<ISkillEffect> _effectList = new List<ISkillEffect>();
 			SkillEffectEnum _defaultEffect = enemySide ? SkillEffectEnum.NORMAL_HERO_HIT : SkillEffectEnum.NORMAL_HERO_RECOVER;
-			ISkillEffect _effect = (ISkillEffect)_defaultEffect.createInfo();
+			ISkillEffect _effect = (ISkillEffect) _defaultEffect.createInfo();
 			_effectList.Add(_effect);
 			return _effectList;
 		}
 
 		/// <summary>
-		/// 创建技能组成列表的模板方法，配合BaseFactoryEnum使用，需要实现创建自身对象，创建时调用BaseFactoryEnum. createSingleCondition，传入不同参数即可
+		/// 创建技能组成列表的模板方法，配合BaseFactoryEnum使用，需要实现创建自身对象，创建时调用BaseFactoryEnum. createSingleCondition，传入不同参数即可<br>
+		/// 其实之前这里是全部用泛型实现的，但是C#的泛型与Java不兼容，所以还是使用了类型强转
 		/// 
 		/// @author liyuan2
 		/// </summary>
 		/// @param <T> </param>
 		/// @param <E> </param>
 		/// @param <DATA> </param>
-		private abstract class SkillPartInfoCreater<T, E, DATA> where T : ISkillPartInfo where E : BaseSkillFactoryEnum
+		private abstract class SkillPartInfoCreater<T, E, DATA> where T : com.kx.sglm.gs.battle.share.enums.IBattlePartInfo where E : com.kx.sglm.gs.battle.share.enums.BaseBattleFactoryEnum
 		{
 
+			/// <summary>
+			/// 创建Object
+			/// </summary>
+			/// <param name="values"> </param>
+			/// <param name="obj">
+			/// @return </param>
 			internal abstract T createObj(E[] values, DATA obj);
 
 			internal virtual List<T> createInfoList(List<DATA> baseDataList, E[] values)
@@ -393,16 +438,14 @@ namespace com.kx.sglm.gs.battle.share.skill.creater
 
 		}
 
-
-
-		protected internal static ISkillPartInfo createSingleCondition(BaseSkillFactoryEnum[] values, int key, params int[] param)
+		protected internal static IBattlePartInfo createSingleCondition(BaseBattleFactoryEnum[] values, int key, params string[] param)
 		{
-			ISkillPartInfo _infoObj = null;
+			IBattlePartInfo _infoObj = null;
 			if (!ArrayUtils.isRightArrayIndex(key, values))
 			{
 				return _infoObj;
 			}
-			BaseSkillFactoryEnum _enumType = values[key];
+			BaseBattleFactoryEnum _enumType = values[key];
 			if (_enumType == null)
 			{
 				return _infoObj;

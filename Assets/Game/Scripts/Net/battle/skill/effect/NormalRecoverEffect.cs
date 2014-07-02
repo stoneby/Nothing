@@ -27,7 +27,7 @@ namespace com.kx.sglm.gs.battle.share.skill.effect
 			_singleRecord.ResultHp = defencer.getOwnerTeam().CurHp;
 		}
 
-		public override void build(params int[] param)
+		public override void build(params string[] param)
 		{
 		}
 
