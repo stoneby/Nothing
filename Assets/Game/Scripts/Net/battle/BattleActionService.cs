@@ -75,13 +75,26 @@ namespace com.kx.sglm.gs.battle.share
 			List<BaseHeroBattleSkillAction> _actionList = new List<BaseHeroBattleSkillAction>();
 			foreach (int _id in skillIds)
 			{
-				if (heroSkillActionMap.ContainsKey(_id))
+				BaseHeroBattleSkillAction _action = getHeroSkillAction(_id);
+				if (_action != null)
 				{
-					_actionList.Add(getHeroSkillAction(_id));
+					_actionList.Add(_action);
 				}
 			}
 			return _actionList;
 		}
+
+
+		public virtual BaseHeroBattleSkillAction getHeroSkillAction(int skillId)
+		{
+			BaseHeroBattleSkillAction _action = null;
+			if (heroSkillActionMap.ContainsKey(skillId))
+			{
+				_action = heroSkillActionMap[skillId];
+			}
+			return _action;
+		}
+
 
 		public virtual Dictionary<int, BaseMonsterSkillAction> getSkillActions(MonsterAI ai)
 		{
@@ -112,11 +125,6 @@ namespace com.kx.sglm.gs.battle.share
 		public virtual IBuffAction getBuffAction(int buffId)
 		{
 			return allBuffAction[buffId];
-		}
-
-		public virtual BaseHeroBattleSkillAction getHeroSkillAction(int skillId)
-		{
-			return heroSkillActionMap[skillId];
 		}
 
 

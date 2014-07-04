@@ -24,6 +24,9 @@ namespace com.kx.sglm.gs.battle.share.data.record
 		/// 动作位置，两位组成，十位是sideID，个位是队伍内Index </summary>
 		private int index;
 
+		private int stateFlag;
+
+
 		/// <summary>
 		/// 状态更新
 		/// </summary>
@@ -58,6 +61,20 @@ namespace com.kx.sglm.gs.battle.share.data.record
 				return sideIndex;
 			}
 		}
+
+
+		public virtual int StateFlag
+		{
+			set
+			{
+				this.stateFlag = value;
+			}
+			get
+			{
+				return stateFlag;
+			}
+		}
+
 
 
 		public virtual int Index

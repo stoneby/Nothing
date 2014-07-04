@@ -6,6 +6,7 @@ namespace com.kx.sglm.gs.battle.share.enums
 	public abstract class BattleSideEnum : IndexedEnum
 	{
 
+		//TODO: modify to side left and side right 
 		public static readonly BattleSideEnum SIDEA = new BattleSideEnumAnonymousInnerClassHelper();
 
 		private class BattleSideEnumAnonymousInnerClassHelper : BattleSideEnum

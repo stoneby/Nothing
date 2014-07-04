@@ -3,29 +3,39 @@ using UnityEditor;
 using System.Collections.Generic;
 
 public class ntl : ScriptableObject {
-	static List<Transform> listSprite = new List<Transform>();
+	static List<Transform> listSelection = new List<Transform>();
 	static List<Transform> listBone = new List<Transform>();
+	static List<Transform> ListSprite = new List<Transform>();
 
-	[MenuItem("ntl/Rename")]
+	[MenuItem("ntl/Rename_Tag_Link")]
 	static void Rename () {
-		listSprite.Clear ();
-		foreach (GameObject g in Selection.gameObjects) {
-			if(g.name == "Sprite") {
-				UISprite t = g.GetComponent<UISprite>();
-				g.name = t.spriteName;
+		listSelection.Clear ();
+		GetTransform(Selection.activeGameObject , listSelection);
+
+		foreach (Transform t in listSelection) {
+			string tname = t.name.Substring(0,1);
+			if (tname == "D") {
+				t.tag = "Bones";
+				listBone.Add (t);
+			}else{
+				t.tag = "Sprites";
+				UISprite ut = t.GetComponent<UISprite>();
+				t.name = ut.spriteName;
+				ListSprite.Add (t);
 			}
-			listSprite.Add(g.transform);
 		}
-		Debug.Log (listSprite.Count);
+
+		foreach (Transform t in listBone) {
+			string bname = t.name.Substring(2,t.name.Length-2);
+			foreach (Transform s in ListSprite) {
+				if (s.name == bname) {
+					s.parent = t;
+					s.transform.localPosition = Vector3.zero;
+				}
+			}
+		}
 	}
-	
-	[MenuItem("ntl/Link")]
-	static void Link () {
-		listBone.Clear();
-		GetTransform(Selection.activeGameObject , listBone);
-		Debug.Log (listBone.Count);
-	}
-	
+
 	static void GetTransform(GameObject parent , List<Transform> l) {   
 		foreach (Transform t in parent.transform) {
 			l.Add(t);

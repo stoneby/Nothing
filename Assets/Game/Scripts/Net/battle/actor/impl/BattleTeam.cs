@@ -139,6 +139,8 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 		/// </summary>
 		public abstract List<BattleFighter> ActiveFighter {get;}
 
+		public abstract bool isActiveFighter(BattleFighter fighter);
+
 		public override void fireBattleEvent(InnerBattleEvent @event)
 		{
 

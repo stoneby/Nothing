@@ -138,7 +138,11 @@ namespace com.kx.sglm.gs.battle.share.skill.manager
 			BattleFightRecord _fightRecord = record.OrCreateFightRecord;
 			foreach (BaseHeroBattleSkillAction _action in _actionList)
 			{
-				_action.onAction(Owner, _fightRecord);
+				//TODO: canOption和onAction重复调了很多次以后要整合
+				if (_action.canOption(Owner))
+				{
+					_action.onAction(Owner, _fightRecord);
+				}
 			}
 			record.finishCurRecord();
 		}
@@ -198,7 +202,7 @@ namespace com.kx.sglm.gs.battle.share.skill.manager
 			// }
 			BattleRecord _record = Battle.Record;
 			BattleSkillRecord _actSkillRecord = _record.OrCreateSkillRecord;
-			BattleRecordHelper.initBattelSkill(_actSkillRecord, Owner);
+			BattleRecordHelper.initBattelActiveSkill(_actSkillRecord, Owner);
 			BattleFightRecord _fightRecord = _actSkillRecord.OrCreateFightRecord;
 			if (!activeAction.canOption(Owner))
 			{

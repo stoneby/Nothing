@@ -161,6 +161,11 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 			return 0;
 		}
 
+		public override bool isActiveFighter(BattleFighter fighter)
+		{
+			return !fighter.Dead;
+		}
+
 	}
 
 }

@@ -58,7 +58,7 @@ namespace com.kx.sglm.gs.battle.share.helper
 
 		public static void refreshState(BattleFighter fighter)
 		{
-			fighter.clearState();
+			fighter.refreshState();
 			List<BattleFighterState> _stateList = fighter.BuffManager.AllFighterState;
 			foreach (BattleFighterState _state in _stateList)
 			{

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Text;
-using Template;
 using UnityEngine;
 
 /// <summary>
@@ -156,7 +155,7 @@ public class TeamSelectController : MonoBehaviour
             {
                 var character = CharacterPool.Take().GetComponent<Character>();
                 CharacterList.Add(character);
-                AddChild(gameObject, character.gameObject);
+                Utils.AddChild(gameObject, character.gameObject);
             }
         }
 
@@ -442,19 +441,9 @@ public class TeamSelectController : MonoBehaviour
         }
 
         var dragBar = DragBarPool.Take();
-        AddChild(sender, dragBar);
+        Utils.AddChild(sender, dragBar);
 
         Logger.LogWarning("Added drag bar to parent: " + sender.name);
-    }
-
-    private void AddChild(GameObject sender, GameObject childObject)
-    {
-        var t = childObject.transform;
-        t.parent = sender.transform;
-        t.localPosition = Vector3.zero;
-        t.localRotation = Quaternion.identity;
-        t.localScale = Vector3.one;
-        childObject.SetActive(true);
     }
 
     private void RegisterEventHandlers()

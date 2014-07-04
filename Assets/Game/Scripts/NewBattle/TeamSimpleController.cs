@@ -45,6 +45,7 @@ public class TeamSimpleController : MonoBehaviour
         }
         // [NOTE:] enemy controller will take care of object reuse itself, just deactive it is okay.
         var character = CharacterList[index];
+        character.ResetBuff();
 
         CharacterList.RemoveAt(index);
         CharacterPool.Return(character.gameObject);

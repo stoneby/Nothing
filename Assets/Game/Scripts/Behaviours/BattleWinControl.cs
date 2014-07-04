@@ -193,13 +193,22 @@ public class BattleWinControl : MonoBehaviour
         if (IsPlaying) return;
         if (CurrentStep == 0)
         {
-            SetItems();
+            //SetItems();
 
             SpriteClick.SetActive(false);
             InfoContainer.SetActive(false);
-            GetContainer.SetActive(true);
-            CurrentStep = 1;
-            StartCoroutine(ShowItemStep());
+            if (MissionModelLocator.Instance.BattleReward.RewardItem == null ||
+                MissionModelLocator.Instance.BattleReward.RewardItem.Count <= 0)
+            {
+                ShowEnd();
+            }
+            else
+            {
+                SetItems();
+                GetContainer.SetActive(true);
+                CurrentStep = 1;
+                StartCoroutine(ShowItemStep());
+            }
         }
         else if (CurrItemIndex < MissionModelLocator.Instance.BattleReward.RewardItem.Count)
         {

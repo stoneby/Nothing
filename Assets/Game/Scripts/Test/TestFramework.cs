@@ -87,10 +87,6 @@ public class TestFramework : MonoBehaviour
             var battleWinControl = battleWin.GetComponent<BattleWinControl>();
             battleWinControl.Show();
         } 
-        if (GUILayout.Button("Heros"))
-        {
-            WindowManager.Instance.Show(typeof(UIHerosDisplayWindow), true);
-        }
     }
 
     private void EventTest()

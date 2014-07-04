@@ -64,15 +64,32 @@ namespace com.kx.sglm.gs.battle.share.buff.enums
 			}
 		}
 
+		/// <summary>
+		/// it is a debuff </summary>
+		public static readonly BuffEffectEnum POISON = new BuffEffectEnumAnonymousInnerClassHelper4();
+
+		private class BuffEffectEnumAnonymousInnerClassHelper4 : BuffEffectEnum
+		{
+			public BuffEffectEnumAnonymousInnerClassHelper4() : base(3, false)
+			{
+			}
+
+
+			public override IBattlePartInfo createInstance()
+			{
+				return new PoisonValueEffect();
+			}
+		}
+
 
 
 		/// <summary>
 		/// shield for monster </summary>
-		public static readonly BuffEffectEnum MONSTER_SHIELD = new BuffEffectEnumAnonymousInnerClassHelper4();
+		public static readonly BuffEffectEnum MONSTER_SHIELD = new BuffEffectEnumAnonymousInnerClassHelper5();
 
-		private class BuffEffectEnumAnonymousInnerClassHelper4 : BuffEffectEnum
+		private class BuffEffectEnumAnonymousInnerClassHelper5 : BuffEffectEnum
 		{
-			public BuffEffectEnumAnonymousInnerClassHelper4() : base(3, true)
+			public BuffEffectEnumAnonymousInnerClassHelper5() : base(4, true)
 			{
 			}
 
@@ -83,22 +100,7 @@ namespace com.kx.sglm.gs.battle.share.buff.enums
 			}
 		}
 
-		/// <summary>
-		/// it is a debuff </summary>
-		public static readonly BuffEffectEnum POISON = new BuffEffectEnumAnonymousInnerClassHelper5();
 
-		private class BuffEffectEnumAnonymousInnerClassHelper5 : BuffEffectEnum
-		{
-			public BuffEffectEnumAnonymousInnerClassHelper5() : base(4, false)
-			{
-			}
-
-
-			public override IBattlePartInfo createInstance()
-			{
-				return new PoisonValueEffect();
-			}
-		}
 
 		public BuffEffectEnum(int index, bool buff) : base(index)
 		{
@@ -115,7 +117,7 @@ namespace com.kx.sglm.gs.battle.share.buff.enums
 			}
 		}
 
-		public static readonly BuffEffectEnum[] VALUES = new BuffEffectEnum[] {NIL_EFFECT, PROP_ADD_EFFECT, PROP_REDUCE_EFFECT, MONSTER_SHIELD, POISON};
+		public static readonly BuffEffectEnum[] VALUES = new BuffEffectEnum[] {NIL_EFFECT, PROP_ADD_EFFECT, PROP_REDUCE_EFFECT, POISON, MONSTER_SHIELD};
 
 		public static BuffEffectEnum[] values()
 		{

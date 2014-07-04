@@ -23,6 +23,7 @@ namespace com.kx.sglm.gs.battle.share.data
 		//TODO: modify prop	
 		protected internal Dictionary<int, int> battleProperties;
 		protected internal PropertyRawSet properties;
+		protected internal int leaderSkillId;
 		protected internal int activeSkillId;
 		protected internal List<int> skillIdList;
 
@@ -122,6 +123,19 @@ namespace com.kx.sglm.gs.battle.share.data
 				this.activeSkillId = value;
 			}
 		}
+
+		public virtual int LeaderSkillId
+		{
+			get
+			{
+				return leaderSkillId;
+			}
+			set
+			{
+				this.leaderSkillId = value;
+			}
+		}
+
 
 
 

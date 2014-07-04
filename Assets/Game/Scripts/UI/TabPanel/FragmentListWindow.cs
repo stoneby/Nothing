@@ -148,7 +148,6 @@ public class FragmentListWindow : Window
                 item.Refresh();
             }
         }
-        PopTextManager.PopTip("合成成功！");
     }
 
     #endregion

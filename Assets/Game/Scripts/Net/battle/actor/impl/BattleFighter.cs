@@ -1,6 +1,9 @@
+using System;
+
 namespace com.kx.sglm.gs.battle.share.actor.impl
 {
 
+	using MathUtils = com.kx.sglm.core.util.MathUtils;
 	using BattleBuffManager = com.kx.sglm.gs.battle.share.buff.BattleBuffManager;
 	using FighterInfo = com.kx.sglm.gs.battle.share.data.FighterInfo;
 	using BattleFightRecord = com.kx.sglm.gs.battle.share.data.record.BattleFightRecord;
@@ -32,10 +35,6 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 		/// <summary>
 		/// 当前血量 </summary>
 		protected internal int curHp;
-
-		/// <summary>
-		/// 职业 </summary>
-		protected internal int job;
 
 		/// <summary>
 		/// 武将名字 </summary>
@@ -200,13 +199,11 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 		{
 			get
 			{
-				return job;
-			}
-			set
-			{
-				this.job = value;
+				string _jobStr = baseProp.getProp(BattleKeyConstants.BATTLE_KEY_HERO_JOB);
+				return _jobStr.Length == 0 ? 0 : Convert.ToInt32(_jobStr);
 			}
 		}
+
 
 
 		public virtual void addBuff(int buffId)
@@ -250,6 +247,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 		public virtual void onSceneStop()
 		{
 			buffManager.clearAllBuff();
+			stateManager.clearState();
 		}
 
 
@@ -347,8 +345,9 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 		}
 
 
-		public virtual void clearState()
+		public virtual void refreshState()
 		{
+			stateManager.backupState();
 			stateManager.clearState();
 		}
 
@@ -402,6 +401,14 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 			}
 		}
 
+
+		public virtual int LeaderSkillId
+		{
+			get
+			{
+				return BaseProp.LeaderSkillId;
+			}
+		}
 
 		public virtual FighterInfo BaseProp
 		{
@@ -477,6 +484,22 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 			}
 		}
 
+
+		public virtual bool Leader
+		{
+			get
+			{
+				return MathUtils.hasFlagIndex(BattleConstants.FIGHTER_LEADER_SKILL_FLAG, Index);
+			}
+		}
+
+		public virtual bool ActiveFighter
+		{
+			get
+			{
+				return getOwnerTeam().isActiveFighter(this);
+			}
+		}
 
 	}
 

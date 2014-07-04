@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using UnityEngine;
-using System.Collections;
 
 public class PaticleDelay : MonoBehaviour
 {
@@ -25,8 +26,10 @@ public class PaticleDelay : MonoBehaviour
     {
         Stop();
         sampleTime = 0f;
+#if UNITY_EDITOR
         lastTime = EditorApplication.timeSinceStartup;
         startTime = EditorApplication.timeSinceStartup;
+#endif
         duration = GetDuration();
         GetSortedPss();
         GetDelays();
@@ -100,6 +103,7 @@ public class PaticleDelay : MonoBehaviour
 
     public void Play()
     {
+#if UNITY_EDITOR
         if ((float)(EditorApplication.timeSinceStartup) < startTime + delta)
         {
             lastTime = EditorApplication.timeSinceStartup;
@@ -108,10 +112,13 @@ public class PaticleDelay : MonoBehaviour
         var deltaTime = (float)(EditorApplication.timeSinceStartup - lastTime);
         lastTime = EditorApplication.timeSinceStartup;
         sampleTime += deltaTime;
+#endif
 
         if (PlayOnce && sampleTime > duration)
         {
+#if UNITY_EDITOR
             UnregisterEvent();
+#endif
             Stop();
             return;
         }
@@ -168,14 +175,17 @@ public class PaticleDelay : MonoBehaviour
 
     public void RegisterEvent()
     {
+#if UNITY_EDITOR
         //IsPlaying = true;
         EditorApplication.update += DoUpdate;
+#endif
     }
 
     public void UnregisterEvent()
     {
+#if UNITY_EDITOR
         //IsPlaying = false;
         EditorApplication.update -= DoUpdate;
+#endif
     }
-
 }

@@ -15,6 +15,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 		{
 			this.state = state;
 			this.buffId = buffId;
+			this.showId = showId;
 			this.round = round;
 		}
 

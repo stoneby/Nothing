@@ -312,7 +312,7 @@ namespace com.kx.sglm.gs.battle.share.skill.creater
 
 			internal override ISkillCondition createObj(SkillConditionEnum[] values, BattleSkillMsgCondition obj)
 			{
-				return (ISkillCondition) createSingleCondition(values, obj.ConditionKey, obj.ConditionVal);
+				return (ISkillCondition) createSingleInfo(values, obj.ConditionKey, obj.ConditionVal);
 			}
 		}
 
@@ -361,7 +361,7 @@ namespace com.kx.sglm.gs.battle.share.skill.creater
 
 			internal override ISkillTargetGetter createObj(SkillTargetEnum[] values, SkillTargetGetterMsgData obj)
 			{
-				return (ISkillTargetGetter) createSingleCondition(values, obj.TargetType, obj.TargetValue);
+				return (ISkillTargetGetter) createSingleInfo(values, obj.TargetType, obj.TargetValue);
 			}
 		}
 
@@ -385,7 +385,9 @@ namespace com.kx.sglm.gs.battle.share.skill.creater
 
 			internal override ISkillEffect createObj(SkillEffectEnum[] values, SkillBattleEffectMsgData obj)
 			{
-				return (ISkillEffect) createSingleCondition(values, obj.BattleEffectType, obj.BattleEffectParam1, obj.BattleEffectParam2, obj.BattleEffectParam3);
+				ISkillEffect _effect = (ISkillEffect) createSingleInfo(values, obj.BattleEffectType, obj.BattleEffectParam1, obj.BattleEffectParam2, obj.BattleEffectParam3);
+				_effect.Ratio = obj.BattleEffectRatio;
+				return _effect;
 			}
 		}
 
@@ -394,6 +396,7 @@ namespace com.kx.sglm.gs.battle.share.skill.creater
 			List<ISkillEffect> _effectList = new List<ISkillEffect>();
 			SkillEffectEnum _defaultEffect = enemySide ? SkillEffectEnum.NORMAL_HERO_HIT : SkillEffectEnum.NORMAL_HERO_RECOVER;
 			ISkillEffect _effect = (ISkillEffect) _defaultEffect.createInfo();
+			_effect.Ratio = BattleConstants.BATTLE_RATIO_BASE;
 			_effectList.Add(_effect);
 			return _effectList;
 		}
@@ -438,7 +441,7 @@ namespace com.kx.sglm.gs.battle.share.skill.creater
 
 		}
 
-		protected internal static IBattlePartInfo createSingleCondition(BaseBattleFactoryEnum[] values, int key, params string[] param)
+		protected internal static IBattlePartInfo createSingleInfo(BaseBattleFactoryEnum[] values, int key, params string[] param)
 		{
 			IBattlePartInfo _infoObj = null;
 			if (!ArrayUtils.isRightArrayIndex(key, values))

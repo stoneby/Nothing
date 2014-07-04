@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
 using Thrift.Protocol;
 using Thrift.Transport;
@@ -124,6 +123,19 @@ public class Utils
     public static UIRoot Root
     {
         get { return root ?? (root = GameObject.FindGameObjectWithTag("Root").GetComponent<UIRoot>()); }
+    }
+
+    #endregion
+
+    #region MyPoolManager Helper
+    public static void AddChild(GameObject sender, GameObject childObject)
+    {
+        var t = childObject.transform;
+        t.parent = sender.transform;
+        t.localPosition = Vector3.zero;
+        t.localRotation = Quaternion.identity;
+        t.localScale = Vector3.one;
+        childObject.SetActive(true);
     }
 
     #endregion

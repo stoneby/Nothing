@@ -12,6 +12,8 @@ namespace com.kx.sglm.gs.battle.share.skill.effect
 
 		private bool enemyEffect;
 
+		private float ratio;
+
 		public AbstractSkillEffect(bool enemyEffect)
 		{
 			this.enemyEffect = enemyEffect;
@@ -26,6 +28,19 @@ namespace com.kx.sglm.gs.battle.share.skill.effect
 			}
 
 		}
+
+		public override float Ratio
+		{
+			set
+			{
+				this.ratio = value;
+			}
+			get
+			{
+				return ratio;
+			}
+		}
+
 
 		protected internal abstract void initRecord(BattleFighter attacker, BattleFightRecord fightRecord);
 

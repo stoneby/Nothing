@@ -18,8 +18,8 @@ namespace Assets.Game.Scripts.Common.Model
         public long Uuid;
 
         public BattleSource Source;
-        public IList<FighterInfo> HeroList;
-        public IList<FighterInfo> EnemyList;
+        public List<FighterInfo> HeroList;
+        public List<FighterInfo> EnemyList;
         public int MonsterIndex;
         public Battle MainBattle;
         public List<PointRecord> NextList;

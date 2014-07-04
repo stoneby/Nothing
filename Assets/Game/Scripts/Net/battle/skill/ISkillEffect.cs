@@ -14,6 +14,9 @@ namespace com.kx.sglm.gs.battle.share.skill
 
 		public abstract bool EnemyEffect {get;}
 
+		public abstract float Ratio {set;get;}
+
+
 	}
 
 }

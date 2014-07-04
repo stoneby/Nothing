@@ -23,6 +23,8 @@ public class EnemyControl : MonoBehaviour
 	/// </summary>
     public BloodBarController BloodController;
 
+    public BuffBarController BuffController;
+
     /// <summary>
     /// Character data.
     /// </summary>

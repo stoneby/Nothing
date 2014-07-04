@@ -199,25 +199,6 @@ namespace com.kx.sglm.gs.battle.share.buff
 		}
 
 
-		/// <summary>
-		/// remove single buff from all collection and reset buff effect
-		/// </summary>
-		/// <param name="buffId"> </param>
-		public virtual void removeSingleBuff(BattleFighterBuff buff)
-		{
-
-			int buffId = buff.BuffId;
-
-			removeFromAllBuff(buffId);
-
-			IBuffAction _buffAction = buff.BuffAction;
-
-			BuffTypeHolder _holder = getBuffTypeHolder(_buffAction);
-
-			_holder.removeBuff(buffId);
-
-			_buffAction.onRemove(Owner);
-		}
 
 		public virtual void beforeBattleStart(BattleRoundCountRecord roundRecord)
 		{
@@ -270,14 +251,40 @@ namespace com.kx.sglm.gs.battle.share.buff
 		protected internal virtual void clearDyingBuff()
 		{
 			IEnumerator<KeyValuePair<int, BattleFighterBuff>> _iterator = allBuffs.GetEnumerator();
+			List<BattleFighterBuff> _dyingBuffs = new List<BattleFighterBuff>();
 			while (_iterator.MoveNext())
 			{
 				BattleFighterBuff _buff = _iterator.Current.Value;
 				if (_buff.Dying)
 				{
-					removeSingleBuff(_buff);
+					_dyingBuffs.Add(_buff);
 				}
 			}
+			foreach (BattleFighterBuff _buff in _dyingBuffs)
+			{
+				removeSingleBuff(_buff);
+			}
+		}
+
+
+		/// <summary>
+		/// remove single buff from all collection and reset buff effect
+		/// </summary>
+		/// <param name="buffId"> </param>
+		public virtual void removeSingleBuff(BattleFighterBuff buff)
+		{
+
+			int buffId = buff.BuffId;
+
+			removeFromAllBuff(buffId);
+
+			IBuffAction _buffAction = buff.BuffAction;
+
+			BuffTypeHolder _holder = getBuffTypeHolder(_buffAction);
+
+			_holder.removeBuff(buffId);
+
+			_buffAction.onRemove(Owner);
 		}
 
 

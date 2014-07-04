@@ -28,10 +28,12 @@ namespace KXSGCodec
   {
     private int _index;
     private int _templateId;
+    private int _jobId;
     private int _heroType;
     private Dictionary<int, int> _fighteProp;
     private Dictionary<int, int> _otherProp;
     private int _activeSkillId;
+    private int _leaderSkill;
     private List<int> _allSkill;
 
     /// <summary>
@@ -63,6 +65,22 @@ namespace KXSGCodec
       {
         __isset.templateId = true;
         this._templateId = value;
+      }
+    }
+
+    /// <summary>
+    /// 武将职业ID
+    /// </summary>
+    public int JobId
+    {
+      get
+      {
+        return _jobId;
+      }
+      set
+      {
+        __isset.jobId = true;
+        this._jobId = value;
       }
     }
 
@@ -131,6 +149,22 @@ namespace KXSGCodec
     }
 
     /// <summary>
+    /// 队长技能
+    /// </summary>
+    public int LeaderSkill
+    {
+      get
+      {
+        return _leaderSkill;
+      }
+      set
+      {
+        __isset.leaderSkill = true;
+        this._leaderSkill = value;
+      }
+    }
+
+    /// <summary>
     /// 全部技能
     /// </summary>
     public List<int> AllSkill
@@ -154,10 +188,12 @@ namespace KXSGCodec
     public struct Isset {
       public bool index;
       public bool templateId;
+      public bool jobId;
       public bool heroType;
       public bool fighteProp;
       public bool otherProp;
       public bool activeSkillId;
+      public bool leaderSkill;
       public bool allSkill;
     }
 
@@ -192,12 +228,19 @@ namespace KXSGCodec
             break;
           case 3:
             if (field.Type == TType.I32) {
-              HeroType = iprot.ReadI32();
+              JobId = iprot.ReadI32();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
             break;
           case 4:
+            if (field.Type == TType.I32) {
+              HeroType = iprot.ReadI32();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 5:
             if (field.Type == TType.Map) {
               {
                 FighteProp = new Dictionary<int, int>();
@@ -216,7 +259,7 @@ namespace KXSGCodec
               TProtocolUtil.Skip(iprot, field.Type);
             }
             break;
-          case 5:
+          case 6:
             if (field.Type == TType.Map) {
               {
                 OtherProp = new Dictionary<int, int>();
@@ -235,14 +278,21 @@ namespace KXSGCodec
               TProtocolUtil.Skip(iprot, field.Type);
             }
             break;
-          case 6:
+          case 7:
             if (field.Type == TType.I32) {
               ActiveSkillId = iprot.ReadI32();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
             break;
-          case 7:
+          case 8:
+            if (field.Type == TType.I32) {
+              LeaderSkill = iprot.ReadI32();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 9:
             if (field.Type == TType.List) {
               {
                 AllSkill = new List<int>();
@@ -288,10 +338,18 @@ namespace KXSGCodec
         oprot.WriteI32(TemplateId);
         oprot.WriteFieldEnd();
       }
+      if (__isset.jobId) {
+        field.Name = "jobId";
+        field.Type = TType.I32;
+        field.ID = 3;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteI32(JobId);
+        oprot.WriteFieldEnd();
+      }
       if (__isset.heroType) {
         field.Name = "heroType";
         field.Type = TType.I32;
-        field.ID = 3;
+        field.ID = 4;
         oprot.WriteFieldBegin(field);
         oprot.WriteI32(HeroType);
         oprot.WriteFieldEnd();
@@ -299,7 +357,7 @@ namespace KXSGCodec
       if (FighteProp != null && __isset.fighteProp) {
         field.Name = "fighteProp";
         field.Type = TType.Map;
-        field.ID = 4;
+        field.ID = 5;
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteMapBegin(new TMap(TType.I32, TType.I32, FighteProp.Count));
@@ -315,7 +373,7 @@ namespace KXSGCodec
       if (OtherProp != null && __isset.otherProp) {
         field.Name = "otherProp";
         field.Type = TType.Map;
-        field.ID = 5;
+        field.ID = 6;
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteMapBegin(new TMap(TType.I32, TType.I32, OtherProp.Count));
@@ -331,15 +389,23 @@ namespace KXSGCodec
       if (__isset.activeSkillId) {
         field.Name = "activeSkillId";
         field.Type = TType.I32;
-        field.ID = 6;
+        field.ID = 7;
         oprot.WriteFieldBegin(field);
         oprot.WriteI32(ActiveSkillId);
+        oprot.WriteFieldEnd();
+      }
+      if (__isset.leaderSkill) {
+        field.Name = "leaderSkill";
+        field.Type = TType.I32;
+        field.ID = 8;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteI32(LeaderSkill);
         oprot.WriteFieldEnd();
       }
       if (AllSkill != null && __isset.allSkill) {
         field.Name = "allSkill";
         field.Type = TType.List;
-        field.ID = 7;
+        field.ID = 9;
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.I32, AllSkill.Count));
@@ -361,6 +427,8 @@ namespace KXSGCodec
       sb.Append(Index);
       sb.Append(",TemplateId: ");
       sb.Append(TemplateId);
+      sb.Append(",JobId: ");
+      sb.Append(JobId);
       sb.Append(",HeroType: ");
       sb.Append(HeroType);
       sb.Append(",FighteProp: ");
@@ -369,6 +437,8 @@ namespace KXSGCodec
       sb.Append(OtherProp);
       sb.Append(",ActiveSkillId: ");
       sb.Append(ActiveSkillId);
+      sb.Append(",LeaderSkill: ");
+      sb.Append(LeaderSkill);
       sb.Append(",AllSkill: ");
       sb.Append(AllSkill);
       sb.Append(")");

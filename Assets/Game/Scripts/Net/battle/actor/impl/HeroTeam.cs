@@ -512,6 +512,11 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 			return _point.Color.Index;
 		}
 
+		public override bool isActiveFighter(BattleFighter fighter)
+		{
+			return this.indexedHeroPoint[fighter.index].InBattle;
+		}
+
 	}
 
 }

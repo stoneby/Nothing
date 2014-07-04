@@ -4,6 +4,7 @@ namespace com.kx.sglm.gs.battle.share.skill.action
 {
 
 
+	using MathUtils = com.kx.sglm.core.util.MathUtils;
 	using BattleFighter = com.kx.sglm.gs.battle.share.actor.impl.BattleFighter;
 	using BattleFightRecord = com.kx.sglm.gs.battle.share.data.record.BattleFightRecord;
 	using BattleSideEnum = com.kx.sglm.gs.battle.share.enums.BattleSideEnum;
@@ -63,11 +64,20 @@ namespace com.kx.sglm.gs.battle.share.skill.action
 			List<BattleFighter> _friendFighterList = calcTargetList(attacker, false);
 			foreach (ISkillEffect _effect in allEffect)
 			{
+				if (!ratioEffect(_effect))
+				{
+					continue;
+				}
 				List<BattleFighter> _fighterList = _effect.EnemyEffect ? _enemyFighterList : _friendFighterList;
 				_effect.onAction(attacker, _fighterList, _holder);
 				// TODO: 区分不同的effect
 				optionAfterAction(attacker, _fighterList, record);
 			}
+		}
+
+		protected internal virtual bool ratioEffect(ISkillEffect effect)
+		{
+			return MathUtils.randomRate(effect.Ratio, BattleConstants.BATTLE_RATIO_BASE);
 		}
 
 		public virtual int SkillId

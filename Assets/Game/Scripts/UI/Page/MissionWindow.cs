@@ -68,7 +68,7 @@ public class MissionWindow : Window
         var lb = LevelLabel.GetComponent<UILabel>();
         lb.text = PlayerModelLocator.Instance.Level.ToString();
 
-        var temp = LevelModelLocator.Instance.GetLevelByTemplateId(PlayerModelLocator.Instance.Level + 1);
+        var temp = LevelModelLocator.Instance.GetLevelByTemplateId(PlayerModelLocator.Instance.Level);
 
         lb = EnergyLabel.GetComponent<UILabel>();
         lb.text = PlayerModelLocator.Instance.Energy + "/" + temp.MaxEnergy;

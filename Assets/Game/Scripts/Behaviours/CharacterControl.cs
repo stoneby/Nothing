@@ -8,22 +8,18 @@ using UnityEngine;
 public class CharacterControl : MonoBehaviour
 {
     public GameObject BaseObj;
-    public GameObject AnimObj;
     public GameObject FootObj;
     public GameObject JobObj;
     public GameObject AttrackObj;
     public GameObject TopTimesObj;
     public GameObject SpritePrefab;
     public GameObject SpriteObj;
-    public GameObject PoisonPrefab;
-    public GameObject BuffObj;
     public GameObject FriendLabelObj;
 
     public Character CharacterData;
 
     private HeroTemplate templateData;
 
-    public int CharacterIndex;
     public int FootIndex;
     public int JobIndex;
     public int Attrack;
@@ -38,6 +34,8 @@ public class CharacterControl : MonoBehaviour
 
     public int AnimationIndex;
 
+    public BuffBarController BuffController;
+    
     private GameObject topAttrackObj;
     private bool isSelected;
 
@@ -79,7 +77,7 @@ public class CharacterControl : MonoBehaviour
         var uisp = FootObj.GetComponent<UISprite>();
         uisp.spriteName = "pck_" + footindex;
         uisp = JobObj.GetComponent<UISprite>();
-        uisp.spriteName = (FootIndex == (int)FootColorType.Pink) ? "job_6" : "job_" + JobIndex;
+        uisp.spriteName = (FootIndex == (int)FootColorType.Pink) ? "icon_zhiye_5" : "icon_zhiye_" + JobIndex;
         var uilb = AttrackObj.GetComponent<UILabel>();
         uilb.text = (FootIndex == (int) FootColorType.Pink)
             ? ("" + Restore + "-" + CharacterData.Data.Index)
@@ -102,7 +100,7 @@ public class CharacterControl : MonoBehaviour
     IEnumerator DoSetCharacterAfter()
     {
         yield return new WaitForSeconds(afterTime);
-        PlayCharacter(0);
+        PlayCharacter(Character.State.Idle, true);
     }
 
     public void SetCharacter(CharacterType characterType = CharacterType.Hero)
@@ -111,19 +109,12 @@ public class CharacterControl : MonoBehaviour
         var tempid = Int32.Parse(data.getProp(BattleKeyConstants.BATTLE_KEY_HERO_TEMPLATE));
         templateData = HeroModelLocator.Instance.GetHeroByTemplateId(tempid);
 
-        // character index should be range in [0, 5].
-        // [NOTE] We only have 2 types of characters for now.
-        CharacterIndex = (tempid % 2 == 0) ? 1 : 5;
-
         JobIndex = templateData.Job;
         Attrack = data.battleProperties[RoleAProperty.ATK];
         Restore = data.BattleProperty[RoleAProperty.RECOVER];
 
-        var uisa = AnimObj.GetComponent<UISpriteAnimation>();
-        uisa.namePrefix = "c_" + CharacterIndex + "_0_";
-        uisa.framesPerSecond = 8;
         var uisp = JobObj.GetComponent<UISprite>();
-        uisp.spriteName = (FootIndex == (int)FootColorType.Pink) ? "job_6" : "job_" + JobIndex;
+        uisp.spriteName = (FootIndex == (int)FootColorType.Pink) ? "icon_zhiye_5" : "icon_zhiye_" + JobIndex;
         var uilb = AttrackObj.GetComponent<UILabel>();
         uilb.text = (FootIndex == (int)FootColorType.Pink) ? Restore + "-" + data.Index : Attrack + "-" + data.Index;
 
@@ -138,15 +129,15 @@ public class CharacterControl : MonoBehaviour
 
     public string GetNamePrefix()
     {
-        return "c_" + CharacterIndex + "_";
+        var index = (CharacterData.IDIndex == 0) ? 1 : 5;
+        return "c_" + index + "_";
     }
 
-    public void PlayCharacter(CharacterStateType stateType)
+    public void PlayCharacter(Character.State state, bool loop)
     {
-        AnimationIndex = (int)stateType;
-        var uisa = AnimObj.GetComponent<UISpriteAnimation>();
-        uisa.namePrefix = "c_" + CharacterIndex + "_" + AnimationIndex + "_";
-        if (AnimationIndex == 2 || AnimationIndex == 3)
+        CharacterData.PlayState(state, loop);
+        // [FIXME] Missing character moving animation.
+        if (state == Character.State.Run || state == Character.State.Run)
         {
             NGUITools.SetActive(FootObj, false);
         }
@@ -154,19 +145,6 @@ public class CharacterControl : MonoBehaviour
         {
             NGUITools.SetActive(FootObj, true);
         }
-    }
-
-    public void Stop()
-    {
-        var uisa = AnimObj.GetComponent<UISpriteAnimation>();
-        uisa.loop = false;
-    }
-
-    public void Play()
-    {
-        var uisa = AnimObj.GetComponent<UISpriteAnimation>();
-        uisa.loop = true;
-        uisa.Reset();
     }
 
     public void SetSelect(bool isselected, int selectindex = -1)
@@ -201,7 +179,7 @@ public class CharacterControl : MonoBehaviour
 
     private IEnumerator PopPlay()
     {
-        PopTextManager.ShowText(AttrackValue.ToString(), 0.5f, -25, 0, 70, transform.localPosition);
+        PopTextManager.ShowText(AttrackValue.ToString(), 0.5f, 0, 0, 70, transform.localPosition);
         yield return new WaitForSeconds(0.5f);
         if (isSelected)
         {

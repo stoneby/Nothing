@@ -29,6 +29,12 @@ public class Character : MonoBehaviour
     public int Index;
 
     /// <summary>
+    /// Identifier pointing to specific character.
+    /// </summary>
+    /// <remarks>Refers to CharacterPoolManager.</remarks>
+    public int IDIndex;
+
+    /// <summary>
     /// Two dimension position base on character arrangement.
     /// </summary>
     public Position Location;
@@ -60,6 +66,8 @@ public class Character : MonoBehaviour
     [HideInInspector]
     public FighterInfo Data;
 
+    public Dictionary<BuffManager.BuffType, int> BuffCountManager;
+
     #endregion
 
     #region Private Fields
@@ -90,10 +98,72 @@ public class Character : MonoBehaviour
     /// </summary>
     /// <param name="state">Current state</param>
     /// <param name="loop">Flag indicates if state is in loop mode</param>
-    public void PlayState(Character.State state, bool loop)
+    public void PlayState(State state, bool loop)
     {
         Animation[animationList[(int)state]].wrapMode = (loop) ? WrapMode.Loop : WrapMode.Once;
         Animation.Play(animationList[(int)state]);
+    }
+
+    /// <summary>
+    /// Stop character state.
+    /// </summary>
+    /// <param name="state">Current state</param>
+    public void StopState(State state)
+    {
+        Animation.Stop(animationList[(int)state]);
+    }
+
+    public void StopState()
+    {
+        Animation.Stop();
+    }
+
+    public void ShowBuff()
+    {
+        var buffManager = BuffManager.Instance;
+        foreach (var pair in BuffCountManager)
+        {
+            var buffType = pair.Key;
+            var counter = pair.Value;
+            if (counter > 0)
+            {
+                buffManager.Show(buffType, gameObject);
+            }
+            else
+            {
+                buffManager.Stop(buffType, gameObject);
+            }
+        }
+    }
+
+    public void ResetBuff()
+    {
+        var buffManager = BuffManager.Instance;
+        foreach (var buffType in BuffCountManager.Select(pair => pair.Key))
+        {
+            buffManager.Stop(buffType, gameObject);
+        }
+        BuffCountManager.Clear();
+    }
+
+    public void ShowBuffCD(BuffBarController buffController)
+    {
+        foreach (var pair in BuffCountManager)
+        {
+            var buffType = pair.Key;
+            var count = pair.Value;
+            if (count <= 0)
+            {
+                buffController.gameObject.SetActive(false);
+            }
+            else
+            {
+                buffController.gameObject.SetActive(true);
+                var label = buffController.BuffLabel.GetComponent<UILabel>();
+                label.text = "" + count;
+                label.color = BuffManager.Instance.BuffColorList[(int)buffType];
+            }
+        }
     }
 
     /// <overrides/>
@@ -125,6 +195,8 @@ public class Character : MonoBehaviour
         {
             animationList = new List<string>(Animation.Cast<AnimationState>().Select(item => item.name));
         }
+
+        BuffCountManager = new Dictionary<BuffManager.BuffType, int>();
     }
 
     #endregion

@@ -39,17 +39,6 @@ public enum JobType
 };
 
 /// <summary>
-/// Character state type.
-/// </summary>
-public enum CharacterStateType
-{
-    Idle = 0,
-    Hurt,
-    Run,
-    Attack
-}
-
-/// <summary>
 /// Character type.
 /// </summary>
 public enum CharacterType

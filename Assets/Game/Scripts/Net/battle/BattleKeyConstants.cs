@@ -16,6 +16,8 @@ namespace com.kx.sglm.gs.battle.share
 		/// 玩家队伍选择目标Index </summary>
 		public static readonly int BATTLE_KEY_HERO_TEAM_TARGET = BATTLE_KEY_BASE++;
 
+		public static readonly int BATTLE_KEY_HERO_JOB = BATTLE_KEY_BASE++;
+
 		/// <summary>
 		/// 怪物弱化职业 </summary>
 		public static readonly int BATTLE_KEY_MONSTER_WEEK_JOB = BATTLE_KEY_BASE++;

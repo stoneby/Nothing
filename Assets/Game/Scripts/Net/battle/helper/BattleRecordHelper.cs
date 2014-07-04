@@ -3,7 +3,9 @@ using System.Collections.Generic;
 namespace com.kx.sglm.gs.battle.share.helper
 {
 
+
 	using BattleFighter = com.kx.sglm.gs.battle.share.actor.impl.BattleFighter;
+	using BattleFighterState = com.kx.sglm.gs.battle.share.actor.impl.BattleFighterState;
 	using BattleTeam = com.kx.sglm.gs.battle.share.actor.impl.BattleTeam;
 	using HeroPoint = com.kx.sglm.gs.battle.share.actor.impl.HeroPoint;
 	using HeroTeam = com.kx.sglm.gs.battle.share.actor.impl.HeroTeam;
@@ -18,7 +20,7 @@ namespace com.kx.sglm.gs.battle.share.helper
 	public class BattleRecordHelper
 	{
 
-		public static void initBattelSkill(BattleSkillRecord record, BattleFighter fighter)
+		public static void initBattelActiveSkill(BattleSkillRecord record, BattleFighter fighter)
 		{
 			record.Index = fighter.Index;
 			record.SkillId = fighter.BaseProp.ActiveSkillId;
@@ -71,7 +73,9 @@ namespace com.kx.sglm.gs.battle.share.helper
 				SingleActionRecord _singleRecord = _buffRecord.OrCreateRecord;
 				BattleRecordHelper.initSingleRecord(_fighter, _singleRecord);
 				_singleRecord.ActType = BattleRecordConstants.SINGLE_ACTION_TYPE_BUFF_STATE;
+				_singleRecord.StateFlag = _fighter.FighterState;
 				_fighter.updateStateRecord(_singleRecord);
+				_buffRecord.finishCurRecord();
 			}
 		}
 
@@ -117,6 +121,15 @@ namespace com.kx.sglm.gs.battle.share.helper
 //ORIGINAL LINE: final int _color = point.getColor().getIndex();
 			int _color = point.Color.Index;
 			record.addPointList(_index, _color);
+		}
+
+		public static void updateStateRecord(SingleActionRecord record, Dictionary<int, BattleFighterState> stateMap, bool removeState)
+		{
+			foreach (BattleFighterState _state in stateMap.Values)
+			{
+				int _round = removeState ? 0 : _state.Round;
+				record.addState(_state.BuffId, _state.ShowId, _state.Index, _round);
+			}
 		}
 
 	}

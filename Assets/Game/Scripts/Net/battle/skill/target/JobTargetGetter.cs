@@ -37,6 +37,7 @@ namespace com.kx.sglm.gs.battle.share.skill.target
 		public override void build(params string[] param)
 		{
 			jobFlag = MathUtils.changeDecToBinFlag(Convert.ToInt32(param[0]), true);
+			jobFlag <<= 1;
 		}
 
 	}

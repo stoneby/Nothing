@@ -81,6 +81,8 @@ namespace com.kx.sglm.gs.battle.share
 		/// 可以放队长技能的Index，第0,1,2,9位置的武将可以放技能 </summary>
 		public const int FIGHTER_ACTIVE_SKILL_FLAG = 0x207;
 
+		public const int FIGHTER_LEADER_SKILL_FLAG = 0x201;
+
 		public const int FIGHTER_FIGHT_DEFAULT_COUNT = 1;
 
 		public const float FIGHTER_FIGHT_DEFAULT_RATIO = 1;
@@ -113,6 +115,8 @@ namespace com.kx.sglm.gs.battle.share
 		public const int ATTACK_ZERO_FLAG = 0X04;
 
 		public const int DISABLE_FLAG = 0xffff;
+
+		public const float MIN_ATTACK = 1.0F;
 	}
 
 

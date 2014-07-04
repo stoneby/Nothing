@@ -80,10 +80,17 @@ namespace com.kx.sglm.gs.battle.share.skill.effect
 		protected internal virtual float calcSingleDamage(float attack, float defence, float indexValMuti, float spValuMuti, float weakRatio, float damageFree)
 		{
 			float _damage = attack * spValuMuti;
-			_damage -= defence;
-			_damage *= weakRatio;
 			_damage *= indexValMuti;
-			_damage *= damageFree;
+			_damage -= defence;
+			if (_damage < 0)
+			{
+				_damage = BattleConstants.MIN_ATTACK;
+			}
+			else
+			{
+				_damage *= weakRatio;
+				_damage *= damageFree;
+			}
 			return _damage;
 		}
 

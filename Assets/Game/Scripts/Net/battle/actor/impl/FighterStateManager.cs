@@ -7,6 +7,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 	using MathUtils = com.kx.sglm.core.util.MathUtils;
 	using BattleRecordConstants = com.kx.sglm.gs.battle.share.data.record.BattleRecordConstants;
 	using SingleActionRecord = com.kx.sglm.gs.battle.share.data.record.SingleActionRecord;
+	using BattleRecordHelper = com.kx.sglm.gs.battle.share.helper.BattleRecordHelper;
 
 	public class FighterStateManager : IFighterOwner
 	{
@@ -19,9 +20,12 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 
 		protected internal Dictionary<int, BattleFighterState> stateMap;
 
+		protected internal Dictionary<int, BattleFighterState> lastStateMap;
+
 		public FighterStateManager(BattleFighter owner)
 		{
 			this.stateMap = new Dictionary<int, BattleFighterState>();
+			this.lastStateMap = new Dictionary<int, BattleFighterState>();
 		}
 
 
@@ -35,10 +39,15 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 		{
 			record.clearState();
 			record.addProp(BattleRecordConstants.BATTLE_FIGHTER_STATE_FLAG, FighterStateFlag);
-			foreach (BattleFighterState _state in stateMap.Values)
-			{
-				record.addState(_state.BuffId, _state.ShowId, _state.Index, _state.Round);
-			}
+			BattleRecordHelper.updateStateRecord(record, stateMap, false);
+			BattleRecordHelper.updateStateRecord(record, lastStateMap, true);
+		}
+
+
+
+		public virtual void backupState()
+		{
+			this.lastStateMap = new Dictionary<int, BattleFighterState>(stateMap);
 		}
 
 		public virtual void clearState()
@@ -49,8 +58,13 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 
 		public virtual void addState(BattleFighterState state)
 		{
-			this.stateMap[state.BuffId] = state;
+			int _buffId = state.BuffId;
+			this.stateMap[_buffId] = state;
 			this.fighterStateFlag |= state.State.StateFlag;
+			if (this.lastStateMap.ContainsKey(_buffId))
+			{
+				this.lastStateMap.Remove(_buffId);
+			}
 		}
 
 		public virtual int FighterStateFlag

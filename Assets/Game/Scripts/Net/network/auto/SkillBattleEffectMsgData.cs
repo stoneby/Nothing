@@ -23,24 +23,11 @@ namespace KXSGCodec
   #endif
   public partial class SkillBattleEffectMsgData : TBase
   {
-    private int _targetSide;
     private int _battleEffectType;
+    private int _battleEffectRatio;
     private string _battleEffectParam1;
     private string _battleEffectParam2;
     private string _battleEffectParam3;
-
-    public int TargetSide
-    {
-      get
-      {
-        return _targetSide;
-      }
-      set
-      {
-        __isset.targetSide = true;
-        this._targetSide = value;
-      }
-    }
 
     public int BattleEffectType
     {
@@ -52,6 +39,19 @@ namespace KXSGCodec
       {
         __isset.battleEffectType = true;
         this._battleEffectType = value;
+      }
+    }
+
+    public int BattleEffectRatio
+    {
+      get
+      {
+        return _battleEffectRatio;
+      }
+      set
+      {
+        __isset.battleEffectRatio = true;
+        this._battleEffectRatio = value;
       }
     }
 
@@ -100,8 +100,8 @@ namespace KXSGCodec
     [Serializable]
     #endif
     public struct Isset {
-      public bool targetSide;
       public bool battleEffectType;
+      public bool battleEffectRatio;
       public bool battleEffectParam1;
       public bool battleEffectParam2;
       public bool battleEffectParam3;
@@ -124,14 +124,14 @@ namespace KXSGCodec
         {
           case 1:
             if (field.Type == TType.I32) {
-              TargetSide = iprot.ReadI32();
+              BattleEffectType = iprot.ReadI32();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
             break;
           case 2:
             if (field.Type == TType.I32) {
-              BattleEffectType = iprot.ReadI32();
+              BattleEffectRatio = iprot.ReadI32();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
@@ -170,20 +170,20 @@ namespace KXSGCodec
       TStruct struc = new TStruct("SkillBattleEffectMsgData");
       oprot.WriteStructBegin(struc);
       TField field = new TField();
-      if (__isset.targetSide) {
-        field.Name = "targetSide";
-        field.Type = TType.I32;
-        field.ID = 1;
-        oprot.WriteFieldBegin(field);
-        oprot.WriteI32(TargetSide);
-        oprot.WriteFieldEnd();
-      }
       if (__isset.battleEffectType) {
         field.Name = "battleEffectType";
         field.Type = TType.I32;
-        field.ID = 2;
+        field.ID = 1;
         oprot.WriteFieldBegin(field);
         oprot.WriteI32(BattleEffectType);
+        oprot.WriteFieldEnd();
+      }
+      if (__isset.battleEffectRatio) {
+        field.Name = "battleEffectRatio";
+        field.Type = TType.I32;
+        field.ID = 2;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteI32(BattleEffectRatio);
         oprot.WriteFieldEnd();
       }
       if (BattleEffectParam1 != null && __isset.battleEffectParam1) {
@@ -216,10 +216,10 @@ namespace KXSGCodec
 
     public override string ToString() {
       StringBuilder sb = new StringBuilder("SkillBattleEffectMsgData(");
-      sb.Append("TargetSide: ");
-      sb.Append(TargetSide);
-      sb.Append(",BattleEffectType: ");
+      sb.Append("BattleEffectType: ");
       sb.Append(BattleEffectType);
+      sb.Append(",BattleEffectRatio: ");
+      sb.Append(BattleEffectRatio);
       sb.Append(",BattleEffectParam1: ");
       sb.Append(BattleEffectParam1);
       sb.Append(",BattleEffectParam2: ");

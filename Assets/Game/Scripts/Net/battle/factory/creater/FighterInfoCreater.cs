@@ -73,11 +73,13 @@ namespace com.kx.sglm.gs.battle.share.factory.creater
 			_info.Index = msgHero.Index;
 			_info.BattleSide = side;
 			_info.addNormalProp(BattleKeyConstants.BATTLE_KEY_HERO_TEMPLATE, msgHero.TemplateId);
+			_info.addNormalProp(BattleKeyConstants.BATTLE_KEY_HERO_JOB, msgHero.JobId);
 			_info.addNormalProp(BattleKeyConstants.BATTLE_KEY_HERO_TYPE, msgHero.HeroType);
 			_info.FighterType = FighterType.HERO;
 			_info.BattleProperty = msgHero.FighteProp;
 			_info.SkillIdList = msgHero.AllSkill;
 			_info.ActiveSkillId = msgHero.ActiveSkillId;
+			_info.LeaderSkillId = msgHero.LeaderSkill;
 			return _info;
 		}
 
@@ -87,6 +89,7 @@ namespace com.kx.sglm.gs.battle.share.factory.creater
 			_info.Index = msgMonster.Index;
 			_info.BattleSide = side;
 			_info.addNormalProp(BattleKeyConstants.BATTLE_KEY_HERO_TEMPLATE, msgMonster.TemplateId);
+			_info.addNormalProp(BattleKeyConstants.BATTLE_KEY_HERO_JOB, 1);
 			_info.FighterType = FighterType.MONSTER;
 			createMonsterDrop(_info, msgMonster.DropMap);
 			_info.BattleProperty = msgMonster.FighteProp;
@@ -136,6 +139,7 @@ namespace com.kx.sglm.gs.battle.share.factory.creater
 			Dictionary<int, int> _aProp = createTestAProp(type.Hero, boss);
 			FighterInfo _info = createFighterProp(index, battleSide, type, _aProp);
 			_info.addNormalProp(BattleKeyConstants.BATTLE_KEY_HERO_TEMPLATE, 111001); // 测试代码很糙请无视
+			_info.addNormalProp(BattleKeyConstants.BATTLE_KEY_HERO_JOB, 1);
 			return _info;
 		}
 
