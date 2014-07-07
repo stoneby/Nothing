@@ -150,4 +150,36 @@ public class HeroUtils
             }
         }
     }
+
+    public static void AddOrDelItems(Transform parent, Transform childPrefab, bool isAdd, int count, string poolName, UIEventListener.VoidDelegate normalPress, UIEventListener.VoidDelegate longPress)
+    {
+        if (isAdd)
+        {
+            for (int i = 0; i < count; i++)
+            {
+                var item = PoolManager.Pools[poolName].Spawn(childPrefab);
+                Utils.MoveToParent(parent, item);
+                NGUITools.SetActive(item.gameObject, true);
+                var longPressDetecter = item.GetComponent<NGUILongPress>();
+                longPressDetecter.OnNormalPress += normalPress;
+                longPressDetecter.OnLongPress += longPress;
+            }
+        }
+        else
+        {
+            if (PoolManager.Pools.ContainsKey(poolName))
+            {
+                var list = parent.Cast<Transform>().ToList();
+                for (int index = 0; index < count; index++)
+                {
+                    var item = list[index];
+                    var longPressDetecter = item.GetComponent<NGUILongPress>();
+                    longPressDetecter.OnNormalPress -= normalPress;
+                    longPressDetecter.OnLongPress -= longPress;
+                    item.parent = PoolManager.Pools[poolName].transform;
+                    PoolManager.Pools[poolName].Despawn(item);
+                }
+            }
+        }
+    }
  }

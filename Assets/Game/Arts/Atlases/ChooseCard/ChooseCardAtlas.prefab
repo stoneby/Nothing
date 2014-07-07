@@ -40,6 +40,84 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   material: {fileID: 2100000, guid: 111db4156449582409fea5bd5f1afeff, type: 2}
   mSprites:
+  - name: 4
+    x: 1972
+    y: 2807
+    width: 35
+    height: 43
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: 5
+    x: 2011
+    y: 2853
+    width: 35
+    height: 43
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: 6
+    x: 1936
+    y: 2807
+    width: 35
+    height: 43
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: 7
+    x: 1975
+    y: 2853
+    width: 35
+    height: 43
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: 8
+    x: 2008
+    y: 2807
+    width: 34
+    height: 43
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 1
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: 9
+    x: 1936
+    y: 2763
+    width: 35
+    height: 43
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
   - name: Ad1
     x: 0
     y: 3568
@@ -54,8 +132,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: Ad2
-    x: 787
-    y: 3570
+    x: 0
+    y: 3041
     width: 786
     height: 526
     borderLeft: 0
@@ -67,7 +145,7 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: Ad3
-    x: 0
+    x: 787
     y: 3041
     width: 786
     height: 526
@@ -81,7 +159,7 @@ MonoBehaviour:
     paddingBottom: 0
   - name: Ad4
     x: 787
-    y: 3041
+    y: 3570
     width: 786
     height: 526
     borderLeft: 0
@@ -119,8 +197,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: Add
-    x: 1975
-    y: 3821
+    x: 1936
+    y: 2897
     width: 51
     height: 42
     borderLeft: 0
@@ -131,9 +209,48 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
+  - name: ArrowD
+    x: 1975
+    y: 4009
+    width: 58
+    height: 87
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: ArrowN
+    x: 1975
+    y: 3921
+    width: 58
+    height: 87
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: Assist
+    x: 1574
+    y: 3044
+    width: 87
+    height: 46
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
   - name: BackD
     x: 1975
-    y: 4001
+    y: 3825
     width: 58
     height: 47
     borderLeft: 0
@@ -146,7 +263,7 @@ MonoBehaviour:
     paddingBottom: 0
   - name: BackN
     x: 1975
-    y: 4049
+    y: 3873
     width: 58
     height: 47
     borderLeft: 0
@@ -158,8 +275,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: Buy
-    x: 1574
-    y: 3049
+    x: 1940
+    y: 3052
     width: 86
     height: 41
     borderLeft: 0
@@ -188,8 +305,8 @@ MonoBehaviour:
     y: 3091
     width: 172
     height: 76
-    borderLeft: 0
-    borderRight: 0
+    borderLeft: 40
+    borderRight: 40
     borderTop: 0
     borderBottom: 0
     paddingLeft: 0
@@ -209,9 +326,22 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
+  - name: Chief
+    x: 1852
+    y: 3047
+    width: 87
+    height: 46
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
   - name: CloseD
     x: 1975
-    y: 3907
+    y: 3731
     width: 53
     height: 46
     borderLeft: 0
@@ -224,7 +354,7 @@ MonoBehaviour:
     paddingBottom: 0
   - name: CloseN
     x: 1975
-    y: 3954
+    y: 3778
     width: 53
     height: 46
     borderLeft: 0
@@ -250,7 +380,7 @@ MonoBehaviour:
     paddingBottom: 0
   - name: DeclareD
     x: 1839
-    y: 2629
+    y: 2685
     width: 125
     height: 55
     borderLeft: 0
@@ -263,7 +393,7 @@ MonoBehaviour:
     paddingBottom: 0
   - name: DeclareN
     x: 1839
-    y: 2685
+    y: 2629
     width: 125
     height: 55
     borderLeft: 0
@@ -275,8 +405,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: Decorate
-    x: 1747
-    y: 3067
+    x: 1928
+    y: 3247
     width: 100
     height: 100
     borderLeft: 10
@@ -292,8 +422,21 @@ MonoBehaviour:
     y: 1895
     width: 1024
     height: 42
-    borderLeft: 0
-    borderRight: 0
+    borderLeft: 100
+    borderRight: 100
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: divideR
+    x: 1839
+    y: 2601
+    width: 200
+    height: 27
+    borderLeft: 60
+    borderRight: 60
     borderTop: 0
     borderBottom: 0
     paddingLeft: 0
@@ -315,7 +458,7 @@ MonoBehaviour:
     paddingBottom: 0
   - name: FourTabD
     x: 1852
-    y: 3157
+    y: 3094
     width: 189
     height: 62
     borderLeft: 0
@@ -328,7 +471,7 @@ MonoBehaviour:
     paddingBottom: 0
   - name: FourTabN
     x: 1852
-    y: 3094
+    y: 3157
     width: 189
     height: 62
     borderLeft: 30
@@ -340,8 +483,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: Fragment
-    x: 1997
-    y: 3650
+    x: 1936
+    y: 2851
     width: 38
     height: 45
     borderLeft: 0
@@ -392,8 +535,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: Ingot
-    x: 1975
-    y: 3782
+    x: 1997
+    y: 3657
     width: 48
     height: 38
     borderLeft: 0
@@ -418,8 +561,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: JobBG
-    x: 1975
-    y: 3739
+    x: 1988
+    y: 2897
     width: 43
     height: 42
     borderLeft: 0
@@ -431,8 +574,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: Money
-    x: 1975
-    y: 3700
+    x: 1972
+    y: 2768
     width: 38
     height: 38
     borderLeft: 0
@@ -483,8 +626,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: PopUpFrame
-    x: 1928
-    y: 3247
+    x: 1747
+    y: 3067
     width: 100
     height: 100
     borderLeft: 40
@@ -496,8 +639,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: Reputation
-    x: 1975
-    y: 3864
+    x: 1662
+    y: 3048
     width: 54
     height: 42
     borderLeft: 0
@@ -535,8 +678,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: ScrollBarCursor
-    x: 2019
-    y: 3755
+    x: 1975
+    y: 3704
     width: 25
     height: 26
     borderLeft: 0

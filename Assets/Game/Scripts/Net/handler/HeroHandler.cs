@@ -14,11 +14,13 @@ namespace Assets.Game.Scripts.Net.handler
                     HeroModelLocator.AlreadyRequest = true;
                     if(HeroModelLocator.Instance.GetHeroPos == RaidType.GetHeroInBattle)
                     {
-                        WindowManager.Instance.Show(typeof(BattleConfirmTabWindow), true);
+                        WindowManager.Instance.Show(typeof(BattleConfirmTabWindow), true);                
                     }
                     else if(HeroModelLocator.Instance.GetHeroPos == RaidType.GetHeroInHeroPanel)
                     {
-                        Utils.ShowWithoutDestory(typeof(UIHeroDispTabWindow));
+                        WindowManager.Instance.Show<UIHeroCommonWindow>(true);
+                        WindowManager.Instance.Show<UIBuildingTeamWindow>(true);
+                        //Utils.ShowWithoutDestory(typeof(UIHeroDispTabWindow));
                     }
                     else if(HeroModelLocator.Instance.GetHeroPos == RaidType.GetHeroInHeroCreateTeam)
                     {

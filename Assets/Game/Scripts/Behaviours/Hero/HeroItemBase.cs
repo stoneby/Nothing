@@ -7,11 +7,11 @@ public class HeroItemBase : MonoBehaviour
     private UISprite bg;
     private string bgSpritePrifix;
     protected Transform cachedTran;
-    private sbyte quality;
+    protected sbyte quality;
 
     public long Uuid { get; set; }
 
-    public sbyte Quality
+    public virtual sbyte Quality
     {
         get { return quality; }
         protected set

@@ -2,9 +2,8 @@
 
 public class NGUILongPress : MonoBehaviour 
 {
-    public delegate void VoidDelegate(GameObject go);
-    public VoidDelegate OnLongPress;
-    public VoidDelegate OnNormalPress;
+    public UIEventListener.VoidDelegate OnLongPress;
+    public UIEventListener.VoidDelegate OnNormalPress;
     public float LongClickDuration = 2f;
 
     float lastPress = -1f;

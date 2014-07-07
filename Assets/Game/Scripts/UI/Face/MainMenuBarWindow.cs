@@ -139,16 +139,17 @@ public class MainMenuBarWindow : Window
     /// </summary>
     private void OnHeroClicked(GameObject go)
     {
-        if (HeroModelLocator.AlreadyRequest == false)
-        {
-            HeroModelLocator.Instance.GetHeroPos = RaidType.GetHeroInHeroPanel;
-            var csmsg = new CSHeroList();
-            NetManager.SendMessage(csmsg);
-        }
-        else
-        {
-            Utils.ShowWithoutDestory(typeof(UIHeroDispTabWindow));
-        }
+        //if (HeroModelLocator.AlreadyRequest == false)
+        //{
+        //    HeroModelLocator.Instance.GetHeroPos = RaidType.GetHeroInHeroPanel;
+        //    var csmsg = new CSHeroList();
+        //    NetManager.SendMessage(csmsg);
+        //}
+        //else
+        //{
+        //    Utils.ShowWithoutDestory(typeof(UIHeroDispTabWindow));
+        //}
+        WindowManager.Instance.Show<HeroMenuBarWindow>(true);
     }
 
     /// <summary>
