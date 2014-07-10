@@ -14,7 +14,7 @@ namespace com.kx.sglm.gs.battle.share.skill.target
 		public override List<BattleFighter> getTarget(BattleFighter attacker, BattleTeam targetTeam)
 		{
 			List<BattleFighter> _curFighterList = new List<BattleFighter>();
-			List<BattleFighter> _fighters = targetTeam.ActiveFighter;
+			List<BattleFighter> _fighters = targetTeam.AllBattingFighter;
 			int _index = MathUtils.random(0, _fighters.Count - 1);
 			BattleFighter _fighter = _fighters[_index];
 			_curFighterList.Add(_fighter);

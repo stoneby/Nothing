@@ -23,7 +23,7 @@ namespace com.kx.sglm.gs.battle.share.skill.target
 		public override List<BattleFighter> getTarget(BattleFighter attacker, BattleTeam targetTeam)
 		{
 			List<BattleFighter> _resultFighter = new List<BattleFighter>();
-			List<BattleFighter> _allActiveFighter = targetTeam.ActiveFighter;
+			List<BattleFighter> _allActiveFighter = targetTeam.AllBattingFighter;
 			foreach (BattleFighter _fighter in _allActiveFighter)
 			{
 				if (MathUtils.hasFlagIndex(jobFlag, _fighter.Job))
@@ -37,7 +37,6 @@ namespace com.kx.sglm.gs.battle.share.skill.target
 		public override void build(params string[] param)
 		{
 			jobFlag = MathUtils.changeDecToBinFlag(Convert.ToInt32(param[0]), true);
-			jobFlag <<= 1;
 		}
 
 	}

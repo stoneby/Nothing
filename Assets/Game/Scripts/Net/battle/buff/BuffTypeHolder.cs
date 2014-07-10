@@ -32,6 +32,7 @@ namespace com.kx.sglm.gs.battle.share.buff
 		{
 			BattleFighterBuff _buff = createBattleFighterBuff(owner, buffAction);
 			buffMap[buffAction.TypeB] = _buff;
+			_buff.stackingBuff();
 			return _buff;
 		}
 

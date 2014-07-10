@@ -33,11 +33,20 @@ namespace com.kx.sglm.gs.battle.share.actor
 		}
 
 
-		public virtual void onSceneStart(SceneStartEvent @event)
+		public virtual void activeSceneStartSkill(SceneStartEvent @event)
 		{
 			foreach (T _actor in actorList)
 			{
-				_actor.onSceneStart(@event);
+				_actor.activeSceneStartSkill(@event);
+			}
+		}
+
+
+		public virtual void activeSceneStartBuff(SceneStartEvent @event)
+		{
+			foreach (T _actor in actorList)
+			{
+				_actor.activeSceneStartBuff(@event);
 			}
 		}
 

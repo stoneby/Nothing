@@ -1,9 +1,10 @@
+using System.Collections.Generic;
+
 namespace com.kx.sglm.gs.battle.share.buff
 {
 
 	using BattleFighter = com.kx.sglm.gs.battle.share.actor.impl.BattleFighter;
 	using BattleFighterState = com.kx.sglm.gs.battle.share.actor.impl.BattleFighterState;
-	using BuffStateEnum = com.kx.sglm.gs.battle.share.buff.enums.BuffStateEnum;
 	using BattleRoundCountRecord = com.kx.sglm.gs.battle.share.data.record.BattleRoundCountRecord;
 	using InnerBattleEvent = com.kx.sglm.gs.battle.share.@event.InnerBattleEvent;
 
@@ -18,62 +19,71 @@ namespace com.kx.sglm.gs.battle.share.buff
 
 		private IBuffAction buffAction;
 
-		private int leftRound;
-
-		private BuffStateEnum state;
+		private int showLeftRound;
 
 		private BattleFighter owner;
 
+		private LinkedList<BuffStackInfo> stackingList;
+
 		public BattleFighterBuff(BattleFighter owner, IBuffAction buffAction)
 		{
-			this.state = BuffStateEnum.NIL;
 			this.buffAction = buffAction;
 			this.owner = owner;
-			init();
+			this.stackingList = new LinkedList<BuffStackInfo>();
 		}
 
-		private void init()
+		private void addStackingRound()
 		{
-			state = BuffStateEnum.NEW_BORN;
-			leftRound = buffAction.CDRound;
+			BuffStackInfo _info = new BuffStackInfo();
+			_info.init(buffAction.CDRound);
+			stackingList.AddLast(_info);
 		}
 
-		public virtual bool needActive()
+		private void refreshShowLeftRound()
 		{
-			return state.NeedActive;
+			BuffStackInfo _lastInfo = LastBuffStack;
+			if (_lastInfo == null)
+			{
+				// TODO: loggers.error
+				return;
+			}
+			this.showLeftRound = _lastInfo.LeftRound;
+
 		}
 
-		public virtual bool Active
+		private BuffStackInfo LastBuffStack
 		{
 			get
 			{
-				return state.Active;
+				return stackingList.Count == 0 ? null : stackingList.Last.Value;
 			}
 		}
 
-		public virtual bool Dying
+		public virtual bool canStacking()
 		{
-			get
-			{
-				return state.Dying;
-			}
+			return buffAction.MaxStackingCount > stackingList.Count;
 		}
-
 
 		public virtual void activeBuff()
 		{
-			if (needActive())
+			foreach (BuffStackInfo _info in stackingList)
 			{
-				state = state.nexState();
-				buffAction.onActive(Owner);
+				if (_info.needActive())
+				{
+					_info.changeToNextState();
+					buffAction.onActive(Owner);
+				}
 			}
 		}
 
 		public virtual void effectBuff()
 		{
-			if (Active)
+			foreach (BuffStackInfo _info in stackingList)
 			{
-				buffAction.onEffect(Owner);
+				if (_info.Active)
+				{
+					buffAction.onEffect(Owner);
+				}
 			}
 		}
 
@@ -92,9 +102,12 @@ namespace com.kx.sglm.gs.battle.share.buff
 
 		public virtual void onBuffEvent(InnerBattleEvent @event)
 		{
-			if (Active)
+			foreach (BuffStackInfo _info in stackingList)
 			{
-				buffAction.onEvent(@event, Owner);
+				if (_info.Active)
+				{
+					buffAction.onEvent(@event, Owner);
+				}
 			}
 		}
 
@@ -110,21 +123,8 @@ namespace com.kx.sglm.gs.battle.share.buff
 		{
 			get
 			{
-				return leftRound;
+				return showLeftRound;
 			}
-		}
-
-		public virtual BuffStateEnum State
-		{
-			get
-			{
-				return state;
-			}
-		}
-
-		public virtual void changeToNextState()
-		{
-			state = state.nexState();
 		}
 
 		public virtual void countDown(BattleRoundCountRecord record)
@@ -133,12 +133,17 @@ namespace com.kx.sglm.gs.battle.share.buff
 			{
 				return;
 			}
-			leftRound--;
-			if (leftRound == 0)
+			foreach (BuffStackInfo _info in stackingList)
 			{
-				changeToNextState();
+				_info.countDown();
 			}
+			while (stackingList.Count > 0 && stackingList.First.Value.Dying)
+			{
+				stackingList.RemoveFirst();
+			}
+			refreshShowLeftRound();
 		}
+
 
 		protected internal virtual bool PermanentBuff
 		{
@@ -177,12 +182,47 @@ namespace com.kx.sglm.gs.battle.share.buff
 			}
 		}
 
-		// TODO: result record
-		public virtual void resetRound()
+		public virtual void actionBuff(InnerBattleEvent @event)
 		{
-			this.leftRound = BuffAction.CDRound;
+
 		}
 
+		// TODO: result record
+		public virtual void stackingBuff()
+		{
+			if (!canStacking())
+			{
+				removeFirstStack();
+			}
+			stackingNewBuff();
+		}
+
+		protected internal virtual void stackingNewBuff()
+		{
+			addStackingRound();
+			refreshShowLeftRound();
+		}
+
+		protected internal virtual void removeFirstStack()
+		{
+			this.stackingList.RemoveFirst();
+		}
+
+		public virtual void resetBuff()
+		{
+			this.stackingList.Clear();
+			stackingBuff();
+		}
+
+		// TODO: É¾³ý½«ËÀµÄBUFF
+
+		public virtual bool Dying
+		{
+			get
+			{
+				return this.stackingList.Count == 0;
+			}
+		}
 	}
 
 }

@@ -15,8 +15,6 @@ namespace com.kx.sglm.gs.battle.share.buff
 	public abstract class IBuffAction : IBattlePartInfo
 	{
 
-
-
 		public abstract int Id {get;set;}
 
 		public abstract int TypeA {get;set;}
@@ -29,6 +27,8 @@ namespace com.kx.sglm.gs.battle.share.buff
 
 		public abstract int BuffShowId {get;set;}
 
+		public abstract int MaxStackingCount {get;set;}
+
 		public abstract FighterStateEnum StateEnum {get;}
 
 
@@ -38,6 +38,7 @@ namespace com.kx.sglm.gs.battle.share.buff
 
 
 		public abstract int BuffFlag {set;}
+
 
 
 		public abstract void onActive(BattleFighter fighter);

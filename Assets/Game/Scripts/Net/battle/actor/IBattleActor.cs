@@ -19,7 +19,9 @@ namespace com.kx.sglm.gs.battle.share.actor
 
 		void onDead();
 
-		void onSceneStart(SceneStartEvent @event);
+		void activeSceneStartSkill(SceneStartEvent @event);
+
+		void activeSceneStartBuff(SceneStartEvent @event);
 
 		void onSceneStop();
 

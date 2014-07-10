@@ -3,6 +3,7 @@ using System.Collections.Generic;
 namespace com.kx.sglm.gs.battle.share.actor.impl
 {
 
+
 	using com.kx.sglm.gs.battle.share.actor;
 	using SingleActionRecord = com.kx.sglm.gs.battle.share.data.record.SingleActionRecord;
 	using BattleSideEnum = com.kx.sglm.gs.battle.share.enums.BattleSideEnum;
@@ -133,11 +134,33 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 		public abstract int getFighterColor(int fighterIndex);
 
 		/// <summary>
-		/// 获得当前活着，可出售的武将
+		/// 当前战场上的武将
 		/// 
 		/// @return
 		/// </summary>
-		public abstract List<BattleFighter> ActiveFighter {get;}
+		public abstract List<BattleFighter> AllBattingFighter {get;}
+
+		/// <summary>
+		/// 当前所有活着的武将
+		/// 
+		/// @return
+		/// </summary>
+		public virtual List<BattleFighter> AllAliveFighter
+		{
+			get
+			{
+				List<BattleFighter> _allAliveFighter = new List<BattleFighter>();
+				foreach (BattleFighter _fighter in ActorList)
+				{
+					if (!_fighter.Dead)
+					{
+						_allAliveFighter.Add(_fighter);
+					}
+				}
+				return _allAliveFighter;
+			}
+		}
+
 
 		public abstract bool isActiveFighter(BattleFighter fighter);
 

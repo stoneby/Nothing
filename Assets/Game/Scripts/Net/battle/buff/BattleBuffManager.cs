@@ -114,7 +114,7 @@ namespace com.kx.sglm.gs.battle.share.buff
 
 		public virtual void createBuffHolder(IBuffAction buffAction)
 		{
-			BuffTypeHolder _holder = new BuffTypeHolder(buffAction.TypeB);
+			BuffTypeHolder _holder = new BuffTypeHolder(buffAction.TypeA);
 			putHolderMap(buffAction, _holder);
 		}
 
@@ -309,10 +309,7 @@ namespace com.kx.sglm.gs.battle.share.buff
 		{
 			foreach (BattleFighterBuff _buff in allBuffs.Values)
 			{
-				if (_buff.Active)
-				{
-					_buff.BuffAction.onEvent(@event, Owner);
-				}
+				_buff.actionBuff(@event);
 			}
 		}
 
@@ -342,7 +339,7 @@ namespace com.kx.sglm.gs.battle.share.buff
 			BuffPolicyEnum _policyType = null;
 			if (containBuffId(buffAction))
 			{
-				_policyType = BuffPolicyEnum.UNCHANGED;
+				_policyType = BuffPolicyEnum.STACKING;
 			}
 			else
 			{

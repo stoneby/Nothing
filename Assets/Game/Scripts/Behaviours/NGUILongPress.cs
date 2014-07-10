@@ -5,18 +5,20 @@ public class NGUILongPress : MonoBehaviour
     public UIEventListener.VoidDelegate OnLongPress;
     public UIEventListener.VoidDelegate OnNormalPress;
     public float LongClickDuration = 2f;
-
-    float lastPress = -1f;
+    private bool dragged;
+    private float lastPress = -1f;
 
     void OnPress(bool pressed)
     {
         if (pressed)
         {
             lastPress = Time.realtimeSinceStartup;
+            dragged = false;
         }
         else
         {
-            if (Time.realtimeSinceStartup - lastPress > LongClickDuration)
+            //If the press time is over long click duration and the object is not be dragged, trigger long press.
+            if (Time.realtimeSinceStartup - lastPress > LongClickDuration && !dragged)
             {
                 if(OnLongPress != null)
                 {
@@ -35,5 +37,10 @@ public class NGUILongPress : MonoBehaviour
                 OnNormalPress(gameObject);
             }
         }
+    }
+
+    private void OnDragStart()
+    {
+        dragged = true;
     }
 }

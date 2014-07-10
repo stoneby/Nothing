@@ -14,6 +14,12 @@ public class ntl : ScriptableObject {
 	static List<Transform> listBone = new List<Transform>();
 	static List<Transform> ListSprite = new List<Transform>();
 
+	static public AnimationClip idle;
+	static public AnimationClip attack;
+	static public AnimationClip hurt;
+	static public AnimationClip run;
+	static public AnimationClip fig;
+
 	[MenuItem("ntl/Rename_Tag_Link")]
 	static void Rename () {
 		listSelection.Clear ();
@@ -56,7 +62,9 @@ public class ntl : ScriptableObject {
 
 	[MenuItem("ntl/Cut_animation")]
 	static void Cut_animation () {
-
+		GameObject sl = Selection.activeGameObject;
+		sl.animation.AddClip (idle,"testIdle",1,20);
+		Debug.Log (sl.animation.GetClipCount());
 	}
 
 	static void SnapSprite(){

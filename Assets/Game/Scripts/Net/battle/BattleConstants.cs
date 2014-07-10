@@ -113,11 +113,12 @@ namespace com.kx.sglm.gs.battle.share
 		/// <summary>
 		/// 攻击不为0 </summary>
 		public const int ATTACK_ZERO_FLAG = 0X04;
-
+		/// <summary>
+		/// 全部不可以动作的flag </summary>
 		public const int DISABLE_FLAG = 0xffff;
-
+		/// <summary>
+		/// 最小攻击值为1，不破防时使用 </summary>
 		public const float MIN_ATTACK = 1.0F;
 	}
-
 
 }

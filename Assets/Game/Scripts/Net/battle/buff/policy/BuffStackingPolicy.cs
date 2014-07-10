@@ -3,17 +3,17 @@ namespace com.kx.sglm.gs.battle.share.buff.policy
 
 
 	/// <summary>
-	/// policy for unchanged buff, refresh buff round only
+	/// policy for stacking buff, stacking buff into exist buff instance
 	/// @author liyuan2
 	/// 
 	/// </summary>
-	public class BuffUnchangedPolicy : AbstractBuffPolicy
+	public class BuffStackingPolicy : AbstractBuffPolicy
 	{
 
 		internal override BattleFighterBuff optionBuffByType(BattleBuffManager manager, IBuffAction buffAction)
 		{
 			BattleFighterBuff _buff = manager.getBattleBuff(buffAction);
-			_buff.resetRound();
+			_buff.stackingBuff();
 			return _buff;
 		}
 

@@ -28,6 +28,7 @@ namespace KXSGCodec
     private int _typeA;
     private int _typeB;
     private int _proiority;
+    private int _stackingRound;
     private int _round;
     private int _buffShowId;
     private int _buffkey;
@@ -98,6 +99,19 @@ namespace KXSGCodec
       }
     }
 
+    public int StackingRound
+    {
+      get
+      {
+        return _stackingRound;
+      }
+      set
+      {
+        __isset.stackingRound = true;
+        this._stackingRound = value;
+      }
+    }
+
     public int Round
     {
       get
@@ -161,6 +175,7 @@ namespace KXSGCodec
       public bool typeA;
       public bool typeB;
       public bool proiority;
+      public bool stackingRound;
       public bool round;
       public bool buffShowId;
       public bool buffkey;
@@ -219,26 +234,33 @@ namespace KXSGCodec
             break;
           case 6:
             if (field.Type == TType.I32) {
-              Round = iprot.ReadI32();
+              StackingRound = iprot.ReadI32();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
             break;
           case 7:
             if (field.Type == TType.I32) {
-              BuffShowId = iprot.ReadI32();
+              Round = iprot.ReadI32();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
             break;
           case 8:
             if (field.Type == TType.I32) {
-              Buffkey = iprot.ReadI32();
+              BuffShowId = iprot.ReadI32();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
             break;
           case 9:
+            if (field.Type == TType.I32) {
+              Buffkey = iprot.ReadI32();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 10:
             if (field.Type == TType.List) {
               {
                 BuffParam = new List<string>();
@@ -308,10 +330,18 @@ namespace KXSGCodec
         oprot.WriteI32(Proiority);
         oprot.WriteFieldEnd();
       }
+      if (__isset.stackingRound) {
+        field.Name = "stackingRound";
+        field.Type = TType.I32;
+        field.ID = 6;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteI32(StackingRound);
+        oprot.WriteFieldEnd();
+      }
       if (__isset.round) {
         field.Name = "round";
         field.Type = TType.I32;
-        field.ID = 6;
+        field.ID = 7;
         oprot.WriteFieldBegin(field);
         oprot.WriteI32(Round);
         oprot.WriteFieldEnd();
@@ -319,7 +349,7 @@ namespace KXSGCodec
       if (__isset.buffShowId) {
         field.Name = "buffShowId";
         field.Type = TType.I32;
-        field.ID = 7;
+        field.ID = 8;
         oprot.WriteFieldBegin(field);
         oprot.WriteI32(BuffShowId);
         oprot.WriteFieldEnd();
@@ -327,7 +357,7 @@ namespace KXSGCodec
       if (__isset.buffkey) {
         field.Name = "buffkey";
         field.Type = TType.I32;
-        field.ID = 8;
+        field.ID = 9;
         oprot.WriteFieldBegin(field);
         oprot.WriteI32(Buffkey);
         oprot.WriteFieldEnd();
@@ -335,7 +365,7 @@ namespace KXSGCodec
       if (BuffParam != null && __isset.buffParam) {
         field.Name = "buffParam";
         field.Type = TType.List;
-        field.ID = 9;
+        field.ID = 10;
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.String, BuffParam.Count));
@@ -363,6 +393,8 @@ namespace KXSGCodec
       sb.Append(TypeB);
       sb.Append(",Proiority: ");
       sb.Append(Proiority);
+      sb.Append(",StackingRound: ");
+      sb.Append(StackingRound);
       sb.Append(",Round: ");
       sb.Append(Round);
       sb.Append(",BuffShowId: ");

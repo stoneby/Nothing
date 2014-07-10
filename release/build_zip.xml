@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="BuiltZip" default="release">
+	<property name="lib.dir" value="lib"/>
+	<target name="release">
+		<echo>Test Release</echo>
+	</target>
+	<tstamp/>
+	<target name="ZipExe">
+		<echo>Zip Exe File</echo>
+		<echo>sglm-exe-${DSTAMP}-${TSTAMP}.zip</echo>
+		<zip destfile="./ExeRelease/sglm-exe-${DSTAMP}-${TSTAMP}.zip" basedir="./ExeBuild" />
+	</target>
+	<target name="ZipIos">
+		<echo>Rename Ios File</echo>
+		<echo>sglm-${DSTAMP}-${TSTAMP}.ipa</echo>
+		<move file="./IosRelesse/ipa/kxsg.ipa" tofile="./IosRelesse/sglm-${DSTAMP}-${TSTAMP}.ipa"/>
+	</target>
+</project>

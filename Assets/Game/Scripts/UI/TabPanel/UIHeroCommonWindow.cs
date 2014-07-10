@@ -8,14 +8,34 @@ public class UIHeroCommonWindow : Window
     private UILabel sortLabel;
     private UILabel herosNum;
     private List<HeroInfo> infos;
-    private UIGrid heros;
+
     private UIToggle[] toggles;
     private SCHeroList scHeroList;
+    private UIEventListener.VoidDelegate normalClicked;
+
+    [HideInInspector]
+    public UIGrid Heros;
 
     /// <summary>
     /// The prefab of the hero.
     /// </summary>
     public GameObject HeroPrefab;
+
+    public UIEventListener.VoidDelegate NormalClicked
+    {
+        get { return normalClicked; }
+        set
+        {
+            normalClicked = value;
+            var parent = Heros.transform;
+            for (int i = 0; i < parent.childCount; i++)
+            {
+                var item = parent.GetChild(i);
+                var longPressDetecter = item.GetComponent<NGUILongPress>();
+                longPressDetecter.OnNormalPress = value;
+            }
+        }
+    }
  
     #region Window
 
@@ -41,7 +61,7 @@ public class UIHeroCommonWindow : Window
         sortBtnLis.onClick += OnSortClicked;
         sortLabel = sortBtnLis.GetComponentInChildren<UILabel>();
         herosNum = Utils.FindChild(transform, "HeroNumValue").GetComponent<UILabel>();
-        heros = GetComponentInChildren<UIGrid>();
+        Heros = GetComponentInChildren<UIGrid>();
         toggles = transform.Find("ToggleButtons").GetComponentsInChildren<UIToggle>();
         scHeroList = HeroModelLocator.Instance.SCHeroList;
         infos = scHeroList.HeroList ?? new List<HeroInfo>();
@@ -77,27 +97,24 @@ public class UIHeroCommonWindow : Window
     /// </summary> 
     private void UpdateItemList(int heroCount)
     {
-        var childCount = Utils.GetActiveChildCount(heros.transform);
+        var childCount = Utils.GetActiveChildCount(Heros.transform);
         if (childCount != heroCount)
         {
             var isAdd = childCount < heroCount;
-            HeroUtils.AddOrDelItems(heros.transform, HeroPrefab.transform, isAdd, Mathf.Abs(heroCount - childCount),
+            HeroUtils.AddOrDelItems(Heros.transform, HeroPrefab.transform, isAdd, Mathf.Abs(heroCount - childCount),
                                 HeroConstant.HeroPoolName,
-                                OnNormalPress,
+                                null,
                                 OnLongPress);
         }
-        heros.repositionNow = true;
-    }
-
-    private void OnNormalPress(GameObject go)
-    {
-        UIHeroSnapShotWindow.CurUuid = go.GetComponent<HeroItemBase>().Uuid;
-        WindowManager.Instance.Show<UIHeroSnapShotWindow>(true);
+        Heros.repositionNow = true;
     }
 
     private void OnLongPress(GameObject go)
     {
-        WindowManager.Instance.Show<UIHeroDetailWindow>(true);
+        var heroDetail = WindowManager.Instance.Show<UIHeroDetailWindow>(true);
+        var uuid = go.GetComponent<HeroItemBase>().Uuid;
+        var info = HeroModelLocator.Instance.FindHero(uuid);
+        heroDetail.RefreshData(info);
     }
 
     /// <summary>
@@ -119,19 +136,17 @@ public class UIHeroCommonWindow : Window
             {
                 if (i < infos.Count)
                 {
-                    var item = heros.transform.GetChild(i).GetComponent<HeroItemBase>();
+                    var item = Heros.transform.GetChild(i).GetComponent<HeroItemBase>();
                     filterObjects.Add(item.transform);
                     NGUITools.SetActive(item.gameObject, true);
-                    item.GetComponent<BoxCollider>().enabled = true;
                 }
                 else
                 {
-                    var item = heros.transform.GetChild(i);
+                    var item = Heros.transform.GetChild(i);
                     NGUITools.SetActive(item.gameObject, false);
-                    item.GetComponent<BoxCollider>().enabled = false;
                 }
             }
-            heros.repositionNow = true;
+            Heros.repositionNow = true;
             for (var i = 0; i < filterObjects.Count; i++)
             {
                 var item = filterObjects[i].GetComponent<HeroItemBase>();
@@ -153,7 +168,7 @@ public class UIHeroCommonWindow : Window
         HeroModelLocator.Instance.SortHeroList(orderType, newInfos);
         for (int i = 0; i < newInfos.Count; i++)
         {
-            var heroItem = heros.transform.GetChild(i).GetComponent<HeroItemBase>();
+            var heroItem = Heros.transform.GetChild(i).GetComponent<HeroItemBase>();
             var info = newInfos[i];
             heroItem.InitItem(info);
         }

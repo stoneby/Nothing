@@ -23,7 +23,7 @@ namespace com.kx.sglm.gs.battle.share.skill.target
 		public override List<BattleFighter> getTarget(BattleFighter attacker, BattleTeam targetTeam)
 		{
 			List<BattleFighter> _fighterList = new List<BattleFighter>();
-			foreach (BattleFighter _fighter in targetTeam.ActiveFighter)
+			foreach (BattleFighter _fighter in targetTeam.AllBattingFighter)
 			{
 				if (isFitColor(_fighter, targetTeam))
 				{

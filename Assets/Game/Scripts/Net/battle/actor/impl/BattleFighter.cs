@@ -237,9 +237,15 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 			}
 		}
 
-		public virtual void onSceneStart(SceneStartEvent @event)
+		public virtual void activeSceneStartSkill(SceneStartEvent @event)
 		{
 			skillManager.onSceneStart(@event);
+
+		}
+
+
+		public virtual void activeSceneStartBuff(SceneStartEvent @event)
+		{
 			buffManager.activeAllBuff(BattleConstants.BUFF_ALL_FALG);
 		}
 
@@ -500,6 +506,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 				return getOwnerTeam().isActiveFighter(this);
 			}
 		}
+
 
 	}
 

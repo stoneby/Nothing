@@ -11,6 +11,7 @@ public class UIHeroSnapShotWindow : Window
     private UIEventListener cancelLis;
     private UIEventListener viewDetailLis;
     private UIEventListener templateLis;
+    private UILabel templateLabel;
     private UILabel atkLabel;
     private UILabel hpLabel;
     private UILabel recoverLabel;
@@ -44,6 +45,16 @@ public class UIHeroSnapShotWindow : Window
 
     #endregion
 
+    #region Public Methods
+
+    public void InitTemplate(string key, UIEventListener.VoidDelegate templatePressed)
+    {
+        templateLabel.text = LanguageManager.Instance.GetTextValue(key);
+        TemplateBtnPressed = templatePressed;
+    }
+
+    #endregion
+
     #region Private Methods
 
     // Use this for initialization
@@ -52,6 +63,7 @@ public class UIHeroSnapShotWindow : Window
         cancelLis = UIEventListener.Get(transform.Find("Buttons/CancelBtn").gameObject);
         viewDetailLis = UIEventListener.Get(transform.Find("Buttons/ViewDetailBtn").gameObject);
         templateLis = UIEventListener.Get(transform.Find("Buttons/TemplateBtn").gameObject);
+        templateLabel = templateLis.GetComponentInChildren<UILabel>();
         var property = transform.Find("Property");
         atkLabel = property.Find("Attack/AttackValue").GetComponent<UILabel>();
         hpLabel = property.Find("HP/HPValue").GetComponent<UILabel>();
@@ -82,7 +94,8 @@ public class UIHeroSnapShotWindow : Window
 
     private void OnViewDetail(GameObject go)
     {
-        WindowManager.Instance.Show<UIHeroDetailWindow>(true);
+        var heroDetail = WindowManager.Instance.Show<UIHeroDetailWindow>(true);
+        heroDetail.RefreshData(heroInfo);
     }
 
     private void OnTemplate(GameObject go)

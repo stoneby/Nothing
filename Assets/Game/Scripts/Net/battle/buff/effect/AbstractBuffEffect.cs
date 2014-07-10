@@ -14,6 +14,7 @@ namespace com.kx.sglm.gs.battle.share.buff.effect
 		private int priority_Renamed;
 		private int cdRound;
 		private int buffShowId;
+		private int maxStackingCount;
 
 
 
@@ -109,6 +110,20 @@ namespace com.kx.sglm.gs.battle.share.buff.effect
 			set
 			{
 				this.buffShowId = value;
+			}
+		}
+
+
+
+		public override int MaxStackingCount
+		{
+			get
+			{
+				return maxStackingCount;
+			}
+			set
+			{
+				this.maxStackingCount = value;
 			}
 		}
 

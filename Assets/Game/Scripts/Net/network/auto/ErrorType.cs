@@ -13,36 +13,52 @@ namespace KXSGCodec
   public enum ErrorType
   {
     /// <summary>
+    /// 帐号被锁定
+    /// </summary>
+    USER_LOCKED = 0,
+    /// <summary>
+    /// 登录超时
+    /// </summary>
+    LOGIN_EXPIRED = 1,
+    /// <summary>
+    /// 登录信息检查未通过
+    /// </summary>
+    LOGIN_CHECK_FAIL = 2,
+    /// <summary>
+    /// 帐号未激活
+    /// </summary>
+    ACCOUNT_NOT_ACTIVE = 3,
+    /// <summary>
     /// 登录失效
     /// </summary>
-    LOGIN_INVALID = 0,
+    LOGIN_INVALID = 4,
     /// <summary>
     /// 帐号不存在或密码错误
     /// </summary>
-    NO_ACCOUNT_OR_ERR_PWD = 1,
+    NO_ACCOUNT_OR_ERR_PWD = 5,
     /// <summary>
     /// 名字已存在
     /// </summary>
-    NAME_EXISTS = 2,
+    NAME_EXISTS = 6,
     /// <summary>
     /// 创建角色失败
     /// </summary>
-    CREATE_CHAR_FAIL = 3,
+    CREATE_CHAR_FAIL = 7,
     /// <summary>
     /// 服务器未开放
     /// </summary>
-    SERVER_NOT_OPEN = 4,
+    SERVER_NOT_OPEN = 8,
     /// <summary>
     /// 解码异常
     /// </summary>
-    DECODE_EXCEPTION = 5,
+    DECODE_EXCEPTION = 9,
     /// <summary>
     /// 非法请求
     /// </summary>
-    ILLEGAL_REQUEST = 6,
+    ILLEGAL_REQUEST = 10,
     /// <summary>
     /// 消息执行异常
     /// </summary>
-    MSG_EXEC_EXCEPTION = 7,
+    MSG_EXEC_EXCEPTION = 11,
   }
 }

@@ -4,7 +4,7 @@
 /// </summary>
 public enum WindowGroupType
 {
-    Screen = Utils.ScreenLayer,
+    Screen = 0,
     TabPanel,
     Popup,
     Face,

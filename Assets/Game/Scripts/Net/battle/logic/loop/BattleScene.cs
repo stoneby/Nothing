@@ -54,7 +54,8 @@ namespace com.kx.sglm.gs.battle.share.logic.loop
 
 		protected internal virtual void optionActorBeforeSceneStart(SceneStartEvent @event)
 		{
-			CurAttacker.onSceneStart(@event);
+			CurAttacker.activeSceneStartSkill(@event);
+			CurAttacker.activeSceneStartBuff(@event);
 		}
 
 		public override bool Dead

@@ -5,6 +5,9 @@ namespace Assets.Game.Scripts.Net.handler
 {
     public class HeroHandler
     {
+        public delegate void MessageReceived();
+        public static MessageReceived HeroListInHeroPanel;
+
         public static void OnHeroMessage(ThriftSCMessage msg)
         {
             switch (msg.GetMsgType())
@@ -18,9 +21,10 @@ namespace Assets.Game.Scripts.Net.handler
                     }
                     else if(HeroModelLocator.Instance.GetHeroPos == RaidType.GetHeroInHeroPanel)
                     {
-                        WindowManager.Instance.Show<UIHeroCommonWindow>(true);
-                        WindowManager.Instance.Show<UIBuildingTeamWindow>(true);
-                        //Utils.ShowWithoutDestory(typeof(UIHeroDispTabWindow));
+                        if(HeroListInHeroPanel != null)
+                        {
+                            HeroListInHeroPanel();
+                        }
                     }
                     else if(HeroModelLocator.Instance.GetHeroPos == RaidType.GetHeroInHeroCreateTeam)
                     {
@@ -38,11 +42,13 @@ namespace Assets.Game.Scripts.Net.handler
                         }
                         var infos = HeroModelLocator.Instance.SCHeroList.HeroList;
                         infos.Add(createOneMsg.NewHero);
-                        var herosWindow = WindowManager.Instance.GetWindow<UIHerosPageWindow>();
+                        var herosWindow = WindowManager.Instance.GetWindow<UIHeroCommonWindow>();
                         herosWindow.Refresh(infos);
-                        var viewHandler = WindowManager.Instance.GetWindow<UIHeroDispTabWindow>().HeroViewHandler;
-                        herosWindow.ItemClicked = viewHandler.OnHeroItemClicked;
-                        viewHandler.Refresh();
+                        //var herosWindow = WindowManager.Instance.GetWindow<UIHerosPageWindow>();
+                        //herosWindow.Refresh(infos);
+                        //var viewHandler = WindowManager.Instance.GetWindow<UIHeroDispTabWindow>().HeroViewHandler;
+                        //herosWindow.ItemClicked = viewHandler.OnHeroItemClicked;
+                        //viewHandler.Refresh();
                     }
                     break;
                 case (short) MessageType.SC_HERO_MODIFY_TEAM:
@@ -71,10 +77,14 @@ namespace Assets.Game.Scripts.Net.handler
                             }
                         }
                         WindowManager.Instance.Show<UISellDialogWindow>(false);
-                        var heroSellHandler = WindowManager.Instance.GetWindow<UIHeroDispTabWindow>().HeroSellHandler;
-                        heroSellHandler.CleanUp();
-                        WindowManager.Instance.GetWindow<UIHerosPageWindow>().Refresh(heroList);
-                        heroSellHandler.FreshSellStates();    
+                        //var heroSellHandler = WindowManager.Instance.GetWindow<UIHeroDispTabWindow>().HeroSellHandler;
+                        //heroSellHandler.CleanUp();
+                        //WindowManager.Instance.GetWindow<UIHerosPageWindow>().Refresh(heroList);
+                        //heroSellHandler.FreshSellStates(); 
+                        var sellhero = WindowManager.Instance.GetWindow<UISellHeroWindow>();
+                        sellhero.CleanUp();
+                        WindowManager.Instance.GetWindow<UIHeroCommonWindow>().Refresh(heroList);
+                        sellhero.FreshSellStates();
                     }
                     break;
 

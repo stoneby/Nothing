@@ -458,7 +458,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 			}
 		}
 
-		public override List<BattleFighter> ActiveFighter
+		public override List<BattleFighter> AllBattingFighter
 		{
 			get
 			{

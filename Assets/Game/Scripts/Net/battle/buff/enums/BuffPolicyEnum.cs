@@ -5,7 +5,7 @@ namespace com.kx.sglm.gs.battle.share.buff.enums
 	using BuffCoexistPolicy = com.kx.sglm.gs.battle.share.buff.policy.BuffCoexistPolicy;
 	using BuffCoverPolicy = com.kx.sglm.gs.battle.share.buff.policy.BuffCoverPolicy;
 	using BuffOverlayPolicy = com.kx.sglm.gs.battle.share.buff.policy.BuffOverlayPolicy;
-	using BuffUnchangedPolicy = com.kx.sglm.gs.battle.share.buff.policy.BuffUnchangedPolicy;
+	using BuffStackingPolicy = com.kx.sglm.gs.battle.share.buff.policy.BuffStackingPolicy;
 	using IBuffAddPolicy = com.kx.sglm.gs.battle.share.buff.policy.IBuffAddPolicy;
 
 	/// <summary>
@@ -22,7 +22,7 @@ namespace com.kx.sglm.gs.battle.share.buff.enums
 
 		private static readonly BuffCoverPolicy BUFF_COVER_POLICY = new BuffCoverPolicy();
 
-		private static readonly BuffUnchangedPolicy BUFF_UNCHANGED_POLICY = new BuffUnchangedPolicy();
+		private static readonly BuffStackingPolicy BUFF_STACKING_POLICY = new BuffStackingPolicy();
 
 
 		/// <summary>
@@ -62,12 +62,12 @@ namespace com.kx.sglm.gs.battle.share.buff.enums
 		}
 
 		/// <summary>
-		///不变： contain(buffId) </summary>
-		public static readonly BuffPolicyEnum UNCHANGED = new BuffPolicyEnumAnonymousInnerClassHelper4(BUFF_UNCHANGED_POLICY);
+		///加层数： contain(buffId) </summary>
+		public static readonly BuffPolicyEnum STACKING = new BuffPolicyEnumAnonymousInnerClassHelper4(BUFF_STACKING_POLICY);
 
 		private class BuffPolicyEnumAnonymousInnerClassHelper4 : BuffPolicyEnum
 		{
-			public BuffPolicyEnumAnonymousInnerClassHelper4(BuffUnchangedPolicy BUFF_UNCHANGED_POLICY) : base(3, BUFF_UNCHANGED_POLICY)
+			public BuffPolicyEnumAnonymousInnerClassHelper4(BuffStackingPolicy BUFF_STACKING_POLICY) : base(3, BUFF_STACKING_POLICY)
 			{
 			}
 
