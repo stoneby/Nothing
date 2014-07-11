@@ -104,6 +104,10 @@ namespace KXSGCodec
             {
                 return new SCPlayerInfoMsg();
             }
+			            if (type == MessageType.SC_RECHARGE_ID_MSG.GetHashCode())
+            {
+                return new SCRechargeIdMsg();
+            }
 			            if (type == MessageType.SC_SERVER_LIST_MSG.GetHashCode())
             {
                 return new SCServerListMsg();

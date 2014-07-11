@@ -1,4 +1,6 @@
 ﻿using com.kx.sglm.gs.battle.share;
+using com.kx.sglm.gs.battle.share.data;
+using com.kx.sglm.gs.battle.share.data.record;
 using com.kx.sglm.gs.hero.properties;
 using System;
 using System.Collections;
@@ -22,7 +24,7 @@ public class CharacterControl : MonoBehaviour
 
     public int FootIndex;
     public int JobIndex;
-    public int Attrack;
+    public int Attack;
     public int Restore;
 
     public int XIndex;
@@ -81,7 +83,7 @@ public class CharacterControl : MonoBehaviour
         var uilb = AttrackObj.GetComponent<UILabel>();
         uilb.text = (FootIndex == (int) FootColorType.Pink)
             ? ("" + Restore + "-" + CharacterData.Data.Index)
-            : ("" + Attrack + "-" + CharacterData.Data.Index);
+            : ("" + Attack + "-" + CharacterData.Data.Index);
     }
 
     public void SetCanSelect(bool flag)
@@ -110,21 +112,31 @@ public class CharacterControl : MonoBehaviour
         templateData = HeroModelLocator.Instance.GetHeroByTemplateId(tempid);
 
         JobIndex = templateData.Job;
-        Attrack = data.battleProperties[RoleAProperty.ATK];
+        Attack = data.battleProperties[RoleAProperty.ATK];
         Restore = data.BattleProperty[RoleAProperty.RECOVER];
 
         var uisp = JobObj.GetComponent<UISprite>();
         uisp.spriteName = (FootIndex == (int)FootColorType.Pink) ? "icon_zhiye_5" : "icon_zhiye_" + JobIndex;
-        var uilb = AttrackObj.GetComponent<UILabel>();
-        uilb.text = (FootIndex == (int)FootColorType.Pink) ? Restore + "-" + data.Index : Attrack + "-" + data.Index;
+
+        //SetAttackLabel(data);
 
         var isFriend = (characterType != CharacterType.Hero);
         FriendLabelObj.SetActive(isFriend);
         if (isFriend)
         {
-            uilb = FriendLabelObj.GetComponent<UILabel>();
+            var uilb = FriendLabelObj.GetComponent<UILabel>();
             uilb.text = characterType.ToString();
         }
+    }
+
+    public void SetAttackLabel(SingleFighterRecord record)
+    {
+        var uilb = AttrackObj.GetComponent<UILabel>();
+        Attack = record.getIntProp(RoleAProperty.ATK);
+        Restore = record.getIntProp(RoleAProperty.RECOVER);
+        uilb.text = (FootIndex == (int)FootColorType.Pink) ? (Restore + "-" + record.Index) : (Attack + "-" + record) + ", index: " + record.Index;
+
+        Debug.LogWarning("Set attack label: attack - " + Attack + ", restore: " + Restore + ", character name: " + name);
     }
 
     public string GetNamePrefix()
@@ -167,7 +179,7 @@ public class CharacterControl : MonoBehaviour
                 uilb.color = new Color(234, 240, 240);
             }
             uilb.text = (selectindex == 0) ? "" : "X" + BattleTypeConstant.MoreHitTimes[selectindex];
-            AttrackValue = (FootIndex == (int)FootColorType.Pink) ? (int)(BattleTypeConstant.MoreHitTimes[selectindex] * Restore) : (int)(BattleTypeConstant.MoreHitTimes[selectindex] * Attrack);
+            AttrackValue = (FootIndex == (int)FootColorType.Pink) ? (int)(BattleTypeConstant.MoreHitTimes[selectindex] * Restore) : (int)(BattleTypeConstant.MoreHitTimes[selectindex] * Attack);
             StartCoroutine(PopPlay());
         }
         else

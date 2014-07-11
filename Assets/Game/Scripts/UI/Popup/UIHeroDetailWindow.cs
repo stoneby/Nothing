@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Globalization;
 using KXSGCodec;
 using Property;
@@ -19,20 +20,55 @@ public class UIHeroDetailWindow : Window
     private UILabel activeSkillDesc; 
     private UILabel leaderSkillName;
     private UILabel leaderSkillDesc;
+    private readonly List<UIEventListener> heroSelItemLis = new List<UIEventListener>();
+    private sbyte curEquipIndex = -1;
+    private Transform baseInfos;
+
+    public sbyte CurEquipIndex
+    {
+        get { return curEquipIndex; }
+        private set { curEquipIndex = value; }
+    }
+
+    /// <summary>
+    /// The uuid of current hero info.
+    /// </summary>
+    public static long CurUuid;
+
+    /// <summary>
+    /// The current hero info.
+    /// </summary>
+    public HeroInfo HeroInfo
+    {
+        get { return heroInfo; }
+        private set
+        {
+            if (heroInfo != value)
+            {
+                heroInfo = value;
+                heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpl[heroInfo.TemplateId];
+                CurUuid = heroInfo.Uuid;
+            }
+        }
+    }
+
+    public GameObject HeroSelItemPrefab;
 
     #region Window
 
     public override void OnEnter()
     {
+        InstallHandlers();
     }
 
     public override void OnExit()
     {
+        UnInstallHandlers();
     }
 
     #endregion
 
-    #region Mono
+    #region Private Methods
 
     // Use this for initialization
     void Awake()
@@ -48,6 +84,47 @@ public class UIHeroDetailWindow : Window
         var leaderSkill = Utils.FindChild(transform, "LeaderSkill");
         leaderSkillName = leaderSkill.Find("Name").GetComponent<UILabel>();
         leaderSkillDesc = leaderSkill.Find("Desc").GetComponent<UILabel>();
+        baseInfos = transform.Find("BaseInfo");
+        var equips = Utils.FindChild(transform, "Equips");
+        for (var i = 0; i < equips.childCount; i++)
+        {
+            var child = equips.GetChild(i);
+            heroSelItemLis.Add(UIEventListener.Get(child.gameObject));
+        }
+    }
+
+    private void InstallHandlers()
+    {
+        for (var i = 0; i < heroSelItemLis.Count; i++)
+        {
+            var selItemLis = heroSelItemLis[i];
+            selItemLis.onClick = OnHeroSelItem;
+        }
+    }
+
+    private void UnInstallHandlers()
+    {
+        for (var i = 0; i < heroSelItemLis.Count; i++)
+        {
+            var selItemLis = heroSelItemLis[i];
+            selItemLis.onClick = null;
+        }
+    }
+
+    private void OnHeroSelItem(GameObject go)
+    {
+        var eventLis = go.GetComponent<UIEventListener>();
+        CurEquipIndex = (sbyte) heroSelItemLis.IndexOf(eventLis);
+        if (ItemModeLocator.Instance.ScAllItemInfos == null)
+        {
+            ItemModeLocator.Instance.GetItemPos = ItemType.GetItemInHeroInfo;
+            var csmsg = new CSQueryAllItems { BagType = ItemType.MainItemBagType };
+            NetManager.SendMessage(csmsg);
+        }
+        else
+        {
+
+        }
     }
 
     #endregion
@@ -65,6 +142,19 @@ public class UIHeroDetailWindow : Window
     /// </summary>
     private void RefreshData()
     {
+        Utils.FindChild(baseInfos, "LV-Value").GetComponent<UILabel>().text = string.Format("{0}/{1}", heroInfo.Lvl, heroTemplate.LvlLimit);
+        Utils.FindChild(baseInfos, "Limit-Value").GetComponent<UILabel>().text = string.Format("{0}/{1}", heroInfo.BreakTimes, heroTemplate.BreakLimit);
+        Utils.FindChild(baseInfos, "Luck-Value").GetComponent<UILabel>().text = heroTemplate.Lucky.ToString(CultureInfo.InvariantCulture);
+        Utils.FindChild(baseInfos, "Name").GetComponent<UILabel>().text = heroTemplate.Name;
+        var stars = Utils.FindChild(baseInfos, "Stars");
+        for (int index = stars.childCount - 1; index >= stars.childCount - heroTemplate.Star; index--)
+        {
+            NGUITools.SetActive(stars.GetChild(index).gameObject, true);
+        }
+        for (int index = 0; index < stars.childCount - heroTemplate.Star; index++)
+        {
+            NGUITools.SetActive(stars.GetChild(index).gameObject, false);
+        }
         attack.text = heroInfo.Prop[RoleProperties.ROLE_ATK].ToString(CultureInfo.InvariantCulture);
         hp.text = heroInfo.Prop[RoleProperties.ROLE_HP].ToString(CultureInfo.InvariantCulture);
         recover.text = heroInfo.Prop[RoleProperties.ROLE_RECOVER].ToString(CultureInfo.InvariantCulture);
@@ -83,5 +173,28 @@ public class UIHeroDetailWindow : Window
             leaderSkillName.text = leaderSkillTemp.Name;
             leaderSkillDesc.text = leaderSkillTemp.Desc;
         }
+        InitEquipedItems();
+    }
+
+    private void InitEquipedItems()
+    {
+        var equips = heroInfo.EquipUuid;
+        for (var i = 0; i < equips.Count; i++)
+        {
+            var itemIcon = heroSelItemLis[i].transform.GetChild(0).GetComponent<UISprite>();
+            itemIcon.enabled = equips[i] != "";
+        }
+        for (var i = equips.Count; i < heroSelItemLis.Count; i++)
+        {
+            var itemIcon = heroSelItemLis[i].transform.GetChild(0).GetComponent<UISprite>();
+            itemIcon.enabled = false;
+        }
+    }
+
+    public void RefreshCanEquipItems()
+    {
+        NGUITools.SetActiveChildren(baseInfos.gameObject, false);
+        var child  = NGUITools.AddChild(gameObject, HeroSelItemPrefab);
+        child.GetComponent<HeroSelItem>().Refresh();
     }
 }

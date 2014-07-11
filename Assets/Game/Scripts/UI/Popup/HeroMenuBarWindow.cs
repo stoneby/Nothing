@@ -25,12 +25,11 @@ public class HeroMenuBarWindow : Window
     public override void OnEnter()
     {
         barItemControl.Init();
-        HeroHandler.HeroListInHeroPanel += OnHeroList;
+        barItemControl.ItemClicked = OnBarItemClicked;
     }
 
     public override void OnExit()
     {
-        HeroHandler.HeroListInHeroPanel -= OnHeroList;
     }
 
     private void OnHeroList()
@@ -67,6 +66,13 @@ public class HeroMenuBarWindow : Window
     private void Awake()
     {
         barItemControl = GetComponent<BarItemControl>();
+        HeroHandler.HeroListInHeroPanel += OnHeroList;
+    }
+
+    private void OnBarItemClicked(GameObject go)
+    {
+        WindowManager.Instance.GetWindow<MainMenuBarWindow>().ShowBackBtn(true);
+        WindowManager.Instance.Show<HeroMenuBarWindow>(false);
     }
 
     #endregion

@@ -38,14 +38,7 @@ namespace com.kx.sglm.gs.battle.share.data.record
 			buffAction = new List<SingleActionRecord>();
 		}
 
-		public override bool Empty
-		{
-			get
-			{
-				//because there are some other msg not in #recordList
-				return false;
-			}
-		}
+
 
 		public virtual SingleActionRecord OrCreateCurBuffAction
 		{
@@ -56,6 +49,7 @@ namespace com.kx.sglm.gs.battle.share.data.record
 					curBuffAction = new SingleActionRecord();
 					buffAction.Add(curBuffAction);
 				}
+				setModified();
 				return curBuffAction;
 			}
 		}
@@ -74,6 +68,7 @@ namespace com.kx.sglm.gs.battle.share.data.record
 			set
 			{
 				this.teamType = value;
+				setModified();
 			}
 		}
 
@@ -87,6 +82,7 @@ namespace com.kx.sglm.gs.battle.share.data.record
 			set
 			{
 				this.teamSide = value;
+				setModified();
 			}
 		}
 
@@ -102,6 +98,7 @@ namespace com.kx.sglm.gs.battle.share.data.record
 		public virtual void addSkillFighter(int singleFighter)
 		{
 			this.skillFighter.Add(singleFighter);
+			setModified();
 		}
 
 		public override void show(IBattleView viewObj)

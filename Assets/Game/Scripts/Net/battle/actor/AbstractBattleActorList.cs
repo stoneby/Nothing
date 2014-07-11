@@ -11,6 +11,7 @@ namespace com.kx.sglm.gs.battle.share.actor
 
 	/// <summary>
 	/// 带有{@code List}结构的战斗参与者，一般用于{@code AbstractBattleLoopedNest}
+	/// 
 	/// @author liyuan2
 	/// </summary>
 	/// @param <T> </param>
@@ -32,7 +33,6 @@ namespace com.kx.sglm.gs.battle.share.actor
 			this.battle = battle;
 		}
 
-
 		public virtual void activeSceneStartSkill(SceneStartEvent @event)
 		{
 			foreach (T _actor in actorList)
@@ -41,7 +41,6 @@ namespace com.kx.sglm.gs.battle.share.actor
 			}
 		}
 
-
 		public virtual void activeSceneStartBuff(SceneStartEvent @event)
 		{
 			foreach (T _actor in actorList)
@@ -49,7 +48,6 @@ namespace com.kx.sglm.gs.battle.share.actor
 				_actor.activeSceneStartBuff(@event);
 			}
 		}
-
 
 		public virtual void onSceneStop()
 		{
@@ -67,7 +65,6 @@ namespace com.kx.sglm.gs.battle.share.actor
 			}
 		}
 
-
 		public virtual void addActor(T actor)
 		{
 			this.actorList.Add(actor);
@@ -77,7 +74,6 @@ namespace com.kx.sglm.gs.battle.share.actor
 		{
 			return curIndex() < battlingActorSize();
 		}
-
 
 		public virtual void handleEvent(InnerBattleEvent @event)
 		{
@@ -90,17 +86,37 @@ namespace com.kx.sglm.gs.battle.share.actor
 
 		public abstract void fireBattleEvent(InnerBattleEvent @event);
 
-
+//JAVA TO C# CONVERTER WARNING: 'final' parameters are not allowed in .NET:
+//ORIGINAL LINE: public void onRoundFinish(final com.kx.sglm.gs.battle.share.data.record.BattleRoundCountRecord roundRecord)
 		public virtual void onRoundFinish(BattleRoundCountRecord roundRecord)
 		{
-			foreach (T _actor in ActorList)
+			new IteratorActorOptionAnonymousInnerClassHelper(this, roundRecord)
+			.itratorAction();
+		}
+
+		private class IteratorActorOptionAnonymousInnerClassHelper : IteratorActorOption
+		{
+			private readonly AbstractBattleActorList<T> outerInstance;
+
+			private BattleRoundCountRecord roundRecord;
+
+			public IteratorActorOptionAnonymousInnerClassHelper(AbstractBattleActorList<T> outerInstance, BattleRoundCountRecord roundRecord) : base(outerInstance)
 			{
-				_actor.onRoundFinish(roundRecord);
+				this.outerInstance = outerInstance;
+				this.roundRecord = roundRecord;
 			}
+
+
+			public override void option(T actor)
+			{
+				actor.onRoundFinish(roundRecord);
+			}
+
 		}
 
 		/// <summary>
 		/// 只是获取值，并不执行加操作
+		/// 
 		/// @return
 		/// </summary>
 		public virtual int nextActorIndex()
@@ -115,7 +131,6 @@ namespace com.kx.sglm.gs.battle.share.actor
 				return curIndex_Renamed;
 			}
 		}
-
 
 		/// <summary>
 		/// 增加当前的Index
@@ -137,8 +152,6 @@ namespace com.kx.sglm.gs.battle.share.actor
 			this.curIndex_Renamed = 0;
 			doResetReset();
 		}
-
-
 
 		public virtual int curIndex()
 		{
@@ -167,12 +180,40 @@ namespace com.kx.sglm.gs.battle.share.actor
 
 		public abstract void onActorDead();
 
-
 		public virtual Battle Battle
 		{
 			get
 			{
 				return battle;
+			}
+		}
+
+		protected internal abstract class IteratorActorOption
+		{
+			private readonly AbstractBattleActorList<T> outerInstance;
+
+			public IteratorActorOption(AbstractBattleActorList<T> outerInstance)
+			{
+				this.outerInstance = outerInstance;
+			}
+
+
+			public virtual void itratorAction()
+			{
+				foreach (T _actor in Actors)
+				{
+					option(_actor);
+				}
+			}
+
+			public abstract void option(T actor);
+
+			public virtual List<T> Actors
+			{
+				get
+				{
+					return outerInstance.actorList;
+				}
 			}
 		}
 

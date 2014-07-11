@@ -8,6 +8,8 @@ using LeaderState = HeroConstant.LeaderState;
 
 public class HeroUtils
  {
+    private const int ConversionRate = 100;
+
     public static void ShowHero(OrderType orderType, HeroItem heroItem, int quality, short level, sbyte job, int atk, int hp, int recover)
     {
         switch (orderType)
@@ -181,5 +183,20 @@ public class HeroUtils
                 }
             }
         }
+    }
+
+    public static void GetMaxProperties(HeroInfo info, out int maxAtk, out int maxHp, out int maxRecover, out int maxMp)
+    {
+        var heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpl[info.TemplateId];
+        var addtionTimes = heroTemplate.LvlLimit - info.Lvl;
+        maxAtk = info.Prop[RoleProperties.ROLE_ATK] + GetConverted(heroTemplate.AttackAddtion) * addtionTimes;
+        maxHp = info.Prop[RoleProperties.ROLE_HP] + GetConverted(heroTemplate.HPAddtion) * addtionTimes;
+        maxRecover = info.Prop[RoleProperties.ROLE_RECOVER] + GetConverted(heroTemplate.RecoverAddtion) * addtionTimes;
+        maxMp = info.Prop[RoleProperties.ROLE_MP] + GetConverted(heroTemplate.MPAddtion) * addtionTimes;
+    }
+
+    private static int GetConverted(int value)
+    {
+        return Mathf.RoundToInt((float)value / ConversionRate);
     }
  }

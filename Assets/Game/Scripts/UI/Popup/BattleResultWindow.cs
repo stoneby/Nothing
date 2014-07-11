@@ -44,8 +44,10 @@ public abstract class BattleResultWindow : Window
         var battlemanager = currentScreen.GetComponent<InitBattleField>();
         battlemanager.ResetBattle();
 
+        // [NOTE:] Clear history window at this point.
+        WindowManager.Instance.ClearHistory();
+
         WindowManager.Instance.Show(WindowGroupType.Popup, false);
-        //WindowManager.Instance.Show(typeof(UIMainScreenWindow), true);
         WindowManager.Instance.Show(typeof(MainMenuBarWindow), true);
         WindowManager.Instance.Show(typeof(MissionTabWindow), true);
     }

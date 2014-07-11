@@ -17,6 +17,7 @@ namespace com.kx.sglm.gs.battle.share.data.record
 			set
 			{
 				this.endType = value;
+				setModified();
 			}
 			get
 			{
@@ -24,14 +25,6 @@ namespace com.kx.sglm.gs.battle.share.data.record
 			}
 		}
 
-
-		public override bool Empty
-		{
-			get
-			{
-				return false;
-			}
-		}
 
 		public override void show(IBattleView viewObj)
 		{

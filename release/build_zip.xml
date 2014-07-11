@@ -13,6 +13,6 @@
 	<target name="ZipIos">
 		<echo>Rename Ios File</echo>
 		<echo>sglm-${DSTAMP}-${TSTAMP}.ipa</echo>
-		<move file="./IosRelesse/ipa/kxsg.ipa" tofile="./IosRelesse/sglm-${DSTAMP}-${TSTAMP}.ipa"/>
+		<copy file="./IosRelease/ipa/kxsg.ipa" tofile="./IosRelease/sglm-${DSTAMP}-${TSTAMP}.ipa"/>
 	</target>
 </project>

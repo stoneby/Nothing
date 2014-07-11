@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using System.Globalization;
+using KXSGCodec;
+using Property;
 using UnityEngine;
 
 /// <summary>
@@ -19,6 +21,16 @@ public class UIBuildingTeamWindow : Window
 
     private GameObject heroToGetBattle;
     private UIDragDropContainer dragDropContainer;
+
+    private readonly List<int> minHeroIndex = new List<int> { 1, 2, 3 };
+    /// <summary>
+    /// The key is the uuid of the hero, the value is the position in the team.
+    /// </summary>
+    private readonly Dictionary<long, int> selectedItems = new Dictionary<long, int>();
+    private SCHeroList scHeroList;
+    private GameObject mask;
+    private const int LeaderCount = 3;
+    private List<GameObject> masks = new List<GameObject>(); 
 
 
     /// <summary>
@@ -68,6 +80,7 @@ public class UIBuildingTeamWindow : Window
         CurTeamIndex = HeroModelLocator.Instance.SCHeroList.CurrentTeamIndex;
         endlessSwipeEffect.InitCustomData(CurTeamIndex, HeroModelLocator.Instance.SCHeroList.TeamList.Count);
         InstallHandlers();
+        Init();
     }
 
     public override void OnExit()
@@ -91,6 +104,9 @@ public class UIBuildingTeamWindow : Window
         endlessSwipeEffect = GetComponentInChildren<EndlessSwipeEffect>();
         endlessSwipeEffect.UpdateData += UpdateData;
         CacheEndlessItemsPos();
+        scHeroList = HeroModelLocator.Instance.SCHeroList;
+        mask = Utils.FindChild(transform, "Mask").gameObject;
+        mask.SetActive(false);
     }
 
     /// <summary>
@@ -118,10 +134,15 @@ public class UIBuildingTeamWindow : Window
             endlessSwipeEffect.transform.GetChild(i).localPosition = endlessItemPostions[i + 1];
         }
     }
+
     private void UpdateData()
     {
+        dragDropContainer.reparentTarget = endlessSwipeEffect.CurrentItem.Find("Grid");
         CurTeamIndex = endlessSwipeEffect.CurCustomIndex;
+        var heroUuids = HeroModelLocator.Instance.SCHeroList.TeamList[CurTeamIndex].ListHeroUuid;
+        RefreshTeam(heroUuids);
     }
+
 
     /// <summary>
     /// Install all handers for button click.
@@ -161,11 +182,57 @@ public class UIBuildingTeamWindow : Window
 
     private void GetIntoBattle(GameObject go)
     {
+        GetIntoTeam(heroToGetBattle);
+        WindowManager.Instance.Show<UIHeroSnapShotWindow>(false);
+    }
+
+    private void GetIntoTeam(GameObject hero)
+    {
         var reparentTarget = dragDropContainer.reparentTarget;
-        NGUITools.AddChild(reparentTarget.gameObject, heroToGetBattle);
+        NGUITools.AddChild(reparentTarget.gameObject, hero);
         var grid = reparentTarget.GetComponent<UIGrid>();
         grid.repositionNow = true;
-        WindowManager.Instance.Show<UIHeroSnapShotWindow>(false);
+    }
+
+    /// <summary>
+    /// Refresh the hero list.
+    /// </summary>
+    private void Init()
+    {
+        selectedItems.Clear();
+        var index = scHeroList.CurrentTeamIndex;
+        var curTeamUuids = scHeroList.TeamList[index].ListHeroUuid;
+        RefreshTeam(curTeamUuids);
+    }
+
+    private void RefreshTeam(List<long> curTeamUuids)
+    {
+        CleanMask();
+        var herosTran = herosWindow.Heros.transform;
+        for(var heroIndex = 0; heroIndex < herosTran.childCount; heroIndex++)
+        {
+            var item = herosTran.GetChild(heroIndex);
+            var uUid = item.GetComponent<HeroItemBase>().Uuid;
+            if(curTeamUuids.Contains(uUid))
+            {
+                GetIntoTeam(item.gameObject);
+                var numIndex = curTeamUuids.IndexOf(uUid) + 1;
+                var maskToShow = NGUITools.AddChild(item.gameObject, mask);
+                masks.Add(maskToShow);
+                maskToShow.SetActive(true);
+                maskToShow.transform.GetChild(0).GetComponent<UISprite>().spriteName =
+                    numIndex.ToString(CultureInfo.InvariantCulture);
+            }
+        }
+    }
+
+    private void CleanMask()
+    {
+        for (var i = masks.Count - 1; i >= 0; i--)
+        {
+            NGUITools.Destroy(masks[i]);
+        }
+        masks.Clear();
     }
 
     #endregion

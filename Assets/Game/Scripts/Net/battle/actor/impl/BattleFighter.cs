@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace com.kx.sglm.gs.battle.share.actor.impl
 {
@@ -10,6 +11,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 	using BattleRoundCountRecord = com.kx.sglm.gs.battle.share.data.record.BattleRoundCountRecord;
 	using BattleTeamFightRecord = com.kx.sglm.gs.battle.share.data.record.BattleTeamFightRecord;
 	using SingleActionRecord = com.kx.sglm.gs.battle.share.data.record.SingleActionRecord;
+	using SingleFighterRecord = com.kx.sglm.gs.battle.share.data.record.SingleFighterRecord;
 	using BattleSideEnum = com.kx.sglm.gs.battle.share.enums.BattleSideEnum;
 	using HeroColor = com.kx.sglm.gs.battle.share.enums.HeroColor;
 	using InnerBattleEvent = com.kx.sglm.gs.battle.share.@event.InnerBattleEvent;
@@ -89,7 +91,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 
 		}
 
-		public virtual void updateStateRecord(SingleActionRecord record)
+		public virtual void updateStateRecord(SingleFighterRecord record)
 		{
 			stateManager.updateStateRecord(record);
 		}
@@ -507,6 +509,13 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 			}
 		}
 
+		public virtual Dictionary<int, int> BattleProp
+		{
+			get
+			{
+				return fighterProp.BattleProp.PropMaps;
+			}
+		}
 
 	}
 

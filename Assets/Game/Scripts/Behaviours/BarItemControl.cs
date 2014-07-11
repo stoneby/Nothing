@@ -8,9 +8,12 @@ public class BarItemControl : MonoBehaviour
     public string PoolName;
     private readonly List<BarItem> barItems = new List<BarItem>();
     private UIGrid grid;
+    private Vector3 cachedPosition;
     public List<EventDelegate> ItemDelegates;
     public List<string> BarNames;
     public bool HideWhenPress = true;
+
+    public UIEventListener.VoidDelegate ItemClicked;
 
     public virtual void Init()
     {
@@ -35,6 +38,10 @@ public class BarItemControl : MonoBehaviour
 
     protected void OnBarItemClicked(GameObject go)
     {
+        if (ItemClicked != null)
+        {
+            ItemClicked(go);
+        }
         if(HideWhenPress)
         {
             CleanUp();
@@ -46,6 +53,7 @@ public class BarItemControl : MonoBehaviour
     protected virtual void Awake()
     {
         grid = GetComponent<UIGrid>();
+        cachedPosition = transform.localPosition;
     }
 
     protected virtual void AdjustPos()
@@ -56,6 +64,7 @@ public class BarItemControl : MonoBehaviour
 
     public virtual void CleanUp()
     {
+        transform.localPosition = cachedPosition;
         for (var i = 0; i < barItems.Count; i++)
         {
             var barItem = barItems[i];

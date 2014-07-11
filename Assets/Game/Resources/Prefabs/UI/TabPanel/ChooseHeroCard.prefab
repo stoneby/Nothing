@@ -82,7 +82,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &100010
 GameObject:
   m_ObjectHideFlags: 1
@@ -1036,10 +1036,12 @@ Transform:
   m_LocalPosition: {x: 0, y: 11.3330908, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 400072}
   - {fileID: 400084}
   - {fileID: 400082}
   - {fileID: 400078}
   - {fileID: 400030}
+  - {fileID: 400074}
   - {fileID: 400044}
   - {fileID: 400088}
   - {fileID: 400010}
@@ -1252,8 +1254,6 @@ Transform:
   m_LocalPosition: {x: 0, y: 11.3330908, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 400072}
-  - {fileID: 400074}
   - {fileID: 400014}
   - {fileID: 400012}
   m_Father: {fileID: 400094}
@@ -1264,10 +1264,10 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100072}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 278.600006, y: -46.6366959, z: 0}
+  m_LocalPosition: {x: 278.622284, y: -46.6404266, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 400070}
+  m_Father: {fileID: 400034}
 --- !u!4 &400074
 Transform:
   m_ObjectHideFlags: 1
@@ -1275,11 +1275,11 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100074}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 410.600006, y: -46.6253014, z: 0}
+  m_LocalPosition: {x: 410.632843, y: -46.6290359, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400076}
-  m_Father: {fileID: 400070}
+  m_Father: {fileID: 400034}
 --- !u!4 &400076
 Transform:
   m_ObjectHideFlags: 1
@@ -3078,7 +3078,7 @@ MonoBehaviour:
   autoResizeBoxCollider: 1
   hideIfOffScreen: 0
   keepAspectRatio: 0
-  aspectRatio: 1.93548381
+  aspectRatio: 1.96774197
   mType: 1
   mFillDirection: 4
   mFillAmount: 1
@@ -3128,7 +3128,7 @@ MonoBehaviour:
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
-  aspectRatio: 2
+  aspectRatio: 2.0666666
   keepCrispWhenShrunk: 2
   mTrueTypeFont: {fileID: 0}
   mFont: {fileID: 11400000, guid: 30054980c4ab28942a48b10c3d67cac5, type: 2}

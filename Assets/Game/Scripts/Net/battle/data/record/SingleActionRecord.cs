@@ -16,25 +16,11 @@ namespace com.kx.sglm.gs.battle.share.data.record
 		/// 动作类型：0攻击，1回复，2防御, 3SP攻击, 4转色 </summary>
 		private int actType;
 
-		/// <summary>
-		/// 阵营Index </summary>
-		private int sideIndex;
-
-		/// <summary>
-		/// 动作位置，两位组成，十位是sideID，个位是队伍内Index </summary>
-		private int index;
-
-		private int stateFlag;
-
-
-		/// <summary>
-		/// 状态更新
-		/// </summary>
-		private List<FighterStateRecord> stateUpdateList;
+		private SingleFighterRecord fighterInfo;
 
 		public SingleActionRecord()
 		{
-			stateUpdateList = new List<FighterStateRecord>();
+			fighterInfo = new SingleFighterRecord();
 		}
 
 		public virtual int ActType
@@ -54,11 +40,11 @@ namespace com.kx.sglm.gs.battle.share.data.record
 		{
 			set
 			{
-				this.sideIndex = value;
+				this.fighterInfo.Side = value;
 			}
 			get
 			{
-				return sideIndex;
+				return fighterInfo.Side;
 			}
 		}
 
@@ -67,11 +53,11 @@ namespace com.kx.sglm.gs.battle.share.data.record
 		{
 			set
 			{
-				this.stateFlag = value;
+				this.fighterInfo.StateFlag = value;
 			}
 			get
 			{
-				return stateFlag;
+				return fighterInfo.StateFlag;
 			}
 		}
 
@@ -81,11 +67,11 @@ namespace com.kx.sglm.gs.battle.share.data.record
 		{
 			get
 			{
-				return index;
+				return fighterInfo.Index;
 			}
 			set
 			{
-				this.index = value;
+				this.fighterInfo.Index = value;
 			}
 		}
 
@@ -103,42 +89,30 @@ namespace com.kx.sglm.gs.battle.share.data.record
 		}
 
 
-		public virtual int TeamIndex
-		{
-			get
-			{
-				return index % 10;
-			}
-		}
-
-		public virtual int TargetIndexInTeam
-		{
-			get
-			{
-				return index / 10;
-			}
-		}
 
 		public virtual void addState(int buffId, int showId, sbyte state, int round)
 		{
-			FighterStateRecord _state = new FighterStateRecord();
-			_state.State = state;
-			_state.BuffId = buffId;
-			_state.ShowId = showId;
-			_state.LeftRound = (sbyte)round;
-			stateUpdateList.Add(_state);
+			fighterInfo.addState(buffId, showId, state, round);
 		}
 
 		public virtual void clearState()
 		{
-			this.stateUpdateList.Clear();
+			this.fighterInfo.clearState();
 		}
 
 		public virtual List<FighterStateRecord> StateUpdateList
 		{
 			get
 			{
-				return stateUpdateList;
+				return fighterInfo.StateUpdateList;
+			}
+		}
+
+		public virtual SingleFighterRecord FighterInfo
+		{
+			get
+			{
+				return fighterInfo;
 			}
 		}
 

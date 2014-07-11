@@ -14,6 +14,7 @@ namespace com.kx.sglm.gs.battle.share.skill.manager
 	using BattleSkillRecord = com.kx.sglm.gs.battle.share.data.record.BattleSkillRecord;
 	using BattleTeamFightRecord = com.kx.sglm.gs.battle.share.data.record.BattleTeamFightRecord;
 	using HeroColor = com.kx.sglm.gs.battle.share.enums.HeroColor;
+	using InnerBattleEvent = com.kx.sglm.gs.battle.share.@event.InnerBattleEvent;
 	using SceneStartEvent = com.kx.sglm.gs.battle.share.@event.impl.SceneStartEvent;
 	using TeamShotStartEvent = com.kx.sglm.gs.battle.share.@event.impl.TeamShotStartEvent;
 	using BattleRecordHelper = com.kx.sglm.gs.battle.share.helper.BattleRecordHelper;
@@ -144,7 +145,7 @@ namespace com.kx.sglm.gs.battle.share.skill.manager
 					_action.onAction(Owner, _fightRecord);
 				}
 			}
-			record.finishCurRecord();
+			record.finishFighterRecord();
 		}
 
 		public override ISingletonSkillAction AttackAction
@@ -212,6 +213,7 @@ namespace com.kx.sglm.gs.battle.share.skill.manager
 			ownerTeam.costCurMp(activeAction.CostMp);
 			_actSkillRecord.addProp(BattleRecordConstants.BATTLE_HERO_PROP_MP, ownerTeam.CurMp);
 			action(activeAction, _fightRecord);
+			_actSkillRecord.finishFighterRecord();
 			_record.finishCurSkillRecord();
 		}
 
@@ -257,13 +259,20 @@ namespace com.kx.sglm.gs.battle.share.skill.manager
 
 		public override void onSceneStart(SceneStartEvent @event)
 		{
-			BattleSkillRecord _skillRecord = Battle.Record.OrCreateSkillRecord;
-			actionOnEventIndex(@event.EventType, _skillRecord);
-			Battle.Record.finishCurSkillRecord();
+			actionEventSkill(@event);
 		}
 
 		public override void onTeamShotStart(TeamShotStartEvent @event)
 		{
+			actionEventSkill(@event);
+		}
+
+
+		protected internal virtual void actionEventSkill(InnerBattleEvent @event)
+		{
+			BattleSkillRecord _skillRecord = Battle.Record.OrCreateSkillRecord;
+			actionOnEventIndex(@event.EventType, _skillRecord);
+			Battle.Record.finishCurSkillRecord();
 		}
 
 		public virtual BaseHeroBattleSkillAction NormalAttack
@@ -286,6 +295,7 @@ namespace com.kx.sglm.gs.battle.share.skill.manager
 		{
 			calcAttackBattleAction(record);
 		}
+
 
 	}
 

@@ -1,18 +1,8 @@
 namespace com.kx.sglm.gs.battle.share.data.record
 {
 
-
 	public class BattleRoundCountRecord : BaseViewRecord<SingleActionRecord>
 	{
-
-		public override bool Empty
-		{
-			get
-			{
-				return false;
-			}
-		}
-
 
 		public override void show(IBattleView viewObj)
 		{

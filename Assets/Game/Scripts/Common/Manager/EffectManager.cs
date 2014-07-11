@@ -1,6 +1,6 @@
 ﻿using System;
-using UnityEngine;
 using System.Collections;
+using UnityEngine;
 using Object = UnityEngine.Object;
 
 public class EffectManager
@@ -27,7 +27,7 @@ public class EffectManager
         var sam = rootGameObject.GetComponent<Camera>();
         v3 = sam.ScreenToWorldPoint(v3);
         v3.z = 5;
-        var effectobj = MonoBehaviour.Instantiate(obj, v3, obj.transform.rotation) as GameObject;
+        var effectobj = Object.Instantiate(obj, v3, obj.transform.rotation) as GameObject;
         effectobj.transform.parent = rootGameObject.transform;
         SetAllLayers(effectobj, 9);
         return effectobj;

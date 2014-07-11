@@ -42,14 +42,7 @@ namespace com.kx.sglm.gs.battle.share.data.record
 			}
 		}
 
-		public override bool Empty
-		{
-			get
-			{
-				//because there are some other msg not in #recordList
-				return false;
-			}
-		}
+
 
 		public virtual int Index
 		{
@@ -86,6 +79,7 @@ namespace com.kx.sglm.gs.battle.share.data.record
 			set
 			{
 				this.skillId = value;
+				setModified();
 			}
 		}
 
@@ -96,6 +90,15 @@ namespace com.kx.sglm.gs.battle.share.data.record
 			{
 				return fightRecord;
 			}
+		}
+
+		public virtual void finishFighterRecord()
+		{
+			if (fightRecord == null || fightRecord.Empty)
+			{
+				setEmpty();
+			}
+			fightRecord = null;
 		}
 
 		public override void show(IBattleView viewObj)

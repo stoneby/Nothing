@@ -1,7 +1,6 @@
-﻿using System.Collections;
+﻿using Property;
+using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using Property;
 using UnityEngine;
 
 public class BattleWinControl : MonoBehaviour
@@ -260,6 +259,9 @@ public class BattleWinControl : MonoBehaviour
         var currentScreen = WindowManager.Instance.CurrentWindowMap[WindowGroupType.Screen];
         var battlemanager = currentScreen.GetComponent<InitBattleField>();
         battlemanager.ResetBattle();
+
+        // [NOTE:] Clear history window at this point.
+        WindowManager.Instance.ClearHistory();
 
         WindowManager.Instance.Show(WindowGroupType.Popup, false);
         WindowManager.Instance.Show(typeof(UIMainScreenWindow), true);

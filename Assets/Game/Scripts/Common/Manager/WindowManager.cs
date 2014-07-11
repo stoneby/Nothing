@@ -142,49 +142,42 @@ public class WindowManager : Singleton<WindowManager>
         if (show)
         {
             var lastWindow = currentWindowMap.ContainsKey(windowGroupType) ? currentWindowMap[windowGroupType] : null;
-            if (lastWindow != null && (lastWindow != window))
+            if (lastWindow != null)
             {
-                if (lastWindow.Active)
+                if (lastWindow != window && lastWindow.Active)
                 {
                     var groupType = lastWindow.WindowGroup;
                     Logger.Log("Last window hide with type - " + lastWindow.GetType().Name + ", groupType - " + groupType +
                               ", path - " + lastWindow.Path);
 
-                    WindowRootManager.FadeOut(groupType, OnFadeComplete);
-
-                    //OnFadeComplete(lastWindow);
+                    HideWindow(lastWindow);
+                }
+                else if (lastWindow == window && lastWindow.Active)
+                {
+                    Logger.Log("The window is currently showing already." + lastWindow.name);
+                    return window;
                 }
             }
 
-            if (lastWindow == window)
-            {
-                Logger.Log("The window is currently showing already." + lastWindow.name);
-            }
-            else
-            {
-                currentWindowMap[windowGroupType] = window;
-                window.gameObject.SetActive(true);
+            currentWindowMap[windowGroupType] = window;
+            window.gameObject.SetActive(true);
 
-                historyList.Add(window);
+            historyList.Add(window);
 
-                WindowRootManager.FadeIn(windowGroupType);
-
-                Logger.LogWarning("===== Adding window to history ====" + window.name + ", from group: " + window.WindowGroup);
-            }
+            Logger.LogWarning("===== Adding window to history ====" + window.name + ", from group: " + window.WindowGroup);
         }
         else
         {
-            WindowRootManager.FadeOut(windowGroupType, OnFadeComplete);
+            currentWindowMap[windowGroupType] = window;
+            HideWindow(window);
 
-            //OnFadeComplete(window);
+            historyList.Remove(window);
         }
-
         return window;
     }
 
-    private void OnFadeComplete(Window lastWindow)
+    private void HideWindow(Window lastWindow)
     {
-        Debug.LogWarning("-------------- On fade out complete. calling back.");
         if (DestroyLastWindow)
         {
             DestroyWindow(lastWindow);
@@ -253,29 +246,41 @@ public class WindowManager : Singleton<WindowManager>
 
     public void CloseLastWindowInHistory()
     {
-        Window lastWindow;
-        for (var i = historyList.Count - 1; i > 0; --i)
-        {
-            lastWindow = historyList[i];
-            if (lastWindow == null || !lastWindow.Active)
-            {
-                historyList.RemoveAt(i);
-                Logger.LogWarning("===== Removing inactive window from history ====" + lastWindow.name + ", from group: " + lastWindow.WindowGroup);
-            }
-            else
-            {
-                break;
-            }
-        }
+        //Window lastWindow;
+        //for (var i = historyList.Count - 1; i > 0; --i)
+        //{
+        //    lastWindow = historyList[i];
+        //    if (lastWindow == null || !lastWindow.Active)
+        //    {
+        //        historyList.RemoveAt(i);
+        //        Logger.LogWarning("===== Removing inactive window from history ====" + lastWindow.name + ", from group: " + lastWindow.WindowGroup);
+        //    }
+        //    else
+        //    {
+        //        break;
+        //    }
+        //}
 
         if (historyList.Count <= 0)
         {
             Logger.LogWarning("There is no more windows in history list, please check whether the close button is correct or not.");
             return;
         }
-        lastWindow = historyList[historyList.Count - 1];
-        Show(lastWindow.GetType(), false);
+        var lastWindow = historyList[historyList.Count - 1];
         historyList.RemoveAt(historyList.Count - 1);
+        Show(lastWindow.GetType(), false);
+
+        // [Note:] The following lines are tricky.
+        // In the full history window list, there should be some window is hidden by the same group window showing,
+        // We need to show back the hidden window for the full history list.
+        if (historyList.Count > 0)
+        {
+            lastWindow = historyList[historyList.Count - 1];
+            if (lastWindow != null && !lastWindow.Active)
+            {
+                lastWindow.gameObject.SetActive(true);
+            }
+        }
         Logger.LogWarning("===== Close last window from history ====" + lastWindow.name + ", from group: " + lastWindow.WindowGroup);
     }
 
@@ -285,6 +290,7 @@ public class WindowManager : Singleton<WindowManager>
     /// <remarks>Keep history only when in UI oepration, should clear out when back from battle.</remarks>
     public void ClearHistory()
     {
+        Logger.LogWarning("Clear history window list.");
         historyList.Clear();
     }
 

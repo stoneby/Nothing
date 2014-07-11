@@ -42,7 +42,7 @@ public class BuildManager
     public static void BuildExe()
     {
         Debug.Log("转换Target");
-        EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTarget.StandaloneWindows64);
+        EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTarget.StandaloneWindows);
         PlayerSettings.productName = "开心三国0.1";
         PlayerSettings.bundleVersion = "0.0.1";
         PlayerSettings.bundleIdentifier = "cn.kx.kxsg";
@@ -54,7 +54,7 @@ public class BuildManager
 
         string[] scenes = { "Assets/game/scenes/BattleScene.unity" };
         Debug.Log("开始打包exe");
-        var res = BuildPipeline.BuildPlayer(scenes, "release/ExeBuild/kxsg.exe", BuildTarget.StandaloneWindows64, BuildOptions.None);
+        var res = BuildPipeline.BuildPlayer(scenes, "release/ExeBuild/kxsg.exe", BuildTarget.StandaloneWindows, BuildOptions.None);
         if (res.Length > 0)
         {
             throw new Exception("BuildPlayer failure: " + res);

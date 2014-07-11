@@ -6,7 +6,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 
 	using MathUtils = com.kx.sglm.core.util.MathUtils;
 	using BattleRecordConstants = com.kx.sglm.gs.battle.share.data.record.BattleRecordConstants;
-	using SingleActionRecord = com.kx.sglm.gs.battle.share.data.record.SingleActionRecord;
+	using SingleFighterRecord = com.kx.sglm.gs.battle.share.data.record.SingleFighterRecord;
 	using BattleRecordHelper = com.kx.sglm.gs.battle.share.helper.BattleRecordHelper;
 
 	public class FighterStateManager : IFighterOwner
@@ -35,7 +35,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 		}
 
 
-		public virtual void updateStateRecord(SingleActionRecord record)
+		public virtual void updateStateRecord(SingleFighterRecord record)
 		{
 			record.clearState();
 			record.addProp(BattleRecordConstants.BATTLE_FIGHTER_STATE_FLAG, FighterStateFlag);

@@ -48,15 +48,11 @@ public class WindowRootObjectManager : MonoBehaviour
 
     public void FadeIn(WindowGroupType group, FadeComplete onFadeComplete = null)
     {
-        var window = WindowManager.Instance.CurrentWindowMap.ContainsKey(group) ? WindowManager.Instance.CurrentWindowMap[group] : null;
-        Logger.LogWarning("Fadein: " + group + ", current windwo: " + ((window == null) ? "null" : window.name));
         StartCoroutine(DoFade(group, true, onFadeComplete));
     }
 
     public void FadeOut(WindowGroupType group, FadeComplete onFadeComplete = null)
     {
-        var window = WindowManager.Instance.CurrentWindowMap.ContainsKey(group) ? WindowManager.Instance.CurrentWindowMap[group] : null;
-        Logger.LogWarning("FadeOut: " + group + ", current windwo: " + ((window == null) ? "null" : window.name));
         StartCoroutine(DoFade(group, false, onFadeComplete));
     }
 
@@ -66,22 +62,37 @@ public class WindowRootObjectManager : MonoBehaviour
 
     private IEnumerator DoFade(WindowGroupType group, bool fadeIn, FadeComplete onFadeComplete)
     {
-        Logger.LogWarning("DoFade: " + group);
-
         var tweenAlpha = WindowAlphaTweenMap[group];
         tweenAlpha.ResetToBeginning();
-        tweenAlpha.from = fadeIn ? 0f : 1f;
-        tweenAlpha.to = fadeIn ? 1f : 0f;
-        tweenAlpha.duration = fadeIn ? FadeInDuration : FadeOutDuration;
-        tweenAlpha.PlayForward();
+        if (fadeIn)
+        {
+            tweenAlpha.PlayForward();
+        }
+        else
+        {
+            tweenAlpha.PlayReverse();
+        }
+
+        var lastWindow = WindowManager.Instance.CurrentWindowMap[group];
+        Logger.LogWarning("DoFade: " + group + ", window: " + lastWindow.name);
 
         yield return new WaitForSeconds(tweenAlpha.duration);
-        Logger.LogWarning("onFadeComplete: " + group + ", " + fadeIn);
+
         if (onFadeComplete != null)
         {
-            Logger.LogWarning("onFadeComplete done: " + group + ", " + fadeIn);
-            onFadeComplete(WindowManager.Instance.CurrentWindowMap[group]);
+            onFadeComplete(lastWindow);
         }
+    }
+
+    private void InitAlphaTween(Transform layerTrans, WindowGroupType groupType)
+    {
+        var tweenAlpha = layerTrans.GetComponent<TweenAlpha>() ??
+                         layerTrans.gameObject.AddComponent<TweenAlpha>();
+        tweenAlpha.from = 0f;
+        tweenAlpha.to = 1f;
+        tweenAlpha.duration = FadeInDuration;
+        tweenAlpha.enabled = false;
+        WindowAlphaTweenMap[groupType] = tweenAlpha;
     }
 
     #endregion
@@ -110,9 +121,7 @@ public class WindowRootObjectManager : MonoBehaviour
             Logger.Log("Game object is - " + layerTrans.name + ", with window group - " + windowGroup);
 
             WindowObjectMap[groupType] = layerTrans.gameObject;
-            WindowAlphaTweenMap[groupType] = layerTrans.GetComponent<TweenAlpha>() ??
-                                             layerTrans.gameObject.AddComponent<TweenAlpha>();
-            WindowAlphaTweenMap[groupType].enabled = false;
+            InitAlphaTween(layerTrans, groupType);
         }
 
         EventManager.Instance.Post(new WindowManagerReady());

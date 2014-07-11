@@ -23,6 +23,8 @@ namespace com.kx.sglm.gs.battle.share.data.record
 
 		private BattleBuffRecord curBuffRecord;
 
+		private BattleTeamInfoRecord curTeamInfoRecord;
+
 		private BattleEndRecord curEndRecord;
 
 		private BattleErrorRecord errorRecord;
@@ -98,10 +100,29 @@ namespace com.kx.sglm.gs.battle.share.data.record
 			}
 		}
 
-		public virtual void finishCurTeamRecord()
+		public virtual BattleTeamInfoRecord OrCreateTeamRecord
+		{
+			get
+			{
+				if (curTeamInfoRecord == null)
+				{
+					curTeamInfoRecord = new BattleTeamInfoRecord();
+					addList(curTeamInfoRecord);
+				}
+				return curTeamInfoRecord;
+			}
+		}
+
+		public virtual void finishCurTeamFightRecord()
 		{
 			this.curFightRecord = null;
 		}
+
+		public virtual void finishCurTeamInfoRecord()
+		{
+			this.curTeamInfoRecord = null;
+		}
+
 
 		public virtual void finishCurBuffRecord()
 		{

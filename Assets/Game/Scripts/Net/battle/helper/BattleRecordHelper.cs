@@ -15,7 +15,9 @@ namespace com.kx.sglm.gs.battle.share.helper
 	using BattleRecord = com.kx.sglm.gs.battle.share.data.record.BattleRecord;
 	using BattleRecordConstants = com.kx.sglm.gs.battle.share.data.record.BattleRecordConstants;
 	using BattleSkillRecord = com.kx.sglm.gs.battle.share.data.record.BattleSkillRecord;
+	using BattleTeamInfoRecord = com.kx.sglm.gs.battle.share.data.record.BattleTeamInfoRecord;
 	using SingleActionRecord = com.kx.sglm.gs.battle.share.data.record.SingleActionRecord;
+	using SingleFighterRecord = com.kx.sglm.gs.battle.share.data.record.SingleFighterRecord;
 
 	public class BattleRecordHelper
 	{
@@ -43,8 +45,13 @@ namespace com.kx.sglm.gs.battle.share.helper
 
 		public static void initSingleRecord(BattleFighter fighter, SingleActionRecord record)
 		{
+			initFighterRecord(fighter, record.FighterInfo);
+		}
+
+		public static void initFighterRecord(BattleFighter fighter, SingleFighterRecord record)
+		{
 			record.Index = fighter.Index;
-			record.SideIndex = fighter.Side;
+			record.Side = fighter.Side;
 		}
 
 		public static void initDefencerRecord(BattleFighter fighter, SingleActionRecord record)
@@ -70,9 +77,8 @@ namespace com.kx.sglm.gs.battle.share.helper
 				{
 					continue;
 				}
-				SingleActionRecord _singleRecord = _buffRecord.OrCreateRecord;
-				BattleRecordHelper.initSingleRecord(_fighter, _singleRecord);
-				_singleRecord.ActType = BattleRecordConstants.SINGLE_ACTION_TYPE_BUFF_STATE;
+				SingleFighterRecord _singleRecord = _buffRecord.OrCreateRecord;
+				BattleRecordHelper.initFighterRecord(_fighter, _singleRecord);
 				_singleRecord.StateFlag = _fighter.FighterState;
 				_fighter.updateStateRecord(_singleRecord);
 				_buffRecord.finishCurRecord();
@@ -123,7 +129,7 @@ namespace com.kx.sglm.gs.battle.share.helper
 			record.addPointList(_index, _color);
 		}
 
-		public static void updateStateRecord(SingleActionRecord record, Dictionary<int, BattleFighterState> stateMap, bool removeState)
+		public static void updateStateRecord(SingleFighterRecord record, Dictionary<int, BattleFighterState> stateMap, bool removeState)
 		{
 			foreach (BattleFighterState _state in stateMap.Values)
 			{
@@ -132,6 +138,58 @@ namespace com.kx.sglm.gs.battle.share.helper
 			}
 		}
 
+
+
+		public static void recordBattleTeamRecord(BattleTeam battleTeam, BattleRecord record)
+		{
+			BattleTeamInfoRecord _teamInfoRecord = record.OrCreateTeamRecord;
+			_teamInfoRecord.Side = battleTeam.BattleSide.Index;
+			foreach (BattleFighter _fighter in battleTeam.AllAliveFighter)
+			{
+				updateBattleFighterRecord(_fighter, _teamInfoRecord);
+			}
+			record.finishCurTeamInfoRecord();
+		}
+
+		public static void updateBattleFighterRecord(BattleFighter fighter, BattleTeamInfoRecord teamInfoRecord)
+		{
+			SingleFighterRecord _singleFightRecord = teamInfoRecord.OrCreateRecord;
+			Dictionary<int, int> _propMap = fighter.BattleProp;
+			initFighterRecord(fighter, _singleFightRecord);
+			foreach (KeyValuePair<int, int> _propEntry in _propMap)
+			{
+				_singleFightRecord.addProp(_propEntry.Key, _propEntry.Value);
+			}
+			fighter.updateStateRecord(_singleFightRecord);
+			teamInfoRecord.finishCurRecord();
+		}
+
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }

@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using KXSGCodec;
@@ -10,6 +11,15 @@ using UnityEngine;
 /// </summary>
 public class UILevelUpHeroWindow : Window
 {
+    #region Public Fields
+
+    /// <summary>
+    /// The particle system to show the level up.
+    /// </summary>
+    public GameObject LevelUpEffect;
+
+    #endregion
+
     private UIHeroCommonWindow herosWindow;
     private GameObject heroToLevelUp;
     private GameObject curLevelUpObject;
@@ -72,8 +82,26 @@ public class UILevelUpHeroWindow : Window
                 maxHp = heroInfo.Prop[RoleProperties.ROLE_HP] + GetConverted(heroTemplate.HPAddtion) * addtionTimes;
                 maxRecover = heroInfo.Prop[RoleProperties.ROLE_RECOVER] + GetConverted(heroTemplate.RecoverAddtion) * addtionTimes;
                 maxMp = heroInfo.Prop[RoleProperties.ROLE_MP] + GetConverted(heroTemplate.MPAddtion) * addtionTimes;
+                CheckButtonEnabled();
             }
             ShowUnNeedObjects(infoIsNotNull);
+        }
+    }
+
+    private void CheckButtonEnabled()
+    {
+        //Make sure can not go lower than current level.
+        subLis.GetComponent<UIButton>().isEnabled = heroInfo.Lvl != curLvl;
+        //If it already reaches the limit, make sure can not level up any more.
+        if(heroInfo.Lvl == heroTemplate.LvlLimit)
+        {
+            addLis.GetComponent<UIButton>().isEnabled = false;
+            levelUpLis.GetComponent<UIButton>().isEnabled = false;
+        }
+        else if(GetCostSoul((short) (curLvl + 1), heroTemplate.Star) < PlayerModelLocator.Instance.Sprit)
+        {
+            addLis.GetComponent<UIButton>().isEnabled = true;
+            levelUpLis.GetComponent<UIButton>().isEnabled = true;
         }
     }
 
@@ -109,6 +137,7 @@ public class UILevelUpHeroWindow : Window
         nextCostValue = nextCostTitle.transform.Find("NextSoulValue").GetComponent<UILabel>();
         usedSoulTitle = Utils.FindChild(transform, "UsedSoul").GetComponent<UILabel>();
         usedSoulValue = usedSoulTitle.transform.Find("UsedSoulValue").GetComponent<UILabel>();
+        ownedSoulValue = Utils.FindChild(transform, "OwnedSoulValue").GetComponent<UILabel>();
         var property = transform.Find("Property");
         atk = property.Find("Attack/AttackValue").GetComponent<UILabel>();
         changedAtk = property.Find("Attack/ChangedAtk").GetComponent<UILabel>();
@@ -139,6 +168,8 @@ public class UILevelUpHeroWindow : Window
         addLis.onClick = OnAddBtnClicked;
         subLis.onClick = OnSubLisClicked;
         levelUpLis.onClick = OnOkBtnClicked;
+        CommonHandler.HeroPropertyChanged += OnHeroPeopertyChanged;
+        CommonHandler.PlayerPropertyChanged += OnPlayerPropertyChanged;
     }
 
     /// <summary>
@@ -149,6 +180,37 @@ public class UILevelUpHeroWindow : Window
         addLis.onClick = null;
         subLis.onClick = null;
         levelUpLis.onClick = null;
+        CommonHandler.HeroPropertyChanged -= OnHeroPeopertyChanged;
+        CommonHandler.PlayerPropertyChanged -= OnPlayerPropertyChanged;
+    }
+
+    private void OnHeroPeopertyChanged(SCPropertyChangedNumber scpropertychanged)
+    {
+        var lvl = scpropertychanged.PropertyChanged[RoleProperties.ROLEBASE_LEVEL];
+        HeroInfo.Lvl = (short)lvl;
+        levelValue.text = string.Format("{0}/{1}", lvl, heroTemplate.LvlLimit);
+        var atkProp = scpropertychanged.PropertyChanged[RoleProperties.ROLE_ATK];
+        HeroInfo.Prop[RoleProperties.ROLE_ATK] = atkProp;
+        atk.text = atkProp.ToString(CultureInfo.InvariantCulture);
+
+        var hpProp = scpropertychanged.PropertyChanged[RoleProperties.ROLE_HP];
+        HeroInfo.Prop[RoleProperties.ROLE_HP] = hpProp;
+        atk.text = hpProp.ToString(CultureInfo.InvariantCulture);
+        
+        var recoverProp = scpropertychanged.PropertyChanged[RoleProperties.ROLE_RECOVER];
+        HeroInfo.Prop[RoleProperties.ROLE_RECOVER] = recoverProp;
+        atk.text = atkProp.ToString(CultureInfo.InvariantCulture);
+
+        var mpProp = scpropertychanged.PropertyChanged[RoleProperties.ROLE_MP];
+        HeroInfo.Prop[RoleProperties.ROLE_MP] = mpProp;
+        atk.text = mpProp.ToString(CultureInfo.InvariantCulture);
+
+        CheckButtonEnabled();
+    }
+
+    private void OnPlayerPropertyChanged(SCPropertyChangedNumber scpropertychanged)
+    {
+        ownedSoulValue.text = PlayerModelLocator.Instance.Sprit.ToString(CultureInfo.InvariantCulture);
     }
 
     private void ShowUnNeedObjects(bool show)
@@ -176,6 +238,25 @@ public class UILevelUpHeroWindow : Window
             mp.text = heroInfo.Prop[RoleProperties.ROLE_MP].ToString(CultureInfo.InvariantCulture);
             mpSlider.value = (float)heroInfo.Prop[RoleProperties.ROLE_MP] / maxMp;
         }
+        else
+        {
+            atkSlider.value = 1;
+            hpSlider.value = 1;
+            recoverSlider.value = 1;
+            mpSlider.value = 1;
+        }
+    }
+
+    private void ResetPreShow()
+    {
+        atkForeShowSlider.value = 0;
+        hpForeShowSlider.value = 0;
+        recoverForeShowSlider.value = 0;
+        mpForeShowSlider.value = 0;
+        changedAtk.text = "";
+        changedHp.text = "";
+        changedRecover.text = "";
+        changedMp.text = "";
     }
 
     private void OnNormalClicked(GameObject go)
@@ -229,27 +310,13 @@ public class UILevelUpHeroWindow : Window
     /// </summary>
     private void OnOkBtnClicked(GameObject go)
     {
-        if (curLvl > heroInfo.Lvl)
+        if (heroInfo != null)
         {
-            var csmsg = new CSHeroLvlUp { TargetLvl = curLvl, Uuid = HeroBaseInfoWindow.CurUuid };
-            NetManager.SendMessage(csmsg);
-        }
-    }
-
-    private void CheckButtonEnabled()
-    {
-        if (curLvl == heroTemplate.LvlLimit)
-        {
-            addLis.GetComponent<UIButton>().isEnabled = false;
-        }
-        else if (curLvl == heroInfo.Lvl)
-        {
-            subLis.GetComponent<UIButton>().isEnabled = false;
-        }
-        else
-        {
-            addLis.GetComponent<UIButton>().isEnabled = true;
-            subLis.GetComponent<UIButton>().isEnabled = true;
+            if(curLvl > heroInfo.Lvl)
+            {
+                var csmsg = new CSHeroLvlUp {TargetLvl = curLvl, Uuid = heroInfo.Uuid};
+                NetManager.SendMessage(csmsg);
+            }
         }
     }
 
@@ -259,7 +326,14 @@ public class UILevelUpHeroWindow : Window
     private void OnAddBtnClicked(GameObject go)
     {
         LevelUp(true);
-        CheckButtonEnabled();
+        if(curLvl == heroTemplate.LvlLimit || totalCostSoul + GetCostSoul((short)(curLvl + 1), heroTemplate.Star) > PlayerModelLocator.Instance.Sprit)
+        {
+            addLis.GetComponent<UIButton>().isEnabled = false;
+        }
+        if(curLvl == heroInfo.Lvl + 1)
+        {
+            subLis.GetComponent<UIButton>().isEnabled = true;
+        }
     }
 
     /// <summary>
@@ -268,7 +342,14 @@ public class UILevelUpHeroWindow : Window
     private void OnSubLisClicked(GameObject go)
     {
         LevelUp(false);
-        CheckButtonEnabled();
+        if (curLvl == heroTemplate.LvlLimit - 1)
+        {
+            addLis.GetComponent<UIButton>().isEnabled = true;
+        }
+        if (curLvl == heroInfo.Lvl)
+        {
+            subLis.GetComponent<UIButton>().isEnabled = false;
+        }
     }
 
     /// <summary>
@@ -317,7 +398,21 @@ public class UILevelUpHeroWindow : Window
     {
         if(heroInfo != null)
         {
-            CheckButtonEnabled();
+            ownedSoulValue.text = PlayerModelLocator.Instance.Sprit.ToString(CultureInfo.InvariantCulture);
+        }
+    }
+
+    private IEnumerator PlayEffect(float time)
+    {
+        var pss = LevelUpEffect.GetComponents<ParticleSystem>();
+        foreach (var system in pss)
+        {
+            system.Play();
+        }
+        yield return new WaitForSeconds(time);
+        foreach (var system in pss)
+        {
+            system.Stop();
         }
     }
 
@@ -328,4 +423,16 @@ public class UILevelUpHeroWindow : Window
         HeroInfo = HeroModelLocator.Instance.FindHero(uuid);
         RefreshData();
     }
+
+    /// <summary>
+    /// Show level over result.
+    /// </summary>
+    public void ShowLevelOver()
+    {
+        StartCoroutine("PlayEffect", 1.5f);
+        ResetPreShow();
+        totalCostSoul = 0;
+        usedSoulValue.text = totalCostSoul.ToString(CultureInfo.InvariantCulture);
+    }
+
 }

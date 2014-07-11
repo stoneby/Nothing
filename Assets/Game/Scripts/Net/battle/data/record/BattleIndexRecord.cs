@@ -32,13 +32,6 @@ namespace com.kx.sglm.gs.battle.share.data.record
 			fillPointList = new List<PointRecord>();
 		}
 
-		public override bool Empty
-		{
-			get
-			{
-				return false;
-			}
-		}
 
 		public virtual List<PointRecord> FillPointList
 		{
@@ -59,17 +52,20 @@ namespace com.kx.sglm.gs.battle.share.data.record
 		public virtual void addFillPointList(int fighterIndex, int fighterColor)
 		{
 			addPoint(fighterIndex, fighterColor, fillPointList);
+			setModified();
 		}
 
 		public virtual void addPointList(int fighterIndex, int fighterColor)
 		{
 			addPoint(fighterIndex, fighterColor, allPointList);
+			setModified();
 		}
 
 		protected internal virtual void addPoint(int fighterIndex, int fighterColor, List<PointRecord> list)
 		{
 			PointRecord _record = new PointRecord(fighterIndex, fighterColor);
 			list.Add(_record);
+			setModified();
 		}
 
 
@@ -82,6 +78,7 @@ namespace com.kx.sglm.gs.battle.share.data.record
 			set
 			{
 				this.targetSide = value;
+				setModified();
 			}
 		}
 

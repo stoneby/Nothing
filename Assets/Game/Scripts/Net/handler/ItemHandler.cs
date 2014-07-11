@@ -29,7 +29,8 @@ namespace Assets.Game.Scripts.Net.handler
                     if (themsg.BagType == ItemType.MainItemBagType)
                     {
                         ItemModeLocator.Instance.ScAllItemInfos = themsg;
-                        WindowManager.Instance.GetWindow<HeroBaseInfoWindow>().ShowHeroSelItems();
+                        WindowManager.Instance.GetWindow<UIHeroDetailWindow>().RefreshCanEquipItems();
+                        //WindowManager.Instance.GetWindow<HeroBaseInfoWindow>().ShowHeroSelItems();
                     }
                 }
             }

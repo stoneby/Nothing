@@ -23,6 +23,8 @@ namespace com.kx.sglm.gs.battle.share.data.record
 
 		void showBattleErrorRecord(BattleErrorRecord battleErrorRecord);
 
+		void showBattleTeamInfoRecord(BattleTeamInfoRecord battletTeamInfoRecord);
+
 	    void showBattleDebugRecord(BattleDebugRecord battleDebugRecord);
 	}
 

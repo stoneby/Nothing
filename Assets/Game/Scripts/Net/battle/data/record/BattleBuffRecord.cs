@@ -1,7 +1,7 @@
 namespace com.kx.sglm.gs.battle.share.data.record
 {
 
-	public class BattleBuffRecord : BaseViewRecord<SingleActionRecord>
+	public class BattleBuffRecord : BaseViewRecord<SingleFighterRecord>
 	{
 
 		private int sideIndex;
@@ -19,22 +19,14 @@ namespace com.kx.sglm.gs.battle.share.data.record
 		}
 
 
-		public override bool Empty
-		{
-			get
-			{
-				return RecordList.Count == 0;
-			}
-		}
-
 		public override void show(IBattleView viewObj)
 		{
 			viewObj.showBattleBuffRecord(this);
 		}
 
-		internal override SingleActionRecord createRecord()
+		internal override SingleFighterRecord createRecord()
 		{
-			return new SingleActionRecord();
+			return new SingleFighterRecord();
 		}
 
 

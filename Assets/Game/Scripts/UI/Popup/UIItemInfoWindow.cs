@@ -187,7 +187,7 @@ public class UIItemInfoWindow : Window
         }
         else if (ItemModeLocator.Instance.GetItemDetailPos == ItemType.GetItemDetailInHeroInfo)
         {
-            WindowManager.Instance.Show<UIHeroSelItemWindow>(true);
+            WindowManager.Instance.Show<UIHeroDetailWindow>(true);
             WindowManager.Instance.Show<ItemBaseInfoWindow>(false);
         }
     }

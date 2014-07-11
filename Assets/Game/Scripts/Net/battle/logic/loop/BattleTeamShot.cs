@@ -1,11 +1,13 @@
 namespace com.kx.sglm.gs.battle.share.logic.loop
 {
 
+	using BattleArmy = com.kx.sglm.gs.battle.share.actor.impl.BattleArmy;
 	using BattleFighter = com.kx.sglm.gs.battle.share.actor.impl.BattleFighter;
 	using BattleTeam = com.kx.sglm.gs.battle.share.actor.impl.BattleTeam;
 	using BattleTeamFightRecord = com.kx.sglm.gs.battle.share.data.record.BattleTeamFightRecord;
 	using TeamShotStartEvent = com.kx.sglm.gs.battle.share.@event.impl.TeamShotStartEvent;
 	using BattleLogicHelper = com.kx.sglm.gs.battle.share.helper.BattleLogicHelper;
+	using BattleRecordHelper = com.kx.sglm.gs.battle.share.helper.BattleRecordHelper;
 	using com.kx.sglm.gs.battle.share.logic;
 	using BattleAttackAction = com.kx.sglm.gs.battle.share.logic.action.BattleAttackAction;
 
@@ -35,6 +37,16 @@ namespace com.kx.sglm.gs.battle.share.logic.loop
 			TeamShotStartEvent _event = new TeamShotStartEvent(Battle.CurScene);
 			_event.TeamFightRecord = _teamReocrd;
 			CurAttacker.onTeamShotStart(_event);
+			recordBattleTeamInfo();
+		}
+
+		protected internal virtual void recordBattleTeamInfo()
+		{
+			BattleArmy _army = Battle.BattleArmy;
+			foreach (BattleTeam _team in _army.ActorList)
+			{
+				BattleRecordHelper.recordBattleTeamRecord(_team, Record);
+			}
 		}
 
 		public override void onFinish()
@@ -45,7 +57,7 @@ namespace com.kx.sglm.gs.battle.share.logic.loop
 			BattleLogicHelper.refreshState(Battle.BattleArmy);
 			// 如果是玩家处理下一批武将的入场
 			Battle.BattleExcuter.onBattleTeamShotFinish(this);
-			Record.finishCurTeamRecord();
+			Record.finishCurTeamFightRecord();
 		}
 
 		public override bool hasNextSubAction()

@@ -10,6 +10,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 	using FighterType = com.kx.sglm.gs.battle.share.enums.FighterType;
 	using HeroColor = com.kx.sglm.gs.battle.share.enums.HeroColor;
 	using InnerBattleEvent = com.kx.sglm.gs.battle.share.@event.InnerBattleEvent;
+	using BeforeAttackEvent = com.kx.sglm.gs.battle.share.@event.impl.BeforeAttackEvent;
 	using TeamShotStartEvent = com.kx.sglm.gs.battle.share.@event.impl.TeamShotStartEvent;
 	using IBattleExecuter = com.kx.sglm.gs.battle.share.executer.IBattleExecuter;
 	using BattleTeamShot = com.kx.sglm.gs.battle.share.logic.loop.BattleTeamShot;
@@ -68,6 +69,11 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 			{
 				_fighter.onTeamShotStart(@event);
 			}
+		}
+
+		public virtual void beforeAttack(BeforeAttackEvent @event)
+		{
+
 		}
 
 		public override void onDead()

@@ -81,7 +81,6 @@ namespace com.kx.sglm.gs.battle.share.skill.manager
 
 		public override void onSceneStart(SceneStartEvent @event)
 		{
-			// TODO Auto-generated method stub
 
 		}
 

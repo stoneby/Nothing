@@ -1033,7 +1033,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
 
     private GameObject GetCharacterByAction(SingleActionRecord action)
     {
-        return GetObjectByAction(TeamController.CharacterList, action);
+        return GetObjectByAction(TeamController.CharacterList, action.FighterInfo);
     }
 
     /// <summary>
@@ -1043,16 +1043,16 @@ public class InitBattleField : MonoBehaviour, IBattleView
     /// <returns>The monster</returns>
     private GameObject GetEnemyByAction(SingleActionRecord action)
     {
-        return GetObjectByAction(EnemyController.CharacterList, action);
+        return GetObjectByAction(EnemyController.CharacterList, action.FighterInfo);
     }
 
-    private GameObject GetObjectByAction(List<Character> characterList, SingleActionRecord action)
+    private GameObject GetObjectByAction(List<Character> characterList, SingleFighterRecord action)
     {
         var character = characterList.Find(item => (item.Data.Index == action.Index));
 
         if (character == null)
         {
-            Logger.LogWarning("[***************] Could not find character with index: " + action.Index + " in side: " + action.SideIndex);
+            Logger.LogWarning("[***************] Could not find character with index: " + action.Index + " in side: " + action.Side);
             return null;
         }
         return character.gameObject;
@@ -1898,6 +1898,33 @@ public class InitBattleField : MonoBehaviour, IBattleView
         character.ResetBuff();
     }
 
+    public void showBattleErrorRecord(BattleErrorRecord battleErrorRecord)
+    {
+        Logger.LogWarning("I got an error.");
+    }
+
+    public void showBattleTeamInfoRecord(BattleTeamInfoRecord battletTeamInfoRecord)
+    {
+        Logger.Log("[-----RECORD-----] showBattleTeamInfoRecord: " + battletTeamInfoRecord + ", count: " + battletTeamInfoRecord.RecordList.Count);
+
+        if (battletTeamInfoRecord.Side == BattleRecordConstants.TARGET_SIDE_A)
+        {
+            var characterList = TeamController.CharacterList;
+            battletTeamInfoRecord.RecordList.ForEach(record =>
+            {
+                var characterObject = GetObjectByAction(characterList, record);
+                
+                Logger.LogWarning("Find character: " + characterObject.name);
+
+                var characterControll = characterObject.GetComponent<CharacterControl>();
+                characterControll.SetAttackLabel(record);
+            });
+        }
+
+        recordIndex++;
+        DealWithRecord();
+    }
+
     /// <summary>
     /// Show record of battle ending.
     /// </summary>
@@ -1996,11 +2023,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
         MissionModelLocator.Instance.OldLevel = PlayerModelLocator.Instance.Level;
         MissionModelLocator.Instance.AddFinishTime(MissionModelLocator.Instance.SelectedStageId);
         NetManager.SendMessage(msg);
-    }
-
-    public void showBattleErrorRecord(BattleErrorRecord battleErrorRecord)
-    {
-        Logger.LogWarning("I got an error.");
     }
 
     private List<IBattleViewRecord> recordList;

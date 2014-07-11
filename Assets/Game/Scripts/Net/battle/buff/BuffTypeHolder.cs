@@ -39,7 +39,7 @@ namespace com.kx.sglm.gs.battle.share.buff
 
 		public virtual bool hasSameBuff(IBuffAction buffAction)
 		{
-			return buffMap.ContainsKey(buffAction.TypeA);
+			return buffMap.ContainsKey(buffAction.TypeB);
 		}
 
 		public virtual int TypeA

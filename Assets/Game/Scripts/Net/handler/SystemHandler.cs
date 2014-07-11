@@ -31,6 +31,9 @@ namespace Assets.Game.Scripts.Net.handler
                 string str = "系统提示：";
                 switch (errmsg.ErrorCode)
                 {
+                    case (short)ErrorType.ACCOUNT_NOT_ACTIVE:
+                        str += "账号未激活";
+                        break;
                     case (short)ErrorType.CREATE_CHAR_FAIL:
                         str += "创建角色失败";
                         break;
@@ -39,6 +42,12 @@ namespace Assets.Game.Scripts.Net.handler
                         break;
                     case (short)ErrorType.ILLEGAL_REQUEST:
                         str += "非法请求";
+                        break;
+                    case (short)ErrorType.LOGIN_CHECK_FAIL:
+                        str += "登录信息检查未通过";
+                        break;
+                    case (short)ErrorType.LOGIN_EXPIRED:
+                        str += "登录超时";
                         break;
                     case (short)ErrorType.LOGIN_INVALID:
                         str += "登录失效";
@@ -54,6 +63,9 @@ namespace Assets.Game.Scripts.Net.handler
                         break;
                     case (short)ErrorType.SERVER_NOT_OPEN:
                         str += "服务器未开放";
+                        break;
+                    case(short)ErrorType.USER_LOCKED:
+                        str += "帐号被锁定";
                         break;
                     default:
                         str = "未处理的ErrorCode：" + errmsg.ErrorCode;

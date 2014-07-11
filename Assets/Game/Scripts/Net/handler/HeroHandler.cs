@@ -44,11 +44,6 @@ namespace Assets.Game.Scripts.Net.handler
                         infos.Add(createOneMsg.NewHero);
                         var herosWindow = WindowManager.Instance.GetWindow<UIHeroCommonWindow>();
                         herosWindow.Refresh(infos);
-                        //var herosWindow = WindowManager.Instance.GetWindow<UIHerosPageWindow>();
-                        //herosWindow.Refresh(infos);
-                        //var viewHandler = WindowManager.Instance.GetWindow<UIHeroDispTabWindow>().HeroViewHandler;
-                        //herosWindow.ItemClicked = viewHandler.OnHeroItemClicked;
-                        //viewHandler.Refresh();
                     }
                     break;
                 case (short) MessageType.SC_HERO_MODIFY_TEAM:
@@ -77,10 +72,6 @@ namespace Assets.Game.Scripts.Net.handler
                             }
                         }
                         WindowManager.Instance.Show<UISellDialogWindow>(false);
-                        //var heroSellHandler = WindowManager.Instance.GetWindow<UIHeroDispTabWindow>().HeroSellHandler;
-                        //heroSellHandler.CleanUp();
-                        //WindowManager.Instance.GetWindow<UIHerosPageWindow>().Refresh(heroList);
-                        //heroSellHandler.FreshSellStates(); 
                         var sellhero = WindowManager.Instance.GetWindow<UISellHeroWindow>();
                         sellhero.CleanUp();
                         WindowManager.Instance.GetWindow<UIHeroCommonWindow>().Refresh(heroList);
@@ -89,7 +80,7 @@ namespace Assets.Game.Scripts.Net.handler
                     break;
 
                 case (short) MessageType.SC_HERO_LVL_UP:
-                    WindowManager.Instance.GetWindow<UILevelUpWindow>().ShowLevelOver();
+                    WindowManager.Instance.GetWindow<UILevelUpHeroWindow>().ShowLevelOver();
                     break;
                 case (short) MessageType.SC_HERO_MAX_EXTEND:
                     var themsg = msg.GetContent() as SCHeroMaxExtend;
@@ -103,8 +94,9 @@ namespace Assets.Game.Scripts.Net.handler
                     var hChangeEquipMsg = msg.GetContent() as SCHeroChangeEquip;
                     if(hChangeEquipMsg != null)
                     {
-                        var heroBaseWindow = WindowManager.Instance.GetWindow<HeroBaseInfoWindow>();
-                        heroBaseWindow.HeroInfo.EquipUuid[heroBaseWindow.CurEquipIndex] = hChangeEquipMsg.EquipUuid;
+                        var heroDetail = WindowManager.Instance.GetWindow<UIHeroDetailWindow>();
+                        heroDetail.HeroInfo.EquipUuid[heroDetail.CurEquipIndex] = hChangeEquipMsg.EquipUuid;
+                        heroDetail.RefreshData(heroDetail.HeroInfo);
                     }
                     break;
                 case (short) MessageType.SC_HERO_BIND_SUCC:

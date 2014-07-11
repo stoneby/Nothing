@@ -33,6 +33,7 @@ public class ChooseHeroCardWindow : Window
     private Transform elevenTimesDesc;
     private AdvertisePlayer player;
     private int lotteryMode = -1;
+    private bool isHeroChoose;
 
     #endregion
 
@@ -328,10 +329,9 @@ public class ChooseHeroCardWindow : Window
         table.repositionNow = true;
         tabBehaviour.InitTab(toggleItems, 0, "FourTabN", "FourTabD");
         tabBehaviour.TabChanged += OnTabChanged;
-        var isHeroChoose = (lotteryList.LotteryType == LotteryConstant.LotteryTypeHero);
+        isHeroChoose = (lotteryList.LotteryType == LotteryConstant.LotteryTypeHero);
         NGUITools.SetActiveChildren(heroRelated.gameObject, isHeroChoose);
         NGUITools.SetActiveChildren(itemRelated.gameObject, !isHeroChoose);
-
         var oneTimeCostValue = lotteryList.LotteryCost;
         oneTimeCost.text = oneTimeCostValue.ToString(CultureInfo.InvariantCulture);
         tenTimeCost.text = (oneTimeCostValue * TenTimes).ToString(CultureInfo.InvariantCulture);
@@ -351,8 +351,11 @@ public class ChooseHeroCardWindow : Window
     /// <param name="restTimes"></param>
     public void RefreshTimes(long lastTime, int restTimes)
     {
-        DisplayFreeTime(lastTime);
-        timesForHero.text = restTimes.ToString(CultureInfo.InvariantCulture);
+        if (isHeroChoose)
+        {
+            DisplayFreeTime(lastTime);
+            timesForHero.text = restTimes.ToString(CultureInfo.InvariantCulture);
+        }
     }
 
     /// <summary>

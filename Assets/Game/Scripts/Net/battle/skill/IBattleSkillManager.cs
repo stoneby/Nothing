@@ -10,7 +10,6 @@ namespace com.kx.sglm.gs.battle.share.skill
 	public interface IBattleSkillManager : IRoundCounter, IFighterOwner
 	{
 
-
 		ISingletonSkillAction AttackAction {get;}
 
 		bool canAttack();

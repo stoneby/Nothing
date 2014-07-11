@@ -5,7 +5,7 @@ public class ItemBase : MonoBehaviour
     protected Transform cachedTran;
     private UISprite bg;
     private sbyte quality;
-    public sbyte Quality
+    public virtual sbyte Quality
     {
         get { return quality; }
         protected set
