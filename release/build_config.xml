@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="BuiltZip" default="release">
+	<property name="lib.dir" value="lib"/>
+	<target name="release">
+		<echo>Test Release</echo>
+	</target>
+	<tstamp/>
+	<target name="AndroidConfig"  depends="ReplaceFile">
+		<echo>Android Package Config Params</echo>
+	</target>
+	<target name="ExeConfig"  depends="ReplaceFile">
+		<echo>Exe Package Config Params</echo>
+	</target>
+	<target name="ReplaceFile">
+		<echo>Replace Params In  Config File</echo>
+		<replace file ="../Assets/Game/Resources/Config/GameConfiguration.xml" token="default" value="${fName}" encoding="UTF-8"/>
+		<replace file ="../Assets/Game/Resources/Config/GameConfiguration.xml" token="1.0.0" value="${GameVersion}" encoding="UTF-8"/>
+		<replace file ="../Assets/Game/Resources/Config/GameConfiguration.xml" token="cn.kx.sglm" value="${BundleID}" encoding="UTF-8"/>
+		<replace file ="../Assets/Game/Resources/Config/GameConfiguration.xml" token="SanGuoLianMeng" value="${GameName}" encoding="UTF-8"/>
+		<replace file ="../Assets/Game/Resources/Config/GameConfiguration.xml" token="http://27.131.223.229/config/service.xml" value="${ServicePath}" encoding="UTF-8"/>
+	</target>
+</project>

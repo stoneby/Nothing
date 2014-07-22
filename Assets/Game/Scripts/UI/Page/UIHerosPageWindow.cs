@@ -167,7 +167,7 @@ public class UIHerosPageWindow : Window
             var info = newInfos[i];
             List<long> curTeamUuids;
             List<long> allTeamUuids;
-            HeroModelLocator.Instance.GetTeamUuids(out curTeamUuids, out allTeamUuids);
+            HeroModelLocator.Instance.GetTeamUuids(out curTeamUuids, out allTeamUuids, HeroModelLocator.Instance.SCHeroList.CurrentTeamIndex);
             heroItem.InitItem(info, curTeamUuids, allTeamUuids);
             HeroUtils.ShowHero(orderType, heroItem, info);
         }

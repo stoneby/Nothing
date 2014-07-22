@@ -46,10 +46,9 @@ public class EquipItem : ItemBase
         otherTeamEquiped = cachedTran.FindChild("OtherEquiped");
     }
 
-    public void InitItem(ItemInfo itemInfo)
+    public override void InitItem(ItemInfo itemInfo)
     {
-        BagIndex = itemInfo.BagIndex;
-        Quality = ItemModeLocator.Instance.GetQuality(itemInfo.TmplId);
+        base.InitItem(itemInfo);
         BindState = itemInfo.BindStatus;
         EquipStatus = itemInfo.EquipStatus;
     }
@@ -57,7 +56,7 @@ public class EquipItem : ItemBase
     /// <summary>
     /// Show each hero items with the job info.
     /// </summary>
-    public void ShowByJob(sbyte job, int atk)
+    public virtual void ShowByJob(sbyte job, int atk)
     {
         var attackTitle = Utils.FindChild(sortRelatedTran, "Attack-Title");
         var jobSymobl = Utils.FindChild(sortRelatedTran, "JobSymbol").GetComponent<UISprite>();
@@ -80,7 +79,7 @@ public class EquipItem : ItemBase
     /// <summary>
     /// Show each hero items with the hp info.
     /// </summary>
-    public void ShowByHp(int hp)
+    public virtual void ShowByHp(int hp)
     {
         var hpTitle = Utils.FindChild(sortRelatedTran, "HP-Title");
         var hpValue = Utils.FindChild(sortRelatedTran, "HP-Value").GetComponent<UILabel>();
@@ -93,7 +92,7 @@ public class EquipItem : ItemBase
     /// <summary>
     /// Show each hero items with the recover info.
     /// </summary>
-    public void ShowByRecover(int recover)
+    public virtual void ShowByRecover(int recover)
     {
         var recoverTitle = Utils.FindChild(sortRelatedTran, "Recover-Title");
         var recoverValue = Utils.FindChild(sortRelatedTran, "Recover-Value").GetComponent<UILabel>();
@@ -106,7 +105,7 @@ public class EquipItem : ItemBase
     /// <summary>
     /// Show each hero items with the level info.
     /// </summary>
-    public void ShowByLvl(short level)
+    public virtual void ShowByLvl(short level)
     {
         var lvTitle = Utils.FindChild(sortRelatedTran, "LV-Title");
         var lvValue = Utils.FindChild(sortRelatedTran, "LV-Value").GetComponent<UILabel>();
@@ -114,6 +113,13 @@ public class EquipItem : ItemBase
         NGUITools.SetActiveChildren(sortRelatedTran.gameObject, false);
         NGUITools.SetActive(lvTitle.gameObject, true);
         NGUITools.SetActive(lvValue.gameObject, true);
+    }
+
+    /// <summary>
+    /// Show each hero items with the quality of the hero.
+    /// </summary>
+    public virtual void ShowByQuality(int star)
+    {
     }
 
     public void ShowLockMask(bool show)

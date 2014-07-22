@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using KXSGCodec;
 using Property;
 using UnityEngine;
@@ -32,7 +33,7 @@ public class BattleConfirmWindowWindow : Window
 
     public override void OnEnter()
     {
-
+        MtaManager.TrackBeginPage(MtaType.RaidConfirmScreen);
         var friend = FriendItem.GetComponent<AtkHeroItemControl>();
         friend.SetData(MissionModelLocator.Instance.FriendData.Data, MissionModelLocator.Instance.FriendData.IsFriend);
         var hero =
@@ -58,6 +59,7 @@ public class BattleConfirmWindowWindow : Window
         if (LeftUIEventListener != null) LeftUIEventListener.onClick -= OnLeftClick;
         if (RightUIEventListener != null) RightUIEventListener.onClick -= OnRightClick;
         if (ReturnUIEventListener != null) ReturnUIEventListener.onClick -= OnReturnClick;
+        MtaManager.TrackEndPage(MtaType.RaidConfirmScreen);
     }
 
     #endregion
@@ -106,6 +108,10 @@ public class BattleConfirmWindowWindow : Window
         csMsg.TeamIndex = (sbyte)hor.CurrentIndex;
         NetManager.SendMessage(csMsg);
         MissionModelLocator.Instance.MissionStep = RaidType.StepStageList;
+        Dictionary<string, string> dict = new Dictionary<string, string>();
+        dict.Add("raid", MissionModelLocator.Instance.SelectedStageId.ToString());
+        dict.Add("friend", MissionModelLocator.Instance.FriendData.Data.FriendUuid.ToString());
+        MtaManager.TrackCustomKVEvent(MtaType.VKEventBattle, dict);
     }
 
     private void OnLeftClick(GameObject game)

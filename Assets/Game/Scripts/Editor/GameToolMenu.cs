@@ -1,5 +1,4 @@
 ﻿using UnityEditor;
-using UnityEngine;
 
 /// <summary>
 /// Tool menu shows on unity menu bar.
@@ -36,6 +35,18 @@ public static class GameToolMenu
     static public void OpenSwitchFont()
     {
         EditorWindow.GetWindow<SwitchFontEditorWindow>(false, "Switch Font", true);
+    }
+
+    [MenuItem("Tool/Localization Manager", false, 0)]
+    static public void OpenAddLocalization()
+    {
+        EditorWindow.GetWindow<LocalizationManagerEditorWindow>(false, "Localization Manager", true);
+    }
+
+    [MenuItem("Tool/Battle Ground Configurator", false, 0)]
+    static public void OpenBattleGroundConfigurator()
+    {
+        EditorWindow.GetWindow<BattlegroundEditorWindow>(false, "Battle Ground Configurator", true);
     }
 
     #endregion

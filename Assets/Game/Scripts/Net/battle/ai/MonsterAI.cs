@@ -5,6 +5,7 @@ namespace com.kx.sglm.gs.battle.share.ai
 
 
 	using MathUtils = com.kx.sglm.core.util.MathUtils;
+	using BattleFighter = com.kx.sglm.gs.battle.share.actor.impl.BattleFighter;
 
 	public class MonsterAI
 	{
@@ -26,22 +27,20 @@ namespace com.kx.sglm.gs.battle.share.ai
 		}
 
 
-		// TODO: add param
-		public virtual int calcCurSkill()
+		public virtual int calcCurSkill(BattleFighter attacker)
 		{
-			List<SkillRoulettePair> _skillList = calcCanOpSkills();
+			List<SkillRoulettePair> _skillList = calcCanOpSkills(attacker);
 			SkillRoulettePair _resultSkill = MathUtils.rolette(_skillList);
 			int _skillId = _resultSkill == null ? 0 : _resultSkill.SkillId;
 			return _skillId;
 		}
 
-		// TODO: add param
-		protected internal virtual List<SkillRoulettePair> calcCanOpSkills()
+		protected internal virtual List<SkillRoulettePair> calcCanOpSkills(BattleFighter attacker)
 		{
 			List<SkillRoulettePair> _canOpSkill = new List<SkillRoulettePair>();
 			foreach (SkillAIHolder _holder in allAISkill)
 			{
-				_canOpSkill.AddRange(_holder.CanOptionSkill);
+				_canOpSkill.AddRange(_holder.getCanOptionSkill(attacker));
 				if (_canOpSkill.Count > 0)
 				{
 					break;
@@ -59,6 +58,7 @@ namespace com.kx.sglm.gs.battle.share.ai
 			set
 			{
 				this.allAISkill = value;
+				sortAISkills();
 			}
 			get
 			{

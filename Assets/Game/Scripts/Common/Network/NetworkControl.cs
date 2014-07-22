@@ -120,6 +120,9 @@ public class NetworkControl : MonoBehaviour
                     case (short)MessageType.SC_LOTTERY_COMPOSE_SUCC:
                         ChooseCardHandler.OnLotteryComposeSucc(msg);
                         break;
+                    case(short)MessageType.SC_RECHARGE_ID_MSG:
+                        SDKPayManager.PayInSDK(msg);
+                        break;
                 }
                 msg = NetManager.GetMessage();
             }

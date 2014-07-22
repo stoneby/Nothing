@@ -98,7 +98,6 @@ namespace com.kx.sglm.gs.battle.share.data.record
 			{
 				setEmpty();
 			}
-			fightRecord = null;
 		}
 
 		public override void show(IBattleView viewObj)

@@ -1,0 +1,478 @@
+fileFormatVersion: 2
+guid: 5c7f2c1b739125e499c6ec3560923c74
+ModelImporter:
+  serializedVersion: 16
+  fileIDToRecycleName:
+    100000: D_gongshang
+    100002: D_gongxia
+    100004: D_gongzhong
+    100006: D_gupen
+    100008: D_jianba
+    100010: D_lian
+    100012: D_lianbiaoqing01
+    100014: D_toufa1
+    100016: D_toufa2
+    100018: D_toufa3
+    100020: D_toufa4
+    100022: D_toufa5
+    100024: D_xiong
+    100026: D_yao
+    100028: D_yaopian
+    100030: D_youdabi
+    100032: D_youdatui
+    100034: D_youjiao
+    100036: D_youshou
+    100038: D_youxiaobi
+    100040: D_youxiaobili
+    100042: D_youxiaotui
+    100044: D_youyaopian
+    100046: D_zuodabi
+    100048: D_zuodatui
+    100050: D_zuojiao
+    100052: D_zuoshou
+    100054: D_zuoxiaobi
+    100056: D_zuoxiaotui
+    100058: D_zuoyaopian
+    100060: //RootNode
+    400000: D_gongshang
+    400002: D_gongxia
+    400004: D_gongzhong
+    400006: D_gupen
+    400008: D_jianba
+    400010: D_lian
+    400012: D_lianbiaoqing01
+    400014: D_toufa1
+    400016: D_toufa2
+    400018: D_toufa3
+    400020: D_toufa4
+    400022: D_toufa5
+    400024: D_xiong
+    400026: D_yao
+    400028: D_yaopian
+    400030: D_youdabi
+    400032: D_youdatui
+    400034: D_youjiao
+    400036: D_youshou
+    400038: D_youxiaobi
+    400040: D_youxiaobili
+    400042: D_youxiaotui
+    400044: D_youyaopian
+    400046: D_zuodabi
+    400048: D_zuodatui
+    400050: D_zuojiao
+    400052: D_zuoshou
+    400054: D_zuoxiaobi
+    400056: D_zuoxiaotui
+    400058: D_zuoyaopian
+    400060: //RootNode
+    7400000: Idle
+    7400002: Run
+    7400004: Attack
+    7400006: Hurt
+    9500000: //RootNode
+    11100000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Idle
+      takeName: Take 001
+      firstFrame: 1
+      lastFrame: 19
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: D_gongshang
+        weight: 1
+      - path: D_gongxia
+        weight: 1
+      - path: D_gongzhong
+        weight: 1
+      - path: D_gupen
+        weight: 1
+      - path: D_jianba
+        weight: 1
+      - path: D_lian
+        weight: 1
+      - path: D_lianbiaoqing01
+        weight: 1
+      - path: D_toufa1
+        weight: 1
+      - path: D_toufa2
+        weight: 1
+      - path: D_toufa3
+        weight: 1
+      - path: D_toufa4
+        weight: 1
+      - path: D_toufa5
+        weight: 1
+      - path: D_xiong
+        weight: 1
+      - path: D_yao
+        weight: 1
+      - path: D_yaopian
+        weight: 1
+      - path: D_youdabi
+        weight: 1
+      - path: D_youdatui
+        weight: 1
+      - path: D_youjiao
+        weight: 1
+      - path: D_youshou
+        weight: 1
+      - path: D_youxiaobi
+        weight: 1
+      - path: D_youxiaobili
+        weight: 1
+      - path: D_youxiaotui
+        weight: 1
+      - path: D_youyaopian
+        weight: 1
+      - path: D_zuodabi
+        weight: 1
+      - path: D_zuodatui
+        weight: 1
+      - path: D_zuojiao
+        weight: 1
+      - path: D_zuoshou
+        weight: 1
+      - path: D_zuoxiaobi
+        weight: 1
+      - path: D_zuoxiaotui
+        weight: 1
+      - path: D_zuoyaopian
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Run
+      takeName: Take 001
+      firstFrame: 28
+      lastFrame: 42
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: D_gongshang
+        weight: 1
+      - path: D_gongxia
+        weight: 1
+      - path: D_gongzhong
+        weight: 1
+      - path: D_gupen
+        weight: 1
+      - path: D_jianba
+        weight: 1
+      - path: D_lian
+        weight: 1
+      - path: D_lianbiaoqing01
+        weight: 1
+      - path: D_toufa1
+        weight: 1
+      - path: D_toufa2
+        weight: 1
+      - path: D_toufa3
+        weight: 1
+      - path: D_toufa4
+        weight: 1
+      - path: D_toufa5
+        weight: 1
+      - path: D_xiong
+        weight: 1
+      - path: D_yao
+        weight: 1
+      - path: D_yaopian
+        weight: 1
+      - path: D_youdabi
+        weight: 1
+      - path: D_youdatui
+        weight: 1
+      - path: D_youjiao
+        weight: 1
+      - path: D_youshou
+        weight: 1
+      - path: D_youxiaobi
+        weight: 1
+      - path: D_youxiaobili
+        weight: 1
+      - path: D_youxiaotui
+        weight: 1
+      - path: D_youyaopian
+        weight: 1
+      - path: D_zuodabi
+        weight: 1
+      - path: D_zuodatui
+        weight: 1
+      - path: D_zuojiao
+        weight: 1
+      - path: D_zuoshou
+        weight: 1
+      - path: D_zuoxiaobi
+        weight: 1
+      - path: D_zuoxiaotui
+        weight: 1
+      - path: D_zuoyaopian
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Attack
+      takeName: Take 001
+      firstFrame: 43
+      lastFrame: 58
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: D_gongshang
+        weight: 1
+      - path: D_gongxia
+        weight: 1
+      - path: D_gongzhong
+        weight: 1
+      - path: D_gupen
+        weight: 1
+      - path: D_jianba
+        weight: 1
+      - path: D_lian
+        weight: 1
+      - path: D_lianbiaoqing01
+        weight: 1
+      - path: D_toufa1
+        weight: 1
+      - path: D_toufa2
+        weight: 1
+      - path: D_toufa3
+        weight: 1
+      - path: D_toufa4
+        weight: 1
+      - path: D_toufa5
+        weight: 1
+      - path: D_xiong
+        weight: 1
+      - path: D_yao
+        weight: 1
+      - path: D_yaopian
+        weight: 1
+      - path: D_youdabi
+        weight: 1
+      - path: D_youdatui
+        weight: 1
+      - path: D_youjiao
+        weight: 1
+      - path: D_youshou
+        weight: 1
+      - path: D_youxiaobi
+        weight: 1
+      - path: D_youxiaobili
+        weight: 1
+      - path: D_youxiaotui
+        weight: 1
+      - path: D_youyaopian
+        weight: 1
+      - path: D_zuodabi
+        weight: 1
+      - path: D_zuodatui
+        weight: 1
+      - path: D_zuojiao
+        weight: 1
+      - path: D_zuoshou
+        weight: 1
+      - path: D_zuoxiaobi
+        weight: 1
+      - path: D_zuoxiaotui
+        weight: 1
+      - path: D_zuoyaopian
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Hurt
+      takeName: Take 001
+      firstFrame: 20
+      lastFrame: 27
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: D_gongshang
+        weight: 1
+      - path: D_gongxia
+        weight: 1
+      - path: D_gongzhong
+        weight: 1
+      - path: D_gupen
+        weight: 1
+      - path: D_jianba
+        weight: 1
+      - path: D_lian
+        weight: 1
+      - path: D_lianbiaoqing01
+        weight: 1
+      - path: D_toufa1
+        weight: 1
+      - path: D_toufa2
+        weight: 1
+      - path: D_toufa3
+        weight: 1
+      - path: D_toufa4
+        weight: 1
+      - path: D_toufa5
+        weight: 1
+      - path: D_xiong
+        weight: 1
+      - path: D_yao
+        weight: 1
+      - path: D_yaopian
+        weight: 1
+      - path: D_youdabi
+        weight: 1
+      - path: D_youdatui
+        weight: 1
+      - path: D_youjiao
+        weight: 1
+      - path: D_youshou
+        weight: 1
+      - path: D_youxiaobi
+        weight: 1
+      - path: D_youxiaobili
+        weight: 1
+      - path: D_youxiaotui
+        weight: 1
+      - path: D_youyaopian
+        weight: 1
+      - path: D_zuodabi
+        weight: 1
+      - path: D_zuodatui
+        weight: 1
+      - path: D_zuojiao
+        weight: 1
+      - path: D_zuoshou
+        weight: 1
+      - path: D_zuoxiaobi
+        weight: 1
+      - path: D_zuoxiaotui
+        weight: 1
+      - path: D_zuoyaopian
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 1
+  additionalBone: 0
+  userData: 

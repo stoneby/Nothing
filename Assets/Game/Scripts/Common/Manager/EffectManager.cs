@@ -128,15 +128,6 @@ public class EffectManager
         }
     }
 
-    private static void SetAllScales(GameObject obj, float scale)
-    {
-        obj.transform.localScale = new Vector3(scale, scale, scale);
-        foreach (var item in obj.transform)
-        {
-            SetAllScales(((Transform)item).gameObject, scale);
-        }
-    }
-
     private static GameObject GetEffectPrefab(string effecttype)
     {
         for (var i = 0; i < names.Count; i++)
@@ -155,10 +146,10 @@ public class EffectManager
 
     public static void PlayAllEffect(bool isplay)
     {
-        var gamecamera = GameObject.Find("Camera");
-        foreach (var item in gamecamera.transform)
-        {
-            ((Transform)item).gameObject.SetActive(isplay);
-        }
+        //var gamecamera = GameObject.Find("Camera");
+        //foreach (var item in gamecamera.transform)
+        //{
+        //    ((Transform)item).gameObject.SetActive(isplay);
+        //}
     }
 }

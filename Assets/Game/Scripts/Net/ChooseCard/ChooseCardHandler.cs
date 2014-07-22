@@ -25,8 +25,8 @@ namespace Assets.Game.Scripts.Net.handler
             {
                 if (themsg.LotteryMode == LotteryConstant.LotteryModeFree || themsg.LotteryMode == LotteryConstant.LotteryModeOnceCharge)
                 {
-                    var resultWin = WindowManager.Instance.Show<LotteryResultDispWindow>(true);
-                    resultWin.Refresh(themsg);
+                    var resultWin = WindowManager.Instance.Show<InfoShowingWindow>(true);
+                    //resultWin.Refresh(themsg);
                 }
                 else if (themsg.LotteryMode == LotteryConstant.LotteryModeTenthCharge)
                 {

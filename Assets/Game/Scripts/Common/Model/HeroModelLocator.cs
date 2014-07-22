@@ -331,15 +331,15 @@ public sealed class HeroModelLocator
     /// </summary>
     /// <param name="curTeamUuids"></param>
     /// <param name="allTeamUuids"></param>
-    public void GetTeamUuids(out List<long> curTeamUuids, out List<long> allTeamUuids)
+    /// <param name="teamIndex"></param>
+    public void GetTeamUuids(out List<long> curTeamUuids, out List<long> allTeamUuids, int teamIndex)
     {
-        var curTeamIndex = SCHeroList.CurrentTeamIndex;
         curTeamUuids = new List<long>();
         allTeamUuids = new List<long>();
         for (var i = 0; i < SCHeroList.TeamList.Count; i++)
         {
             var uUids = SCHeroList.TeamList[i].ListHeroUuid.Where(id => id != HeroConstant.NoneInitHeroUuid).ToList();
-            if (curTeamIndex == i)
+            if (teamIndex == i)
             {
                 curTeamUuids = uUids.ToList();
             }

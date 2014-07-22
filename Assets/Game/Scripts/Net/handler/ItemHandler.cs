@@ -6,6 +6,9 @@ namespace Assets.Game.Scripts.Net.handler
 {
     class ItemHandler
     {
+        public delegate void MessageReceived();
+        public static MessageReceived ItemListInItemPanel;
+
         public static void OnAllItemInfos(ThriftSCMessage msg)
         {
             var themsg = msg.GetContent() as SCAllItemInfos;
@@ -16,12 +19,16 @@ namespace Assets.Game.Scripts.Net.handler
                     if (themsg.BagType == ItemType.MainItemBagType)
                     {
                         ItemModeLocator.Instance.ScAllItemInfos = themsg;
-                        Utils.ShowWithoutDestory(typeof(UIEquipDispTabWindow));
+                        ItemModeLocator.AlreadyMainRequest = true;
                     }
                     if (themsg.BagType == ItemType.BuyBackItemBagType)
                     {
                         ItemModeLocator.Instance.BuyBackItems = themsg;
-                        WindowManager.Instance.Show<BuyBackDialogWindow>(true);
+                        ItemModeLocator.AlreadyBuyBackRequest = true;
+                    }
+                    if (ItemListInItemPanel != null)
+                    {
+                        ItemListInItemPanel();
                     }
                 }
                 else
@@ -30,7 +37,7 @@ namespace Assets.Game.Scripts.Net.handler
                     {
                         ItemModeLocator.Instance.ScAllItemInfos = themsg;
                         WindowManager.Instance.GetWindow<UIHeroDetailWindow>().RefreshCanEquipItems();
-                        //WindowManager.Instance.GetWindow<HeroBaseInfoWindow>().ShowHeroSelItems();
+                        ItemModeLocator.AlreadyMainRequest = true;
                     }
                 }
             }
@@ -56,11 +63,8 @@ namespace Assets.Game.Scripts.Net.handler
                 }
                 var infos = ItemModeLocator.Instance.ScAllItemInfos.ItemInfos;
                 infos.Add(themsg.Info);
-                var itemsWindow = WindowManager.Instance.GetWindow<UItemsWindow>();
+                var itemsWindow = WindowManager.Instance.GetWindow<UIItemCommonWindow>();
                 itemsWindow.Refresh(infos);
-                var viewHandler = WindowManager.Instance.GetWindow<UIEquipDispTabWindow>().ItemViewHandler;
-                itemsWindow.ItemClicked = viewHandler.ItemInfoClicked;
-                viewHandler.Refresh();
             }
         }
 
@@ -69,18 +73,8 @@ namespace Assets.Game.Scripts.Net.handler
             var themsg = msg.GetContent() as SCItemDetail;
             if (themsg != null)
             {
-                ItemBaseInfoWindow.ItemDetail = themsg;
-                var itemInfo = ItemModeLocator.Instance.FindItem(themsg.BagIndex);
-                var type = ItemModeLocator.Instance.GetItemType(itemInfo.TmplId);
-                if (type == ItemModeLocator.EquipType.MaterialTempl)
-                {
-                    WindowManager.Instance.Show<UIMaterialInfoWindow>(true);
-                }
-                if(type == ItemModeLocator.EquipType.EquipTempl || type == ItemModeLocator.EquipType.ArmorTemplate)
-                {
-                    WindowManager.Instance.Show<ItemBaseInfoWindow>(true);
-                    WindowManager.Instance.Show<UIItemInfoWindow>(true);
-                }
+                ItemModeLocator.Instance.ItemDetail = themsg;
+                WindowManager.Instance.Show<UIItemDetailWindow>(true);
             }
         }
 
@@ -90,9 +84,10 @@ namespace Assets.Game.Scripts.Net.handler
             if (themsg != null)
             {
                 var deleteIndexs = themsg.DelteItems.DeleteIndexes;
-                ItemModeLocator.Instance.ScAllItemInfos.ItemInfos.RemoveAll(item => deleteIndexs.Contains(item.BagIndex));
-                WindowManager.Instance.GetWindow<UItemsWindow>().DespawnItems(deleteIndexs);
-                WindowManager.Instance.GetWindow<UIItemLevelUpWindow>().ShowLevelOver();
+                var infos = ItemModeLocator.Instance.ScAllItemInfos.ItemInfos;
+                infos.RemoveAll(item => deleteIndexs.Contains(item.BagIndex));
+                WindowManager.Instance.GetWindow<UILevelUpItemWindow>().ShowLevelOver();
+                WindowManager.Instance.GetWindow<UIItemCommonWindow>().Refresh(infos);
             }
         }
 
@@ -101,7 +96,6 @@ namespace Assets.Game.Scripts.Net.handler
             var themsg = msg.GetContent() as SCItemSellSucc;
             if (themsg != null)
             {
-                WindowManager.Instance.GetWindow<UIEquipDispTabWindow>().ItemSellHandler.CleanUp();
                 var infos = ItemModeLocator.Instance.ScAllItemInfos.ItemInfos;
                 foreach (var indexeChange in themsg.ItemIndexeChanges)
                 {
@@ -118,8 +112,10 @@ namespace Assets.Game.Scripts.Net.handler
                         buyBackInfos.Add(itemInfo);       
                     }
                 }
-                var window = WindowManager.Instance.GetWindow<UItemsWindow>();
-                window.Refresh(infos);
+                var sellItem = WindowManager.Instance.GetWindow<UISellItemWindow>();
+                sellItem.CleanUp();
+                var itemsWindow = WindowManager.Instance.GetWindow<UIItemCommonWindow>();
+                itemsWindow.Refresh(infos);
             }
         }
 
@@ -143,7 +139,6 @@ namespace Assets.Game.Scripts.Net.handler
             var themsg = msg.GetContent() as SCBuyBackItemSucc;
             if (themsg != null)
             {
-                WindowManager.Instance.GetWindow<BuyBackDialogWindow>().CleanUp();
                 var buyBackInfos = ItemModeLocator.Instance.BuyBackItems.ItemInfos;
                 var infos = ItemModeLocator.Instance.ScAllItemInfos.ItemInfos ??
                             (ItemModeLocator.Instance.ScAllItemInfos.ItemInfos = new List<ItemInfo>());
@@ -156,10 +151,8 @@ namespace Assets.Game.Scripts.Net.handler
                     infos.Add(itemInfo);
                     buyBackInfos.Remove(itemInfo);
                 }
-                
-                var window = WindowManager.Instance.GetWindow<UItemsWindow>();
-                window.Refresh(infos);
-                WindowManager.Instance.GetWindow<UIEquipDispTabWindow>().ItemSellHandler.Refresh();
+
+                WindowManager.Instance.GetWindow<UIBuyBackItemsWindow>().BuyBackItemSucc();
             }
         }
 
@@ -169,12 +162,11 @@ namespace Assets.Game.Scripts.Net.handler
             if (themsg != null)
             {
                 var deleteIndexs = themsg.DelteItems.DeleteIndexes;
-                ItemModeLocator.Instance.ScAllItemInfos.ItemInfos.RemoveAll(item => deleteIndexs.Contains(item.BagIndex));
-                ItemModeLocator.Instance.ScAllItemInfos.ItemInfos.Add(themsg.EvolutedItemInfo.Info);
-                ItemBaseInfoWindow.ItemDetail = themsg.EvolutedItemDetail;
-                WindowManager.Instance.GetWindow<UItemsWindow>().DespawnItems(deleteIndexs);
-                WindowManager.Instance.Show<ItemBaseInfoWindow>(true);
-                WindowManager.Instance.Show<UIItemInfoWindow>(true);
+                var infos = ItemModeLocator.Instance.ScAllItemInfos.ItemInfos;
+                infos.RemoveAll(item => deleteIndexs.Contains(item.BagIndex));
+                infos.Add(themsg.EvolutedItemInfo.Info);
+                WindowManager.Instance.GetWindow<UIEvolveItemWindow>().ShowEvolveOver();
+                WindowManager.Instance.GetWindow<UIItemCommonWindow>().Refresh(infos);
             }
         }
 

@@ -24,6 +24,50 @@ namespace KXSGCodec
             {
                 return new SCBattlePveStartMsg();
             }
+			            if (type == MessageType.SC_FRIEND_APPLY_LIST.GetHashCode())
+            {
+                return new SCFriendApplyList();
+            }
+			            if (type == MessageType.SC_FRIEND_APPLY_OPER_SUCC.GetHashCode())
+            {
+                return new SCFriendApplyOperSucc();
+            }
+			            if (type == MessageType.SC_FRIEND_APPLY_SUCC.GetHashCode())
+            {
+                return new SCFriendApplySucc();
+            }
+			            if (type == MessageType.SC_FRIEND_BIND_SUCC.GetHashCode())
+            {
+                return new SCFriendBindSucc();
+            }
+			            if (type == MessageType.SC_FRIEND_DELETE_SUCC.GetHashCode())
+            {
+                return new SCFriendDeleteSucc();
+            }
+			            if (type == MessageType.SC_FRIEND_EXTEND_SUCC.GetHashCode())
+            {
+                return new SCFriendExtendSucc();
+            }
+			            if (type == MessageType.SC_FRIEND_GIVE_ENERGY_SUCC.GetHashCode())
+            {
+                return new SCFriendGiveEnergySucc();
+            }
+			            if (type == MessageType.SC_FRIEND_LOADING_ALL.GetHashCode())
+            {
+                return new SCFriendLoadingAll();
+            }
+			            if (type == MessageType.SC_FRIEND_QUERY_BY_NAME.GetHashCode())
+            {
+                return new SCFriendQueryByName();
+            }
+			            if (type == MessageType.SC_FRIEND_RECIEVE_ENERGY_LIST.GetHashCode())
+            {
+                return new SCFriendRecieveEnergyList();
+            }
+			            if (type == MessageType.SC_FRIEND_RECIEVE_ENERGY_SUCC.GetHashCode())
+            {
+                return new SCFriendRecieveEnergySucc();
+            }
 			            if (type == MessageType.SC_HERO_BIND_SUCC.GetHashCode())
             {
                 return new SCHeroBindSucc();

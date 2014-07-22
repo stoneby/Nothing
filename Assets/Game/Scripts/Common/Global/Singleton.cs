@@ -13,7 +13,8 @@ public class Singleton<T> : MonoBehaviour
     {
         get
         {
-            if (applicationIsQuitting)
+            var editMode = Application.isEditor && !Application.isPlaying;
+            if (!editMode && applicationIsQuitting)
             {
                 Logger.LogWarning("[Singleton] Instance '" + typeof(T) +
                     "' already destroyed on application quit." +

@@ -41,7 +41,8 @@ namespace com.kx.sglm.gs.battle.share.skill.creater
 	{
 
 		/// <summary>
-		/// 创建BUFFAction </summary>
+		/// 创建BUFFAction
+		/// </summary>
 		/// <param name="msgDataList">
 		/// @return </param>
 		public static List<IBuffAction> createBuffActions(List<BattleBuffMsgData> msgDataList)
@@ -114,12 +115,12 @@ namespace com.kx.sglm.gs.battle.share.skill.creater
 		/// </summary>
 		/// <param name="enemySide">
 		/// @return </param>
-		public static BaseHeroBattleSkillAction createDefaultNormalAction(bool enemySide)
+		public static BaseHeroBattleSkillAction createDefaultNormalAction(bool enemySide, bool all)
 		{
 			BaseHeroBattleSkillAction _action = new BaseHeroBattleSkillAction();
-			_action.addCondition(createDefaultCondition(Convert.ToString((int)BattleConstants.BATTLE_RATIO_BASE)));
-			_action.addEnemyTargetGetter(createTargetGetter(enemySide, null));
-			_action.addFriendTargetGetter(createTargetGetter(enemySide, null));
+			_action.addCondition(createDefaultCondition(Convert.ToString((int) BattleConstants.BATTLE_RATIO_BASE)));
+			_action.addEnemyTargetGetter(createTargetGetter(enemySide, null, all));
+			_action.addFriendTargetGetter(createTargetGetter(enemySide, null, all));
 			_action.addEffectList(createDefaultAction(enemySide));
 			return _action;
 		}
@@ -189,7 +190,7 @@ namespace com.kx.sglm.gs.battle.share.skill.creater
 				_holder.addData(_ai);
 				_holderMap[_proiority] = _holder; // 为了代码清楚
 			}
-
+			_holderList.AddRange(_holderMap.Values);
 			return _holderList;
 		}
 
@@ -317,25 +318,29 @@ namespace com.kx.sglm.gs.battle.share.skill.creater
 			}
 		}
 
-		public static List<ISkillTargetGetter> createTargetGetter(bool enemySide, List<SkillTargetGetterMsgData> targetDataList)
+		public static List<ISkillTargetGetter> createTargetGetter(bool enemySide, List<SkillTargetGetterMsgData> targetDataList, bool all)
 		{
 			List<ISkillTargetGetter> _targetGetterList = new List<ISkillTargetGetter>();
 			if (ArrayUtils.isEmpty(targetDataList))
 			{
-				_targetGetterList.AddRange(createDefaultTarget(enemySide));
+				_targetGetterList.AddRange(createDefaultTarget(enemySide, all));
 			}
 			else
 			{
 				_targetGetterList.AddRange(createTargetGetterFromList(targetDataList));
 			}
 			return _targetGetterList;
-
 		}
 
-		protected internal static List<ISkillTargetGetter> createDefaultTarget(bool enemySide)
+		public static List<ISkillTargetGetter> createTargetGetter(bool enemySide, List<SkillTargetGetterMsgData> targetDataList)
+		{
+			return createTargetGetter(enemySide, targetDataList, false);
+		}
+
+		protected internal static List<ISkillTargetGetter> createDefaultTarget(bool enemySide, bool allTarget)
 		{
 			List<ISkillTargetGetter> _defaultList = new List<ISkillTargetGetter>();
-			SkillTargetEnum _defaultType = enemySide ? SkillTargetEnum.DEFAULT_TARGET : SkillTargetEnum.SELF_TARGET;
+			SkillTargetEnum _defaultType = allTarget ? SkillTargetEnum.ALL_TARGET : (enemySide ? SkillTargetEnum.DEFAULT_TARGET : SkillTargetEnum.SELF_TARGET);
 			_defaultList.Add((ISkillTargetGetter) _defaultType.createInfo());
 			return _defaultList;
 		}

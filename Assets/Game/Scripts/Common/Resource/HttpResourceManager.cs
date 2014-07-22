@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using Thrift.Protocol;
-using Thrift.Transport;
-using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class HttpResourceManager : MonoBehaviour 
 {
@@ -16,7 +14,6 @@ public class HttpResourceManager : MonoBehaviour
     void Start()
     {
         MainObj = gameObject;
-        //LoadAll();
     }
 
     public static void LoadAll()
@@ -29,14 +26,7 @@ public class HttpResourceManager : MonoBehaviour
 
     public static byte[] LoadData(string theurl)
     {
-        if (FileDatas.ContainsKey(theurl))
-        {
-            return FileDatas[theurl];
-        }
-        else
-        {
-            return null;
-        }
+        return FileDatas.ContainsKey(theurl) ? FileDatas[theurl] : null;
     }
 
     public void DoLoadData()
@@ -44,26 +34,18 @@ public class HttpResourceManager : MonoBehaviour
         StartCoroutine(StartLoad());
     }
 
-    IEnumerator StartLoad()
+    private IEnumerator StartLoad()
     {
-        // Start a download of the given URL
-        LoadEffect = EffectManager.ShowEffect(EffectType.Loading, 0, 0, new Vector3(0, 0, 0));
         var str = ".bytes?" + DateTime.Now.ToFileTime();
-        for (int i = 0; i < ResourcePath.ByteFiles.Length; i++)
+        foreach (var t in ResourcePath.ByteFiles)
         {
-            var theurl = ServiceManager.ServerData.DataUrl + ResourcePath.ByteFiles[i] + str;
+            var theurl = ServiceManager.ServerData.DataUrl + t + str;
             Logger.Log(theurl);
-            WWW www = new WWW(theurl);
+            var www = new WWW(theurl);
             
             // Wait for download to complete
             yield return www;
-            FileDatas[ResourcePath.ByteFiles[i]] = www.bytes;
-        }
-
-        if (LoadEffect != null)
-        {
-            Destroy(LoadEffect);
-            LoadEffect = null;
+            FileDatas[t] = www.bytes;
         }
     }
 }

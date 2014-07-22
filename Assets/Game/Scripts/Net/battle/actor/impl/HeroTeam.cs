@@ -425,6 +425,17 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 			return needVal <= CurMp;
 		}
 
+		public virtual bool isLastAllAttackIndex(int fighterIndex)
+		{
+			bool _allAttackIndex = curActionArr.Length == BattleConstants.HERO_BATTLE_ARR_LENGTH;
+			if (_allAttackIndex)
+			{
+				int _pointIndex = curActionArr[BattleConstants.HERO_BATTLE_ARR_LENGTH - 1];
+				_allAttackIndex = getHeroPoint(_pointIndex).Fighter.Index == fighterIndex;
+			}
+			return _allAttackIndex;
+		}
+
 		public override int CurMp
 		{
 			get

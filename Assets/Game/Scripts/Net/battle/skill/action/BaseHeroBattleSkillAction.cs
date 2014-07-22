@@ -5,6 +5,7 @@ namespace com.kx.sglm.gs.battle.share.skill.action
 
 
 	using BattleFighter = com.kx.sglm.gs.battle.share.actor.impl.BattleFighter;
+	using FighterStateEnum = com.kx.sglm.gs.battle.share.enums.FighterStateEnum;
 
 	/// <summary>
 	/// 英雄技能
@@ -65,6 +66,10 @@ namespace com.kx.sglm.gs.battle.share.skill.action
 		public override bool canOption(BattleFighter attacker)
 		{
 			bool _option = true;
+			if (isFourceTrigger(attacker))
+			{
+				return _option;
+			}
 			foreach (ISkillCondition _condition in effectCondition)
 			{
 				if (!_condition.canOptionSkill(attacker))
@@ -76,6 +81,13 @@ namespace com.kx.sglm.gs.battle.share.skill.action
 			return _option;
 		}
 
+
+		/// <summary>
+		/// 强制触发flag，目前只有一种， </summary>
+		protected internal virtual bool isFourceTrigger(BattleFighter attacker)
+		{
+			return TriggerId == BattleEventConstants.BATTLE_FIGHTER_ATTACK && attacker.hasState(FighterStateEnum.SP_MAX_STATE);
+		}
 		public virtual void addCondition(List<ISkillCondition> conditionList)
 		{
 			this.effectCondition.AddRange(conditionList);

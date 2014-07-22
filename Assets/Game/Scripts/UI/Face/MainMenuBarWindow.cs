@@ -5,7 +5,6 @@ public class MainMenuBarWindow : Window
 {
     #region Private Fields
 
-    private UIEventListener backLis;
     private UIEventListener homeLis;
     private UIEventListener heroLis;
     private UIEventListener teamLis;
@@ -38,7 +37,6 @@ public class MainMenuBarWindow : Window
     /// </summary>
     private void Awake()
     {
-        backLis = UIEventListener.Get(Utils.FindChild(transform, "Button-Back").gameObject);
         homeLis = UIEventListener.Get(Utils.FindChild(transform, "Button-Home").gameObject);
         heroLis = UIEventListener.Get(Utils.FindChild(transform, "Button-Hero").gameObject);
         teamLis = UIEventListener.Get(Utils.FindChild(transform, "Button-Team").gameObject);
@@ -48,7 +46,6 @@ public class MainMenuBarWindow : Window
         logLis = UIEventListener.Get(Utils.FindChild(transform, "Button-Log").gameObject);
         inputLog = Utils.FindChild(transform, "Input-Log").gameObject;
         inputLog.SetActive(false);
-        ShowBackBtn(false);
     }
 
     /// <summary>
@@ -56,7 +53,6 @@ public class MainMenuBarWindow : Window
     /// </summary>
     private void InstallHandlers()
     {
-        backLis.onClick = OnBack;
         homeLis.onClick = OnHomeClicked;
         heroLis.onClick = OnHeroClicked;
         teamLis.onClick = OnTeamClicked;
@@ -71,20 +67,11 @@ public class MainMenuBarWindow : Window
     /// </summary>
     private void UnInstallHandlers()
     {
-        backLis.onClick = null;
         homeLis.onClick = null;
         heroLis.onClick = null;
         teamLis.onClick = null;
         equipLis.onClick = null;
         summonLis.onClick = null;
-    }
-
-    /// <summary>
-    /// The callback of clicking back button.
-    /// </summary>
-    private void OnBack(GameObject go)
-    {
-        WindowManager.Instance.CloseLastWindowInHistory();
     }
 
     /// <summary>
@@ -117,16 +104,7 @@ public class MainMenuBarWindow : Window
     /// </summary>
     private void OnEquipClicked(GameObject go)
     {
-        if (ItemModeLocator.AlreadyRequest == false)
-        {
-            ItemModeLocator.Instance.GetItemPos = ItemType.GetItemInPanel;
-            var csmsg = new CSQueryAllItems{ BagType = 0 };
-            NetManager.SendMessage(csmsg);
-        }
-        else
-        {
-            Utils.ShowWithoutDestory(typeof(UIEquipDispTabWindow));
-        }
+        WindowManager.Instance.Show<ItemMenuBarWindow>(true);
     }
 
     /// <summary>
@@ -142,9 +120,8 @@ public class MainMenuBarWindow : Window
         }
         else
         {
-            Utils.ShowWithoutDestory(typeof(UITeamShowingWindow));
-        }
-        
+            WindowManager.Instance.Show<UITeamShowingWindow>(true);
+        }  
     }
 
     /// <summary>
@@ -169,9 +146,4 @@ public class MainMenuBarWindow : Window
     }
 
     #endregion
-
-    public void ShowBackBtn(bool show)
-    {
-        NGUITools.SetActive(backLis.gameObject, show);
-    }
 }

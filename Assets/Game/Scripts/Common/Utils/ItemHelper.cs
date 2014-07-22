@@ -1,4 +1,5 @@
-﻿using KXSGCodec;
+﻿using System.Collections.Generic;
+using KXSGCodec;
 
 public class ItemHelper
 {
@@ -15,6 +16,18 @@ public class ItemHelper
         Recover,
         Level,
         Team
+    }
+
+    /// <summary>
+    /// The filter types.
+    /// </summary>
+    public enum EquipType
+    {
+        All = 4, 
+        Other = 3,
+        Equip = 2,
+        Armor = 1,
+        Material = 0,
     }
 
     /// <summary>
@@ -41,7 +54,7 @@ public class ItemHelper
                 break;
 
             case OrderType.Rarity:
-                equipItem.ShowByLvl(level);
+                equipItem.ShowByQuality(quality);
                 break;
 
             case OrderType.Team:
@@ -81,7 +94,7 @@ public class ItemHelper
         int hp = -1;
         int recover = -1;
         var itemType = ItemModeLocator.Instance.GetItemType(tempId);
-        if (itemType == ItemModeLocator.EquipType.EquipTempl)
+        if (itemType == EquipType.Equip)
         {
             var equipTemp = ItemModeLocator.Instance.ItemTemplates.EquipTmpl[tempId];
             quality = equipTemp.Quality;
@@ -90,7 +103,7 @@ public class ItemHelper
             hp = equipTemp.Hp;
             recover = equipTemp.Recover;
         }
-        if (itemType == ItemModeLocator.EquipType.ArmorTemplate)
+        if (itemType == EquipType.Armor)
         {
             var armorTemp = ItemModeLocator.Instance.ItemTemplates.ArmorTmpl[tempId];
             quality = armorTemp.Quality;
@@ -98,7 +111,7 @@ public class ItemHelper
             hp = armorTemp.Hp;
             recover = armorTemp.Recover;
         }
-        if (itemType == ItemModeLocator.EquipType.MaterialTempl)
+        if (itemType == EquipType.Material)
         {
             var materialTemp = ItemModeLocator.Instance.ItemTemplates.MaterialTmpl[tempId];
             quality = materialTemp.Quality;
@@ -131,9 +144,9 @@ public class ItemHelper
     /// <param name="mainTemId">The template id of the main item.</param>
     /// <param name="bagIndex">The bag index of the item to check.</param>
     /// <returns>True, if it has the same job type with main item.</returns>
-    public static bool IsSameJobType(ItemModeLocator.EquipType mainType, int mainTemId, short bagIndex)
+    public static bool IsSameJobType(EquipType mainType, int mainTemId, short bagIndex)
     {
-        if (mainType == ItemModeLocator.EquipType.InvalidTempl || mainType == ItemModeLocator.EquipType.MaterialTempl)
+        if (mainType == EquipType.All || mainType == EquipType.Other || mainType == EquipType.Material)
         {
             return false;
         }
@@ -142,32 +155,58 @@ public class ItemHelper
         var info = ItemModeLocator.Instance.FindItem(bagIndex);
         var type = ItemModeLocator.Instance.GetItemType(info.TmplId);
         var result = false;
-        if (mainType == ItemModeLocator.EquipType.EquipTempl)
+        if (mainType == EquipType.Equip)
         {
             var mainJobType = equipTemplate[mainTemId].JobType;
             switch (type)
             {
-                case ItemModeLocator.EquipType.EquipTempl:
+                case EquipType.Equip:
                     result = equipTemplate[info.TmplId].JobType == mainJobType;
                     break;
-                case ItemModeLocator.EquipType.MaterialTempl:
+                case EquipType.Material:
                     result = (materialTempl[info.TmplId].FitType == 1 &&
                              materialTempl[info.TmplId].FitJobType == mainJobType);
                     break;
             }
         }
-        if (mainType == ItemModeLocator.EquipType.ArmorTemplate)
+        if (mainType == EquipType.Armor)
         {
             switch (type)
             {
-                case ItemModeLocator.EquipType.ArmorTemplate:
+                case EquipType.Armor:
                     result = true;
                     break;
-                case ItemModeLocator.EquipType.MaterialTempl:
+                case EquipType.Material:
                     result = (materialTempl[info.TmplId].FitType == 2);
                     break;
             }
         }
         return result;
+    }
+
+    /// <summary>
+    /// Filter all items to exclude material items.
+    /// </summary>
+    /// <returns>The item info list of all items after filtering.</returns>
+    public static List<ItemInfo> FilterItems(List<ItemInfo> infos, EquipType type)
+    {
+        if (infos == null)
+        {
+            return null;
+        }
+        switch(type)
+        {
+            case EquipType.All:
+                return new List<ItemInfo>(infos);
+            case EquipType.Equip:
+                return infos.FindAll(item => ItemModeLocator.Instance.GetItemType(item.TmplId) == EquipType.Equip);
+            case EquipType.Material:
+                return infos.FindAll(item => ItemModeLocator.Instance.GetItemType(item.TmplId) == EquipType.Material);
+            case EquipType.Armor:
+                return infos.FindAll(item => ItemModeLocator.Instance.GetItemType(item.TmplId) == EquipType.Armor);
+            case EquipType.Other:
+                return null;
+        }
+        return null;
     }
 }

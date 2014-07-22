@@ -4,6 +4,7 @@ namespace com.kx.sglm.gs.battle.share.ai
 {
 
 
+	using BattleFighter = com.kx.sglm.gs.battle.share.actor.impl.BattleFighter;
 	using com.kx.sglm.gs.battle.share.model;
 
 	public class SkillAIHolder : ComparableListHolder<SkillAI>
@@ -14,28 +15,29 @@ namespace com.kx.sglm.gs.battle.share.ai
 			Asc = false;
 		}
 
-		//TODO: 加上参数
-		public virtual List<SkillRoulettePair> CanOptionSkill
+		public virtual List<SkillRoulettePair> getCanOptionSkill(BattleFighter fighter)
 		{
-			get
+			List<SkillRoulettePair> _resultList = new List<SkillRoulettePair>();
+			List<SkillAI> _aiList = getCanOpSkillAi(fighter);
+			foreach (SkillAI _ai in _aiList)
 			{
-				List<SkillRoulettePair> _resultList = new List<SkillRoulettePair>();
-				List<SkillAI> _aiList = CanOpSkillAi;
-				foreach (SkillAI _ai in _aiList)
-				{
-					_resultList.Add(_ai.getSkillInfo());
-				}
-				return _resultList;
+				_resultList.Add(_ai.getSkillInfo());
 			}
+			return _resultList;
 		}
 
-		//TODO: 加上参数
-		protected internal virtual List<SkillAI> CanOpSkillAi
+
+		protected internal virtual List<SkillAI> getCanOpSkillAi(BattleFighter attacker)
 		{
-			get
+			List<SkillAI> _aiList = new List<SkillAI>();
+			foreach (SkillAI _ai in HoldList)
 			{
-				return HoldList;
+				if (_ai.Condition.canOption(attacker))
+				{
+					_aiList.Add(_ai);
+				}
 			}
+			return _aiList;
 		}
 
 

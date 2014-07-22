@@ -13,6 +13,7 @@ public class UISellHeroWindow : Window
     private UIHeroCommonWindow herosWindow;
     private UIDragDropContainer dragDropContainer;
     private GameObject heroToSell;
+    private GameObject heroToCancel;
     private readonly List<GameObject> sellMasks = new List<GameObject>();
     private UILabel selCount;
     private UILabel soulCount;
@@ -26,6 +27,7 @@ public class UISellHeroWindow : Window
     private UIEventListener sellLis;
     private Hero hero;
     private long totalSoul;
+    private UIEventListener backLis;
 
     //The key is the game object copied on the right, the value is the original hero game object.
     private readonly Dictionary<GameObject, GameObject> sellDictionary = new Dictionary<GameObject, GameObject>(); 
@@ -35,16 +37,19 @@ public class UISellHeroWindow : Window
     public override void OnEnter()
     {
         herosWindow = WindowManager.Instance.GetWindow<UIHeroCommonWindow>();
-        herosWindow.NormalClicked = OnNormalClicked;
+        herosWindow.NormalClicked = OnNormalClickForSell;
         selCount.text = string.Format("{0}/{1}", csHeroSell.SellList.Count, MaxSellCount);
         GetTeamMembers();
         FreshSellStates();
         InstallHandlers();
+        HeroConstant.EnterType = HeroConstant.HeroDetailEnterType.SellHero;
+        sellLis.GetComponent<UIButton>().isEnabled = false;
     }
 
     public override void OnExit()
     {
         UnInstallHandlers();
+        CleanUp();
     }
 
     #endregion
@@ -59,7 +64,8 @@ public class UISellHeroWindow : Window
         soulCount = Utils.FindChild(transform, "SoulValue").GetComponent<UILabel>();
         scHeroList = HeroModelLocator.Instance.SCHeroList;
         hero = HeroModelLocator.Instance.HeroTemplates;
-        sellLis = UIEventListener.Get(transform.Find("BtnSell").gameObject);
+        backLis = UIEventListener.Get(transform.Find("Buttons/Button-Back").gameObject);
+        sellLis = UIEventListener.Get(transform.Find("Buttons/Button-Sell").gameObject);
         sellMask = Utils.FindChild(transform, "SellMask").gameObject;
         sellMask.SetActive(false);
     }
@@ -67,11 +73,13 @@ public class UISellHeroWindow : Window
     private void InstallHandlers()
     {
         sellLis.onClick = OnSell;
+        backLis.onClick = OnBack;
     }
 
     private void UnInstallHandlers()
     {
         sellLis.onClick = null;
+        backLis.onClick = null;
     }
 
     private void OnSell(GameObject go)
@@ -80,31 +88,75 @@ public class UISellHeroWindow : Window
         sellDialog.InitDialog(csHeroSell.SellList);
     }
 
-    private void OnNormalClicked(GameObject go)
+    /// <summary>
+    ///  The callback of clicking back button.
+    /// </summary>
+    private void OnBack(GameObject go)
+    {
+        WindowManager.Instance.Show<UISellHeroWindow>(false);
+        WindowManager.Instance.Show<UIHeroCommonWindow>(false);
+    }
+
+    private void OnNormalClickForSell(GameObject go)
     {
         heroToSell = go;
+        heroToSell.GetComponent<NGUILongPress>().OnNormalPress = OnNormalClickForCancel;
         UIHeroSnapShotWindow.CurUuid = go.GetComponent<HeroItemBase>().Uuid;
         var snapShot = WindowManager.Instance.Show<UIHeroSnapShotWindow>(true);
-        snapShot.InitTemplate("HeroSnapShot.Sell", HeroSell);
+        snapShot.InitTemplate("HeroOrItemSnapShot.Sell", HeroSell);
+    } 
+    
+    private void OnNormalClickForCancel(GameObject go)
+    {
+        heroToCancel = go;
+        UIHeroSnapShotWindow.CurUuid = go.GetComponent<HeroItemBase>().Uuid;
+        var snapShot = WindowManager.Instance.Show<UIHeroSnapShotWindow>(true);
+        snapShot.InitTemplate("HeroOrItemSnapShot.CancelSell", CancelHeroSell);
     }
 
     private void HeroSell(GameObject go)
     {
+        if (csHeroSell.SellList.Count == 0)
+        {
+            sellLis.GetComponent<UIButton>().isEnabled = true;
+        }
         if(csHeroSell.SellList.Count >= MaxSellCount)
         {
             return;
         }
         var reparentTarget = dragDropContainer.reparentTarget;
         var child = NGUITools.AddChild(reparentTarget.gameObject, heroToSell);
+        child.GetComponent<HeroItemBase>().Uuid = heroToSell.GetComponent<HeroItemBase>().Uuid;
+        child.GetComponent<NGUILongPress>().OnNormalPress = OnNormalClickForCancel;
         var grid = reparentTarget.GetComponent<UIGrid>();
         grid.repositionNow = true;
         WindowManager.Instance.Show<UIHeroSnapShotWindow>(false);
         RefreshSellList(heroToSell, child);
     }
 
+    private void CancelHeroSell(GameObject go)
+    {
+        var uuidToCancel = heroToCancel.GetComponent<HeroItemBase>().Uuid;
+        var heroClone = sellDictionary.First(item => item.Key.GetComponent<HeroItemBase>().Uuid == uuidToCancel).Key;
+        var heros = herosWindow.Heros.transform;
+        for (var i = 0; i < heros.childCount; i++)
+        {
+            var child = heros.GetChild(i);
+            if (child.GetComponent<HeroItemBase>().Uuid == uuidToCancel)
+            {
+                child.GetComponent<NGUILongPress>().OnNormalPress = OnNormalClickForSell;
+                RefreshSellList(child.gameObject, heroClone);
+            }
+        }
+        WindowManager.Instance.Show<UIHeroSnapShotWindow>(false);
+        if (csHeroSell.SellList.Count == 0)
+        {
+            sellLis.GetComponent<UIButton>().isEnabled = false;
+        }
+    }
+
     private void RefreshSellList(GameObject go, GameObject copied)
     {
-        sellDictionary.Add(copied, go);
         var uuid = go.GetComponent<HeroItemBase>().Uuid;
         var heroInfo = HeroModelLocator.Instance.FindHero(uuid);
         var baseSoul = hero.HeroTmpl[heroInfo.TemplateId].Price;
@@ -119,6 +171,7 @@ public class UISellHeroWindow : Window
             go.transform.FindChild("BG").GetComponent<UISprite>().color = Color.gray;
             maskToAdd.SetActive(true);
             totalSoul += (long)(baseSoul + costSoul * hero.BaseTmpl[1].SellCoeff);
+            sellDictionary.Add(copied, go);
         }
         else
         {
@@ -128,6 +181,8 @@ public class UISellHeroWindow : Window
             Destroy(maskToAdd);
             go.transform.FindChild("BG").GetComponent<UISprite>().color = Color.white;
             totalSoul -= (long)(baseSoul + costSoul * hero.BaseTmpl[1].SellCoeff);
+            sellDictionary.Remove(copied);
+            NGUITools.Destroy(copied);
         }
         RefreshSelAndSoul();
     }

@@ -9,7 +9,17 @@
 /// </remarks>
 public class WorldScreenConverter : MonoBehaviour
 {
+    public static readonly Vector2 FullScreen = new Vector2(1280, 720);
+
+    public enum Style
+    {
+        TopLeft,
+        BottomLeft
+    }
+
     public Vector3 ScreenPosition;
+
+    public Style ZeroStyle;
 
 #if UNITY_EDITOR
     [ContextMenu("Convert")]
@@ -19,7 +29,11 @@ public class WorldScreenConverter : MonoBehaviour
         var root = NGUITools.FindInParents<UIRoot>(gameObject);
         var ratio = root.GetPixelSizeAdjustment((int)gameViewSize.y);
         Debug.LogWarning("Game view size: " + gameViewSize + ", ratio: " + ratio);
-        var worldPoint = Camera.main.ScreenToWorldPoint(ScreenPosition / ratio * Camera.main.orthographicSize);
+
+        var screenPosition = (ZeroStyle == Style.BottomLeft)
+            ? ScreenPosition
+            : (new Vector3(ScreenPosition.x, (int)FullScreen.y - ScreenPosition.y, ScreenPosition.z));
+        var worldPoint = Camera.main.ScreenToWorldPoint(screenPosition / ratio * Camera.main.orthographicSize);
         transform.position = worldPoint;
     }
 #endif

@@ -45,11 +45,6 @@ namespace com.kx.sglm.gs.battle.share.buff
 			debuffHolderMap = new Dictionary<int, BuffTypeHolder>();
 		}
 
-		public virtual void recalcBuffEffect()
-		{
-			owner.FighterProp.resetBuffProp();
-			effectAllBuff();
-		}
 
 
 		/// <summary>
@@ -375,6 +370,13 @@ namespace com.kx.sglm.gs.battle.share.buff
 		public virtual void onTeamShotStart(TeamShotStartEvent @event)
 		{
 			recalcBuffEffect();
+		}
+
+
+		public virtual void recalcBuffEffect()
+		{
+			owner.FighterProp.resetBuffProp();
+			effectAllBuff();
 		}
 
 		public virtual List<BattleFighterState> AllFighterState

@@ -139,7 +139,7 @@ public class ChooseHeroCardWindow : Window
     private void OnBuyOne(GameObject go)
     {
         lotteryMode = isFreeTime ? LotteryConstant.LotteryModeFree : LotteryConstant.LotteryModeOnceCharge;
-        if(isFreeTime)
+        if(isFreeTime && isHeroChoose)
         {
             SendBuyMessage();
         }

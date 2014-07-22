@@ -118,8 +118,6 @@ public class CharacterControl : MonoBehaviour
         var uisp = JobObj.GetComponent<UISprite>();
         uisp.spriteName = (FootIndex == (int)FootColorType.Pink) ? "icon_zhiye_5" : "icon_zhiye_" + JobIndex;
 
-        //SetAttackLabel(data);
-
         var isFriend = (characterType != CharacterType.Hero);
         FriendLabelObj.SetActive(isFriend);
         if (isFriend)
@@ -134,7 +132,7 @@ public class CharacterControl : MonoBehaviour
         var uilb = AttrackObj.GetComponent<UILabel>();
         Attack = record.getIntProp(RoleAProperty.ATK);
         Restore = record.getIntProp(RoleAProperty.RECOVER);
-        uilb.text = (FootIndex == (int)FootColorType.Pink) ? (Restore + "-" + record.Index) : (Attack + "-" + record) + ", index: " + record.Index;
+        uilb.text = (FootIndex == (int)FootColorType.Pink) ? (Restore + "-" + record.Index) : (Attack + "-" + record.Index);
 
         Debug.LogWarning("Set attack label: attack - " + Attack + ", restore: " + Restore + ", character name: " + name);
     }

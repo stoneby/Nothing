@@ -3,23 +3,22 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
+//using UnityEditor;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 
 public class ServiceManager
 {
     //global
-    public static string PassWordRegex;
     public static bool QuikeLoginOffen = false;
     public static bool AutoLoginOfften = false;
-    public static string PlatformDomain;
     public static string ResourceUrl;
     public static string ResourceVersion;
     public static string UpdateUrl;
     public static string UpdateInfo;
-    public static string UserNameRegex;
-    public static string UserNameInfo;
     public static string GameID;
+    //public static int GameVersionValue;
 
     //FValue
     public static string FValue;
@@ -28,6 +27,9 @@ public class ServiceManager
     public static bool IsCheck = false;
     public static string CheckServerUrl;
     public static List<AppStateVO> IosStateArray;
+
+    //当前版本是否为技术测试版本
+    public static bool IsTest = false;
 
     //appMap
     public static AppVO AppData;
@@ -39,39 +41,44 @@ public class ServiceManager
     public static List<ServerVO> UsedServerArray;
 
     //account
-    public static AccountVO AccountData;
-    public static List<AccountVO> AccountArray;//最后一个是最新的
+    //public static AccountVO AccountData;
+    //public static List<AccountVO> AccountArray;//最后一个是最新的
+    public static long UserID;
+    public static string UserName = "";
+    public static string DebugUserID = "";
+    public static string DebugUserName = "";
+    public static string DebugPassword = "";
+    public static int IsDebugAccount = 0;
+    public static List<string> ServerNames = null; 
 
     /// <summary>
     /// Initialize user account.
     /// </summary>
     public static void InitAccount()
     {
-        AccountArray = new List<AccountVO>();
+        //AccountArray = new List<AccountVO>();
         //return;
-        Logger.Log(GameConfig.CookieAddress);
-        try
+        //PlayerPrefs.
+        //if (PlayerPrefs.HasKey("UserID")) UserID = PlayerPrefs.GetString("UserID");
+        if (PlayerPrefs.HasKey("UserName")) UserName = PlayerPrefs.GetString("UserName");
+        if (PlayerPrefs.HasKey("DebugUserID")) DebugUserID = PlayerPrefs.GetString("DebugUserID");
+        if (PlayerPrefs.HasKey("DebugUserName")) DebugUserName = PlayerPrefs.GetString("DebugUserName");
+        if (PlayerPrefs.HasKey("DebugPassword")) DebugPassword = PlayerPrefs.GetString("DebugPassword");
+        if (PlayerPrefs.HasKey("IsDebugAccount")) IsDebugAccount = PlayerPrefs.GetInt("IsDebugAccount");
+        ServerNames = new List<string>();
+        Logger.Log("UserID=" + UserID);
+        Logger.Log("UserName=" + UserName);
+
+        if (PlayerPrefs.HasKey("ServerNames"))
         {
-            var f = new FileInfo(GameConfig.CookieAddress);
-            if (!f.Exists)
-            {
-                if (f.Directory == null || !f.Directory.Exists)
-                {
-                    if (f.DirectoryName != null) Directory.CreateDirectory(f.DirectoryName);
-                }
-
-                f.Create();
-
-                return;
-            }
-            var content = File.ReadAllText(GameConfig.CookieAddress);
+            var content = PlayerPrefs.GetString("ServerNames");
 
             Logger.Log(content);
-            int index = content.IndexOf("<GameAccount>");
+            int index = content.IndexOf(",");
             string[] arr = null;
             if (index >= 0)
             {
-                arr = content.Split(new string[] { "<GameAccount>" }, StringSplitOptions.RemoveEmptyEntries);
+                arr = content.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
                 Logger.Log(arr.Length);
             }
             else if (content != "")
@@ -80,114 +87,75 @@ public class ServiceManager
                 arr[0] = content;
             }
 
-            if (arr == null) return;
             for (int i = 0; i < arr.Length; i++)
             {
-                var obj = AccountVO.CreateData(arr[i]);
-                AccountArray.Add(obj);
+                ServerNames.Add(arr[i]);
             }
         }
-        catch (Exception)
-        {
-            Logger.LogWarning("InitAccount Exception ===============");
-        }
-        
     }
 
     /// <summary>
     /// Save account to disk.
     /// </summary>
-    public static void SaveAccount()
+    private static void SaveAccount()
     {
         //return;
+        //PlayerPrefs.SetString("UserID", UserID);
+        PlayerPrefs.SetString("UserName", UserName);
+        PlayerPrefs.SetString("DebugUserID", DebugUserID);
+        PlayerPrefs.SetString("DebugUserName", DebugUserName);
+        PlayerPrefs.SetString("DebugPassword", DebugPassword);
+        PlayerPrefs.SetInt("IsDebugAccount", IsDebugAccount);
+
         var str = "";
-        for (int i = 0; i < AccountArray.Count; i++)
+        for (int i = 0; i < ServerNames.Count; i++)
         {
-            if (i != AccountArray.Count - 1)
+            if (i != ServerNames.Count - 1)
             {
-                str += AccountArray[i].GetInfo() + "<GameAccount>";
+                if (ServerNames[i] != "") str += ServerNames[i] + ",";
             }
             else
             {
-                str += AccountArray[i].GetInfo();
+                str += ServerNames[i];
             }
             
         }
-        
-        File.WriteAllText(GameConfig.CookieAddress, str);
+        PlayerPrefs.SetString("ServerNames", str);
+        PlayerPrefs.Save();
     }
 
-    public static void AddAccount(string account, string password, string server)
+    public static void SetAccount(long userid, string username)
     {
-        var flag = true;
-        for (int i = 0; i < AccountArray.Count; i++)
-        {
-            if (AccountArray[i].Account == account)
-            {
-                var obj = AccountArray[i];
-                AccountArray.RemoveAt(i);
-                obj.Password = password;
-                obj.AddServer(server);
-                AccountArray.Add(obj);
-                flag = false;
-                break;
-            }
-        }
-
-        if (flag)
-        {
-            AccountArray.Add(AccountVO.CreateData(account, password, server));
-        }
-    }
-
-    public static void AddAccount(AccountVO obj)
-    {
-        var flag = true;
-        Logger.Log(AccountArray.Count);
-        for (int i = 0; i < AccountArray.Count; i++)
-        {
-            if (AccountArray[i].Account == obj.Account)
-            {
-                var item = AccountArray[i];
-                AccountArray.RemoveAt(i);
-                item.Password = obj.Password;
-                for (int j = 0; j < obj.Servers.Count; j++)
-                {
-                    item.AddServer(obj.Servers[j]);
-                }
-                AccountArray.Add(item);
-                flag = false;
-                break;
-            }
-        }
-
-        if (flag)
-        {
-            AccountArray.Add(obj);
-        }
-    }
-
-    public static void DeleteAccount(AccountVO obj)
-    {
-        for (int i = 0; i < AccountArray.Count; i++)
-        {
-            if (AccountArray[i].Account == obj.Account)
-            {
-                AccountArray.RemoveAt(i);
-                break;
-            }
-        }
+        UserID = userid;
+        UserName = username;
         SaveAccount();
     }
 
-    public static AccountVO GetDefaultAccount()
+    public static void SetDebugAccount(string userid, string username, string password)
     {
-        if (AccountArray != null && AccountArray.Count > 0)
-        {
-            return AccountArray[AccountArray.Count - 1];
-        }
-        return null;
+        DebugUserID = userid;
+        DebugUserName = username;
+        DebugPassword = password;
+        SaveAccount();
     }
+
+    public static void AddServer(string server)
+    {
+        var flag = true;
+        for (int i = 0; i < ServerNames.Count; i++)
+        {
+            if (ServerNames[i] == server)
+            {
+                ServerNames[i] = "";
+                break;
+            }
+        }
+
+        ServerNames.Add(server);
+        SaveAccount();
+    }
+
+   
 
     /// <summary>
     /// Set server list.
@@ -196,31 +164,69 @@ public class ServiceManager
     public static void SetServers(XElement serverMap)
     {
         Logger.Log(serverMap);
+        //GameVersionValue = GetVersionValue(GameConfig.);
+
         var servers = serverMap.Elements("server");
-        AllServerArray = new List<ServerVO>();
+        var temp = new List<ServerVO>();
         UsedServerArray = new List<ServerVO>();
-        foreach (var server in servers.Select(item => ServerVO.Parse(item)))
+        int suggestcount = 0;
+        if (IsCheck)
         {
-            if (SystemInfo.deviceType == DeviceType.Desktop)
+            foreach (var xElement in servers)
             {
-                AllServerArray.Add(server);
-            }
-            else if (!server.IsTest)
-            {
-                AllServerArray.Add(server);
+                var item = ServerVO.Parse(xElement);
+                if (item.Url == CheckServerUrl)
+                {
+                    temp.Add(item);
+                }
             }
         }
-        ServerData = AllServerArray[0];
+        else
+        {
+            foreach (var server in servers.Select(item => ServerVO.Parse(item)))
+            {
+                if (server.ServerState == 0)continue;
+
+                if (SystemInfo.deviceType == DeviceType.Desktop)
+                {
+                    temp.Add(server);
+                    if (server.ServerState == 1) suggestcount++;
+                }
+                else if (!server.IsTest && GameConfig.VersionValue >= server.RequestClientVersion)
+                {
+                    temp.Add(server);
+                    if (server.ServerState == 1) suggestcount++;
+                }
+            }
+        }
+        //stages.OrderByDescending(stageinfo => stageinfo.TemplateId)
+        //var temp = 
+        AllServerArray = new List<ServerVO>(temp.OrderBy(stageinfo => stageinfo.ServerState));
+
+        UsedServerArray = GetUsedServers();
+
+        if (UsedServerArray.Count > 0)
+        {
+            ServerData = UsedServerArray[0];
+        }
+        else if (suggestcount > 0)
+        {
+            float v = Random.Range(0, suggestcount);
+            var  k = (int) Mathf.Floor(v);
+            ServerData = AllServerArray[k];
+        }
+        else if (AllServerArray.Count > 0)
+        {
+            ServerData = AllServerArray[0];
+        }
     }
 
-    public static List<ServerVO> GetUsedServers()
+    private static List<ServerVO> GetUsedServers()
     {
         var arr = new List<ServerVO>();
-        var obj = GetDefaultAccount();
-        if (obj == null) return null;
-        for (int i = obj.Servers.Count - 1; i >= 0; i--)
+        for (int i = ServerNames.Count - 1; i >= 0; i--)
         {
-            var item = GetServerByUrl(obj.Servers[i]);
+            var item = GetServerByUrl(ServerNames[i]);
             if (item != null)
             {
                 arr.Add(item);
@@ -241,5 +247,22 @@ public class ServiceManager
     public static ServerVO GetDefaultServer()
     {
         return ServerData;
+    }
+
+    public static int GetVersionValue(string str)
+    {
+        Logger.Log(str);
+        string[] arr = str.Split(new string[] { "." }, StringSplitOptions.RemoveEmptyEntries);
+        int k = 0;
+        int offset = 1;
+        for (int i = arr.Length - 1; i >= 0; i--)
+        {
+            Logger.Log(arr[i]);
+            var  v = Int32.Parse(arr[i]);
+            k += v * offset;
+            offset *= 10;
+        }
+        Logger.Log(k);
+        return k;
     }
 }

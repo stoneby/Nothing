@@ -5,13 +5,15 @@ public class GameConfig
 {
     public static string Version;
     public static int VersionValue;
+    public static string BundleID;
+    public static string GameName;
     public static string FName;
     public static bool ShowLog;
     public static string Language;
     public static string ServicePath;
     public static string ServerIpAddress;
     public static string LocalServicePath;
-    public static string CookieAddress;
+    //public static string CookieAddress;
     public static string BattleConfig;
 
     //battle中的节奏

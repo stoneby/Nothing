@@ -3,6 +3,7 @@
 public sealed class PlayerModelLocator
 {
     public short HeroId;
+    public long RoleId;
     public string Name;
     public short Level;
     public int HeadIconId;

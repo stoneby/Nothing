@@ -30,21 +30,22 @@ public class HeroMenuBarWindow : Window
 
     public override void OnExit()
     {
+        barItemControl.CleanUp();
     }
 
     private void OnHeroList()
     {
-        Utils.ShowWithoutDestory(typeof(UIHeroCommonWindow));
+        WindowManager.Instance.Show<UIHeroCommonWindow>(true, true);
         switch (curBarItem)
         {
             case  BarItemType.HeroTeam:
                 {
-                    WindowManager.Instance.Show<UIBuildingTeamWindow>(true);
+                    WindowManager.Instance.Show<UIBuildingTeamWindow>(true, true);
                     break;
                 }
                 case BarItemType.HeroLevelUp:
                 {
-                    WindowManager.Instance.Show<UILevelUpHeroWindow>(true);
+                    WindowManager.Instance.Show<UILevelUpHeroWindow>(true, true);
                     break;
                 }
                 case BarItemType.HeroBreak:
@@ -53,7 +54,7 @@ public class HeroMenuBarWindow : Window
                 }
                 case BarItemType.HeroSell:
                 {
-                    WindowManager.Instance.Show<UISellHeroWindow>(true);
+                    WindowManager.Instance.Show<UISellHeroWindow>(true, true);
                     break;
                 }
         }
@@ -71,7 +72,6 @@ public class HeroMenuBarWindow : Window
 
     private void OnBarItemClicked(GameObject go)
     {
-        WindowManager.Instance.GetWindow<MainMenuBarWindow>().ShowBackBtn(true);
         WindowManager.Instance.Show<HeroMenuBarWindow>(false);
     }
 
@@ -90,8 +90,8 @@ public class HeroMenuBarWindow : Window
         }
         else
         {
-            Utils.ShowWithoutDestory(typeof(UIHeroCommonWindow));
-            WindowManager.Instance.Show<UIBuildingTeamWindow>(true);
+            WindowManager.Instance.Show<UIHeroCommonWindow>(true, true);
+            WindowManager.Instance.Show<UIBuildingTeamWindow>(true, true);
         }    
     }
 
@@ -106,8 +106,8 @@ public class HeroMenuBarWindow : Window
         }
         else
         {
-            Utils.ShowWithoutDestory(typeof(UIHeroCommonWindow));
-            WindowManager.Instance.Show<UILevelUpHeroWindow>(true);
+            WindowManager.Instance.Show<UIHeroCommonWindow>(true, true);
+            WindowManager.Instance.Show<UILevelUpHeroWindow>(true, true);
         }    
     }
 
@@ -127,8 +127,8 @@ public class HeroMenuBarWindow : Window
         }
         else
         {
-            Utils.ShowWithoutDestory(typeof(UIHeroCommonWindow));
-            WindowManager.Instance.Show<UISellHeroWindow>(true);
+            WindowManager.Instance.Show<UIHeroCommonWindow>(true, true);
+            WindowManager.Instance.Show<UISellHeroWindow>(true, true);
         }  
     }
 

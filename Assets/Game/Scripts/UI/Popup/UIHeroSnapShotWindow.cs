@@ -11,6 +11,7 @@ public class UIHeroSnapShotWindow : Window
     private UIEventListener cancelLis;
     private UIEventListener viewDetailLis;
     private UIEventListener templateLis;
+    private UIEventListener backLis;
     private UILabel templateLabel;
     private UILabel atkLabel;
     private UILabel hpLabel;
@@ -18,7 +19,6 @@ public class UIHeroSnapShotWindow : Window
     private UILabel mpLabel;
     private UILabel level;
     private UISprite jobIcon;
-
 
     public UIEventListener.VoidDelegate TemplateBtnPressed;
 
@@ -63,6 +63,7 @@ public class UIHeroSnapShotWindow : Window
         cancelLis = UIEventListener.Get(transform.Find("Buttons/CancelBtn").gameObject);
         viewDetailLis = UIEventListener.Get(transform.Find("Buttons/ViewDetailBtn").gameObject);
         templateLis = UIEventListener.Get(transform.Find("Buttons/TemplateBtn").gameObject);
+        backLis = UIEventListener.Get(transform.Find("Buttons/Button-Back").gameObject);
         templateLabel = templateLis.GetComponentInChildren<UILabel>();
         var property = transform.Find("Property");
         atkLabel = property.Find("Attack/AttackValue").GetComponent<UILabel>();
@@ -78,13 +79,20 @@ public class UIHeroSnapShotWindow : Window
         cancelLis.onClick = OnCancel;
         viewDetailLis.onClick = OnViewDetail;
         templateLis.onClick = OnTemplate;
-    } 
-    
+        backLis.onClick = OnBack;
+    }
+
     private void UnInstallHandlers()
     {
         cancelLis.onClick = null;
         viewDetailLis.onClick = null;
         templateLis.onClick = null;
+        backLis.onClick = null;
+    }
+
+    private void OnBack(GameObject go)
+    {
+        WindowManager.Instance.Show<UIHeroSnapShotWindow>(false);
     }
 
     private void OnCancel(GameObject go)
@@ -94,7 +102,8 @@ public class UIHeroSnapShotWindow : Window
 
     private void OnViewDetail(GameObject go)
     {
-        var heroDetail = WindowManager.Instance.Show<UIHeroDetailWindow>(true);
+        UIHeroDetailWindow.IsLongPressEnter = false;
+        var heroDetail = WindowManager.Instance.Show<UIHeroDetailWindow>(true, true);
         heroDetail.RefreshData(heroInfo);
     }
 

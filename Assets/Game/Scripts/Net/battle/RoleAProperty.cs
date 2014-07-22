@@ -32,11 +32,14 @@ namespace com.kx.sglm.gs.hero.properties
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
 //ORIGINAL LINE: @Comment(content = "减伤") @Type(Integer.class) public static final int DECRDAMAGE = _INDEX++;
 		public static readonly int DECRDAMAGE = _INDEX++;
+//JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
+//ORIGINAL LINE: @Comment(content = "加伤") @Type(Integer.class) public static final int INCRDAMAGE = _INDEX++;
+		public static readonly int INCRDAMAGE = _INDEX++;
 
 		/// <summary>
 		/// 一级属性个�? </summary>
 		public static readonly int _SIZE = _INDEX;
-		public const int TYPE = PropertyTypeConstants.ROLE_PROP_TYPE_A;
+		public static readonly int TYPE = PropertyTypeConstants.ROLE_PROP_TYPE_A;
 
 		public RoleAProperty() : base(_SIZE, TYPE)
 		{

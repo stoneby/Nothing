@@ -7,6 +7,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 	using MathUtils = com.kx.sglm.core.util.MathUtils;
 	using BattleRecordConstants = com.kx.sglm.gs.battle.share.data.record.BattleRecordConstants;
 	using SingleFighterRecord = com.kx.sglm.gs.battle.share.data.record.SingleFighterRecord;
+	using FighterStateEnum = com.kx.sglm.gs.battle.share.enums.FighterStateEnum;
 	using BattleRecordHelper = com.kx.sglm.gs.battle.share.helper.BattleRecordHelper;
 
 	public class FighterStateManager : IFighterOwner
@@ -82,6 +83,12 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 			{
 				return owner;
 			}
+		}
+
+
+		public virtual bool hasState(FighterStateEnum state)
+		{
+			return MathUtils.andFlag(fighterStateFlag, state.StateFlag);
 		}
 
 	}

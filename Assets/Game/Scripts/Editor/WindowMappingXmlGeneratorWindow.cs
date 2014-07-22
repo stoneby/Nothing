@@ -19,12 +19,12 @@ public class WindowMappingXmlGeneratorWindow : EditorWindow
     private string absolutePath;
     private List<string> folderNameList = new List<string>();
 
-    private Dictionary<string, List<string>> prefabDict = new Dictionary<string, List<string>>();
+    private readonly Dictionary<string, List<string>> prefabDict = new Dictionary<string, List<string>>();
 
     private const string SvnFolder = ".svn";
     private const string WindowMapPath = "Game/Resources/Config/WindowMap.xml";
 
-    private WindnowMappingXmlGenerator xmlGenerator = new WindnowMappingXmlGenerator();
+    private readonly WindnowMappingXmlGenerator xmlGenerator = new WindnowMappingXmlGenerator();
 
     #endregion
 

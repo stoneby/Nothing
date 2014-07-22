@@ -24,6 +24,17 @@ namespace KXSGCodec
         {
         	            MSG_TYPE_DICT[typeof(CSBattlePveFinishMsg)] = (short)MessageType.CS_BATTLE_PVE_FINISH_MSG.GetHashCode();
 			            MSG_TYPE_DICT[typeof(CSRaidBattleStartMsg)] = (short)MessageType.CS_RAID_BATTLE_START_MSG.GetHashCode();
+			            MSG_TYPE_DICT[typeof(CSFriendApply)] = (short)MessageType.CS_FRIEND_APPLY.GetHashCode();
+			            MSG_TYPE_DICT[typeof(CSFriendApplyList)] = (short)MessageType.CS_FRIEND_APPLY_LIST.GetHashCode();
+			            MSG_TYPE_DICT[typeof(CSFriendApplyOper)] = (short)MessageType.CS_FRIEND_APPLY_OPER.GetHashCode();
+			            MSG_TYPE_DICT[typeof(CSFriendBind)] = (short)MessageType.CS_FRIEND_BIND.GetHashCode();
+			            MSG_TYPE_DICT[typeof(CSFriendDelete)] = (short)MessageType.CS_FRIEND_DELETE.GetHashCode();
+			            MSG_TYPE_DICT[typeof(CSFriendExtend)] = (short)MessageType.CS_FRIEND_EXTEND.GetHashCode();
+			            MSG_TYPE_DICT[typeof(CSFriendGiveEnergy)] = (short)MessageType.CS_FRIEND_GIVE_ENERGY.GetHashCode();
+			            MSG_TYPE_DICT[typeof(CSFriendLoadingAll)] = (short)MessageType.CS_FRIEND_LOADING_ALL.GetHashCode();
+			            MSG_TYPE_DICT[typeof(CSFriendQueryByName)] = (short)MessageType.CS_FRIEND_QUERY_BY_NAME.GetHashCode();
+			            MSG_TYPE_DICT[typeof(CSFriendRecieveEnergy)] = (short)MessageType.CS_FRIEND_RECIEVE_ENERGY.GetHashCode();
+			            MSG_TYPE_DICT[typeof(CSFriendRecieveEnergyList)] = (short)MessageType.CS_FRIEND_RECIEVE_ENERGY_LIST.GetHashCode();
 			            MSG_TYPE_DICT[typeof(CSHeroBind)] = (short)MessageType.CS_HERO_BIND.GetHashCode();
 			            MSG_TYPE_DICT[typeof(CSHeroChangeEquip)] = (short)MessageType.CS_HERO_CHANGE_EQUIP.GetHashCode();
 			            MSG_TYPE_DICT[typeof(CSHeroChangeOrder)] = (short)MessageType.CS_HERO_CHANGE_ORDER.GetHashCode();

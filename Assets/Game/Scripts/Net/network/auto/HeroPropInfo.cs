@@ -88,14 +88,14 @@ namespace KXSGCodec
             if (field.Type == TType.Map) {
               {
                 Prop = new Dictionary<int, int>();
-                TMap _map8 = iprot.ReadMapBegin();
-                for( int _i9 = 0; _i9 < _map8.Count; ++_i9)
+                TMap _map0 = iprot.ReadMapBegin();
+                for( int _i1 = 0; _i1 < _map0.Count; ++_i1)
                 {
-                  int _key10;
-                  int _val11;
-                  _key10 = iprot.ReadI32();
-                  _val11 = iprot.ReadI32();
-                  Prop[_key10] = _val11;
+                  int _key2;
+                  int _val3;
+                  _key2 = iprot.ReadI32();
+                  _val3 = iprot.ReadI32();
+                  Prop[_key2] = _val3;
                 }
                 iprot.ReadMapEnd();
               }
@@ -131,10 +131,10 @@ namespace KXSGCodec
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteMapBegin(new TMap(TType.I32, TType.I32, Prop.Count));
-          foreach (int _iter12 in Prop.Keys)
+          foreach (int _iter4 in Prop.Keys)
           {
-            oprot.WriteI32(_iter12);
-            oprot.WriteI32(Prop[_iter12]);
+            oprot.WriteI32(_iter4);
+            oprot.WriteI32(Prop[_iter4]);
           }
           oprot.WriteMapEnd();
         }

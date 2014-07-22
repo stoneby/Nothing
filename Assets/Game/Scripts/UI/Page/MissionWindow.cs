@@ -39,6 +39,7 @@ public class MissionWindow : Window
 
     public override void OnEnter()
     {
+        MtaManager.TrackBeginPage(MtaType.RaidMainScreen);
         if (MissionModelLocator.Instance.CurrRaidType != MissionModelLocator.Instance.NextRaidType)
         {
             MissionModelLocator.Instance.CurrRaidType = MissionModelLocator.Instance.NextRaidType;
@@ -276,7 +277,7 @@ public class MissionWindow : Window
 
         if (BtnCloseUIEventListener != null) BtnCloseUIEventListener.onClick -= OnCloseButtonClick;
         if (BtnRewardUIEventListener != null) BtnRewardUIEventListener.onClick -= OnRewardButtonClick;
-        
+        MtaManager.TrackEndPage(MtaType.RaidMainScreen);
     }
 
     #endregion

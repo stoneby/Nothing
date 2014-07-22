@@ -5,8 +5,8 @@ public class DragBarControllerTest : MonoBehaviour
     public DragBarNo1Controller Controller1;
     public DragBarNo2Controller Controller2;
 
-    private string widthStr;
-    private string rotateStr;
+    private string widthStr = string.Empty;
+    private string rotateStr = string.Empty;
 
 #if UNITY_EDITOR
     private void OnGUI()

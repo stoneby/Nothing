@@ -3,8 +3,9 @@ namespace com.kx.sglm.gs.battle.share.skill.enums
 
 	using BaseBattleFactoryEnum = com.kx.sglm.gs.battle.share.enums.BaseBattleFactoryEnum;
 	using IBattlePartInfo = com.kx.sglm.gs.battle.share.enums.IBattlePartInfo;
+	using AIDeadMonsterCondition = com.kx.sglm.gs.battle.share.skill.aicondition.AIDeadMonsterCondition;
+	using AILeftHpCondition = com.kx.sglm.gs.battle.share.skill.aicondition.AILeftHpCondition;
 	using AIRoundCondition = com.kx.sglm.gs.battle.share.skill.aicondition.AIRoundCondition;
-
 
 	public abstract class AIConditionEnum : BaseBattleFactoryEnum
 	{
@@ -41,20 +42,50 @@ namespace com.kx.sglm.gs.battle.share.skill.enums
 			}
 		}
 
+		/// <summary>
+		///  £”‡—™¡ø </summary>
+		public static readonly AIConditionEnum LEFT_HP = new AIConditionEnumAnonymousInnerClassHelper3();
 
+		private class AIConditionEnumAnonymousInnerClassHelper3 : AIConditionEnum
+		{
+			public AIConditionEnumAnonymousInnerClassHelper3() : base(2)
+			{
+			}
+
+
+			public override IBattlePartInfo createInstance()
+			{
+				return new AILeftHpCondition();
+			}
+		}
+
+		/// <summary>
+		/// À¿Õˆπ÷ŒÔ ˝ </summary>
+		public static readonly AIConditionEnum DEAD_MONSTER_COUNT = new AIConditionEnumAnonymousInnerClassHelper4();
+
+		private class AIConditionEnumAnonymousInnerClassHelper4 : AIConditionEnum
+		{
+			public AIConditionEnumAnonymousInnerClassHelper4() : base(3)
+			{
+			}
+
+
+			public override IBattlePartInfo createInstance()
+			{
+				return new AIDeadMonsterCondition();
+			}
+		}
 
 		public AIConditionEnum(int index) : base(index)
 		{
 		}
 
-		private static readonly AIConditionEnum[] VALUES = new AIConditionEnum[] {NIL, ROUND_COUNT};
+		private static readonly AIConditionEnum[] VALUES = new AIConditionEnum[] {NIL, ROUND_COUNT, LEFT_HP, DEAD_MONSTER_COUNT};
 
 		public static AIConditionEnum[] values()
 		{
 			return VALUES;
 		}
-
-
 
 	}
 

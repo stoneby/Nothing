@@ -6,14 +6,11 @@ namespace Assets.Game.Scripts.Net.handler
     {
         public static void OnCreatePlayer(ThriftSCMessage msg)
         {
-            if (ServiceManager.AccountData != null)
+            if (ServiceManager.IsDebugAccount == 1)
             {
-                ServiceManager.AddAccount(ServiceManager.AccountData);
-                ServiceManager.SaveAccount();
+                ServiceManager.SetDebugAccount(ServiceManager.DebugUserID, ServiceManager.DebugUserName, ServiceManager.DebugPassword);
             }
-           
-            WindowManager.Instance.Show(typeof(LoginCreateRoleWindow), true);
-            
+            WindowManager.Instance.Show<LoginCreateRoleWindow>(true);
         }
 
         public static void OnPlayerInfo(ThriftSCMessage msg)
@@ -23,22 +20,31 @@ namespace Assets.Game.Scripts.Net.handler
             if (themsg != null)
             {
                 PlayerModelLocator.Instance.HeroId = themsg.HeroId;
+                PlayerModelLocator.Instance.RoleId = themsg.CId;
                 PlayerModelLocator.Instance.Name = themsg.Name;
                 PlayerModelLocator.Instance.HeadIconId = themsg.HeadIconId;
                 PlayerModelLocator.Instance.Level = themsg.Lvl;
                 PlayerModelLocator.Instance.Exp = themsg.Exp;
                 PlayerModelLocator.Instance.Diamond = themsg.Diamond;
                 PlayerModelLocator.Instance.Gold = themsg.Gold;
-				PlayerModelLocator.Instance.Sprit = themsg.Spirit;
-				PlayerModelLocator.Instance.ExtendHeroTimes = themsg.HeroExtendTimes;
-				PlayerModelLocator.Instance.ExtendItemTimes = themsg.ItemExtendTimes;
+                PlayerModelLocator.Instance.Sprit = themsg.Spirit;
+                PlayerModelLocator.Instance.ExtendHeroTimes = themsg.HeroExtendTimes;
+                PlayerModelLocator.Instance.ExtendItemTimes = themsg.ItemExtendTimes;
                 PlayerModelLocator.Instance.HeroMax = themsg.HeroMax;
-                //PlayerModelLocator.Instance.ItemMax = themsg.i;
                 PlayerModelLocator.Instance.Energy = themsg.Energy;
+                if (ServiceManager.IsDebugAccount == 1)
+                {
+                    MtaManager.ReportGameUser(ServiceManager.DebugUserName, ServiceManager.ServerData.ID, PlayerModelLocator.Instance.Level.ToString());
+                }
+                else
+                {
+                    ServiceManager.SetAccount(themsg.UId, themsg.UName);
+                    MtaManager.ReportGameUser(ServiceManager.UserName, ServiceManager.ServerData.ID, PlayerModelLocator.Instance.Level.ToString());
+                }
             }
-            EventManager.Instance.Post(new LoginEvent() { Message = "This is login event." });
-            WindowManager.Instance.Show(typeof(UIMainScreenWindow), true);
-            WindowManager.Instance.Show(typeof(MainMenuBarWindow), true);
+            EventManager.Instance.Post(new LoginEvent {Message = "This is login event."});
+            WindowManager.Instance.Show<UIMainScreenWindow>(true);
+            WindowManager.Instance.Show<MainMenuBarWindow>(true);
             WindowManager.Instance.Show(WindowGroupType.Popup, false);
 
             HttpResourceManager.LoadAll();

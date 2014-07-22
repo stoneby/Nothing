@@ -17,7 +17,7 @@ namespace Assets.Game.Scripts.Net.handler
                     HeroModelLocator.AlreadyRequest = true;
                     if(HeroModelLocator.Instance.GetHeroPos == RaidType.GetHeroInBattle)
                     {
-                        WindowManager.Instance.Show(typeof(BattleConfirmTabWindow), true);                
+                        WindowManager.Instance.Show<BattleConfirmTabWindow>(true);                
                     }
                     else if(HeroModelLocator.Instance.GetHeroPos == RaidType.GetHeroInHeroPanel)
                     {
@@ -28,7 +28,7 @@ namespace Assets.Game.Scripts.Net.handler
                     }
                     else if(HeroModelLocator.Instance.GetHeroPos == RaidType.GetHeroInHeroCreateTeam)
                     {
-                        Utils.ShowWithoutDestory(typeof(UITeamShowingWindow));
+                        WindowManager.Instance.Show<UITeamShowingWindow>(true);
                     }
                     break;
 
@@ -52,8 +52,6 @@ namespace Assets.Game.Scripts.Net.handler
                     {
                         HeroModelLocator.Instance.SCHeroList.TeamList[md5Msg.TeamIndex].ListHeroUuid =
                             md5Msg.NewTeamInfo;
-                        WindowManager.Instance.GetWindow<UITeamBuildWindow>().Refresh();
-                        WindowManager.Instance.Show(typeof(UITeamEditWindow), false);
                     }
                     break;
 
@@ -96,7 +94,8 @@ namespace Assets.Game.Scripts.Net.handler
                     {
                         var heroDetail = WindowManager.Instance.GetWindow<UIHeroDetailWindow>();
                         heroDetail.HeroInfo.EquipUuid[heroDetail.CurEquipIndex] = hChangeEquipMsg.EquipUuid;
-                        heroDetail.RefreshData(heroDetail.HeroInfo);
+                        //heroDetail.RefreshData(heroDetail.HeroInfo);
+                        heroDetail.EquipOver(heroDetail.HeroInfo);
                     }
                     break;
                 case (short) MessageType.SC_HERO_BIND_SUCC:

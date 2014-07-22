@@ -20,11 +20,12 @@ public class LoginServersWindow : Window
 
     public override void OnEnter()
     {
+        MtaManager.TrackBeginPage(MtaType.LoginServerWindow);
         BtnCloseUIEventListener.onClick += OnCloseButtonClick;
 
         if (HaveInit) return;
         HaveInit = true;
-        var arr = ServiceManager.GetUsedServers();
+        var arr = ServiceManager.UsedServerArray;
         if (arr != null)
         {
             for (int i = 0; i < arr.Count; i++)
@@ -46,6 +47,7 @@ public class LoginServersWindow : Window
     public override void OnExit()
     {
         if (BtnCloseUIEventListener != null) BtnCloseUIEventListener.onClick -= OnCloseButtonClick;
+        MtaManager.TrackEndPage(MtaType.LoginServerWindow);
     }
 
     #endregion

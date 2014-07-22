@@ -27,14 +27,14 @@ public class LoginAccountWindow : Window
 
         EventManager.Instance.AddListener<LoginEvent>(OnSCPlayerInfoHandler);
 
-        var obj = ServiceManager.GetDefaultAccount();
-        if (obj != null)
-        {
+//        var obj = ServiceManager.GetDefaultAccount();
+//        if (obj != null)
+//        {
             var acinput = InputAccount.GetComponent<UIInput>();
             var pwinput = InputPassword.GetComponent<UIInput>();
-            acinput.value = obj.Account;
-            pwinput.value = obj.Password;
-        }
+            acinput.value = ServiceManager.DebugUserName;
+            pwinput.value = ServiceManager.DebugPassword;
+//        }
     }
 
     public override void OnExit()
@@ -83,13 +83,14 @@ public class LoginAccountWindow : Window
             return;
         }
 
-        if (ServiceManager.AccountData == null)
-        {
-            ServiceManager.AccountData = new AccountVO();
-        }
-        ServiceManager.AccountData.Account = acinput.value;
-        ServiceManager.AccountData.Password = pwinput.value;
-        ServiceManager.AccountData.AddServer(ServiceManager.ServerData.Url);
+//        if (ServiceManager.AccountData == null)
+//        {
+//            ServiceManager.AccountData = new AccountVO();
+//        }
+        ServiceManager.DebugUserName = acinput.value;
+        ServiceManager.DebugPassword = pwinput.value;
+        ServiceManager.AddServer(ServiceManager.ServerData.Url);
+        ServiceManager.IsDebugAccount = 1;
 
         var csMsg = new CSPasswdLoginMsg();
         csMsg.DeviceId = "1";
@@ -113,8 +114,12 @@ public class LoginAccountWindow : Window
     private static void OnSCPlayerInfoHandler(LoginEvent e)
     {
         Logger.LogWarning("OnSCPlayerInfoHandler get called back, with event-" + e.Message);
-        Logger.LogWarning("Account data: " + ServiceManager.AccountData);
-        ServiceManager.AddAccount(ServiceManager.AccountData);
-        ServiceManager.SaveAccount();
+        //Logger.LogWarning("Account data: " + ServiceManager.AccountData);
+        if (ServiceManager.IsDebugAccount == 1)
+        {
+            ServiceManager.SetDebugAccount("", ServiceManager.DebugUserName, ServiceManager.DebugPassword);
+        }
+        
+        //ServiceManager.SaveAccount();
     }
 }

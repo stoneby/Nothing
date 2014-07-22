@@ -223,6 +223,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 400034}
   - 114: {fileID: 11400050}
+  - 114: {fileID: 11400022}
   m_Layer: 8
   m_Name: Label
   m_TagString: Untagged
@@ -239,6 +240,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 400036}
   - 114: {fileID: 11400052}
+  - 114: {fileID: 11400018}
   m_Layer: 8
   m_Name: Label
   m_TagString: Untagged
@@ -271,6 +273,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 400040}
   - 114: {fileID: 11400056}
+  - 114: {fileID: 11400020}
   m_Layer: 8
   m_Name: Label
   m_TagString: Untagged
@@ -860,7 +863,7 @@ MonoBehaviour:
   aspectRatio: 4.69999981
   keepCrispWhenShrunk: 1
   mTrueTypeFont: {fileID: 0}
-  mFont: {fileID: 11400000, guid: 08403498d1d008045ad811a9090ce89c, type: 2}
+  mFont: {fileID: 0}
   mText: AddedFriend
   mFontSize: 20
   mFontStyle: 0
@@ -1005,7 +1008,7 @@ MonoBehaviour:
   aspectRatio: 4.69999981
   keepCrispWhenShrunk: 1
   mTrueTypeFont: {fileID: 0}
-  mFont: {fileID: 11400000, guid: 08403498d1d008045ad811a9090ce89c, type: 2}
+  mFont: {fileID: 0}
   mText: PrivateChat
   mFontSize: 20
   mFontStyle: 0
@@ -1067,7 +1070,7 @@ MonoBehaviour:
   aspectRatio: 3.5
   keepCrispWhenShrunk: 1
   mTrueTypeFont: {fileID: 0}
-  mFont: {fileID: 11400000, guid: 08403498d1d008045ad811a9090ce89c, type: 2}
+  mFont: {fileID: 0}
   mText: Lv.33
   mFontSize: 20
   mFontStyle: 2
@@ -1090,6 +1093,42 @@ MonoBehaviour:
   mMaxLineHeight: 0
   mLineWidth: 0
   mMultiline: 1
+--- !u!114 &11400018
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bac732c5500c25a45968da93c1d5678f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Key: PlayerDetail.recover
+--- !u!114 &11400020
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100040}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bac732c5500c25a45968da93c1d5678f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Key: PlayerDetail.attack
+--- !u!114 &11400022
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bac732c5500c25a45968da93c1d5678f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Key: PlayerDetail.mp
 --- !u!114 &11400026
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1329,7 +1368,7 @@ MonoBehaviour:
   aspectRatio: 4.69999981
   keepCrispWhenShrunk: 1
   mTrueTypeFont: {fileID: 0}
-  mFont: {fileID: 11400000, guid: 08403498d1d008045ad811a9090ce89c, type: 2}
+  mFont: {fileID: 0}
   mText: Detail
   mFontSize: 20
   mFontStyle: 0
@@ -1474,7 +1513,7 @@ MonoBehaviour:
   aspectRatio: 4.80000019
   keepCrispWhenShrunk: 1
   mTrueTypeFont: {fileID: 0}
-  mFont: {fileID: 11400000, guid: 08403498d1d008045ad811a9090ce89c, type: 2}
+  mFont: {fileID: 0}
   mText: 22
   mFontSize: 20
   mFontStyle: 0
@@ -1536,7 +1575,7 @@ MonoBehaviour:
   aspectRatio: 4.80000019
   keepCrispWhenShrunk: 1
   mTrueTypeFont: {fileID: 0}
-  mFont: {fileID: 11400000, guid: 08403498d1d008045ad811a9090ce89c, type: 2}
+  mFont: {fileID: 0}
   mText: +5
   mFontSize: 20
   mFontStyle: 0
@@ -1598,7 +1637,7 @@ MonoBehaviour:
   aspectRatio: 4.80000019
   keepCrispWhenShrunk: 1
   mTrueTypeFont: {fileID: 0}
-  mFont: {fileID: 11400000, guid: 08403498d1d008045ad811a9090ce89c, type: 2}
+  mFont: {fileID: 0}
   mText: 22
   mFontSize: 20
   mFontStyle: 0
@@ -1660,7 +1699,7 @@ MonoBehaviour:
   aspectRatio: 4.80000019
   keepCrispWhenShrunk: 1
   mTrueTypeFont: {fileID: 0}
-  mFont: {fileID: 11400000, guid: 08403498d1d008045ad811a9090ce89c, type: 2}
+  mFont: {fileID: 0}
   mText: 22
   mFontSize: 20
   mFontStyle: 0
@@ -1722,7 +1761,7 @@ MonoBehaviour:
   aspectRatio: 4.80000019
   keepCrispWhenShrunk: 1
   mTrueTypeFont: {fileID: 0}
-  mFont: {fileID: 11400000, guid: 08403498d1d008045ad811a9090ce89c, type: 2}
+  mFont: {fileID: 0}
   mText: "\u6C14\u529B"
   mFontSize: 20
   mFontStyle: 0
@@ -1784,7 +1823,7 @@ MonoBehaviour:
   aspectRatio: 4.80000019
   keepCrispWhenShrunk: 1
   mTrueTypeFont: {fileID: 0}
-  mFont: {fileID: 11400000, guid: 08403498d1d008045ad811a9090ce89c, type: 2}
+  mFont: {fileID: 0}
   mText: "\u56DE\u590D"
   mFontSize: 20
   mFontStyle: 0
@@ -1846,7 +1885,7 @@ MonoBehaviour:
   aspectRatio: 4.80000019
   keepCrispWhenShrunk: 1
   mTrueTypeFont: {fileID: 0}
-  mFont: {fileID: 11400000, guid: 08403498d1d008045ad811a9090ce89c, type: 2}
+  mFont: {fileID: 0}
   mText: HP
   mFontSize: 20
   mFontStyle: 0
@@ -1908,7 +1947,7 @@ MonoBehaviour:
   aspectRatio: 4.80000019
   keepCrispWhenShrunk: 1
   mTrueTypeFont: {fileID: 0}
-  mFont: {fileID: 11400000, guid: 08403498d1d008045ad811a9090ce89c, type: 2}
+  mFont: {fileID: 0}
   mText: "\u653B"
   mFontSize: 20
   mFontStyle: 0
@@ -1970,7 +2009,7 @@ MonoBehaviour:
   aspectRatio: 4.80000019
   keepCrispWhenShrunk: 1
   mTrueTypeFont: {fileID: 0}
-  mFont: {fileID: 11400000, guid: 08403498d1d008045ad811a9090ce89c, type: 2}
+  mFont: {fileID: 0}
   mText: PlayerName
   mFontSize: 30
   mFontStyle: 0

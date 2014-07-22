@@ -10,7 +10,7 @@ public class BarItemControl : MonoBehaviour
     private UIGrid grid;
     private Vector3 cachedPosition;
     public List<EventDelegate> ItemDelegates;
-    public List<string> BarNames;
+    public List<string> BarNameKeys;
     public bool HideWhenPress = true;
 
     public UIEventListener.VoidDelegate ItemClicked;
@@ -18,7 +18,7 @@ public class BarItemControl : MonoBehaviour
     public virtual void Init()
     {
         var count = ItemDelegates.Count;
-        if (count != BarNames.Count)
+        if (count != BarNameKeys.Count)
         {
             Logger.LogError("The bar item count is not equal to the event delegate count");
         }
@@ -30,7 +30,7 @@ public class BarItemControl : MonoBehaviour
             NGUITools.SetActive(item.gameObject, true);
             var barItem = item.GetComponent<BarItem>();
             barItems.Add(barItem);
-            barItem.Init(BarNames[i]);
+            barItem.Init(BarNameKeys[i]);
             UIEventListener.Get(barItem.gameObject).onClick = OnBarItemClicked;
         }
         AdjustPos();
@@ -38,16 +38,16 @@ public class BarItemControl : MonoBehaviour
 
     protected void OnBarItemClicked(GameObject go)
     {
+        var index = barItems.IndexOf(go.GetComponent<BarItem>());
+        EventDelegate.Execute(new List<EventDelegate> {ItemDelegates[index]});
+        if (HideWhenPress)
+        {
+            CleanUp();
+        }
         if (ItemClicked != null)
         {
             ItemClicked(go);
         }
-        if(HideWhenPress)
-        {
-            CleanUp();
-        }
-        var index = barItems.IndexOf(go.GetComponent<BarItem>());
-        EventDelegate.Execute(new List<EventDelegate> {ItemDelegates[index]});
     }
 
     protected virtual void Awake()
@@ -71,10 +71,10 @@ public class BarItemControl : MonoBehaviour
             barItem.CleanUp();
             if (PoolManager.Pools.ContainsKey(PoolName))
             {
-                barItem.transform.parent = PoolManager.Pools[PoolName].transform;
                 PoolManager.Pools[PoolName].Despawn(barItem.transform);
                 UIEventListener.Get(barItem.gameObject).onClick = null;
             }
         }
+        barItems.Clear();
     }
 }

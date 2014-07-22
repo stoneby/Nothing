@@ -23,8 +23,11 @@ namespace KXSGCodec
   #endif
   public partial class SCPlayerInfoMsg : TBase
   {
+    private long _uId;
+    private string _uName;
     private short _heroId;
     private string _name;
+    private long _cId;
     private short _lvl;
     private int _headIconId;
     private int _exp;
@@ -36,6 +39,32 @@ namespace KXSGCodec
     private short _heroExtendTimes;
     private short _itemExtendTimes;
     private List<int> _teamList;
+
+    public long UId
+    {
+      get
+      {
+        return _uId;
+      }
+      set
+      {
+        __isset.uId = true;
+        this._uId = value;
+      }
+    }
+
+    public string UName
+    {
+      get
+      {
+        return _uName;
+      }
+      set
+      {
+        __isset.uName = true;
+        this._uName = value;
+      }
+    }
 
     /// <summary>
     /// 对应武将id
@@ -63,6 +92,22 @@ namespace KXSGCodec
       {
         __isset.name = true;
         this._name = value;
+      }
+    }
+
+    /// <summary>
+    /// 角色id
+    /// </summary>
+    public long CId
+    {
+      get
+      {
+        return _cId;
+      }
+      set
+      {
+        __isset.cId = true;
+        this._cId = value;
       }
     }
 
@@ -215,8 +260,11 @@ namespace KXSGCodec
     [Serializable]
     #endif
     public struct Isset {
+      public bool uId;
+      public bool uName;
       public bool heroId;
       public bool name;
+      public bool cId;
       public bool lvl;
       public bool headIconId;
       public bool exp;
@@ -246,90 +294,111 @@ namespace KXSGCodec
         switch (field.ID)
         {
           case 1:
-            if (field.Type == TType.I16) {
-              HeroId = iprot.ReadI16();
+            if (field.Type == TType.I64) {
+              UId = iprot.ReadI64();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
             break;
           case 2:
             if (field.Type == TType.String) {
-              Name = iprot.ReadString();
+              UName = iprot.ReadString();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
             break;
           case 3:
             if (field.Type == TType.I16) {
-              Lvl = iprot.ReadI16();
+              HeroId = iprot.ReadI16();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
             break;
           case 4:
+            if (field.Type == TType.String) {
+              Name = iprot.ReadString();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 5:
+            if (field.Type == TType.I64) {
+              CId = iprot.ReadI64();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 6:
+            if (field.Type == TType.I16) {
+              Lvl = iprot.ReadI16();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 7:
             if (field.Type == TType.I32) {
               HeadIconId = iprot.ReadI32();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
             break;
-          case 5:
+          case 8:
             if (field.Type == TType.I32) {
               Exp = iprot.ReadI32();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
             break;
-          case 6:
+          case 9:
             if (field.Type == TType.I64) {
               Diamond = iprot.ReadI64();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
             break;
-          case 7:
+          case 10:
             if (field.Type == TType.I64) {
               Gold = iprot.ReadI64();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
             break;
-          case 8:
+          case 11:
             if (field.Type == TType.I32) {
               Spirit = iprot.ReadI32();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
             break;
-          case 9:
+          case 12:
             if (field.Type == TType.I32) {
               Energy = iprot.ReadI32();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
             break;
-          case 10:
+          case 13:
             if (field.Type == TType.I16) {
               HeroMax = iprot.ReadI16();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
             break;
-          case 11:
+          case 14:
             if (field.Type == TType.I16) {
               HeroExtendTimes = iprot.ReadI16();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
             break;
-          case 12:
+          case 15:
             if (field.Type == TType.I16) {
               ItemExtendTimes = iprot.ReadI16();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
             break;
-          case 13:
+          case 16:
             if (field.Type == TType.List) {
               {
                 TeamList = new List<int>();
@@ -359,10 +428,26 @@ namespace KXSGCodec
       TStruct struc = new TStruct("SCPlayerInfoMsg");
       oprot.WriteStructBegin(struc);
       TField field = new TField();
+      if (__isset.uId) {
+        field.Name = "uId";
+        field.Type = TType.I64;
+        field.ID = 1;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteI64(UId);
+        oprot.WriteFieldEnd();
+      }
+      if (UName != null && __isset.uName) {
+        field.Name = "uName";
+        field.Type = TType.String;
+        field.ID = 2;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteString(UName);
+        oprot.WriteFieldEnd();
+      }
       if (__isset.heroId) {
         field.Name = "heroId";
         field.Type = TType.I16;
-        field.ID = 1;
+        field.ID = 3;
         oprot.WriteFieldBegin(field);
         oprot.WriteI16(HeroId);
         oprot.WriteFieldEnd();
@@ -370,15 +455,23 @@ namespace KXSGCodec
       if (Name != null && __isset.name) {
         field.Name = "name";
         field.Type = TType.String;
-        field.ID = 2;
+        field.ID = 4;
         oprot.WriteFieldBegin(field);
         oprot.WriteString(Name);
+        oprot.WriteFieldEnd();
+      }
+      if (__isset.cId) {
+        field.Name = "cId";
+        field.Type = TType.I64;
+        field.ID = 5;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteI64(CId);
         oprot.WriteFieldEnd();
       }
       if (__isset.lvl) {
         field.Name = "lvl";
         field.Type = TType.I16;
-        field.ID = 3;
+        field.ID = 6;
         oprot.WriteFieldBegin(field);
         oprot.WriteI16(Lvl);
         oprot.WriteFieldEnd();
@@ -386,7 +479,7 @@ namespace KXSGCodec
       if (__isset.headIconId) {
         field.Name = "headIconId";
         field.Type = TType.I32;
-        field.ID = 4;
+        field.ID = 7;
         oprot.WriteFieldBegin(field);
         oprot.WriteI32(HeadIconId);
         oprot.WriteFieldEnd();
@@ -394,7 +487,7 @@ namespace KXSGCodec
       if (__isset.exp) {
         field.Name = "exp";
         field.Type = TType.I32;
-        field.ID = 5;
+        field.ID = 8;
         oprot.WriteFieldBegin(field);
         oprot.WriteI32(Exp);
         oprot.WriteFieldEnd();
@@ -402,7 +495,7 @@ namespace KXSGCodec
       if (__isset.diamond) {
         field.Name = "diamond";
         field.Type = TType.I64;
-        field.ID = 6;
+        field.ID = 9;
         oprot.WriteFieldBegin(field);
         oprot.WriteI64(Diamond);
         oprot.WriteFieldEnd();
@@ -410,7 +503,7 @@ namespace KXSGCodec
       if (__isset.gold) {
         field.Name = "gold";
         field.Type = TType.I64;
-        field.ID = 7;
+        field.ID = 10;
         oprot.WriteFieldBegin(field);
         oprot.WriteI64(Gold);
         oprot.WriteFieldEnd();
@@ -418,7 +511,7 @@ namespace KXSGCodec
       if (__isset.spirit) {
         field.Name = "spirit";
         field.Type = TType.I32;
-        field.ID = 8;
+        field.ID = 11;
         oprot.WriteFieldBegin(field);
         oprot.WriteI32(Spirit);
         oprot.WriteFieldEnd();
@@ -426,7 +519,7 @@ namespace KXSGCodec
       if (__isset.energy) {
         field.Name = "energy";
         field.Type = TType.I32;
-        field.ID = 9;
+        field.ID = 12;
         oprot.WriteFieldBegin(field);
         oprot.WriteI32(Energy);
         oprot.WriteFieldEnd();
@@ -434,7 +527,7 @@ namespace KXSGCodec
       if (__isset.heroMax) {
         field.Name = "heroMax";
         field.Type = TType.I16;
-        field.ID = 10;
+        field.ID = 13;
         oprot.WriteFieldBegin(field);
         oprot.WriteI16(HeroMax);
         oprot.WriteFieldEnd();
@@ -442,7 +535,7 @@ namespace KXSGCodec
       if (__isset.heroExtendTimes) {
         field.Name = "heroExtendTimes";
         field.Type = TType.I16;
-        field.ID = 11;
+        field.ID = 14;
         oprot.WriteFieldBegin(field);
         oprot.WriteI16(HeroExtendTimes);
         oprot.WriteFieldEnd();
@@ -450,7 +543,7 @@ namespace KXSGCodec
       if (__isset.itemExtendTimes) {
         field.Name = "itemExtendTimes";
         field.Type = TType.I16;
-        field.ID = 12;
+        field.ID = 15;
         oprot.WriteFieldBegin(field);
         oprot.WriteI16(ItemExtendTimes);
         oprot.WriteFieldEnd();
@@ -458,7 +551,7 @@ namespace KXSGCodec
       if (TeamList != null && __isset.teamList) {
         field.Name = "teamList";
         field.Type = TType.List;
-        field.ID = 13;
+        field.ID = 16;
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.I32, TeamList.Count));
@@ -476,10 +569,16 @@ namespace KXSGCodec
 
     public override string ToString() {
       StringBuilder sb = new StringBuilder("SCPlayerInfoMsg(");
-      sb.Append("HeroId: ");
+      sb.Append("UId: ");
+      sb.Append(UId);
+      sb.Append(",UName: ");
+      sb.Append(UName);
+      sb.Append(",HeroId: ");
       sb.Append(HeroId);
       sb.Append(",Name: ");
       sb.Append(Name);
+      sb.Append(",CId: ");
+      sb.Append(CId);
       sb.Append(",Lvl: ");
       sb.Append(Lvl);
       sb.Append(",HeadIconId: ");

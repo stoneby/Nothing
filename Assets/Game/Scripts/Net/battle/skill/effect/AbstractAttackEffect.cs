@@ -11,6 +11,7 @@ namespace com.kx.sglm.gs.battle.share.skill.effect
 	using SingleActionRecord = com.kx.sglm.gs.battle.share.data.record.SingleActionRecord;
 	using BattleRecordHelper = com.kx.sglm.gs.battle.share.helper.BattleRecordHelper;
 	using SkillDataHolder = com.kx.sglm.gs.battle.share.skill.model.SkillDataHolder;
+	using RoleAProperty = com.kx.sglm.gs.hero.properties.RoleAProperty;
 
 	public abstract class AbstractAttackEffect : AbstractSkillEffect
 	{
@@ -58,9 +59,10 @@ namespace com.kx.sglm.gs.battle.share.skill.effect
 			float _defence = defencer.Defence;
 			float _indexValMuti = calcIndexRatio(attacker);
 			float _weakRatio = calcJobWeakValue(attacker, defencer);
-			float _damageFree = calcDamagefree(defencer.DamageFree);
+			float _damageMuti = calcDamageModify(attacker.DamageMuti);
+			float _damageFree = calcDamageModify(defencer.DamageFree);
 
-			_attack = calcSingleDamage(_attack, _defence, _indexValMuti, _spValMuti, _weakRatio, _damageFree);
+			_attack = calcSingleDamage(_attack, _defence, _indexValMuti, _spValMuti, _weakRatio, _damageMuti, _damageFree);
 
 			float _costHpFloat = _attack * this.hitCount;
 			// Àƒ…·ŒÂ»Î
@@ -77,7 +79,15 @@ namespace com.kx.sglm.gs.battle.share.skill.effect
 			Console.WriteLine("Fighter fight costHp " + _costHp);
 		}
 
-		protected internal virtual float calcSingleDamage(float attack, float defence, float indexValMuti, float spValuMuti, float weakRatio, float damageFree)
+
+		protected internal virtual void modifyAttackResult(float result, BattleFighter attacker, BattleFighter defencer)
+		{
+			RoleAProperty _prop = new RoleAProperty();
+			_prop.set(RoleAProperty.ATK, result);
+
+		}
+
+		protected internal virtual float calcSingleDamage(float attack, float defence, float indexValMuti, float spValuMuti, float weakRatio, float damageMuti, float damageFree)
 		{
 			float _damage = attack * spValuMuti;
 			_damage *= indexValMuti;
@@ -89,6 +99,7 @@ namespace com.kx.sglm.gs.battle.share.skill.effect
 			else
 			{
 				_damage *= weakRatio;
+				_damage *= damageMuti;
 				_damage *= damageFree;
 			}
 			return _damage;
@@ -125,9 +136,10 @@ namespace com.kx.sglm.gs.battle.share.skill.effect
 			return _singleRecord;
 		}
 
-		protected internal virtual float calcDamagefree(float damageFree)
+
+		protected internal virtual float calcDamageModify(int damageModify)
 		{
-			return ((BattleConstants.BATTLE_RATIO_BASE - damageFree) / BattleConstants.BATTLE_RATIO_BASE);
+			return damageModify / BattleConstants.BATTLE_RATIO_BASE;
 		}
 
 		public virtual float getAttack(BattleFighter attacker)

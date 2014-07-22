@@ -34,6 +34,21 @@ public class UIWidget : UIRect
 	[HideInInspector][SerializeField] protected int mHeight = 100;
 	[HideInInspector][SerializeField] protected int mDepth = 0;
 
+    /// <summary>
+    /// Offset x for ladder type settings.
+    /// </summary>
+    [HideInInspector]
+    [SerializeField]
+    public float OffsetX;
+
+    /// <summary>
+    /// Mesh factor.
+    /// </summary>
+    /// <remarks>Say 1 points to 4 verts, 2 points to 8, 3 points to 12 verts</remarks>
+    [HideInInspector]
+    [SerializeField]
+    public int MeshFactor = 1;
+
 	public delegate void OnDimensionsChanged ();
 
 	/// <summary>

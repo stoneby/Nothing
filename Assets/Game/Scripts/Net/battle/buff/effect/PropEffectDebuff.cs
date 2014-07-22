@@ -4,7 +4,7 @@ namespace com.kx.sglm.gs.battle.share.buff.effect
 {
 
 
-	public class PropEffectDebuff : AbstractPropEffectBuff
+	public class PropEffectDebuff : AbstractNormalPropEffectBuff
 	{
 
 

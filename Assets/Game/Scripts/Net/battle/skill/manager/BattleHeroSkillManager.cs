@@ -160,10 +160,24 @@ namespace com.kx.sglm.gs.battle.share.skill.manager
 				}
 				else
 				{
-					_curAction = attackAction;
+					_curAction = calcAttackAction();
 				}
 				return _curAction;
 			}
+		}
+
+		protected internal virtual ISingletonSkillAction calcAttackAction()
+		{
+			ISingletonSkillAction _action;
+			if (ownerTeam.isLastAllAttackIndex(Owner.Index))
+			{
+				_action = NormalAllAttack;
+			}
+			else
+			{
+				_action = attackAction;
+			}
+			return _action;
 		}
 
 		public override bool canAttack()
@@ -197,10 +211,9 @@ namespace com.kx.sglm.gs.battle.share.skill.manager
 
 		public override void onActiveOption()
 		{
-			// TODO: ¸Ä»ØÀ´
-			// if (!canActiveSkill()) {
-			// return;
-			// }
+	//		 if (!canActiveSkill()) {
+	//			 return;
+	//		 }
 			BattleRecord _record = Battle.Record;
 			BattleSkillRecord _actSkillRecord = _record.OrCreateSkillRecord;
 			BattleRecordHelper.initBattelActiveSkill(_actSkillRecord, Owner);
@@ -288,6 +301,14 @@ namespace com.kx.sglm.gs.battle.share.skill.manager
 			get
 			{
 				return SkillService.NormalHeroRecover;
+			}
+		}
+
+		public virtual BaseHeroBattleSkillAction NormalAllAttack
+		{
+			get
+			{
+				return SkillService.AOEAttack;
 			}
 		}
 

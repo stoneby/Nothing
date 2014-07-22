@@ -992,6 +992,11 @@ public class UIWidgetInspector : UIRectEditor
 			}
 		}
 		GUILayout.EndHorizontal();
+
+        GUILayout.BeginVertical();
+        NGUIEditorTools.DrawProperty("Offset X", serializedObject, "OffsetX", GUILayout.MinWidth(30f));
+        NGUIEditorTools.DrawProperty("Factor", serializedObject, "MeshFactor", GUILayout.MinWidth(30f));
+        GUILayout.EndVertical();
 	}
 
 	/// <summary>

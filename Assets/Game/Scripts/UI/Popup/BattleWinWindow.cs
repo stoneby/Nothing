@@ -7,6 +7,7 @@ public class BattleWinWindow : BattleResultWindow
 
     public override void OnEnter()
     {
+        MtaManager.TrackBeginPage(MtaType.BattleWinWindow);
         base.OnEnter();
 
         Logger.Log("I am OnEnter with type - " + GetType().Name);
@@ -17,6 +18,7 @@ public class BattleWinWindow : BattleResultWindow
         base.OnExit();
     
         Logger.Log("I am OnExit with type - " + GetType().Name);
+        MtaManager.TrackEndPage(MtaType.BattleWinWindow);
     }
 
     #endregion

@@ -23,6 +23,10 @@ public class UIHeroDetailWindow : Window
     private readonly List<UIEventListener> heroSelItemLis = new List<UIEventListener>();
     private sbyte curEquipIndex = -1;
     private Transform baseInfos;
+    private UIEventListener backLis;
+    private GameObject heroSelItemIns;
+
+    public static bool IsLongPressEnter;
 
     public sbyte CurEquipIndex
     {
@@ -59,11 +63,17 @@ public class UIHeroDetailWindow : Window
     public override void OnEnter()
     {
         InstallHandlers();
+        if(heroSelItemIns != null)
+        {
+            NGUITools.Destroy(heroSelItemIns);
+            heroSelItemIns = null;
+        }
     }
 
     public override void OnExit()
     {
         UnInstallHandlers();
+        NGUITools.SetActiveChildren(baseInfos.gameObject, true);
     }
 
     #endregion
@@ -73,6 +83,7 @@ public class UIHeroDetailWindow : Window
     // Use this for initialization
     void Awake()
     {
+        backLis = UIEventListener.Get(transform.Find("Button-Back").gameObject);
         var property = Utils.FindChild(transform, "Property");
         attack = Utils.FindChild(property, "AttackValue").GetComponent<UILabel>();
         hp = Utils.FindChild(property, "HPValue").GetComponent<UILabel>();
@@ -100,6 +111,7 @@ public class UIHeroDetailWindow : Window
             var selItemLis = heroSelItemLis[i];
             selItemLis.onClick = OnHeroSelItem;
         }
+        backLis.onClick = OnBack;
     }
 
     private void UnInstallHandlers()
@@ -109,6 +121,31 @@ public class UIHeroDetailWindow : Window
             var selItemLis = heroSelItemLis[i];
             selItemLis.onClick = null;
         }
+        backLis.onClick = null;
+    }
+
+    private void OnBack(GameObject go)
+    {
+        if (!IsLongPressEnter)
+        {
+            WindowManager.Instance.Show<UIHeroSnapShotWindow>(true);
+        }
+        if(HeroConstant.EnterType == HeroConstant.HeroDetailEnterType.BuildingTeam)
+        {
+            WindowManager.Instance.Show<UIBuildingTeamWindow>(true);
+        }
+        if (HeroConstant.EnterType == HeroConstant.HeroDetailEnterType.LvlUp)
+        {
+            WindowManager.Instance.Show<UILevelUpHeroWindow>(true);
+        }
+        if (HeroConstant.EnterType == HeroConstant.HeroDetailEnterType.SellHero)
+        {
+            WindowManager.Instance.Show<UISellHeroWindow>(true);
+        }
+        WindowManager.Instance.Show<UIHeroDetailWindow>(false);
+        WindowManager.Instance.Show<UIHeroCommonWindow>(true);
+        IsLongPressEnter = false;
+
     }
 
     private void OnHeroSelItem(GameObject go)
@@ -123,7 +160,7 @@ public class UIHeroDetailWindow : Window
         }
         else
         {
-
+            RefreshCanEquipItems();
         }
     }
 
@@ -135,6 +172,17 @@ public class UIHeroDetailWindow : Window
         HeroBaseInfoWindow.CurUuid = info.Uuid;
         heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpl[heroInfo.TemplateId];
         RefreshData();
+    }
+
+    public void EquipOver(HeroInfo info)
+    {
+        RefreshData(info);
+        if (heroSelItemIns != null)
+        {
+            NGUITools.Destroy(heroSelItemIns);
+            heroSelItemIns = null;
+            NGUITools.SetActiveChildren(baseInfos.gameObject, true);
+        }
     }
 
     /// <summary>
@@ -194,7 +242,7 @@ public class UIHeroDetailWindow : Window
     public void RefreshCanEquipItems()
     {
         NGUITools.SetActiveChildren(baseInfos.gameObject, false);
-        var child  = NGUITools.AddChild(gameObject, HeroSelItemPrefab);
-        child.GetComponent<HeroSelItem>().Refresh();
-    }
+        heroSelItemIns = NGUITools.AddChild(gameObject, HeroSelItemPrefab);
+        heroSelItemIns.GetComponent<HeroSelItem>().Refresh();
+    } 
 }

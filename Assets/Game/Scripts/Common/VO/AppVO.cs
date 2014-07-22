@@ -1,4 +1,6 @@
-﻿using System.Xml.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Xml.Linq;
 using UnityEngine;
 using System.Collections;
 
@@ -9,6 +11,7 @@ public class AppVO
     public bool ForceUpdate = false;
     public string RechargeType;
     public string Version;
+    public bool IsTest;
     public string UpdateUrl;
 
     public static AppVO Parse(XElement data)
@@ -19,7 +22,7 @@ public class AppVO
         app.Version = data.Attribute("Version").Value;
         app.UpdateUrl = data.Attribute("UpdateUrl").Value;
         app.ForceUpdate = bool.Parse(data.Attribute("ForceUpdate").Value);
-
+        app.IsTest = bool.Parse(data.Attribute("IsTest").Value);
         return app;
     }
 }

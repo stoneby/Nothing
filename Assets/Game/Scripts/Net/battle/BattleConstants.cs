@@ -1,7 +1,9 @@
 namespace com.kx.sglm.gs.battle.share
 {
 
+	using PointDirection = com.kx.sglm.gs.battle.share.enums.PointDirection;
 	using HeroArrLogicHelper = com.kx.sglm.gs.battle.share.helper.HeroArrLogicHelper;
+	using RoleAProperty = com.kx.sglm.gs.hero.properties.RoleAProperty;
 
 	/// <summary>
 	/// 战斗逻辑相关常量。都是一些数值上的常量，没有Map中的Key<br>
@@ -32,15 +34,24 @@ namespace com.kx.sglm.gs.battle.share
 		/// </summary>
 		public const int BATTLE_START_LEAST_SIDE = 2;
 
+		public const int MIDDLE_POINT_INDEX = 4;
+
 		/// <summary>
 		/// -1也要写常量，我真是个强迫症……
 		/// </summary>
 		public const int BATTLE_FIGHTER_NON_INDEX = -1;
 
+		public static readonly float[] BATTLE_HERO_INDEX_RATIO_FLOTA = new float[] {1.0f, 1.2f, 1.5f, 1.9f, 2.4f, 3.0f, 3.7f, 4.5f, 9.0f};
+
+		public static readonly PointDirection[] MID_POINT_DIRECTION = new PointDirection[] {PointDirection.UP, PointDirection.DOWN, PointDirection.LEFT, PointDirection.RIGHT};
 		/// <summary>
 		/// 攻击倍数加成数组
 		/// </summary>
-		public static readonly int[] BATTLE_HERO_INDEX_RATIO = new int[] {10000, 12000, 15000, 19000, 24000, 30000, 37000, 45000, 90000};
+		public static int[] BATTLE_HERO_INDEX_RATIO = HeroArrLogicHelper.initHeroIndexIntRatio(BATTLE_HERO_INDEX_RATIO_FLOTA, BATTLE_RATIO_BASE);
+
+		/// <summary>
+		/// 特殊属性数组 </summary>
+		public static readonly int[] BATTLE_MUTI_PROP_ARR = new int[] {RoleAProperty.DECRDAMAGE, RoleAProperty.INCRDAMAGE};
 
 		/// <summary>
 		/// 生成的可连接点数组
@@ -88,21 +99,27 @@ namespace com.kx.sglm.gs.battle.share
 		public const float FIGHTER_FIGHT_DEFAULT_RATIO = 1;
 
 		public const int TARGET_GETTER_FOR_ENEMY_INDEX = 0;
-
 		public const int TARGET_GETTER_FOR_FRIEND_INDEX = 1;
-
+		/// <summary>
+		/// buff的最大上线 </summary>
 		public const int BUFF_MAX_SIZE = 8;
-
+		/// <summary>
+		/// debuff的最大上线 </summary>
 		public const int DEBUFF_MAX_SIZE = 8;
-
+		/// <summary>
+		/// 所有BUFF的最大数值上线 </summary>
 		public static readonly int BUFF_ALL_MAX_SIZE = BUFF_MAX_SIZE + DEBUFF_MAX_SIZE;
-
+		/// <summary>
+		/// 只有DEBUFF触发 </summary>
 		public const int BUFF_FLAG = 0x01;
-
+		/// <summary>
+		/// 只有BUFF触发 </summary>
 		public const int DEBUFF_FALG = 0x02;
-
+		/// <summary>
+		/// 全部BUFF都触发 </summary>
 		public static readonly int BUFF_ALL_FALG = BUFF_FLAG | DEBUFF_FALG;
-
+		/// <summary>
+		/// 武将生存的最低血量，1 </summary>
 		public const int FIGHTER_ALIVE_MIN_HP = 1;
 		/// <summary>
 		/// 可攻击的标识 </summary>
@@ -114,11 +131,15 @@ namespace com.kx.sglm.gs.battle.share
 		/// 攻击不为0 </summary>
 		public const int ATTACK_ZERO_FLAG = 0X04;
 		/// <summary>
+		/// 攻击不为0 </summary>
+		public const int SP_MAX_FALG = 0X08;
+		/// <summary>
 		/// 全部不可以动作的flag </summary>
 		public const int DISABLE_FLAG = 0xffff;
 		/// <summary>
 		/// 最小攻击值为1，不破防时使用 </summary>
 		public const float MIN_ATTACK = 1.0F;
+
 	}
 
 }

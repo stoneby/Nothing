@@ -69,7 +69,7 @@ public class NextFootManager : MonoBehaviour
     /// </remarks>
     private int onStageSize;
 
-    private List<int> candidateColorList; 
+    private List<int> candidateColorList;
 
     private List<Vector3> positionList;
 
@@ -187,10 +187,10 @@ public class NextFootManager : MonoBehaviour
         for (var i = 0; i <= onStageSize; ++i)
         {
             var fromObject = FootList[i];
-            var toObject = FootList[i + 1];
+            var toLocation = positionList[i + 1];
 
             // moving forward.
-            iTween.MoveTo(fromObject, toObject.transform.position, StepMoveDuration);
+            iTween.MoveTo(fromObject, toLocation, StepMoveDuration);
 
             if (i == 0)
             {

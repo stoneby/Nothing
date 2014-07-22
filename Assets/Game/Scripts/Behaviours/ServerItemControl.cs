@@ -46,12 +46,12 @@ public class ServerItemControl : MonoBehaviour
 
     private void OnClick()
     {
-        if (ServiceManager.AccountData != null) ServiceManager.AccountData.AddServer(Data.Url);
-        var obj = ServiceManager.GetDefaultAccount();
-        if (obj != null)
-        {
-            obj.AddServer(Data.Url);
-        }
+//        if (ServiceManager.AccountData != null) ServiceManager.AccountData.AddServer(Data.Url);
+//        var obj = ServiceManager.GetDefaultAccount();
+//        if (obj != null)
+//        {
+//            obj.AddServer(Data.Url);
+//        }
         ServiceManager.ServerData = Data;
         WindowManager.Instance.Show(typeof(LoginMainWindow), true);
     }

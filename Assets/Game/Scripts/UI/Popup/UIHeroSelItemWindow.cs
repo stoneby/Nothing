@@ -256,7 +256,7 @@ public class UIHeroSelItemWindow : Window
         {
             return
                 ItemModeLocator.Instance.ScAllItemInfos.ItemInfos.FindAll(
-                    item => ItemModeLocator.Instance.GetItemType(item.TmplId) != ItemModeLocator.EquipType.MaterialTempl);
+                    item => ItemModeLocator.Instance.GetItemType(item.TmplId) != ItemHelper.EquipType.Material);
         }
         return new List<ItemInfo>();
     }

@@ -67,4 +67,18 @@ public class HeroConstant
         Member,
         MemberInOtherTeam
     }
+
+    /// <summary>
+    /// Just for demo.
+    /// </summary>
+    public enum HeroDetailEnterType
+    {
+        InValid,
+        BuildingTeam,
+        BreakLimit,
+        LvlUp,
+        SellHero,
+    }
+
+    public static HeroDetailEnterType EnterType = HeroDetailEnterType.InValid;
 }

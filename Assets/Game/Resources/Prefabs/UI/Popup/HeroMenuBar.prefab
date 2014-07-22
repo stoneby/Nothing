@@ -52,18 +52,13 @@ MonoBehaviour:
     mParameters: []
     oneShot: 0
   - mTarget: {fileID: 11400004}
-    mMethodName: OnHeroBreak
-    mParameters: []
-    oneShot: 0
-  - mTarget: {fileID: 11400004}
     mMethodName: OnHeroSell
     mParameters: []
     oneShot: 0
-  BarNames:
-  - "\u961F\u4F0D"
-  - "\u5347\u7EA7"
-  - "\u7A81\u7834"
-  - "\u51FA\u552E"
+  BarNameKeys:
+  - HeroMenuBar.Team
+  - HeroOrItemMenuBar.LevelUp
+  - HeroOrItemMenuBar.Sell
   HideWhenPress: 1
 --- !u!114 &11400002
 MonoBehaviour:
@@ -80,7 +75,7 @@ MonoBehaviour:
   sorting: 0
   pivot: 0
   maxPerLine: 0
-  cellWidth: 200
+  cellWidth: 220
   cellHeight: 200
   animateSmoothly: 0
   hideInactive: 1

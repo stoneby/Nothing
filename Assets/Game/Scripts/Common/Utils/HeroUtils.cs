@@ -16,7 +16,7 @@ public class HeroUtils
         {
             //入手顺序排序
             case OrderType.Time:
-                heroItem.ShowByLvl(level);
+                heroItem.ShowByLvl(job, level);
                 break;
 
             //武将职业排序
@@ -26,12 +26,12 @@ public class HeroUtils
 
             //武将稀有度排序
             case OrderType.Rarity:
-                heroItem.ShowByLvl(level);
+                heroItem.ShowByQuality(job, quality);
                 break;
 
             //照队伍顺序排序
             case OrderType.Team:
-                heroItem.ShowByLvl(level);
+                heroItem.ShowByLvl(job, level);
                 break;
 
             //攻击力排序
@@ -41,17 +41,17 @@ public class HeroUtils
 
             //HP排序
             case OrderType.Health:
-                heroItem.ShowByHp(hp);
+                heroItem.ShowByHp(job, hp);
                 break;
 
             //回复力排序
             case OrderType.Recover:
-                heroItem.ShowByRecover(recover);
+                heroItem.ShowByRecover(job, recover);
                 break;
 
             //等级排序
             case OrderType.Level:
-                heroItem.ShowByLvl(level);
+                heroItem.ShowByLvl(job, level);
                 break;
         }
     }

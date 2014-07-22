@@ -32,6 +32,7 @@ namespace com.kx.sglm.gs.battle.share
 
 		public static readonly int SIZE = BATTLE_EVENT_BASE;
 
+
 	}
 
 }

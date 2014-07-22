@@ -28,7 +28,7 @@ public class UIItemLevelUpWindow : Window
     private ItemBaseInfoWindow cachedBaseWindow;
     private bool isPreShow;
     private ItemInfo mainItemInfo;
-    private ItemModeLocator.EquipType mainType;
+    private ItemHelper.EquipType mainType;
     private int getExp;
 
     #endregion
@@ -162,13 +162,13 @@ public class UIItemLevelUpWindow : Window
             var materials =
            infos.FindAll(
                info =>
-               ItemModeLocator.Instance.GetItemType(info.TmplId) == ItemModeLocator.EquipType.MaterialTempl);
+               ItemModeLocator.Instance.GetItemType(info.TmplId) == ItemHelper.EquipType.Material);
             List<ItemInfo> equips = infos.FindAll(
-                    info => ItemModeLocator.Instance.GetItemType(info.TmplId) == ItemModeLocator.EquipType.EquipTempl);
+                    info => ItemModeLocator.Instance.GetItemType(info.TmplId) == ItemHelper.EquipType.Equip);
             var armors = infos.FindAll(
-                info => ItemModeLocator.Instance.GetItemType(info.TmplId) == ItemModeLocator.EquipType.ArmorTemplate);
+                info => ItemModeLocator.Instance.GetItemType(info.TmplId) == ItemHelper.EquipType.Armor);
             var selInfos = new List<ItemInfo>();
-            if (mainType == ItemModeLocator.EquipType.EquipTempl)
+            if (mainType == ItemHelper.EquipType.Equip)
             {
                 var sameMaterials =
                     materials.FindAll(

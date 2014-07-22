@@ -37,7 +37,6 @@ namespace com.kx.sglm.gs.battle.share.skill.model
 			return _toActList;
 		}
 
-
 		public virtual bool hasSkillAction()
 		{
 			return skillActionList.Count == 0;
@@ -50,8 +49,6 @@ namespace com.kx.sglm.gs.battle.share.skill.model
 				return triggerType;
 			}
 		}
-
-
 
 	}
 

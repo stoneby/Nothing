@@ -32,7 +32,7 @@ public class LocalizeWidget : MonoBehaviour
     private void OnDestroy()
     {
         // Hook up a delegate to run the localize script whenever a language was changed
-        if (enabled)
+        if (enabled && loc != null)
         {
             loc.OnChangeLanguage -= Localize;
         }

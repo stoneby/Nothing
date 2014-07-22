@@ -16,6 +16,7 @@ public class HeroItem : HeroItemBase
     private Transform sortRelatedTran;
     private Transform lockMaskTran;
     private Transform lockedIcon;
+    private Transform stars;
     private UISprite leaderStateSprite;
 
     private LeaderState leaderState;
@@ -71,12 +72,34 @@ public class HeroItem : HeroItemBase
         }
     }
 
+    public override sbyte Quality
+    {
+        get
+        {
+            return base.Quality;
+        }
+        protected set
+        {
+            quality = value;
+            var starCount = stars.transform.childCount;
+            for (int index = 0; index < value; index++)
+            {
+                NGUITools.SetActive(stars.FindChild("Star" + (starCount - index - 1)).gameObject, true);
+            }
+            for (int index = starCount - value - 1; index >= 0; index--)
+            {
+                NGUITools.SetActive(stars.FindChild("Star" + index).gameObject, false);
+            }
+        }
+    }
+
     protected override void Awake()
     {
         base.Awake();
         sortRelatedTran = cachedTran.FindChild("SortRelated");
         lockMaskTran = cachedTran.FindChild("BindMask");
         lockedIcon = cachedTran.FindChild("BindIcon");
+        stars = cachedTran.FindChild("SortRelated/Rarity");
         ShowLockMask(false);
         leaderStateSprite = cachedTran.FindChild("LeaderState").GetComponent<UISprite>();
     }
@@ -104,7 +127,7 @@ public class HeroItem : HeroItemBase
     /// <summary>
     /// Show each hero items with the job info.
     /// </summary>
-    public void ShowByJob(sbyte job, int atk)
+    public virtual void ShowByJob(sbyte job, int atk)
     {
         var jobSymobl = Utils.FindChild(sortRelatedTran, "JobSymbol").GetComponent<UISprite>();
         var attack = Utils.FindChild(sortRelatedTran, "Attack").GetComponent<UILabel>();
@@ -113,16 +136,16 @@ public class HeroItem : HeroItemBase
         NGUITools.SetActiveChildren(sortRelatedTran.gameObject, false);
         NGUITools.SetActive(jobSymobl.gameObject, true);
         NGUITools.SetActive(attack.gameObject, true);
+
     }
 
     /// <summary>
     /// Show each hero items with the hp info.
     /// </summary>
-    public void ShowByHp(int hp)
+    public virtual void ShowByHp(sbyte job, int hp)
     {
         var hpTitle = Utils.FindChild(sortRelatedTran, "HP-Title");
         var hpValue = Utils.FindChild(sortRelatedTran, "HP-Value").GetComponent<UILabel>();
-        hpValue.text = hp.ToString(CultureInfo.InvariantCulture);
         NGUITools.SetActiveChildren(sortRelatedTran.gameObject, false);
         NGUITools.SetActive(hpTitle.gameObject, true);
         NGUITools.SetActive(hpValue.gameObject, true);
@@ -131,7 +154,7 @@ public class HeroItem : HeroItemBase
     /// <summary>
     /// Show each hero items with the recover info.
     /// </summary>
-    public void ShowByRecover(int recover)
+    public virtual void ShowByRecover(sbyte job, int recover)
     {
         var recoverTitle = Utils.FindChild(sortRelatedTran, "Recover-Title");
         var recoverValue = Utils.FindChild(sortRelatedTran, "Recover-Value").GetComponent<UILabel>();
@@ -144,7 +167,7 @@ public class HeroItem : HeroItemBase
     /// <summary>
     /// Show each hero items with the level info.
     /// </summary>
-    public void ShowByLvl(short level)
+    public virtual void ShowByLvl(sbyte job, short level)
     {
         var lvTitle = Utils.FindChild(sortRelatedTran, "LV-Title");
         var lvValue = Utils.FindChild(sortRelatedTran, "LV-Value").GetComponent<UILabel>();
@@ -152,6 +175,16 @@ public class HeroItem : HeroItemBase
         NGUITools.SetActiveChildren(sortRelatedTran.gameObject, false);
         NGUITools.SetActive(lvTitle.gameObject, true);
         NGUITools.SetActive(lvValue.gameObject, true);
+    }
+
+    /// <summary>
+    /// Show each hero items with the quality of the hero.
+    /// </summary>
+    public virtual void ShowByQuality(sbyte job, int star)
+    {
+        Quality = (sbyte)star;
+        NGUITools.SetActiveChildren(sortRelatedTran.gameObject, false);
+        NGUITools.SetActive(stars.gameObject, true);
     }
 
 
@@ -162,8 +195,6 @@ public class HeroItem : HeroItemBase
 
     public override void InitItem(HeroInfo heroInfo, List<long> curTeam, List<long> allTeams)
     {
-        var heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpl[heroInfo.TemplateId];
-        Quality = heroTemplate.Star;
         Uuid = heroInfo.Uuid;
         BindState = heroInfo.Bind;
         LeaderState = HeroUtils.GetLeaderState(Uuid, curTeam, allTeams);

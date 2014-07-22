@@ -16,6 +16,16 @@ namespace com.kx.sglm.gs.battle.share.helper
 	public class HeroArrLogicHelper
 	{
 
+		public static int[] initHeroIndexIntRatio(float[] ratioArr, float baseRatio)
+		{
+			int[] _intArr = new int[ratioArr.Length];
+			for (int _i = 0; _i < ratioArr.Length; _i++)
+			{
+				_intArr[_i] = (int)(ratioArr[_i] * baseRatio);
+			}
+			return _intArr;
+		}
+
 		public static int getAttackRatio(int curIndex)
 		{
 			int _ratio = 0;

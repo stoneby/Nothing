@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-//using Assets.Game.Scripts.Net.battle.data.record;
 using UnityEngine;
 using Assets.Game.Scripts.Common.Model;
 using KXSGCodec;
@@ -22,9 +21,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
     public GameObject SpritePrefab;
     public GameObject EffectBg;
     public GameObject EffectObject;
-    public GameObject WarningBg1;
-    public GameObject WarningBg2;
-    public GameObject WarningText;
 
     public GameObject BattleBG;
 
@@ -39,6 +35,11 @@ public class InitBattleField : MonoBehaviour, IBattleView
     public CameraLikeEffect CameraEffect;
 
     public GameObject CharacterAttrackValueLabel;
+
+    /// <summary>
+    /// Warning controller.
+    /// </summary>
+    public WarningEffect WarningController;
 
     /// <summary>
     /// Rectangle team controller
@@ -110,9 +111,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
 
         EffectBg.SetActive(false);
         EffectObject.SetActive(false);
-        WarningBg1.SetActive(false);
-        WarningBg2.SetActive(false);
-        WarningText.SetActive(false);
         BreakObject.SetActive(false);
         TextBGObject.SetActive(false);
         TextObject.SetActive(false);
@@ -132,6 +130,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
     /// <remarks>Called once per map level.</remarks>
     public void StartBattle()
     {
+        MtaManager.TrackBeginPage(MtaType.BattleScreen);
         leftContainerObj = GameObject.Find("BattleFieldWidgetLeft");
 
         // team controller initialization should be at the right beginning.
@@ -221,7 +220,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
         {
             var tempid = Int32.Parse(data.getProp(BattleKeyConstants.BATTLE_KEY_HERO_TEMPLATE));
             // [FIXME]: We only have 2 characters for now. [0, 1]
-            var index = (tempid) % 2;
+            var index = (tempid) % characterPoolManager.CharacterPoolList.Count;
             var character = characterPoolManager.CharacterPoolList[index].Take().GetComponent<Character>();
             Utils.AddChild(TeamController.gameObject, character.gameObject);
             character.Data = data;
@@ -1297,19 +1296,28 @@ public class InitBattleField : MonoBehaviour, IBattleView
         effectbg.SetActive(false);
         TextBGObject.SetActive(false);
 
-        var attrack = leaderSkillRecord.OrCreateFightRecord.getAttackAction();
+        var attack = leaderSkillRecord.OrCreateFightRecord.getAttackAction();
         LeaderCD = leaderSkillRecord.getIntProp(BattleRecordConstants.BATTLE_HERO_PROP_MP);
         ShowMp();
-        if (attrack.ActType == BattleRecordConstants.SINGLE_ACTION_TYPE_CHANGE_COLOR)
+
+        if (attack == null)
         {
-            for (int i = 0; i < leaderSkillRecord.OrCreateFightRecord.ActionList.Count; i++)
+            Debug.LogError("Attack action from leader skill record is null.");
+        }
+        else
+        {
+            if (attack.ActType == BattleRecordConstants.SINGLE_ACTION_TYPE_CHANGE_COLOR)
             {
-                var obj = GetCharacterByAction(leaderSkillRecord.OrCreateFightRecord.ActionList[i]);
-                if (obj != null)
+                foreach (var t in leaderSkillRecord.OrCreateFightRecord.ActionList)
                 {
+                    var obj = GetCharacterByAction(t);
+                    if (obj == null)
+                    {
+                        continue;
+                    }
                     var cc = obj.GetComponent<CharacterControl>();
                     var k =
-                        leaderSkillRecord.OrCreateFightRecord.ActionList[i].getIntProp(
+                        t.getIntProp(
                             BattleRecordConstants.BATTLE_HERO_PROP_COLOR_CHANGE);
                     cc.SetFootIndex(k);
 
@@ -1317,13 +1325,13 @@ public class InitBattleField : MonoBehaviour, IBattleView
                     character.ColorIndex = k;
                 }
             }
-        }
-        else if (attrack.ActType == BattleRecordConstants.SINGLE_ACTION_TYPE_RECOVER)
-        {
-            PlayBloodFullEffect();
-            var obj = GetCharacterByAction(attrack);
-            var k = attrack.getIntProp(BattleRecordConstants.SINGLE_ACTION_PROP_HP);
-            CharacterLoseBlood(obj != null ? obj.transform.localPosition : new Vector3(0, 0, 0), k);
+            else if (attack.ActType == BattleRecordConstants.SINGLE_ACTION_TYPE_RECOVER)
+            {
+                PlayBloodFullEffect();
+                var obj = GetCharacterByAction(attack);
+                var k = attack.getIntProp(BattleRecordConstants.SINGLE_ACTION_PROP_HP);
+                CharacterLoseBlood(obj != null ? obj.transform.localPosition : new Vector3(0, 0, 0), k);
+            }
         }
 
         ShowMp();
@@ -1359,69 +1367,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
             sc.Play(delay);
             delay += 0.5f;
         }
-    }
-
-    //播放警告全屏效果
-    GameObject warningObj;
-
-    private void PlayWarning(float playtime)
-    {
-        EffectManager.PlayAllEffect(false);
-        var effectbg1 = WarningBg1;
-        var effectbg2 = WarningBg2;
-        effectbg1.SetActive(true);
-        effectbg2.SetActive(true);
-
-        var tp1 = effectbg1.GetComponent<TweenPosition>();
-        tp1.duration = playtime;
-        tp1.PlayForward();
-
-        var tp2 = effectbg2.GetComponent<TweenPosition>();
-        tp2.duration = playtime;
-        tp2.PlayForward();
-
-        var effecttext = WarningText;
-        effecttext.SetActive(true);
-
-        var ts = effecttext.GetComponent<TweenScale>();
-        var tex = effecttext.GetComponent<UITexture>();
-        tex.alpha = 0;
-        ts.delay = playtime;
-        ts.duration = playtime;
-        ts.PlayForward();
-
-        var ta = effecttext.GetComponent<TweenAlpha>();
-        ta.delay = playtime;
-        ta.PlayForward();
-    }
-
-    private void PlayWarningEnd()
-    {
-        Destroy(warningObj);
-        GameObject effecttext = WarningText;
-        var ts = effecttext.GetComponent<TweenScale>();
-        ts.delay = 0;
-        ts.PlayReverse();
-        var ta = effecttext.GetComponent<TweenAlpha>();
-        ta.delay = 0;
-        ta.PlayReverse();
-
-        var effectbg1 = WarningBg1;
-        var effectbg2 = WarningBg2;
-
-        var tp1 = effectbg1.GetComponent<TweenPosition>();
-        tp1.PlayReverse();
-
-        var tp2 = effectbg2.GetComponent<TweenPosition>();
-        tp2.PlayReverse();
-    }
-
-    private void HideWaring()
-    {
-        EffectManager.PlayAllEffect(true);
-        WarningBg1.SetActive(false);
-        WarningBg2.SetActive(false);
-        WarningText.SetActive(false);
     }
 
     //播放sp攻击残影拖尾效果
@@ -1637,15 +1582,8 @@ public class InitBattleField : MonoBehaviour, IBattleView
             yield return new WaitForSeconds(GameConfig.RunRoNextMonstersTime);
             if (currentEnemyGroupIndex == BattleModelLocator.Instance.EnemyGroup.Count - 1)
             {
-                yield return new WaitForSeconds(.4f);
-                PlayWarning(0.2f);
-                yield return new WaitForSeconds(0.6f);
-
-                warningObj = EffectManager.ShowEffect(EffectType.Warning, 0, 0, new Vector3(0, 0, 0));
-                yield return new WaitForSeconds(1.8f);
-                PlayWarningEnd();
-                yield return new WaitForSeconds(.4f);
-                HideWaring();
+                WarningController.Play();
+                yield return new WaitForSeconds(WarningController.Duration);
             }
             ShowTopData();
         }
@@ -1914,7 +1852,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
             {
                 var characterObject = GetObjectByAction(characterList, record);
                 
-                Logger.LogWarning("Find character: " + characterObject.name);
+                Logger.LogWarning("Find character: " + characterObject.name + ", index: " + characterObject.GetComponent<Character>().Data.index);
 
                 var characterControll = characterObject.GetComponent<CharacterControl>();
                 characterControll.SetAttackLabel(record);
@@ -1978,6 +1916,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
                     MissionModelLocator.Instance.OldLevel = PlayerModelLocator.Instance.Level;
                     MissionModelLocator.Instance.AddFinishTime(MissionModelLocator.Instance.SelectedStageId);
                     NetManager.SendMessage(msg);
+                    MtaManager.TrackEndPage(MtaType.BattleScreen);
                 }
                 break;
             default:

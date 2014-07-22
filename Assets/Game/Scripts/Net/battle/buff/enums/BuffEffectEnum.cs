@@ -1,6 +1,7 @@
 namespace com.kx.sglm.gs.battle.share.buff.enums
 {
 
+	using DamagePropEffectBuff = com.kx.sglm.gs.battle.share.buff.effect.DamagePropEffectBuff;
 	using MonsterShield = com.kx.sglm.gs.battle.share.buff.effect.MonsterShield;
 	using PoisonValueEffect = com.kx.sglm.gs.battle.share.buff.effect.PoisonValueEffect;
 	using PropEffectBuff = com.kx.sglm.gs.battle.share.buff.effect.PropEffectBuff;
@@ -28,7 +29,6 @@ namespace com.kx.sglm.gs.battle.share.buff.enums
 			}
 		}
 
-
 		/// <summary>
 		/// add or reduce fighter prop </summary>
 		public static readonly BuffEffectEnum PROP_ADD_EFFECT = new BuffEffectEnumAnonymousInnerClassHelper2();
@@ -45,7 +45,6 @@ namespace com.kx.sglm.gs.battle.share.buff.enums
 				return new PropEffectBuff();
 			}
 		}
-
 
 		/// <summary>
 		/// add or reduce fighter prop </summary>
@@ -81,8 +80,6 @@ namespace com.kx.sglm.gs.battle.share.buff.enums
 			}
 		}
 
-
-
 		/// <summary>
 		/// shield for monster </summary>
 		public static readonly BuffEffectEnum MONSTER_SHIELD = new BuffEffectEnumAnonymousInnerClassHelper5();
@@ -100,7 +97,22 @@ namespace com.kx.sglm.gs.battle.share.buff.enums
 			}
 		}
 
+		/// <summary>
+		/// prop effect for damage, after attack calculate </summary>
+		public static readonly BuffEffectEnum DAMAGE_EFFECT = new BuffEffectEnumAnonymousInnerClassHelper6();
 
+		private class BuffEffectEnumAnonymousInnerClassHelper6 : BuffEffectEnum
+		{
+			public BuffEffectEnumAnonymousInnerClassHelper6() : base(5, true)
+			{
+			}
+
+
+			public override IBattlePartInfo createInstance()
+			{
+				return new DamagePropEffectBuff();
+			}
+		}
 
 		public BuffEffectEnum(int index, bool buff) : base(index)
 		{
@@ -117,14 +129,12 @@ namespace com.kx.sglm.gs.battle.share.buff.enums
 			}
 		}
 
-		public static readonly BuffEffectEnum[] VALUES = new BuffEffectEnum[] {NIL_EFFECT, PROP_ADD_EFFECT, PROP_REDUCE_EFFECT, POISON, MONSTER_SHIELD};
+		public static readonly BuffEffectEnum[] VALUES = new BuffEffectEnum[] {NIL_EFFECT, PROP_ADD_EFFECT, PROP_REDUCE_EFFECT, POISON, MONSTER_SHIELD, DAMAGE_EFFECT};
 
 		public static BuffEffectEnum[] values()
 		{
 			return VALUES;
 		}
-
-
 
 	}
 

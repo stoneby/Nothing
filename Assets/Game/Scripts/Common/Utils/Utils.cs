@@ -177,19 +177,6 @@ public class Utils
         return temp;
     }
 
-
-    /// <summary>
-    /// Deactive the last tab window then open the current window. 
-    /// </summary>
-    /// <param name="type">The type of current window to be opened.</param>
-    public static void ShowWithoutDestory(Type type)
-    {
-        var destroyLastWindow = WindowManager.Instance.DestroyLastWindow;
-        WindowManager.Instance.DestroyLastWindow = false;
-        WindowManager.Instance.Show(type, true);
-        WindowManager.Instance.DestroyLastWindow = destroyLastWindow;
-    }
-
     public static DateTime ConvertFromJavaTimestamp(long timestamp)
     {
         var origin = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);

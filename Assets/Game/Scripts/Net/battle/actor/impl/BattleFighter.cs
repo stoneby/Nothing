@@ -13,6 +13,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 	using SingleActionRecord = com.kx.sglm.gs.battle.share.data.record.SingleActionRecord;
 	using SingleFighterRecord = com.kx.sglm.gs.battle.share.data.record.SingleFighterRecord;
 	using BattleSideEnum = com.kx.sglm.gs.battle.share.enums.BattleSideEnum;
+	using FighterStateEnum = com.kx.sglm.gs.battle.share.enums.FighterStateEnum;
 	using HeroColor = com.kx.sglm.gs.battle.share.enums.HeroColor;
 	using InnerBattleEvent = com.kx.sglm.gs.battle.share.@event.InnerBattleEvent;
 	using SceneStartEvent = com.kx.sglm.gs.battle.share.@event.impl.SceneStartEvent;
@@ -96,6 +97,11 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 			stateManager.updateStateRecord(record);
 		}
 
+		public virtual bool hasState(FighterStateEnum state)
+		{
+			return stateManager.hasState(state);
+		}
+
 		public virtual void afterAttack(BattleFightRecord record)
 		{
 			skillManager.afterAttack(record);
@@ -151,6 +157,14 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 			get
 			{
 				return fighterProp.BattleProp.getAsInt(RoleAProperty.ATK);
+			}
+		}
+
+		public virtual int DamageMuti
+		{
+			get
+			{
+				return fighterProp.BattleProp.getAsInt(RoleAProperty.INCRDAMAGE);
 			}
 		}
 
@@ -259,11 +273,18 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 		}
 
 
+		/// <summary>
+		/// 分为对方出手和己方出手，可能对方出手的回合己方也会有动作 </summary>
+		/// <param name="event"> </param>
 		public virtual void onTeamShotStart(TeamShotStartEvent @event)
 		{
 			skillManager.onTeamShotStart(@event);
 			buffManager.onTeamShotStart(@event);
-			FighterProp.recalcBattleProp();
+		}
+
+		public virtual void recalcProp()
+		{
+			fighterProp.recalcBattleProp();
 		}
 
 		public virtual void onHandleFightInputAction(BattleTeamFightRecord record)

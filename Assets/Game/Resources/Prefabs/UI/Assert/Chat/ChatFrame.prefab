@@ -123,6 +123,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 400014}
   - 114: {fileID: 11400014}
+  - 114: {fileID: 11400044}
   m_Layer: 8
   m_Name: Label
   m_TagString: Untagged
@@ -895,7 +896,7 @@ MonoBehaviour:
   aspectRatio: 4.80000019
   keepCrispWhenShrunk: 1
   mTrueTypeFont: {fileID: 0}
-  mFont: {fileID: 11400000, guid: 08403498d1d008045ad811a9090ce89c, type: 2}
+  mFont: {fileID: 0}
   mText: "\u53D1\u9001"
   mFontSize: 30
   mFontStyle: 0
@@ -957,7 +958,7 @@ MonoBehaviour:
   aspectRatio: 25.333334
   keepCrispWhenShrunk: 1
   mTrueTypeFont: {fileID: 0}
-  mFont: {fileID: 11400000, guid: 08403498d1d008045ad811a9090ce89c, type: 2}
+  mFont: {fileID: 0}
   mText: Chat info.
   mFontSize: 30
   mFontStyle: 0
@@ -1019,7 +1020,7 @@ MonoBehaviour:
   aspectRatio: 4.80000019
   keepCrispWhenShrunk: 1
   mTrueTypeFont: {fileID: 0}
-  mFont: {fileID: 11400000, guid: 08403498d1d008045ad811a9090ce89c, type: 2}
+  mFont: {fileID: 0}
   mText: Player
   mFontSize: 30
   mFontStyle: 0
@@ -1521,6 +1522,18 @@ MonoBehaviour:
   disabledSprite: 
   pixelSnap: 0
   onClick: []
+--- !u!114 &11400044
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100014}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bac732c5500c25a45968da93c1d5678f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Key: ChatFrame.send
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

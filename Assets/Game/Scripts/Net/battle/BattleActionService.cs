@@ -40,6 +40,8 @@ namespace com.kx.sglm.gs.battle.share
 		/// <summary>
 		/// 英雄普通回血 </summary>
 		private BaseHeroBattleSkillAction normalHeroRecover;
+
+		private BaseHeroBattleSkillAction normalAOEAttack;
 		/// <summary>
 		/// 英雄所有技能集合 </summary>
 		private Dictionary<int, BaseHeroBattleSkillAction> heroSkillActionMap;
@@ -142,9 +144,11 @@ namespace com.kx.sglm.gs.battle.share
 		/// </summary>
 		public virtual void initNormalAction()
 		{
-			normalHeroAttack = SkillActionCreater.createDefaultNormalAction(true);
-			normalHeroRecover = SkillActionCreater.createDefaultNormalAction(false);
+			normalHeroAttack = SkillActionCreater.createDefaultNormalAction(true, false);
+			normalHeroRecover = SkillActionCreater.createDefaultNormalAction(false, false);
+			normalAOEAttack = SkillActionCreater.createDefaultNormalAction(true, true);
 		}
+
 
 		/// <summary>
 		/// 将传入的所需技能模板转换成技能使用对象
@@ -204,6 +208,14 @@ namespace com.kx.sglm.gs.battle.share
 			get
 			{
 				return normalHeroRecover;
+			}
+		}
+
+		public virtual BaseHeroBattleSkillAction AOEAttack
+		{
+			get
+			{
+				return normalAOEAttack;
 			}
 		}
 

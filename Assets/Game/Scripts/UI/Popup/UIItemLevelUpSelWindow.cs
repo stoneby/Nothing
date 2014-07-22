@@ -28,7 +28,7 @@ public class UIItemLevelUpSelWindow : Window
     private UIEventListener backLis;
     private readonly List<short> choiceItemIndexes = new List<short>();
     private readonly List<GameObject> selMasks = new List<GameObject>();
-    private ItemModeLocator.EquipType mainType;
+    private ItemHelper.EquipType mainType;
     private ItemInfo mainItemInfo;
     private int expCanGet;
 

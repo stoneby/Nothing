@@ -19,7 +19,7 @@ public class SDK_IOS : MonoBehaviour
 	
 	#endregion
 
-#if UNITY_IPHONE
+//#if UNITY_IPHONE
 	[DllImport("__Internal")]
 	private static extern void PressInitialize(int gameid,string appversion,string f,string extradata);
 	[DllImport("__Internal")]
@@ -45,7 +45,7 @@ public class SDK_IOS : MonoBehaviour
 		if (Application.platform != RuntimePlatform.OSXEditor)
 		{
 			Debug.Log("Calling Initialize in SDK");
-			PressInitialize(5508,"1.01","1","111111111");
+            PressInitialize(int.Parse(ServiceManager.GameID), GameConfig.Version, ServiceManager.FValue, "111111111");
 		}
 	}
 	
@@ -54,7 +54,7 @@ public class SDK_IOS : MonoBehaviour
 		if (Application.platform != RuntimePlatform.OSXEditor)
 		{
 			Debug.Log("Calling Login in SDK");
-			PressLogin(15,"111111111");
+            PressLogin(int.Parse(ServiceManager.ServerData.SID), "111111111");
 		}
 	}
 	
@@ -62,7 +62,7 @@ public class SDK_IOS : MonoBehaviour
 	{
 		if (Application.platform != RuntimePlatform.OSXEditor)
 		{
-			PressLogout(159630813,15,"111111111");
+            PressLogout(int.Parse(ServiceManager.UserID.ToString()), int.Parse(ServiceManager.ServerData.SID), "111111111");
 		}
 	}
 	
@@ -70,7 +70,7 @@ public class SDK_IOS : MonoBehaviour
 	{
 		if (Application.platform != RuntimePlatform.OSXEditor)
 		{
-			PressAddrole(159630813,"123456","123456",15,"111111111");
+			//PressAddrole(159630813,"123456","123456",15,"111111111");
 		}
 	}
 	
@@ -78,7 +78,7 @@ public class SDK_IOS : MonoBehaviour
 	{
 		if (Application.platform != RuntimePlatform.OSXEditor)
 		{
-			PressIospay(159630813,"1","1","1","1","1",1,"1","1","1",15,"111111111");
+            PressIospay(int.Parse(ServiceManager.UserID.ToString()), "1", "1", "1", "1", "1", 1, "1", "1", "1", 15, "111111111");
 		}
 	}
 	
@@ -86,7 +86,7 @@ public class SDK_IOS : MonoBehaviour
 	{
 		if (Application.platform != RuntimePlatform.OSXEditor)
 		{
-			PressWeburl(159630813,2,"1",15);
+            PressWeburl(int.Parse(ServiceManager.UserID.ToString()), 2, "1", int.Parse(ServiceManager.ServerData.SID));
 		}
 	}
 
@@ -94,8 +94,8 @@ public class SDK_IOS : MonoBehaviour
     {
         if (Application.platform != RuntimePlatform.OSXEditor)
         {
-            PressPay(gameOrderId,159630813,15,"123456","11");
+            PressPay(gameOrderId, int.Parse(ServiceManager.UserID.ToString()), int.Parse(ServiceManager.ServerData.SID), "123456", "11");
         }
     }
-#endif
+//#endif
 }

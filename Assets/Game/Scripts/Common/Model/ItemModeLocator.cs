@@ -3,6 +3,7 @@ using KXSGCodec;
 using Template;
 using UnityEngine;
 using OrderType = ItemHelper.OrderType;
+using EquipType = ItemHelper.EquipType;
 
 public class ItemModeLocator 
 {
@@ -23,19 +24,12 @@ public class ItemModeLocator
 
     #region Public Fields
 
-    public enum EquipType
-    {
-        EquipTempl = 2,
-        ArmorTemplate = 1,
-        MaterialTempl = 0,
-        InvalidTempl = -1,
-    }
-
     public int GetItemPos;
     public int GetItemDetailPos;
 
     public SCAllItemInfos ScAllItemInfos { get; set; }
     public SCAllItemInfos BuyBackItems { get; set; }
+    public SCItemDetail ItemDetail { get; set; }
     public SCServerConfigMsg ServerConfigMsg { get; set; }
 
     public Bag Bag
@@ -75,7 +69,8 @@ public class ItemModeLocator
         }
     }
 
-    public static bool AlreadyRequest;
+    public static bool AlreadyMainRequest;
+    public static bool AlreadyBuyBackRequest;
 
     #endregion
 
@@ -249,18 +244,18 @@ public class ItemModeLocator
     {
         if(ItemTemplates.EquipTmpl.ContainsKey(temId))
         {
-            return EquipType.EquipTempl;
+            return EquipType.Equip;
         }
         if(ItemTemplates.ArmorTmpl.ContainsKey(temId))
         {
-            return EquipType.ArmorTemplate;
+            return EquipType.Armor;
         }
         if(ItemTemplates.MaterialTmpl.ContainsKey(temId))
         {
-            return EquipType.MaterialTempl;
+            return EquipType.Material;
         }
 
-        return EquipType.InvalidTempl;
+        return EquipType.Other;
     }
 
     /// <summary>

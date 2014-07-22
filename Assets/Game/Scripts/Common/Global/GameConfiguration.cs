@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 using System.Xml.Linq;
+//using UnityEditor;
 using UnityEngine;
 
 /// <summary>
@@ -55,6 +56,17 @@ public class GameConfiguration : Singleton<GameConfiguration>
             if (node["GameVersion"] != null)
             {
                 GameConfig.Version = node["GameVersion"].InnerText;
+                GameConfig.VersionValue = ServiceManager.GetVersionValue(GameConfig.Version);
+            }
+            
+            if (node["BundleID"] != null)
+            {
+                GameConfig.BundleID = node["BundleID"].InnerText;
+            }
+
+            if (node["GameName"] != null)
+            {
+                GameConfig.GameName = node["GameName"].InnerText;
             }
 
             if (node["ShowLog"] != null)
@@ -86,20 +98,20 @@ public class GameConfiguration : Singleton<GameConfiguration>
                     node["LocalServicePath"].InnerText);
             }
 
-            if (node["CookieAddress"] != null)
-            {
-                GameConfig.CookieAddress = string.Format("{0}/{1}", Application.persistentDataPath, node["CookieAddress"].InnerText);
-                Logger.LogWarning("cookie path" + GameConfig.CookieAddress);
-                if (!File.Exists(GameConfig.CookieAddress))
-                {
-                    var path = new FileInfo(GameConfig.CookieAddress).DirectoryName;
-                    if (!File.Exists(path))
-                    {
-                        Directory.CreateDirectory(path);
-                    }
-                    File.Create(GameConfig.CookieAddress);
-                }
-            }
+//            if (node["CookieAddress"] != null)
+//            {
+//                GameConfig.CookieAddress = string.Format("{0}/{1}", Application.persistentDataPath, node["CookieAddress"].InnerText);
+//                Logger.LogWarning("cookie path" + GameConfig.CookieAddress);
+//                if (!File.Exists(GameConfig.CookieAddress))
+//                {
+//                    var path = new FileInfo(GameConfig.CookieAddress).DirectoryName;
+//                    if (!File.Exists(path))
+//                    {
+//                        Directory.CreateDirectory(path);
+//                    }
+//                    File.Create(GameConfig.CookieAddress);
+//                }
+//            }
         }
     }
 
@@ -156,14 +168,12 @@ public class GameConfiguration : Singleton<GameConfiguration>
             ServiceManager.QuikeLoginOffen = bool.Parse(temp);
 
             ServiceManager.GameID = global.Attribute("GameID").Value;
-            ServiceManager.PassWordRegex = global.Attribute("PassWordRegex").Value;
-            ServiceManager.PlatformDomain = global.Attribute("PlatformDomain").Value;
             ServiceManager.ResourceUrl = global.Attribute("ResourceUrl").Value;
             ServiceManager.ResourceVersion = global.Attribute("ResourceVersion").Value;
             ServiceManager.UpdateInfo = global.Attribute("UpdateInfo").Value;
             ServiceManager.UpdateUrl = global.Attribute("UpdateUrl").Value;
-            ServiceManager.UserNameInfo = global.Attribute("UserNameInfo").Value;
-            ServiceManager.UserNameRegex = global.Attribute("UserNameRegex").Value;
+            ServiceManager.QuikeLoginOffen = bool.Parse(global.Attribute("QuikeLoginOffen").Value);
+            ServiceManager.AutoLoginOfften = bool.Parse(global.Attribute("AutoLoginOfften").Value);
 
             //fValue
             ServiceManager.FValue = fValue.Element(GameConfig.FName).Value;
@@ -175,7 +185,7 @@ public class GameConfiguration : Singleton<GameConfiguration>
             {
                 var app = AppStateVO.Parse(node);
                 ServiceManager.IosStateArray.Add(app);
-                if (app.IsCheck && app.CheckVersion == Application.unityVersion)
+                if (app.IsCheck && app.CheckVersion == GameConfig.Version)
                 {
                     ServiceManager.IsCheck = true;
                     ServiceManager.CheckServerUrl = app.CheckServerUrl;
@@ -190,9 +200,13 @@ public class GameConfiguration : Singleton<GameConfiguration>
                 var app = AppVO.Parse(node);
                 ServiceManager.AppArray.Add(app);
 
-                if (app.Version == Application.unityVersion)
+                if (app.BundleID == GameConfig.BundleID)
                 {
                     ServiceManager.AppData = app;
+                    if (ServiceManager.AppData.Version == GameConfig.Version && ServiceManager.AppData.IsTest)
+                    {
+                        ServiceManager.IsTest = true;
+                    }
                 }
             }
 
@@ -288,10 +302,29 @@ public class GameConfiguration : Singleton<GameConfiguration>
         HandleAsyncOperation();
     }
 
+    private void InitMta()
+    {
+        if (SystemInfo.deviceType == DeviceType.Desktop) return;
+        // 设置渠道（android可以使用配置manifest.xml形式配置）
+        MtaService.SetInstallChannel("feidou");
+        // !!!!! 重要 !!!!!!!
+        // MTA的appkey在android和ios系统上不同，请为根据不同平台设置不同appkey，否则统计结果可能会有问题。
+        string mta_appkey = null;
+#if UNITY_IPHONE
+	    mta_appkey = "I86MH45ENQZP";
+#elif UNITY_ANDROID
+        mta_appkey = "ACR76WS35WPQ";
+#endif
+        MtaService.StartStatServiceWithAppKey(mta_appkey);
+        MtaManager.TestServiceSpeed();
+    }
+
     #region Mono
 
     private void Start()
     {
+        InitMta();
+
         ReadFeatureConfigurationXml();
         ReadGameConfigurationXml();
         HandleAsyncOperation();

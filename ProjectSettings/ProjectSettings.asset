@@ -3,7 +3,7 @@
 --- !u!129 &1
 PlayerSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 2
+  serializedVersion: 3
   AndroidProfiler: 0
   defaultScreenOrientation: 3
   targetDevice: 2
@@ -11,7 +11,7 @@ PlayerSettings:
   targetResolution: 0
   accelerometerFrequency: 60
   companyName: DefaultCompany
-  productName: "\u5F00\u5FC3\u4E09\u56FD1.0"
+  productName: "\u5F00\u5FC3\u4E09\u56FD0.1"
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   defaultScreenWidth: 1024
@@ -24,6 +24,7 @@ PlayerSettings:
   m_MTRendering: 1
   m_MobileMTRendering: 0
   m_UseDX11: 0
+  m_Stereoscopic3D: 0
   iosShowActivityIndicatorOnLoading: -1
   androidShowActivityIndicatorOnLoading: -1
   displayResolutionDialog: 1
@@ -39,7 +40,7 @@ PlayerSettings:
   runInBackground: 0
   captureSingleScreen: 0
   Override IPod Music: 0
-  Prepare IOS For Recording: 0
+  Prepare IOS For Recording: 1
   enableHWStatistics: 1
   usePlayerLog: 1
   stripPhysics: 0
@@ -56,17 +57,7 @@ PlayerSettings:
   xboxSpeechDB: 0
   xboxEnableHeadOrientation: 0
   xboxEnableGuest: 0
-  wiiHio2Usage: -1
-  wiiLoadingScreenRectPlacement: 0
-  wiiLoadingScreenBackground: {r: 1, g: 1, b: 1, a: 1}
-  wiiLoadingScreenPeriod: 1000
-  wiiLoadingScreenFileName: 
-  wiiLoadingScreenRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 0
-    height: 0
+  videoMemoryForVertexBuffers: 0
   m_SupportedAspectRatios:
     4:3: 1
     5:4: 1
@@ -77,7 +68,7 @@ PlayerSettings:
   metroEnableIndependentInputSource: 0
   metroEnableLowLatencyPresentationAPI: 0
   productGUID: 801936398638c411e994e5e26fb4a865
-  iPhoneBundleVersion: 1.0
+  iPhoneBundleVersion: 0.0.1
   AndroidBundleVersionCode: 1
   AndroidMinSdkVersion: 9
   AndroidPreferredInstallLocation: 1
@@ -91,7 +82,7 @@ PlayerSettings:
   APKExpansionFiles: 0
   StripUnusedMeshComponents: 0
   iPhoneSdkVersion: 988
-  iPhoneTargetOSVersion: 22
+  iPhoneTargetOSVersion: 26
   uIPrerenderedIcon: 0
   uIRequiresPersistentWiFi: 0
   uIStatusBarHidden: 1
@@ -102,13 +93,12 @@ PlayerSettings:
   iPhoneTallHighResSplashScreen: {fileID: 0}
   iPadPortraitSplashScreen: {fileID: 0}
   iPadHighResPortraitSplashScreen: {fileID: 0}
-  iPadLandscapeSplashScreen: {fileID: 2800000, guid: 9be80bd204c3b3b4b8cba09dc391e046,
-    type: 3}
+  iPadLandscapeSplashScreen: {fileID: 0}
   iPadHighResLandscapeSplashScreen: {fileID: 0}
   AndroidTargetDevice: 0
   AndroidSplashScreenScale: 2
-  AndroidKeystoreName: 
-  AndroidKeyaliasName: 
+  AndroidKeystoreName: release/key/user.keystore
+  AndroidKeyaliasName: sglm
   resolutionDialogBanner: {fileID: 0}
   m_BuildTargetIcons:
   - m_BuildTarget: 
@@ -117,7 +107,7 @@ PlayerSettings:
       m_Size: 128
   - m_BuildTarget: Android
     m_Icons:
-    - m_Icon: {fileID: 2800000, guid: 4c0cab4f2f371d44eb3089830f9d4305, type: 3}
+    - m_Icon: {fileID: 2800000, guid: 88199931f35ce654088a15fc352039d1, type: 3}
       m_Size: 144
     - m_Icon: {fileID: 0}
       m_Size: 96
@@ -129,7 +119,7 @@ PlayerSettings:
       m_Size: 36
   - m_BuildTarget: iPhone
     m_Icons:
-    - m_Icon: {fileID: 2800000, guid: 4c0cab4f2f371d44eb3089830f9d4305, type: 3}
+    - m_Icon: {fileID: 2800000, guid: cac94d15eed4dd14d8bdcce325e34991, type: 3}
       m_Size: 152
     - m_Icon: {fileID: 0}
       m_Size: 144
@@ -143,20 +133,15 @@ PlayerSettings:
       m_Size: 72
     - m_Icon: {fileID: 0}
       m_Size: 57
-  m_BuildTargetBatching: []
+  m_BuildTargetBatching:
+  - m_BuildTarget: Android
+    m_StaticBatching: 1
+    m_DynamicBatching: 1
+  - m_BuildTarget: iPhone
+    m_StaticBatching: 1
+    m_DynamicBatching: 1
   webPlayerTemplate: APPLICATION:Default
   m_TemplateCustomTags: {}
-  wiiRegion: 1
-  wiiGameCode: RABA
-  wiiGameVersion: 
-  wiiCompanyCode: ZZ
-  wiiSupportsNunchuk: 0
-  wiiSupportsClassicController: 0
-  wiiSupportsBalanceBoard: 0
-  wiiSupportsMotionPlus: 0
-  wiiControllerCount: 1
-  wiiFloatingPointExceptions: 0
-  wiiScreenCrashDumps: 1
   XboxTitleId: 
   XboxImageXexPath: 
   XboxSpaPath: 
@@ -179,11 +164,29 @@ PlayerSettings:
   ps3TrophyCommSig: 
   ps3SaveGameSlots: 1
   ps3TrialMode: 0
+  psp2Splashimage: {fileID: 0}
+  psp2LiveAreaGate: {fileID: 0}
+  psp2LiveAreaBackround: {fileID: 0}
+  psp2NPTrophyPackPath: 
+  psp2NPCommsID: 
+  psp2NPCommsPassphrase: 
+  psp2NPCommsSig: 
+  psp2ParamSfxPath: 
+  psp2PackagePassword: 
+  psp2DLCConfigPath: 
+  psp2ThumbnailPath: 
+  psp2BackgroundPath: 
+  psp2SoundPath: 
+  psp2TrophyCommId: 
+  psp2TrophyPackagePath: 
+  psp2PackagedResourcesPath: 
   flashStrippingLevel: 2
   spritePackerPolicy: 
   scriptingDefineSymbols: {}
   metroPackageName: demo1
   metroPackageLogo: 
+  metroPackageLogo140: 
+  metroPackageLogo180: 
   metroPackageVersion: 
   metroCertificatePath: 
   metroCertificatePassword: 
@@ -191,15 +194,38 @@ PlayerSettings:
   metroCertificateIssuer: 
   metroCertificateNotAfter: 0000000000000000
   metroApplicationDescription: demo1
+  metroTileLogo80: 
   metroTileLogo: 
+  metroTileLogo140: 
+  metroTileLogo180: 
+  metroTileWideLogo80: 
   metroTileWideLogo: 
+  metroTileWideLogo140: 
+  metroTileWideLogo180: 
+  metroTileSmallLogo80: 
   metroTileSmallLogo: 
+  metroTileSmallLogo140: 
+  metroTileSmallLogo180: 
+  metroSmallTile80: 
+  metroSmallTile: 
+  metroSmallTile140: 
+  metroSmallTile180: 
+  metroLargeTile80: 
+  metroLargeTile: 
+  metroLargeTile140: 
+  metroLargeTile180: 
   metroTileShortName: 
   metroCommandLineArgsFile: 
   metroTileShowName: 1
+  metroMediumTileShowName: 0
+  metroLargeTileShowName: 0
+  metroWideTileShowName: 0
+  metroDefaultTileSize: 1
   metroTileForegroundText: 1
   metroTileBackgroundColor: {r: 0, g: 0, b: 0, a: 1}
   metroSplashScreenImage: 
+  metroSplashScreenImage140: 
+  metroSplashScreenImage180: 
   metroSplashScreenBackgroundColor: {r: 0, g: 0, b: 0, a: 1}
   metroSplashScreenUseBackgroundColor: 0
   metroCapabilities: {}
@@ -229,7 +255,9 @@ PlayerSettings:
   tizenProductURL: 
   tizenCertificatePath: 
   tizenCertificatePassword: 
-  tizenSaveLogPath: 
+  tizenGPSPermissions: 0
+  tizenMicrophonePermissions: 0
+  stvDeviceAddress: 
   firstStreamedLevelWithResources: 0
   unityRebuildLibraryVersion: 9
   unityForwardCompatibleVersion: 39

@@ -34,24 +34,35 @@ public class SDKLoginManager : MonoBehaviour
 #endif
 
 #if UNITY_IPHONE
-		if(isInitialized==false)
+		if (Application.platform != RuntimePlatform.OSXEditor)
 		{
-			Debug.Log("Calling ActivateInitialize.");
-			SDK_IOS.ActivateInitialize();
-		}
-		else 
-		{
-			Debug.Log("Calling ActivateLogin.");
-			SDK_IOS.ActivateLogin();
-		}
+			if(SDKResponse.IsInitialized==false)
+			{
+				Debug.Log("Calling ActivateInitialize.");
+			    SDKResponse.WhichResponse += LoginAfterInit;
+				SDK_IOS.ActivateInitialize();
+			}
+			else 
+			{
+				Debug.Log("Calling ActivateLogin.");
+				SDK_IOS.ActivateLogin();
+			}
+        }
+#endif
+    }
+
+    private void LoginAfterInit()
+    {
+#if UNITY_IPHONE
+        Debug.Log("Calling ActivateLogin after initialize.");
+        SDK_IOS.ActivateLogin();
+        SDKResponse.WhichResponse = null;
 #endif
     }
 
     #endregion
 
 	#region Public Fields
-
-	public static bool isInitialized;
 
 	#endregion 
 
@@ -68,8 +79,8 @@ public class SDKLoginManager : MonoBehaviour
     {
         this.gameObject.SetActive(true);
         InstallHandlers();
-		isInitialized = false;
-
+        SDKResponse.IsInitialized = false;
+        if (SystemInfo.deviceType == DeviceType.Desktop) return;
 #if UNITY_ANDROID      
         jc = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
         jo = jc.GetStatic<AndroidJavaObject>("currentActivity");

@@ -2,7 +2,7 @@
 
 public class SetRenderQueue : MonoBehaviour
 {
-    public int renderQueue = 3000;
+    public int RenderQueue = 4000;
 
     Material mMat;
 
@@ -15,7 +15,7 @@ public class SetRenderQueue : MonoBehaviour
 
             if (ren != null)
             {
-                mMat = new Material(ren.sharedMaterial) {renderQueue = renderQueue};
+                mMat = new Material(ren.sharedMaterial) {renderQueue = RenderQueue};
                 ren.material = mMat;
             }
         }  

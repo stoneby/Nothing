@@ -2,17 +2,10 @@
 using UnityEngine;
 using System.Collections;
 
-public class NewEquipItem : ItemBase
+public class NewEquipItem : EquipItem
 {
-    private Transform lockedIcon;
-    private Transform curTeamEquiped;
-    private Transform otherTeamEquiped;
-
-    public void InitItem(ItemInfo itemInfo)
-    {
-        BagIndex = itemInfo.BagIndex;
-        Quality = ItemModeLocator.Instance.GetQuality(itemInfo.TmplId);
-    }
+    private Transform sortRelated;
+    private Transform stars;
 
     private sbyte quality;
     public override sbyte Quality
@@ -25,17 +18,30 @@ public class NewEquipItem : ItemBase
         {
             quality = value;
             var starCount = Mathf.CeilToInt((float)quality / ItemType.QualitiesPerStar);
-            var stars = cachedTran.FindChild("Rarity");
             var childCount = stars.transform.childCount;
-            for (int index = 0; index < starCount; index++)
+            for (var index = 0; index < starCount; index++)
             {
                 NGUITools.SetActive(stars.FindChild("Star" + (childCount - index - 1)).gameObject, true);
             }
-            for (int index = childCount - starCount - 1; index >= 0; index--)
+            for (var index = childCount - starCount - 1; index >= 0; index--)
             {
                 NGUITools.SetActive(stars.FindChild("Star" + index).gameObject, false);
             }
         }
+    }
+
+    protected override void Awake()
+    {
+        base.Awake();
+        sortRelated = transform.Find("SortRelated");
+        stars = sortRelated.Find("Rarity");
+    }
+
+    public override void ShowByQuality(int star)
+    {
+        Quality = (sbyte)star;
+        NGUITools.SetActiveChildren(sortRelated.gameObject, false);
+        NGUITools.SetActive(stars.gameObject, true);
     }
 
 }

@@ -337,21 +337,55 @@ public abstract class UIBasicSprite : UIWidget
 		Vector4 u = drawingUVs;
 		Color32 c = drawingColor;
 
-		verts.Add(new Vector3(v.x, v.y));
-		verts.Add(new Vector3(v.x, v.w));
-		verts.Add(new Vector3(v.z, v.w));
-		verts.Add(new Vector3(v.z, v.y));
+	    var v0 = new Vector3(v.x - OffsetX, v.y);
+	    var v1 = new Vector3(v.x, v.w);
+	    var v2 = new Vector3(v.z, v.w);
+	    var v3 = new Vector3(v.z + OffsetX, v.y);
 
-		uvs.Add(new Vector2(u.x, u.y));
-		uvs.Add(new Vector2(u.x, u.w));
-		uvs.Add(new Vector2(u.z, u.w));
-		uvs.Add(new Vector2(u.z, u.y));
+	    for (var i = 0; i < MeshFactor; ++i)
+	    {
+	        Intersection(verts, v0, v1, v2, v3, i);
+	    }
 
-		cols.Add(c);
-		cols.Add(c);
-		cols.Add(c);
-		cols.Add(c);
+        var u0 = new Vector2(u.x, u.y);
+	    var u1 = new Vector2(u.x, u.w);
+	    var u2 = new Vector2(u.z, u.w);
+	    var u3 = new Vector2(u.z, u.y);
+
+        for (var i = 0; i < MeshFactor; ++i)
+        {
+            Intersection(uvs, u0, u1, u2, u3, i);
+        }
+
+	    foreach (var vert in verts)
+	    {
+	        cols.Add(c);
+	    }
 	}
+
+    void Intersection(BetterList<Vector3> list, Vector3 v0, Vector3 v1, Vector3 v2, Vector3 v3, int i)
+    {
+        var v00 = v0 + (v3 - v0) / MeshFactor * i;
+        var v01 = v1 + (v2 - v1) / MeshFactor * i;
+        var v02 = v1 + (v2 - v1) / MeshFactor * (i + 1);
+        var v03 = v0 + (v3 - v0) / MeshFactor * (i + 1);
+        list.Add(v00);
+        list.Add(v01);
+        list.Add(v02);
+        list.Add(v03);
+    }
+
+    void Intersection(BetterList<Vector2> list, Vector2 v0, Vector2 v1, Vector2 v2, Vector2 v3, int i)
+    {
+        var v00 = v0 + (v3 - v0) / MeshFactor * i;
+        var v01 = v1 + (v2 - v1) / MeshFactor * i;
+        var v02 = v1 + (v2 - v1) / MeshFactor * (i + 1);
+        var v03 = v0 + (v3 - v0) / MeshFactor * (i + 1);
+        list.Add(v00);
+        list.Add(v01);
+        list.Add(v02);
+        list.Add(v03);
+    }
 
 	/// <summary>
 	/// Sliced sprite fill function is more complicated as it generates 9 quads instead of 1.

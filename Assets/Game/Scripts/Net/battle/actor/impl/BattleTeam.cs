@@ -71,6 +71,30 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 			}
 		}
 
+		public virtual void recalcTeamProp()
+		{
+			new IteratorActorOptionAnonymousInnerClassHelper(this)
+			.itratorAction();
+		}
+
+		private class IteratorActorOptionAnonymousInnerClassHelper : IteratorActorOption
+		{
+			private readonly BattleTeam outerInstance;
+
+			public IteratorActorOptionAnonymousInnerClassHelper(BattleTeam outerInstance) : base(outerInstance)
+			{
+				this.outerInstance = outerInstance;
+			}
+
+
+			public override void option(BattleFighter actor)
+			{
+				actor.recalcProp();
+			}
+		}
+
+
+
 		public virtual void beforeAttack(BeforeAttackEvent @event)
 		{
 

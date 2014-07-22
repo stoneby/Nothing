@@ -3,15 +3,28 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 
+using System.Collections;
+using System.Collections.Generic;
+using System.Xml;
+using System.Xml.Linq;
+
 public class BuildManager
 {
     public static void BuildAndroid()
     {
         EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTarget.Android);
         //PlayerSettings.SetIconsForTargetGroup(BuildTargetGroup.Android, );
-        PlayerSettings.productName = "开心三国0.1";
-        PlayerSettings.bundleVersion = "0.0.1";
-        PlayerSettings.bundleIdentifier = "cn.kx.kxsg";
+
+        ReadGameConfigurationXml();
+
+        PlayerSettings.productName = GameConfig.GameName;
+        PlayerSettings.bundleVersion = GameConfig.Version;
+        PlayerSettings.bundleIdentifier = GameConfig.BundleID;
+
+        PlayerSettings.Android.keystoreName = "release/key/user.keystore";
+        PlayerSettings.Android.keystorePass = "111111";
+        PlayerSettings.Android.keyaliasName = "sglm";
+        PlayerSettings.Android.keyaliasPass = "111111";
 
         FileUtil.DeleteFileOrDirectory("release/AndroidBuild");
         Directory.CreateDirectory("release/AndroidBuild");
@@ -43,9 +56,12 @@ public class BuildManager
     {
         Debug.Log("转换Target");
         EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTarget.StandaloneWindows);
-        PlayerSettings.productName = "开心三国0.1";
-        PlayerSettings.bundleVersion = "0.0.1";
-        PlayerSettings.bundleIdentifier = "cn.kx.kxsg";
+
+        ReadGameConfigurationXml();
+
+        PlayerSettings.productName = GameConfig.GameName;
+        PlayerSettings.bundleVersion = GameConfig.Version;
+        PlayerSettings.bundleIdentifier = GameConfig.BundleID;
 
         FileUtil.DeleteFileOrDirectory("release/ExeBuild");
         FileUtil.DeleteFileOrDirectory("release/ExeRelease");
@@ -78,6 +94,38 @@ public class BuildManager
         if (res.Length > 0)
         {
             throw new Exception("BuildPlayer failure: " + res);
+        }
+    }
+
+    private static void ReadGameConfigurationXml()
+    {
+        var GameConfigurationText = Resources.Load("Config/GameConfiguration") as TextAsset;
+        var xmlDoc = new XmlDocument();
+        xmlDoc.LoadXml(GameConfigurationText.text);
+        var nodeList = xmlDoc.SelectNodes("config");
+
+        if (nodeList == null)
+        {
+            return;
+        }
+
+        foreach (XmlNode node in nodeList)
+        {
+            if (node["GameVersion"] != null)
+            {
+                GameConfig.Version = node["GameVersion"].InnerText;
+                GameConfig.VersionValue = ServiceManager.GetVersionValue(GameConfig.Version);
+            }
+
+            if (node["BundleID"] != null)
+            {
+                GameConfig.BundleID = node["BundleID"].InnerText;
+            }
+
+            if (node["GameName"] != null)
+            {
+                GameConfig.GameName = node["GameName"].InnerText;
+            }
         }
     }
 }

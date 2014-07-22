@@ -28,6 +28,9 @@ namespace KXSGCodec
     private int _friendLvl;
     private int _friendFamous;
     private List<HeroPropInfo> _heroProp;
+    private long _lastLoginTime;
+    private long _giveEnergyTime;
+    private sbyte _status;
 
     public long FriendUuid
     {
@@ -94,6 +97,45 @@ namespace KXSGCodec
       }
     }
 
+    public long LastLoginTime
+    {
+      get
+      {
+        return _lastLoginTime;
+      }
+      set
+      {
+        __isset.lastLoginTime = true;
+        this._lastLoginTime = value;
+      }
+    }
+
+    public long GiveEnergyTime
+    {
+      get
+      {
+        return _giveEnergyTime;
+      }
+      set
+      {
+        __isset.giveEnergyTime = true;
+        this._giveEnergyTime = value;
+      }
+    }
+
+    public sbyte Status
+    {
+      get
+      {
+        return _status;
+      }
+      set
+      {
+        __isset.status = true;
+        this._status = value;
+      }
+    }
+
 
     public Isset __isset;
     #if !SILVERLIGHT
@@ -105,6 +147,9 @@ namespace KXSGCodec
       public bool friendLvl;
       public bool friendFamous;
       public bool heroProp;
+      public bool lastLoginTime;
+      public bool giveEnergyTime;
+      public bool status;
     }
 
     public FriendInfo() {
@@ -154,16 +199,37 @@ namespace KXSGCodec
             if (field.Type == TType.List) {
               {
                 HeroProp = new List<HeroPropInfo>();
-                TList _list13 = iprot.ReadListBegin();
-                for( int _i14 = 0; _i14 < _list13.Count; ++_i14)
+                TList _list5 = iprot.ReadListBegin();
+                for( int _i6 = 0; _i6 < _list5.Count; ++_i6)
                 {
-                  HeroPropInfo _elem15 = new HeroPropInfo();
-                  _elem15 = new HeroPropInfo();
-                  _elem15.Read(iprot);
-                  HeroProp.Add(_elem15);
+                  HeroPropInfo _elem7 = new HeroPropInfo();
+                  _elem7 = new HeroPropInfo();
+                  _elem7.Read(iprot);
+                  HeroProp.Add(_elem7);
                 }
                 iprot.ReadListEnd();
               }
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 6:
+            if (field.Type == TType.I64) {
+              LastLoginTime = iprot.ReadI64();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 7:
+            if (field.Type == TType.I64) {
+              GiveEnergyTime = iprot.ReadI64();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 8:
+            if (field.Type == TType.Byte) {
+              Status = iprot.ReadByte();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
@@ -220,12 +286,36 @@ namespace KXSGCodec
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.Struct, HeroProp.Count));
-          foreach (HeroPropInfo _iter16 in HeroProp)
+          foreach (HeroPropInfo _iter8 in HeroProp)
           {
-            _iter16.Write(oprot);
+            _iter8.Write(oprot);
           }
           oprot.WriteListEnd();
         }
+        oprot.WriteFieldEnd();
+      }
+      if (__isset.lastLoginTime) {
+        field.Name = "lastLoginTime";
+        field.Type = TType.I64;
+        field.ID = 6;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteI64(LastLoginTime);
+        oprot.WriteFieldEnd();
+      }
+      if (__isset.giveEnergyTime) {
+        field.Name = "giveEnergyTime";
+        field.Type = TType.I64;
+        field.ID = 7;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteI64(GiveEnergyTime);
+        oprot.WriteFieldEnd();
+      }
+      if (__isset.status) {
+        field.Name = "status";
+        field.Type = TType.Byte;
+        field.ID = 8;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteByte(Status);
         oprot.WriteFieldEnd();
       }
       oprot.WriteFieldStop();
@@ -244,6 +334,12 @@ namespace KXSGCodec
       sb.Append(FriendFamous);
       sb.Append(",HeroProp: ");
       sb.Append(HeroProp);
+      sb.Append(",LastLoginTime: ");
+      sb.Append(LastLoginTime);
+      sb.Append(",GiveEnergyTime: ");
+      sb.Append(GiveEnergyTime);
+      sb.Append(",Status: ");
+      sb.Append(Status);
       sb.Append(")");
       return sb.ToString();
     }

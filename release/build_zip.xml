@@ -5,12 +5,16 @@
 		<echo>Test Release</echo>
 	</target>
 	<tstamp/>
-	<target name="ZipExe">
+	<target name="Clean">
+		<echo>Clean Files</echo>
+		<delete file="../Assets/Game/Resources/Config/GameConfiguration.xml"/>   
+	</target>
+	<target name="ZipExe" depends="Clean">
 		<echo>Zip Exe File</echo>
 		<echo>sglm-exe-${DSTAMP}-${TSTAMP}.zip</echo>
 		<zip destfile="./ExeRelease/sglm-exe-${DSTAMP}-${TSTAMP}.zip" basedir="./ExeBuild" />
 	</target>
-	<target name="ZipIos">
+	<target name="ZipIos"  depends="Clean">
 		<echo>Rename Ios File</echo>
 		<echo>sglm-${DSTAMP}-${TSTAMP}.ipa</echo>
 		<copy file="./IosRelease/ipa/kxsg.ipa" tofile="./IosRelease/sglm-${DSTAMP}-${TSTAMP}.ipa"/>

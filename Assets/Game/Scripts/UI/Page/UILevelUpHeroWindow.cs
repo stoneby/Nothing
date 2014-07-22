@@ -22,8 +22,10 @@ public class UILevelUpHeroWindow : Window
 
     private UIHeroCommonWindow herosWindow;
     private GameObject heroToLevelUp;
+    //private GameObject heroToCancel;
     private GameObject curLevelUpObject;
     private UIDragDropContainer dragDropContainer;
+    private GameObject mask;
 
     private short curLvl;
     private HeroInfo heroInfo;
@@ -57,11 +59,11 @@ public class UILevelUpHeroWindow : Window
     private UISlider mpSlider;
     private const int ConversionRate = 100;
 
-
     private int maxAtk;
     private int maxHp;
     private int maxRecover;
     private int maxMp;
+    private UIEventListener backLis;
 
     private long totalCostSoul;
     private readonly int[] additions = new int[5];
@@ -72,6 +74,7 @@ public class UILevelUpHeroWindow : Window
         set
         {
             heroInfo = value;
+            ResetData();
             var infoIsNotNull = heroInfo != null;
             if (infoIsNotNull)
             {
@@ -111,13 +114,15 @@ public class UILevelUpHeroWindow : Window
     {
         HeroInfo = null;
         herosWindow = WindowManager.Instance.GetWindow<UIHeroCommonWindow>();
-        herosWindow.NormalClicked = OnNormalClicked;
+        herosWindow.NormalClicked = OnNormalClickForLvlUp;
         InstallHandlers();
+        HeroConstant.EnterType = HeroConstant.HeroDetailEnterType.LvlUp;
     }
 
     public override void OnExit()
     {
         UnInstallHandlers();
+        CleanupCurLvlUp();
     }
 
     #endregion
@@ -128,9 +133,10 @@ public class UILevelUpHeroWindow : Window
     private void Awake()
     {
         dragDropContainer = transform.Find("DragDropContainer").GetComponent<UIDragDropContainer>();
-        addLis = UIEventListener.Get(Utils.FindChild(transform, "IncreaseBtn").gameObject);
-        subLis = UIEventListener.Get(Utils.FindChild(transform, "DecreaseBtn").gameObject);
-        levelUpLis = UIEventListener.Get(Utils.FindChild(transform, "LevelUpBtn").gameObject);
+        addLis = UIEventListener.Get(transform.Find("Buttons/Button-Inc").gameObject);
+        subLis = UIEventListener.Get(transform.Find("Buttons/Button-Dec").gameObject);
+        levelUpLis = UIEventListener.Get(transform.Find("Buttons/Button-LevelUp").gameObject);
+        backLis = UIEventListener.Get(transform.Find("Buttons/Button-Back").gameObject);
         levelTitle = Utils.FindChild(transform, "Level").GetComponent<UILabel>();
         levelValue = levelTitle.transform.Find("LevelValue").GetComponent<UILabel>();
         nextCostTitle = Utils.FindChild(transform, "NextSoul").GetComponent<UILabel>();
@@ -158,6 +164,9 @@ public class UILevelUpHeroWindow : Window
         changedMp = property.Find("MP/ChangedMp").GetComponent<UILabel>();
         mpForeShowSlider = property.Find("MP/ForeshowBar").GetComponent<UISlider>();
         mpSlider = property.Find("MP/NormalBar").GetComponent<UISlider>();
+
+        mask = Utils.FindChild(transform, "Mask").gameObject;
+        mask.SetActive(false);
     }
 
     /// <summary>
@@ -168,6 +177,7 @@ public class UILevelUpHeroWindow : Window
         addLis.onClick = OnAddBtnClicked;
         subLis.onClick = OnSubLisClicked;
         levelUpLis.onClick = OnOkBtnClicked;
+        backLis.onClick = OnBack;
         CommonHandler.HeroPropertyChanged += OnHeroPeopertyChanged;
         CommonHandler.PlayerPropertyChanged += OnPlayerPropertyChanged;
     }
@@ -180,6 +190,7 @@ public class UILevelUpHeroWindow : Window
         addLis.onClick = null;
         subLis.onClick = null;
         levelUpLis.onClick = null;
+        backLis.onClick = null;
         CommonHandler.HeroPropertyChanged -= OnHeroPeopertyChanged;
         CommonHandler.PlayerPropertyChanged -= OnPlayerPropertyChanged;
     }
@@ -192,18 +203,22 @@ public class UILevelUpHeroWindow : Window
         var atkProp = scpropertychanged.PropertyChanged[RoleProperties.ROLE_ATK];
         HeroInfo.Prop[RoleProperties.ROLE_ATK] = atkProp;
         atk.text = atkProp.ToString(CultureInfo.InvariantCulture);
+        atkSlider.value = (float)atkProp / maxAtk;
 
         var hpProp = scpropertychanged.PropertyChanged[RoleProperties.ROLE_HP];
         HeroInfo.Prop[RoleProperties.ROLE_HP] = hpProp;
-        atk.text = hpProp.ToString(CultureInfo.InvariantCulture);
+        hp.text = hpProp.ToString(CultureInfo.InvariantCulture);
+        hpSlider.value = (float)hpProp / maxHp;
         
         var recoverProp = scpropertychanged.PropertyChanged[RoleProperties.ROLE_RECOVER];
         HeroInfo.Prop[RoleProperties.ROLE_RECOVER] = recoverProp;
-        atk.text = atkProp.ToString(CultureInfo.InvariantCulture);
+        recover.text = atkProp.ToString(CultureInfo.InvariantCulture);
+        recoverSlider.value = (float)recoverProp / maxRecover;
 
         var mpProp = scpropertychanged.PropertyChanged[RoleProperties.ROLE_MP];
         HeroInfo.Prop[RoleProperties.ROLE_MP] = mpProp;
-        atk.text = mpProp.ToString(CultureInfo.InvariantCulture);
+        mp.text = mpProp.ToString(CultureInfo.InvariantCulture);
+        mpSlider.value = (float)mpProp / maxMp;
 
         CheckButtonEnabled();
     }
@@ -247,7 +262,7 @@ public class UILevelUpHeroWindow : Window
         }
     }
 
-    private void ResetPreShow()
+    private void ResetData()
     {
         atkForeShowSlider.value = 0;
         hpForeShowSlider.value = 0;
@@ -257,22 +272,68 @@ public class UILevelUpHeroWindow : Window
         changedHp.text = "";
         changedRecover.text = "";
         changedMp.text = "";
+        totalCostSoul = 0;
+        usedSoulValue.text = totalCostSoul.ToString(CultureInfo.InvariantCulture);
+        for (var i = 0; i < additions.Length; i++)
+        {
+            additions[i] = 0;
+        }
     }
 
-    private void OnNormalClicked(GameObject go)
+    private void OnNormalClickForLvlUp(GameObject go)
     {
         heroToLevelUp = go;
         UIHeroSnapShotWindow.CurUuid = go.GetComponent<HeroItemBase>().Uuid;
         var snapShot = WindowManager.Instance.Show<UIHeroSnapShotWindow>(true);
-        snapShot.InitTemplate("HeroSnapShot.Levelup", GotoLevelUp);
+        snapShot.InitTemplate("HeroOrItemSnapShot.Levelup", GotoLevelUp);
+    }
+
+    private void OnNormalClickForCancel(GameObject go)
+    {
+        //heroToCancel = go;
+        UIHeroSnapShotWindow.CurUuid = go.GetComponent<HeroItemBase>().Uuid;
+        var snapShot = WindowManager.Instance.Show<UIHeroSnapShotWindow>(true);
+        snapShot.InitTemplate("HeroOrItemSnapShot.CancelLevelup", CancelLevelUp);
     }
 
     private void GotoLevelUp(GameObject go)
     {
-        NGUITools.Destroy(curLevelUpObject);
+        CleanupCurLvlUp();
         curLevelUpObject = NGUITools.AddChild(dragDropContainer.gameObject, heroToLevelUp);
+        curLevelUpObject.GetComponent<HeroItemBase>().Uuid = heroToLevelUp.GetComponent<HeroItemBase>().Uuid;
+        var child = NGUITools.AddChild(heroToLevelUp, mask);
+        NGUITools.SetActive(child.gameObject, true);
+        heroToLevelUp.GetComponent<NGUILongPress>().OnNormalPress = OnNormalClickForCancel;
+        curLevelUpObject.GetComponent<NGUILongPress>().OnNormalPress = OnNormalClickForCancel;
         WindowManager.Instance.Show<UIHeroSnapShotWindow>(false);
         InitWindow(UIHeroSnapShotWindow.CurUuid);
+    }
+
+    private void CancelLevelUp(GameObject go)
+    {
+        CleanupCurLvlUp();
+        WindowManager.Instance.Show<UIHeroSnapShotWindow>(false);
+        ResetData();
+    }
+
+    private void CleanupCurLvlUp()
+    {
+        if(curLevelUpObject != null)
+        {
+            var uuidToCancel = curLevelUpObject.GetComponent<HeroItemBase>().Uuid;
+            var heros = herosWindow.Heros.transform;
+            for (var i = 0; i < heros.childCount; i++)
+            {
+                var hero = heros.GetChild(i);
+                if (hero.GetComponent<HeroItemBase>().Uuid == uuidToCancel)
+                {
+                    NGUITools.Destroy(hero.Find("Mask(Clone)").gameObject);
+                    hero.GetComponent<NGUILongPress>().OnNormalPress = OnNormalClickForLvlUp;
+                }
+            }
+            NGUITools.Destroy(curLevelUpObject);
+            curLevelUpObject = null;
+        }
     }
 
     /// <summary>
@@ -318,6 +379,15 @@ public class UILevelUpHeroWindow : Window
                 NetManager.SendMessage(csmsg);
             }
         }
+    }
+
+    /// <summary>
+    ///  The callback of clicking back button.
+    /// </summary>
+    private void OnBack(GameObject go)
+    {
+        WindowManager.Instance.Show<UILevelUpHeroWindow>(false);
+        WindowManager.Instance.Show<UIHeroCommonWindow>(false);
     }
 
     /// <summary>
@@ -430,9 +500,7 @@ public class UILevelUpHeroWindow : Window
     public void ShowLevelOver()
     {
         StartCoroutine("PlayEffect", 1.5f);
-        ResetPreShow();
-        totalCostSoul = 0;
-        usedSoulValue.text = totalCostSoul.ToString(CultureInfo.InvariantCulture);
+        ResetData();
     }
 
 }

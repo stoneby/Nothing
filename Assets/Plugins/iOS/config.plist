@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>dynamicLibraries</key>
+	<array>
+		<string>libz.dylib</string>
+		<string>libsqlite3.dylib</string>
+	</array>
+	<key>requiredFrameworks</key>
+	<array>
+		<string>CoreTelephony.framework</string>
+	</array>
+	<key>pListAdditions</key>
+	<array/>
+	<key>weakLinkFrameworks</key>
+	<array>
+		<string>AdSupport</string>
+	</array>
+	<key>linkerFlags</key>
+	<array>
+		<string>-all_load</string>
+		<string>-ObjC</string>
+	</array>
+	<key>neverShowCompletedMessage</key>
+	<false/>
+</dict>
+</plist>

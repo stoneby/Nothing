@@ -36,6 +36,10 @@ namespace com.kx.sglm.gs.battle.share.buff.effect
 
 		public override void onEffect(BattleFighter fighter)
 		{
+			if (!fighter.ActiveFighter)
+			{
+				return;
+			}
 			int _reduceHp = getCostValue(fighter);
 			_reduceHp = changeToAliveHp(_reduceHp, fighter);
 			BattleTeamFightRecord _fightRecord = fighter.Battle.Record.OrCreateTeamFighterRecord;

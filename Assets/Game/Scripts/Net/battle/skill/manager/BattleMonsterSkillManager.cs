@@ -112,8 +112,7 @@ namespace com.kx.sglm.gs.battle.share.skill.manager
 			leftRound = curAction.ExtraCD;
 			if (!CDZero)
 			{
-				// TODO: add battle record info
-
+				recordRound(fightRecord.OrCreateAttack);
 			}
 		}
 
@@ -133,10 +132,13 @@ namespace com.kx.sglm.gs.battle.share.skill.manager
 			}
 		}
 
-		// TODO: add params
 		protected internal virtual void calcCurAction()
 		{
-			int _skillId = monsterAI.calcCurSkill();
+            if (inExtraRound)
+            {
+                return;
+            }
+			int _skillId = monsterAI.calcCurSkill(Owner);
 			curAction = getAction(_skillId);
 		}
 

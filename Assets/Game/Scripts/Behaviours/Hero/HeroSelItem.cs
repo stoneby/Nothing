@@ -54,7 +54,7 @@ public class HeroSelItem : MonoBehaviour
         {
             return
                 ItemModeLocator.Instance.ScAllItemInfos.ItemInfos.FindAll(
-                    item => ItemModeLocator.Instance.GetItemType(item.TmplId) != ItemModeLocator.EquipType.MaterialTempl);
+                    item => ItemModeLocator.Instance.GetItemType(item.TmplId) != ItemHelper.EquipType.Material);
         }
         return new List<ItemInfo>();
     }
@@ -79,7 +79,8 @@ public class HeroSelItem : MonoBehaviour
     private void OnNormalPress(GameObject go)
     {
         var itemSnapShot = NGUITools.AddChild(gameObject, ItemSnapShot);
-        itemSnapShot.GetComponent<ItemSnapShot>().Init(go.GetComponent<NewEquipItem>());
+        var info = ItemModeLocator.Instance.FindItem(go.GetComponent<NewEquipItem>().BagIndex);
+        itemSnapShot.GetComponent<ItemSnapShot>().Init(info);
     }
 
     private void OnLongPress(GameObject go)
@@ -92,7 +93,8 @@ public class HeroSelItem : MonoBehaviour
 
     public void Refresh(List<ItemInfo> newInfos)
     {
-        equipNum.text = string.Format("{0}/{1}", newInfos.Count, PlayerModelLocator.Instance.HeroMax);
+        var capacity = ItemModeLocator.Instance.ScAllItemInfos.Capacity;
+        equipNum.text = string.Format("{0}/{1}", newInfos.Count, capacity);
         UpdateItemList(newInfos.Count);
         var orderType = ItemModeLocator.Instance.OrderType;
         sortLabel.text = StringTable.SortStrings[(int)orderType];
@@ -101,6 +103,7 @@ public class HeroSelItem : MonoBehaviour
         {
             var equipItem = Items.transform.GetChild(i).GetComponent<NewEquipItem>();
             equipItem.InitItem(newInfos[i]);
+            ItemHelper.ShowItem(orderType, equipItem, newInfos[i]);
         }
     }
 }

@@ -29,15 +29,25 @@ namespace com.kx.sglm.gs.battle.share.logic.loop
 
 		public override void onStart()
 		{
+
+			Battle.BattleExcuter.onBattleTeamShotStart(this);
+			TeamShotStartEvent _event = createEvent();
+			CurAttacker.onTeamShotStart(_event);
+			CurAttacker.recalcTeamProp();
+			CurDefencer.recalcTeamProp();
+			recordBattleTeamInfo();
+		}
+
+		protected internal virtual TeamShotStartEvent createEvent()
+		{
 //JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
 //ORIGINAL LINE: final com.kx.sglm.gs.battle.share.data.record.BattleTeamFightRecord _teamReocrd = getBattle().getRecord().getOrCreateTeamFighterRecord();
 			BattleTeamFightRecord _teamReocrd = Battle.Record.OrCreateTeamFighterRecord;
 			_teamReocrd.TeamSide = CurAttacker.BattleSide.Index;
-			Battle.BattleExcuter.onBattleTeamShotStart(this);
 			TeamShotStartEvent _event = new TeamShotStartEvent(Battle.CurScene);
 			_event.TeamFightRecord = _teamReocrd;
-			CurAttacker.onTeamShotStart(_event);
-			recordBattleTeamInfo();
+			_event.CurSide = CurAttacker.BattleSide;
+			return _event;
 		}
 
 		protected internal virtual void recordBattleTeamInfo()

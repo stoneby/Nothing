@@ -15,7 +15,7 @@ public class ItemSnapShot : MonoBehaviour
     private UILabel mpLabel;
     private UILabel nameLabel;
 
-    private NewEquipItem itemToEquip;
+    private short bagIndex;
     private UIHeroDetailWindow detailWindow;
 
     private void Awake()
@@ -49,13 +49,13 @@ public class ItemSnapShot : MonoBehaviour
     private void OnViewDetail(GameObject go)
     {
         ItemModeLocator.Instance.GetItemDetailPos = ItemType.GetItemDetailInHeroInfo;
-        var csmsg = new CSQueryItemDetail { BagIndex = itemToEquip.BagIndex};
+        var csmsg = new CSQueryItemDetail { BagIndex = bagIndex };
         NetManager.SendMessage(csmsg);
     }
 
     private void OnEquip(GameObject go)
     {
-        var info = ItemModeLocator.Instance.FindItem(itemToEquip.BagIndex);
+        var info = ItemModeLocator.Instance.FindItem(bagIndex);
 
         if (detailWindow.HeroInfo.EquipUuid[detailWindow.CurEquipIndex] != info.Id)
         {
@@ -75,15 +75,14 @@ public class ItemSnapShot : MonoBehaviour
         NGUITools.Destroy(gameObject);
     }
 
-    public void Init(NewEquipItem equipItem)
+    public void Init(ItemInfo info)
     {
-        var info = ItemModeLocator.Instance.FindItem(equipItem.BagIndex);
         atkLabel.text = ItemModeLocator.Instance.GetAttack(info.TmplId, info.Level).ToString(CultureInfo.InvariantCulture);
         hpLabel.text = ItemModeLocator.Instance.GetHp(info.TmplId, info.Level).ToString(CultureInfo.InvariantCulture);
         recoverLabel.text = ItemModeLocator.Instance.GetRecover(info.TmplId, info.Level).ToString(CultureInfo.InvariantCulture);
         mpLabel.text = ItemModeLocator.Instance.GetMp(info.TmplId).ToString(CultureInfo.InvariantCulture);
         nameLabel.text = ItemModeLocator.Instance.GetName(info.TmplId);
-        itemToEquip = equipItem;
+        bagIndex = info.BagIndex;
         InstallHandlers();
     }
 }
