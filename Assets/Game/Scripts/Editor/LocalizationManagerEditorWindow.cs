@@ -1,10 +1,14 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Odbc;
+using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using UnityEditor;
+using UnityEditor.VersionControl;
 using UnityEngine;
-using System.Collections;
 using UnityEngine.SocialPlatforms;
 
 public class LocalizationManagerEditorWindow : EditorWindow {
@@ -25,7 +29,7 @@ public class LocalizationManagerEditorWindow : EditorWindow {
     private Dictionary<GameObject, bool> activeStatus= new Dictionary<GameObject, bool>();
     private List<UILabel> labelCollection = new List<UILabel>();
 
-    private class localUnit : IComparable
+    private class LocalUnit : IComparable
     {
         public bool Confirm;
         public string Key;
@@ -35,12 +39,12 @@ public class LocalizationManagerEditorWindow : EditorWindow {
 
         public int CompareTo(object obj)
         {
-            return System.String.CompareOrdinal(Key, ((localUnit)obj).Key);
+            return System.String.CompareOrdinal(Key, ((LocalUnit)obj).Key);
         }
     }
 
     //Restore and manage 
-    private List<localUnit> localManager=new List<localUnit>();
+    private List<LocalUnit> localManager=new List<LocalUnit>();
 
     private bool isSet = false;
 
@@ -60,6 +64,12 @@ public class LocalizationManagerEditorWindow : EditorWindow {
 
     #endregion
 
+    //File from XLS
+    private Dictionary<string, string> parsedXLS = new Dictionary<string, string>();
+    private const string ImportFileName = "/LocalizationImport.xls";
+    private const string ExportFileName = "/LocalizationExport.xml";
+
+    //Mono private fields
     private Vector2 scrollViewPos1;
     private Vector2 scrollViewPos2;
 
@@ -67,9 +77,6 @@ public class LocalizationManagerEditorWindow : EditorWindow {
 
     #region Private Methods
 
-    /// <summary>
-    /// Apply font the whole process.
-    /// </summary>
     private void GenerateFromObject()
     {
         Debug.LogWarning("Find all prefabs begins.");
@@ -141,60 +148,60 @@ public class LocalizationManagerEditorWindow : EditorWindow {
 
     private void ImportFromExcel()
     {
-        //OpenFileDialog fdlg = new OpenFileDialog();
-        //fdlg.Title = "Select file";
-        //fdlg.InitialDirectory = @"c:\";
-        //fdlg.FileName = txtFileName.Text;
-        //fdlg.Filter = "Excel Sheet(*.xls)|*.xls|All Files(*.*)|*.*";
-        //fdlg.FilterIndex = 1;
-        //fdlg.RestoreDirectory = true;
-        //if (fdlg.ShowDialog() == DialogResult.OK)
-        //{
-        //    txtFileName.Text = fdlg.FileName;
-        //    Import();
-        //    Application.DoEvents();
-        //}
+        readXLS(Application.dataPath + ImportFileName);
+        foreach (var key in parsedXLS.Keys)
+        {
+            for (int i = 0; i < changedRootKeys.Count; i++)
+            {
+                //Edit value of existed key.
+                if (key == changedRootKeys[i].changedValue)
+                {
+                    if (changedRootValues[i].changedValue.TextValue != parsedXLS[key])
+                    {
+                        Debug.Log("Change key:" + key + ", value from:" + changedRootValues[i].changedValue.TextValue + ", to:" + parsedXLS[key]);
+                        changedRootValues[i].changedValue.TextValue = parsedXLS[key];
+                    }
+                    break;
+                }
+
+                //Add key,value of no-existed key.
+                if (i == changedRootKeys.Count - 1)
+                {
+                    Debug.Log("Add key:" + key + ", value:" + parsedXLS[key]);
+                    AddNewKey(key, parsedXLS[key]);
+                }
+            }
+        }
     }
 
     private void ExportToExcel()
     {
-        //// creating Excel Application
-        //var app = new Microsoft.Office.Interop.Excel.Application();
+        StreamWriter writer;
+        var fileinfo = new FileInfo(Application.dataPath + ExportFileName);
+        if (!fileinfo.Exists)
+        {
+            writer = fileinfo.CreateText();
+        }
+        else
+        {
+            fileinfo.Delete();
+            writer = fileinfo.CreateText();
+        }
 
-        //// creating new WorkBook within Excel application
-        //var workbook = app.Workbooks.Add(Type.Missing);
+        //write data to file.
+        {
+            writer.Write("<Resources>\n");
+            for (int i = 0; i < changedRootKeys.Count; i++)
+            {
+                writer.Write("\t<Key  Value=\"" + changedRootValues[i].changedValue.TextValue + "\">" + changedRootKeys[i].changedValue + "</Key>\n");
+            }
+            writer.Write("</Resources>");
+        }
 
-        //// see the excel sheet behind the program
-        //app.Visible = true;
-
-        //// get the reference of first sheet. By default its name is Sheet1.
-        //// store its reference to worksheet
-        //var worksheet = workbook.Sheets["Sheet1"] as Microsoft.Office.Interop.Excel.Worksheet;
-        //worksheet = workbook.ActiveSheet as Microsoft.Office.Interop.Excel.Worksheet;
-
-        //// changing the name of active sheet
-        //worksheet.Name = "Exported from Localization Manager";
-
-        //for (int i = 0; i < changedRootKeys.Count;i++)
-        //{
-        //    worksheet.Cells[i + 1, 1] = changedRootKeys[i].changedValue;
-        //    worksheet.Cells[i + 1, 2] = changedRootValues[i].changedValue.TextValue;
-        //}
-
-        //// save the application
-        //workbook.SaveAs(
-        //    "c:\\output.xls", Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlExclusive, Type.Missing, Type.Missing, Type.Missing, Type.Missing
-        //    );
-
-        //// Exit from the application
-        //app.Quit();
-
+        writer.Close();
+        Debug.Log("File exported."); 
     }
 
-    /// <summary>
-    /// Add LocalizeWidget script for every UILabel gameObject in the list.
-    /// </summary>
-    /// <param name="labelList"></param>
     private void GenerateLocal(IEnumerable<UILabel> labelList)
     {
         localManager.Clear();
@@ -204,7 +211,7 @@ public class LocalizationManagerEditorWindow : EditorWindow {
             if (localSetting != null)
             {
                 var keyTemp = localSetting.Key;
-                localManager.Add(new localUnit()
+                localManager.Add(new LocalUnit()
                 {
                     Confirm = false,
                     Key = keyTemp,
@@ -223,7 +230,7 @@ public class LocalizationManagerEditorWindow : EditorWindow {
                     Debug.LogError("UILabel path error!Stop operation and check assets.");
                 }
                 var keyTemp = splitPaths[splitPaths.Length - 2] + "." + item.gameObject.name;
-                localManager.Add(new localUnit()
+                localManager.Add(new LocalUnit()
                 {
                     Confirm = false,
                     Key = keyTemp,
@@ -406,6 +413,49 @@ public class LocalizationManagerEditorWindow : EditorWindow {
 
     #endregion
 
+    private void readXLS(string filetoread)
+    {
+        // Must be saved as excel 2003 workbook, not 2007, mono issue really
+        string con = "Driver={Microsoft Excel Driver (*.xls)}; DriverId=790; Dbq=" + filetoread + ";";
+        Debug.Log(con);
+        string yourQuery = "SELECT * FROM [Sheet1$]";
+        // our odbc connector 
+        OdbcConnection oCon = new OdbcConnection(con);
+        // our command object 
+        OdbcCommand oCmd = new OdbcCommand(yourQuery, oCon);
+        // table to hold the data 
+        DataTable dtYourData = new DataTable("YourData");
+        // open the connection 
+        oCon.Open();
+        // lets use a datareader to fill that table! 
+        OdbcDataReader rData = oCmd.ExecuteReader();
+        // now lets blast that into the table by sheer man power! 
+        dtYourData.Load(rData);
+        // close that reader! 
+        rData.Close();
+        // close connection to the spreadsheet! 
+        oCon.Close();
+
+        if (dtYourData.Rows.Count <= 0)
+        {
+            Debug.LogWarning(filetoread+" is empty! Nothing has been imported!");
+            return;
+        }
+
+        if (dtYourData.Columns.Count != 2 || dtYourData.Columns[0].ColumnName != "Key" ||
+            dtYourData.Columns[1].ColumnName != "Value")
+        {
+            Debug.LogError(filetoread+" is not correct in columns! Import has been stopped! Check the file.");
+            return;
+        }
+
+        for (int i = 0; i < dtYourData.Rows.Count; i++)
+        {
+            parsedXLS.Add(dtYourData.Rows[i][0].ToString(), dtYourData.Rows[i][1].ToString());
+            Debug.Log("Add key:" + dtYourData.Rows[i][0].ToString() + ", value:" + dtYourData.Rows[i][1].ToString()+" from XLS.");
+        }
+    }
+
     #endregion
 
     #region Mono
@@ -511,21 +561,29 @@ public class LocalizationManagerEditorWindow : EditorWindow {
 
         EditorGUILayout.Space();
 
-        EditorGUILayout.BeginHorizontal();
-
-        if (GUILayout.Button("Import key,value from Excel"))
+        if (isSet == true)
         {
-            ImportFromExcel();
+            EditorGUILayout.BeginHorizontal();
+
+            if (GUILayout.Button("Import key,value from Excel"))
+            {
+                ImportFromExcel();
+            }
+
+            if (GUILayout.Button("Export key,value to Excel"))
+            {
+                ExportToExcel();
+            }
+
+            EditorGUILayout.EndHorizontal();
         }
-
-        if (GUILayout.Button("Export key,value to Excel"))
-        {
-            ExportToExcel();
-        }
-
-        EditorGUILayout.EndHorizontal();
-
+        
         GUILayout.Label("You can edit or delete key,value to smart localization and import/export to Excel file here.");
+
+        EditorGUILayout.Space();
+
+        GUILayout.Label("Import:Program will import data from Assets/LocalizationImport.xls.");
+        GUILayout.Label("Export:Program will export data to Assets/LocalizationExport.xml.");
 
         if (isSet == true)
         {

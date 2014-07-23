@@ -8,14 +8,14 @@ namespace com.kx.sglm.gs.battle.share.model
 	/// @author liyuan2
 	/// </summary>
 	/// @param <T> </param>
-	public class ComparableListHolder<T> : KeyListHolder<T>, IComparable<ComparableListHolder<T>>
+	public abstract class ComparableListHolder<T> : KeyListHolder<T>, IComparable<ComparableListHolder<T>>
 	{
 
 		public ComparableListHolder(int key) : base(key)
 		{
 		}
 
-		private bool asc;
+		protected internal bool asc;
 
 
 		public virtual bool Asc

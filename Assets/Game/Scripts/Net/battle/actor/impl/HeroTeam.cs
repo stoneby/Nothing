@@ -86,7 +86,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 		{
 			foreach (BattleFighter _fighter in actorList)
 			{
-				totalHp += _fighter.FighterTotalHp;
+				totalHp += _fighter.TotalHp;
 				totalMp += _fighter.TotalMp;
 			}
 			curHp = totalHp;
@@ -209,7 +209,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 			return battlingHeroArr.Length;
 		}
 
-		public virtual HeroColor CurFightColor
+		public override HeroColor CurFightColor
 		{
 			get
 			{
@@ -527,6 +527,40 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 		{
 			return this.indexedHeroPoint[fighter.index].InBattle;
 		}
+
+		public override List<BattleFighter> CurTeamShotFighters
+		{
+			get
+			{
+				List<BattleFighter> _fighterList = new List<BattleFighter>();
+				foreach (int _index in curActionArr)
+				{
+					_fighterList.Add(getFighterByIndex(_index));
+				}
+				return _fighterList;
+			}
+		}
+
+		public override int getFighterCurHp(BattleFighter fighter)
+		{
+			return curHp;
+		}
+
+		public override int getFighterTotalHp(BattleFighter fighter)
+		{
+			return totalHp;
+		}
+
+		public override void costFighterHp(int costHp, BattleFighter fighter)
+		{
+			changeHp(-costHp, fighter);
+		}
+
+		public override int getAttackRatioIndex(BattleFighter fighter)
+		{
+			return CurFightIndex;
+		}
+
 
 	}
 

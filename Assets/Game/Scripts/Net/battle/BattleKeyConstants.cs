@@ -52,6 +52,14 @@ namespace com.kx.sglm.gs.battle.share
 
 		public static readonly int BATTLE_PROP_MONSTER_AI_ID = BATTLE_KEY_BASE++;
 
+		/// <summary>
+		/// buff参数的开始Index </summary>
+		private static int BATTLE_BUFF_KEY_BASE = 0;
+		/// <summary>
+		/// 当前护盾buff的序列 </summary>
+		public static readonly int BATTLE_BUFF_CUR_SHIELD_ORDER = BATTLE_BUFF_KEY_BASE++;
+
+
 	}
 
 }

@@ -26,9 +26,9 @@ namespace com.kx.sglm.gs.battle.share.factory.creater
 		{
 			BattleActionService _service = BattleActionService.Service;
 			_service.initNormalAction();
-			_service.initAllMonsterAI(battleSource.MonsterAIList);
 			_service.initTemplateHeroSkillAction(battleSource.HeroSkillList);
 			_service.initTemplateMonsterSkillAction(battleSource.MonsterSkillList);
+			_service.initAllMonsterAI(battleSource.MonsterAIList);
 			_service.initTemplateBuffAction(battleSource.BuffList);
 		}
 

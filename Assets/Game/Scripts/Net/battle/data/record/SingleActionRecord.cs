@@ -90,10 +90,9 @@ namespace com.kx.sglm.gs.battle.share.data.record
 
 
 
-		public virtual void addState(int buffId, int showId, sbyte state, int round)
-		{
-			fighterInfo.addState(buffId, showId, state, round);
-		}
+	//	public void addState (int buffId, int showId, byte state, int round, Map<Integer, Integer> paramMap) {
+	//		fighterInfo.addState(buffId, showId, state, round, paramMap);
+	//	}
 
 		public virtual void clearState()
 		{

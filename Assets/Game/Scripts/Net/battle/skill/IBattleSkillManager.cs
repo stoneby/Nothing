@@ -4,6 +4,7 @@ namespace com.kx.sglm.gs.battle.share.skill
 	using IFighterOwner = com.kx.sglm.gs.battle.share.actor.IFighterOwner;
 	using BattleFightRecord = com.kx.sglm.gs.battle.share.data.record.BattleFightRecord;
 	using BattleTeamFightRecord = com.kx.sglm.gs.battle.share.data.record.BattleTeamFightRecord;
+	using BeforeAttackEvent = com.kx.sglm.gs.battle.share.@event.impl.BeforeAttackEvent;
 	using SceneStartEvent = com.kx.sglm.gs.battle.share.@event.impl.SceneStartEvent;
 	using TeamShotStartEvent = com.kx.sglm.gs.battle.share.@event.impl.TeamShotStartEvent;
 
@@ -14,7 +15,7 @@ namespace com.kx.sglm.gs.battle.share.skill
 
 		bool canAttack();
 
-		void beforeAttack(BattleFightRecord record);
+		void beforeAttack(BeforeAttackEvent @event);
 
 		void afterAttack(BattleFightRecord record);
 

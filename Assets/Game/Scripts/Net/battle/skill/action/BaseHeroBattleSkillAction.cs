@@ -5,7 +5,6 @@ namespace com.kx.sglm.gs.battle.share.skill.action
 
 
 	using BattleFighter = com.kx.sglm.gs.battle.share.actor.impl.BattleFighter;
-	using FighterStateEnum = com.kx.sglm.gs.battle.share.enums.FighterStateEnum;
 
 	/// <summary>
 	/// 英雄技能
@@ -86,7 +85,7 @@ namespace com.kx.sglm.gs.battle.share.skill.action
 		/// 强制触发flag，目前只有一种， </summary>
 		protected internal virtual bool isFourceTrigger(BattleFighter attacker)
 		{
-			return TriggerId == BattleEventConstants.BATTLE_FIGHTER_ATTACK && attacker.hasState(FighterStateEnum.SP_MAX_STATE);
+			return TriggerId == BattleEventConstants.BATTLE_FIGHTER_ATTACK && attacker.hasState(BattleConstants.SP_MAX_FALG);
 		}
 		public virtual void addCondition(List<ISkillCondition> conditionList)
 		{

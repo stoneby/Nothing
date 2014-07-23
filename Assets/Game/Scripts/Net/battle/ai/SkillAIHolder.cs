@@ -40,6 +40,10 @@ namespace com.kx.sglm.gs.battle.share.ai
 			return _aiList;
 		}
 
+		public virtual int compareTo(ComparableListHolder<SkillAI> o)
+		{
+			return asc ? Key - o.Key : o.Key - Key;
+		}
 
 
 	}

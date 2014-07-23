@@ -28,12 +28,15 @@ public class SDKLoginManager : MonoBehaviour
 
     private void OnLogin(GameObject go)
     {
+        
 #if UNITY_ANDROID
+        ServiceManager.IsDebugAccount = 0;
         Debug.Log("Calling SDK.");
         jo.Call("login", "1", "login");
 #endif
 
 #if UNITY_IPHONE
+        ServiceManager.IsDebugAccount = 0;
 		if (Application.platform != RuntimePlatform.OSXEditor)
 		{
 			if(SDKResponse.IsInitialized==false)

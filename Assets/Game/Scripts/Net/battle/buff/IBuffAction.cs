@@ -4,7 +4,6 @@ namespace com.kx.sglm.gs.battle.share.buff
 	using BattleFighter = com.kx.sglm.gs.battle.share.actor.impl.BattleFighter;
 	using FighterStateEnum = com.kx.sglm.gs.battle.share.enums.FighterStateEnum;
 	using IBattlePartInfo = com.kx.sglm.gs.battle.share.enums.IBattlePartInfo;
-	using InnerBattleEvent = com.kx.sglm.gs.battle.share.@event.InnerBattleEvent;
 
 	/// <summary>
 	/// buff action, interface for AbstractBuffAction, singleton action
@@ -15,6 +14,7 @@ namespace com.kx.sglm.gs.battle.share.buff
 	public abstract class IBuffAction : IBattlePartInfo
 	{
 
+		//TODO: 当前的buff方法有很多冗余，但是目前时间不允许重构，下个版本开发之后要拿出一周时间重构buff结构
 		public abstract int Id {get;set;}
 
 		public abstract int TypeA {get;set;}
@@ -47,7 +47,11 @@ namespace com.kx.sglm.gs.battle.share.buff
 
 		public abstract void onEffect(BattleFighter fighter);
 
-		public abstract void onEvent(InnerBattleEvent @event, BattleFighter fighter);
+		public abstract void onAttack(BattleFighter attacker);
+
+		public abstract void onDefence(BattleFighter attacker, BattleFighter owner);
+
+		public abstract bool needShow(BattleFighterBuff buffInst);
 
 		public abstract bool Buff {get;}
 

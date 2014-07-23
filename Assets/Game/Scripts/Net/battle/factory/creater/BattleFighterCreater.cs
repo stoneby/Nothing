@@ -94,8 +94,8 @@ namespace com.kx.sglm.gs.battle.share.factory.creater
 		{
 			BattleFighter _fighter = new BattleFighter(ownerTeam, fighterProp);
 			_fighter.Index = fighterProp.Index;
-			initFighterActFromFighterProp(_fighter, fighterProp.BattleProperty);
 			_fighter.setOwnerTeam(ownerTeam);
+			initFighterActFromFighterProp(_fighter, fighterProp.BattleProperty);
 			return _fighter;
 		}
 
@@ -103,7 +103,7 @@ namespace com.kx.sglm.gs.battle.share.factory.creater
 
 		public static void initFighterActFromFighterProp(BattleFighter fighter, Dictionary<int, int> props)
 		{
-			fighter.CurHp = fighter.FighterTotalHp;
+			fighter.CurHp = props[RoleAProperty.HP];
 			int _attk = props[RoleAProperty.ATK];
 			fighter.Attack = _attk == null ? 0 : _attk;
 			int _recover = props[RoleAProperty.RECOVER];

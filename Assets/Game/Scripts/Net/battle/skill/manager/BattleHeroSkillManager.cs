@@ -15,6 +15,7 @@ namespace com.kx.sglm.gs.battle.share.skill.manager
 	using BattleTeamFightRecord = com.kx.sglm.gs.battle.share.data.record.BattleTeamFightRecord;
 	using HeroColor = com.kx.sglm.gs.battle.share.enums.HeroColor;
 	using InnerBattleEvent = com.kx.sglm.gs.battle.share.@event.InnerBattleEvent;
+	using BeforeAttackEvent = com.kx.sglm.gs.battle.share.@event.impl.BeforeAttackEvent;
 	using SceneStartEvent = com.kx.sglm.gs.battle.share.@event.impl.SceneStartEvent;
 	using TeamShotStartEvent = com.kx.sglm.gs.battle.share.@event.impl.TeamShotStartEvent;
 	using BattleRecordHelper = com.kx.sglm.gs.battle.share.helper.BattleRecordHelper;
@@ -248,9 +249,9 @@ namespace com.kx.sglm.gs.battle.share.skill.manager
 			}
 		}
 
-		public override void beforeAttack(BattleFightRecord record)
+		public override void beforeAttack(BeforeAttackEvent @event)
 		{
-			// TODO Auto-generated method stub
+			actionEventSkill(@event);
 
 		}
 

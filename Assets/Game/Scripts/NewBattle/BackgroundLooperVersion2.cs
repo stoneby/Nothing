@@ -5,7 +5,7 @@ using UnityEngine;
 /// Loop background forever version 2.
 /// </summary>
 /// <remarks>Head and tail are only components on faces, body is designed to repeat forever.</remarks>
-public class BackgroundLooperVersion2 : MonoBehaviour
+public class BackgroundLooperVersion2 : AbstractBattlegroundLooper
 {
     public UIWidget Head;
     public UIWidget Tail;
@@ -16,51 +16,37 @@ public class BackgroundLooperVersion2 : MonoBehaviour
     private Vector3 headDefaultPosition;
     private Vector3 tailDefaultPosition;
 
-    /// <summary>
-    /// Duration to loop body once.
-    /// </summary>
-    public float Duration;
-
-    public void Begin()
+    public override void PlayBegin()
     {
         PlayTween(headPositionTween, headDefaultPosition,
             new Vector3(headDefaultPosition.x - Head.width, headDefaultPosition.y, headDefaultPosition.z));
 
         LooperList.ForEach(looper => looper.CurrentPosition = 0f);
-        Loop();
+        PlayOnce();
     }
 
-    public void Loop()
+    public override void PlayOnce()
     {
         LooperList.ForEach(looper => looper.GoByTime(Duration));
     }
 
-    public void End()
+    public override void PlayEnd()
     {
         LooperList.ForEach(looper => looper.CurrentPosition = 0.5f);
-        Loop();
+        PlayOnce();
 
         PlayTween(tailPositionTween, tailDefaultPosition,
             new Vector3(tailDefaultPosition.x - Tail.width, tailDefaultPosition.y, tailDefaultPosition.z));
     }
 
-    public void Reset()
+    public override void Reset()
     {
         Head.transform.localPosition = headDefaultPosition;
         Tail.transform.localPosition = tailDefaultPosition;
         LooperList.ForEach(looper => looper.Reset());
     }
 
-    private void PlayTween(TweenPosition tween, Vector3 from, Vector3 to)
-    {
-        tween.ResetToBeginning();
-        tween.from = from;
-        tween.to = to;
-        tween.PlayForward();
-        tween.duration = Duration;
-    }
-
-    private void Awake()
+    protected override void Awake()
     {
         headPositionTween = GetComponent<TweenPosition>() ?? Head.gameObject.AddComponent<TweenPosition>();
         headPositionTween.enabled = false;

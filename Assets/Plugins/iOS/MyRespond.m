@@ -98,6 +98,7 @@ void PressPay(const char * remark, int userid, int serverid, const char * roleid
     str=[[str stringByAppendingString:@"logout:"]stringByAppendingString:(NSString*)[message object]];
     const char* result=[str cStringUsingEncoding:NSASCIIStringEncoding];
     UnitySendMessage("Global", "Respond", result);
+    NSLog(@"Sending message to Unity.");
 }
 
 +(void) addRole_Success:(NSNotification*) message
@@ -107,6 +108,7 @@ void PressPay(const char * remark, int userid, int serverid, const char * roleid
     str=[[str stringByAppendingString:@"addRole:"]stringByAppendingString:(NSString*)[message object]];
     const char* result=[str cStringUsingEncoding:NSASCIIStringEncoding];
     UnitySendMessage("Global", "Respond", result);
+    NSLog(@"Sending message to Unity.");
 }
 
 +(void) iosPay_Success:(NSNotification*) message
@@ -116,6 +118,7 @@ void PressPay(const char * remark, int userid, int serverid, const char * roleid
     str=[[str stringByAppendingString:@"iosPay:"]stringByAppendingString:(NSString*)[message object]];
     const char* result=[str cStringUsingEncoding:NSASCIIStringEncoding];
     UnitySendMessage("Global", "Respond", result);
+    NSLog(@"Sending message to Unity.");
 }
 
 +(void) Pay_Success:(NSNotification*) message
@@ -125,6 +128,7 @@ void PressPay(const char * remark, int userid, int serverid, const char * roleid
     str=[[str stringByAppendingString:@"Pay:"]stringByAppendingString:(NSString*)[message object]];
     const char* result=[str cStringUsingEncoding:NSASCIIStringEncoding];
     UnitySendMessage("Global", "Respond", result);
+    NSLog(@"Sending message to Unity.");
 }
 
 -(BOOL)shouldAutorotate

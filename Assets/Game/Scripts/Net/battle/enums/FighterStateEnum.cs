@@ -15,7 +15,8 @@ namespace com.kx.sglm.gs.battle.share.enums
 			}
 
 		}
-
+		/// <summary>
+		/// SP技能100%（蓝光） </summary>
 		public static readonly FighterStateEnum SP_MAX_STATE = new FighterStateEnumAnonymousInnerClassHelper2();
 
 		private class FighterStateEnumAnonymousInnerClassHelper2 : FighterStateEnum
@@ -28,18 +29,18 @@ namespace com.kx.sglm.gs.battle.share.enums
 
 		/// <summary>
 		/// 麻痹 </summary>
-		public static readonly FighterStateEnum PARALYSIS = new FighterStateEnumAnonymousInnerClassHelper3();
+		public static readonly FighterStateEnum ATTACK_ZERO_FLAG = new FighterStateEnumAnonymousInnerClassHelper3();
 
 		private class FighterStateEnumAnonymousInnerClassHelper3 : FighterStateEnum
 		{
-			public FighterStateEnumAnonymousInnerClassHelper3() : base(2, BattleConstants.ATTACK_DIS_FLAG)
+			public FighterStateEnumAnonymousInnerClassHelper3() : base(2, BattleConstants.ATTACK_ZERO_FLAG)
 			{
 			}
 
 		}
 		/// <summary>
 		/// 石化 </summary>
-		public static readonly FighterStateEnum PETRIFIED = new FighterStateEnumAnonymousInnerClassHelper4();
+		public static readonly FighterStateEnum ATTACK_DIS_FLAG = new FighterStateEnumAnonymousInnerClassHelper4();
 
 		private class FighterStateEnumAnonymousInnerClassHelper4 : FighterStateEnum
 		{
@@ -50,15 +51,28 @@ namespace com.kx.sglm.gs.battle.share.enums
 		}
 		/// <summary>
 		/// 封魔 </summary>
-		public static readonly FighterStateEnum SEAL_SKILL = new FighterStateEnumAnonymousInnerClassHelper5(BattleConstants.ATTACK_DIS_FLAG | BattleConstants.SKILL_DIS_FLAG);
+		public static readonly FighterStateEnum SKILL_DIS_FLAG = new FighterStateEnumAnonymousInnerClassHelper5();
 
 		private class FighterStateEnumAnonymousInnerClassHelper5 : FighterStateEnum
 		{
-			public FighterStateEnumAnonymousInnerClassHelper5(int SKILL_DIS_FLAG) : base(4, SKILL_DIS_FLAG)
+			public FighterStateEnumAnonymousInnerClassHelper5() : base(4, BattleConstants.SKILL_DIS_FLAG)
 			{
 			}
 
 		}
+		/// <summary>
+		/// 护盾 </summary>
+		public static readonly FighterStateEnum MONSTER_SHIELD = new FighterStateEnumAnonymousInnerClassHelper6();
+
+		private class FighterStateEnumAnonymousInnerClassHelper6 : FighterStateEnum
+		{
+			public FighterStateEnumAnonymousInnerClassHelper6() : base(5, BattleConstants.MONSTER_SHIELD_FLAG)
+			{
+			}
+
+		}
+
+
 
 
 		private int index;

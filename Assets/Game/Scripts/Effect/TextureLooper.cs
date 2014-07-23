@@ -2,6 +2,9 @@
 using System.Collections;
 using UnityEngine;
 
+/// <summary>
+/// Looping texture by UV animation.
+/// </summary>
 [RequireComponent(typeof(UITexture))]
 public class TextureLooper : MonoBehaviour
 {
@@ -14,9 +17,17 @@ public class TextureLooper : MonoBehaviour
 
     public Style LoopStyle;
 
-    public float HorizontalDuration;
-    public float VerticalDuration;
+    /// <summary>
+    /// Distance of texture moving.
+    /// </summary>
+    public float Distance;
 
+    /// <summary>
+    /// Speed of texture moving.
+    /// </summary>
+    public float Speed;
+
+    public float Duration { get { return Distance / (texture.width * Speed); } }
     public float CurrentPosition { get; set; }
 
     private UITexture texture;
@@ -24,25 +35,21 @@ public class TextureLooper : MonoBehaviour
     public void GoOne()
     {
         CurrentPosition = 0f;
-        var duration = (LoopStyle == Style.Horizontal) ? HorizontalDuration : VerticalDuration;
-        GoTo(0f, 1f, duration);
+        GoTo(0f, 1f, Duration);
     }
 
     public void GoByTime(float time)
     {
         var from = CurrentPosition;
-        var to = CurrentPosition + ((LoopStyle == Style.Horizontal)
-            ? (time / HorizontalDuration)
-            : (time / VerticalDuration));
+        var to = CurrentPosition + time * Speed;
         GoTo(from, to, time);
     }
 
     public void GoByDistance(float distance)
     {
         var from = CurrentPosition;
-        var to = CurrentPosition + distance;
-        var time = distance * ((LoopStyle == Style.Horizontal) ? HorizontalDuration : VerticalDuration);
-        GoTo(from, to, time);
+        var to = CurrentPosition + distance / texture.width;
+        GoTo(from, to, Duration);
     }
 
     public void Loop()
@@ -55,16 +62,6 @@ public class TextureLooper : MonoBehaviour
         CurrentPosition = 0f;
         GoTo(0f, 0f, 0f);
         StopAllCoroutines();
-    }
-
-    public void LoopGo()
-    {
-        var ps = GetComponent<TweenPosition>() ?? gameObject.AddComponent<TweenPosition>();
-        ps.ResetToBeginning();
-        ps.from = Vector3.zero;
-        ps.to = new Vector3(-640, 0, 0);
-        ps.duration = HorizontalDuration;
-        ps.Play(true);
     }
 
     /// <summary>
@@ -100,9 +97,9 @@ public class TextureLooper : MonoBehaviour
         else if (LoopStyle == Style.Both)
         {
             LoopStyle = Style.Horizontal;
-            GoTo(from, to, HorizontalDuration);
+            GoTo(from, to, Duration);
             LoopStyle = Style.Vertical;
-            GoTo(from, to, VerticalDuration);
+            GoTo(from, to, Duration);
             LoopStyle = Style.Both;
         }
     }
@@ -112,7 +109,7 @@ public class TextureLooper : MonoBehaviour
         while (true)
         {
             GoOne();
-            yield return new WaitForSeconds(HorizontalDuration);
+            yield return new WaitForSeconds(Duration);
         }
     }
 

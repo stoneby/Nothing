@@ -7,7 +7,6 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 	using MathUtils = com.kx.sglm.core.util.MathUtils;
 	using BattleRecordConstants = com.kx.sglm.gs.battle.share.data.record.BattleRecordConstants;
 	using SingleFighterRecord = com.kx.sglm.gs.battle.share.data.record.SingleFighterRecord;
-	using FighterStateEnum = com.kx.sglm.gs.battle.share.enums.FighterStateEnum;
 	using BattleRecordHelper = com.kx.sglm.gs.battle.share.helper.BattleRecordHelper;
 
 	public class FighterStateManager : IFighterOwner
@@ -68,12 +67,30 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 			}
 		}
 
+		public virtual void removeState(int stateId)
+		{
+			if (!stateMap.ContainsKey(stateId))
+			{
+				return;
+			}
+			BattleFighterState _state = this.stateMap[stateId];
+			this.stateMap.Remove(stateId);
+			this.lastStateMap[_state.BuffId] = _state;
+			//È¡Ïûflag
+			fighterStateFlag &= (~_state.State.StateFlag);
+		}
+
 		public virtual int FighterStateFlag
 		{
 			get
 			{
 				return fighterStateFlag;
 			}
+		}
+
+		public virtual BattleFighterState getFighterState(int buffId)
+		{
+			return stateMap[buffId];
 		}
 
 
@@ -86,9 +103,9 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 		}
 
 
-		public virtual bool hasState(FighterStateEnum state)
+		public virtual bool hasState(int state)
 		{
-			return MathUtils.andFlag(fighterStateFlag, state.StateFlag);
+			return MathUtils.andFlag(fighterStateFlag, state);
 		}
 
 	}

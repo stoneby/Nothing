@@ -96,7 +96,7 @@ namespace com.kx.sglm.gs.battle.share
 
 		public const int FIGHTER_FIGHT_DEFAULT_COUNT = 1;
 
-		public const float FIGHTER_FIGHT_DEFAULT_RATIO = 1;
+		public const float FIGHTER_FIGHT_DEFAULT_RATIO = 10000;
 
 		public const int TARGET_GETTER_FOR_ENEMY_INDEX = 0;
 		public const int TARGET_GETTER_FOR_FRIEND_INDEX = 1;
@@ -134,11 +134,20 @@ namespace com.kx.sglm.gs.battle.share
 		/// 攻击不为0 </summary>
 		public const int SP_MAX_FALG = 0X08;
 		/// <summary>
+		/// 护盾 </summary>
+		public const int MONSTER_SHIELD_FLAG = 0X10;
+		/// <summary>
 		/// 全部不可以动作的flag </summary>
 		public const int DISABLE_FLAG = 0xffff;
 		/// <summary>
 		/// 最小攻击值为1，不破防时使用 </summary>
 		public const float MIN_ATTACK = 1.0F;
+		/// <summary>
+		/// 等没有怪物护盾时的flag </summary>
+		public const int MONSTER_SHIELD_NIL_VALUE = 0;
+		/// <summary>
+		/// 护盾提供的减伤比例 </summary>
+		public const float MONSTER_SHIELD_DAMAGE_REDUCE = 2000;
 
 	}
 

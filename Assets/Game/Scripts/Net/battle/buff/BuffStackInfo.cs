@@ -16,7 +16,7 @@ namespace com.kx.sglm.gs.battle.share.buff
 
 		protected internal virtual void init(int defaultRound)
 		{
-			resetLeftRound(defaultRound);
+			LeftRound = defaultRound;
 			state = BuffStateEnum.NEW_BORN;
 		}
 
@@ -38,18 +38,18 @@ namespace com.kx.sglm.gs.battle.share.buff
 			}
 		}
 
-		protected internal virtual void resetLeftRound(int defaultRound)
-		{
-			this.leftRound = defaultRound;
-		}
-
 		public virtual int LeftRound
 		{
+			set
+			{
+				this.leftRound = value;
+			}
 			get
 			{
 				return leftRound;
 			}
 		}
+
 
 		public virtual void changeToNextState()
 		{

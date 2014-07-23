@@ -3,23 +3,11 @@ using System;
 namespace com.kx.sglm.gs.battle.share.skill.effect
 {
 
-	using BattleFighter = com.kx.sglm.gs.battle.share.actor.impl.BattleFighter;
 	using BattleRecordConstants = com.kx.sglm.gs.battle.share.data.record.BattleRecordConstants;
-	using SingleActionRecord = com.kx.sglm.gs.battle.share.data.record.SingleActionRecord;
 
-	public class MutiHitEffect : HeroNormalAttackEffect
+	public class MutiHitEffect : AbstractAttackEffect
 	{
 
-
-
-
-	//	@Override
-		public override float calcDamage(float attack, BattleFighter attacker, BattleFighter defencer, SingleActionRecord record)
-		{
-	//		float _baseDamage = super.calcDamage(attack, attacker, defencer, record);
-	//		return _baseDamage * attackValMuti * hitCount;
-			return 0;
-		}
 
 
 		public override void build(params string[] param)
@@ -35,7 +23,6 @@ namespace com.kx.sglm.gs.battle.share.skill.effect
 				return BattleRecordConstants.SINGLE_ACTION_TYPE_SP_ATTACK;
 			}
 		}
-
 	}
 
 }

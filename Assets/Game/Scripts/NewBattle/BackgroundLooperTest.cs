@@ -2,8 +2,7 @@
 
 public class BackgroundLooperTest : MonoBehaviour
 {
-    public BackgroundLooperVersion1 Looper;
-    public BackgroundLooperVersion2 Looper2;
+    public AbstractBattlegroundLooper Looper;
 
 #if UNITY_EDITOR
 
@@ -12,20 +11,25 @@ public class BackgroundLooperTest : MonoBehaviour
         GUILayout.Label("Background looper version 1 test: ");
 
         GUILayout.Space(1f);
-        
+
         if (GUILayout.Button("Begin"))
         {
-            Looper.Begin();
+            Looper.PlayBegin();
+        }
+
+        if (GUILayout.Button("Once"))
+        {
+            Looper.PlayOnce();
         }
 
         if (GUILayout.Button("Loop"))
         {
-            Looper.Loop();
+            Looper.PlayLoop();
         }
 
         if (GUILayout.Button("End"))
         {
-            Looper.End();
+            Looper.PlayEnd();
         }
 
         if (GUILayout.Button("Reset"))
@@ -34,30 +38,6 @@ public class BackgroundLooperTest : MonoBehaviour
         }
 
         GUILayout.Space(5f);
-
-        GUILayout.Label("Background looper version 2 test: ");
-
-        GUILayout.Space(1f);
-
-        if (GUILayout.Button("Begin"))
-        {
-            Looper2.Begin();
-        }
-
-        if (GUILayout.Button("Loop"))
-        {
-            Looper2.Loop();
-        }
-
-        if (GUILayout.Button("End"))
-        {
-            Looper2.End();
-        }
-
-        if (GUILayout.Button("Reset"))
-        {
-            Looper2.Reset();
-        }
     }
 
 #endif

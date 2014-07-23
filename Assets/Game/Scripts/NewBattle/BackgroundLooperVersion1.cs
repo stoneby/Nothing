@@ -4,7 +4,7 @@
 /// Loop background forever.
 /// </summary>
 /// <remarks>Head and tail is one time showing, body is designed to loop.</remarks>
-public class BackgroundLooperVersion1 : MonoBehaviour
+public class BackgroundLooperVersion1 : AbstractBattlegroundLooper
 {
     public UITexture Head;
     public UITexture Body;
@@ -14,42 +14,28 @@ public class BackgroundLooperVersion1 : MonoBehaviour
     private TweenPosition positionTween;
     private Vector3 defaultPosition;
 
-    /// <summary>
-    /// Duration to loop body once.
-    /// </summary>
-    public float Duration;
-
-    public void Begin()
+    public override void PlayBegin()
     {
-        PlayTween(new Vector3(640, 0), Vector3.zero);
+        PlayTween(positionTween, new Vector3(640, 0), Vector3.zero);
     }
 
-    public void Loop()
+    public override void PlayOnce()
     {
         looper.GoByTime(Duration);
     }
 
-    public void End()
+    public override void PlayEnd()
     {
-        PlayTween(Vector3.zero, new Vector3(-640, 0));
+        PlayTween(positionTween, Vector3.zero, new Vector3(-640, 0));
     }
 
-    public void Reset()
+    public override void Reset()
     {
         transform.localPosition = defaultPosition;
         looper.Reset();
     }
 
-    private void PlayTween(Vector3 from, Vector3 to)
-    {
-        positionTween.ResetToBeginning();
-        positionTween.from = from;
-        positionTween.to = to;
-        positionTween.PlayForward();
-        positionTween.duration = Duration;
-    }
-
-    private void Awake()
+    protected override void Awake()
     {
         positionTween = GetComponent<TweenPosition>() ?? gameObject.AddComponent<TweenPosition>();
         looper = Body.GetComponent<TextureLooper>();

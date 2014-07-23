@@ -3,7 +3,6 @@ using System.Collections.Generic;
 namespace com.kx.sglm.gs.battle.share.actor.impl
 {
 
-
 	using SingleActionRecord = com.kx.sglm.gs.battle.share.data.record.SingleActionRecord;
 	using BattleSideEnum = com.kx.sglm.gs.battle.share.enums.BattleSideEnum;
 	using FighterType = com.kx.sglm.gs.battle.share.enums.FighterType;
@@ -117,26 +116,17 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 			}
 		}
 
-
 		public override List<BattleFighter> AllBattingFighter
 		{
 			get
 			{
-				List<BattleFighter> _fighterList = new List<BattleFighter>();
-				foreach (BattleFighter _fighter in ActorList)
-				{
-					if (_fighter.hasHp())
-					{
-						_fighterList.Add(_fighter);
-					}
-				}
-				return _fighterList;
+				return AllAliveFighter;
 			}
 		}
 
 		public override void changeFightColor(int fighterIndex, HeroColor color, SingleActionRecord actionRecord)
 		{
-			//do nothing here
+			// do nothing here
 		}
 
 		public override int TotalHp
@@ -157,7 +147,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 
 		public override int getFighterColor(int fighterIndex)
 		{
-			// TODO Auto-generated method stub
+			// no color here
 			return 0;
 		}
 
@@ -166,6 +156,41 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 			return !fighter.Dead;
 		}
 
+		public override List<BattleFighter> CurTeamShotFighters
+		{
+			get
+			{
+				return AllBattingFighter;
+			}
+		}
+
+		public override int getFighterCurHp(BattleFighter fighter)
+		{
+			return fighter.CurHp;
+		}
+
+		public override int getFighterTotalHp(BattleFighter fighter)
+		{
+			return fighter.TotalMp;
+		}
+
+		public override void costFighterHp(int costHp, BattleFighter fighter)
+		{
+			fighter.changeCurHp(-costHp);
+		}
+
+		public override HeroColor CurFightColor
+		{
+			get
+			{
+				return HeroColor.NIL;
+			}
+		}
+
+		public override int getAttackRatioIndex(BattleFighter fighter)
+		{
+			return 0;
+		}
 
 	}
 

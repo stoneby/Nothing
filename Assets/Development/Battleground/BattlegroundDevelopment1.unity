@@ -153,8 +153,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LoopStyle: 0
-  HorizontalDuration: .5
-  VerticalDuration: 0
+  Distance: 1280
+  Speed: 2
 --- !u!114 &654348722
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -188,6 +188,8 @@ MonoBehaviour:
   mWidth: 1280
   mHeight: 720
   mDepth: 2
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -272,6 +274,8 @@ MonoBehaviour:
   mWidth: 641
   mHeight: 720
   mDepth: 1
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -430,10 +434,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be2052eb635e2c244a427f8203fbda69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Speed: 2
+  Distance: 1280
+  Step: 2
   Head: {fileID: 775331768}
   Body: {fileID: 654348722}
   Tail: {fileID: 1573691518}
-  Duration: .5
 --- !u!114 &1082028003
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -467,6 +473,8 @@ MonoBehaviour:
   mWidth: 100
   mHeight: 100
   mDepth: 1
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -531,6 +539,8 @@ MonoBehaviour:
   mWidth: 641
   mHeight: 720
   mDepth: 0
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0

@@ -103,7 +103,7 @@ namespace com.kx.sglm.gs.battle.share.skill.action
 			attacker.afterAttack(record);
 			foreach (BattleFighter _defencer in defencerList)
 			{
-				_defencer.afterDefence(record);
+				_defencer.afterDefence(attacker, record);
 			}
 		}
 

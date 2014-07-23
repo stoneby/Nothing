@@ -9,7 +9,9 @@ namespace com.kx.sglm.gs.battle.share.skill.effect
 	using BattleFightRecord = com.kx.sglm.gs.battle.share.data.record.BattleFightRecord;
 	using BattleRecordConstants = com.kx.sglm.gs.battle.share.data.record.BattleRecordConstants;
 	using SingleActionRecord = com.kx.sglm.gs.battle.share.data.record.SingleActionRecord;
+	using BattleLogicHelper = com.kx.sglm.gs.battle.share.helper.BattleLogicHelper;
 	using BattleRecordHelper = com.kx.sglm.gs.battle.share.helper.BattleRecordHelper;
+	using HeroArrLogicHelper = com.kx.sglm.gs.battle.share.helper.HeroArrLogicHelper;
 	using SkillDataHolder = com.kx.sglm.gs.battle.share.skill.model.SkillDataHolder;
 	using RoleAProperty = com.kx.sglm.gs.hero.properties.RoleAProperty;
 
@@ -55,7 +57,7 @@ namespace com.kx.sglm.gs.battle.share.skill.effect
 			SingleActionRecord _record = initDefenceRecord(defencer, fightRecord);
 
 			float _attack = getAttack(attacker);
-			float _spValMuti = this.attackValMuti;
+			float _spValMuti = this.attackValMuti / BattleConstants.BATTLE_RATIO_BASE;
 			float _defence = defencer.Defence;
 			float _indexValMuti = calcIndexRatio(attacker);
 			float _weakRatio = calcJobWeakValue(attacker, defencer);
@@ -63,6 +65,8 @@ namespace com.kx.sglm.gs.battle.share.skill.effect
 			float _damageFree = calcDamageModify(defencer.DamageFree);
 
 			_attack = calcSingleDamage(_attack, _defence, _indexValMuti, _spValMuti, _weakRatio, _damageMuti, _damageFree);
+
+			_attack = calcSpecialShield(defencer, _attack);
 
 			float _costHpFloat = _attack * this.hitCount;
 			// Àƒ…·ŒÂ»Î
@@ -85,6 +89,22 @@ namespace com.kx.sglm.gs.battle.share.skill.effect
 			RoleAProperty _prop = new RoleAProperty();
 			_prop.set(RoleAProperty.ATK, result);
 
+		}
+
+		/// <param name="defencer"> </param>
+		protected internal virtual float calcSpecialShield(BattleFighter defencer, float damage)
+		{
+			float _resultDamage = damage;
+			if (defencer.hasState(BattleConstants.MONSTER_SHIELD_FLAG))
+			{
+				_resultDamage = (BattleConstants.MONSTER_SHIELD_DAMAGE_REDUCE / BattleConstants.BATTLE_RATIO_BASE) * damage;
+				Logger.Log(string.Format("shield is working, index = {0:D}, damage = {1:F}, result = {2:F}", defencer.Index, damage, _resultDamage));
+			}
+			else
+			{
+				Logger.Log(string.Format("shield not working, index = {0:D}, damage = {1:F}, result = {2:F}", defencer.Index, damage, _resultDamage));
+			}
+			return _resultDamage;
 		}
 
 		protected internal virtual float calcSingleDamage(float attack, float defence, float indexValMuti, float spValuMuti, float weakRatio, float damageMuti, float damageFree)
@@ -111,12 +131,20 @@ namespace com.kx.sglm.gs.battle.share.skill.effect
 			record.addProp(BattleRecordConstants.BATTLE_HERO_PROP_HIT_SINGLE_DAMAGE, (int) damage);
 		}
 
+		protected internal virtual void updateShieldState(BattleFighter defencer, SingleActionRecord record)
+		{
+			if (defencer.hasState(BattleConstants.MONSTER_SHIELD_FLAG))
+			{
+				defencer.updateStateRecord(record.FighterInfo);
+			}
+		}
+
 		protected internal virtual float calcJobWeakValue(BattleFighter attacker, BattleFighter defencer)
 		{
 //JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
 //ORIGINAL LINE: final int _jobWeak = defencer.getFighterOtherProp(com.kx.sglm.gs.battle.share.BattleKeyConstants.BATTLE_KEY_MONSTER_WEEK_JOB);
 			int _jobWeak = defencer.getFighterOtherProp(BattleKeyConstants.BATTLE_KEY_MONSTER_WEEK_JOB);
-			float _weakRatio = BattleConstants.FIGHTER_FIGHT_DEFAULT_RATIO;
+			float _weakRatio = BattleConstants.FIGHTER_FIGHT_DEFAULT_RATIO / BattleConstants.BATTLE_RATIO_BASE;
 			if (_jobWeak == attacker.Job)
 			{
 				_weakRatio = BattleConstants.MONSTER_WEAK_RATIO;
@@ -151,11 +179,18 @@ namespace com.kx.sglm.gs.battle.share.skill.effect
 
 		protected internal abstract int AttackType {get;}
 
-		// public abstract float calcDamage(float attack, BattleFighter attacker, BattleFighter defencer, SingleActionRecord record);
+		public virtual int getIndexAttackRatio(BattleFighter attacker)
+		{
+//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
+//ORIGINAL LINE: final int _curIndex = attacker.getOwnerTeam().getAttackRatioIndex(attacker);
+			int _curIndex = attacker.getOwnerTeam().getAttackRatioIndex(attacker);
+			return HeroArrLogicHelper.getAttackRatio(_curIndex);
+		}
 
-		public abstract int getIndexAttackRatio(BattleFighter attacker);
-
-		public abstract void costHp(int costHp, BattleFighter defencer, SingleActionRecord record);
+		public virtual void costHp(int costHp, BattleFighter defencer, SingleActionRecord record)
+		{
+			BattleLogicHelper.costBaseHp(costHp, defencer, record);
+		}
 
 	}
 

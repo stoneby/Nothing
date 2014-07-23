@@ -1,5 +1,8 @@
+using System.Collections.Generic;
+
 namespace com.kx.sglm.gs.battle.share.data.record
 {
+
 
 	/// <summary>
 	/// 武将单个状态<br>
@@ -15,6 +18,7 @@ namespace com.kx.sglm.gs.battle.share.data.record
 		private sbyte state;
 		private int showId;
 		private sbyte leftRound;
+		private Dictionary<int, int> paramMap;
 
 		public virtual int BuffId
 		{
@@ -65,6 +69,26 @@ namespace com.kx.sglm.gs.battle.share.data.record
 			{
 				this.leftRound = value;
 			}
+		}
+
+
+		public virtual Dictionary<int, int> ParamMap
+		{
+			set
+			{
+				this.paramMap = new Dictionary<int, int>(value);
+			}
+		}
+
+		//TODO: 这里在三个类重复了3遍，以后要优化
+		public virtual int getParam(int key, int defaultValue)
+		{
+			int _param = defaultValue;
+			if (paramMap.ContainsKey(key))
+			{
+				_param = paramMap[key];
+			}
+			return _param;
 		}
 
 

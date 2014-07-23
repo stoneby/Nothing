@@ -60,14 +60,22 @@ public class ServiceManager
         //return;
         //PlayerPrefs.
         //if (PlayerPrefs.HasKey("UserID")) UserID = PlayerPrefs.GetString("UserID");
-        if (PlayerPrefs.HasKey("UserName")) UserName = PlayerPrefs.GetString("UserName");
+        if (PlayerPrefs.HasKey("TheUserName")) UserName = PlayerPrefs.GetString("TheUserName");
         if (PlayerPrefs.HasKey("DebugUserID")) DebugUserID = PlayerPrefs.GetString("DebugUserID");
         if (PlayerPrefs.HasKey("DebugUserName")) DebugUserName = PlayerPrefs.GetString("DebugUserName");
         if (PlayerPrefs.HasKey("DebugPassword")) DebugPassword = PlayerPrefs.GetString("DebugPassword");
         if (PlayerPrefs.HasKey("IsDebugAccount")) IsDebugAccount = PlayerPrefs.GetInt("IsDebugAccount");
         ServerNames = new List<string>();
-        Logger.Log("UserID=" + UserID);
-        Logger.Log("UserName=" + UserName);
+        //Logger.Log("UserID=" + UserID);
+        //Logger.Log("UserName=" + UserName);
+//        if (IsDebugAccount == 1)
+//        {
+//            PopTextManager.PopTip("玩家账号：" + DebugUserName);
+//        }
+//        else
+//        {
+//            PopTextManager.PopTip("玩家账号：" + UserName);
+//        }
 
         if (PlayerPrefs.HasKey("ServerNames"))
         {
@@ -101,7 +109,7 @@ public class ServiceManager
     {
         //return;
         //PlayerPrefs.SetString("UserID", UserID);
-        PlayerPrefs.SetString("UserName", UserName);
+        PlayerPrefs.SetString("TheUserName", UserName);
         PlayerPrefs.SetString("DebugUserID", DebugUserID);
         PlayerPrefs.SetString("DebugUserName", DebugUserName);
         PlayerPrefs.SetString("DebugPassword", DebugPassword);
@@ -124,16 +132,14 @@ public class ServiceManager
         PlayerPrefs.Save();
     }
 
-    public static void SetAccount(long userid, string username)
+    public static void SetAccount(string username)
     {
-        UserID = userid;
         UserName = username;
         SaveAccount();
     }
 
-    public static void SetDebugAccount(string userid, string username, string password)
+    public static void SetDebugAccount(string username, string password)
     {
-        DebugUserID = userid;
         DebugUserName = username;
         DebugPassword = password;
         SaveAccount();

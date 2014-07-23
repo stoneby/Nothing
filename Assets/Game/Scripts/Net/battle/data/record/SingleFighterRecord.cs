@@ -3,6 +3,7 @@ using System.Collections.Generic;
 namespace com.kx.sglm.gs.battle.share.data.record
 {
 
+
 	public class SingleFighterRecord : AbstractBaseRecord
 	{
 
@@ -59,13 +60,14 @@ namespace com.kx.sglm.gs.battle.share.data.record
 
 
 
-		public virtual void addState(int buffId, int showId, sbyte state, int round)
+		public virtual void addState(int buffId, int showId, sbyte state, int round, Dictionary<int, int> paramMap)
 		{
 			FighterStateRecord _state = new FighterStateRecord();
 			_state.State = state;
 			_state.BuffId = buffId;
 			_state.ShowId = showId;
 			_state.LeftRound = (sbyte)round;
+			_state.ParamMap = paramMap;
 			stateUpdateList.Add(_state);
 		}
 

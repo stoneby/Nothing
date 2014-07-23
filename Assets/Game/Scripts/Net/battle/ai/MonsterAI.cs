@@ -6,9 +6,14 @@ namespace com.kx.sglm.gs.battle.share.ai
 
 	using MathUtils = com.kx.sglm.core.util.MathUtils;
 	using BattleFighter = com.kx.sglm.gs.battle.share.actor.impl.BattleFighter;
+	using MonsterShield = com.kx.sglm.gs.battle.share.buff.effect.MonsterShield;
 
 	public class MonsterAI
 	{
+
+		private int aiId;
+
+		private int shieldBuffId;
 
 		private List<SkillRoulettePair> allDefaultSkill;
 
@@ -22,8 +27,23 @@ namespace com.kx.sglm.gs.battle.share.ai
 
 		protected internal virtual void sortAISkills()
 		{
-			allAISkill.Sort();
+			allAISkill.Sort(new ComparatorAnonymousInnerClassHelper(this));
+		}
 
+		private class ComparatorAnonymousInnerClassHelper : IComparer<SkillAIHolder>
+		{
+			private readonly MonsterAI outerInstance;
+
+			public ComparatorAnonymousInnerClassHelper(MonsterAI outerInstance)
+			{
+				this.outerInstance = outerInstance;
+			}
+
+
+			public virtual int Compare(SkillAIHolder o1, SkillAIHolder o2)
+			{
+				return o1.compareTo(o2);
+			}
 		}
 
 
@@ -53,6 +73,19 @@ namespace com.kx.sglm.gs.battle.share.ai
 			return _canOpSkill;
 		}
 
+		public virtual int AiId
+		{
+			get
+			{
+				return aiId;
+			}
+			set
+			{
+				this.aiId = value;
+			}
+		}
+
+
 		public virtual List<SkillAIHolder> AllAISkill
 		{
 			set
@@ -75,6 +108,35 @@ namespace com.kx.sglm.gs.battle.share.ai
 			get
 			{
 				return allDefaultSkill;
+			}
+		}
+
+
+
+		public virtual int ShieldBuffId
+		{
+			set
+			{
+				this.shieldBuffId = value;
+			}
+			get
+			{
+				return shieldBuffId;
+			}
+		}
+
+
+		public virtual bool hasShield()
+		{
+			return ShieldBuffId != 0;
+		}
+
+		public virtual MonsterShield MonsterShield
+		{
+			get
+			{
+				//TODO: 这里用了强转，很不好，以后修改
+				return !hasShield() ? null : (MonsterShield)BattleActionService.Service.getBuffAction(shieldBuffId);
 			}
 		}
 

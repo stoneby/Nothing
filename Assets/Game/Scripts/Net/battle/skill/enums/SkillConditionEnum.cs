@@ -4,7 +4,7 @@ namespace com.kx.sglm.gs.battle.share.skill.enums
 	using BaseBattleFactoryEnum = com.kx.sglm.gs.battle.share.enums.BaseBattleFactoryEnum;
 	using IBattlePartInfo = com.kx.sglm.gs.battle.share.enums.IBattlePartInfo;
 	using FighterLeaderCondition = com.kx.sglm.gs.battle.share.skill.condition.FighterLeaderCondition;
-	using HPLeftCondition = com.kx.sglm.gs.battle.share.skill.condition.HPLeftCondition;
+	using HPLeftMoreCondition = com.kx.sglm.gs.battle.share.skill.condition.HPLeftMoreCondition;
 	using SkillRateCondition = com.kx.sglm.gs.battle.share.skill.condition.SkillRateCondition;
 
 	public abstract class SkillConditionEnum : BaseBattleFactoryEnum
@@ -52,7 +52,7 @@ namespace com.kx.sglm.gs.battle.share.skill.enums
 
 			public override IBattlePartInfo createInstance()
 			{
-				return new HPLeftCondition();
+				return new HPLeftMoreCondition();
 			}
 		}
 

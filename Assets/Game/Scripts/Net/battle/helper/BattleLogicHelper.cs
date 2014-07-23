@@ -15,28 +15,8 @@ namespace com.kx.sglm.gs.battle.share.helper
 
 		public static void costBaseHp(int costHp, BattleFighter defencer, SingleActionRecord record)
 		{
-			if (defencer.Hero)
-			{
-				costHeroHp(costHp, defencer, record);
-			}
-			else
-			{
-				costMonsterHp(costHp, defencer, record);
-			}
-		}
-
-		public static void costHeroHp(int costHp, BattleFighter defencer, SingleActionRecord record)
-		{
-			BattleTeam _heroTeam = defencer.getOwnerTeam();
-			_heroTeam.changeHp(-costHp, defencer);
-			record.ResultHp = _heroTeam.CurHp;
-		}
-
-
-		public static void costMonsterHp(int costHp, BattleFighter defencer, SingleActionRecord record)
-		{
-			defencer.changeCurHp(-costHp);
-			record.ResultHp = defencer.CurHp;
+			defencer.getOwnerTeam().costFighterHp(costHp, defencer);
+			record.ResultHp = defencer.FighterCurHp;
 		}
 
 		public static void refreshState(BattleArmy battelArmy)
@@ -64,6 +44,22 @@ namespace com.kx.sglm.gs.battle.share.helper
 			{
 				fighter.addState(_state);
 			}
+		}
+
+		public static int calcBattleFighterTotalHpPercent(int percent, BattleFighter fighter)
+		{
+			float _totalHp = fighter.BattleTotalHp;
+			float _percent = percent;
+			float _costHp = _totalHp * (_percent / BattleConstants.BATTLE_RATIO_BASE);
+			return (int) _costHp;
+		}
+
+		public static int calcBattleFighterCurHpPercent(int percent, BattleFighter fighter)
+		{
+			float _totalHp = fighter.FighterCurHp;
+			float _percent = percent;
+			float _costHp = _totalHp * (_percent / BattleConstants.BATTLE_RATIO_BASE);
+			return (int) _costHp;
 		}
 
 	}

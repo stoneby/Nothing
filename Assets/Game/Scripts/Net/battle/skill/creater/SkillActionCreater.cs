@@ -82,6 +82,8 @@ namespace com.kx.sglm.gs.battle.share.skill.creater
 		public static MonsterAI createMonsterAI(BattleMonsterAIMsgAction baseData)
 		{
 			MonsterAI _ai = new MonsterAI();
+			_ai.AiId = baseData.Id;
+			_ai.ShieldBuffId = baseData.ShieldBuffId;
 			_ai.AllDefaultSkill = createDefaultSkillFromTemp(baseData);
 			_ai.AllAISkill = createSkillAIHolderFromTemp(baseData);
 			return _ai;

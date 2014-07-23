@@ -117,7 +117,7 @@ public class LoginAccountWindow : Window
         //Logger.LogWarning("Account data: " + ServiceManager.AccountData);
         if (ServiceManager.IsDebugAccount == 1)
         {
-            ServiceManager.SetDebugAccount("", ServiceManager.DebugUserName, ServiceManager.DebugPassword);
+            ServiceManager.SetDebugAccount(ServiceManager.DebugUserName, ServiceManager.DebugPassword);
         }
         
         //ServiceManager.SaveAccount();

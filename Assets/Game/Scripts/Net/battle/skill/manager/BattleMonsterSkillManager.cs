@@ -12,6 +12,7 @@ namespace com.kx.sglm.gs.battle.share.skill.manager
 	using BattleRoundCountRecord = com.kx.sglm.gs.battle.share.data.record.BattleRoundCountRecord;
 	using BattleTeamFightRecord = com.kx.sglm.gs.battle.share.data.record.BattleTeamFightRecord;
 	using SingleActionRecord = com.kx.sglm.gs.battle.share.data.record.SingleActionRecord;
+	using BeforeAttackEvent = com.kx.sglm.gs.battle.share.@event.impl.BeforeAttackEvent;
 	using SceneStartEvent = com.kx.sglm.gs.battle.share.@event.impl.SceneStartEvent;
 	using TeamShotStartEvent = com.kx.sglm.gs.battle.share.@event.impl.TeamShotStartEvent;
 	using BattleRecordHelper = com.kx.sglm.gs.battle.share.helper.BattleRecordHelper;
@@ -67,7 +68,7 @@ namespace com.kx.sglm.gs.battle.share.skill.manager
 			recordRoundCount(roundRecord);
 		}
 
-		public override void beforeAttack(BattleFightRecord record)
+		public override void beforeAttack(BeforeAttackEvent @event)
 		{
 			// TODO: add logic
 		}
@@ -81,7 +82,10 @@ namespace com.kx.sglm.gs.battle.share.skill.manager
 
 		public override void onSceneStart(SceneStartEvent @event)
 		{
-
+			if (hasShield())
+			{
+				Owner.addBuff(monsterAI.ShieldBuffId);
+			}
 		}
 
 		public override void onAttack(BattleFightRecord fightRecord)
@@ -134,10 +138,11 @@ namespace com.kx.sglm.gs.battle.share.skill.manager
 
 		protected internal virtual void calcCurAction()
 		{
-            if (inExtraRound)
-            {
-                return;
-            }
+			if (inExtraRound)
+			{
+				//如果是额外回合中，不重算
+				return;
+			}
 			int _skillId = monsterAI.calcCurSkill(Owner);
 			curAction = getAction(_skillId);
 		}
@@ -222,6 +227,16 @@ namespace com.kx.sglm.gs.battle.share.skill.manager
 		{
 			// TODO Auto-generated method stub
 
+		}
+
+		public virtual bool hasShield()
+		{
+			return monsterAI.ShieldBuffId != 0;
+		}
+
+		public virtual void setSheildLeftRound()
+		{
+			leftRound = monsterAI.MonsterShield.BreakShieldCd;
 		}
 
 	}

@@ -37,6 +37,7 @@ namespace com.kx.sglm.gs.battle.share.buff
 		/// owner of buff manager, it's a final owner </summary>
 		private BattleFighter owner;
 
+
 		public BattleBuffManager(BattleFighter owner)
 		{
 			this.owner = owner;
@@ -190,7 +191,7 @@ namespace com.kx.sglm.gs.battle.share.buff
 
 		protected internal virtual BattleFighterBuff get(int buffId)
 		{
-			return allBuffs[buffId];
+			return allBuffs.ContainsKey(buffId) ? allBuffs[buffId] : null;
 		}
 
 
@@ -277,7 +278,7 @@ namespace com.kx.sglm.gs.battle.share.buff
 
 			BuffTypeHolder _holder = getBuffTypeHolder(_buffAction);
 
-			_holder.removeBuff(buffId);
+			_holder.removeBuff(_buffAction);
 
 			_buffAction.onRemove(Owner);
 		}
@@ -353,7 +354,14 @@ namespace com.kx.sglm.gs.battle.share.buff
 		public virtual void onAttack(BattleFightRecord fightRecord)
 		{
 			//TODO :add logic
+		}
 
+		public virtual void onDefence(BattleFighter attacker, BattleFightRecord fightRecord)
+		{
+			foreach (BattleFighterBuff _buff in allBuffs.Values)
+			{
+				_buff.BuffAction.onDefence(attacker, Owner);
+			}
 		}
 
 		public virtual int size()

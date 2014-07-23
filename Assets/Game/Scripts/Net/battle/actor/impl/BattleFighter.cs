@@ -13,9 +13,9 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 	using SingleActionRecord = com.kx.sglm.gs.battle.share.data.record.SingleActionRecord;
 	using SingleFighterRecord = com.kx.sglm.gs.battle.share.data.record.SingleFighterRecord;
 	using BattleSideEnum = com.kx.sglm.gs.battle.share.enums.BattleSideEnum;
-	using FighterStateEnum = com.kx.sglm.gs.battle.share.enums.FighterStateEnum;
 	using HeroColor = com.kx.sglm.gs.battle.share.enums.HeroColor;
 	using InnerBattleEvent = com.kx.sglm.gs.battle.share.@event.InnerBattleEvent;
+	using BeforeAttackEvent = com.kx.sglm.gs.battle.share.@event.impl.BeforeAttackEvent;
 	using SceneStartEvent = com.kx.sglm.gs.battle.share.@event.impl.SceneStartEvent;
 	using TeamShotStartEvent = com.kx.sglm.gs.battle.share.@event.impl.TeamShotStartEvent;
 	using IBattleSkillManager = com.kx.sglm.gs.battle.share.skill.IBattleSkillManager;
@@ -97,7 +97,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 			stateManager.updateStateRecord(record);
 		}
 
-		public virtual bool hasState(FighterStateEnum state)
+		public virtual bool hasState(int state)
 		{
 			return stateManager.hasState(state);
 		}
@@ -107,9 +107,9 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 			skillManager.afterAttack(record);
 		}
 
-		public virtual void afterDefence(BattleFightRecord record)
+		public virtual void afterDefence(BattleFighter attacker, BattleFightRecord record)
 		{
-
+			buffManager.onDefence(attacker, record);
 		}
 
 		public virtual void useActiveSkill()
@@ -127,7 +127,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 			this.curHp -= costHp;
 		}
 
-		public virtual int CurHp
+		protected internal virtual int CurHp
 		{
 			get
 			{
@@ -139,17 +139,49 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 			}
 		}
 
+		public virtual int FighterCurHp
+		{
+			get
+			{
+				return getOwnerTeam().getFighterCurHp(this);
+			}
+		}
+
+		public virtual int FighterTotalHp
+		{
+			get
+			{
+				return getOwnerTeam().getFighterTotalHp(this);
+			}
+		}
+
+		public virtual int FighterCurHpPercent
+		{
+			get
+			{
+				float _leftHp = FighterCurHp;
+				float _totalHp = FighterTotalHp;
+				float _percent = _leftHp / _totalHp;
+				return (int)(_percent * BattleConstants.BATTLE_RATIO_BASE);
+			}
+		}
+
 		public virtual BattleTeam getOwnerTeam()
 		{
 			return ownerTeam;
 		}
 
-		public virtual int FighterState
+		public virtual int FighterStateFlag
 		{
 			get
 			{
 				return stateManager.FighterStateFlag;
 			}
+		}
+
+		public virtual BattleFighterState getFighterState(int buffId)
+		{
+			return stateManager.getFighterState(buffId);
 		}
 
 		public virtual int AttackVal
@@ -220,8 +252,6 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 			}
 		}
 
-
-
 		public virtual void addBuff(int buffId)
 		{
 			buffManager.addBuff(buffId);
@@ -259,19 +289,16 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 
 		}
 
-
 		public virtual void activeSceneStartBuff(SceneStartEvent @event)
 		{
 			buffManager.activeAllBuff(BattleConstants.BUFF_ALL_FALG);
 		}
-
 
 		public virtual void onSceneStop()
 		{
 			buffManager.clearAllBuff();
 			stateManager.clearState();
 		}
-
 
 		/// <summary>
 		/// 分为对方出手和己方出手，可能对方出手的回合己方也会有动作 </summary>
@@ -308,7 +335,8 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 		}
 
 
-		public virtual int FighterTotalHp
+
+		protected internal virtual int TotalHp
 		{
 			get
 			{
@@ -331,9 +359,9 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 		public virtual void changeCurHp(int addHp)
 		{
 			int _totalHp = addHp + CurHp;
-			if (_totalHp >= FighterTotalHp)
+			if (_totalHp >= TotalHp)
 			{
-				_totalHp = FighterTotalHp;
+				_totalHp = TotalHp;
 			}
 			if (_totalHp < 0)
 			{
@@ -383,6 +411,12 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 		public virtual void addState(BattleFighterState state)
 		{
 			stateManager.addState(state);
+		}
+
+
+		public virtual void removeStateFlag(int stateId)
+		{
+			stateManager.removeState(stateId);
 		}
 
 		public virtual int Side
@@ -485,7 +519,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 		{
 			get
 			{
-				return Hero ? getOwnerTeam().TotalHp : FighterTotalHp;
+				return Hero ? getOwnerTeam().TotalHp : TotalHp;
 			}
 		}
 
@@ -530,12 +564,24 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 			}
 		}
 
+		public virtual bool isSameFighter(BattleFighter fighter)
+		{
+			return Index == fighter.Index;
+		}
+
 		public virtual Dictionary<int, int> BattleProp
 		{
 			get
 			{
 				return fighterProp.BattleProp.PropMaps;
 			}
+		}
+
+		public virtual void beforeAttack(BeforeAttackEvent @event)
+		{
+			skillManager.beforeAttack(@event);
+			buffManager.activeAllBuff(BattleConstants.BUFF_FLAG);
+
 		}
 
 	}

@@ -7,7 +7,6 @@ namespace com.kx.sglm.gs.battle.share.buff
 	using BattleFighter = com.kx.sglm.gs.battle.share.actor.impl.BattleFighter;
 	using BuffPolicyEnum = com.kx.sglm.gs.battle.share.buff.enums.BuffPolicyEnum;
 	using BattleRoundCountRecord = com.kx.sglm.gs.battle.share.data.record.BattleRoundCountRecord;
-	using InnerBattleEvent = com.kx.sglm.gs.battle.share.@event.InnerBattleEvent;
 
 	/// <summary>
 	/// a holder for type, all buff in the holder have same typeA
@@ -50,9 +49,9 @@ namespace com.kx.sglm.gs.battle.share.buff
 			}
 		}
 
-		public virtual void removeBuff(int buffTypeB)
+		public virtual void removeBuff(IBuffAction buffAction)
 		{
-			this.buffMap.Remove(buffTypeB);
+			this.buffMap.Remove(buffAction.TypeB);
 		}
 
 		public virtual void activeBuff()
@@ -69,14 +68,6 @@ namespace com.kx.sglm.gs.battle.share.buff
 			foreach (BattleFighterBuff _buff in values())
 			{
 				_buff.effectBuff();
-			}
-		}
-
-		public virtual void onBuffEvent(InnerBattleEvent @event)
-		{
-			foreach (BattleFighterBuff _buff in values())
-			{
-				_buff.onBuffEvent(@event);
 			}
 		}
 

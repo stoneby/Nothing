@@ -2,7 +2,6 @@ namespace com.kx.sglm.gs.battle.share.buff.effect
 {
 
 	using BattleFighter = com.kx.sglm.gs.battle.share.actor.impl.BattleFighter;
-	using InnerBattleEvent = com.kx.sglm.gs.battle.share.@event.InnerBattleEvent;
 	using AmendTriple = com.kx.sglm.gs.role.properties.amend.model.AmendTriple;
 
 	public abstract class BasePropEffectBuff : AbstractBuffEffect
@@ -17,14 +16,28 @@ namespace com.kx.sglm.gs.battle.share.buff.effect
 
 		}
 
-		public override void onEvent(InnerBattleEvent @event, BattleFighter fighter)
-		{
-			// do nothing
-		}
 
 		public override void onEffect(BattleFighter fighter)
 		{
 
+		}
+
+
+		public override void onAttack(BattleFighter attacker)
+		{
+
+		}
+
+
+		public override void onDefence(BattleFighter attacker, BattleFighter owner)
+		{
+
+		}
+
+
+		public override bool needShow(BattleFighterBuff buffInst)
+		{
+			return BuffShowId > 0;
 		}
 
 		protected internal abstract int getValue(string param);

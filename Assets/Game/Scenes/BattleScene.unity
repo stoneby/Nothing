@@ -566,7 +566,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 383751330}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8b4e4ed2148050409166e05d9d53e6c, type: 3}
+  m_Script: {fileID: 11500000, guid: 31cbbb4d8746d3c4495016959d016cc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &410045582
@@ -1924,7 +1924,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Capacity: 4
-  SpawnObject: {fileID: 100118, guid: 0a034b7d307eb07468cf09b35eda460d, type: 2}
+  SpawnObject: {fileID: 100118, guid: 7a17b17ea8cc87242ba9e86fa9efe6ec, type: 2}
   ObjectList: []
 --- !u!1 &1096702253
 GameObject:
@@ -2280,6 +2280,8 @@ MonoBehaviour:
   mWidth: 2048
   mHeight: 1024
   mDepth: -1
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 1
   hideIfOffScreen: 0
   keepAspectRatio: 0

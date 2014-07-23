@@ -79,7 +79,7 @@ namespace com.kx.sglm.gs.battle.share.helper
 				}
 				SingleFighterRecord _singleRecord = _buffRecord.OrCreateRecord;
 				BattleRecordHelper.initFighterRecord(_fighter, _singleRecord);
-				_singleRecord.StateFlag = _fighter.FighterState;
+				_singleRecord.StateFlag = _fighter.FighterStateFlag;
 				_fighter.updateStateRecord(_singleRecord);
 				_buffRecord.finishCurRecord();
 			}
@@ -134,7 +134,7 @@ namespace com.kx.sglm.gs.battle.share.helper
 			foreach (BattleFighterState _state in stateMap.Values)
 			{
 				int _round = removeState ? 0 : _state.Round;
-				record.addState(_state.BuffId, _state.ShowId, _state.Index, _round);
+				record.addState(_state.BuffId, _state.ShowId, _state.Index, _round, _state.ParamMap);
 			}
 		}
 

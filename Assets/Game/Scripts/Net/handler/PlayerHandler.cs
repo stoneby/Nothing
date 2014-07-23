@@ -8,7 +8,7 @@ namespace Assets.Game.Scripts.Net.handler
         {
             if (ServiceManager.IsDebugAccount == 1)
             {
-                ServiceManager.SetDebugAccount(ServiceManager.DebugUserID, ServiceManager.DebugUserName, ServiceManager.DebugPassword);
+                ServiceManager.SetDebugAccount(ServiceManager.DebugUserName, ServiceManager.DebugPassword);
             }
             WindowManager.Instance.Show<LoginCreateRoleWindow>(true);
         }
@@ -32,13 +32,16 @@ namespace Assets.Game.Scripts.Net.handler
                 PlayerModelLocator.Instance.ExtendItemTimes = themsg.ItemExtendTimes;
                 PlayerModelLocator.Instance.HeroMax = themsg.HeroMax;
                 PlayerModelLocator.Instance.Energy = themsg.Energy;
+                ServiceManager.UserID = themsg.UId;
                 if (ServiceManager.IsDebugAccount == 1)
                 {
                     MtaManager.ReportGameUser(ServiceManager.DebugUserName, ServiceManager.ServerData.ID, PlayerModelLocator.Instance.Level.ToString());
                 }
                 else
                 {
-                    ServiceManager.SetAccount(themsg.UId, themsg.UName);
+//                    PopTextManager.PopTip("玩家账号：" + themsg.UName);
+                    ServiceManager.AddServer(ServiceManager.ServerData.Url);
+                    ServiceManager.SetAccount(themsg.UName);
                     MtaManager.ReportGameUser(ServiceManager.UserName, ServiceManager.ServerData.ID, PlayerModelLocator.Instance.Level.ToString());
                 }
             }

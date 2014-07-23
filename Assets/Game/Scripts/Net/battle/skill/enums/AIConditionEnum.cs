@@ -4,7 +4,7 @@ namespace com.kx.sglm.gs.battle.share.skill.enums
 	using BaseBattleFactoryEnum = com.kx.sglm.gs.battle.share.enums.BaseBattleFactoryEnum;
 	using IBattlePartInfo = com.kx.sglm.gs.battle.share.enums.IBattlePartInfo;
 	using AIDeadMonsterCondition = com.kx.sglm.gs.battle.share.skill.aicondition.AIDeadMonsterCondition;
-	using AILeftHpCondition = com.kx.sglm.gs.battle.share.skill.aicondition.AILeftHpCondition;
+	using AIHpLeftLessCondition = com.kx.sglm.gs.battle.share.skill.aicondition.AIHpLeftLessCondition;
 	using AIRoundCondition = com.kx.sglm.gs.battle.share.skill.aicondition.AIRoundCondition;
 
 	public abstract class AIConditionEnum : BaseBattleFactoryEnum
@@ -55,7 +55,7 @@ namespace com.kx.sglm.gs.battle.share.skill.enums
 
 			public override IBattlePartInfo createInstance()
 			{
-				return new AILeftHpCondition();
+				return new AIHpLeftLessCondition();
 			}
 		}
 

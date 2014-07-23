@@ -95,9 +95,31 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 
 
 
+//JAVA TO C# CONVERTER WARNING: 'final' parameters are not allowed in .NET:
+//ORIGINAL LINE: public void beforeAttack(final com.kx.sglm.gs.battle.share.event.impl.BeforeAttackEvent event)
 		public virtual void beforeAttack(BeforeAttackEvent @event)
 		{
+			new IteratorActorOptionAnonymousInnerClassHelper2(this, @event)
+			.itratorAction();
+		}
 
+		private class IteratorActorOptionAnonymousInnerClassHelper2 : IteratorActorOption
+		{
+			private readonly BattleTeam outerInstance;
+
+			private BeforeAttackEvent @event;
+
+			public IteratorActorOptionAnonymousInnerClassHelper2(BattleTeam outerInstance, BeforeAttackEvent @event) : base(outerInstance)
+			{
+				this.outerInstance = outerInstance;
+				this.@event = @event;
+			}
+
+
+			public override void option(BattleFighter actor)
+			{
+				actor.beforeAttack(@event);
+			}
 		}
 
 		public override void onDead()
@@ -154,14 +176,19 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 
 		public abstract BattleFighter getFighterByIndex(int fighterIndex);
 
-	//	public void registEventExecuter(BattleEventHandler handler) {
-	//		handler.regiestExecuter(new TeamShotStartEventExecuter(this));
-	//		handler.regiestExecuter(new TeamSceneStartEventExecuter(this));
-	//	}
-	//	
 		public abstract void changeFightColor(int fighterIndex, HeroColor color, SingleActionRecord actionRecord);
 
 		public abstract int getFighterColor(int fighterIndex);
+
+		public abstract List<BattleFighter> CurTeamShotFighters {get;}
+
+		public abstract int getFighterCurHp(BattleFighter fighter);
+
+		public abstract int getFighterTotalHp(BattleFighter fighter);
+
+		public abstract void costFighterHp(int costHp, BattleFighter fighter);
+
+		public abstract int getAttackRatioIndex(BattleFighter fighter);
 
 		/// <summary>
 		/// 当前战场上的武将
@@ -169,6 +196,32 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 		/// @return
 		/// </summary>
 		public abstract List<BattleFighter> AllBattingFighter {get;}
+
+		public abstract HeroColor CurFightColor {get;}
+
+		public virtual int CurTeamShotFighterCount
+		{
+			get
+			{
+				return CurTeamShotFighters.Count;
+			}
+		}
+
+		public virtual int getCurTeamShotFighterIndex(BattleFighter attacker)
+		{
+			int _index = BattleConstants.BATTLE_FIGHTER_NON_INDEX;
+			List<BattleFighter> _teamShotFighter = CurTeamShotFighters;
+			for (int _i = 0; _i < _teamShotFighter.Count; _i++)
+			{
+				BattleFighter _fighter = _teamShotFighter[_i];
+				if (_fighter.isSameFighter(attacker))
+				{
+					_index = _i;
+					break;
+				}
+			}
+			return _index;
+		}
 
 		/// <summary>
 		/// 当前所有活着的武将

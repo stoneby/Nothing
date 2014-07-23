@@ -3,6 +3,7 @@ using System;
 namespace com.kx.sglm.gs.battle.share.buff.effect
 {
 
+
 	public class PropEffectBuff : AbstractNormalPropEffectBuff
 	{
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 namespace com.kx.sglm.gs.battle.share.buff
 {
 
+
 	using BattleFighter = com.kx.sglm.gs.battle.share.actor.impl.BattleFighter;
 	using BattleFighterState = com.kx.sglm.gs.battle.share.actor.impl.BattleFighterState;
 	using BattleRoundCountRecord = com.kx.sglm.gs.battle.share.data.record.BattleRoundCountRecord;
@@ -23,13 +24,18 @@ namespace com.kx.sglm.gs.battle.share.buff
 
 		private BattleFighter owner;
 
+		/// <summary>
+		/// buff叠加层数列表 </summary>
 		private LinkedList<BuffStackInfo> stackingList;
+
+		private Dictionary<int, int> paramMap;
 
 		public BattleFighterBuff(BattleFighter owner, IBuffAction buffAction)
 		{
 			this.buffAction = buffAction;
 			this.owner = owner;
 			this.stackingList = new LinkedList<BuffStackInfo>();
+			this.paramMap = new Dictionary<int, int>();
 		}
 
 		private void addStackingRound()
@@ -91,23 +97,14 @@ namespace com.kx.sglm.gs.battle.share.buff
 		{
 			get
 			{
+				//如果needShow为false，说明这个buff不用被显示，也说明这个buff没有特殊状态
 				if (!needShow())
 				{
 					return null;
 				}
 				BattleFighterState _state = new BattleFighterState(buffAction.Id, buffAction.StateEnum, buffAction.BuffShowId, LeftRound);
+				_state.ParamMap = paramMap;
 				return _state;
-			}
-		}
-
-		public virtual void onBuffEvent(InnerBattleEvent @event)
-		{
-			foreach (BuffStackInfo _info in stackingList)
-			{
-				if (_info.Active)
-				{
-					buffAction.onEvent(@event, Owner);
-				}
 			}
 		}
 
@@ -155,7 +152,15 @@ namespace com.kx.sglm.gs.battle.share.buff
 
 		protected internal virtual bool needShow()
 		{
-			return buffAction.BuffShowId > 0;
+			return buffAction.needShow(this);
+		}
+
+		public virtual int ExtraRound
+		{
+			set
+			{
+				stackingList.First.Value.LeftRound = value;
+			}
 		}
 
 		public virtual BattleFighter Owner
@@ -213,6 +218,23 @@ namespace com.kx.sglm.gs.battle.share.buff
 			this.stackingList.Clear();
 			stackingBuff();
 		}
+
+
+		public virtual int getParam(int key, int defaultValue)
+		{
+			int _param = defaultValue;
+			if (paramMap.ContainsKey(key))
+			{
+				_param = paramMap[key];
+			}
+			return _param;
+		}
+
+		public virtual void setParam(int key, int value)
+		{
+			paramMap[key] = value;
+		}
+
 
 		// TODO: 删除将死的BUFF
 

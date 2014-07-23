@@ -24,6 +24,7 @@ namespace KXSGCodec
   public partial class BattleMonsterAIMsgAction : TBase
   {
     private int _id;
+    private int _shieldBuffId;
     private List<SkillRatePairMsgData> _defaultSkills;
     private List<MonsterSkillAIMsgData> _aiSkills;
 
@@ -40,6 +41,22 @@ namespace KXSGCodec
       {
         __isset.id = true;
         this._id = value;
+      }
+    }
+
+    /// <summary>
+    /// 怪物护盾BUFF ID
+    /// </summary>
+    public int ShieldBuffId
+    {
+      get
+      {
+        return _shieldBuffId;
+      }
+      set
+      {
+        __isset.shieldBuffId = true;
+        this._shieldBuffId = value;
       }
     }
 
@@ -82,6 +99,7 @@ namespace KXSGCodec
     #endif
     public struct Isset {
       public bool id;
+      public bool shieldBuffId;
       public bool defaultSkills;
       public bool aiSkills;
     }
@@ -109,6 +127,13 @@ namespace KXSGCodec
             }
             break;
           case 2:
+            if (field.Type == TType.I32) {
+              ShieldBuffId = iprot.ReadI32();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 3:
             if (field.Type == TType.List) {
               {
                 DefaultSkills = new List<SkillRatePairMsgData>();
@@ -126,7 +151,7 @@ namespace KXSGCodec
               TProtocolUtil.Skip(iprot, field.Type);
             }
             break;
-          case 3:
+          case 4:
             if (field.Type == TType.List) {
               {
                 AiSkills = new List<MonsterSkillAIMsgData>();
@@ -165,10 +190,18 @@ namespace KXSGCodec
         oprot.WriteI32(Id);
         oprot.WriteFieldEnd();
       }
+      if (__isset.shieldBuffId) {
+        field.Name = "shieldBuffId";
+        field.Type = TType.I32;
+        field.ID = 2;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteI32(ShieldBuffId);
+        oprot.WriteFieldEnd();
+      }
       if (DefaultSkills != null && __isset.defaultSkills) {
         field.Name = "defaultSkills";
         field.Type = TType.List;
-        field.ID = 2;
+        field.ID = 3;
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.Struct, DefaultSkills.Count));
@@ -183,7 +216,7 @@ namespace KXSGCodec
       if (AiSkills != null && __isset.aiSkills) {
         field.Name = "aiSkills";
         field.Type = TType.List;
-        field.ID = 3;
+        field.ID = 4;
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.Struct, AiSkills.Count));
@@ -203,6 +236,8 @@ namespace KXSGCodec
       StringBuilder sb = new StringBuilder("BattleMonsterAIMsgAction(");
       sb.Append("Id: ");
       sb.Append(Id);
+      sb.Append(",ShieldBuffId: ");
+      sb.Append(ShieldBuffId);
       sb.Append(",DefaultSkills: ");
       sb.Append(DefaultSkills);
       sb.Append(",AiSkills: ");

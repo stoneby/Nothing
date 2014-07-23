@@ -16,7 +16,7 @@ namespace com.kx.sglm.gs.battle.share.skill.manager
 		public abstract void onTeamShotStart(com.kx.sglm.gs.battle.share.@event.impl.TeamShotStartEvent @event);
 		public abstract void onSceneStart(com.kx.sglm.gs.battle.share.@event.impl.SceneStartEvent @event);
 		public abstract void afterAttack(BattleFightRecord record);
-		public abstract void beforeAttack(BattleFightRecord record);
+		public abstract void beforeAttack(com.kx.sglm.gs.battle.share.@event.impl.BeforeAttackEvent @event);
 
 
 		private BattleFighter fighter;

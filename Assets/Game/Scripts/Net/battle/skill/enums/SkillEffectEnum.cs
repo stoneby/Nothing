@@ -6,9 +6,8 @@ namespace com.kx.sglm.gs.battle.share.skill.enums
 	using BuffSkillEffect = com.kx.sglm.gs.battle.share.skill.effect.BuffSkillEffect;
 	using ColorChangeSkillEffect = com.kx.sglm.gs.battle.share.skill.effect.ColorChangeSkillEffect;
 	using DebuffSkillEffect = com.kx.sglm.gs.battle.share.skill.effect.DebuffSkillEffect;
-	using HeroNormalAttackEffect = com.kx.sglm.gs.battle.share.skill.effect.HeroNormalAttackEffect;
-	using MonsterAttackEffect = com.kx.sglm.gs.battle.share.skill.effect.MonsterAttackEffect;
 	using MutiHitEffect = com.kx.sglm.gs.battle.share.skill.effect.MutiHitEffect;
+	using NormalAttackEffect = com.kx.sglm.gs.battle.share.skill.effect.NormalAttackEffect;
 	using NormalRecoverEffect = com.kx.sglm.gs.battle.share.skill.effect.NormalRecoverEffect;
 	using RecoverPercentEffect = com.kx.sglm.gs.battle.share.skill.effect.RecoverPercentEffect;
 
@@ -41,7 +40,7 @@ namespace com.kx.sglm.gs.battle.share.skill.enums
 
 			public override IBattlePartInfo createInstance()
 			{
-				return new HeroNormalAttackEffect();
+				return new NormalAttackEffect();
 			}
 		}
 
@@ -86,7 +85,7 @@ namespace com.kx.sglm.gs.battle.share.skill.enums
 
 			public override IBattlePartInfo createInstance()
 			{
-				return new MonsterAttackEffect();
+				return new NormalAttackEffect();
 			}
 		}
 

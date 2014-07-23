@@ -60,7 +60,7 @@ public class LoginMainWindow : Window
 //        if (obj != null)
 //        {
             var aclabel = AccountLabel.GetComponent<UILabel>();
-            aclabel.text = ServiceManager.DebugUserName;
+            aclabel.text = (ServiceManager.IsDebugAccount == 1) ? ServiceManager.DebugUserName : ServiceManager.UserName;
             aclabel.GetComponent<LocalizeWidget>().enabled = false;
 //            aclabel = LabelDefault.GetComponent<UILabel>();
 //            aclabel.text = obj.Account;
@@ -196,6 +196,7 @@ public class LoginMainWindow : Window
 
     private void OnAccountClick(GameObject game = null)
     {
+        ServiceManager.IsDebugAccount = 1;
         WindowManager.Instance.Show(typeof(LoginAccountWindow), true);
     }
 
