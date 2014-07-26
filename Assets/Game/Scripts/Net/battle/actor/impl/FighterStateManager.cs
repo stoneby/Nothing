@@ -31,7 +31,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 
 		public virtual bool canStateAttack()
 		{
-			return MathUtils.optionAndFlag(fighterStateFlag, BattleConstants.ATTACK_DIS_FLAG) == 0;
+			return !hasState(BattleConstants.ATTACK_DIS_FLAG);
 		}
 
 

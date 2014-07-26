@@ -57,14 +57,14 @@ public class HeroItemBase : MonoBehaviour
 
     public virtual void InitItem(HeroInfo heroInfo)
     {
-        var heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpl[heroInfo.TemplateId];
+        var heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpls[heroInfo.TemplateId];
         Quality = heroTemplate.Star;
         Uuid = heroInfo.Uuid;
     } 
     
     public virtual void InitItem(HeroInfo heroInfo, List<long> curTeam, List<long> allTeams)
     {
-        var heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpl[heroInfo.TemplateId];
+        var heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpls[heroInfo.TemplateId];
         Quality = heroTemplate.Star;
         Uuid = heroInfo.Uuid;
     }

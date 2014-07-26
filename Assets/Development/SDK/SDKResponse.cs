@@ -25,31 +25,48 @@ public class SDKResponse : MonoBehaviour
     /// </summary>
     /// <param name="str"></param>
 #if UNITY_ANDROID
-    public void message(string str)
+    public void Message(string str)
     {
-        Debug.Log("message is:"+str);
-        string[] split=str.Split(new char[]{':'});
-        if (split[0] == "startsResult is")
+        if (Application.platform != RuntimePlatform.WindowsEditor)
         {
-            
-        }
-        else if (split[0] == "loginResult is")
-        {
-            Debug.Log("Response succeed!Sending message to server.");
-            var msg = new CSTokenLoginMsg() { DeviceType = 0, DeviceId = "", Token = split[1] };
-            NetManager.SendMessage(msg);
-        }
-        else if (split[0] == "logoutResult is")
-        {
+            Debug.Log("message is:" + str);
+            string[] split = str.Split(new char[] { ':' });
+            if (split[0] == "startsResult is")
+            {
+                Debug.Log("Response startsResult succeed!");
+                Debug.Log("Setting isInitialized true.");
+                IsInitialized = true;
 
-        }
-        else if (split[0] == "addroleResult is")
-        {
+                WhichResponse();
+            }
+            else if (split[0] == "loginResult is")
+            {
+                Debug.Log("Response loginResult succeed!Sending message to server.");
+                var msg = new CSTokenLoginMsg() { DeviceType = 0, DeviceId = "", Token = split[1] };
+                NetManager.SendMessage(msg);
+            }
+            else if (split[0] == "logoutResult is")
+            {
 
-        }
-        else if (split[0] == "iospayResult is")
-        {
+            }
+            else if (split[0] == "addroleResult is")
+            {
 
+            }
+            else if (split[0] == "iospayResult is")
+            {
+
+            }
+            else if (split[0] == "platformBillingResult is")
+            {
+                Debug.Log("Response platformBillingResult succeed!Sending message to server.");
+                var msg = new CSRefreshRechargeMsg() { OrderId = split[1] };
+                NetManager.SendMessage(msg);
+            }
+            else
+            {
+                Debug.LogError("Android SDK Message check fail! Check the message responded above.");
+            }
         }
     }
 #endif

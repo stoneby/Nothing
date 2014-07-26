@@ -83,6 +83,9 @@ public class InitBattleField : MonoBehaviour, IBattleView
     /// </summary>
     private readonly GameObject[,] charactersLeft = new GameObject[3, 3];
 
+    private readonly List<Character> originalCharacterList = new List<Character>();
+    private readonly List<Character> originalEnemyList = new List<Character>();
+
     /// <summary>
     /// Current enemy group index.
     /// </summary>
@@ -193,6 +196,10 @@ public class InitBattleField : MonoBehaviour, IBattleView
         TeamController.CharacterList.AddRange(characterList);
         TeamController.Initialize();
 
+        // keep original character list in memory easy for quering.
+        originalCharacterList.Clear();
+        originalCharacterList.AddRange(TeamController.CharacterList);
+
         Logger.Log("Team controller total num: " + TeamController.Total);
     }
 
@@ -219,8 +226,8 @@ public class InitBattleField : MonoBehaviour, IBattleView
         BattleModelLocator.Instance.HeroList.ForEach(data =>
         {
             var tempid = Int32.Parse(data.getProp(BattleKeyConstants.BATTLE_KEY_HERO_TEMPLATE));
-            // [FIXME]: We only have 2 characters for now. [0, 1]
-            var index = (tempid) % characterPoolManager.CharacterPoolList.Count;
+            // [FIXME]: Currently we are not binding character id to character in pool.
+            var index = (Random.Range(0, characterPoolManager.CharacterPoolList.Count));
             var character = characterPoolManager.CharacterPoolList[index].Take().GetComponent<Character>();
             Utils.AddChild(TeamController.gameObject, character.gameObject);
             character.Data = data;
@@ -276,6 +283,9 @@ public class InitBattleField : MonoBehaviour, IBattleView
 
         // set default current select to index of 0.
         EnemyController.SetDefaultCurrentSelect();
+
+        originalEnemyList.Clear();
+        originalEnemyList.AddRange(EnemyController.CharacterList);
 
         BattleModelLocator.Instance.MonsterIndex += EnemyController.Total;
         Logger.Log("Next monster index: " + BattleModelLocator.Instance.MonsterIndex);
@@ -424,9 +434,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
 
                         var target = charactersLeft[i, j];
                         iTween.MoveTo(target, targetPosition, duration);
-
-                        Logger.LogWarning("Character: " + target.GetComponent<Character>() + "Move to position: " +
-                                          targetPosition + ", duration: " + duration);
                     }
                     yield return new WaitForSeconds(runWaitTime);
                 }
@@ -1032,7 +1039,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
 
     private GameObject GetCharacterByAction(SingleActionRecord action)
     {
-        return GetObjectByAction(TeamController.CharacterList, action.FighterInfo);
+        return GetObjectByAction(originalCharacterList, action.FighterInfo);
     }
 
     /// <summary>
@@ -1042,19 +1049,17 @@ public class InitBattleField : MonoBehaviour, IBattleView
     /// <returns>The monster</returns>
     private GameObject GetEnemyByAction(SingleActionRecord action)
     {
-        return GetObjectByAction(EnemyController.CharacterList, action.FighterInfo);
+        return GetObjectByAction(originalEnemyList, action.FighterInfo);
     }
 
     private GameObject GetObjectByAction(List<Character> characterList, SingleFighterRecord action)
     {
-        var character = characterList.Find(item => (item.Data.Index == action.Index));
-
-        if (character == null)
+        if (action.Index < 0 || action.Index >= characterList.Count)
         {
             Logger.LogWarning("[***************] Could not find character with index: " + action.Index + " in side: " + action.Side);
             return null;
         }
-        return character.gameObject;
+        return characterList[action.Index].gameObject;
     }
 
     private IEnumerator PlayCharacterBeenAttrack(List<SingleActionRecord> actionlist)
@@ -1261,7 +1266,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
 
         TextObject.transform.localScale = new Vector3(5, 5, 1);
         var lb = TextObject.GetComponent<UILabel>();
-        lb.text = BattleModelLocator.Instance.Skill.Name;
+        lb.text = BattleModelLocator.Instance.Skill.BaseTmpl.Name;
         lb.alpha = 1;
         TextObject.SetActive(true);
 
@@ -1302,7 +1307,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
 
         if (attack == null)
         {
-            Debug.LogError("Attack action from leader skill record is null.");
+            Logger.LogError("Attack action from leader skill record is null.");
         }
         else
         {
@@ -1635,6 +1640,9 @@ public class InitBattleField : MonoBehaviour, IBattleView
             // add selected characters to attack waiting list.
             attackWaitList.AddRange(TeamController.SelectedCharacterList.Select(item => item.gameObject));
 
+            var resultHp = 0f;
+            battleTeamFightRecord.BuffAction.ForEach(action => { resultHp += action.ResultHp; });
+            InitHpBar();
             DoAttrackLeft();
         }
         else
@@ -1788,7 +1796,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
                         Logger.LogError("Buff index: " + buffIndex + " should be in range of 0 and " + buffSize + ".");
                         return;
                     }
-                    buffMananger[(BuffManager.BuffType)buffIndex] = item.LeftRound;
+                    buffMananger[(BuffManager.BuffType)buffIndex] = new BuffData { Count = item.LeftRound };
                 });
 
                 ShowBuff(character);
@@ -1832,7 +1840,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
             ? character.GetComponent<CharacterControl>().BuffController
             : character.GetComponent<EnemyControl>().BuffController;
         buffController.gameObject.SetActive(false);
-        Logger.LogWarning("-------------------- BuffCOntroller disabled with character: " + character.name);
         character.ResetBuff();
     }
 
@@ -1852,7 +1859,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
             {
                 var characterObject = GetObjectByAction(characterList, record);
                 
-                Logger.LogWarning("Find character: " + characterObject.name + ", index: " + characterObject.GetComponent<Character>().Data.index);
+                //Logger.LogWarning("Find character: " + characterObject.name + ", index: " + characterObject.GetComponent<Character>().Data.index);
 
                 var characterControll = characterObject.GetComponent<CharacterControl>();
                 characterControll.SetAttackLabel(record);

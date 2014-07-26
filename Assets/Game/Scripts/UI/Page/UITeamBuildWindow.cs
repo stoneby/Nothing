@@ -217,15 +217,15 @@ public class UITeamBuildWindow : Window
         Utils.FindChild(properties, "HP-Value").GetComponent<UILabel>().text = hp.ToString(CultureInfo.InvariantCulture);
         Utils.FindChild(properties, "Recover-Value").GetComponent<UILabel>().text = recover.ToString(CultureInfo.InvariantCulture);
         Utils.FindChild(properties, "MP-Value").GetComponent<UILabel>().text = mp.ToString(CultureInfo.InvariantCulture);
-        var heroTemp = HeroModelLocator.Instance.HeroTemplates.HeroTmpl;
+        var heroTemp = HeroModelLocator.Instance.HeroTemplates.HeroTmpls;
         if(heroTemp.ContainsKey(leaderInfo.TemplateId))
         {
             var leaderTemplate = heroTemp[leaderInfo.TemplateId];
-            var skillTmp = HeroModelLocator.Instance.SkillTemplates.SkillTmpl;
+            var skillTmp = HeroModelLocator.Instance.SkillTemplates.HeroBattleSkillTmpls;
             if(skillTmp.ContainsKey(leaderTemplate.LeaderSkill))
             {
                 var leaderSkillTemp = skillTmp[leaderTemplate.LeaderSkill];
-                Utils.FindChild(properties, "LSkill-Value").GetComponent<UILabel>().text = leaderSkillTemp.Desc;
+                Utils.FindChild(properties, "LSkill-Value").GetComponent<UILabel>().text = leaderSkillTemp.BaseTmpl.Desc;
             }
         }
     }

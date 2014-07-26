@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Linq;
 using KXSGCodec;
 using Template;
+using Template.Auto.Hero;
 using UnityEngine;
 
 public class HeroSellHandler : MonoBehaviour 
@@ -176,38 +177,9 @@ public class HeroSellHandler : MonoBehaviour
     private long GetCostSoul(sbyte stars, short level)
     {
         long costSoul = 0;
-        switch (stars)
+        for (var index = 1; index < level; index++)
         {
-            case 1:
-                for (int index = 1; index < level; index++)
-                {
-                    costSoul += hero.LvlUpTmpl[index].CostSoulStar1;
-                }
-                break;
-            case 2:
-                for (int index = 1; index < level; index++)
-                {
-                    costSoul += hero.LvlUpTmpl[index].CostSoulStar2;
-                }
-                break;
-            case 3:
-                for (int index = 1; index < level; index++)
-                {
-                    costSoul += hero.LvlUpTmpl[index].CostSoulStar3;
-                }
-                break;
-            case 4:
-                for (int index = 1; index < level; index++)
-                {
-                    costSoul += hero.LvlUpTmpl[index].CostSoulStar4;
-                }
-                break;
-            case 5:
-                for (int index = 1; index < level; index++)
-                {
-                    costSoul += hero.LvlUpTmpl[index].CostSoulStar5;
-                }
-                break;
+            costSoul += hero.LvlUpTmpls[index].CostSoul[index - 1];
         }
         return costSoul;
     }
@@ -301,9 +273,9 @@ public class HeroSellHandler : MonoBehaviour
             return;
         }
         var heroInfo = HeroModelLocator.Instance.FindHero(uUid);
-        var baseSoul = hero.HeroTmpl[heroInfo.TemplateId].Price;
+        var baseSoul = hero.HeroTmpls[heroInfo.TemplateId].Price;
         var level = heroInfo.Lvl;
-        var stars = hero.HeroTmpl[heroInfo.TemplateId].Star;
+        var stars = hero.HeroTmpls[heroInfo.TemplateId].Star;
         var costSoul = GetCostSoul(stars, level);
         if (!csHeroSell.SellList.Contains(uUid))
         {
@@ -313,7 +285,7 @@ public class HeroSellHandler : MonoBehaviour
             go.transform.FindChild("BG").GetComponent<UISprite>().color = Color.gray;
             maskToAdd.SetActive(true);
             sellHeros.Add(go);
-            totalSoul += (long)(baseSoul + costSoul * hero.BaseTmpl[1].SellCoeff);
+            totalSoul += (long)(baseSoul + costSoul * hero.BaseTmpls[1].SellCoeff);
         }
         else
         {
@@ -323,7 +295,7 @@ public class HeroSellHandler : MonoBehaviour
             Destroy(maskToAdd);
             sellHeros.Remove(go);
             go.transform.FindChild("BG").GetComponent<UISprite>().color = Color.white;
-            totalSoul -= (long)(baseSoul + costSoul * hero.BaseTmpl[1].SellCoeff);
+            totalSoul -= (long)(baseSoul + costSoul * hero.BaseTmpls[1].SellCoeff);
         }
         RefreshSelAndSoul();
     }

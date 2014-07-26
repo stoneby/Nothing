@@ -16,11 +16,11 @@ namespace com.kx.sglm.gs.battle.share
 		/// 队伍挂起时【即主动技能】 </summary>
 		public static readonly int BATTLE_HUNG_UP = BATTLE_EVENT_BASE++;
 		/// <summary>
-		/// 攻击前，收到攻击信息但计算攻击数值前 </summary>
-		public static readonly int BATTLE_BEFORE_FIGHTER_ATTACK = BATTLE_EVENT_BASE++;
-		/// <summary>
 		/// 攻击技能 </summary>
 		public static readonly int BATTLE_FIGHTER_ATTACK = BATTLE_EVENT_BASE++;
+		/// <summary>
+		/// 攻击前，收到攻击信息但计算攻击数值前 </summary>
+		public static readonly int BATTLE_BEFORE_FIGHTER_ATTACK = BATTLE_EVENT_BASE++;
 
 		/// <summary>
 		/// 回合结束 </summary>

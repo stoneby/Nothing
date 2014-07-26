@@ -35,6 +35,7 @@ public class UISellItemWindow : Window
 
     public override void OnEnter()
     {
+        MtaManager.TrackBeginPage(MtaType.SellItemWindow);
         itemsWindow = WindowManager.Instance.GetWindow<UIItemCommonWindow>();
         itemsWindow.NormalClicked = OnNormalClickForSell;
         selCount.text = sellList.Count.ToString(CultureInfo.InvariantCulture);
@@ -45,6 +46,7 @@ public class UISellItemWindow : Window
 
     public override void OnExit()
     {
+        MtaManager.TrackEndPage(MtaType.SellItemWindow);
         UnInstallHandlers();
         CleanUp();
     }

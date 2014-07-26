@@ -10,6 +10,7 @@ public class MainMenuBarWindow : Window
     private UIEventListener teamLis;
     private UIEventListener equipLis;
     private UIEventListener summonLis;
+    private UIEventListener friendLis;
     private UIEventListener menuLis;
     private UIEventListener logLis;
     private GameObject inputLog;
@@ -42,6 +43,7 @@ public class MainMenuBarWindow : Window
         teamLis = UIEventListener.Get(Utils.FindChild(transform, "Button-Team").gameObject);
         equipLis = UIEventListener.Get(Utils.FindChild(transform, "Button-Equip").gameObject);
         summonLis = UIEventListener.Get(Utils.FindChild(transform, "Button-Summon").gameObject);
+        friendLis = UIEventListener.Get(Utils.FindChild(transform, "Button-Friend").gameObject);
         menuLis = UIEventListener.Get(Utils.FindChild(transform, "Button-Menu").gameObject);
         logLis = UIEventListener.Get(Utils.FindChild(transform, "Button-Log").gameObject);
         inputLog = Utils.FindChild(transform, "Input-Log").gameObject;
@@ -58,6 +60,7 @@ public class MainMenuBarWindow : Window
         teamLis.onClick = OnTeamClicked;
         equipLis.onClick = OnEquipClicked;
         summonLis.onClick = OnSummonClicked;
+        friendLis.onClick = OnFriendClicked;
         menuLis.onClick = OnMenuClicked;
         logLis.onClick = OnLogClicked;
     }
@@ -72,6 +75,9 @@ public class MainMenuBarWindow : Window
         teamLis.onClick = null;
         equipLis.onClick = null;
         summonLis.onClick = null;
+        friendLis.onClick = null;
+        menuLis.onClick = null;
+        logLis.onClick = null;
     }
 
     /// <summary>
@@ -97,6 +103,15 @@ public class MainMenuBarWindow : Window
     private void OnSummonClicked(GameObject go)
     {
         WindowManager.Instance.Show<ChooseCardWindow>(true);
+    }
+
+    /// <summary>
+    /// The callback of clicking friend button.
+    /// </summary>
+    private void OnFriendClicked(GameObject go)
+    {
+        var msg = new CSFriendLoadingAll();
+        NetManager.SendMessage(msg);
     }
 
     /// <summary>

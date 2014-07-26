@@ -27,6 +27,7 @@ namespace KXSGCodec
   public partial class SCFriendRecieveEnergySucc : TBase
   {
     private long _friendUuid;
+    private sbyte _refreshRecieveEnergyTimes;
 
     public long FriendUuid
     {
@@ -41,6 +42,19 @@ namespace KXSGCodec
       }
     }
 
+    public sbyte RefreshRecieveEnergyTimes
+    {
+      get
+      {
+        return _refreshRecieveEnergyTimes;
+      }
+      set
+      {
+        __isset.refreshRecieveEnergyTimes = true;
+        this._refreshRecieveEnergyTimes = value;
+      }
+    }
+
 
     public Isset __isset;
     #if !SILVERLIGHT
@@ -48,6 +62,7 @@ namespace KXSGCodec
     #endif
     public struct Isset {
       public bool friendUuid;
+      public bool refreshRecieveEnergyTimes;
     }
 
     public SCFriendRecieveEnergySucc() {
@@ -68,6 +83,13 @@ namespace KXSGCodec
           case 1:
             if (field.Type == TType.I64) {
               FriendUuid = iprot.ReadI64();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 2:
+            if (field.Type == TType.Byte) {
+              RefreshRecieveEnergyTimes = iprot.ReadByte();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
@@ -93,6 +115,14 @@ namespace KXSGCodec
         oprot.WriteI64(FriendUuid);
         oprot.WriteFieldEnd();
       }
+      if (__isset.refreshRecieveEnergyTimes) {
+        field.Name = "refreshRecieveEnergyTimes";
+        field.Type = TType.Byte;
+        field.ID = 2;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteByte(RefreshRecieveEnergyTimes);
+        oprot.WriteFieldEnd();
+      }
       oprot.WriteFieldStop();
       oprot.WriteStructEnd();
     }
@@ -101,6 +131,8 @@ namespace KXSGCodec
       StringBuilder sb = new StringBuilder("SCFriendRecieveEnergySucc(");
       sb.Append("FriendUuid: ");
       sb.Append(FriendUuid);
+      sb.Append(",RefreshRecieveEnergyTimes: ");
+      sb.Append(RefreshRecieveEnergyTimes);
       sb.Append(")");
       return sb.ToString();
     }

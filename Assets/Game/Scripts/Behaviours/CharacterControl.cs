@@ -1,4 +1,5 @@
-﻿using com.kx.sglm.gs.battle.share;
+﻿using Template.Auto.Hero;
+using com.kx.sglm.gs.battle.share;
 using com.kx.sglm.gs.battle.share.data;
 using com.kx.sglm.gs.battle.share.data.record;
 using com.kx.sglm.gs.hero.properties;
@@ -80,10 +81,6 @@ public class CharacterControl : MonoBehaviour
         uisp.spriteName = "pck_" + footindex;
         uisp = JobObj.GetComponent<UISprite>();
         uisp.spriteName = (FootIndex == (int)FootColorType.Pink) ? "icon_zhiye_5" : "icon_zhiye_" + JobIndex;
-        var uilb = AttrackObj.GetComponent<UILabel>();
-        uilb.text = (FootIndex == (int) FootColorType.Pink)
-            ? ("" + Restore + "-" + CharacterData.Data.Index)
-            : ("" + Attack + "-" + CharacterData.Data.Index);
     }
 
     public void SetCanSelect(bool flag)
@@ -112,9 +109,6 @@ public class CharacterControl : MonoBehaviour
         templateData = HeroModelLocator.Instance.GetHeroByTemplateId(tempid);
 
         JobIndex = templateData.Job;
-        Attack = data.battleProperties[RoleAProperty.ATK];
-        Restore = data.BattleProperty[RoleAProperty.RECOVER];
-
         var uisp = JobObj.GetComponent<UISprite>();
         uisp.spriteName = (FootIndex == (int)FootColorType.Pink) ? "icon_zhiye_5" : "icon_zhiye_" + JobIndex;
 
@@ -133,8 +127,6 @@ public class CharacterControl : MonoBehaviour
         Attack = record.getIntProp(RoleAProperty.ATK);
         Restore = record.getIntProp(RoleAProperty.RECOVER);
         uilb.text = (FootIndex == (int)FootColorType.Pink) ? (Restore + "-" + record.Index) : (Attack + "-" + record.Index);
-
-        Debug.LogWarning("Set attack label: attack - " + Attack + ", restore: " + Restore + ", character name: " + name);
     }
 
     public string GetNamePrefix()

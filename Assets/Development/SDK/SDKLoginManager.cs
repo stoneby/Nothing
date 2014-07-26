@@ -31,8 +31,20 @@ public class SDKLoginManager : MonoBehaviour
         
 #if UNITY_ANDROID
         ServiceManager.IsDebugAccount = 0;
-        Debug.Log("Calling SDK.");
-        jo.Call("login", "1", "login");
+        if (Application.platform != RuntimePlatform.WindowsEditor)
+        {
+            if (SDKResponse.IsInitialized == false)
+            {
+                Debug.Log("Calling SDK initialize.");
+                SDKResponse.WhichResponse += LoginAfterInit;
+                jo.Call("initialize", ServiceManager.GameID, GameConfig.Version, ServiceManager.FValue, "initialize");
+            }
+            else
+            {
+                Debug.Log("Calling SDK login.");
+                jo.Call("login", ServiceManager.ServerData.SID, "login");
+            }
+        }
 #endif
 
 #if UNITY_IPHONE
@@ -61,6 +73,11 @@ public class SDKLoginManager : MonoBehaviour
         SDK_IOS.ActivateLogin();
         SDKResponse.WhichResponse = null;
 #endif
+#if UNITY_ANDROID
+        Debug.Log("Calling SDK login.");
+        jo.Call("login", ServiceManager.ServerData.SID, "login");
+        SDKResponse.WhichResponse = null;
+#endif
     }
 
     #endregion
@@ -87,7 +104,6 @@ public class SDKLoginManager : MonoBehaviour
 #if UNITY_ANDROID      
         jc = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
         jo = jc.GetStatic<AndroidJavaObject>("currentActivity");
-        jo.Call("initialize", "5508", "15", "1", "initialize");
 #endif
     }
 	

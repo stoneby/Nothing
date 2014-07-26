@@ -1,4 +1,5 @@
-﻿using com.kx.sglm.gs.battle.share;
+﻿using Template.Auto.Skill;
+using com.kx.sglm.gs.battle.share;
 using com.kx.sglm.gs.battle.share.data;
 using com.kx.sglm.gs.battle.share.data.record;
 using System.Collections.Generic;
@@ -25,7 +26,7 @@ namespace Assets.Game.Scripts.Common.Model
         public List<PointRecord> NextList;
 
         public bool CanSelectHero = true;
-        public SkillTemplate Skill;
+        public HeroBattleSkillTemplate Skill;
 
         public static BattleModelLocator Instance
         {

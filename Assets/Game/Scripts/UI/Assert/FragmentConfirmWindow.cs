@@ -76,7 +76,7 @@ public class FragmentConfirmWindow : Window
     public void Refresh(bool isWhite)
     {
         //initialze or refresh the private fields.
-        var heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpl[templateId];
+        var heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpls[templateId];
         cornorSprite.spriteName = HeroConstant.HeroJobPrefix + heroTemplate.Job;
 
         star = heroTemplate.Star;

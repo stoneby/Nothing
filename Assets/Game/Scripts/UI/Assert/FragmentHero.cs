@@ -66,7 +66,7 @@ public class FragmentHero : MonoBehaviour
     /// </summary>
     public void Refresh()
     {
-        var heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpl[templateId];
+        var heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpls[templateId];
         cornorSprite.spriteName=HeroConstant.HeroJobPrefix+heroTemplate.Job;
 
         star = heroTemplate.Star;

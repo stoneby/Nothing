@@ -64,7 +64,7 @@ public class HeroUtils
      /// <param name="heroInfo">The info of item.</param>
     public static void ShowHero(OrderType orderType, HeroItem heroTran, HeroInfo heroInfo)
      {
-         var heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpl[heroInfo.TemplateId];
+         var heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpls[heroInfo.TemplateId];
          var quality = heroTemplate.Star;
          var level = heroInfo.Lvl;
          var job = heroTemplate.Job;
@@ -134,7 +134,10 @@ public class HeroUtils
                 var item = PoolManager.Pools[poolName].Spawn(childPrefab);
                 Utils.MoveToParent(parent, item);
                 NGUITools.SetActive(item.gameObject, true);
-                UIEventListener.Get(item.gameObject).onClick += dDelegate;
+                if (dDelegate != null)
+                {
+                    UIEventListener.Get(item.gameObject).onClick += dDelegate;
+                }
             }
         }
         else
@@ -145,7 +148,10 @@ public class HeroUtils
                 for (int index = 0; index < count; index++)
                 {
                     var item = list[index];
-                    UIEventListener.Get(item.gameObject).onClick -= dDelegate;
+                    if (dDelegate != null)
+                    {
+                        UIEventListener.Get(item.gameObject).onClick -= dDelegate;
+                    }
                     item.parent = PoolManager.Pools[poolName].transform;
                     PoolManager.Pools[poolName].Despawn(item);
                 }
@@ -187,7 +193,7 @@ public class HeroUtils
 
     public static void GetMaxProperties(HeroInfo info, out int maxAtk, out int maxHp, out int maxRecover, out int maxMp)
     {
-        var heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpl[info.TemplateId];
+        var heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpls[info.TemplateId];
         var addtionTimes = heroTemplate.LvlLimit - info.Lvl;
         maxAtk = info.Prop[RoleProperties.ROLE_ATK] + GetConverted(heroTemplate.AttackAddtion) * addtionTimes;
         maxHp = info.Prop[RoleProperties.ROLE_HP] + GetConverted(heroTemplate.HPAddtion) * addtionTimes;

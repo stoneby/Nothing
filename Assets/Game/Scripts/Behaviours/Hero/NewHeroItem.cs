@@ -69,7 +69,7 @@ public class NewHeroItem : HeroItem
 
     public override void InitItem(HeroInfo heroInfo)
     {
-        var heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpl[heroInfo.TemplateId];
+        var heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpls[heroInfo.TemplateId];
         Quality = heroTemplate.Star;
         Uuid = heroInfo.Uuid;
         jobIcon.spriteName = HeroConstant.HeroJobPrefix + heroTemplate.Job;

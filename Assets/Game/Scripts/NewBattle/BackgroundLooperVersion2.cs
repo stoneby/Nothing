@@ -7,9 +7,8 @@ using UnityEngine;
 /// <remarks>Head and tail are only components on faces, body is designed to repeat forever.</remarks>
 public class BackgroundLooperVersion2 : AbstractBattlegroundLooper
 {
-    public UIWidget Head;
-    public UIWidget Tail;
-    public List<TextureLooper> LooperList;
+    public List<TextureLooper> TextureLooperList;
+    public List<WidgetLooper> WidgetLooperList;
 
     private TweenPosition headPositionTween;
     private TweenPosition tailPositionTween;
@@ -19,31 +18,33 @@ public class BackgroundLooperVersion2 : AbstractBattlegroundLooper
     public override void PlayBegin()
     {
         PlayTween(headPositionTween, headDefaultPosition,
-            new Vector3(headDefaultPosition.x - Head.width, headDefaultPosition.y, headDefaultPosition.z));
+            new Vector3(headDefaultPosition.x - Head.width, headDefaultPosition.y, headDefaultPosition.z), GetDuration(Head.width));
 
-        LooperList.ForEach(looper => looper.CurrentPosition = 0f);
+        TextureLooperList.ForEach(looper => looper.CurrentPosition = 0f);
         PlayOnce();
     }
 
     public override void PlayOnce()
     {
-        LooperList.ForEach(looper => looper.GoByTime(Duration));
+        TextureLooperList.ForEach(looper => looper.Play(Duration));
+        WidgetLooperList.ForEach(looper => looper.Play(Duration));
     }
 
     public override void PlayEnd()
     {
-        LooperList.ForEach(looper => looper.CurrentPosition = 0.5f);
+        //TextureLooperList.ForEach(looper => looper.CurrentPosition = 0.5f);
         PlayOnce();
 
         PlayTween(tailPositionTween, tailDefaultPosition,
-            new Vector3(tailDefaultPosition.x - Tail.width, tailDefaultPosition.y, tailDefaultPosition.z));
+            new Vector3(tailDefaultPosition.x - Tail.width, tailDefaultPosition.y, tailDefaultPosition.z), GetDuration(Tail.width));
     }
 
     public override void Reset()
     {
         Head.transform.localPosition = headDefaultPosition;
         Tail.transform.localPosition = tailDefaultPosition;
-        LooperList.ForEach(looper => looper.Reset());
+        TextureLooperList.ForEach(looper => looper.Reset());
+        WidgetLooperList.ForEach(looper => looper.Reset());
     }
 
     protected override void Awake()

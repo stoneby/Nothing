@@ -19,7 +19,7 @@ namespace com.kx.sglm.gs.battle.share.buff.effect
 
 		public override void onEffect(BattleFighter fighter)
 		{
-
+			onActive(fighter);
 		}
 
 

@@ -25,7 +25,7 @@ namespace KXSGCodec
   {
     private long _friendUuid;
     private long _giveEnergyTime;
-    private sbyte _recieveStatus;
+    private bool _recieveStatus;
 
     public long FriendUuid
     {
@@ -53,7 +53,7 @@ namespace KXSGCodec
       }
     }
 
-    public sbyte RecieveStatus
+    public bool RecieveStatus
     {
       get
       {
@@ -107,8 +107,8 @@ namespace KXSGCodec
             }
             break;
           case 3:
-            if (field.Type == TType.Byte) {
-              RecieveStatus = iprot.ReadByte();
+            if (field.Type == TType.Bool) {
+              RecieveStatus = iprot.ReadBool();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
@@ -144,10 +144,10 @@ namespace KXSGCodec
       }
       if (__isset.recieveStatus) {
         field.Name = "recieveStatus";
-        field.Type = TType.Byte;
+        field.Type = TType.Bool;
         field.ID = 3;
         oprot.WriteFieldBegin(field);
-        oprot.WriteByte(RecieveStatus);
+        oprot.WriteBool(RecieveStatus);
         oprot.WriteFieldEnd();
       }
       oprot.WriteFieldStop();

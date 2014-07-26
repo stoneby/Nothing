@@ -3,6 +3,7 @@ using System.Globalization;
 using KXSGCodec;
 using Property;
 using Template;
+using Template.Auto.Hero;
 using UnityEngine;
 
 /// <summary>
@@ -50,7 +51,7 @@ public class UIHeroDetailWindow : Window
             if (heroInfo != value)
             {
                 heroInfo = value;
-                heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpl[heroInfo.TemplateId];
+                heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpls[heroInfo.TemplateId];
                 CurUuid = heroInfo.Uuid;
             }
         }
@@ -62,6 +63,7 @@ public class UIHeroDetailWindow : Window
 
     public override void OnEnter()
     {
+        MtaManager.TrackBeginPage(MtaType.HeroDetailWindow);
         InstallHandlers();
         if(heroSelItemIns != null)
         {
@@ -72,6 +74,7 @@ public class UIHeroDetailWindow : Window
 
     public override void OnExit()
     {
+        MtaManager.TrackEndPage(MtaType.HeroDetailWindow);
         UnInstallHandlers();
         NGUITools.SetActiveChildren(baseInfos.gameObject, true);
     }
@@ -170,7 +173,7 @@ public class UIHeroDetailWindow : Window
     {
         heroInfo = info;
         HeroBaseInfoWindow.CurUuid = info.Uuid;
-        heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpl[heroInfo.TemplateId];
+        heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpls[heroInfo.TemplateId];
         RefreshData();
     }
 
@@ -207,19 +210,19 @@ public class UIHeroDetailWindow : Window
         hp.text = heroInfo.Prop[RoleProperties.ROLE_HP].ToString(CultureInfo.InvariantCulture);
         recover.text = heroInfo.Prop[RoleProperties.ROLE_RECOVER].ToString(CultureInfo.InvariantCulture);
         mp.text = heroInfo.Prop[RoleProperties.ROLE_MP].ToString(CultureInfo.InvariantCulture);
-        var skillTmp = HeroModelLocator.Instance.SkillTemplates.SkillTmpl;
+        var skillTmp = HeroModelLocator.Instance.SkillTemplates.HeroBattleSkillTmpls;
         if (skillTmp.ContainsKey(heroTemplate.SpSkill))
         {
             var activeSkillTemp = skillTmp[heroTemplate.ActiveSkill];
-            activeSkillName.text = activeSkillTemp.Name;
-            activeSkillDesc.text = activeSkillTemp.Desc;
+            activeSkillName.text = activeSkillTemp.BaseTmpl.Name;
+            activeSkillDesc.text = activeSkillTemp.BaseTmpl.Desc;
         }
 
         if (skillTmp.ContainsKey(heroTemplate.LeaderSkill))
         {
             var leaderSkillTemp = skillTmp[heroTemplate.LeaderSkill];
-            leaderSkillName.text = leaderSkillTemp.Name;
-            leaderSkillDesc.text = leaderSkillTemp.Desc;
+            leaderSkillName.text = leaderSkillTemp.BaseTmpl.Name;
+            leaderSkillDesc.text = leaderSkillTemp.BaseTmpl.Desc;
         }
         InitEquipedItems();
     }

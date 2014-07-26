@@ -1,4 +1,5 @@
 ﻿using Assets.Game.Scripts.Common.Model;
+using Template.Auto.Skill;
 using com.kx.sglm.gs.battle.share.data;
 using com.kx.sglm.gs.battle.share.input;
 using Template;
@@ -21,7 +22,7 @@ public class LeaderControl : MonoBehaviour
 
     private bool alertFlag = true;
     private FighterInfo figherData;
-    private SkillTemplate skillData;
+    private HeroBattleSkillTemplate skillData;
 
     private UIEventListener headUIEventListener;
 
@@ -58,7 +59,7 @@ public class LeaderControl : MonoBehaviour
         else
         {
             sp.spriteName = "head_" + HeadIndex;
-            baseCd = skillData.CostMp;
+            baseCd = skillData.CostMP;
         }
     }
 
@@ -80,7 +81,7 @@ public class LeaderControl : MonoBehaviour
         if (HeadIndex > 0 && currentCd >= baseCd && skillData != null)
         {
             alertFlag = false;
-            Alert.Show(AssertionWindow.Type.OkCancel, skillData.Name, skillData.Desc, OnAssertButtonClicked, OnCancelClicked);
+            Alert.Show(AssertionWindow.Type.OkCancel, skillData.BaseTmpl.Name, skillData.BaseTmpl.Desc, OnAssertButtonClicked, OnCancelClicked);
             BattleModelLocator.Instance.CanSelectHero = false;
         }
     }

@@ -18,11 +18,18 @@ public class NetManager
 
     private static string sessionId = "";
 
-    public static void SendMessage(TBase msg)
+    public delegate void MessageSended();
+    public static MessageSended OnMessageSended;
+
+    public static void SendMessage(TBase msg, bool playEffect = true)
     {
         lock (CSMsgQueue.SyncRoot)
         {
             CSMsgQueue.Enqueue(msg);
+            if (OnMessageSended != null)
+            {
+                OnMessageSended();
+            }
         }
 
         if (MsgThread.ThreadState == ThreadState.Unstarted)

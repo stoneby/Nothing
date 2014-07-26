@@ -48,12 +48,14 @@ public class UIBuyBackItemsWindow : Window
 
     public override void OnEnter()
     {
+        MtaManager.TrackBeginPage(MtaType.BuyBackItemWindow);
         Refresh();
         InstallHandlers();
     }
 
     public override void OnExit()
     {
+        MtaManager.TrackEndPage(MtaType.BuyBackItemWindow);
         UnInstallHandlers();
     }
 

@@ -358,8 +358,10 @@ namespace com.kx.sglm.gs.battle.share.buff
 
 		public virtual void onDefence(BattleFighter attacker, BattleFightRecord fightRecord)
 		{
-			foreach (BattleFighterBuff _buff in allBuffs.Values)
+			HashSet<int> _buffIdSet = new HashSet<int>(allBuffs.Keys);
+			foreach (int _buffId in _buffIdSet)
 			{
+				BattleFighterBuff _buff = allBuffs[_buffId];
 				_buff.BuffAction.onDefence(attacker, Owner);
 			}
 		}

@@ -8,6 +8,8 @@
         android:minSdkVersion="8"
         android:targetSdkVersion="18" />
 
+    
+   <!--  <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS_FULL"/> -->
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -16,7 +18,7 @@
         >
         
         <activity
-            android:name="cn.kx.wg.kxsginhouse.TokenLoginActivity"
+            android:name="cn.kx.wg.kxsginhouse.MainActivity"
             android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen"
             android:label="@string/app_name"
             android:screenOrientation="landscape">
@@ -57,6 +59,12 @@
         </activity>
           <activity
             android:name="com.feidou.androidsdk.pay.PayActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:theme="@style/Theme.Dialog"
+            android:screenOrientation="landscape">
+        </activity>
+	<activity
+            android:name="com.feidou.androidsdk.platform.pay.PlatformPayActivity"
             android:configChanges="orientation|keyboardHidden"
             android:theme="@style/Theme.Dialog"
             android:screenOrientation="landscape">

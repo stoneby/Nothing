@@ -12,6 +12,7 @@ public class BuildManager
 {
     public static void BuildAndroid()
     {
+        Debug.Log("转换Target");
         EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTarget.Android);
         //PlayerSettings.SetIconsForTargetGroup(BuildTargetGroup.Android, );
 
@@ -33,11 +34,13 @@ public class BuildManager
         var d = DateTime.Now;
         var str = "";
         str += d.Year + GetValueName(d.Month) + GetValueName(d.Day) + "-" + GetValueName(d.Hour) + GetValueName(d.Minute);
+        Debug.Log("开始打包Android");
         var res = BuildPipeline.BuildPlayer(scenes, "release/AndroidBuild/kxsg-"+str+".apk", BuildTarget.Android, BuildOptions.None);
         if (res.Length > 0)
         {
             throw new Exception("BuildPlayer failure: " + res);
         }
+        Debug.Log("打包完成");
     }
 
     private static string GetValueName(int k)
@@ -82,9 +85,12 @@ public class BuildManager
     public static void BuildIos()
     {
         EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTarget.iPhone);
-        PlayerSettings.productName = "开心三国0.1";
-        PlayerSettings.bundleVersion = "0.0.1";
-        PlayerSettings.bundleIdentifier = "cn.kx.wg.kxsginhouse";
+
+        ReadGameConfigurationXml();
+
+        PlayerSettings.productName = GameConfig.GameName;
+        PlayerSettings.bundleVersion = GameConfig.Version;
+        PlayerSettings.bundleIdentifier = GameConfig.BundleID;
 
         FileUtil.DeleteFileOrDirectory("release/IosBuild");
         Directory.CreateDirectory("release/IosBuild");

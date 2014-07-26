@@ -27,6 +27,7 @@ namespace KXSGCodec
   public partial class SCFriendExtendSucc : TBase
   {
     private short _friendCountLimit;
+    private short _friendLimitExtendTimes;
 
     public short FriendCountLimit
     {
@@ -41,6 +42,19 @@ namespace KXSGCodec
       }
     }
 
+    public short FriendLimitExtendTimes
+    {
+      get
+      {
+        return _friendLimitExtendTimes;
+      }
+      set
+      {
+        __isset.friendLimitExtendTimes = true;
+        this._friendLimitExtendTimes = value;
+      }
+    }
+
 
     public Isset __isset;
     #if !SILVERLIGHT
@@ -48,6 +62,7 @@ namespace KXSGCodec
     #endif
     public struct Isset {
       public bool friendCountLimit;
+      public bool friendLimitExtendTimes;
     }
 
     public SCFriendExtendSucc() {
@@ -68,6 +83,13 @@ namespace KXSGCodec
           case 1:
             if (field.Type == TType.I16) {
               FriendCountLimit = iprot.ReadI16();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 2:
+            if (field.Type == TType.I16) {
+              FriendLimitExtendTimes = iprot.ReadI16();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
@@ -93,6 +115,14 @@ namespace KXSGCodec
         oprot.WriteI16(FriendCountLimit);
         oprot.WriteFieldEnd();
       }
+      if (__isset.friendLimitExtendTimes) {
+        field.Name = "friendLimitExtendTimes";
+        field.Type = TType.I16;
+        field.ID = 2;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteI16(FriendLimitExtendTimes);
+        oprot.WriteFieldEnd();
+      }
       oprot.WriteFieldStop();
       oprot.WriteStructEnd();
     }
@@ -101,6 +131,8 @@ namespace KXSGCodec
       StringBuilder sb = new StringBuilder("SCFriendExtendSucc(");
       sb.Append("FriendCountLimit: ");
       sb.Append(FriendCountLimit);
+      sb.Append(",FriendLimitExtendTimes: ");
+      sb.Append(FriendLimitExtendTimes);
       sb.Append(")");
       return sb.ToString();
     }

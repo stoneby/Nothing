@@ -3,12 +3,33 @@ using UnityEngine;
 
 public class ExtendBag : MonoBehaviour
 {
+    private string extendContentKey;
+    public string ExtendContentKey
+    {
+        set
+        {
+            extendContentKey = value;
+            extendContentLabel.text = LanguageManager.Instance.GetTextValue(value);
+        }
+        get { return extendContentKey; }
+    }
+
+    private string extendLimitKey;
+    public string ExtendLimitKey
+    {
+        set
+        {
+            extendContentKey = value;
+            extendLimitLabel.text = LanguageManager.Instance.GetTextValue(value);
+        }
+        get { return extendContentKey; }
+    }
+
     private int extendPerTime;
     private int extendCounts;
     private int extendTimes;
     private int diamond;
     private int maxExtendSize;
-
     private UIEventListener okLis;
     private UIEventListener cancelLis;
     private UIEventListener increaseLis;
@@ -18,17 +39,17 @@ public class ExtendBag : MonoBehaviour
     private UILabel bagCountLabel;
     private UILabel titleBagCountLabel;
     private Dictionary<int, int> costDict;
+    private UILabel extendContentLabel;
+    private UILabel extendLimitLabel;
 
     public event UIEventListener.VoidDelegate OkClicked;
     public event UIEventListener.VoidDelegate CancelClicked;
 
     private short extendSize;
+
     public short ExtendSize
     {
-        get
-        {
-            return extendSize;
-        }
+        get { return extendSize; }
 
         private set
         {
@@ -39,14 +60,14 @@ public class ExtendBag : MonoBehaviour
                 titleBagCountLabel.text = extendCounts.ToString();
                 if(extendSize < value)
                 {
-                    for (int i = extendSize + 1; i <= value; i++)
+                    for(int i = extendSize + 1; i <= value; i++)
                     {
                         diamond += costDict[i + extendTimes];
                     }
                 }
-                if (value < extendSize)
+                if(value < extendSize)
                 {
-                    for (int i = value + 1; i <= extendSize; i++)
+                    for(int i = value + 1; i <= extendSize; i++)
                     {
                         diamond -= costDict[i + extendTimes];
                     }
@@ -54,8 +75,6 @@ public class ExtendBag : MonoBehaviour
                 diamondLabel.text = diamond.ToString();
                 extendSize = value;
             }
-
-            
         }
     }
 
@@ -71,8 +90,7 @@ public class ExtendBag : MonoBehaviour
     private void Reset()
     {
         ExtendSize = 1;
-        decreaseLis.GetComponent<UISprite>().color = Color.gray;
-        decreaseLis.GetComponent<BoxCollider>().enabled = false;
+        decreaseLis.GetComponent<UIButton>().isEnabled = false;
     }
 
     private void Awake()
@@ -84,6 +102,8 @@ public class ExtendBag : MonoBehaviour
         diamondLabel = Utils.FindChild(transform, "Diamond").GetComponent<UILabel>();
         bagCountLabel = Utils.FindChild(transform, "BagCount").GetComponent<UILabel>();
         titleBagCountLabel = Utils.FindChild(transform, "TitleBagCount").GetComponent<UILabel>();
+        extendContentLabel = Utils.FindChild(transform, "ExtendContent").GetComponent<UILabel>();
+        extendLimitLabel = Utils.FindChild(transform, "ExtendLimit").GetComponent<UILabel>();
     }
 
     private void InstallHandlers()
@@ -119,7 +139,8 @@ public class ExtendBag : MonoBehaviour
             OkClicked(go);
         }
         Destroy(gameObject);
-    } 
+    }
+
     private void OnCancel(GameObject go)
     {
         if (CancelClicked != null)
@@ -134,13 +155,11 @@ public class ExtendBag : MonoBehaviour
         ExtendSize++;
         if (ExtendSize >= maxExtendSize)
         {
-            increaseLis.GetComponent<UISprite>().color = Color.gray;
-            increaseLis.GetComponent<BoxCollider>().enabled = false;
+            increaseLis.GetComponent<UIButton>().isEnabled = false;
         }
         if (ExtendSize == 2)
         {
-            decreaseLis.GetComponent<UISprite>().color = Color.white;
-            decreaseLis.GetComponent<BoxCollider>().enabled = true;
+            decreaseLis.GetComponent<UIButton>().isEnabled = true;
         }
     }
 
@@ -149,13 +168,11 @@ public class ExtendBag : MonoBehaviour
         ExtendSize--;
         if (ExtendSize < maxExtendSize)
         {
-            increaseLis.GetComponent<UISprite>().color = Color.white;
-            increaseLis.GetComponent<BoxCollider>().enabled = true;
+            increaseLis.GetComponent<UIButton>().isEnabled = true;
         }
         if (ExtendSize == 1)
         {
-            decreaseLis.GetComponent<UISprite>().color = Color.gray;
-            decreaseLis.GetComponent<BoxCollider>().enabled = false;
+            decreaseLis.GetComponent<UIButton>().isEnabled = false;
         }
     }
 }

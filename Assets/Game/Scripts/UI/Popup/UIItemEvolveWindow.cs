@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using KXSGCodec;
 using Template;
+using Template.Auto.Item;
 using UnityEngine;
 
 /// <summary>
@@ -135,45 +136,18 @@ public class UIItemEvolveWindow : Window
         var item = evolveMats.GetChild(0);
         var desc = Utils.FindChild(item, "Desc").GetComponent<UILabel>();
         var ownCount = item.FindChild("OwnCount").GetComponent<UILabel>();
-        var count = FindMaterialCount(curEvoluteTmp.NeedMaterialId1);
-        ownCount.text = string.Format("{0}/{1}", count, curEvoluteTmp.NeedMaterialCount1);
-        ShowRarity(item);
-        if(count > 0)
-        {
-            desc.text = ItemModeLocator.Instance.GetName(curEvoluteTmp.NeedMaterialId1);
-        }
 
-        item = evolveMats.GetChild(1);
-        desc = Utils.FindChild(item, "Desc").GetComponent<UILabel>();
-        ownCount = item.FindChild("OwnCount").GetComponent<UILabel>();
-        count = FindMaterialCount(curEvoluteTmp.NeedMaterialId2);
-        ownCount.text = string.Format("{0}/{1}", count, curEvoluteTmp.NeedMaterialCount2);
-        ShowRarity(item);
-        if (count > 0)
+        var needMaterials = curEvoluteTmp.NeedMaterials;
+        for (var i = 0; i < needMaterials.Count; i++)
         {
-            desc.text = ItemModeLocator.Instance.GetName(curEvoluteTmp.NeedMaterialId2);
-        }
-
-        item = evolveMats.GetChild(2);
-        desc = Utils.FindChild(item, "Desc").GetComponent<UILabel>();
-        ownCount = item.FindChild("OwnCount").GetComponent<UILabel>();
-        count = FindMaterialCount(curEvoluteTmp.NeedMaterialId3);
-        ownCount.text = string.Format("{0}/{1}", count, curEvoluteTmp.NeedMaterialCount3);
-        ShowRarity(item);
-        if (count > 0)
-        {
-            desc.text = ItemModeLocator.Instance.GetName(curEvoluteTmp.NeedMaterialId3);
-        }
-
-        item = evolveMats.GetChild(3);
-        desc = Utils.FindChild(item, "Desc").GetComponent<UILabel>();
-        ownCount = item.FindChild("OwnCount").GetComponent<UILabel>();
-        count = FindMaterialCount(curEvoluteTmp.NeedMaterialId4);
-        ownCount.text = string.Format("{0}/{1}", count, curEvoluteTmp.NeedMaterialCount4);
-        ShowRarity(item);
-        if (count > 0)
-        {
-            desc.text = ItemModeLocator.Instance.GetName(curEvoluteTmp.NeedMaterialId4);
+            var needMaterial = needMaterials[i];
+            var count = FindMaterialCount(needMaterial.NeedMaterialId);
+            ownCount.text = string.Format("{0}/{1}", count, needMaterial.NeedMaterialCount);
+            ShowRarity(item);
+            if (count > 0)
+            {
+                desc.text = ItemModeLocator.Instance.GetName(needMaterial.NeedMaterialId);
+            } 
         }
         EvState = CanStartEvolve();
     }
@@ -239,7 +213,7 @@ public class UIItemEvolveWindow : Window
     {
         operItemIndex = ItemBaseInfoWindow.ItemDetail.BagIndex;
         itemInfo = ItemModeLocator.Instance.FindItem(operItemIndex);
-        curEvoluteTmp = ItemModeLocator.Instance.ItemConfig.ItemEvoluteTmpl[itemInfo.TmplId];
+        curEvoluteTmp = ItemModeLocator.Instance.ItemConfig.ItemEvoluteTmpls[itemInfo.TmplId];
         curCounts.Clear();
         needsCounts.Clear();
     }

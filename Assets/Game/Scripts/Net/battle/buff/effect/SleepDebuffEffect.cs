@@ -42,6 +42,10 @@ namespace com.kx.sglm.gs.battle.share.buff.effect
 			{
 				return;
 			}
+			if (!_buff.Active)
+			{
+				return;
+			}
 			owner.BuffManager.removeSingleBuff(_buff);
 		}
 

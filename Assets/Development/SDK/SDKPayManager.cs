@@ -4,6 +4,10 @@ using UnityEngine;
 public class SDKPayManager : MonoBehaviour
 {
     #region Private Fields
+#if UNITY_ANDROID
+    private static AndroidJavaClass jc;
+    private static AndroidJavaObject jo;
+#endif
 
     private UIEventListener payLis;
 
@@ -28,6 +32,11 @@ public class SDKPayManager : MonoBehaviour
 #if UNITY_IPHONE
         Debug.Log("Calling pay in IOS SDK after initialize.");
         SDK_IOS.ActivatePay(gameID);
+        SDKResponse.WhichResponse = null;
+#endif
+#if UNITY_ANDROID
+        Debug.Log("Calling SDK platformPay.");
+        jo.Call("platformpay", ServiceManager.UserID.ToString(), PlayerModelLocator.Instance.RoleId.ToString(), ServiceManager.ServerData.SID, gameID, "platformpay");
         SDKResponse.WhichResponse = null;
 #endif
     }
@@ -67,6 +76,23 @@ public class SDKPayManager : MonoBehaviour
             }
         }
 #endif
+#if UNITY_ANDROID
+        if (Application.platform != RuntimePlatform.WindowsEditor)
+        {
+            if (SDKResponse.IsInitialized == false)
+            {
+                Debug.Log("Calling SDK initialize.");
+                SDKResponse.WhichResponse += PayAfterInit;
+                gameID = themsg.GameOrderId.ToString();
+                jo.Call("initialize", ServiceManager.GameID, GameConfig.Version, ServiceManager.FValue, "initialize");
+            }
+            else
+            {
+                Debug.Log("Calling SDK platformPay.");
+                jo.Call("platformpay",ServiceManager.UserID.ToString(),PlayerModelLocator.Instance.RoleId.ToString(),ServiceManager.ServerData.SID,themsg.GameOrderId.ToString(),"platformpay");
+            }
+        }
+#endif
     }
 
     #endregion
@@ -78,6 +104,11 @@ public class SDKPayManager : MonoBehaviour
     {
 	    this.gameObject.SetActive(true);
         InstallHandlers();
+#if UNITY_ANDROID
+        if (SystemInfo.deviceType == DeviceType.Desktop) return;
+        jc = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+        jo = jc.GetStatic<AndroidJavaObject>("currentActivity");
+#endif
 	}
 	
 	// Update is called once per frame

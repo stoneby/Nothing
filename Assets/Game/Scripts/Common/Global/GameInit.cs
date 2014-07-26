@@ -13,11 +13,13 @@ public class GameInit : MonoBehaviour
 
         Logger.Log("GameInit started after everything ready, all start later call.");
         WindowManager.Instance.Show<LoadingWaitWindow>(true);
+        NetManager.OnMessageSended = OnMessageSended;
+        NetworkControl.OnMessageReceived = OnMessageReceived;
     }
 
     #endregion
 
-    #region Mono
+    #region Private Methods
 
     void Awake()
     {
@@ -26,6 +28,17 @@ public class GameInit : MonoBehaviour
 
         var gameInputBox = NGUITools.AddChild(Parent, GameInputBox);
         gameInputBox.transform.localPosition += new Vector3(0, Utils.Root.activeHeight / 2f, 0);
+    }
+
+
+    private static void OnMessageReceived()
+    {
+        WindowManager.Instance.Show<CommunitingWindow>(false);
+    }
+
+    private static void OnMessageSended()
+    {
+        WindowManager.Instance.Show<CommunitingWindow>(true);
     }
 
     #endregion

@@ -61,12 +61,18 @@ public class Character : MonoBehaviour
     public Animation Animation;
 
     /// <summary>
+    /// Flag indicates if this character could be selected.
+    /// </summary>
+    [HideInInspector]
+    public bool CanSelected;
+
+    /// <summary>
     /// Logic data.
     /// </summary>
     [HideInInspector]
     public FighterInfo Data;
 
-    public Dictionary<BuffManager.BuffType, int> BuffCountManager;
+    public Dictionary<BuffManager.BuffType, BuffData> BuffCountManager;
 
     #endregion
 
@@ -90,7 +96,7 @@ public class Character : MonoBehaviour
         var sameColor = ColorIndex == otherCharacter.ColorIndex;
         var xDistance = Math.Abs(Location.X - otherCharacter.Location.X);
         var yDistance = Math.Abs(Location.Y - otherCharacter.Location.Y);
-        return sameColor && Math.Max(xDistance, yDistance) == NeighborDistance;
+        return otherCharacter.CanSelected && sameColor && Math.Max(xDistance, yDistance) == NeighborDistance;
     }
 
     /// <summary>
@@ -124,7 +130,7 @@ public class Character : MonoBehaviour
         foreach (var pair in BuffCountManager)
         {
             var buffType = pair.Key;
-            var counter = pair.Value;
+            var counter = pair.Value.Count;
             if (counter > 0)
             {
                 buffManager.Show(buffType, gameObject);
@@ -134,6 +140,10 @@ public class Character : MonoBehaviour
                 buffManager.Stop(buffType, gameObject);
             }
         }
+
+        CanSelected =
+            !((BuffCountManager.ContainsKey(BuffManager.BuffType.Freeze) && BuffCountManager[BuffManager.BuffType.Freeze].Count > 0) ||
+            (BuffCountManager.ContainsKey(BuffManager.BuffType.Petrify) && BuffCountManager[BuffManager.BuffType.Petrify].Count > 0));
     }
 
     public void ResetBuff()
@@ -151,7 +161,7 @@ public class Character : MonoBehaviour
         foreach (var pair in BuffCountManager)
         {
             var buffType = pair.Key;
-            var count = pair.Value;
+            var count = pair.Value.Count;
             if (count <= 0)
             {
                 buffController.gameObject.SetActive(false);
@@ -196,7 +206,7 @@ public class Character : MonoBehaviour
             animationList = new List<string>(Animation.Cast<AnimationState>().Select(item => item.name));
         }
 
-        BuffCountManager = new Dictionary<BuffManager.BuffType, int>();
+        BuffCountManager = new Dictionary<BuffManager.BuffType, BuffData>();
     }
 
     #endregion

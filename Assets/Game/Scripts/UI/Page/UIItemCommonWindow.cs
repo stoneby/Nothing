@@ -119,7 +119,7 @@ public class UIItemCommonWindow : Window
     }
 
     /// <summary>
-    /// Filtering hero items with special job. 
+    /// Filtering items with special job. 
     /// </summary>
     /// <remarks>
     /// This function can only be called in the callback of uitoggle's onChange, 
@@ -131,11 +131,11 @@ public class UIItemCommonWindow : Window
         if (val)
         {
             var filter = UIToggle.current.GetComponent<ItemTypeFilterInfo>().Filter;
-            infos = ItemHelper.FilterItems(cachedInfos, filter) ?? new List<ItemInfo>();
+            cachedInfos = ItemHelper.FilterItems(infos, filter) ?? new List<ItemInfo>();
             var filterObjects = new List<Transform>();
-            for (var i = 0; i < cachedInfos.Count; i++)
+            for (var i = 0; i < infos.Count; i++)
             {
-                if (i < infos.Count)
+                if (i < cachedInfos.Count)
                 {
                     var item = Items.transform.GetChild(i).GetComponent<NewEquipItem>();
                     filterObjects.Add(item.transform);

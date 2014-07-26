@@ -22,12 +22,14 @@ public class UIItemDetailWindow : Window
 
     public override void OnEnter()
     {
+        MtaManager.TrackBeginPage(MtaType.ItemDetailWindow);
         okLis.onClick = OnOk;
         Refresh();
     }
 
     public override void OnExit()
     {
+        MtaManager.TrackEndPage(MtaType.ItemDetailWindow);
         okLis.onClick = null;
     }
 
@@ -60,21 +62,21 @@ public class UIItemDetailWindow : Window
 
     public void Refresh()
     {
-        var skillTmp = HeroModelLocator.Instance.SkillTemplates.SkillTmpl;
+        var skillTmp = HeroModelLocator.Instance.SkillTemplates.HeroBattleSkillTmpls;
         var detail = ItemModeLocator.Instance.ItemDetail;
         var initSkillId = detail.InitSkillId;
         if (skillTmp.ContainsKey(initSkillId))
         {
             var initTmp = skillTmp[initSkillId];
-            skillInitTitle.text = initTmp.Name;
-            skillInitDesc.text = initTmp.Desc;
+            skillInitTitle.text = initTmp.BaseTmpl.Name;
+            skillInitDesc.text = initTmp.BaseTmpl.Desc;
         }
         var randSkillId = detail.RandSkillId;
         if (skillTmp.ContainsKey(randSkillId))
         {
             var randTmp = skillTmp[randSkillId];
-            skillRandTitle.text = randTmp.Name;
-            skillRandDesc.text = randTmp.Desc;
+            skillRandTitle.text = randTmp.BaseTmpl.Name;
+            skillRandDesc.text = randTmp.BaseTmpl.Desc;
         }
         matchDesc.text = detail.MatchInfo;
     }

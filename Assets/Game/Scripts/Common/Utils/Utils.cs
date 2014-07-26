@@ -190,6 +190,41 @@ public class Utils
         return (long)diff.TotalMilliseconds;
     }
 
+    public static string GetTimeUntilNow(DateTime dateTime)
+    {
+        var timeSpan = DateTime.Now.Subtract(dateTime);
+        var oneHour = new TimeSpan(1, 0, 0);
+        var oneDay = new TimeSpan(1, 0, 0, 0);
+        var thirtyDays = new TimeSpan(30, 0, 0, 0);
+        if (timeSpan <= oneHour)
+        {
+            return Mathf.CeilToInt((float)timeSpan.TotalMinutes) +
+                   LanguageManager.Instance.GetTextValue("UIFriendEntry.MinAgo");
+        }
+        if (timeSpan <= oneDay)
+        {
+            return Mathf.CeilToInt((float)timeSpan.TotalHours) + LanguageManager.Instance.GetTextValue("UIFriendEntry.HourAgo");
+        }
+        if (timeSpan <= thirtyDays)
+        {
+            return Mathf.CeilToInt((float)timeSpan.TotalDays) + LanguageManager.Instance.GetTextValue("UIFriendEntry.DayAgo");
+        }
+        return 1 + LanguageManager.Instance.GetTextValue("UIFriendEntry.MonthAgo");
+    }
+
+    public static string GetTimeUntilNow(long timestamp)
+    {
+        var time = ConvertFromJavaTimestamp(timestamp);
+        return GetTimeUntilNow(time);
+    }
+
+    public static bool IsSameDay(DateTime datetime1, DateTime datetime2)
+    {
+        return datetime1.Year == datetime2.Year
+            && datetime1.Month == datetime2.Month
+            && datetime1.Day == datetime2.Day;
+    }
+
     public static string ConvertTimeSpanToString(TimeSpan timeRemain)
     {
         return string.Format("{0:D2}", (int)timeRemain.TotalHours) + ":" +

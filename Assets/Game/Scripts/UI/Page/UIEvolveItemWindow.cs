@@ -104,7 +104,7 @@ public class UIEvolveItemWindow : Window
         var info = ItemModeLocator.Instance.FindItem(bagIndex);
         UIItemSnapShotWindow.ItemInfo = info;
         var snapShot = WindowManager.Instance.Show<UIItemSnapShotWindow>(true);
-        var isEnabled = ItemModeLocator.Instance.ItemConfig.ItemEvoluteTmpl.ContainsKey(info.TmplId);
+        var isEnabled = ItemModeLocator.Instance.ItemConfig.ItemEvoluteTmpls.ContainsKey(info.TmplId);
         if (mats[0] == null)
         {
             snapShot.InitTemplate("ItemSnapShot.Evolve", GotoEvovle, isEnabled);
@@ -156,58 +156,25 @@ public class UIEvolveItemWindow : Window
         mat.GetComponent<ItemBase>().InitItem(info);
         mats[0] = mat;
 
-        var evoluteTmp = ItemModeLocator.Instance.ItemConfig.ItemEvoluteTmpl[info.TmplId];
+        var evoluteTmp = ItemModeLocator.Instance.ItemConfig.ItemEvoluteTmpls[info.TmplId];
         mat = NGUITools.AddChild(targetBg.gameObject, BaseItemPrefab);
         mat.GetComponent<ItemBase>().InitItem(evoluteTmp.TargetItemId);
         mats[1] = mat;
-
         var isDirty = false;
-        var id = evoluteTmp.NeedMaterialId1;
-        var count = FindMaterialCount(id);
-        if (count > 0)
+        for (var i = 0; i < evoluteTmp.NeedMaterials.Count; i++)
         {
-            mat = NGUITools.AddChild(evolveMats.gameObject, BaseItemPrefab);
-            mat.GetComponent<NGUILongPress>().OnNormalPress = NormalPressForMatInfo;
-            mat.GetComponent<ItemBase>().InitItem(id);
-            mats[2] = mat;
-            matsOwnCount[0].text = string.Format("{0}/{1}", count, evoluteTmp.NeedMaterialCount1);
-            isDirty = true;   
-        }
-
-        id = evoluteTmp.NeedMaterialId2;
-        count = FindMaterialCount(id);
-        if (count > 0)
-        {
-            mat = NGUITools.AddChild(evolveMats.gameObject, BaseItemPrefab);
-            mat.GetComponent<NGUILongPress>().OnNormalPress = NormalPressForMatInfo;
-            mat.GetComponent<ItemBase>().InitItem(id);
-            mats[3] = mat;
-            matsOwnCount[1].text = string.Format("{0}/{1}", count, evoluteTmp.NeedMaterialCount2);
-            isDirty = true;
-        }
-
-        id = evoluteTmp.NeedMaterialId3;
-        count = FindMaterialCount(id);
-        if (count > 0)
-        {
-            mat = NGUITools.AddChild(evolveMats.gameObject, BaseItemPrefab);
-            mat.GetComponent<NGUILongPress>().OnNormalPress = NormalPressForMatInfo;
-            mat.GetComponent<ItemBase>().InitItem(id);
-            mats[4] = mat;
-            matsOwnCount[2].text = string.Format("{0}/{1}", count, evoluteTmp.NeedMaterialCount3);
-            isDirty = true;
-        }
-
-        id = evoluteTmp.NeedMaterialId4;
-        count = FindMaterialCount(id);
-        if (count > 0)
-        {
-            mat = NGUITools.AddChild(evolveMats.gameObject, BaseItemPrefab);
-            mat.GetComponent<NGUILongPress>().OnNormalPress = NormalPressForMatInfo;
-            mat.GetComponent<ItemBase>().InitItem(id);
-            mats[5] = mat;
-            matsOwnCount[3].text = string.Format("{0}/{1}", count, evoluteTmp.NeedMaterialCount4);
-            isDirty = true;
+            var evoluteParam = evoluteTmp.NeedMaterials[i];
+            var count = FindMaterialCount(evoluteParam.NeedMaterialId);
+            if (count > 0)
+            {
+                mat = NGUITools.AddChild(evolveMats.gameObject, BaseItemPrefab);
+                mat.GetComponent<NGUILongPress>().OnNormalPress = NormalPressForMatInfo;
+                mat.GetComponent<ItemBase>().InitItem(evoluteParam.NeedMaterialId);
+                //The first two are used to store the main and target item. 
+                mats[2+i] = mat;
+                matsOwnCount[0].text = string.Format("{0}/{1}", count, evoluteParam.NeedMaterialCount);
+                isDirty = true;
+            }
         }
         if(isDirty)
         {

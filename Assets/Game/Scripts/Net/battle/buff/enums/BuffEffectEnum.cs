@@ -146,7 +146,7 @@ namespace com.kx.sglm.gs.battle.share.buff.enums
 		}
 
 		/// <summary>
-		/// fighter cannot connected </summary>
+		///fighter cannot connected </summary>
 		public static readonly BuffEffectEnum FROZEN_DEBUFF = new BuffEffectEnumAnonymousInnerClassHelper8();
 
 		private class BuffEffectEnumAnonymousInnerClassHelper8 : BuffEffectEnum
@@ -162,6 +162,8 @@ namespace com.kx.sglm.gs.battle.share.buff.enums
 			}
 		}
 
+		/// <summary>
+		/// Ê¯»¯ </summary>
 		public static readonly BuffEffectEnum PETRIFIED_DEBUFF = new BuffEffectEnumAnonymousInnerClassHelper9();
 
 		private class BuffEffectEnumAnonymousInnerClassHelper9 : BuffEffectEnum

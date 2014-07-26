@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Text;
 
 namespace com.kx.sglm.gs.battle.share.actor.impl
 {
@@ -41,9 +42,9 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 			{
 				baseProp.set(_prop.Key, (float)_prop.Value);
 			}
-			mutiProp.add(RoleAProperty.DECRDAMAGE, BattleConstants.BATTLE_RATIO_BASE);
-			mutiProp.add(RoleAProperty.INCRDAMAGE, BattleConstants.BATTLE_RATIO_BASE);
+			resetBuffProp();
 		}
+
 
 		public virtual void addBuffProp(AmendTriple amendTriple)
 		{
@@ -52,10 +53,9 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 
 		public virtual void addAttackProp(AmendTriple amendTriple)
 		{
-			RoleAProperty _prop = new RoleAProperty();
-			_prop.copyFrom(mutiProp);
-			amendTriple.amend(mutiProp, _prop);
-			mutiProp.copyFrom(_prop);
+			RoleAProperty _baseProp = new RoleAProperty();
+			amendTriple.amend(mutiProp, _baseProp);
+			mutiProp.set(amendTriple.AmendIndex, _baseProp.get(amendTriple.AmendIndex));
 		}
 
 		public virtual void addBuffProp(int key, float value)
@@ -66,7 +66,10 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 		public virtual void resetBuffProp()
 		{
 			this.buffProp.clear();
-
+			this.mutiProp.clear();
+			this.mutiProp.add(RoleAProperty.DECRDAMAGE, BattleConstants.BATTLE_RATIO_BASE);
+			this.mutiProp.add(RoleAProperty.INCRDAMAGE, BattleConstants.BATTLE_RATIO_BASE);
+			//Logger.Log("clear all buff prop");
 		}
 
 
@@ -82,6 +85,17 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 				int _index = BattleConstants.BATTLE_MUTI_PROP_ARR[_i];
 				battleProp.set(_index, mutiProp.get(_index));
 			}
+			//Logger.Log(string.Format("#recalcBattleProp.cur prop = {0}", toPropStr(battleProp)));
+		}
+
+		protected internal virtual string toPropStr(RoleAProperty prop)
+		{
+			StringBuilder _sb = new StringBuilder();
+			for (int _i = 0; _i < RoleAProperty._SIZE; _i++)
+			{
+				_sb.Append(_i).Append("=").Append(prop.get(_i)).Append(",");
+			}
+			return _sb.ToString();
 		}
 
 		public virtual RoleAProperty BattleProp

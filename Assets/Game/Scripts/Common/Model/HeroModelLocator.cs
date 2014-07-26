@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Template;
+using Template.Auto.Hero;
+using Template.Auto.Skill;
 using Object = UnityEngine.Object;
 using OrderType = ItemHelper.OrderType;
 
@@ -96,7 +98,7 @@ public sealed class HeroModelLocator
     /// <returns>The result of the comparation</returns>
     private int CompareHeroByJob(HeroInfo p1, HeroInfo p2)
     {
-        var heroTemp = HeroTemplates.HeroTmpl;
+        var heroTemp = HeroTemplates.HeroTmpls;
         int compareResult = heroTemp[p1.TemplateId].Job.CompareTo(heroTemp[p2.TemplateId].Job);
         if (compareResult == 0)
         {
@@ -113,7 +115,7 @@ public sealed class HeroModelLocator
     /// <returns>The result of the comparation</returns>
     private int CompareHeroByRarity(HeroInfo p1, HeroInfo p2)
     {
-        var heroTemp = HeroTemplates.HeroTmpl;
+        var heroTemp = HeroTemplates.HeroTmpls;
         int compareResult = heroTemp[p2.TemplateId].Star.CompareTo(heroTemp[p1.TemplateId].Star);
         if (compareResult == 0)
         {
@@ -250,13 +252,13 @@ public sealed class HeroModelLocator
 
     public List<HeroInfo> FilterByJob(sbyte job, List<HeroInfo> heros)
     {
-        return job == -1 ? heros : heros.Where(t => heroTemplates.HeroTmpl[t.TemplateId].Job == job).ToList();
+        return job == -1 ? heros : heros.Where(t => heroTemplates.HeroTmpls[t.TemplateId].Job == job).ToList();
     }
 
-    public SkillTemplate GetLeaderSkillTemplateById(int templateid)
+    public HeroBattleSkillTemplate GetLeaderSkillTemplateById(int templateid)
     {
-        SkillTemplate result;
-        if (SkillTemplates.SkillTmpl.TryGetValue(templateid, out result))
+        HeroBattleSkillTemplate result;
+        if (SkillTemplates.HeroBattleSkillTmpls.TryGetValue(templateid, out result))
         {
             return result;
         }
@@ -319,9 +321,9 @@ public sealed class HeroModelLocator
     public HeroTemplate GetHeroByTemplateId(int templateid)
     {
         var hero = HeroTemplates;
-        if (hero != null && hero.HeroTmpl != null && hero.HeroTmpl.ContainsKey(templateid))
+        if (hero != null && hero.HeroTmpls != null && hero.HeroTmpls.ContainsKey(templateid))
         {
-            return hero.HeroTmpl[templateid];
+            return hero.HeroTmpls[templateid];
         }
         return null;
     }

@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Xml;
 using UnityEngine;
 
 /// <summary>
@@ -10,23 +9,19 @@ using UnityEngine;
 /// </remarks>
 public abstract class AbstractBattlegroundLooper : MonoBehaviour
 {
+    public UIWidget Head;
+    public UIWidget Body;
+    public UIWidget Tail;
+
     /// <summary>
-    ///  Speed of moving.
+    ///  Speed of the whole moving.
     /// </summary>
     public float Speed;
 
     /// <summary>
-    /// Distance of one moving.
+    /// Duration from one step to another.
     /// </summary>
-    public float Distance;
-
-    /// <summary>
-    /// Duration of moving.
-    /// </summary>
-    public float Duration
-    {
-        get { return Distance / Speed; }
-    }
+    public float Duration;
 
     /// <summary>
     /// Step of loop in the middle.
@@ -41,6 +36,11 @@ public abstract class AbstractBattlegroundLooper : MonoBehaviour
 
     public abstract void Reset();
 
+    public float GetDuration(float width)
+    {
+        return (width / (Body.width * Speed));
+    }
+
     public void PlayLoop()
     {
         StartCoroutine(DoPlayLoop());
@@ -49,23 +49,23 @@ public abstract class AbstractBattlegroundLooper : MonoBehaviour
     private IEnumerator DoPlayLoop()
     {
         PlayBegin();
-        yield return new WaitForSeconds(Duration);
+        yield return new WaitForSeconds(GetDuration(Head.width));
         for (var i = 0; i < Step; ++i)
         {
             PlayOnce();
             yield return new WaitForSeconds(Duration);
         }
         PlayEnd();
-        yield return new WaitForSeconds(Duration);
+        yield return new WaitForSeconds(GetDuration(Tail.width));
     }
 
-    protected void PlayTween(TweenPosition tween, Vector3 from, Vector3 to)
+    protected void PlayTween(TweenPosition tween, Vector3 from, Vector3 to, float duration)
     {
         tween.ResetToBeginning();
         tween.from = from;
         tween.to = to;
         tween.PlayForward();
-        tween.duration = Duration;
+        tween.duration = duration;
     }
 
     protected abstract void Awake();

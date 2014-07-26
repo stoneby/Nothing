@@ -12,14 +12,14 @@ public class BuffManager : Singleton<BuffManager>
     public enum BuffType
     {
         Poison = 0,
+        Burn,
         Palsy,
         Sleep,
-        Burn,
-        Freeze,
         Petrify,
+        Freeze,
         Seal,
-        Delay,
         IncreaseData,
+        Delay,
         Relieve
     }
 

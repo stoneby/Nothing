@@ -235,6 +235,22 @@ namespace com.kx.sglm.gs.battle.share.buff
 			paramMap[key] = value;
 		}
 
+		public virtual bool Active
+		{
+			get
+			{
+				bool _active = true;
+				foreach (BuffStackInfo _info in stackingList)
+				{
+					if (!_info.Active)
+					{
+						_active = false;
+					}
+				}
+				return _active;
+			}
+		}
+
 
 		// TODO: É¾³ý½«ËÀµÄBUFF
 

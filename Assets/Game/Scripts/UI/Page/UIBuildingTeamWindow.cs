@@ -76,12 +76,14 @@ public class UIBuildingTeamWindow : Window
 
     public override void OnEnter()
     {
+        MtaManager.TrackBeginPage(MtaType.HeroBuildingTeamWindow);
         Init();
         InstallHandlers();
     }
 
     public override void OnExit()
     {
+        MtaManager.TrackEndPage(MtaType.HeroBuildingTeamWindow);
         UnInstallHandlers();
         heroToUp = null;
         CleanMask();
@@ -90,7 +92,7 @@ public class UIBuildingTeamWindow : Window
         {
             scHeroList.CurrentTeamIndex = CurTeamIndex;
             var msg = new CSHeroChangeTeam {TeamIndex = CurTeamIndex};
-            NetManager.SendMessage(msg);
+            NetManager.SendMessage(msg, false);
         }
     }
 

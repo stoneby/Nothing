@@ -60,7 +60,7 @@ public class InfoShowingWindow : Window
         heroIcon.enabled = true;
         itemIcon.enabled = false;
         var jobIcon = Utils.FindChild(transform, "JobIcon").GetComponent<UISprite>();
-        var heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpl[info.TemplateId];
+        var heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpls[info.TemplateId];
         jobIcon.spriteName = HeroConstant.HeroJobPrefix + heroTemplate.Job;
 
         var stars = transform.FindChild("RewardItem/Rarity");

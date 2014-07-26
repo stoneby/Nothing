@@ -63,7 +63,7 @@ public class FragmentListWindow : Window
                 fragmentHeroTemp.MaterialCount = starChip[i][item];
             }
             int composeCount =
-                HeroModelLocator.Instance.HeroTemplates.HeroTmpl[fragmentHeroTemp.TemplateId].ComposeCount;
+                HeroModelLocator.Instance.HeroTemplates.HeroTmpls[fragmentHeroTemp.TemplateId].ComposeCount;
             if (fragmentHeroTemp.MaterialCount < composeCount * (1-MaxSuperChipUse) || fragmentHeroTemp.MaterialCount + superChip < composeCount)
             {
                 fragmentHeroTemp.SwitchColor(Color.grey);
@@ -134,7 +134,7 @@ public class FragmentListWindow : Window
         {
             if (item.TemplateId == scLotteryComposeSucc.TemplateId)
             {
-                int composeCount = HeroModelLocator.Instance.HeroTemplates.HeroTmpl[item.TemplateId].ComposeCount;
+                int composeCount = HeroModelLocator.Instance.HeroTemplates.HeroTmpls[item.TemplateId].ComposeCount;
                 item.MaterialCount = scLotteryComposeSucc.ChipCount;
                 if (item.MaterialCount < composeCount * 0.8 || item.MaterialCount + PlayerModelLocator.Instance.SuperChip < composeCount)
                 {

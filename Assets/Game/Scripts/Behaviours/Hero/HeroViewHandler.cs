@@ -47,8 +47,8 @@ public class HeroViewHandler : MonoBehaviour
     {
         itemExtendConfirm = NGUITools.AddChild(transform.gameObject, ExtendBagConfirm).GetComponent<ExtendBag>();
         var bases = ItemModeLocator.Instance.Bag;
-        var costDict = bases.HeroExtTmpl.ToDictionary(item => item.Value.Id, item => item.Value.Cost);
-        itemExtendConfirm.Init(PlayerModelLocator.Instance.ExtendHeroTimes + 1, bases.BagBaseTmpl[1].EachExtItemNum,
+        var costDict = bases.HeroExtTmpls.ToDictionary(item => item.Value.Id, item => item.Value.ExtendCost);
+        itemExtendConfirm.Init(PlayerModelLocator.Instance.ExtendHeroTimes + 1, bases.BagBaseTmpls[1].ExtendHeroCount,
                                costDict);
         itemExtendConfirm.OkClicked += OnExendBagOk;
     }

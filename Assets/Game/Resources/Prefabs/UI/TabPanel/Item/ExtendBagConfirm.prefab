@@ -29,7 +29,7 @@ GameObject:
   - 114: {fileID: 11400004}
   - 114: {fileID: 11400060}
   m_Layer: 8
-  m_Name: Label2
+  m_Name: ExtendLimit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -236,7 +236,7 @@ GameObject:
   - 114: {fileID: 11400028}
   - 114: {fileID: 11400056}
   m_Layer: 8
-  m_Name: Label
+  m_Name: ExtendContent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -329,7 +329,6 @@ Transform:
   - {fileID: 400006}
   - {fileID: 400032}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
 --- !u!4 &400002
 Transform:
   m_ObjectHideFlags: 1
@@ -341,7 +340,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400000}
-  m_RootOrder: 5
 --- !u!4 &400004
 Transform:
   m_ObjectHideFlags: 1
@@ -353,7 +351,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400000}
-  m_RootOrder: 0
 --- !u!4 &400006
 Transform:
   m_ObjectHideFlags: 1
@@ -366,7 +363,6 @@ Transform:
   m_Children:
   - {fileID: 400008}
   m_Father: {fileID: 400000}
-  m_RootOrder: 7
 --- !u!4 &400008
 Transform:
   m_ObjectHideFlags: 1
@@ -378,7 +374,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400006}
-  m_RootOrder: 0
 --- !u!4 &400010
 Transform:
   m_ObjectHideFlags: 1
@@ -391,7 +386,6 @@ Transform:
   m_Children:
   - {fileID: 400018}
   m_Father: {fileID: 400000}
-  m_RootOrder: 2
 --- !u!4 &400012
 Transform:
   m_ObjectHideFlags: 1
@@ -403,7 +397,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400000}
-  m_RootOrder: 3
 --- !u!4 &400014
 Transform:
   m_ObjectHideFlags: 1
@@ -415,7 +408,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400000}
-  m_RootOrder: 4
 --- !u!4 &400016
 Transform:
   m_ObjectHideFlags: 1
@@ -428,7 +420,6 @@ Transform:
   m_Children:
   - {fileID: 400020}
   m_Father: {fileID: 400000}
-  m_RootOrder: 6
 --- !u!4 &400018
 Transform:
   m_ObjectHideFlags: 1
@@ -440,7 +431,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400010}
-  m_RootOrder: 0
 --- !u!4 &400020
 Transform:
   m_ObjectHideFlags: 1
@@ -452,7 +442,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400016}
-  m_RootOrder: 0
 --- !u!4 &400022
 Transform:
   m_ObjectHideFlags: 1
@@ -464,7 +453,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400032}
-  m_RootOrder: 0
 --- !u!4 &400024
 Transform:
   m_ObjectHideFlags: 1
@@ -476,7 +464,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400032}
-  m_RootOrder: 4
 --- !u!4 &400026
 Transform:
   m_ObjectHideFlags: 1
@@ -488,7 +475,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400032}
-  m_RootOrder: 3
 --- !u!4 &400028
 Transform:
   m_ObjectHideFlags: 1
@@ -500,7 +486,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400032}
-  m_RootOrder: 2
 --- !u!4 &400030
 Transform:
   m_ObjectHideFlags: 1
@@ -512,7 +497,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400032}
-  m_RootOrder: 1
 --- !u!4 &400032
 Transform:
   m_ObjectHideFlags: 1
@@ -529,7 +513,6 @@ Transform:
   - {fileID: 400026}
   - {fileID: 400024}
   m_Father: {fileID: 400000}
-  m_RootOrder: 8
 --- !u!4 &400034
 Transform:
   m_ObjectHideFlags: 1
@@ -541,7 +524,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400000}
-  m_RootOrder: 1
 --- !u!54 &5400000
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -704,6 +686,8 @@ MonoBehaviour:
   mWidth: 500
   mHeight: 50
   mDepth: 2
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -766,6 +750,8 @@ MonoBehaviour:
   mWidth: 604
   mHeight: 314
   mDepth: 0
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -816,6 +802,8 @@ MonoBehaviour:
   mWidth: 150
   mHeight: 53
   mDepth: 4
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 1
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -866,6 +854,8 @@ MonoBehaviour:
   mWidth: 148
   mHeight: 30
   mDepth: 5
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -928,6 +918,8 @@ MonoBehaviour:
   mWidth: 150
   mHeight: 53
   mDepth: 6
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 1
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -978,6 +970,8 @@ MonoBehaviour:
   mWidth: 63
   mHeight: 72
   mDepth: 7
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 1
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -1028,6 +1022,8 @@ MonoBehaviour:
   mWidth: 63
   mHeight: 72
   mDepth: 8
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 1
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -1078,6 +1074,8 @@ MonoBehaviour:
   mWidth: 198
   mHeight: 70
   mDepth: 9
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -1128,6 +1126,8 @@ MonoBehaviour:
   mWidth: 148
   mHeight: 30
   mDepth: 7
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -1190,6 +1190,8 @@ MonoBehaviour:
   mWidth: 148
   mHeight: 30
   mDepth: 10
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -1252,6 +1254,8 @@ MonoBehaviour:
   mWidth: 49
   mHeight: 50
   mDepth: 1
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -1314,6 +1318,8 @@ MonoBehaviour:
   mWidth: 49
   mHeight: 50
   mDepth: 1
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -1376,6 +1382,8 @@ MonoBehaviour:
   mWidth: 147
   mHeight: 50
   mDepth: 1
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -1438,6 +1446,8 @@ MonoBehaviour:
   mWidth: 111
   mHeight: 50
   mDepth: 1
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -1500,6 +1510,8 @@ MonoBehaviour:
   mWidth: 111
   mHeight: 50
   mDepth: 1
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -1573,6 +1585,8 @@ MonoBehaviour:
   mWidth: 2048
   mHeight: 1024
   mDepth: -1
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 1
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -1676,7 +1690,7 @@ MonoBehaviour:
   dragHighlight: 0
   hoverSprite: plus_press_on
   pressedSprite: plus_press_on
-  disabledSprite: plus_default
+  disabledSprite: plus_grey
   pixelSnap: 0
   onClick: []
 --- !u!114 &11400048
@@ -1698,7 +1712,7 @@ MonoBehaviour:
   dragHighlight: 0
   hoverSprite: nega_press_on
   pressedSprite: nega_press_on
-  disabledSprite: nega_default
+  disabledSprite: nega_grey
   pixelSnap: 0
   onClick: []
 --- !u!114 &11400050

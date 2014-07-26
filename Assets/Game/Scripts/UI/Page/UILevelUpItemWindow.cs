@@ -103,6 +103,7 @@ public class UILevelUpItemWindow : Window
 
     public override void OnEnter()
     {
+        MtaManager.TrackBeginPage(MtaType.LevelUpItemWindow);
         itemsWindow = WindowManager.Instance.GetWindow<UIItemCommonWindow>();
         itemsWindow.NormalClicked = OnNormalClicked;
         Init();
@@ -111,6 +112,7 @@ public class UILevelUpItemWindow : Window
 
     public override void OnExit()
     {
+        MtaManager.TrackEndPage(MtaType.LevelUpItemWindow);
         UnInstallHandlers();
         CleanMats();
     }
@@ -290,7 +292,7 @@ public class UILevelUpItemWindow : Window
     private int GetLevelChanged()
     {
         var exp = expCanGet + MainInfo.CurExp;
-        var itemLvlTmpls = ItemModeLocator.Instance.ItemConfig.ItemLvlTmpl;
+        var itemLvlTmpls = ItemModeLocator.Instance.ItemConfig.ItemLvlTmpls;
         var level = MainInfo.Level;
         while (exp >= itemLvlTmpls[level].MaxExp)
         {

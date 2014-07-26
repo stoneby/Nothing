@@ -8,6 +8,9 @@
 	<target name="AndroidConfig"  depends="ReplaceFile">
 		<echo>Android Package Config Params</echo>
 	</target>
+	<target name="IosConfig"  depends="ReplaceFile">
+		<echo>IOS Package Config Params</echo>
+	</target>
 	<target name="ExeConfig"  depends="ReplaceFile">
 		<echo>Exe Package Config Params</echo>
 	</target>

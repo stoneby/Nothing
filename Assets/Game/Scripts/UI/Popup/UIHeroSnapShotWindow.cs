@@ -124,7 +124,7 @@ public class UIHeroSnapShotWindow : Window
     private void RefreshHero()
     {
         level.text = heroInfo.Lvl.ToString(CultureInfo.InvariantCulture);
-        var herotemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpl[heroInfo.TemplateId];
+        var herotemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpls[heroInfo.TemplateId];
         jobIcon.spriteName = HeroConstant.HeroJobPrefix + herotemplate.Job;
     }
 

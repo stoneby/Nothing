@@ -56,8 +56,8 @@ public class ItemViewHandler : MonoBehaviour
     {
         itemExtendConfirm = NGUITools.AddChild(transform.gameObject, ItemExtendConfirm).GetComponent<ExtendBag>();
         var bases = ItemModeLocator.Instance.Bag;
-        var costDict = bases.ItemExtTmpl.ToDictionary(item => item.Value.Id, item => item.Value.Cost);
-        itemExtendConfirm.Init(PlayerModelLocator.Instance.ExtendItemTimes + 1, bases.BagBaseTmpl[1].EachExtItemNum,
+        var costDict = bases.ItemExtTmpls.ToDictionary(item => item.Value.Id, item => item.Value.ExtendCost);
+        itemExtendConfirm.Init(PlayerModelLocator.Instance.ExtendItemTimes + 1, bases.BagBaseTmpls[1].ExtendItemCount,
                                costDict);
         itemExtendConfirm.OkClicked += OnExendBagOk;
     }

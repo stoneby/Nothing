@@ -1,4 +1,5 @@
 ﻿using Template;
+using Template.Auto.Level;
 using UnityEngine;
 
 public sealed class LevelModelLocator
@@ -37,9 +38,9 @@ public sealed class LevelModelLocator
 
     public LevelUpTemplate GetLevelByTemplateId(int templateid)
     {
-        if (LevelUpTemplates != null && LevelUpTemplates.LevelUpTmpl != null && LevelUpTemplates.LevelUpTmpl.ContainsKey(templateid))
+        if (LevelUpTemplates != null && LevelUpTemplates.LevelUpTmpls != null && LevelUpTemplates.LevelUpTmpls.ContainsKey(templateid))
         {
-            return LevelUpTemplates.LevelUpTmpl[templateid];
+            return LevelUpTemplates.LevelUpTmpls[templateid];
         }
         return null;
     }

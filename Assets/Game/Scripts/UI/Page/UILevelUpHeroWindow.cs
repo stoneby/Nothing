@@ -4,6 +4,7 @@ using System.Globalization;
 using KXSGCodec;
 using Property;
 using Template;
+using Template.Auto.Hero;
 using UnityEngine;
 
 /// <summary>
@@ -22,7 +23,6 @@ public class UILevelUpHeroWindow : Window
 
     private UIHeroCommonWindow herosWindow;
     private GameObject heroToLevelUp;
-    //private GameObject heroToCancel;
     private GameObject curLevelUpObject;
     private UIDragDropContainer dragDropContainer;
     private GameObject mask;
@@ -79,7 +79,7 @@ public class UILevelUpHeroWindow : Window
             if (infoIsNotNull)
             {
                 curLvl = heroInfo.Lvl;
-                heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpl[heroInfo.TemplateId];
+                heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpls[heroInfo.TemplateId];
                 var addtionTimes = heroTemplate.LvlLimit - heroInfo.Lvl;
                 maxAtk = heroInfo.Prop[RoleProperties.ROLE_ATK] + GetConverted(heroTemplate.AttackAddtion) * addtionTimes;
                 maxHp = heroInfo.Prop[RoleProperties.ROLE_HP] + GetConverted(heroTemplate.HPAddtion) * addtionTimes;
@@ -112,6 +112,7 @@ public class UILevelUpHeroWindow : Window
 
     public override void OnEnter()
     {
+        MtaManager.TrackBeginPage(MtaType.LevelUpHeroWindow);
         HeroInfo = null;
         herosWindow = WindowManager.Instance.GetWindow<UIHeroCommonWindow>();
         herosWindow.NormalClicked = OnNormalClickForLvlUp;
@@ -121,6 +122,7 @@ public class UILevelUpHeroWindow : Window
 
     public override void OnExit()
     {
+        MtaManager.TrackEndPage(MtaType.LevelUpHeroWindow);
         UnInstallHandlers();
         CleanupCurLvlUp();
     }
@@ -344,26 +346,7 @@ public class UILevelUpHeroWindow : Window
     /// <returns>The cost soul of the hero.</returns>
     private long GetCostSoul(short lvl, int starNum)
     {
-        long soulValue = 0;
-        switch (starNum)
-        {
-            case 1:
-                soulValue = HeroModelLocator.Instance.HeroTemplates.LvlUpTmpl[lvl].CostSoulStar1;
-                break;
-            case 2:
-                soulValue = HeroModelLocator.Instance.HeroTemplates.LvlUpTmpl[lvl].CostSoulStar2;
-                break;
-            case 3:
-                soulValue = HeroModelLocator.Instance.HeroTemplates.LvlUpTmpl[lvl].CostSoulStar3;
-                break;
-            case 4:
-                soulValue = HeroModelLocator.Instance.HeroTemplates.LvlUpTmpl[lvl].CostSoulStar4;
-                break;
-            case 5:
-                soulValue = HeroModelLocator.Instance.HeroTemplates.LvlUpTmpl[lvl].CostSoulStar5;
-                break;
-        }
-        return soulValue;
+        return HeroModelLocator.Instance.HeroTemplates.LvlUpTmpls[lvl].CostSoul[starNum - 1];
     }
 
     /// <summary>

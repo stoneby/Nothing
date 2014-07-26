@@ -194,6 +194,7 @@ public class TeamSelectController : MonoBehaviour
             }
             character.Index = i;
             character.name += "_" + i;
+            character.CanSelected = true;
         }
 
         // generate bounds according to its children.
@@ -242,10 +243,14 @@ public class TeamSelectController : MonoBehaviour
             return;
         }
 
-        Logger.LogWarning("On character click: " + sender.name);
+        var currentCharacter = sender.GetComponent<Character>();
+        Logger.LogWarning("On character click: " + sender.name + ", can selected: " + currentCharacter.CanSelected);
+        if (!currentCharacter.CanSelected)
+        {
+            return;
+        }
 
         SelectedCharacterList.Clear();
-        var currentCharacter = sender.GetComponent<Character>();
         SelectedCharacterList.Add(currentCharacter);
 
         if (OnStop != null)
@@ -330,7 +335,7 @@ public class TeamSelectController : MonoBehaviour
         var firstTime = (LastCharacter == null);
         if (!firstTime && !LastCharacter.IsNeighborhood(currentCharacter))
         {
-            Logger.LogWarning("Current character: " + currentCharacter + " is not my neighbor: " + LastCharacter);
+            Logger.LogWarning("Current character: " + currentCharacter + " is not my neighbor: " + LastCharacter + ", with can selected: " + currentCharacter.CanSelected);
             return;
         }
 

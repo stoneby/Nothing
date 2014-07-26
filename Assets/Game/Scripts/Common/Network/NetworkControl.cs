@@ -7,6 +7,9 @@ public class NetworkControl : MonoBehaviour
 {
     private float realTime = -10;
 
+    public delegate void MessageReceived();
+    public static MessageReceived OnMessageReceived;
+
     private static IEnumerator MessageHandler()
     {
         while (true)
@@ -14,6 +17,10 @@ public class NetworkControl : MonoBehaviour
             var msg = NetManager.GetMessage();
             while (msg != null)
             {
+                if (OnMessageReceived != null)
+                {
+                    OnMessageReceived();
+                }
                 Logger.Log(msg.GetMsgType());
                 switch (msg.GetMsgType())
                 {
@@ -122,6 +129,33 @@ public class NetworkControl : MonoBehaviour
                         break;
                     case(short)MessageType.SC_RECHARGE_ID_MSG:
                         SDKPayManager.PayInSDK(msg);
+                        break;
+                    case (short)MessageType.SC_FRIEND_LOADING_ALL:
+                        FriendHandler.OnFriendLoadingAll(msg);
+                        break;
+                    case (short)MessageType.SC_FRIEND_APPLY_LIST:
+                        FriendHandler.OnFriendApplyList(msg);
+                        break;
+                    case (short)MessageType.SC_FRIEND_QUERY_BY_NAME:
+                        FriendHandler.OnFriendQueryByName(msg);
+                        break;
+                    case (short)MessageType.SC_FRIEND_GIVE_ENERGY_SUCC:
+                        FriendHandler.OnFriendGiveEnergySucc(msg);
+                        break;
+                    case (short)MessageType.SC_FRIEND_RECIEVE_ENERGY_LIST:
+                        FriendHandler.OnFriendRecieveEnergyList(msg);
+                        break;
+                    case (short)MessageType.SC_FRIEND_RECIEVE_ENERGY_SUCC:
+                        FriendHandler.OnFriendReciveEnergySucc(msg);
+                        break;
+                    case (short)MessageType.SC_FRIEND_APPLY_SUCC:
+                        FriendHandler.OnFriendApplySucc(msg);
+                        break;
+                    case (short)MessageType.SC_FRIEND_APPLY_OPER_SUCC:
+                        FriendHandler.OnFriendApplyOperSucc(msg);
+                        break;
+                    case (short)MessageType.SC_FRIEND_EXTEND_SUCC:
+                        FriendHandler.OnFriendExtendSucc(msg);
                         break;
                 }
                 msg = NetManager.GetMessage();

@@ -6,27 +6,23 @@
 /// <remarks>Head and tail is one time showing, body is designed to loop.</remarks>
 public class BackgroundLooperVersion1 : AbstractBattlegroundLooper
 {
-    public UITexture Head;
-    public UITexture Body;
-    public UITexture Tail;
-
     private TextureLooper looper;
     private TweenPosition positionTween;
     private Vector3 defaultPosition;
 
     public override void PlayBegin()
     {
-        PlayTween(positionTween, new Vector3(640, 0), Vector3.zero);
+        PlayTween(positionTween, new Vector3(Head.width, 0), Vector3.zero, GetDuration(Head.width));
     }
 
     public override void PlayOnce()
     {
-        looper.GoByTime(Duration);
+        looper.Play(Duration);
     }
 
     public override void PlayEnd()
     {
-        PlayTween(positionTween, Vector3.zero, new Vector3(-640, 0));
+        PlayTween(positionTween, Vector3.zero, new Vector3(-Tail.width, 0), GetDuration(Tail.width));
     }
 
     public override void Reset()

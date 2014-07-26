@@ -18,38 +18,30 @@ public class TextureLooper : MonoBehaviour
     public Style LoopStyle;
 
     /// <summary>
-    /// Distance of texture moving.
-    /// </summary>
-    public float Distance;
-
-    /// <summary>
     /// Speed of texture moving.
     /// </summary>
     public float Speed;
 
-    public float Duration { get { return Distance / (texture.width * Speed); } }
+    /// <summary>
+    /// Duration of texture moving.
+    /// </summary>
+    public float Duration;
+
     public float CurrentPosition { get; set; }
 
     private UITexture texture;
 
-    public void GoOne()
+    public void Play()
     {
         CurrentPosition = 0f;
         GoTo(0f, 1f, Duration);
     }
 
-    public void GoByTime(float time)
+    public void Play(float time)
     {
         var from = CurrentPosition;
-        var to = CurrentPosition + time * Speed;
+        var to = CurrentPosition - time * Speed;
         GoTo(from, to, time);
-    }
-
-    public void GoByDistance(float distance)
-    {
-        var from = CurrentPosition;
-        var to = CurrentPosition + distance / texture.width;
-        GoTo(from, to, Duration);
     }
 
     public void Loop()
@@ -108,7 +100,7 @@ public class TextureLooper : MonoBehaviour
     {
         while (true)
         {
-            GoOne();
+            Play();
             yield return new WaitForSeconds(Duration);
         }
     }

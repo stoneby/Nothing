@@ -153,8 +153,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LoopStyle: 0
-  Distance: 1280
-  Speed: 2
+  Speed: 1
+  Duration: .5
 --- !u!114 &654348722
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -434,12 +434,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be2052eb635e2c244a427f8203fbda69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 2
-  Distance: 1280
-  Step: 2
   Head: {fileID: 775331768}
   Body: {fileID: 654348722}
   Tail: {fileID: 1573691518}
+  Speed: 1
+  Duration: .5
+  Step: 2
 --- !u!114 &1082028003
 MonoBehaviour:
   m_ObjectHideFlags: 0

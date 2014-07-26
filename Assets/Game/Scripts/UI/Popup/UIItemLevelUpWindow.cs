@@ -44,7 +44,7 @@ public class UIItemLevelUpWindow : Window
             {
                 getExp = value;
                 var exp = getExp + itemInfo.CurExp;
-                var itemLvlTmpls = ItemModeLocator.Instance.ItemConfig.ItemLvlTmpl;
+                var itemLvlTmpls = ItemModeLocator.Instance.ItemConfig.ItemLvlTmpls;
                 var lvl = itemInfo.Level;
                 while (exp >= itemLvlTmpls[lvl].MaxExp)
                 {
@@ -157,8 +157,8 @@ public class UIItemLevelUpWindow : Window
         }
         else
         {
-            var equipTemplate = ItemModeLocator.Instance.ItemTemplates.EquipTmpl;
-            var materialTempl = ItemModeLocator.Instance.ItemTemplates.MaterialTmpl;
+            var equipTemplate = ItemModeLocator.Instance.ItemTemplates.EquipTmpls;
+            var materialTempl = ItemModeLocator.Instance.ItemTemplates.MaterialTmpls;
             var materials =
            infos.FindAll(
                info =>
@@ -302,7 +302,7 @@ public class UIItemLevelUpWindow : Window
     {
         var curLvl = itemInfo.Level;
         var maxLvl = itemInfo.MaxLvl;
-        var itemLvlTmpls = ItemModeLocator.Instance.ItemConfig.ItemLvlTmpl;
+        var itemLvlTmpls = ItemModeLocator.Instance.ItemConfig.ItemLvlTmpls;
         var result = itemLvlTmpls[curLvl].MaxExp - itemInfo.CurExp;
         for (int i = curLvl + 1; i < maxLvl; i++)
         {

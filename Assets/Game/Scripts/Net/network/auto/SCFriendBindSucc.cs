@@ -27,6 +27,7 @@ namespace KXSGCodec
   public partial class SCFriendBindSucc : TBase
   {
     private long _friendUuid;
+    private sbyte _bindType;
 
     public long FriendUuid
     {
@@ -41,6 +42,19 @@ namespace KXSGCodec
       }
     }
 
+    public sbyte BindType
+    {
+      get
+      {
+        return _bindType;
+      }
+      set
+      {
+        __isset.bindType = true;
+        this._bindType = value;
+      }
+    }
+
 
     public Isset __isset;
     #if !SILVERLIGHT
@@ -48,6 +62,7 @@ namespace KXSGCodec
     #endif
     public struct Isset {
       public bool friendUuid;
+      public bool bindType;
     }
 
     public SCFriendBindSucc() {
@@ -68,6 +83,13 @@ namespace KXSGCodec
           case 1:
             if (field.Type == TType.I64) {
               FriendUuid = iprot.ReadI64();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 2:
+            if (field.Type == TType.Byte) {
+              BindType = iprot.ReadByte();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
@@ -93,6 +115,14 @@ namespace KXSGCodec
         oprot.WriteI64(FriendUuid);
         oprot.WriteFieldEnd();
       }
+      if (__isset.bindType) {
+        field.Name = "bindType";
+        field.Type = TType.Byte;
+        field.ID = 2;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteByte(BindType);
+        oprot.WriteFieldEnd();
+      }
       oprot.WriteFieldStop();
       oprot.WriteStructEnd();
     }
@@ -101,6 +131,8 @@ namespace KXSGCodec
       StringBuilder sb = new StringBuilder("SCFriendBindSucc(");
       sb.Append("FriendUuid: ");
       sb.Append(FriendUuid);
+      sb.Append(",BindType: ");
+      sb.Append(BindType);
       sb.Append(")");
       return sb.ToString();
     }

@@ -94,7 +94,8 @@ public class SDK_IOS : MonoBehaviour
     {
         if (Application.platform != RuntimePlatform.OSXEditor)
         {
-            PressPay(gameOrderId, int.Parse(ServiceManager.UserID.ToString()), int.Parse(ServiceManager.ServerData.SID), "123456", "11");
+            PressPay(gameOrderId, int.Parse(ServiceManager.UserID.ToString()), int.Parse(ServiceManager.ServerData.SID), 
+                PlayerModelLocator.Instance.RoleId.ToString(), "11");
         }
     }
 //#endif

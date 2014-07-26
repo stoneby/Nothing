@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using KXSGCodec;
 using Template;
+using Template.Auto.Hero;
 using UnityEngine;
 
 /// <summary>
@@ -45,7 +46,7 @@ public class HeroBaseInfoWindow : Window
             if (heroInfo != value)
             {
                 heroInfo = value;
-                heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpl[heroInfo.TemplateId];
+                heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpls[heroInfo.TemplateId];
                 CurUuid = heroInfo.Uuid;
             }
         }

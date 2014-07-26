@@ -147,20 +147,20 @@ public class UIItemInfoWindow : Window
 
     private void Refresh()
     {
-        var skillTmp = HeroModelLocator.Instance.SkillTemplates.SkillTmpl;
+        var skillTmp = HeroModelLocator.Instance.SkillTemplates.HeroBattleSkillTmpls;
         var initSkillId = ItemBaseInfoWindow.ItemDetail.InitSkillId;
         if (skillTmp.ContainsKey(initSkillId))
         {
             var initTmp = skillTmp[initSkillId];
-            skillInitTitle.text = initTmp.Name;
-            skillInitDesc.text = initTmp.Desc;
+            skillInitTitle.text = initTmp.BaseTmpl.Name;
+            skillInitDesc.text = initTmp.BaseTmpl.Desc;
         }
         var randSkillId = ItemBaseInfoWindow.ItemDetail.RandSkillId;
         if (skillTmp.ContainsKey(randSkillId))
         {
             var randTmp = skillTmp[randSkillId];
-            skillRandTitle.text = randTmp.Name;
-            skillRandDesc.text = randTmp.Desc;
+            skillRandTitle.text = randTmp.BaseTmpl.Name;
+            skillRandDesc.text = randTmp.BaseTmpl.Desc;
         }
         matchInfoDesc.text = ItemBaseInfoWindow.ItemDetail.MatchInfo;
         NGUITools.SetActive(explainContent.gameObject, true);
@@ -174,7 +174,7 @@ public class UIItemInfoWindow : Window
 
     private bool IsInEvolveTemplate()
     {
-        var temp = ItemModeLocator.Instance.ItemConfig.ItemEvoluteTmpl;
+        var temp = ItemModeLocator.Instance.ItemConfig.ItemEvoluteTmpls;
         return temp.Any(item => item.Value.Id == itemInfo.TmplId);
     }
 

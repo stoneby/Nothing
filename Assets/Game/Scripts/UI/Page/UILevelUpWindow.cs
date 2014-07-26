@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using KXSGCodec;
 using Template;
+using Template.Auto.Hero;
 using UnityEngine;
 
 /// <summary>
@@ -60,7 +61,7 @@ public class UILevelUpWindow : Window
     public override void OnEnter()
     {
         heroInfo = HeroModelLocator.Instance.FindHero(HeroBaseInfoWindow.CurUuid);
-        heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpl[heroInfo.TemplateId];
+        heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpls[heroInfo.TemplateId];
         curLvl = heroInfo.Lvl;
         InstallHandlers();
         RefreshData();
@@ -185,26 +186,7 @@ public class UILevelUpWindow : Window
     /// <returns>The cost soul of the hero.</returns>
     private long GetCostSoul(short lvl, int starNum)
     {
-        long soulValue = 0;
-        switch (starNum)
-        {
-            case 1:
-                soulValue = HeroModelLocator.Instance.HeroTemplates.LvlUpTmpl[lvl].CostSoulStar1;
-                break;
-            case 2:
-                soulValue = HeroModelLocator.Instance.HeroTemplates.LvlUpTmpl[lvl].CostSoulStar2;
-                break;
-            case 3:
-                soulValue = HeroModelLocator.Instance.HeroTemplates.LvlUpTmpl[lvl].CostSoulStar3;
-                break;
-            case 4:
-                soulValue = HeroModelLocator.Instance.HeroTemplates.LvlUpTmpl[lvl].CostSoulStar4;
-                break;
-            case 5:
-                soulValue = HeroModelLocator.Instance.HeroTemplates.LvlUpTmpl[lvl].CostSoulStar5;
-                break;
-        }
-        return soulValue;
+        return HeroModelLocator.Instance.HeroTemplates.LvlUpTmpls[lvl].CostSoul[starNum -1];
     }
 
     /// <summary>

@@ -3,6 +3,7 @@ using System.Globalization;
 using KXSGCodec;
 using Property;
 using Template;
+using Template.Auto.Hero;
 using UnityEngine;
 
 /// <summary>
@@ -43,7 +44,7 @@ public class UIHeroInfoWindow : Window
     public override void OnEnter()
     {
         heroInfo = HeroModelLocator.Instance.FindHero(HeroBaseInfoWindow.CurUuid);
-        heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpl[heroInfo.TemplateId];
+        heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpls[heroInfo.TemplateId];
         RefreshData();
         InstallHandlers();
     }
@@ -107,41 +108,41 @@ public class UIHeroInfoWindow : Window
         hp.text = heroInfo.Prop[RoleProperties.ROLE_HP].ToString(CultureInfo.InvariantCulture);
         recover.text = heroInfo.Prop[RoleProperties.ROLE_RECOVER].ToString(CultureInfo.InvariantCulture);
         mp.text = heroInfo.Prop[RoleProperties.ROLE_MP].ToString(CultureInfo.InvariantCulture);
-        var skillTmp = HeroModelLocator.Instance.SkillTemplates.SkillTmpl;
+        var skillTmp = HeroModelLocator.Instance.SkillTemplates.HeroBattleSkillTmpls;
         if (skillTmp.ContainsKey(heroTemplate.SpSkill))
         {
             var activeSkillTemp = skillTmp[heroTemplate.ActiveSkill];
             var activeSkill = Utils.FindChild(SkillContent.transform, "Skill-Active");
-            Utils.FindChild(activeSkill, "Name").GetComponent<UILabel>().text = activeSkillTemp.Name;
-            Utils.FindChild(activeSkill, "Desc").GetComponent<UILabel>().text = activeSkillTemp.Desc;
-            Utils.FindChild(activeSkill, "Cost").GetComponent<UILabel>().text = activeSkillTemp.CostMp.ToString(CultureInfo.InvariantCulture);
+            Utils.FindChild(activeSkill, "Name").GetComponent<UILabel>().text = activeSkillTemp.BaseTmpl.Name;
+            Utils.FindChild(activeSkill, "Desc").GetComponent<UILabel>().text = activeSkillTemp.BaseTmpl.Desc;
+            Utils.FindChild(activeSkill, "Cost").GetComponent<UILabel>().text = activeSkillTemp.CostMP.ToString(CultureInfo.InvariantCulture);
         }
        
         if (skillTmp.ContainsKey(heroTemplate.LeaderSkill))
         {
             var leaderSkillTemp = skillTmp[heroTemplate.LeaderSkill];
             var leaderSkill = Utils.FindChild(transform, "Skill-Leader");
-            Utils.FindChild(leaderSkill, "Name").GetComponent<UILabel>().text = leaderSkillTemp.Name;
-            Utils.FindChild(leaderSkill, "Desc").GetComponent<UILabel>().text = leaderSkillTemp.Desc;
+            Utils.FindChild(leaderSkill, "Name").GetComponent<UILabel>().text = leaderSkillTemp.BaseTmpl.Name;
+            Utils.FindChild(leaderSkill, "Desc").GetComponent<UILabel>().text = leaderSkillTemp.BaseTmpl.Desc;
         }
 
         if (skillTmp.ContainsKey(heroTemplate.SpSkill))
         {
             var spSkillTemp = skillTmp[heroTemplate.SpSkill];
             var spSkill = Utils.FindChild(SkillContent.transform, "Skill-SP");
-            Utils.FindChild(spSkill, "Name").GetComponent<UILabel>().text = spSkillTemp.Name;
-            Utils.FindChild(spSkill, "Desc").GetComponent<UILabel>().text = spSkillTemp.Desc;
-            Utils.FindChild(spSkill, "LV-Value").GetComponent<UILabel>().text = (spSkillTemp.Id % 10).ToString(CultureInfo.InvariantCulture);
-            Utils.FindChild(spSkill, "Probability-Value").GetComponent<UILabel>().text = spSkillTemp.OccorRate + "%";
+            Utils.FindChild(spSkill, "Name").GetComponent<UILabel>().text = spSkillTemp.BaseTmpl.Name;
+            Utils.FindChild(spSkill, "Desc").GetComponent<UILabel>().text = spSkillTemp.BaseTmpl.Desc;
+            Utils.FindChild(spSkill, "LV-Value").GetComponent<UILabel>().text = (spSkillTemp.BaseTmpl.Id % 10).ToString(CultureInfo.InvariantCulture);
+            //Utils.FindChild(spSkill, "Probability-Value").GetComponent<UILabel>().text = spSkillTemp.OccorRate + "%";
         }
 
-        if(skillTmp.ContainsKey(heroTemplate.PassiveSkill1))
+        if(skillTmp.ContainsKey(heroTemplate.PassiveSkill[0]))
         {
             NGUITools.SetActive(TalentContent, true);
-            var passiveSkill = skillTmp[heroTemplate.PassiveSkill1];
+            var passiveSkill = skillTmp[heroTemplate.PassiveSkill[0]];
             var skillOne = Utils.FindChild(TalentContent.transform, "SP-SkillOne");
-            Utils.FindChild(skillOne, "Name").GetComponent<UILabel>().text = passiveSkill.Name;
-            Utils.FindChild(skillOne, "Desc").GetComponent<UILabel>().text = passiveSkill.Desc;
+            Utils.FindChild(skillOne, "Name").GetComponent<UILabel>().text = passiveSkill.BaseTmpl.Name;
+            Utils.FindChild(skillOne, "Desc").GetComponent<UILabel>().text = passiveSkill.BaseTmpl.Desc;
             NGUITools.SetActive(TalentContent, false);
         }
         if(needShowLevelUp)
@@ -155,7 +156,7 @@ public class UIHeroInfoWindow : Window
     {
         heroInfo = info;
         HeroBaseInfoWindow.CurUuid = info.Uuid;
-        heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpl[heroInfo.TemplateId];
+        heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpls[heroInfo.TemplateId];
         RefreshData();
     }
 

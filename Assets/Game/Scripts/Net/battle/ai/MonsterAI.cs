@@ -126,9 +126,9 @@ namespace com.kx.sglm.gs.battle.share.ai
 		}
 
 
-		public virtual bool hasShield()
+		public virtual bool hasNoShield()
 		{
-			return ShieldBuffId != 0;
+			return ShieldBuffId == 0;
 		}
 
 		public virtual MonsterShield MonsterShield
@@ -136,7 +136,7 @@ namespace com.kx.sglm.gs.battle.share.ai
 			get
 			{
 				//TODO: 这里用了强转，很不好，以后修改
-				return !hasShield() ? null : (MonsterShield)BattleActionService.Service.getBuffAction(shieldBuffId);
+				return hasNoShield() ? null : (MonsterShield)BattleActionService.Service.getBuffAction(shieldBuffId);
 			}
 		}
 

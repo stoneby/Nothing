@@ -66,7 +66,9 @@ namespace com.kx.sglm.gs.battle.share.skill.effect
 
 			_attack = calcSingleDamage(_attack, _defence, _indexValMuti, _spValMuti, _weakRatio, _damageMuti, _damageFree);
 
-			_attack = calcSpecialShield(defencer, _attack);
+			_attack = calcAttackerState(attacker, _attack);
+
+			_attack = calcDefencerState(defencer, _attack);
 
 			float _costHpFloat = _attack * this.hitCount;
 			// Àƒ…·ŒÂ»Î
@@ -92,7 +94,7 @@ namespace com.kx.sglm.gs.battle.share.skill.effect
 		}
 
 		/// <param name="defencer"> </param>
-		protected internal virtual float calcSpecialShield(BattleFighter defencer, float damage)
+		protected internal virtual float calcDefencerState(BattleFighter defencer, float damage)
 		{
 			float _resultDamage = damage;
 			if (defencer.hasState(BattleConstants.MONSTER_SHIELD_FLAG))
@@ -103,6 +105,16 @@ namespace com.kx.sglm.gs.battle.share.skill.effect
 			else
 			{
 				Logger.Log(string.Format("shield not working, index = {0:D}, damage = {1:F}, result = {2:F}", defencer.Index, damage, _resultDamage));
+			}
+			return _resultDamage;
+		}
+
+		protected internal virtual float calcAttackerState(BattleFighter attacker, float damage)
+		{
+			float _resultDamage = damage;
+			if (attacker.hasState(BattleConstants.ATTACK_ZERO_FLAG))
+			{
+				_resultDamage = 0;
 			}
 			return _resultDamage;
 		}

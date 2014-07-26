@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using KXSGCodec;
 using Template;
+using Template.Auto.Bag;
+using Template.Auto.Item;
 using UnityEngine;
 using OrderType = ItemHelper.OrderType;
 using EquipType = ItemHelper.EquipType;
@@ -242,15 +244,15 @@ public class ItemModeLocator
     /// <returns>The equip type of the item.</returns>
     public EquipType GetItemType(int temId)
     {
-        if(ItemTemplates.EquipTmpl.ContainsKey(temId))
+        if(ItemTemplates.EquipTmpls.ContainsKey(temId))
         {
             return EquipType.Equip;
         }
-        if(ItemTemplates.ArmorTmpl.ContainsKey(temId))
+        if(ItemTemplates.ArmorTmpls.ContainsKey(temId))
         {
             return EquipType.Armor;
         }
-        if(ItemTemplates.MaterialTmpl.ContainsKey(temId))
+        if(ItemTemplates.MaterialTmpls.ContainsKey(temId))
         {
             return EquipType.Material;
         }
@@ -265,8 +267,8 @@ public class ItemModeLocator
     /// <returns>The job type of the item.</returns>
     public sbyte GetJob(int tempId)
     {
-        var equipTmpl = ItemTemplates.EquipTmpl;
-        var materialTempl = ItemTemplates.MaterialTmpl;
+        var equipTmpl = ItemTemplates.EquipTmpls;
+        var materialTempl = ItemTemplates.MaterialTmpls;
         if (equipTmpl.ContainsKey(tempId))
         {
             return equipTmpl[tempId].JobType;
@@ -285,20 +287,20 @@ public class ItemModeLocator
     /// <returns>The quility of the item.</returns>
     public sbyte GetQuality(int tempId)
     {
-        var equipTmpl = ItemTemplates.EquipTmpl;
-        var armorTmpl = ItemTemplates.ArmorTmpl;
-        var materialTempl = ItemTemplates.MaterialTmpl;
+        var equipTmpl = ItemTemplates.EquipTmpls;
+        var armorTmpl = ItemTemplates.ArmorTmpls;
+        var materialTempl = ItemTemplates.MaterialTmpls;
         if (equipTmpl.ContainsKey(tempId))
         {
-            return equipTmpl[tempId].Quality;
+            return equipTmpl[tempId].BaseTmpl.Quality;
         }
         if (armorTmpl.ContainsKey(tempId))
         {
-            return armorTmpl[tempId].Quality;
+            return armorTmpl[tempId].BaseTmpl.Quality;
         }
         if (materialTempl.ContainsKey(tempId))
         {
-            return materialTempl[tempId].Quality;
+            return materialTempl[tempId].BaseTmpl.Quality;
         }
         return -1;
     }
@@ -311,8 +313,8 @@ public class ItemModeLocator
     /// <returns>The Attack of the item.</returns>
     public int GetAttack(int tempId, short level)
     {
-        var equipTmpl = ItemTemplates.EquipTmpl;
-        var armorTmpl = ItemTemplates.ArmorTmpl;
+        var equipTmpl = ItemTemplates.EquipTmpls;
+        var armorTmpl = ItemTemplates.ArmorTmpls;
         if (equipTmpl.ContainsKey(tempId))
         {
             return equipTmpl[tempId].Attack + level * equipTmpl[tempId].AttackLvlParam;
@@ -332,8 +334,8 @@ public class ItemModeLocator
     /// <returns>The recover of the item.</returns>
     public int GetRecover(int tempId, short level)
     {
-        var equipTmpl = ItemTemplates.EquipTmpl;
-        var armorTmpl = ItemTemplates.ArmorTmpl;
+        var equipTmpl = ItemTemplates.EquipTmpls;
+        var armorTmpl = ItemTemplates.ArmorTmpls;
         if (equipTmpl.ContainsKey(tempId))
         {
             return equipTmpl[tempId].Recover + level * equipTmpl[tempId].RecoverLvlParam;
@@ -353,8 +355,8 @@ public class ItemModeLocator
     /// <returns>The hp of the item.</returns>
     public int GetHp(int tempId, short level)
     {
-        var equipTmpl = ItemTemplates.EquipTmpl;
-        var armorTmpl = ItemTemplates.ArmorTmpl;
+        var equipTmpl = ItemTemplates.EquipTmpls;
+        var armorTmpl = ItemTemplates.ArmorTmpls;
         if (equipTmpl.ContainsKey(tempId))
         {
             return equipTmpl[tempId].Hp + level * equipTmpl[tempId].HpLvlParam;
@@ -373,8 +375,8 @@ public class ItemModeLocator
     /// <returns>The hp of the item.</returns>
     public int GetMp(int tempId)
     {
-        var equipTmpl = ItemTemplates.EquipTmpl;
-        var armorTmpl = ItemTemplates.ArmorTmpl;
+        var equipTmpl = ItemTemplates.EquipTmpls;
+        var armorTmpl = ItemTemplates.ArmorTmpls;
         if (equipTmpl.ContainsKey(tempId))
         {
             return equipTmpl[tempId].Mp;
@@ -394,40 +396,40 @@ public class ItemModeLocator
     /// <returns>The hp of the item.</returns>
     public string GetName(int tempId)
     {
-        var equipTmpl = ItemTemplates.EquipTmpl;
-        var armorTmpl = ItemTemplates.ArmorTmpl;
-        var materialTempl = ItemTemplates.MaterialTmpl;
+        var equipTmpl = ItemTemplates.EquipTmpls;
+        var armorTmpl = ItemTemplates.ArmorTmpls;
+        var materialTempl = ItemTemplates.MaterialTmpls;
         if(equipTmpl.ContainsKey(tempId))
         {
-            return equipTmpl[tempId].Name;
+            return equipTmpl[tempId].BaseTmpl.Name;
         }
         if(armorTmpl.ContainsKey(tempId))
         {
-            return armorTmpl[tempId].Name;
+            return armorTmpl[tempId].BaseTmpl.Name;
         }
         if(materialTempl.ContainsKey(tempId))
         {
-            return materialTempl[tempId].Name;
+            return materialTempl[tempId].BaseTmpl.Name;
         }
         return "";
     }
 
     public string GetDesc(int tempId)
     {
-        var equipTmpl = ItemTemplates.EquipTmpl;
-        var armorTmpl = ItemTemplates.ArmorTmpl;
-        var materialTempl = ItemTemplates.MaterialTmpl;
+        var equipTmpl = ItemTemplates.EquipTmpls;
+        var armorTmpl = ItemTemplates.ArmorTmpls;
+        var materialTempl = ItemTemplates.MaterialTmpls;
         if(equipTmpl.ContainsKey(tempId))
         {
-            return equipTmpl[tempId].Desc;
+            return equipTmpl[tempId].BaseTmpl.Desc;
         }
         if(armorTmpl.ContainsKey(tempId))
         {
-            return armorTmpl[tempId].Desc;
+            return armorTmpl[tempId].BaseTmpl.Desc;
         }
         if(materialTempl.ContainsKey(tempId))
         {
-            return materialTempl[tempId].Desc;
+            return materialTempl[tempId].BaseTmpl.Desc;
         }
         return "";
     }
@@ -437,10 +439,10 @@ public class ItemModeLocator
     /// </summary>
     /// <param name="tempId">The templete id of the item.</param>
     /// <returns>The hp of the item.</returns>
-    public sbyte GetUpLimit(int tempId)
+    public int GetUpLimit(int tempId)
     {
-        var equipTmpl = ItemTemplates.EquipTmpl;
-        var armorTmpl = ItemTemplates.ArmorTmpl;
+        var equipTmpl = ItemTemplates.EquipTmpls;
+        var armorTmpl = ItemTemplates.ArmorTmpls;
         if (equipTmpl.ContainsKey(tempId))
         {
             return equipTmpl[tempId].UpLimit;
@@ -459,8 +461,8 @@ public class ItemModeLocator
     /// <returns>The hp of the item.</returns>
     public bool GetCanLvlUp(int tempId)
     {
-        var equipTmpl = ItemTemplates.EquipTmpl;
-        var armorTmpl = ItemTemplates.ArmorTmpl;
+        var equipTmpl = ItemTemplates.EquipTmpls;
+        var armorTmpl = ItemTemplates.ArmorTmpls;
         if (equipTmpl.ContainsKey(tempId))
         {
             return equipTmpl[tempId].CanUpLvl;
@@ -479,8 +481,8 @@ public class ItemModeLocator
     /// <returns>The hp of the item.</returns>
     public bool GetCanEvolve(int tempId)
     {
-        var equipTmpl = ItemTemplates.EquipTmpl;
-        var armorTmpl = ItemTemplates.ArmorTmpl;
+        var equipTmpl = ItemTemplates.EquipTmpls;
+        var armorTmpl = ItemTemplates.ArmorTmpls;
         if (equipTmpl.ContainsKey(tempId))
         {
             return equipTmpl[tempId].CanEvolution;
@@ -499,20 +501,20 @@ public class ItemModeLocator
     /// <returns>The sale price of the item.</returns>
     public int GetSalePrice(int tempId)
     {
-        var equipTmpl = ItemTemplates.EquipTmpl;
-        var armorTmpl = ItemTemplates.ArmorTmpl;
-        var matTmpl = ItemTemplates.MaterialTmpl;
+        var equipTmpl = ItemTemplates.EquipTmpls;
+        var armorTmpl = ItemTemplates.ArmorTmpls;
+        var matTmpl = ItemTemplates.MaterialTmpls;
         if (equipTmpl.ContainsKey(tempId))
         {
-            return equipTmpl[tempId].SalePrice;
+            return equipTmpl[tempId].BaseTmpl.SalePrice;
         }
         if (armorTmpl.ContainsKey(tempId))
         {
-            return armorTmpl[tempId].SalePrice;
+            return armorTmpl[tempId].BaseTmpl.SalePrice;
         }
         if (matTmpl.ContainsKey(tempId))
         {
-            return matTmpl[tempId].SalePrice;
+            return matTmpl[tempId].BaseTmpl.SalePrice;
         }
         return -1;
     }

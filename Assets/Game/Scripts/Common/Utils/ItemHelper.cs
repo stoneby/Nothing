@@ -96,8 +96,8 @@ public class ItemHelper
         var itemType = ItemModeLocator.Instance.GetItemType(tempId);
         if (itemType == EquipType.Equip)
         {
-            var equipTemp = ItemModeLocator.Instance.ItemTemplates.EquipTmpl[tempId];
-            quality = equipTemp.Quality;
+            var equipTemp = ItemModeLocator.Instance.ItemTemplates.EquipTmpls[tempId];
+            quality = equipTemp.BaseTmpl.Quality;
             job = equipTemp.JobType;
             atk = equipTemp.Attack;
             hp = equipTemp.Hp;
@@ -105,16 +105,16 @@ public class ItemHelper
         }
         if (itemType == EquipType.Armor)
         {
-            var armorTemp = ItemModeLocator.Instance.ItemTemplates.ArmorTmpl[tempId];
-            quality = armorTemp.Quality;
+            var armorTemp = ItemModeLocator.Instance.ItemTemplates.ArmorTmpls[tempId];
+            quality = armorTemp.BaseTmpl.Quality;
             atk = armorTemp.Attack;
             hp = armorTemp.Hp;
             recover = armorTemp.Recover;
         }
         if (itemType == EquipType.Material)
         {
-            var materialTemp = ItemModeLocator.Instance.ItemTemplates.MaterialTmpl[tempId];
-            quality = materialTemp.Quality;
+            var materialTemp = ItemModeLocator.Instance.ItemTemplates.MaterialTmpls[tempId];
+            quality = materialTemp.BaseTmpl.Quality;
             job = materialTemp.FitJobType;
         }
         ShowItem(orderType, itemTran, quality, level, job, atk, hp, recover);
@@ -150,8 +150,8 @@ public class ItemHelper
         {
             return false;
         }
-        var equipTemplate = ItemModeLocator.Instance.ItemTemplates.EquipTmpl;
-        var materialTempl = ItemModeLocator.Instance.ItemTemplates.MaterialTmpl;
+        var equipTemplate = ItemModeLocator.Instance.ItemTemplates.EquipTmpls;
+        var materialTempl = ItemModeLocator.Instance.ItemTemplates.MaterialTmpls;
         var info = ItemModeLocator.Instance.FindItem(bagIndex);
         var type = ItemModeLocator.Instance.GetItemType(info.TmplId);
         var result = false;

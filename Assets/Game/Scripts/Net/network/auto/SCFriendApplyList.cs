@@ -19,7 +19,7 @@ namespace KXSGCodec
 {
 
   /// <summary>
-  /// 请求申请列表
+  /// 好友申请我的列表
   /// </summary>
   #if !SILVERLIGHT
   [Serializable]

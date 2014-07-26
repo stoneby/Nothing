@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Linq;
 using KXSGCodec;
 using Template;
+using Template.Auto.Hero;
 using UnityEngine;
 
 /// <summary>
@@ -36,6 +37,7 @@ public class UISellHeroWindow : Window
 
     public override void OnEnter()
     {
+        MtaManager.TrackBeginPage(MtaType.SellHeroWindow);
         herosWindow = WindowManager.Instance.GetWindow<UIHeroCommonWindow>();
         herosWindow.NormalClicked = OnNormalClickForSell;
         selCount.text = string.Format("{0}/{1}", csHeroSell.SellList.Count, MaxSellCount);
@@ -48,6 +50,7 @@ public class UISellHeroWindow : Window
 
     public override void OnExit()
     {
+        MtaManager.TrackEndPage(MtaType.SellHeroWindow);
         UnInstallHandlers();
         CleanUp();
     }
@@ -159,9 +162,9 @@ public class UISellHeroWindow : Window
     {
         var uuid = go.GetComponent<HeroItemBase>().Uuid;
         var heroInfo = HeroModelLocator.Instance.FindHero(uuid);
-        var baseSoul = hero.HeroTmpl[heroInfo.TemplateId].Price;
+        var baseSoul = hero.HeroTmpls[heroInfo.TemplateId].Price;
         var level = heroInfo.Lvl;
-        var stars = hero.HeroTmpl[heroInfo.TemplateId].Star;
+        var stars = hero.HeroTmpls[heroInfo.TemplateId].Star;
         var costSoul = GetCostSoul(stars, level);
         if(!csHeroSell.SellList.Contains(uuid))
         {
@@ -170,7 +173,7 @@ public class UISellHeroWindow : Window
             sellMasks.Add(maskToAdd);
             go.transform.FindChild("BG").GetComponent<UISprite>().color = Color.gray;
             maskToAdd.SetActive(true);
-            totalSoul += (long)(baseSoul + costSoul * hero.BaseTmpl[1].SellCoeff);
+            totalSoul += (long)(baseSoul + costSoul * hero.BaseTmpls[1].SellCoeff);
             sellDictionary.Add(copied, go);
         }
         else
@@ -180,7 +183,7 @@ public class UISellHeroWindow : Window
             sellMasks.Remove(maskToAdd);
             Destroy(maskToAdd);
             go.transform.FindChild("BG").GetComponent<UISprite>().color = Color.white;
-            totalSoul -= (long)(baseSoul + costSoul * hero.BaseTmpl[1].SellCoeff);
+            totalSoul -= (long)(baseSoul + costSoul * hero.BaseTmpls[1].SellCoeff);
             sellDictionary.Remove(copied);
             NGUITools.Destroy(copied);
         }
@@ -205,38 +208,9 @@ public class UISellHeroWindow : Window
     private long GetCostSoul(sbyte stars, short level)
     {
         long costSoul = 0;
-        switch (stars)
+        for (int index = 1; index < level; index++)
         {
-            case 1:
-                for (int index = 1; index < level; index++)
-                {
-                    costSoul += hero.LvlUpTmpl[index].CostSoulStar1;
-                }
-                break;
-            case 2:
-                for (int index = 1; index < level; index++)
-                {
-                    costSoul += hero.LvlUpTmpl[index].CostSoulStar2;
-                }
-                break;
-            case 3:
-                for (int index = 1; index < level; index++)
-                {
-                    costSoul += hero.LvlUpTmpl[index].CostSoulStar3;
-                }
-                break;
-            case 4:
-                for (int index = 1; index < level; index++)
-                {
-                    costSoul += hero.LvlUpTmpl[index].CostSoulStar4;
-                }
-                break;
-            case 5:
-                for (int index = 1; index < level; index++)
-                {
-                    costSoul += hero.LvlUpTmpl[index].CostSoulStar5;
-                }
-                break;
+            costSoul += hero.LvlUpTmpls[index].CostSoul[stars - 1];
         }
         return costSoul;
     }

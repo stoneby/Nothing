@@ -14,9 +14,9 @@ public class WidgetLooper : MonoBehaviour
     public float Speed;
 
     /// <summary>
-    /// Distance of moving.
+    /// Duration of moving.
     /// </summary>
-    public Vector3 Distance;
+    public float Duration;
 
     /// <summary>
     /// Base widget for current widiget to move across by.
@@ -27,11 +27,6 @@ public class WidgetLooper : MonoBehaviour
     private TweenPosition positionTween;
     private Vector3 defaultPosition;
     private Vector3 currentPosition;
-
-    private float Duration
-    {
-        get { return Vector3.Magnitude(Distance) / Speed; }
-    }
 
     private float MinX
     {
@@ -44,6 +39,11 @@ public class WidgetLooper : MonoBehaviour
 
     public void Play()
     {
+        Play(Duration);
+    }
+
+    public void Play(float duration)
+    {
         if (currentPosition.x < MinX)
         {
             currentPosition.x = MaxX;
@@ -54,8 +54,9 @@ public class WidgetLooper : MonoBehaviour
             currentPosition.x = MinX;
         }
 
-        PlayTween(positionTween, currentPosition, currentPosition + Distance);
-        currentPosition += Distance;
+        var distance = new Vector3(duration * Speed * BaseWidget.width, 0, 0);
+        PlayTween(positionTween, currentPosition, currentPosition - distance);
+        currentPosition -= distance;
     }
 
     public void Reset()
@@ -75,7 +76,7 @@ public class WidgetLooper : MonoBehaviour
     {
         while (true)
         {
-            Play();
+            Play(Duration);
             yield return new WaitForSeconds(Duration);
         }
     }
@@ -96,6 +97,7 @@ public class WidgetLooper : MonoBehaviour
         positionTween = GetComponent<TweenPosition>() ?? gameObject.AddComponent<TweenPosition>();
         positionTween.enabled = false;
 
-        Reset();
+        defaultPosition = transform.localPosition;
+        currentPosition = defaultPosition;
     }
 }
