@@ -17,6 +17,7 @@ public class UIItemSnapShotWindow : Window
     private UILabel recoverLabel;
     private UILabel mpLabel;
     private UILabel level;
+    private UILabel nameLabel;
     private UISprite jobIcon;
 
     public UIEventListener.VoidDelegate TemplateBtnPressed;
@@ -73,6 +74,7 @@ public class UIItemSnapShotWindow : Window
         mpLabel = property.Find("MP/MPValue").GetComponent<UILabel>();
         level = transform.Find("Item/Level/LevelLabel").GetComponent<UILabel>();
         jobIcon = transform.Find("Item/Job/JobIcon").GetComponent<UISprite>();
+        nameLabel = transform.Find("Name").GetComponent<UILabel>();
     }
 
     private void InstallHandlers()
@@ -125,7 +127,9 @@ public class UIItemSnapShotWindow : Window
     private void RefreshItem()
     {
         level.text = ItemInfo.Level.ToString(CultureInfo.InvariantCulture);
-        jobIcon.spriteName = HeroConstant.HeroJobPrefix + ItemModeLocator.Instance.GetJob(ItemInfo.TmplId);
+        var tempId = ItemInfo.TmplId;
+        jobIcon.spriteName = HeroConstant.HeroJobPrefix + ItemModeLocator.Instance.GetJob(tempId);
+        nameLabel.text = ItemModeLocator.Instance.GetName(tempId);
     }
 
     private void RefreshProperty()

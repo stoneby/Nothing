@@ -194,7 +194,6 @@ public class TeamSelectController : MonoBehaviour
             }
             character.Index = i;
             character.name += "_" + i;
-            character.CanSelected = true;
         }
 
         // generate bounds according to its children.
@@ -295,6 +294,12 @@ public class TeamSelectController : MonoBehaviour
     private void OnCharacterDragStart(GameObject sender)
     {
         if (EditMode || !Enable)
+        {
+            return;
+        }
+
+        var currentCharacter = sender.GetComponent<Character>();
+        if (!currentCharacter.CanSelected)
         {
             return;
         }

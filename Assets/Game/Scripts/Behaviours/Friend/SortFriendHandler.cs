@@ -26,5 +26,6 @@ public class SortFriendHandler : FriendHandlerBase
             var child = Items.transform.GetChild(i);
             child.GetComponent<SortedItem>().Init(infos[i], i);
         }
+        NGUITools.FindInParents<UIScrollView>(Items.gameObject).ResetPosition();
     }
 }

@@ -3,7 +3,8 @@ using KXSGCodec;
 
 public class SortedItem : FriendItem
 {
-    public List<string> ThreeWinnerSpriteNames; 
+    public List<string> ThreeWinnerSpriteNames;
+    public string Separator;
     private UILabel curPass;
     private UILabel highestHit;
     private UILabel loserLabel;
@@ -21,6 +22,14 @@ public class SortedItem : FriendItem
     public override void Init(FriendInfo info)
     {
         base.Init(info);
+        highestHit.text = info.MaxDamage.ToString();
+        var raidTemp = MissionModelLocator.Instance.RaidTemplates;
+        if(raidTemp.RaidStageTmpl.ContainsKey(info.RaidStageId))
+        {
+            var raidStage = raidTemp.RaidStageTmpl[info.RaidStageId];
+            var raid = raidTemp.RaidTmpl[raidStage.RaidId];
+            curPass.text = raid.Name + Separator + raidStage.StageName;
+        }
     }
 
     public void Init(FriendInfo info, int rank)

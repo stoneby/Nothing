@@ -51,6 +51,10 @@ public class LoginMainWindow : Window
 //        BtnSelectAccountUIEventListener.onClick += OnSelectAccountClick;
 
         EventManager.Instance.AddListener<LoginEvent>(OnSCPlayerInfoHandler);
+        if (ServiceManager.IsCheck)
+        {
+            FeidouManager.DoLogin();
+        }
 //        EventManager.Instance.AddListener<SelectAccountEvent>(OnSelectAccountHandler);
     }
 
@@ -60,7 +64,15 @@ public class LoginMainWindow : Window
 //        if (obj != null)
 //        {
             var aclabel = AccountLabel.GetComponent<UILabel>();
+        if (ServiceManager.DebugUserName == "" && ServiceManager.UserName == "")
+        {
+            aclabel.text = "";
+        }
+        else
+        {
             aclabel.text = (ServiceManager.IsDebugAccount == 1) ? ServiceManager.DebugUserName : ServiceManager.UserName;
+        }
+        
             aclabel.GetComponent<LocalizeWidget>().enabled = false;
 //            aclabel = LabelDefault.GetComponent<UILabel>();
 //            aclabel.text = obj.Account;
@@ -176,28 +188,42 @@ public class LoginMainWindow : Window
     private void OnLoginButtonClick(GameObject game)
     {
         //var obj = ServiceManager.GetDefaultAccount();
-        if (ServiceManager.DebugUserName != "" && ServiceManager.DebugPassword != "")
+        if (SystemInfo.deviceType == DeviceType.Desktop)
         {
-            var csMsg = new CSPasswdLoginMsg
+            if (ServiceManager.DebugUserName != "" && ServiceManager.DebugPassword != "")
             {
-                DeviceId = "1",
-                DeviceType = 2,
-                Passwd = ServiceManager.DebugPassword,
-                AccountName = ServiceManager.DebugUserName
-            };
-            NetManager.SendMessage(csMsg);
-            ServiceManager.AddServer(ServiceManager.ServerData.Url);
+                var csMsg = new CSPasswdLoginMsg
+                {
+                    DeviceId = "1",
+                    DeviceType = 2,
+                    Passwd = ServiceManager.DebugPassword,
+                    AccountName = ServiceManager.DebugUserName
+                };
+                NetManager.SendMessage(csMsg);
+                ServiceManager.AddServer(ServiceManager.ServerData.Url);
+            }
+            else
+            {
+                OnAccountClick();
+            }
         }
         else
         {
-            OnAccountClick();
+            FeidouManager.DoLogin();
         }
     }
 
     private void OnAccountClick(GameObject game = null)
     {
-        ServiceManager.IsDebugAccount = 1;
-        WindowManager.Instance.Show(typeof(LoginAccountWindow), true);
+        if (SystemInfo.deviceType == DeviceType.Desktop)
+        {
+            ServiceManager.IsDebugAccount = 1;
+            WindowManager.Instance.Show(typeof(LoginAccountWindow), true);
+        }
+        else
+        {
+            FeidouManager.DoLogin();  
+        }
     }
 
     private void OnServerClick(GameObject game)

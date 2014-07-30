@@ -313,15 +313,16 @@ public class ItemModeLocator
     /// <returns>The Attack of the item.</returns>
     public int GetAttack(int tempId, short level)
     {
+        var additonLevel = (level - ItemType.BaseLevel);
         var equipTmpl = ItemTemplates.EquipTmpls;
         var armorTmpl = ItemTemplates.ArmorTmpls;
         if (equipTmpl.ContainsKey(tempId))
         {
-            return equipTmpl[tempId].Attack + level * equipTmpl[tempId].AttackLvlParam;
+            return equipTmpl[tempId].Attack + additonLevel * equipTmpl[tempId].AttackLvlParam;
         }
         if (armorTmpl.ContainsKey(tempId))
         {
-            return armorTmpl[tempId].Attack + level * armorTmpl[tempId].AttackLvlParam;
+            return armorTmpl[tempId].Attack + additonLevel * armorTmpl[tempId].AttackLvlParam;
         }
         return -1;
     }
@@ -334,15 +335,16 @@ public class ItemModeLocator
     /// <returns>The recover of the item.</returns>
     public int GetRecover(int tempId, short level)
     {
+        var additonLevel = (level - ItemType.BaseLevel);
         var equipTmpl = ItemTemplates.EquipTmpls;
         var armorTmpl = ItemTemplates.ArmorTmpls;
         if (equipTmpl.ContainsKey(tempId))
         {
-            return equipTmpl[tempId].Recover + level * equipTmpl[tempId].RecoverLvlParam;
+            return equipTmpl[tempId].Recover + additonLevel * equipTmpl[tempId].RecoverLvlParam;
         }
         if (armorTmpl.ContainsKey(tempId))
         {
-            return armorTmpl[tempId].Recover + level * armorTmpl[tempId].RecoverLvlParam;
+            return armorTmpl[tempId].Recover + additonLevel * armorTmpl[tempId].RecoverLvlParam;
         }
         return -1;
     }
@@ -355,15 +357,16 @@ public class ItemModeLocator
     /// <returns>The hp of the item.</returns>
     public int GetHp(int tempId, short level)
     {
+        var additonLevel = (level - ItemType.BaseLevel);
         var equipTmpl = ItemTemplates.EquipTmpls;
         var armorTmpl = ItemTemplates.ArmorTmpls;
         if (equipTmpl.ContainsKey(tempId))
         {
-            return equipTmpl[tempId].Hp + level * equipTmpl[tempId].HpLvlParam;
+            return equipTmpl[tempId].Hp + additonLevel * equipTmpl[tempId].HpLvlParam;
         }
         if (armorTmpl.ContainsKey(tempId))
         {
-            return armorTmpl[tempId].Hp + level * armorTmpl[tempId].Hp;
+            return armorTmpl[tempId].Hp + additonLevel * armorTmpl[tempId].HpLvlParam;
         }
         return -1;
     }

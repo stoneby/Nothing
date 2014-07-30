@@ -41,6 +41,7 @@ public class FriendEnergyHandler : FriendHandlerBase
             var child = Items.transform.GetChild(i);
             child.GetComponent<ReceiveItem>().Init(energyInfo, OnReceiveClicked);
         }
+        NGUITools.FindInParents<UIScrollView>(Items.gameObject).ResetPosition();
     }
 
     public void RefreshReceiveSucc(long uuid, sbyte receiveTimes)
@@ -57,7 +58,7 @@ public class FriendEnergyHandler : FriendHandlerBase
      {
          cachedReceiveObject = go;
          var receiveItem = NGUITools.FindInParents<ReceiveItem>(go);
-         cachedUuid = receiveItem.FriendId;
+         cachedUuid = receiveItem.FriendInfo.FriendUuid;
          var msg = new CSFriendRecieveEnergy { FriendUuid = cachedUuid };
          NetManager.SendMessage(msg);
      }

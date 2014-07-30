@@ -18,6 +18,7 @@ public class UIHeroSnapShotWindow : Window
     private UILabel recoverLabel;
     private UILabel mpLabel;
     private UILabel level;
+    private UILabel nameLabel;
     private UISprite jobIcon;
 
     public UIEventListener.VoidDelegate TemplateBtnPressed;
@@ -72,6 +73,7 @@ public class UIHeroSnapShotWindow : Window
         mpLabel = property.Find("MP/MPValue").GetComponent<UILabel>();
         level = transform.Find("Hero/Level/LevelLabel").GetComponent<UILabel>();
         jobIcon = transform.Find("Hero/Job/JobIcon").GetComponent<UISprite>();
+        nameLabel = transform.Find("Name").GetComponent<UILabel>();
     }
 
     private void InstallHandlers()
@@ -126,6 +128,7 @@ public class UIHeroSnapShotWindow : Window
         level.text = heroInfo.Lvl.ToString(CultureInfo.InvariantCulture);
         var herotemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpls[heroInfo.TemplateId];
         jobIcon.spriteName = HeroConstant.HeroJobPrefix + herotemplate.Job;
+        nameLabel.text = herotemplate.Name;
     }
 
     private void RefreshProperty()

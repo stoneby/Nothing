@@ -28,7 +28,7 @@ namespace Template.Auto.Bag
     private sbyte _itemBagBaseCount;
     private sbyte _extendHeroCount;
     private sbyte _extendItemCount;
-    private int _eachExtFriendNum;
+    private int _extendfriendCount;
 
     public int Id
     {
@@ -110,16 +110,16 @@ namespace Template.Auto.Bag
     /// <summary>
     /// 每次扩充武将背包数
     /// </summary>
-    public int EachExtFriendNum
+    public int ExtendfriendCount
     {
       get
       {
-        return _eachExtFriendNum;
+        return _extendfriendCount;
       }
       set
       {
-        __isset.eachExtFriendNum = true;
-        this._eachExtFriendNum = value;
+        __isset.extendfriendCount = true;
+        this._extendfriendCount = value;
       }
     }
 
@@ -134,7 +134,7 @@ namespace Template.Auto.Bag
       public bool itemBagBaseCount;
       public bool extendHeroCount;
       public bool extendItemCount;
-      public bool eachExtFriendNum;
+      public bool extendfriendCount;
     }
 
     public BagBaseTemplate() {
@@ -189,7 +189,7 @@ namespace Template.Auto.Bag
             break;
           case 6:
             if (field.Type == TType.I32) {
-              EachExtFriendNum = iprot.ReadI32();
+              ExtendfriendCount = iprot.ReadI32();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
@@ -247,12 +247,12 @@ namespace Template.Auto.Bag
         oprot.WriteByte(ExtendItemCount);
         oprot.WriteFieldEnd();
       }
-      if (__isset.eachExtFriendNum) {
-        field.Name = "eachExtFriendNum";
+      if (__isset.extendfriendCount) {
+        field.Name = "extendfriendCount";
         field.Type = TType.I32;
         field.ID = 6;
         oprot.WriteFieldBegin(field);
-        oprot.WriteI32(EachExtFriendNum);
+        oprot.WriteI32(ExtendfriendCount);
         oprot.WriteFieldEnd();
       }
       oprot.WriteFieldStop();
@@ -271,8 +271,8 @@ namespace Template.Auto.Bag
       sb.Append(ExtendHeroCount);
       sb.Append(",ExtendItemCount: ");
       sb.Append(ExtendItemCount);
-      sb.Append(",EachExtFriendNum: ");
-      sb.Append(EachExtFriendNum);
+      sb.Append(",ExtendfriendCount: ");
+      sb.Append(ExtendfriendCount);
       sb.Append(")");
       return sb.ToString();
     }

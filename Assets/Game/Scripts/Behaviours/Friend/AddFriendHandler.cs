@@ -56,6 +56,7 @@ public class AddFriendHandler : FriendHandlerBase
             var child = Items.transform.GetChild(i);
             child.GetComponent<ApplyItem>().Init(infos[i], OnReject, OnAgree);
         }
+        NGUITools.FindInParents<UIScrollView>(Items.gameObject).ResetPosition();
     }
 
     protected void OnAgree(GameObject go)
@@ -64,7 +65,7 @@ public class AddFriendHandler : FriendHandlerBase
         if(applyItem != null)
         {
             cachedItemObject = applyItem.gameObject;
-            uuidCached = applyItem.FriendId;
+            uuidCached = applyItem.FriendInfo.FriendUuid;
             var msg = new CSFriendApplyOper { OperType = FriendConstant.FriendApplyAgree, Uuid = uuidCached };
             NetManager.SendMessage(msg);
         }
@@ -76,7 +77,7 @@ public class AddFriendHandler : FriendHandlerBase
         if (applyItem != null)
         {
             cachedItemObject = applyItem.gameObject;
-            uuidCached = applyItem.FriendId;
+            uuidCached = applyItem.FriendInfo.FriendUuid;
             var msg = new CSFriendApplyOper { OperType = FriendConstant.FriendApplyReject, Uuid = uuidCached };
             NetManager.SendMessage(msg);
         }

@@ -10,6 +10,8 @@ namespace Assets.Game.Scripts.Net.handler
             if(msg != null)
             {
                 FriendModelLocator.Instance.ScFriendLoadingAll = msg.GetContent() as SCFriendLoadingAll;
+                FriendModelLocator.Instance.ExtendFriendTimes =
+                    FriendModelLocator.Instance.ScFriendLoadingAll.FriendLimitExtendTimes;
                 FriendModelLocator.AlreadyRequest = true;
                 WindowManager.Instance.Show<UIFriendEntryWindow>(true);
             }
@@ -135,7 +137,35 @@ namespace Assets.Game.Scripts.Net.handler
                 var extendSucc = msg.GetContent() as SCFriendExtendSucc;
                 if (extendSucc != null)
                 {
+                    FriendModelLocator.Instance.ScFriendLoadingAll.FriendLimit = extendSucc.FriendCountLimit;
+                    FriendModelLocator.Instance.ExtendFriendTimes = extendSucc.FriendLimitExtendTimes;
+                    WindowManager.Instance.GetWindow<UIFriendEntryWindow>().RefreshFriendCount();
+                }
+            }
+        }
 
+        public static void OnFriendBindSucc(ThriftSCMessage msg)
+        {
+            if (msg != null)
+            {
+                var bindSucc = msg.GetContent() as SCFriendBindSucc;
+                if (bindSucc != null)
+                {
+                    var friend = FriendModelLocator.Instance.FindInfo(bindSucc.FriendUuid);
+                    friend.Status |= bindSucc.BindType;
+                }
+            }
+        }
+
+        public static void OnFriendDelSucc(ThriftSCMessage msg)
+        {
+            if (msg != null)
+            {
+                var deleteSucc = msg.GetContent() as SCFriendDeleteSucc;
+                if (deleteSucc != null)
+                {
+                    FriendModelLocator.Instance.ScFriendLoadingAll.FriendList.RemoveAll(
+                        item => item.FriendUuid == deleteSucc.FriendUuid);
                 }
             }
         }

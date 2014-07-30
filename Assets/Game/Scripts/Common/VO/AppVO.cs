@@ -11,6 +11,7 @@ public class AppVO
     public bool ForceUpdate = false;
     public string RechargeType;
     public string Version;
+    public int VersionValue;
     public bool IsTest;
     public string UpdateUrl;
 
@@ -20,6 +21,7 @@ public class AppVO
         app.BundleID = data.Attribute("BundleID").Value;
         app.RechargeType = data.Attribute("RechargeType").Value;
         app.Version = data.Attribute("Version").Value;
+        app.VersionValue = ServiceManager.GetVersionValue(app.Version);
         app.UpdateUrl = data.Attribute("UpdateUrl").Value;
         app.ForceUpdate = bool.Parse(data.Attribute("ForceUpdate").Value);
         app.IsTest = bool.Parse(data.Attribute("IsTest").Value);

@@ -3,19 +3,20 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Odbc;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SocialPlatforms;
 
-public class LocalizationManagerEditorWindow : EditorWindow {
-
+public class LocalizationManagerEditorWindow : EditorWindow
+{
     #region Private Fields
 
     private const string PrefabExt = ".prefab";
 
-    private bool isGenerate=false;
+    private bool isGenerate = false;
 
     private static readonly List<string> PathFilterList = new List<string>
     {
@@ -24,7 +25,7 @@ public class LocalizationManagerEditorWindow : EditorWindow {
         "SmartLocalization"
     };
 
-    private Dictionary<GameObject, bool> activeStatus= new Dictionary<GameObject, bool>();
+    private Dictionary<GameObject, bool> activeStatus = new Dictionary<GameObject, bool>();
     private List<UILabel> labelCollection = new List<UILabel>();
 
     private class LocalUnit : IComparable
@@ -42,12 +43,30 @@ public class LocalizationManagerEditorWindow : EditorWindow {
     }
 
     //Restore and manage 
-    private List<LocalUnit> localManager=new List<LocalUnit>();
+    private List<LocalUnit> localManager = new List<LocalUnit>();
 
     private bool isSet = false;
 
+    #region Private Fields from SmartLocalizationWindow.cs
+
+    /// <summary>A list of all the available languages </summary>
+    private List<CultureInfo> availableLanguages = new List<CultureInfo>();
+    /// <summary>A list of all the languages not available</summary>
+    private List<CultureInfo> notAvailableLanguages = new List<CultureInfo>();
+    /// <summary>For the create new languages popup</summary>
+    private List<string> notAvailableLanguagesEnglishNames = new List<string>();
+
+    #endregion
+
+    #region Private Fields from TranslateLanguageWindow.cs
+
+    [SerializeField]
+    private Dictionary<string, List<SerializableLocalizationObjectPair>> thisLanguageValues = new Dictionary<string, List<SerializableLocalizationObjectPair>>();
+
+    #endregion
+
     #region Private Fields from EditRootLanguageFileWindow.cs
-         
+
     /// <summary>Containing the original keys and the changes to them, if any.</summary>
     [SerializeField]
     private List<SerializableStringPair> changedRootKeys = new List<SerializableStringPair>();
@@ -63,7 +82,7 @@ public class LocalizationManagerEditorWindow : EditorWindow {
     #endregion
 
     //File from XLS
-    private Dictionary<string, string> parsedXLS = new Dictionary<string, string>();
+    private List<List<string>> parsedXLS = new List<List<string>>();
     private const string ImportFileName = "/LocalizationImport.xls";
     private const string ExportFileName = "/LocalizationExport.xml";
 
@@ -78,22 +97,22 @@ public class LocalizationManagerEditorWindow : EditorWindow {
     private void GenerateFromObject()
     {
         Debug.LogWarning("Find all prefabs begins.");
-        var prefabList = FindAllPrefabs();
+        var prefabList = FindWidget.FindAllPrefabs(PrefabExt, PathFilterList);
         Debug.LogWarning("Find all prefabs ends, count: " + prefabList.Count);
 
         Debug.LogWarning("Load all prefabs begins.");
         activeStatus = new Dictionary<GameObject, bool>();
-        LoadAllPrefabs(prefabList, activeStatus);
+        FindWidget.LoadAllPrefabs(prefabList, activeStatus);
         Debug.LogWarning("Load all prefabs ends.");
 
         Debug.LogWarning("Active all prefabs begins.");
-        ActiveAllPrefabs(activeStatus);
+        FindWidget.ActiveAllPrefabs(activeStatus);
         Debug.LogWarning("Active all prefabs ends.");
 
         Debug.LogWarning("Find all labels begins.");
         labelCollection.Clear();
-        labelCollection = FindAllLabels();
-        DisplayLabels(labelCollection);
+        labelCollection = FindWidget.FindAllWidgets<UILabel>();
+        FindWidget.DisplayWidgets<UILabel>(labelCollection);
         Debug.LogWarning("Find all labels ends, count: " + labelCollection.Count);
 
         Debug.LogWarning("Generate localization begins.");
@@ -107,7 +126,7 @@ public class LocalizationManagerEditorWindow : EditorWindow {
         Debug.LogWarning("Sort localization ends.");
 
         Debug.LogWarning("Restore active status begins.");
-        RestoreActiveStatus(activeStatus);
+        FindWidget.RestoreActiveStatus(activeStatus);
         Debug.LogWarning("Restore active status ends.");
 
         AssetDatabase.SaveAssets();
@@ -132,9 +151,24 @@ public class LocalizationManagerEditorWindow : EditorWindow {
     {
         Debug.Log("Generate form Smart Localization start.");
         SetRootValues(LocFileUtility.LoadParsedLanguageFile(null));
+
+        LocFileUtility.CheckAvailableLanguages(availableLanguages, notAvailableLanguages, notAvailableLanguagesEnglishNames);
+
+        this.thisLanguageValues.Clear();
+        foreach (var info in availableLanguages)
+        {
+            this.thisLanguageValues.Add(info.Name, LocFileUtility.CreateSerializableLocalizationList(LocFileUtility.LoadParsedLanguageFile(info.Name)));
+            //Load assets
+            LocFileUtility.LoadAllAssets(this.thisLanguageValues[info.Name]);
+        }
+
         isSet = true;
         isGenerate = false;
         Debug.Log("Generate form Smart Localization end.");
+        Debug.Log("Key count:" + changedRootKeys.Count + "Value count:" + changedRootValues.Count +
+            "Parsed count:" + parsedRootValues.Count + "ParsedXLS count:" + parsedXLS.Count +
+            availableLanguages[0].Name + " count:" + thisLanguageValues[availableLanguages[0].Name].Count + 
+            availableLanguages[1].Name + " count:" + thisLanguageValues[availableLanguages[1].Name].Count);
     }
 
     private void SubmitFromSL_EXCEL()
@@ -146,58 +180,66 @@ public class LocalizationManagerEditorWindow : EditorWindow {
 
     private void ImportFromExcel()
     {
-        readXLS(Application.dataPath + ImportFileName);
-        foreach (var key in parsedXLS.Keys)
+        parsedXLS = FileIO.ReadXLS(Application.dataPath + ImportFileName);
+        Debug.Log("ParsedXLS count:" + parsedXLS.Count);
+
+        for (int row=1;row<parsedXLS.Count;row++)
         {
+            Debug.Log("NewKey:" + parsedXLS[row][0]);
+            bool result = false;
             for (int i = 0; i < changedRootKeys.Count; i++)
             {
                 //Edit value of existed key.
-                if (key == changedRootKeys[i].changedValue)
+                if (parsedXLS[row][0] == changedRootKeys[i].changedValue)
                 {
-                    if (changedRootValues[i].changedValue.TextValue != parsedXLS[key])
+                    if (changedRootValues[i].changedValue.TextValue != parsedXLS[row][1])
                     {
-                        Debug.Log("Change key:" + key + ", value from:" + changedRootValues[i].changedValue.TextValue + ", to:" + parsedXLS[key]);
-                        changedRootValues[i].changedValue.TextValue = parsedXLS[key];
+                        Debug.Log("++++++ Change key:" + parsedXLS[row][0] + ", value from:" + changedRootValues[i].changedValue.TextValue + ", to:" + parsedXLS[row][1]);
+                        changedRootValues[i].changedValue.TextValue = parsedXLS[row][1];
                     }
+                    else
+                    {
+                        Debug.Log("------ Same key:" + parsedXLS[row][0] + ", Same value :" + changedRootValues[i].changedValue.TextValue);
+                    }
+                    result = true;
                     break;
                 }
+            }
+            
+            //Add key,value of no-existed key.
+            if (!result)
+            {
+                Debug.Log("********* Add key:" + parsedXLS[row][0] + ", value:" + parsedXLS[row][1]);
+                AddNewKey(parsedXLS[row][0], parsedXLS[row][1]);
+            }
 
-                //Add key,value of no-existed key.
-                if (i == changedRootKeys.Count - 1)
-                {
-                    Debug.Log("Add key:" + key + ", value:" + parsedXLS[key]);
-                    AddNewKey(key, parsedXLS[key]);
-                }
+            //Edit localizated language value
+            for (int i = 2; i < parsedXLS[row].Count; i++)
+            {
+                thisLanguageValues[parsedXLS[0][i]][row-1].changedValue.TextValue = parsedXLS[row][i];
+                Debug.Log("Name:" + parsedXLS[0][i] + "Key:" + parsedXLS[row][0] + "Base Value:" + parsedXLS[row][1] + "Value from:" + thisLanguageValues[parsedXLS[0][i]][row - 1].changedValue.TextValue+"to:"+ parsedXLS[row][i]);
             }
         }
     }
 
     private void ExportToExcel()
     {
-        StreamWriter writer;
-        var fileinfo = new FileInfo(Application.dataPath + ExportFileName);
-        if (!fileinfo.Exists)
+        //StreamWriter writer;
+        var parsedXML = new List<List<string>>();
+        for (int i = 0; i < changedRootKeys.Count; i++)
         {
-            writer = fileinfo.CreateText();
-        }
-        else
-        {
-            fileinfo.Delete();
-            writer = fileinfo.CreateText();
-        }
-
-        //write data to file.
-        {
-            writer.Write("<Resources>\n");
-            for (int i = 0; i < changedRootKeys.Count; i++)
+            var tempList = new List<string>();
+            tempList.Add(changedRootKeys[i].changedValue);
+            tempList.Add(changedRootValues[i].changedValue.TextValue);
+            foreach (var info in availableLanguages)
             {
-                writer.Write("\t<Key  Value=\"" + changedRootValues[i].changedValue.TextValue + "\">" + changedRootKeys[i].changedValue + "</Key>\n");
+                tempList.Add(thisLanguageValues[info.Name][i].changedValue.TextValue);
             }
-            writer.Write("</Resources>");
+            parsedXML.Add(tempList);
         }
 
-        writer.Close();
-        Debug.Log("File exported."); 
+        var fileinfo = new FileInfo(Application.dataPath + ExportFileName);
+        FileIO.WriteXML(fileinfo, parsedXML);
     }
 
     private void GenerateLocal(IEnumerable<UILabel> labelList)
@@ -240,6 +282,8 @@ public class LocalizationManagerEditorWindow : EditorWindow {
         }
     }
 
+
+
     private void ConfirmLocal()
     {
         foreach (var item in localManager)
@@ -256,7 +300,7 @@ public class LocalizationManagerEditorWindow : EditorWindow {
             }
         }
     }
-    
+
     private void UpdateSmartLocal()
     {
         SetRootValues(LocFileUtility.LoadParsedLanguageFile(null));
@@ -271,7 +315,7 @@ public class LocalizationManagerEditorWindow : EditorWindow {
                 count++;
             }
         }
-        Debug.Log("Add new key ends, count:"+count+".");
+        Debug.Log("Add new key ends, count:" + count + ".");
 
         SaveRootLanguageFile();
         Debug.Log("");
@@ -319,8 +363,12 @@ public class LocalizationManagerEditorWindow : EditorWindow {
         changedRootValues.RemoveAt(index);
     }
 
+    /// <summary>
+    /// Save Key, Value and Localizated Value of parsed data.
+    /// </summary>
     private void SaveRootLanguageFile()
     {
+        //Save Key, Value
         Dictionary<string, string> changeNewRootKeys = new Dictionary<string, string>();
         Dictionary<string, string> changeNewRootValues = new Dictionary<string, string>();
 
@@ -347,111 +395,89 @@ public class LocalizationManagerEditorWindow : EditorWindow {
         }
 
         LocFileUtility.SaveRootLanguageFile(changeNewRootKeysToSave, changeNewRootValuesToSave);
-    }
 
-    #endregion
-
-    #region Private Methods from SwitchFontEditorWindow.cs
-
-    private static List<string> FindAllPrefabs()
-    {
-        var result = new List<string>();
-        var paths = AssetDatabase.GetAllAssetPaths();
-        foreach (var path in paths.Where(path => path.EndsWith(PrefabExt)))
+        //Save Localizated Value
+        foreach (var pair in thisLanguageValues)
         {
-            var filtered = PathFilterList.Any(filter => path.Contains(filter));
-            if (filtered)
+            //Copy everything into a dictionary
+            Dictionary<string, string> newLanguageValues = new Dictionary<string, string>();
+            int languangCount = 0;
+            foreach (SerializableLocalizationObjectPair objectPair in pair.Value)
             {
-                continue;
+                if (objectPair.changedValue.ObjectType == LocalizedObjectType.STRING)
+                {
+                    newLanguageValues.Add(objectPair.changedValue.GetFullKey(objectPair.keyValue), objectPair.changedValue.TextValue);
+                }
+                else
+                {
+                    //Delete the file in case there was a file there previously
+                    LocFileUtility.DeleteFileFromResources(objectPair.changedValue.GetFullKey(objectPair.keyValue), availableLanguages[languangCount]);
+
+                    //Store the path to the file
+                    string pathValue = LocFileUtility.CopyFileIntoResources(objectPair, availableLanguages[languangCount]);
+                    newLanguageValues.Add(objectPair.changedValue.GetFullKey(objectPair.keyValue), pathValue);
+                }
+                languangCount++;
             }
-            result.Add(path);
-            Debug.Log("Find prefab with path: " + path);
-        }
-        return result;
-    }
-
-    private static void LoadAllPrefabs(List<string> prefabList, IDictionary<GameObject, bool> activeStatus)
-    {
-        prefabList.ForEach(path =>
-        {
-            var prefabObject = AssetDatabase.LoadAssetAtPath(path, typeof(GameObject)) as GameObject;
-            activeStatus[prefabObject] = prefabObject.activeSelf;
-        });
-    }
-
-    private static void ActiveAllPrefabs(IEnumerable<KeyValuePair<GameObject, bool>> activeStatus)
-    {
-        foreach (var pair in activeStatus.Where(pair => !pair.Value))
-        {
-            pair.Key.SetActive(true);
-        }
-    }
-
-    private static List<UILabel> FindAllLabels()
-    {
-        return Resources.FindObjectsOfTypeAll<UILabel>().ToList();
-    }
-
-    private static void DisplayLabels(IEnumerable<UILabel> labelList)
-    {
-        foreach (var label in labelList)
-        {
-            var path = AssetDatabase.GetAssetPath(label);
-            Debug.Log("Find label: " + label.gameObject.name + ", path: " + path);
-        }
-    }
-
-    private static void RestoreActiveStatus(Dictionary<GameObject, bool> activeStatus)
-    {
-        foreach (var pair in activeStatus)
-        {
-            pair.Key.SetActive(pair.Value);
+            LocFileUtility.SaveLanguageFile(newLanguageValues, LocFileUtility.rootLanguageFilePath + "." + pair.Key + LocFileUtility.resXFileEnding);
         }
     }
 
     #endregion
 
-    private void readXLS(string filetoread)
+    #endregion
+
+    #region Public Methods
+
+    /// <summary>
+    /// Transform value to display in game.
+    /// Use '{' and '}' to split string.
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="args"></param>
+    /// <returns></returns>
+    public static string LocalizateFormat(string value, params object[] args)
     {
-        // Must be saved as excel 2003 workbook, not 2007, mono issue really
-        string con = "Driver={Microsoft Excel Driver (*.xls)}; DriverId=790; Dbq=" + filetoread + ";";
-        Debug.Log(con);
-        string yourQuery = "SELECT * FROM [Sheet1$]";
-        // our odbc connector 
-        OdbcConnection oCon = new OdbcConnection(con);
-        // our command object 
-        OdbcCommand oCmd = new OdbcCommand(yourQuery, oCon);
-        // table to hold the data 
-        DataTable dtYourData = new DataTable("YourData");
-        // open the connection 
-        oCon.Open();
-        // lets use a datareader to fill that table! 
-        OdbcDataReader rData = oCmd.ExecuteReader();
-        // now lets blast that into the table by sheer man power! 
-        dtYourData.Load(rData);
-        // close that reader! 
-        rData.Close();
-        // close connection to the spreadsheet! 
-        oCon.Close();
+        //Formatted string.
+        string result = "";
 
-        if (dtYourData.Rows.Count <= 0)
+        char[] splitCharsLeft = {'{'};
+        char[] splitCharsRight = {'}'};
+
+        //Split by '{'
+        string[] splitLeft = value.Split(splitCharsLeft);
+        //Fail check
+        if (splitLeft.Length != args.Length + 1)
         {
-            Debug.LogWarning(filetoread+" is empty! Nothing has been imported!");
-            return;
+            Debug.LogError("LocalizateFormatError: Value doesn't fit args, operation stopped, check the data!");
+            return null;
         }
 
-        if (dtYourData.Columns.Count != 2 || dtYourData.Columns[0].ColumnName != "Key" ||
-            dtYourData.Columns[1].ColumnName != "Value")
+        //Split by '}'
+        var tempSplit = splitLeft[0].Split(splitCharsRight);
+        //Fail check
+        if (tempSplit.Length != 1)
         {
-            Debug.LogError(filetoread+" is not correct in columns! Import has been stopped! Check the file.");
-            return;
+            Debug.LogError("LocalizateFormatError: Value doesn't fit args, operation stopped, check the data!");
+            return null;
+        }
+        result += tempSplit[0];
+
+        for (int i = 1; i < splitLeft.Length; i++)
+        {
+            //Split by '}'
+            tempSplit = splitLeft[i].Split(splitCharsRight);
+
+            //Fail check
+            if (tempSplit.Length != 2 || tempSplit[0] != (i - 1).ToString())
+            {
+                Debug.LogError("LocalizateFormatError: Value doesn't fit args, operation stopped, check the data!");
+                return null;
+            }
+            result = result + args[i - 1].ToString() + tempSplit[1];
         }
 
-        for (int i = 0; i < dtYourData.Rows.Count; i++)
-        {
-            parsedXLS.Add(dtYourData.Rows[i][0].ToString(), dtYourData.Rows[i][1].ToString());
-            Debug.Log("Add key:" + dtYourData.Rows[i][0].ToString() + ", value:" + dtYourData.Rows[i][1].ToString()+" from XLS.");
-        }
+        return result;
     }
 
     #endregion
@@ -460,8 +486,9 @@ public class LocalizationManagerEditorWindow : EditorWindow {
 
     private void OnGUI()
     {
+        GUILayout.Label("You can use LocalizationManagerEditorWindow.LocalizateFormat(string value, params object[] args) to change your dynamic value to the string that display in game.");
 
-#region Object-SL function
+        #region Object-SL function
 
         if (GUILayout.Button("Generate key,value from gameobject"))
         {
@@ -514,7 +541,7 @@ public class LocalizationManagerEditorWindow : EditorWindow {
 
             scrollViewPos1 = EditorGUILayout.BeginScrollView(scrollViewPos1);
 
-            foreach(var item in localManager)
+            foreach (var item in localManager)
             {
                 EditorGUILayout.BeginHorizontal();
 
@@ -531,7 +558,7 @@ public class LocalizationManagerEditorWindow : EditorWindow {
 
                 if (GUILayout.Button("Instantiate"))
                 {
-                    var path = AssetDatabase.GetAssetPath(item.Label);                   
+                    var path = AssetDatabase.GetAssetPath(item.Label);
                     var go = AssetDatabase.LoadAssetAtPath(path, typeof(GameObject)) as GameObject;
                     Instantiate(go);
                 }
@@ -541,9 +568,9 @@ public class LocalizationManagerEditorWindow : EditorWindow {
             EditorGUILayout.EndScrollView();
         }
 
-#endregion
+        #endregion
 
-#region SL/Excel-SL function
+        #region SL/Excel-SL function
 
         if (GUILayout.Button("Generate key,value from Smart Localization"))
         {
@@ -575,12 +602,12 @@ public class LocalizationManagerEditorWindow : EditorWindow {
 
             EditorGUILayout.EndHorizontal();
         }
-        
+
         GUILayout.Label("You can edit or delete key,value to smart localization and import/export to Excel file here.");
 
         EditorGUILayout.Space();
 
-        GUILayout.Label("Import:Program will import data from Assets/LocalizationImport.xls.");
+        GUILayout.Label("Import:Program will import data from Assets/LocalizationImport.xls. You can only edit values in this way.");
         GUILayout.Label("Export:Program will export data to Assets/LocalizationExport.xml.");
 
         if (isSet == true)
@@ -606,7 +633,7 @@ public class LocalizationManagerEditorWindow : EditorWindow {
             EditorGUILayout.EndScrollView();
         }
 
-#endregion
+        #endregion
 
     }
 

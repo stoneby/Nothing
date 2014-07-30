@@ -254,14 +254,17 @@ public class InGameLog : MonoBehaviour {
 	{
 		if( !show )
 		{
-			if( alwaysShowFps )
-			{
-				GUILayout.Label( "fps = " + fps );
-			}
-
-            if (GUI.Button(new Rect(Screen.width * 7 / 8, Screen.height * 7 / 8, Screen.width / 8, Screen.height / 8), "Show Log"))
+		    if (ServiceManager.IsTest)
 		    {
-                show = true;
+                if (alwaysShowFps)
+                {
+                    GUILayout.Label("fps = " + fps);
+                }
+
+                if (GUI.Button(new Rect(Screen.width * 7 / 8, Screen.height * 7 / 8, Screen.width / 8, Screen.height / 8), "Show Log"))
+                {
+                    show = true;
+                }
 		    }
 
 			return ;

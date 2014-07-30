@@ -348,7 +348,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &100042
 GameObject:
   m_ObjectHideFlags: 1
@@ -436,6 +436,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &100052
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 400052}
+  - 114: {fileID: 11400072}
+  m_Layer: 8
+  m_Name: Name
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!4 &400000
 Transform:
   m_ObjectHideFlags: 1
@@ -454,7 +470,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100002}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -55, y: -80, z: 0}
+  m_LocalPosition: {x: -55, y: -70, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400034}
@@ -488,7 +504,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100008}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -317.05072, y: -120, z: 0}
+  m_LocalPosition: {x: -317.05072, y: -130, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400010}
@@ -511,7 +527,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100012}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -317.075958, y: -190, z: 0}
+  m_LocalPosition: {x: -317.075958, y: -200, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400032}
@@ -523,7 +539,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100014}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -254.646713, y: 43.309906, z: 0}
+  m_LocalPosition: {x: -240, y: 20, z: 0}
   m_LocalScale: {x: .999950588, y: .999950588, z: .999950588}
   m_Children:
   - {fileID: 400018}
@@ -550,7 +566,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100018}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -55, y: 70, z: 0}
+  m_LocalPosition: {x: -55, y: 50, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400028}
@@ -562,7 +578,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100020}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -406.279724, y: 34.3720169, z: 0}
+  m_LocalPosition: {x: -406.279724, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400030}
@@ -603,7 +619,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100026}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -55, y: 20, z: 0}
+  m_LocalPosition: {x: -55, y: 10, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400024}
@@ -687,6 +703,7 @@ Transform:
   - {fileID: 400004}
   - {fileID: 400022}
   - {fileID: 400020}
+  - {fileID: 400052}
   - {fileID: 400014}
   m_Father: {fileID: 0}
 --- !u!4 &400042
@@ -696,7 +713,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100042}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -317.101471, y: -260, z: 0}
+  m_LocalPosition: {x: -317.101471, y: -270, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400038}
@@ -743,10 +760,21 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100050}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -584.265015, y: 330.315155, z: 0}
+  m_LocalPosition: {x: -584.358521, y: 330.368042, z: 0}
   m_LocalScale: {x: .999950588, y: .999950588, z: .999950588}
   m_Children: []
   m_Father: {fileID: 400022}
+--- !u!4 &400052
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100052}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -320, y: 120, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 400040}
 --- !u!54 &5400000
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -855,6 +883,8 @@ MonoBehaviour:
   mWidth: 104
   mHeight: 104
   mDepth: 7
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -905,6 +935,8 @@ MonoBehaviour:
   mWidth: 100
   mHeight: 30
   mDepth: 3
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -967,6 +999,8 @@ MonoBehaviour:
   mWidth: 416
   mHeight: 494
   mDepth: 0
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -1017,6 +1051,8 @@ MonoBehaviour:
   mWidth: 32
   mHeight: 32
   mDepth: 5
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -1104,6 +1140,8 @@ MonoBehaviour:
   mWidth: 140
   mHeight: 56
   mDepth: 8
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 1
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -1154,6 +1192,8 @@ MonoBehaviour:
   mWidth: 118
   mHeight: 26
   mDepth: 9
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -1253,6 +1293,8 @@ MonoBehaviour:
   mWidth: 140
   mHeight: 56
   mDepth: 8
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 1
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -1303,6 +1345,8 @@ MonoBehaviour:
   mWidth: 44
   mHeight: 42
   mDepth: 4
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -1353,6 +1397,8 @@ MonoBehaviour:
   mWidth: 100
   mHeight: 30
   mDepth: 3
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -1427,6 +1473,8 @@ MonoBehaviour:
   mWidth: 134
   mHeight: 20
   mDepth: 4
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -1516,6 +1564,8 @@ MonoBehaviour:
   mWidth: 120
   mHeight: 60
   mDepth: 7
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -1578,6 +1628,8 @@ MonoBehaviour:
   mWidth: 100
   mHeight: 30
   mDepth: 3
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -1640,6 +1692,8 @@ MonoBehaviour:
   mWidth: 120
   mHeight: 60
   mDepth: 7
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -1702,6 +1756,8 @@ MonoBehaviour:
   mWidth: 114
   mHeight: 114
   mDepth: 3
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -1752,6 +1808,8 @@ MonoBehaviour:
   mWidth: 118
   mHeight: 26
   mDepth: 9
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -1814,6 +1872,8 @@ MonoBehaviour:
   mWidth: 120
   mHeight: 60
   mDepth: 7
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -1876,6 +1936,8 @@ MonoBehaviour:
   mWidth: 120
   mHeight: 60
   mDepth: 7
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -1938,6 +2000,8 @@ MonoBehaviour:
   mWidth: 118
   mHeight: 26
   mDepth: 9
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -2080,6 +2144,8 @@ MonoBehaviour:
   mWidth: 140
   mHeight: 56
   mDepth: 8
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 1
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -2130,6 +2196,8 @@ MonoBehaviour:
   mWidth: 134
   mHeight: 20
   mDepth: 8
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -2192,6 +2260,8 @@ MonoBehaviour:
   mWidth: 100
   mHeight: 30
   mDepth: 3
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -2304,6 +2374,8 @@ MonoBehaviour:
   mWidth: 58
   mHeight: 48
   mDepth: 12
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 1
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -2333,6 +2405,70 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Key: UIHeroSnapShot.Attack
+--- !u!114 &11400072
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100052}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9d0b5f3bbe925a408bd595c79d0bf63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: .889705896, g: .831504941, b: .0457936749, a: 1}
+  mPivot: 4
+  mWidth: 120
+  mHeight: 60
+  mDepth: 7
+  OffsetX: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: 2
+  keepCrispWhenShrunk: 2
+  mTrueTypeFont: {fileID: 0}
+  mFont: {fileID: 11400000, guid: 30054980c4ab28942a48b10c3d67cac5, type: 2}
+  mText: New Label
+  mFontSize: 25
+  mFontStyle: 0
+  mAlignment: 0
+  mEncoding: 1
+  mMaxLineCount: 0
+  mEffectStyle: 1
+  mEffectColor: {r: .154411793, g: .151005656, b: .151005656, a: 1}
+  mSymbols: 1
+  mEffectDistance: {x: 1, y: 1}
+  mOverflow: 0
+  mMaterial: {fileID: 0}
+  mApplyGradient: 1
+  mGradientTop: {r: 1, g: 1, b: 1, a: 1}
+  mGradientBottom: {r: .699999988, g: .699999988, b: .699999988, a: 1}
+  mSpacingX: 0
+  mSpacingY: 0
+  mShrinkToFit: 0
+  mMaxLineWidth: 0
+  mMaxLineHeight: 0
+  mLineWidth: 0
+  mMultiline: 1
 --- !u!114 &11400074
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -41,4 +41,9 @@ public class ItemType : MonoBehaviour
     /// 回购数量限制
     /// </summary>
     public const int BuyBackLimit = 20;
+
+    /// <summary>
+    /// 基本加成等级，小于等于这个等级没有加成
+    /// </summary>
+    public const int BaseLevel = 1;
 }

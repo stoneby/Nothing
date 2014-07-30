@@ -49,6 +49,7 @@ public class UIBuyBackItemsWindow : Window
     public override void OnEnter()
     {
         MtaManager.TrackBeginPage(MtaType.BuyBackItemWindow);
+        CleanUpSelItems(false);
         Refresh();
         InstallHandlers();
     }
@@ -146,29 +147,39 @@ public class UIBuyBackItemsWindow : Window
 
     public void BuyBackItemSucc()
     {
+        CleanUpSelItems(true);
+        RefreshUi();
+    }
+
+    private void CleanUpSelItems(bool despawnSource)
+    {
         var keys = selItems.Keys.ToList();
         var count = keys.Count;
-        for (var i = count -1; i >= 0; i--)
+        for (var i = count - 1; i >= 0; i--)
         {
             var item = selItems[keys[i]];
-            if(PoolManager.Pools.ContainsKey(HeroConstant.HeroPoolName))
+            if (PoolManager.Pools.ContainsKey(HeroConstant.HeroPoolName))
             {
+                var maskClone = item.transform.Find("Mask(Clone)");
+                if (maskClone != null)
+                {
+                    NGUITools.Destroy(maskClone.gameObject);
+                }
+                if (despawnSource)
+                {
+                    DespawnBuyBackItem(item);
+                }
                 var baseItem = keys[i];
-                DespawnItem(item);
-                var buyBackItem = item.GetComponent<NewBuyBackItem>();
-                buyBackItems.Remove(buyBackItem);
-                var info = ItemModeLocator.Instance.FindBuyBackItem(buyBackItem.BagIndex);
-                infos.Remove(info);
                 baseItem.transform.parent = null;
                 NGUITools.Destroy(baseItem);
             }
         }
         grid.repositionNow = true;
         selItems.Clear();
-        RefreshUi();
+        buyBackItems.Clear();
     }
 
-    private static void DespawnItem(GameObject item)
+    private static void DespawnBuyBackItem(GameObject item)
     {
         var longPressDetecter = item.GetComponent<NGUILongPress>();
         longPressDetecter.OnNormalPress = null;

@@ -60,7 +60,7 @@ public class UIFriendApplyWindow : Window
 
     private void OnApply(GameObject go)
     {
-        var msg = new CSFriendApply { FriendUuid = friendItem.FriendId};
+        var msg = new CSFriendApply { FriendUuid = friendItem.FriendInfo.FriendUuid};
         NetManager.SendMessage(msg);
         WindowManager.Instance.Show<UIFriendApplyWindow>(false);
     }

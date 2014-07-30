@@ -292,7 +292,6 @@ public class UILevelUpHeroWindow : Window
 
     private void OnNormalClickForCancel(GameObject go)
     {
-        //heroToCancel = go;
         UIHeroSnapShotWindow.CurUuid = go.GetComponent<HeroItemBase>().Uuid;
         var snapShot = WindowManager.Instance.Show<UIHeroSnapShotWindow>(true);
         snapShot.InitTemplate("HeroOrItemSnapShot.CancelLevelup", CancelLevelUp);

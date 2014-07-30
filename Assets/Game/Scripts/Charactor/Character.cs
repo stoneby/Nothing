@@ -63,8 +63,10 @@ public class Character : MonoBehaviour
     /// <summary>
     /// Flag indicates if this character could be selected.
     /// </summary>
-    [HideInInspector]
-    public bool CanSelected;
+    public bool CanSelected
+    {
+        get { return (BuffController == null) || ((BuffController != null) && BuffController.CanSelected); }
+    }
 
     /// <summary>
     /// Logic data.
@@ -72,7 +74,10 @@ public class Character : MonoBehaviour
     [HideInInspector]
     public FighterInfo Data;
 
-    public Dictionary<BuffManager.BuffType, BuffData> BuffCountManager;
+    /// <summary>
+    /// Buff data.
+    /// </summary>
+    public CharacterBuffController BuffController;
 
     #endregion
 
@@ -126,54 +131,22 @@ public class Character : MonoBehaviour
 
     public void ShowBuff()
     {
-        var buffManager = BuffManager.Instance;
-        foreach (var pair in BuffCountManager)
-        {
-            var buffType = pair.Key;
-            var counter = pair.Value.Count;
-            if (counter > 0)
-            {
-                buffManager.Show(buffType, gameObject);
-            }
-            else
-            {
-                buffManager.Stop(buffType, gameObject);
-            }
-        }
-
-        CanSelected =
-            !((BuffCountManager.ContainsKey(BuffManager.BuffType.Freeze) && BuffCountManager[BuffManager.BuffType.Freeze].Count > 0) ||
-            (BuffCountManager.ContainsKey(BuffManager.BuffType.Petrify) && BuffCountManager[BuffManager.BuffType.Petrify].Count > 0));
+        BuffController.ShowBuff();
     }
 
     public void ResetBuff()
     {
-        var buffManager = BuffManager.Instance;
-        foreach (var buffType in BuffCountManager.Select(pair => pair.Key))
-        {
-            buffManager.Stop(buffType, gameObject);
-        }
-        BuffCountManager.Clear();
+        BuffController.ResetBuff();
     }
 
     public void ShowBuffCD(BuffBarController buffController)
     {
-        foreach (var pair in BuffCountManager)
-        {
-            var buffType = pair.Key;
-            var count = pair.Value.Count;
-            if (count <= 0)
-            {
-                buffController.gameObject.SetActive(false);
-            }
-            else
-            {
-                buffController.gameObject.SetActive(true);
-                var label = buffController.BuffLabel.GetComponent<UILabel>();
-                label.text = "" + count;
-                label.color = BuffManager.Instance.BuffColorList[(int)buffType];
-            }
-        }
+        BuffController.ShowBuffCD(buffController);
+    }
+
+    public void ShowDebuff()
+    {
+        BuffController.ShowDebuff();
     }
 
     /// <overrides/>
@@ -206,7 +179,11 @@ public class Character : MonoBehaviour
             animationList = new List<string>(Animation.Cast<AnimationState>().Select(item => item.name));
         }
 
-        BuffCountManager = new Dictionary<BuffManager.BuffType, BuffData>();
+        if (BuffController == null)
+        {
+            BuffController = GetComponent<CharacterBuffController>() ??
+                             gameObject.AddComponent<CharacterBuffController>();
+        }
     }
 
     #endregion

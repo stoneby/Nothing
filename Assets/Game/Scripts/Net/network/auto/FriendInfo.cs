@@ -31,6 +31,8 @@ namespace KXSGCodec
     private long _lastLoginTime;
     private long _giveEnergyTime;
     private sbyte _status;
+    private int _raidStageId;
+    private int _maxDamage;
 
     public long FriendUuid
     {
@@ -136,6 +138,32 @@ namespace KXSGCodec
       }
     }
 
+    public int RaidStageId
+    {
+      get
+      {
+        return _raidStageId;
+      }
+      set
+      {
+        __isset.raidStageId = true;
+        this._raidStageId = value;
+      }
+    }
+
+    public int MaxDamage
+    {
+      get
+      {
+        return _maxDamage;
+      }
+      set
+      {
+        __isset.maxDamage = true;
+        this._maxDamage = value;
+      }
+    }
+
 
     public Isset __isset;
     #if !SILVERLIGHT
@@ -150,6 +178,8 @@ namespace KXSGCodec
       public bool lastLoginTime;
       public bool giveEnergyTime;
       public bool status;
+      public bool raidStageId;
+      public bool maxDamage;
     }
 
     public FriendInfo() {
@@ -230,6 +260,20 @@ namespace KXSGCodec
           case 8:
             if (field.Type == TType.Byte) {
               Status = iprot.ReadByte();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 9:
+            if (field.Type == TType.I32) {
+              RaidStageId = iprot.ReadI32();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 10:
+            if (field.Type == TType.I32) {
+              MaxDamage = iprot.ReadI32();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
@@ -318,6 +362,22 @@ namespace KXSGCodec
         oprot.WriteByte(Status);
         oprot.WriteFieldEnd();
       }
+      if (__isset.raidStageId) {
+        field.Name = "raidStageId";
+        field.Type = TType.I32;
+        field.ID = 9;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteI32(RaidStageId);
+        oprot.WriteFieldEnd();
+      }
+      if (__isset.maxDamage) {
+        field.Name = "maxDamage";
+        field.Type = TType.I32;
+        field.ID = 10;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteI32(MaxDamage);
+        oprot.WriteFieldEnd();
+      }
       oprot.WriteFieldStop();
       oprot.WriteStructEnd();
     }
@@ -340,6 +400,10 @@ namespace KXSGCodec
       sb.Append(GiveEnergyTime);
       sb.Append(",Status: ");
       sb.Append(Status);
+      sb.Append(",RaidStageId: ");
+      sb.Append(RaidStageId);
+      sb.Append(",MaxDamage: ");
+      sb.Append(MaxDamage);
       sb.Append(")");
       return sb.ToString();
     }

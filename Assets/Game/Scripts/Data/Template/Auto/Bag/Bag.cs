@@ -26,7 +26,7 @@ namespace Template.Auto.Bag
     private Dictionary<int, BagBaseTemplate> _bagBaseTmpls;
     private Dictionary<int, BagHeroExtendCostTemplate> _heroExtTmpls;
     private Dictionary<int, BagItemExtendCostTemplate> _itemExtTmpls;
-    private Dictionary<int, FriendBagExtendTemplate> _friendExtTmpls;
+    private Dictionary<int, BagFriendExtendCostTemplate> _friendExtTmpls;
 
     public Dictionary<int, BagBaseTemplate> BagBaseTmpls
     {
@@ -67,7 +67,7 @@ namespace Template.Auto.Bag
       }
     }
 
-    public Dictionary<int, FriendBagExtendTemplate> FriendExtTmpls
+    public Dictionary<int, BagFriendExtendCostTemplate> FriendExtTmpls
     {
       get
       {
@@ -170,14 +170,14 @@ namespace Template.Auto.Bag
           case 4:
             if (field.Type == TType.Map) {
               {
-                FriendExtTmpls = new Dictionary<int, FriendBagExtendTemplate>();
+                FriendExtTmpls = new Dictionary<int, BagFriendExtendCostTemplate>();
                 TMap _map12 = iprot.ReadMapBegin();
                 for( int _i13 = 0; _i13 < _map12.Count; ++_i13)
                 {
                   int _key14;
-                  FriendBagExtendTemplate _val15;
+                  BagFriendExtendCostTemplate _val15;
                   _key14 = iprot.ReadI32();
-                  _val15 = new FriendBagExtendTemplate();
+                  _val15 = new BagFriendExtendCostTemplate();
                   _val15.Read(iprot);
                   FriendExtTmpls[_key14] = _val15;
                 }

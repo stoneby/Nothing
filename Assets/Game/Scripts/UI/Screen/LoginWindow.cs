@@ -12,6 +12,7 @@ public class LoginWindow : Window
     public override void OnEnter()
     {
         //GlobalUIEventManager.Instance.EventListener.onClick += OnFallThroughClick;
+        WindowManager.Instance.Show(typeof(LoginMainWindow), true);
     }
 
     public override void OnExit()
@@ -32,7 +33,7 @@ public class LoginWindow : Window
     void Start()
     {
        
-        WindowManager.Instance.Show(typeof(LoginMainWindow), true);
+        
     }
 
     #endregion

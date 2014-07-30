@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -57,21 +56,21 @@ public class SwitchFontEditorWindow : EditorWindow
     private void ApplyFont()
     {
         Debug.LogWarning("Find all prefabs begins.");
-        var prefabList = FindAllPrefabs();
+        var prefabList = FindWidget.FindAllPrefabs(PrefabExt, PathFilterList);
         Debug.LogWarning("Find all prefabs ends, count: " + prefabList.Count);
 
         Debug.LogWarning("Load all prefabs begins.");
         var activeStatus = new Dictionary<GameObject, bool>();
-        LoadAllPrefabs(prefabList, activeStatus);
+        FindWidget.LoadAllPrefabs(prefabList, activeStatus);
         Debug.LogWarning("Load all prefabs ends.");
 
         Debug.LogWarning("Active all prefabs begins.");
-        ActiveAllPrefabs(activeStatus);
+        FindWidget.ActiveAllPrefabs(activeStatus);
         Debug.LogWarning("Active all prefabs ends.");
 
         Debug.LogWarning("Find all labels begins.");
-        var labelList = FindAllLabels();
-        DisplayLabels(labelList);
+        var labelList = FindWidget.FindAllWidgets<UILabel>();
+        FindWidget.DisplayWidgets<UILabel>(labelList);
         Debug.LogWarning("Find all labels ends, count: " + labelList.Count);
 
         Debug.LogWarning("Apply font settings begins.");
@@ -79,59 +78,11 @@ public class SwitchFontEditorWindow : EditorWindow
         Debug.LogWarning("Apply font settings ends.");
 
         Debug.LogWarning("Restore active status begins.");
-        RestoreActiveStatus(activeStatus);
+        FindWidget.RestoreActiveStatus(activeStatus);
         Debug.LogWarning("Restore active status ends.");
 
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
-    }
-
-    private static List<string> FindAllPrefabs()
-    {
-        var result = new List<string>();
-        var paths = AssetDatabase.GetAllAssetPaths();
-        foreach (var path in paths.Where(path => path.EndsWith(PrefabExt)))
-        {
-            var filtered = PathFilterList.Any(filter => path.Contains(filter));
-            if (filtered)
-            {
-                continue;
-            }
-            result.Add(path);
-            Debug.Log("Find prefab with path: " + path);
-        }
-        return result;
-    }
-
-    private static void LoadAllPrefabs(List<string> prefabList, IDictionary<GameObject, bool> activeStatus)
-    {
-        prefabList.ForEach(path =>
-        {
-            var prefabObject = AssetDatabase.LoadAssetAtPath(path, typeof(GameObject)) as GameObject;
-            activeStatus[prefabObject] = prefabObject.activeSelf;
-        });
-    }
-
-    private static void ActiveAllPrefabs(IEnumerable<KeyValuePair<GameObject, bool>> activeStatus)
-    {
-        foreach (var pair in activeStatus.Where(pair => !pair.Value))
-        {
-            pair.Key.SetActive(true);
-        }
-    }
-
-    private static List<UILabel> FindAllLabels()
-    {
-        return Resources.FindObjectsOfTypeAll<UILabel>().ToList();
-    }
-
-    private static void DisplayLabels(IEnumerable<UILabel> labelList)
-    {
-        foreach (var label in labelList)
-        {
-            var path = AssetDatabase.GetAssetPath(label);
-            Debug.Log("Find label: " + label.gameObject.name + ", path: " + path);
-        }
     }
 
     private void ApplyFontSettings(IEnumerable<UILabel> labelList)
@@ -176,15 +127,6 @@ public class SwitchFontEditorWindow : EditorWindow
             }
         }
     }
-
-    private static void RestoreActiveStatus(Dictionary<GameObject, bool> activeStatus)
-    {
-        foreach (var pair in activeStatus)
-        {
-            pair.Key.SetActive(pair.Value);
-        }
-    }
-
 
     private bool Validate()
     {

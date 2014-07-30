@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using Object = UnityEngine.Object;
 
 public class PopTextManager
@@ -7,7 +6,7 @@ public class PopTextManager
     static GameObject textContainer;
     static GameObject textPrefab;
     static GameObject shakePrefab;
-    private static bool haveInit = false;
+    private static bool haveInit;
 
     public static void Init()
     {

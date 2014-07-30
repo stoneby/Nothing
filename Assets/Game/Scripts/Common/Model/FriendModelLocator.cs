@@ -25,6 +25,9 @@ public class FriendModelLocator
         }
     }
 
+    public int ExtendFriendTimes { get;  set; }
+
+    private SCFriendLoadingAll friendLoadingAll;
     public SCFriendLoadingAll ScFriendLoadingAll { get; set; }
 
     public List<FriendInfo> ApplyListCached;

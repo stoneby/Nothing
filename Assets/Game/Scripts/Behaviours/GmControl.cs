@@ -36,6 +36,11 @@ public class GmControl : MonoBehaviour
 
     private void OpenBox()
     {
+        if (!ServiceManager.IsTest)
+        {
+            return;
+        }
+
         isShow = !isShow;
         gmBox.SetActive(isShow);
 

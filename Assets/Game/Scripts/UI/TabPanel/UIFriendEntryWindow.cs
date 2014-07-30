@@ -57,8 +57,8 @@ public class UIFriendEntryWindow : Window
         itemExtendConfirm.ExtendContentKey = FriendConstant.ExtendContentKey;
         itemExtendConfirm.ExtendLimitKey = FriendConstant.ExtendLimitKey;
         var bases = ItemModeLocator.Instance.Bag;
-        var costDict = bases.FriendExtTmpls.ToDictionary(item => item.Value.Id, item => item.Value.Cost);
-        itemExtendConfirm.Init(PlayerModelLocator.Instance.ExtendHeroTimes + 1, bases.BagBaseTmpls[1].EachExtFriendNum,
+        var costDict = bases.FriendExtTmpls.ToDictionary(item => item.Value.Id, item => item.Value.ExtendCost);
+        itemExtendConfirm.Init(FriendModelLocator.Instance.ExtendFriendTimes + 1, bases.BagBaseTmpls[1].ExtendfriendCount,
                                costDict);
         itemExtendConfirm.OkClicked += OnExendBagOk;
     }

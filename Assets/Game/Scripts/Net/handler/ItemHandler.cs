@@ -140,18 +140,22 @@ namespace Assets.Game.Scripts.Net.handler
             if (themsg != null)
             {
                 var buyBackInfos = ItemModeLocator.Instance.BuyBackItems.ItemInfos;
-                var infos = ItemModeLocator.Instance.ScAllItemInfos.ItemInfos ??
-                            (ItemModeLocator.Instance.ScAllItemInfos.ItemInfos = new List<ItemInfo>());
+                var needUpdateMain = ItemModeLocator.Instance.ScAllItemInfos != null &&
+                                     ItemModeLocator.Instance.ScAllItemInfos.ItemInfos != null;
                 foreach (var indexeChange in themsg.ItemIndexeChanges)
                 {
                     var buyBackIndex = indexeChange.Key;
                     var bagIndex = indexeChange.Value;
                     var itemInfo = ItemModeLocator.Instance.FindBuyBackItem(buyBackIndex);
                     itemInfo.BagIndex = bagIndex;
-                    infos.Add(itemInfo);
                     buyBackInfos.Remove(itemInfo);
+                    if(needUpdateMain)
+                    {
+                        var infos = ItemModeLocator.Instance.ScAllItemInfos.ItemInfos ??
+                                    (ItemModeLocator.Instance.ScAllItemInfos.ItemInfos = new List<ItemInfo>());
+                        infos.Add(itemInfo);
+                    }
                 }
-
                 WindowManager.Instance.GetWindow<UIBuyBackItemsWindow>().BuyBackItemSucc();
             }
         }

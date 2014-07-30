@@ -82,13 +82,7 @@ public class SDKLoginManager : MonoBehaviour
 
     #endregion
 
-	#region Public Fields
 
-	#endregion 
-
-    #region Public Methods
-
-    #endregion
 
     #region Mono
 
@@ -107,13 +101,6 @@ public class SDKLoginManager : MonoBehaviour
 #endif
     }
 	
-	/// <summary>
-    /// Update is called once per frame
-	/// </summary>
-	void Update () 
-    {
-        
-    }
 
     void Awake()
     {

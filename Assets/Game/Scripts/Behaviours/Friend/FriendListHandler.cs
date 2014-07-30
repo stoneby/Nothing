@@ -25,7 +25,7 @@ public class FriendListHandler : FriendHandlerBase
     {
         cachedGivenObject = go;
         var friendItem = NGUITools.FindInParents<FriendItem>(go);
-        cachedUuid = friendItem.FriendId;
+        cachedUuid = friendItem.FriendInfo.FriendUuid;
         var msg = new CSFriendGiveEnergy { FriendUuid = cachedUuid };
         NetManager.SendMessage(msg);
     }
@@ -46,5 +46,6 @@ public class FriendListHandler : FriendHandlerBase
             var child = Items.transform.GetChild(i);
             child.GetComponent<GivenItem>().Init(infos[i], OnGiveClicked);
         }
+       NGUITools.FindInParents<UIScrollView>(Items.gameObject).ResetPosition();
     }
 }

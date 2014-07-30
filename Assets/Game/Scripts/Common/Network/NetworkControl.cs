@@ -157,6 +157,12 @@ public class NetworkControl : MonoBehaviour
                     case (short)MessageType.SC_FRIEND_EXTEND_SUCC:
                         FriendHandler.OnFriendExtendSucc(msg);
                         break;
+                    case (short)MessageType.SC_FRIEND_BIND_SUCC:
+                        FriendHandler.OnFriendBindSucc(msg);
+                        break;  
+                    case (short)MessageType.SC_FRIEND_DELETE_SUCC:
+                        FriendHandler.OnFriendDelSucc(msg);
+                        break;
                 }
                 msg = NetManager.GetMessage();
             }

@@ -3337,7 +3337,11 @@ MonoBehaviour:
   caretColor: {r: 1, g: 1, b: 1, a: .800000012}
   selectionColor: {r: 1, g: .874509811, b: .552941203, a: .5}
   onSubmit: []
-  onChange: []
+  onChange:
+  - mTarget: {fileID: 11400088}
+    mMethodName: OnChange
+    mParameters: []
+    oneShot: 0
   mValue: 
 --- !u!114 &11400098
 MonoBehaviour:

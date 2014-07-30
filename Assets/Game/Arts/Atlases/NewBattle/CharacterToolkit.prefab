@@ -8,7 +8,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 400000}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: CharacterToolkit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25,7 +25,7 @@ GameObject:
   - 4: {fileID: 400002}
   - 114: {fileID: 11400004}
   - 114: {fileID: 11400002}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Description
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42,7 +42,7 @@ GameObject:
   - 4: {fileID: 400004}
   - 114: {fileID: 11400006}
   - 114: {fileID: 11400008}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: CDLabel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -59,7 +59,7 @@ GameObject:
   - 4: {fileID: 400006}
   - 114: {fileID: 11400010}
   - 114: {fileID: 11400000}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: BuffBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -76,7 +76,7 @@ GameObject:
   - 4: {fileID: 400008}
   - 114: {fileID: 11400012}
   - 114: {fileID: 11400014}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: AttackValueLabel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92,7 +92,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 400010}
   - 114: {fileID: 11400016}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Face
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -108,7 +108,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 400012}
   - 114: {fileID: 11400018}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: GroundSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -124,7 +124,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 400014}
   - 114: {fileID: 11400020}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: BaseAttackLabel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -140,7 +140,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 400016}
   - 114: {fileID: 11400022}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: FriendLabel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -156,7 +156,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 400018}
   - 114: {fileID: 11400024}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: JobSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -172,7 +172,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 400020}
   - 114: {fileID: 11400026}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: TimeLabel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -186,7 +186,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.18357754, y: -5.14545059, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400010}
@@ -395,6 +395,8 @@ MonoBehaviour:
   mWidth: 84
   mHeight: 20
   mDepth: 2100
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -457,6 +459,8 @@ MonoBehaviour:
   mWidth: 46
   mHeight: 24
   mDepth: 2100
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -559,6 +563,8 @@ MonoBehaviour:
   mWidth: 100
   mHeight: 100
   mDepth: 26
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -596,6 +602,8 @@ MonoBehaviour:
   mWidth: 78
   mHeight: 25
   mDepth: 2100
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -698,6 +706,8 @@ MonoBehaviour:
   mWidth: 100
   mHeight: 100
   mDepth: 2100
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -732,13 +742,15 @@ MonoBehaviour:
   updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
-  mWidth: 150
-  mHeight: 100
+  mWidth: 100
+  mHeight: 70
   mDepth: 6
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
-  aspectRatio: 1.5
+  aspectRatio: 1.42857146
   mType: 0
   mFillDirection: 4
   mFillAmount: 1
@@ -785,6 +797,8 @@ MonoBehaviour:
   mWidth: 65
   mHeight: 20
   mDepth: 2100
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -847,6 +861,8 @@ MonoBehaviour:
   mWidth: 123
   mHeight: 25
   mDepth: 2100
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -909,6 +925,8 @@ MonoBehaviour:
   mWidth: 32
   mHeight: 32
   mDepth: 2100
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -959,6 +977,8 @@ MonoBehaviour:
   mWidth: 78
   mHeight: 24
   mDepth: 2100
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0

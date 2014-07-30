@@ -28,6 +28,11 @@ namespace Assets.Game.Scripts.Common.Model
         public bool CanSelectHero = true;
         public HeroBattleSkillTemplate Skill;
 
+        /// <summary>
+        /// Minimun count of all heros.
+        /// </summary>
+        public const int MinHerosCount = 12;
+
         public static BattleModelLocator Instance
         {
             get

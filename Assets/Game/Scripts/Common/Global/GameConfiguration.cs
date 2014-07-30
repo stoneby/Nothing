@@ -203,11 +203,21 @@ public class GameConfiguration : Singleton<GameConfiguration>
                 if (app.BundleID == GameConfig.BundleID)
                 {
                     ServiceManager.AppData = app;
-                    if (ServiceManager.AppData.Version == GameConfig.Version && ServiceManager.AppData.IsTest)
+                    if ((ServiceManager.AppData.Version == GameConfig.Version && ServiceManager.AppData.IsTest) || (SystemInfo.deviceType == DeviceType.Desktop))
                     {
                         ServiceManager.IsTest = true;
                     }
                 }
+            }
+
+            if (SystemInfo.deviceType == DeviceType.Desktop)
+            {
+                ServiceManager.IsTest = true;
+            }
+
+            if (ServiceManager.AppData != null && GameConfig.VersionValue < ServiceManager.AppData.VersionValue && !ServiceManager.AppData.IsTest)
+            {
+                DoUpdate();
             }
 
             //account
@@ -217,6 +227,29 @@ public class GameConfiguration : Singleton<GameConfiguration>
             ServiceManager.SetServers(serverMap);
             Logger.Log("解析Service.xml成功");
         }
+    }
+
+    private static void DoUpdate()
+    {
+        if (ServiceManager.AppData.ForceUpdate)
+        {
+            Alert.Show(AssertionWindow.Type.Ok, "系统提示", ServiceManager.UpdateInfo, OnUpdateConfirmHandler);
+        }
+        else
+        {
+            Alert.Show(AssertionWindow.Type.OkCancel, "系统提示", ServiceManager.UpdateInfo, OnUpdateConfirmHandler, OnUpdateCancelHandler);
+        }
+    }
+
+    private static void OnUpdateConfirmHandler(GameObject sender)
+    {
+        Application.OpenURL(ServiceManager.AppData.UpdateUrl);
+        DoUpdate();
+    }
+
+    private static void OnUpdateCancelHandler(GameObject sender)
+    {
+        
     }
 
     private IEnumerator DoReadBattleConfigXml()

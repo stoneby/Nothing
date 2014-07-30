@@ -1,105 +1,121 @@
 ﻿using Assets.Game.Scripts.Common.Model;
-using Template.Auto.Skill;
 using com.kx.sglm.gs.battle.share.data;
 using com.kx.sglm.gs.battle.share.input;
-using Template;
+using Template.Auto.Skill;
 using UnityEngine;
 
 public class LeaderControl : MonoBehaviour
 {
     public GameObject SpriteBg;
     public GameObject SpriteLight;
-    public GameObject SpriteHead;
+    public UISprite SpriteHead;
 
-    public int LeaderIndex;
-
-    public int HeadIndex;
+    public LeaderData Data;
 
     private GameObject shineObj;
-    private int baseCd;
-    private int currentCd;
-    private int cd;
+    private int currentCD;
 
     private bool alertFlag = true;
     private FighterInfo figherData;
     private HeroBattleSkillTemplate skillData;
+    private string defaultHeadSpriteName;
+    private const string InvalidHeadSpriteName = "head_0";
 
-    private UIEventListener headUIEventListener;
-
-    void Start()
+    /// <summary>
+    /// Reset status.
+    /// </summary>
+    public void Reset()
     {
-        headUIEventListener = UIEventListener.Get(SpriteHead);
-        headUIEventListener.onClick += OnHeadClick;
-    }
-
-    public void Init(int headindex, int basecd, int theindex = 0)
-    {
-        SpriteBg = transform.FindChild("Sprite - bg").gameObject;
-        SpriteHead = transform.FindChild("Sprite - head").gameObject;
-        SpriteLight = transform.FindChild("Sprite - light").gameObject;
+        if (string.IsNullOrEmpty(defaultHeadSpriteName))
+        {
+            defaultHeadSpriteName = SpriteHead.spriteName;
+        }
 
         SpriteLight.SetActive(false);
-        HeadIndex = headindex;
-        baseCd = basecd;
-        LeaderIndex = theindex;
-        var sp = SpriteHead.GetComponent<UISprite>();
-        sp.spriteName = "head_" + HeadIndex;
+        SpriteHead.spriteName = defaultHeadSpriteName;
     }
 
-    public void SetData(FighterInfo data, int theindex)
+    /// <summary>
+    /// Set inner data before using.
+    /// </summary>
+    /// <param name="data">Fighter infor.</param>
+    /// <param name="leaderIndex">Leader index.</param>
+    public void SetData(FighterInfo data, int leaderIndex)
     {
-        LeaderIndex = theindex;
+        Data.LeaderIndex = leaderIndex;
         figherData = data;
         skillData = HeroModelLocator.Instance.GetLeaderSkillTemplateById(figherData.ActiveSkillId);
-        var sp = SpriteHead.GetComponent<UISprite>();
         if (skillData == null)
         {
-            sp.spriteName = "head_0";
+            SpriteHead.spriteName = InvalidHeadSpriteName;
         }
         else
         {
-            sp.spriteName = "head_" + HeadIndex;
-            baseCd = skillData.CostMP;
+            SpriteHead.spriteName = defaultHeadSpriteName;
+            Data.BaseCd = skillData.CostMP;
+            Debug.LogError("Leader base CD: " + Data.BaseCd + ", name: " + name);
         }
     }
 
-    public void Reset(int currentcd)
+    /// <summary>
+    /// Set current cd.
+    /// </summary>
+    /// <param name="currentcd">Current cd</param>
+    public void SetCD(int currentcd)
     {
-        currentCd = currentcd;
-        if (HeadIndex > 0 && skillData != null)
-        {
-            SpriteLight.SetActive(currentcd >= baseCd);
-        }
-        else
-        {
-            SpriteLight.SetActive(false);
-        }
+        currentCD = currentcd;
+        SpriteLight.SetActive((skillData != null && currentcd >= Data.BaseCd));
     }
 
-    private void OnHeadClick(GameObject game)
+    /// <summary>
+    /// Callback on head got clicked.
+    /// </summary>
+    public void OnHeadClick()
     {
-        if (HeadIndex > 0 && currentCd >= baseCd && skillData != null)
+        if (currentCD < Data.BaseCd || skillData == null)
         {
-            alertFlag = false;
-            Alert.Show(AssertionWindow.Type.OkCancel, skillData.BaseTmpl.Name, skillData.BaseTmpl.Desc, OnAssertButtonClicked, OnCancelClicked);
-            BattleModelLocator.Instance.CanSelectHero = false;
+            return;
         }
+
+        alertFlag = false;
+        Alert.Show(AssertionWindow.Type.OkCancel, skillData.BaseTmpl.Name, skillData.BaseTmpl.Desc, OnAssertButtonClicked, OnCancelClicked);
+        BattleModelLocator.Instance.CanSelectHero = false;
     }
 
+    /// <summary>
+    /// Callback on assert ok button clicked.
+    /// </summary>
+    /// <param name="sender">Sender</param>
     private void OnAssertButtonClicked(GameObject sender)
     {
-        if (alertFlag) return;
+        if (alertFlag)
+        {
+            return;
+        }
+
         alertFlag = true;
-        var action = new UseActiveSkillAction {FighterIndex = LeaderIndex};
+        var action = new UseActiveSkillAction {FighterIndex = Data.LeaderIndex};
         BattleModelLocator.Instance.MainBattle.handleBattleEvent(action);
         BattleModelLocator.Instance.Skill = skillData;
-        var e = new LeaderUseEvent {CDCount = baseCd, SkillIndex = LeaderIndex};
+        var e = new LeaderUseEvent
+        {
+            CDCount = Data.BaseCd, SkillIndex = Data.LeaderIndex
+        };
         EventManager.Instance.Post(e);
         BattleModelLocator.Instance.CanSelectHero = true;
     }
 
+    /// <summary>
+    /// Callback on assert cancel button clicked.
+    /// </summary>
+    /// <param name="sender"></param>
     private void OnCancelClicked(GameObject sender)
     {
         BattleModelLocator.Instance.CanSelectHero = true;
+    }
+
+    private void Awake()
+    {
+        defaultHeadSpriteName = SpriteHead.spriteName;
     }
 }

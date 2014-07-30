@@ -1,5 +1,6 @@
 ﻿using Assets.Game.Scripts.Net.network;
 using KXSGCodec;
+using UnityEngine;
 
 namespace Assets.Game.Scripts.Net.handler
 {
@@ -18,8 +19,14 @@ namespace Assets.Game.Scripts.Net.handler
                 var clientmsg = msg as ClientSCMessage;
                 Logger.Log("服务端系统消息2：" + clientmsg.Info);
                 PopTextManager.PopTip(clientmsg.Info);
-                Alert.Show(AssertionWindow.Type.Ok, "系统提示", clientmsg.Info);
+                Alert.Show(AssertionWindow.Type.Ok, "系统提示", clientmsg.Info, AlertHandler);
             }
+        }
+
+        private static void AlertHandler(GameObject sender = null)
+        {
+            WindowManager.Instance.Show(typeof(MainMenuBarWindow), false);
+            WindowManager.Instance.Show(typeof(LoginWindow), true);
         }
 
         public static void OnErrorInfo(ThriftSCMessage msg)
@@ -51,6 +58,7 @@ namespace Assets.Game.Scripts.Net.handler
                         break;
                     case (short)ErrorType.LOGIN_INVALID:
                         str += "登录失效";
+                        AlertHandler();//登录失效时返回登录页面
                         break;
                     case (short)ErrorType.MSG_EXEC_EXCEPTION:
                         str += "消息执行异常";

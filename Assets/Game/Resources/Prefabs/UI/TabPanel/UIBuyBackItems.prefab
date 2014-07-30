@@ -57,11 +57,11 @@ GameObject:
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 4
   m_Component:
-  - 4: {fileID: 400008}
-  - 114: {fileID: 11400008}
-  - 65: {fileID: 6500002}
+  - 4: {fileID: 400088}
+  - 114: {fileID: 11400106}
+  - 65: {fileID: 6500004}
   m_Layer: 8
-  m_Name: Cursor
+  m_Name: Thumb
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -268,17 +268,15 @@ GameObject:
   m_IsActive: 1
 --- !u!1 &100032
 GameObject:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 4
   m_Component:
-  - 4: {fileID: 400024}
-  - 114: {fileID: 11400018}
+  - 4: {fileID: 400008}
   - 114: {fileID: 11400020}
-  - 65: {fileID: 6500004}
   m_Layer: 8
-  m_Name: ScrollBar
+  m_Name: Foreground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -301,7 +299,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &100036
 GameObject:
   m_ObjectHideFlags: 1
@@ -724,6 +722,24 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &100088
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 400024}
+  - 114: {fileID: 11400018}
+  - 114: {fileID: 11400008}
+  - 65: {fileID: 6500002}
+  m_Layer: 8
+  m_Name: ScrollBar
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!4 &400000
 Transform:
   m_ObjectHideFlags: 1
@@ -775,9 +791,9 @@ Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100006}
+  m_GameObject: {fileID: 100032}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 207.600006, z: 0}
+  m_LocalPosition: {x: -.00880813599, y: -.00630950928, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400024}
@@ -865,12 +881,13 @@ Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100032}
+  m_GameObject: {fileID: 100088}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -110, y: -78.9174652, z: 0}
-  m_LocalScale: {x: .999969482, y: .999969482, z: .999969482}
+  m_LocalPosition: {x: -110.008797, y: -78.9237747, z: 0}
+  m_LocalScale: {x: .999969542, y: .999969542, z: .999969542}
   m_Children:
   - {fileID: 400008}
+  - {fileID: 400088}
   m_Father: {fileID: 400034}
 --- !u!4 &400026
 Transform:
@@ -1251,6 +1268,17 @@ Transform:
   m_Children:
   - {fileID: 400084}
   m_Father: {fileID: 400034}
+--- !u!4 &400088
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100006}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0, y: 230, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 400024}
 --- !u!54 &5400000
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -1313,24 +1341,24 @@ BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100006}
+  m_GameObject: {fileID: 100088}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 26, y: 26, z: 0}
+  m_Size: {x: 30, y: 300, z: 0}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!65 &6500004
 BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100032}
+  m_GameObject: {fileID: 100006}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 10, y: 470, z: 1}
+  m_Size: {x: 26, y: 26, z: 0}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!65 &6500006
 BoxCollider:
@@ -1425,6 +1453,8 @@ MonoBehaviour:
   mWidth: 142
   mHeight: 30
   mDepth: 3
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -1487,6 +1517,8 @@ MonoBehaviour:
   mWidth: 160
   mHeight: 62
   mDepth: 2
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -1560,6 +1592,8 @@ MonoBehaviour:
   mWidth: 160
   mHeight: 62
   mDepth: 1
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 1
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -1582,51 +1616,23 @@ MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100006}
+  m_GameObject: {fileID: 100088}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Script: {fileID: 11500000, guid: 6c20815eb3063c24290a61b7020a1836, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  leftAnchor:
-    target: {fileID: 0}
-    relative: 0
-    absolute: -8
-  rightAnchor:
-    target: {fileID: 0}
-    relative: 1
-    absolute: 8
-  bottomAnchor:
-    target: {fileID: 0}
-    relative: 0
-    absolute: -46
-  topAnchor:
-    target: {fileID: 0}
-    relative: 1
-    absolute: -20
-  updateAnchors: 1
-  mColor: {r: 1, g: 1, b: 1, a: 1}
-  mPivot: 4
-  mWidth: 26
-  mHeight: 26
-  mDepth: 5
-  autoResizeBoxCollider: 1
-  hideIfOffScreen: 0
-  keepAspectRatio: 0
-  aspectRatio: 1
-  mType: 1
-  mFillDirection: 4
-  mFillAmount: 1
-  mInvert: 0
-  mFlip: 0
-  centerType: 1
-  leftType: 1
-  rightType: 1
-  bottomType: 1
-  topType: 1
-  mAtlas: {fileID: 11400000, guid: 498fdabfa116ccc41ba5e1e7291ee2d3, type: 2}
-  mSpriteName: ScrollBarCursor
-  mFillCenter: 1
+  thumb: {fileID: 400088}
+  mBG: {fileID: 11400018}
+  mFG: {fileID: 11400020}
+  mValue: 0
+  mFill: 3
+  numberOfSteps: 0
+  onChange: []
+  foreground: {fileID: 0}
+  rawValue: 1
+  direction: 2
+  mInverted: 0
 --- !u!114 &11400010
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1660,6 +1666,8 @@ MonoBehaviour:
   mWidth: 140
   mHeight: 20
   mDepth: 16
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -1722,6 +1730,8 @@ MonoBehaviour:
   mWidth: 120
   mHeight: 20
   mDepth: 8
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -1797,7 +1807,7 @@ MonoBehaviour:
   alwaysOnScreen: 0
   anchorOffset: 0
   renderQueue: 0
-  startingRenderQueue: 3008
+  startingRenderQueue: 3012
   mAlpha: 1
   mClipping: 0
   mClipRange: {x: 0, y: 0, z: 300, w: 200}
@@ -1810,7 +1820,7 @@ MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100032}
+  m_GameObject: {fileID: 100088}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
@@ -1838,6 +1848,8 @@ MonoBehaviour:
   mWidth: 10
   mHeight: 470
   mDepth: 4
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -1863,23 +1875,37 @@ MonoBehaviour:
   m_GameObject: {fileID: 100032}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c8d596c16f05d949922ef16347e4cc9, type: 3}
+  m_Script: {fileID: 11500000, guid: 858a20c1b21a3f94bb5b2d3b901c9aaf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  thumb: {fileID: 0}
-  mBG: {fileID: 11400018}
-  mFG: {fileID: 11400008}
-  mValue: 2.32606217e-05
-  mFill: 3
-  numberOfSteps: 1
-  onChange: []
-  foreground: {fileID: 0}
-  rawValue: 1
-  direction: 2
-  mInverted: 0
-  mSize: .958519995
-  mScroll: 0
-  mDir: 2
+  leftAnchor:
+    target: {fileID: 400024}
+    relative: 0
+    absolute: 5
+  rightAnchor:
+    target: {fileID: 400024}
+    relative: 1
+    absolute: -5
+  bottomAnchor:
+    target: {fileID: 400024}
+    relative: 0
+    absolute: 5
+  topAnchor:
+    target: {fileID: 400024}
+    relative: 1
+    absolute: -5
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 2
+  mHeight: 460
+  mDepth: 3
+  OffsetX: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: .00434782589
 --- !u!114 &11400022
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1900,7 +1926,7 @@ MonoBehaviour:
   scrollWheelFactor: .25
   momentumAmount: 35
   horizontalScrollBar: {fileID: 0}
-  verticalScrollBar: {fileID: 11400020}
+  verticalScrollBar: {fileID: 11400008}
   showScrollBars: 0
   customMovement: {x: 1, y: 0}
   contentPivot: 0
@@ -1941,7 +1967,7 @@ MonoBehaviour:
   alwaysOnScreen: 0
   anchorOffset: 0
   renderQueue: 0
-  startingRenderQueue: 3008
+  startingRenderQueue: 3012
   mAlpha: 1
   mClipping: 3
   mClipRange: {x: 0, y: 0, z: 402.200012, w: 478}
@@ -2003,6 +2029,8 @@ MonoBehaviour:
   mWidth: 100
   mHeight: 100
   mDepth: 3
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -2076,6 +2104,8 @@ MonoBehaviour:
   mWidth: 1254
   mHeight: 618
   mDepth: 0
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 1
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -2126,6 +2156,8 @@ MonoBehaviour:
   mWidth: 1100
   mHeight: 558
   mDepth: 3
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -2176,6 +2208,8 @@ MonoBehaviour:
   mWidth: 660
   mHeight: 536
   mDepth: 7
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -2226,6 +2260,8 @@ MonoBehaviour:
   mWidth: 410
   mHeight: 490
   mDepth: 7
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -2276,6 +2312,8 @@ MonoBehaviour:
   mWidth: 90
   mHeight: 82
   mDepth: 8
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -2384,6 +2422,8 @@ MonoBehaviour:
   mWidth: 640
   mHeight: 36
   mDepth: 17
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -2434,6 +2474,8 @@ MonoBehaviour:
   mWidth: 148
   mHeight: 30
   mDepth: 19
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -2496,6 +2538,8 @@ MonoBehaviour:
   mWidth: 148
   mHeight: 30
   mDepth: 18
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -2558,6 +2602,8 @@ MonoBehaviour:
   mWidth: 148
   mHeight: 30
   mDepth: 19
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -2620,6 +2666,8 @@ MonoBehaviour:
   mWidth: 148
   mHeight: 30
   mDepth: 24
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -2682,6 +2730,8 @@ MonoBehaviour:
   mWidth: 114
   mHeight: 114
   mDepth: 5
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -2732,6 +2782,8 @@ MonoBehaviour:
   mWidth: 114
   mHeight: 114
   mDepth: 5
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -2782,6 +2834,8 @@ MonoBehaviour:
   mWidth: 114
   mHeight: 114
   mDepth: 5
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -2832,6 +2886,8 @@ MonoBehaviour:
   mWidth: 114
   mHeight: 114
   mDepth: 5
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -2882,6 +2938,8 @@ MonoBehaviour:
   mWidth: 114
   mHeight: 114
   mDepth: 5
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -2932,6 +2990,8 @@ MonoBehaviour:
   mWidth: 114
   mHeight: 114
   mDepth: 5
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -2982,6 +3042,8 @@ MonoBehaviour:
   mWidth: 114
   mHeight: 114
   mDepth: 5
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -3032,6 +3094,8 @@ MonoBehaviour:
   mWidth: 114
   mHeight: 114
   mDepth: 5
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -3082,6 +3146,8 @@ MonoBehaviour:
   mWidth: 114
   mHeight: 114
   mDepth: 5
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -3132,6 +3198,8 @@ MonoBehaviour:
   mWidth: 114
   mHeight: 114
   mDepth: 5
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -3182,6 +3250,8 @@ MonoBehaviour:
   mWidth: 114
   mHeight: 114
   mDepth: 5
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -3232,6 +3302,8 @@ MonoBehaviour:
   mWidth: 114
   mHeight: 114
   mDepth: 5
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -3315,6 +3387,8 @@ MonoBehaviour:
   mWidth: 100
   mHeight: 100
   mDepth: 0
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -3352,6 +3426,8 @@ MonoBehaviour:
   mWidth: 148
   mHeight: 30
   mDepth: 9
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -3451,6 +3527,8 @@ MonoBehaviour:
   mWidth: 180
   mHeight: 80
   mDepth: 8
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 1
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -3538,6 +3616,8 @@ MonoBehaviour:
   mWidth: 58
   mHeight: 48
   mDepth: 12
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 1
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -3588,6 +3668,8 @@ MonoBehaviour:
   mWidth: 104
   mHeight: 104
   mDepth: 9
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -3604,6 +3686,58 @@ MonoBehaviour:
   topType: 1
   mAtlas: {fileID: 11400000, guid: 8334cafb3d14e8645a9306828c0e15b8, type: 2}
   mSpriteName: EditMask
+  mFillCenter: 1
+--- !u!114 &11400106
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 400024}
+    relative: 0
+    absolute: -8
+  rightAnchor:
+    target: {fileID: 400024}
+    relative: 1
+    absolute: 8
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 217
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: -63
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 26
+  mHeight: 26
+  mDepth: 6
+  OffsetX: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 1
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: 1
+  mType: 1
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: 498fdabfa116ccc41ba5e1e7291ee2d3, type: 2}
+  mSpriteName: ScrollBarCursor
   mFillCenter: 1
 --- !u!1001 &100100000
 Prefab:
