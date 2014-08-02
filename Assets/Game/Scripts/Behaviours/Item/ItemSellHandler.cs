@@ -58,7 +58,6 @@ public class ItemSellHandler : MonoBehaviour
             var assertWindow = WindowManager.Instance.GetWindow<AssertionWindow>();
             assertWindow.AssertType = AssertionWindow.Type.OkCancel;
             assertWindow.Message = "";
-            assertWindow.Title = StringTable.SellConfirm;
             assertWindow.OkButtonClicked += OnSellConfirmOk;
             assertWindow.CancelButtonClicked += OnSellConfirmCancel;
             WindowManager.Instance.Show(typeof(AssertionWindow), true);

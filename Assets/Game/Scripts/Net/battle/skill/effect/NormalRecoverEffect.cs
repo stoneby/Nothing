@@ -3,6 +3,7 @@ namespace com.kx.sglm.gs.battle.share.skill.effect
 
 	using BattleFighter = com.kx.sglm.gs.battle.share.actor.impl.BattleFighter;
 	using SingleActionRecord = com.kx.sglm.gs.battle.share.data.record.SingleActionRecord;
+	using BattleLogicHelper = com.kx.sglm.gs.battle.share.helper.BattleLogicHelper;
 	using HeroArrLogicHelper = com.kx.sglm.gs.battle.share.helper.HeroArrLogicHelper;
 	using SkillDataHolder = com.kx.sglm.gs.battle.share.skill.model.SkillDataHolder;
 
@@ -17,6 +18,7 @@ namespace com.kx.sglm.gs.battle.share.skill.effect
 			int _curIndex = attacker.getOwnerTeam().CurFightIndex;
 			float _ratio = HeroArrLogicHelper.getAttackRatio(_curIndex);
 			_recover *= (_ratio / BattleConstants.BATTLE_RATIO_BASE);
+			_recover = BattleLogicHelper.calcAttackerState(attacker, _recover);
 			attacker.getOwnerTeam().changeHp((int) _recover, attacker);
 			return _recover;
 		}

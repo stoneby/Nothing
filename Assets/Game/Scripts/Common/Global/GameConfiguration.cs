@@ -206,6 +206,7 @@ public class GameConfiguration : Singleton<GameConfiguration>
                     if ((ServiceManager.AppData.Version == GameConfig.Version && ServiceManager.AppData.IsTest) || (SystemInfo.deviceType == DeviceType.Desktop))
                     {
                         ServiceManager.IsTest = true;
+                        ServiceManager.OpenTestAccount = ServiceManager.AppData.OpenTestAccount;
                     }
                 }
             }
@@ -213,6 +214,7 @@ public class GameConfiguration : Singleton<GameConfiguration>
             if (SystemInfo.deviceType == DeviceType.Desktop)
             {
                 ServiceManager.IsTest = true;
+                ServiceManager.OpenTestAccount = true;
             }
 
             if (ServiceManager.AppData != null && GameConfig.VersionValue < ServiceManager.AppData.VersionValue && !ServiceManager.AppData.IsTest)

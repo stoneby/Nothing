@@ -386,7 +386,6 @@ namespace com.kx.sglm.gs.battle.share.buff
 		public virtual void recalcBuffEffect()
 		{
 			owner.FighterProp.resetBuffProp();
-			effectAllBuff();
 		}
 
 		public virtual List<BattleFighterState> AllFighterState

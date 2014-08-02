@@ -29,14 +29,14 @@ namespace com.kx.sglm.gs.battle.share.logic.action
 			this.defencerTeam = defencerTeam;
 		}
 
-	//	@Override
+		// @Override
 		public virtual void updateBattleState(BattleState battelState, bool updateSub)
 		{
 
 			// TODO: add logic here
 		}
 
-	//	@Override
+		// @Override
 		public virtual bool Finished
 		{
 			get
@@ -45,12 +45,12 @@ namespace com.kx.sglm.gs.battle.share.logic.action
 			}
 		}
 
-	//	@Override
+		// @Override
 		public override void onAction()
 		{
 			if (!attacker.canAttack())
 			{
-				//TODO: 可能有其他的逻辑处理
+				// TODO: 可能有其他的逻辑处理
 				return;
 			}
 			Console.WriteLine("#BattleAttackAction.onAction, hero type is " + attacker.getOwnerTeam().FighterType.Index);
@@ -63,7 +63,7 @@ namespace com.kx.sglm.gs.battle.share.logic.action
 			_teamReocrd.finishCurRecord();
 		}
 
-	//	@Override
+		// @Override
 		public virtual bool Dead
 		{
 			get
@@ -72,27 +72,25 @@ namespace com.kx.sglm.gs.battle.share.logic.action
 			}
 		}
 
-	//	@Override
+		// @Override
 		public override void createDeadth()
 		{
-
 			defencerTeam.tryDead();
-
 		}
 
-	//	@Override
+		// @Override
 		public virtual void createNewSubAction()
 		{
 			// TODO Auto-generated method stub
 
 		}
 
-	//	@Override
+		// @Override
 		public override bool DeadInTime
 		{
 			get
 			{
-				//如果是
+				// 如果是
 				return defencerTeam.FighterType == FighterType.HERO;
 			}
 		}

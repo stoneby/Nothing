@@ -26,6 +26,8 @@ public sealed class MissionModelLocator
     public int OldExp;
     public int OldLevel;
 
+    public bool ShowAddFriendAlert = false;
+
     private const int FirstTime = 8;
     private const int SecondTime = 16;
     private const int ThirdTime = 24;

@@ -46,4 +46,11 @@ public class ItemType : MonoBehaviour
     /// 基本加成等级，小于等于这个等级没有加成
     /// </summary>
     public const int BaseLevel = 1;
+
+    /// <summary>
+    /// 如果回购背包索引为-1，就不放进回购背包
+    /// </summary>
+    public const int InvalidBuyBackIndex = -1;
+
+    public const string SellConfirmKey = "UISellItem.SellConfirm";
 }

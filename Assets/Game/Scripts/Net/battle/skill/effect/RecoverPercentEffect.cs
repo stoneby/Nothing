@@ -5,6 +5,7 @@ namespace com.kx.sglm.gs.battle.share.skill.effect
 
 	using BattleFighter = com.kx.sglm.gs.battle.share.actor.impl.BattleFighter;
 	using SingleActionRecord = com.kx.sglm.gs.battle.share.data.record.SingleActionRecord;
+	using BattleLogicHelper = com.kx.sglm.gs.battle.share.helper.BattleLogicHelper;
 	using SkillDataHolder = com.kx.sglm.gs.battle.share.skill.model.SkillDataHolder;
 
 	public class RecoverPercentEffect : AbstractRecoverEffect
@@ -17,6 +18,7 @@ namespace com.kx.sglm.gs.battle.share.skill.effect
 			float _totalHp = attacker.getOwnerTeam().TotalHp;
 			float _ratio = percent / BattleConstants.BATTLE_RATIO_BASE;
 			float _recover = _totalHp * _ratio;
+			_recover = BattleLogicHelper.calcAttackerState(attacker, _recover);
 			attacker.getOwnerTeam().changeHp((int)_recover, attacker);
 			return _totalHp * _ratio;
 		}

@@ -14,6 +14,7 @@ public class AppVO
     public int VersionValue;
     public bool IsTest;
     public string UpdateUrl;
+    public bool OpenTestAccount;
 
     public static AppVO Parse(XElement data)
     {
@@ -25,6 +26,7 @@ public class AppVO
         app.UpdateUrl = data.Attribute("UpdateUrl").Value;
         app.ForceUpdate = bool.Parse(data.Attribute("ForceUpdate").Value);
         app.IsTest = bool.Parse(data.Attribute("IsTest").Value);
+        app.OpenTestAccount = bool.Parse(data.Attribute("OpenTestAccount").Value);
         return app;
     }
 }

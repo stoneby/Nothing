@@ -213,9 +213,10 @@ public class ChooseHeroCardWindow : Window
     /// </summary>
     private void ShowTenConfirm()
     {
-        var str = scLotteryList.LotteryType == LotteryConstant.LotteryTypeHero
-                  ? StringTable.TenTimeHeroLotteryConfirm
-                  : StringTable.TenTimeItemLotteryConfirm;
+        var key = scLotteryList.LotteryType == LotteryConstant.LotteryTypeHero
+                  ? LotteryConstant.TenTimeHeroLotteryConfirmKey
+                  : LotteryConstant.TenTimeItemLotteryConfirmKey;
+        var str = LanguageManager.Instance.GetTextValue(key);
         ShowConfirm(string.Format(str, scLotteryList.LotteryCost * TenTimes));
     }
 
@@ -224,9 +225,10 @@ public class ChooseHeroCardWindow : Window
     /// </summary>
     private void ShowOneConfirm()
     {
-        var str = scLotteryList.LotteryType == LotteryConstant.LotteryTypeHero
-                  ? StringTable.OneTimeHeroLotteryConfirm
-                  : StringTable.OneTimeItemLotteryConfirm;
+        var key = scLotteryList.LotteryType == LotteryConstant.LotteryTypeHero
+                  ? LotteryConstant.OneTimeHeroLotteryConfirmKey
+                  : LotteryConstant.OneTimeItemLotteryConfirmKey;
+        var str = LanguageManager.Instance.GetTextValue(key);
         ShowConfirm(string.Format(str, scLotteryList.LotteryCost));
     }
 
@@ -287,18 +289,6 @@ public class ChooseHeroCardWindow : Window
         var isElevenTimes = scLotteryList.ListLotteryInfo[activetab].TenLotteryGiveElevenHero;
         elevenTimesDesc.gameObject.SetActive(isElevenTimes);
         tenTimesDesc.gameObject.SetActive(!isElevenTimes);
-        //Just For Demo
-        SetAdvIcon(activetab);
-    }
-
-    /// <summary>
-    /// Set adv icons, this is for demo.
-    /// </summary>
-    /// <param name="activetab">The current active tab.</param>
-    private void SetAdvIcon(int activetab)
-    {
-        player.Back.GetComponent<UISprite>().spriteName = "Ad" + (2 * activetab + 2);
-        player.Front.GetComponent<UISprite>().spriteName = "Ad" + (2 * activetab + 1);
     }
 
     #endregion
@@ -314,7 +304,7 @@ public class ChooseHeroCardWindow : Window
         scLotteryList = lotteryList;
         var infos = lotteryList.ListLotteryInfo;
         var toggleItems = new Dictionary<UISprite, GameObject>();
-        int depthAdjust = infos.Count;
+        var depthAdjust = infos.Count;
         for (var i = 0; i < infos.Count; i++)
         {
             var info = infos[i];

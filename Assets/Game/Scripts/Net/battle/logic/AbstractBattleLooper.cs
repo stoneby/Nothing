@@ -17,6 +17,7 @@ namespace com.kx.sglm.gs.battle.share.logic
 	public abstract class AbstractBattleLooper<T, A> : IBattleLoop where T : IBattleLoop where A : com.kx.sglm.gs.battle.share.actor.IBattleActor
 	{
 		public abstract void createDeadth();
+		public abstract bool Dead {get;}
 
 		private Battle battle;
 
@@ -121,11 +122,12 @@ namespace com.kx.sglm.gs.battle.share.logic
 				{
 					break;
 				}
-				// 如果自动做死亡则尝试死亡
+				// 如果【子动作】已经死亡，则尝自身的死亡
+				//通过这种层级处理产生战斗内的死亡
 				if (curSubAction.Dead)
 				{
 					createDeadth();
-					_dead = Dead;
+					_dead = this.Dead;
 				}
 				if (_dead)
 				{
@@ -253,13 +255,7 @@ namespace com.kx.sglm.gs.battle.share.logic
 			}
 		}
 
-		public virtual bool Dead
-		{
-			get
-			{
-				return isActorDead(curAttacker) || isActorDead(curDefencer);
-			}
-		}
+
 
 		protected internal virtual bool isActorDead(A actor)
 		{

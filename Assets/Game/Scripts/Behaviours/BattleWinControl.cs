@@ -1,4 +1,5 @@
-﻿using Property;
+﻿using KXSGCodec;
+using Property;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -267,6 +268,18 @@ public class BattleWinControl : MonoBehaviour
         WindowManager.Instance.Show(typeof(UIMainScreenWindow), true);
         WindowManager.Instance.Show(typeof(MainMenuBarWindow), true);
         WindowManager.Instance.Show(typeof(MissionTabWindow), true);
+
+        if (MissionModelLocator.Instance.ShowAddFriendAlert)
+        {
+            Alert.Show(AssertionWindow.Type.OkCancel, "系统提示", "你要添加“" + MissionModelLocator.Instance.FriendData.Data.FriendName + "”为好友吗？", AddFriendHandler);
+        }
+    }
+
+    private static void AddFriendHandler(GameObject obj)
+    {
+        var msg = new CSFriendApply();
+        msg.FriendUuid = MissionModelLocator.Instance.FriendData.Data.FriendUuid;
+        NetManager.SendMessage(msg);
     }
 
 

@@ -102,25 +102,11 @@ public class UIItemEvolveWindow : Window
 
     private void OnEvolve(GameObject go)
     {
-        switch (EvState)
-        {
-            case EvolveState.EvolveOk:
-                var msg = new CSEvoluteItem
-                              {
-                                  OperItemIndex = operItemIndex
-                              };
-                NetManager.SendMessage(msg);
-                break;
-            case EvolveState.ItemNotFullLevel:
-                PopTextManager.PopTip(StringTable.EvolveNotFullLvl);
-                break;
-            case EvolveState.MatNotEnough:
-                PopTextManager.PopTip(StringTable.EvolveNotEnoughMat);
-                break;
-            case EvolveState.MoneyNotEnough:
-                PopTextManager.PopTip(StringTable.EvolveNotEnoughMoney);
-                break;
-        }
+        var msg = new CSEvoluteItem
+                      {
+                          OperItemIndex = operItemIndex
+                      };
+        NetManager.SendMessage(msg);
     }
 
     private void Refresh()

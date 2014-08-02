@@ -111,12 +111,7 @@ namespace com.kx.sglm.gs.battle.share.skill.effect
 
 		protected internal virtual float calcAttackerState(BattleFighter attacker, float damage)
 		{
-			float _resultDamage = damage;
-			if (attacker.hasState(BattleConstants.ATTACK_ZERO_FLAG))
-			{
-				_resultDamage = 0;
-			}
-			return _resultDamage;
+			return BattleLogicHelper.calcAttackerState(attacker, damage);
 		}
 
 		protected internal virtual float calcSingleDamage(float attack, float defence, float indexValMuti, float spValuMuti, float weakRatio, float damageMuti, float damageFree)

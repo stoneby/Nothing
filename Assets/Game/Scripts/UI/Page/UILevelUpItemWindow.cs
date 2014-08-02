@@ -41,7 +41,7 @@ public class UILevelUpItemWindow : Window
     private UILabel changedAtk;
     private UILabel changedHp;
     private UILabel changedRecover;
-    private UILabel changedMp;
+    private UILabel changedLvl;
     private UISlider atkForeShowSlider;
     private UISlider atkSlider;
     private UISlider hpForeShowSlider;
@@ -57,6 +57,8 @@ public class UILevelUpItemWindow : Window
     private int maxHp;
     private int maxRecover;
     private short maxLvl;
+    private short preshowLvl;
+    private int cachedContribExp;
 
     private ItemInfo mainInfo;
 
@@ -79,25 +81,71 @@ public class UILevelUpItemWindow : Window
         }
     }
 
-    private void Refresh(short level)
+    private void Refresh(short level, bool isPreshow = false)
     {
         if(level <= maxLvl)
         {
-            lvl.text = level.ToString(CultureInfo.InvariantCulture);
-            lvlSlider.value = (float)level / maxLvl;
-            var attack = ItemModeLocator.Instance.GetAttack(MainInfo.TmplId, level);
-            atk.text = attack.ToString(CultureInfo.InvariantCulture);
-            atkSlider.value = (float)attack / maxAtk;
-            var hpTemp = ItemModeLocator.Instance.GetHp(MainInfo.TmplId, level);
-            hp.text = hpTemp.ToString(CultureInfo.InvariantCulture);
-            hpSlider.value = (float)hpTemp / maxHp;
-            var recoverTemp = ItemModeLocator.Instance.GetRecover(MainInfo.TmplId, level);
-            recover.text = recoverTemp.ToString(CultureInfo.InvariantCulture);
-            recoverSlider.value = (float)recoverTemp / maxRecover;
+            if(isPreshow)
+            {
+                var changedLevel = level - MainInfo.Level;
+                ShowPreshow(changedLevel, level, MainInfo.MaxLvl, changedLvl, lvlForeShowSlider);
+
+                var preshowAttack = ItemModeLocator.Instance.GetAttack(MainInfo.TmplId, level);
+                var attackChanged = preshowAttack  -
+                                    ItemModeLocator.Instance.GetAttack(MainInfo.TmplId, MainInfo.Level);
+                ShowPreshow(attackChanged, preshowAttack, maxAtk, changedAtk, atkForeShowSlider);
+
+                var preshowHp = ItemModeLocator.Instance.GetHp(MainInfo.TmplId, level);
+                var hpChanged = preshowHp - ItemModeLocator.Instance.GetHp(MainInfo.TmplId, MainInfo.Level);
+                ShowPreshow(hpChanged, preshowHp, maxHp, changedHp, hpForeShowSlider); 
+                
+                var preshowRecover = ItemModeLocator.Instance.GetRecover(MainInfo.TmplId, level);
+                var recoverChanged = preshowRecover - ItemModeLocator.Instance.GetRecover(MainInfo.TmplId, MainInfo.Level);
+                ShowPreshow(recoverChanged, preshowRecover, maxRecover, changedRecover, recoverForeShowSlider);
+            }
+            else
+            {
+                lvl.text = level.ToString(CultureInfo.InvariantCulture);
+                lvlSlider.value = (float)level / maxLvl;
+                var attack = ItemModeLocator.Instance.GetAttack(MainInfo.TmplId, level);
+                atk.text = attack.ToString(CultureInfo.InvariantCulture);
+                atkSlider.value = (float)attack / maxAtk;
+                var hpTemp = ItemModeLocator.Instance.GetHp(MainInfo.TmplId, level);
+                hp.text = hpTemp.ToString(CultureInfo.InvariantCulture);
+                hpSlider.value = (float)hpTemp / maxHp;
+                var recoverTemp = ItemModeLocator.Instance.GetRecover(MainInfo.TmplId, level);
+                recover.text = recoverTemp.ToString(CultureInfo.InvariantCulture);
+                recoverSlider.value = (float)recoverTemp / maxRecover;
+            }
         }
     }
 
+    private void ShowPreshow(int changed, int preshow, int max, UILabel preshowLabel, UISlider preshowSlider)
+    {
+        preshowLabel.text = changed > 0 ? "+" + changed : "";
+        preshowSlider.value = (float)preshow / max;
+    }
+
     private int expCanGet;
+    private int ExpCanGet
+    {
+        get { return expCanGet; }
+        set
+        {
+            expCanGet = value;
+            var exp = value + MainInfo.CurExp;
+            var itemLvlTmpls = ItemModeLocator.Instance.ItemConfig.ItemLvlTmpls;
+            var level = MainInfo.Level;
+            var maxLevel = MainInfo.MaxLvl;
+            while (exp >= itemLvlTmpls[level].MaxExp && level < maxLevel)
+            {
+                exp -= itemLvlTmpls[level].MaxExp;
+                level++;
+            }
+            preshowLvl = level;
+            cachedContribExp = exp;
+        }
+    }
 
     #region Window
 
@@ -146,7 +194,7 @@ public class UILevelUpItemWindow : Window
         recoverSlider = property.Find("Recover/NormalBar").GetComponent<UISlider>();
 
         lvl = property.Find("Lvl/LvlValue").GetComponent<UILabel>();
-        changedMp = property.Find("Lvl/ChangedLvl").GetComponent<UILabel>();
+        changedLvl = property.Find("Lvl/ChangedLvl").GetComponent<UILabel>();
         lvlForeShowSlider = property.Find("Lvl/ForeshowBar").GetComponent<UISlider>();
         lvlSlider = property.Find("Lvl/NormalBar").GetComponent<UISlider>();
 
@@ -199,6 +247,9 @@ public class UILevelUpItemWindow : Window
         //If main item is not selected.
         if(mats[0] == null)
         {
+            //If the item is material, then it can not be leveled up.
+            isEnabled = (isEnabled &&  ItemModeLocator.Instance.GetItemType(UIItemSnapShotWindow.ItemInfo.TmplId) !=
+                        ItemHelper.EquipType.Material);
             snapShot.InitTemplate("HeroOrItemSnapShot.Levelup", GotoLevelUp, isEnabled);
             return;
         }
@@ -249,9 +300,9 @@ public class UILevelUpItemWindow : Window
             WindowManager.Instance.Show<UIItemSnapShotWindow>(false);
 
             var mainType = ItemModeLocator.Instance.GetItemType(MainInfo.TmplId);
-            expCanGet -= MainInfo.ContribExp * (ItemHelper.IsSameJobType(mainType, MainInfo.TmplId, bagIndex) ? 5 : 1);
-            var changedLvl = GetLevelChanged();
-            Refresh((short)(mainInfo.Level + changedLvl));
+            var info = ItemModeLocator.Instance.FindItem(bagIndex);
+            ExpCanGet -= info.ContribExp * (ItemHelper.IsSameJobType(mainType, MainInfo.TmplId, bagIndex) ? 5 : 1);
+            Refresh(preshowLvl, true);
         }
     }
 
@@ -283,25 +334,11 @@ public class UILevelUpItemWindow : Window
             WindowManager.Instance.Show<UIItemSnapShotWindow>(false);
 
             var mainType = ItemModeLocator.Instance.GetItemType(MainInfo.TmplId);
-            expCanGet += MainInfo.ContribExp * (ItemHelper.IsSameJobType(mainType, MainInfo.TmplId, bagIndex) ? 5 : 1);
-            var changedLvl = GetLevelChanged();
-            Refresh((short)(mainInfo.Level + changedLvl));
+            var info = ItemModeLocator.Instance.FindItem(bagIndex);
+            ExpCanGet += info.ContribExp * (ItemHelper.IsSameJobType(mainType, MainInfo.TmplId, bagIndex) ? 5 : 1);
+            Refresh(preshowLvl, true);
         }
     }
-
-    private int GetLevelChanged()
-    {
-        var exp = expCanGet + MainInfo.CurExp;
-        var itemLvlTmpls = ItemModeLocator.Instance.ItemConfig.ItemLvlTmpls;
-        var level = MainInfo.Level;
-        while (exp >= itemLvlTmpls[level].MaxExp)
-        {
-            exp -= itemLvlTmpls[level].MaxExp;
-            level++;
-        }
-        return level - MainInfo.Level;
-    }
-
 
     private void GotoLevelUp(GameObject go)
     {
@@ -330,22 +367,31 @@ public class UILevelUpItemWindow : Window
 
     private void CancelLevelUp(GameObject go)
     {
+        MainInfo = null;
         CleanMats();
         WindowManager.Instance.Show<UIItemSnapShotWindow>(false);
     }
 
-    private void CleanMats()
+    private void CleanMats(bool includeMainItem = true, bool needDespawn = false)
     {
-        for(var i = mats.Count - 1; i >= 0; i--)
+        //The first material is the main item.
+        var index = includeMainItem ? 0 : 1;
+        for (var i = mats.Count - 1; i >= index; i--)
         {
             if(mats[i] != null)
             {
                 NGUITools.Destroy(mats[i].gameObject);
                 mats[i] = null;
             }
-            if(sources[i] != null)
+            var source = sources[i];
+            if (source != null)
             {
-                NGUITools.Destroy(sources[i].transform.Find("Mask(Clone)").gameObject);
+                NGUITools.Destroy(source.transform.Find("Mask(Clone)").gameObject);
+                if (needDespawn)
+                {
+                    source.transform.parent = PoolManager.Pools[HeroConstant.HeroPoolName].transform;
+                    PoolManager.Pools[HeroConstant.HeroPoolName].Despawn(source.transform);
+                }
                 sources[i] = null;
             }
         }
@@ -359,16 +405,30 @@ public class UILevelUpItemWindow : Window
 
     private void ResetData()
     {
+        mainItemName.text = "";
+        ResetPreshowData();
+    }
+
+    private void ResetPreshowData()
+    {
         atkForeShowSlider.value = 0;
         hpForeShowSlider.value = 0;
         recoverForeShowSlider.value = 0;
         lvlForeShowSlider.value = 0;
-        expCanGet = 0;
         changedAtk.text = "";
         changedHp.text = "";
         changedRecover.text = "";
-        changedMp.text = "";
-        mainItemName.text = "";
+        changedLvl.text = "";
+        expCanGet = 0;
+        preshowLvl = 0;
+        atkSlider.value = 1;
+        hpSlider.value = 1;
+        recoverSlider.value = 1;
+        lvlSlider.value = 1;
+        atk.text = "";
+        hp.text = "";
+        recover.text = "";
+        lvl.text = "";
     }
 
     private IEnumerator PlayEffect(float time)
@@ -388,8 +448,18 @@ public class UILevelUpItemWindow : Window
     public void ShowLevelOver()
     {
         StartCoroutine("PlayEffect", 1.5f);
-        ResetData();
-        CleanMats();
+        UpdateLevelUp(preshowLvl);
+    }
+
+    private void UpdateLevelUp(short level)
+    {
+        MainInfo.Level = level;
+        MainInfo.ContribExp = cachedContribExp;
+        Refresh(level);
+        ResetPreshowData();
+        CleanMats(false, true);
+        itemsWindow.Items.repositionNow = true;
+        itemsWindow.RefreshItemCount(itemsWindow.Items.transform.childCount);
     }
 
     #endregion

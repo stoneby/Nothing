@@ -19,6 +19,17 @@ namespace com.kx.sglm.gs.battle.share.helper
 			record.ResultHp = defencer.FighterCurHp;
 		}
 
+
+		public static float calcAttackerState(BattleFighter attacker, float damage)
+		{
+			float _resultDamage = damage;
+			if (attacker.hasState(BattleConstants.ATTACK_ZERO_FLAG))
+			{
+				_resultDamage = 0;
+			}
+			return _resultDamage;
+		}
+
 		public static void refreshState(BattleArmy battelArmy)
 		{
 			foreach (BattleTeam _team in battelArmy.ActorList)

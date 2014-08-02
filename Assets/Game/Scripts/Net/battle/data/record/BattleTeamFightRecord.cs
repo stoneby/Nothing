@@ -30,19 +30,21 @@ namespace com.kx.sglm.gs.battle.share.data.record
 
 		private SingleActionRecord curBuffAction;
 
-	    public List<SingleActionRecord> BuffAction
-	    {
-	        get { return buffAction; }
-	        set { buffAction = value; }
-	    }
 
-	    public BattleTeamFightRecord() : base()
+
+		public BattleTeamFightRecord() : base()
 		{
 			skillFighter = new List<int>();
 			buffAction = new List<SingleActionRecord>();
 		}
 
-
+		public virtual List<SingleActionRecord> BuffAction
+		{
+			get
+			{
+				return buffAction;
+			}
+		}
 
 		public virtual SingleActionRecord OrCreateCurBuffAction
 		{

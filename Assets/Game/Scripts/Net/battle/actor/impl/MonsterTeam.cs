@@ -34,24 +34,22 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 			curFightIndex = 0;
 		}
 
-		public override bool hasHp()
-		{
-			return !deadth;
-		}
 
-		public override void tryDead()
+		public override bool AllFighterDead
 		{
-			bool _isDead = true;
-			foreach (BattleFighter _fighter in actorList)
+			get
 			{
-				_fighter.tryDead();
-				if (_fighter.hasHp())
+				bool _isDead = true;
+				foreach (BattleFighter _fighter in actorList)
 				{
-					_isDead = false; // 这里不能Break，因为需要将所有fighter尝试死亡
+					_fighter.tryDead();
+					if (_fighter.hasHp())
+					{
+						_isDead = false; // 这里不能Break，因为需要将所有fighter尝试死亡
+					}
 				}
+				return _isDead;
 			}
-			Deadth = _isDead;
-
 		}
 
 		public override void onDead()

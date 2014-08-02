@@ -27,6 +27,7 @@ namespace Assets.Game.Scripts.Net.handler
         {
             WindowManager.Instance.Show(typeof(MainMenuBarWindow), false);
             WindowManager.Instance.Show(typeof(LoginWindow), true);
+            WindowManager.Instance.Show(false);
         }
 
         public static void OnErrorInfo(ThriftSCMessage msg)

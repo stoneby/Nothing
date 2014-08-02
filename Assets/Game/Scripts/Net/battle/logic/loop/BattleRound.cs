@@ -23,6 +23,14 @@ namespace com.kx.sglm.gs.battle.share.logic.loop
 			//这一层的attacker比较特殊是完整的BattleArmy
 		}
 
+		public override bool Dead
+		{
+			get
+			{
+				return isActorDead(CurAttacker) || isActorDead(CurDefencer);
+			}
+		}
+
 		public override void onFinish()
 		{
 			//TODO 是否有每次回合结束的结算，以后可能会有相关逻辑

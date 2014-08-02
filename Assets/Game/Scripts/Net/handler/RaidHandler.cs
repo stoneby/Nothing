@@ -4,6 +4,7 @@ using com.kx.sglm.gs.battle.share.enums;
 using com.kx.sglm.gs.battle.share.factory.creater;
 using KXSGCodec;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Assets.Game.Scripts.Net.handler
 {
@@ -120,5 +121,17 @@ namespace Assets.Game.Scripts.Net.handler
                 //PopTextManager.PopTip("返回战斗的数据错误");
             }
         }
+
+        public static void OnRaidFinishAddFriend(ThriftSCMessage msg)
+        {
+            var themsg = msg.GetContent() as SCRaidFinishAddFriend;
+            if (themsg != null)
+            {
+                MissionModelLocator.Instance.ShowAddFriendAlert = true;
+                
+            }
+        }
+
+        
     }
 }

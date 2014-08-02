@@ -68,6 +68,8 @@ public class UIFriendApplyWindow : Window
     private void OnViewDetail(GameObject go)
     {
         WindowManager.Instance.Show<UIFriendApplyWindow>(false);
+        var detail = WindowManager.Instance.Show<UIFriendDetailWindow>(true);
+        detail.Init(friendItem.FriendInfo);
     }
 
     public void Refresh(FriendInfo info)

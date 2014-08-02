@@ -108,6 +108,7 @@ public class BattleConfirmWindowWindow : Window
         csMsg.TeamIndex = (sbyte)hor.CurrentIndex;
         NetManager.SendMessage(csMsg);
         MissionModelLocator.Instance.MissionStep = RaidType.StepStageList;
+        MissionModelLocator.Instance.ShowAddFriendAlert = false;
         Dictionary<string, string> dict = new Dictionary<string, string>();
         dict.Add("raid", MissionModelLocator.Instance.SelectedStageId.ToString());
         dict.Add("friend", MissionModelLocator.Instance.FriendData.Data.FriendUuid.ToString());

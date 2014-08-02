@@ -27,7 +27,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 400002}
   - 114: {fileID: 11400004}
-  - 114: {fileID: 11400060}
   m_Layer: 8
   m_Name: ExtendLimit
   m_TagString: Untagged
@@ -234,7 +233,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 400026}
   - 114: {fileID: 11400028}
-  - 114: {fileID: 11400056}
   m_Layer: 8
   m_Name: ExtendContent
   m_TagString: Untagged
@@ -1771,18 +1769,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Key: ExtendBagConfirm.title1
---- !u!114 &11400056
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100026}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bac732c5500c25a45968da93c1d5678f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Key: ExtendBagConfirm.title2
 --- !u!114 &11400058
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1795,18 +1781,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Key: ExtendBagConfirm.title3
---- !u!114 &11400060
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100002}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bac732c5500c25a45968da93c1d5678f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Key: ExtendBagConfirm.title4
 --- !u!114 &11400062
 MonoBehaviour:
   m_ObjectHideFlags: 1

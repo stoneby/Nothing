@@ -1,7 +1,9 @@
 ﻿
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using com.kx.sglm.gs.battle.share.data.record;
 using UnityEngine;
 
 /// <summary>
@@ -13,15 +15,20 @@ public class CharacterBuffController : MonoBehaviour
     public Dictionary<BuffManager.BuffType, int> BuffCountManager;
 
     /// <summary>
-    /// Base value.
+    /// Base character hp value.
     /// </summary>
     public float BaseValue;
 
     /// <summary>
-    /// List of hurt values.
+    /// List of character hp values after hurt.
     /// </summary>
     [HideInInspector]
     public List<float> HurtValueList;
+
+    /// <summary>
+    /// Flag indicates if attack value appears to zero.
+    /// </summary>
+    public bool ZeroAttack;
 
     /// <summary>
     /// Delegate to update hurt value.
@@ -44,6 +51,31 @@ public class CharacterBuffController : MonoBehaviour
                   (BuffCountManager.ContainsKey(BuffManager.BuffType.Petrify) &&
                    BuffCountManager[BuffManager.BuffType.Petrify] > 0));
         }
+    }
+
+    /// <summary>
+    /// Set buff data due to record list.
+    /// </summary>
+    /// <param name="recordList">Record list per character.</param>
+    public void Set(List<FighterStateRecord> recordList)
+    {
+        recordList.ForEach(item =>
+        {
+            // update buff manager count.
+            BuffCountManager.Clear();
+
+            var buffIndex = item.ShowId - 1;
+            var buffSize = Enum.GetNames(typeof(BuffManager.BuffType)).Count();
+            if (buffIndex < 0 || buffIndex > buffSize)
+            {
+                Logger.LogError("Buff index: " + buffIndex + " should be in range of 0 and " + buffSize + ".");
+                return;
+            }
+            BuffCountManager[(BuffManager.BuffType)buffIndex] = item.LeftRound;
+        });
+
+        // set zero attack flag.
+        ZeroAttack = BuffCountManager.ContainsKey(BuffManager.BuffType.Palsy) && (BuffCountManager[BuffManager.BuffType.Palsy] > 0);
     }
 
     public void ShowBuff()

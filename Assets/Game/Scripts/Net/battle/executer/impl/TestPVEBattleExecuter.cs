@@ -181,7 +181,7 @@ namespace com.kx.sglm.gs.battle.share.executer.impl
 		{
 			// TODO: 增加正式逻辑
 	//		int _index = MathUtils.random(HeroColor.RED.getIndex(), HeroColor.PINK.getIndex());
-			int _index = MathUtils.random(HeroColor.RED.Index, HeroColor.RED.Index);
+			int _index = MathUtils.random(HeroColor.RED.Index, HeroColor.PINK.Index);
 			return HeroColor.Values[_index];
 		}
 

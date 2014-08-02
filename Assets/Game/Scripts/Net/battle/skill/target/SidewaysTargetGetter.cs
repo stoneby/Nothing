@@ -21,7 +21,7 @@ namespace com.kx.sglm.gs.battle.share.skill.target
 
 		internal override PointDirection[] initPointArray(params string[] param)
 		{
-			PointDirection[] _pd = new PointDirection[] {PointDirection.LEFT, PointDirection.RIGHT};
+			PointDirection[] _pd = new PointDirection[] {PointDirection.UP, PointDirection.DOWN};
 			return _pd;
 		}
 

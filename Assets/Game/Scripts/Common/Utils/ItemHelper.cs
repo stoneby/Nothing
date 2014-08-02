@@ -30,6 +30,18 @@ public class ItemHelper
         Material = 0,
     }
 
+    public static List<string> SortKeys = new List<string>
+                                                     {
+                                                         "UIHeroOrItem.TimeSort",
+                                                         "UIHeroOrItem.JobSort",
+                                                         "UIHeroOrItem.RaritySort",
+                                                         "UIHeroOrItem.AttackSort",
+                                                         "UIHeroOrItem.HealthSort",
+                                                         "UIHeroOrItem.RecoverSort",
+                                                         "UIHeroOrItem.LevelSort",
+                                                         "UIHeroOrItem.TeamSort",
+                                                     };
+
     /// <summary>
     /// Show the info of the item.
     /// </summary>

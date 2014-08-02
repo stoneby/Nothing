@@ -103,7 +103,7 @@ public class UISellItemWindow : Window
             var assertWindow = WindowManager.Instance.GetWindow<AssertionWindow>();
             assertWindow.AssertType = AssertionWindow.Type.OkCancel;
             assertWindow.Message = "";
-            assertWindow.Title = StringTable.SellConfirm;
+            assertWindow.Title = LanguageManager.Instance.GetTextValue(ItemType.SellConfirmKey);
             assertWindow.OkButtonClicked += OnSellConfirmOk;
             assertWindow.CancelButtonClicked += OnSellConfirmCancel;
             WindowManager.Instance.Show(typeof(AssertionWindow), true);
@@ -281,6 +281,20 @@ public class UISellItemWindow : Window
         sellDictionary.Clear();
         totalMoney = 0;
         RefreshSelAndSoul();
+    }
+
+    public void ShowSellOver()
+    {
+        var sellItems = sellDictionary.Select(item => item.Value).ToList();
+        var pool = PoolManager.Pools[HeroConstant.HeroPoolName];
+        for (int i = sellItems.Count - 1; i >= 0; i--)
+        {
+            sellItems[i].transform.parent = pool.transform;
+            pool.Despawn(sellItems[i].transform);
+        }
+        CleanUp();
+        itemsWindow.RefreshItemCount(Utils.GetActiveChildCount(itemsWindow.Items.transform));
+        itemsWindow.Items.repositionNow = true;
     }
 
     #endregion

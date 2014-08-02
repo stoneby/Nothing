@@ -95,8 +95,8 @@ public class UIHeroCommonWindow : Window
     private void OnSortClicked(GameObject go)
     {
         var orderType = HeroModelLocator.Instance.OrderType;
-        orderType = (ItemHelper.OrderType)(((int)orderType + 1) % StringTable.SortStrings.Count);
-        sortLabel.text = StringTable.SortStrings[(int)orderType];
+        orderType = (ItemHelper.OrderType)(((int)orderType + 1) % ItemHelper.SortKeys.Count);
+        sortLabel.text = LanguageManager.Instance.GetTextValue(ItemHelper.SortKeys[(int)orderType]);
         HeroModelLocator.Instance.OrderType = orderType;
         Refresh(infos);
         if (OnSortOrderChanged != null)
@@ -180,7 +180,7 @@ public class UIHeroCommonWindow : Window
         herosNum.text = string.Format("{0}/{1}", scHeroList.HeroList.Count, PlayerModelLocator.Instance.HeroMax);
         UpdateItemList(newInfos.Count);
         var orderType = HeroModelLocator.Instance.OrderType;
-        sortLabel.text = StringTable.SortStrings[(int)orderType];
+        sortLabel.text = LanguageManager.Instance.GetTextValue(ItemHelper.SortKeys[(int)orderType]);
         HeroModelLocator.Instance.SortHeroList(orderType, newInfos);
         List<long> curTeamUuids;
         List<long> allTeamUuids;

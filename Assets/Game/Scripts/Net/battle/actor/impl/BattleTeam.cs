@@ -24,7 +24,6 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 	/// </summary>
 	public abstract class BattleTeam : AbstractBattleActorList<BattleFighter>, IBattleSideActor
 	{
-		public abstract void tryDead();
 
 		/// <summary>
 		/// 所属的阵营
@@ -149,6 +148,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 					continue;
 				}
 				_actor.activeBuff(buffFlag);
+				_actor.effectAllBuff();
 			}
 		}
 
@@ -190,6 +190,8 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 
 		public abstract int getAttackRatioIndex(BattleFighter fighter);
 
+		public abstract bool AllFighterDead {get;}
+
 		/// <summary>
 		/// 当前战场上的武将
 		/// 
@@ -198,6 +200,30 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 		public abstract List<BattleFighter> AllBattingFighter {get;}
 
 		public abstract HeroColor CurFightColor {get;}
+
+
+		public virtual void tryDead()
+		{
+			bool _isDead = AllFighterDead;
+			if (!_isDead)
+			{
+				_isDead = canTeamAttack();
+			}
+			Deadth = _isDead;
+		}
+
+		public virtual bool canTeamAttack()
+		{
+			bool _needDead = true;
+			foreach (BattleFighter _fighter in AllBattingFighter)
+			{
+				if (!_fighter.hasState(BattleConstants.ATTACK_DIS_FLAG))
+				{
+					_needDead = false;
+				}
+			}
+			return _needDead;
+		}
 
 		public virtual int CurTeamShotFighterCount
 		{
@@ -264,6 +290,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 				return Battle.BattleArmy.getOppositeTeam(this);
 			}
 		}
+
 
 
 		public override bool hasHp()

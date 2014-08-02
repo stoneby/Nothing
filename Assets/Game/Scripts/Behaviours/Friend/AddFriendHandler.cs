@@ -8,7 +8,7 @@ public class AddFriendHandler : FriendHandlerBase
     private UIInput input;
     private GameObject cachedItemObject;
     private long uuidCached;
-    private List<FriendInfo> cachedInfos;
+    private List<FriendInfo> cachedApplyList;
     private const int InvalidIndex = -1;
     private bool isAreadyInApply = false;
 
@@ -50,8 +50,9 @@ public class AddFriendHandler : FriendHandlerBase
 
     public override void Refresh(List<FriendInfo> infos)
     {
+        cachedApplyList = infos;
         UpdateItemList(infos.Count);
-        for(int i = 0; i < infos.Count; i++)
+        for(var i = 0; i < infos.Count; i++)
         {
             var child = Items.transform.GetChild(i);
             child.GetComponent<ApplyItem>().Init(infos[i], OnReject, OnAgree);
@@ -116,13 +117,13 @@ public class AddFriendHandler : FriendHandlerBase
     {
         var result = InvalidIndex;
         FriendInfo info = null;
-        if(cachedInfos != null)
+        if(cachedApplyList != null)
         {
-            info = cachedInfos.Find(item => item.FriendName == friendName);
+            info = cachedApplyList.Find(item => item.FriendName == friendName);
         }
         if(info != null)
         {
-            result = cachedInfos.IndexOf(info);
+            result = cachedApplyList.IndexOf(info);
         }
         return result;
     }

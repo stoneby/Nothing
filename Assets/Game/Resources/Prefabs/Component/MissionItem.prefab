@@ -220,7 +220,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 400026}
   - 114: {fileID: 11400026}
-  - 114: {fileID: 11400034}
   m_Layer: 8
   m_Name: Titlle Label
   m_TagString: Untagged
@@ -483,6 +482,8 @@ MonoBehaviour:
   mWidth: 362
   mHeight: 35
   mDepth: 25
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -545,6 +546,8 @@ MonoBehaviour:
   mWidth: 56
   mHeight: 30
   mDepth: 29
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -607,6 +610,8 @@ MonoBehaviour:
   mWidth: 196
   mHeight: 38
   mDepth: 28
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -669,6 +674,8 @@ MonoBehaviour:
   mWidth: 532
   mHeight: 150
   mDepth: 19
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -719,6 +726,8 @@ MonoBehaviour:
   mWidth: 300
   mHeight: 48
   mDepth: 26
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -756,6 +765,8 @@ MonoBehaviour:
   mWidth: 33
   mHeight: 33
   mDepth: 25
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -806,6 +817,8 @@ MonoBehaviour:
   mWidth: 196
   mHeight: 40
   mDepth: 24
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -868,6 +881,8 @@ MonoBehaviour:
   mWidth: 96
   mHeight: 88
   mDepth: 21
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -918,6 +933,8 @@ MonoBehaviour:
   mWidth: 32
   mHeight: 34
   mDepth: 23
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -968,6 +985,8 @@ MonoBehaviour:
   mWidth: 537
   mHeight: 150
   mDepth: 18
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -1058,6 +1077,8 @@ MonoBehaviour:
   mWidth: 108
   mHeight: 34
   mDepth: 27
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -1108,6 +1129,8 @@ MonoBehaviour:
   mWidth: 100
   mHeight: 40
   mDepth: 22
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -1145,6 +1168,8 @@ MonoBehaviour:
   mWidth: 350
   mHeight: 40
   mDepth: 20
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -1220,6 +1245,8 @@ MonoBehaviour:
   mWidth: 32
   mHeight: 34
   mDepth: 26
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -1270,6 +1297,8 @@ MonoBehaviour:
   mWidth: 32
   mHeight: 34
   mDepth: 25
+  OffsetX: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -1287,18 +1316,6 @@ MonoBehaviour:
   mAtlas: {fileID: 11400000, guid: 8c9ae78b02b25b040bf193bf3cdd633b, type: 2}
   mSpriteName: star
   mFillCenter: 1
---- !u!114 &11400034
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100026}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bac732c5500c25a45968da93c1d5678f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Key: MissionItem.Titlle Label
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

@@ -152,7 +152,17 @@ namespace Assets.Game.Scripts.Net.handler
                 if (bindSucc != null)
                 {
                     var friend = FriendModelLocator.Instance.FindInfo(bindSucc.FriendUuid);
-                    friend.Status |= bindSucc.BindType;
+                    if (bindSucc.BindType == FriendConstant.FriendBind)
+                    {
+                        friend.Status |= FriendConstant.FriendBind;
+                    }
+                    else
+                    {
+                        friend.Status = (sbyte)((friend.Status | FriendConstant.FriendBind) ^ FriendConstant.FriendBind);
+                    }
+           
+                    var lockWindow = WindowManager.Instance.GetWindow<UIFriendLockWindow>();
+                    lockWindow.ShowLockSucc(friend);
                 }
             }
         }
@@ -166,6 +176,8 @@ namespace Assets.Game.Scripts.Net.handler
                 {
                     FriendModelLocator.Instance.ScFriendLoadingAll.FriendList.RemoveAll(
                         item => item.FriendUuid == deleteSucc.FriendUuid);
+                    var lockWindow = WindowManager.Instance.GetWindow<UIFriendLockWindow>();
+                    lockWindow.ShowDelSucc();
                 }
             }
         }

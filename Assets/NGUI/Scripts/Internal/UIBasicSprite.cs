@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -337,24 +338,49 @@ public abstract class UIBasicSprite : UIWidget
 		Vector4 u = drawingUVs;
 		Color32 c = drawingColor;
 
+        // rectangle original style.
 	    var v0 = new Vector3(v.x - OffsetX, v.y);
 	    var v1 = new Vector3(v.x, v.w);
 	    var v2 = new Vector3(v.z, v.w);
 	    var v3 = new Vector3(v.z + OffsetX, v.y);
+        // offset y intersect two new vectors.
+	    var v4 = new Vector3(v.x, v.w - OffsetY);
+	    var v5 = new Vector3(v.z, v.w - OffsetY);
 
-	    for (var i = 0; i < MeshFactor; ++i)
-	    {
-	        Intersection(verts, v0, v1, v2, v3, i);
-	    }
+        // add top intersect rectangle by offset y.
+        if (OffsetY != 0)
+        {
+            verts.Add(v4);
+            verts.Add(v1);
+            verts.Add(v2);
+            verts.Add(v5);
+        }
 
+        // add left-right intersect rectange by offset x.
+        for (var i = 0; i < MeshFactor; ++i)
+        {
+            Intersection(verts, v0, v4, v5, v3, i);
+        }
+
+	    var ratioOffsetY = OffsetY / (v.w - v.y);
         var u0 = new Vector2(u.x, u.y);
 	    var u1 = new Vector2(u.x, u.w);
 	    var u2 = new Vector2(u.z, u.w);
 	    var u3 = new Vector2(u.z, u.y);
+        var u4 = new Vector3(u.x, u.w - ratioOffsetY);
+        var u5 = new Vector3(u.z, u.w - ratioOffsetY);
+
+        if (OffsetY != 0)
+        {
+            uvs.Add(u4);
+            uvs.Add(u1);
+            uvs.Add(u2);
+            uvs.Add(u5);
+        }
 
         for (var i = 0; i < MeshFactor; ++i)
         {
-            Intersection(uvs, u0, u1, u2, u3, i);
+            Intersection(uvs, u0, u4, u5, u3, i);
         }
 
 	    foreach (var vert in verts)

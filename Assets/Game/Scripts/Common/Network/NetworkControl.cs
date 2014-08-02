@@ -76,6 +76,10 @@ public class NetworkControl : MonoBehaviour
                     case (short) MessageType.SC_RAID_RECEIVE_AWARDS:
                         RaidHandler.OnRaidReceiveReward(msg);
                         break;
+
+                    case (short)MessageType.SC_RAID_FINISH_ADD_FRIEND:
+                        RaidHandler.OnRaidFinishAddFriend(msg);
+                        break;
                     case (short) MessageType.SC_ALL_ITEM_INFOS:
                         ItemHandler.OnAllItemInfos(msg);
                         break;

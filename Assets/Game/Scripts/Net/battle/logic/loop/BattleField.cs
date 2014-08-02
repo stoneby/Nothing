@@ -81,7 +81,7 @@ namespace com.kx.sglm.gs.battle.share.logic.loop
 
 		}
 
-		public virtual bool Dead
+		public override bool Dead
 		{
 			get
 			{

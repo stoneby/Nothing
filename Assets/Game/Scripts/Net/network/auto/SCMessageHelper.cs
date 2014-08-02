@@ -204,6 +204,10 @@ namespace KXSGCodec
             {
                 return new SCRaidEnterFail();
             }
+			            if (type == MessageType.SC_RAID_FINISH_ADD_FRIEND.GetHashCode())
+            {
+                return new SCRaidFinishAddFriend();
+            }
 			            if (type == MessageType.SC_RAID_LOADING_ALL.GetHashCode())
             {
                 return new SCRaidLoadingAll();

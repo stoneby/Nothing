@@ -136,6 +136,7 @@ MonoBehaviour:
   mHeight: 40
   mDepth: 1010
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -162,7 +163,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 11100029}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_zhongyaopian
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -189,7 +190,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 19296116}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_xiong
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -208,6 +209,87 @@ Transform:
   m_Children:
   - {fileID: 916852568}
   m_Father: {fileID: 2137005890}
+--- !u!1 &19439499
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100044, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 19439500}
+  - 114: {fileID: 19439501}
+  m_Layer: 9
+  m_Name: dabi1
+  m_TagString: Sprites
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &19439500
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400044, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 19439499}
+  m_LocalRotation: {x: -4.37113528e-08, y: -1.33158039e-07, z: -1, w: -2.66316107e-07}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 920935234}
+--- !u!114 &19439501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400044, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f,
+    type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 19439499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 24
+  mHeight: 30
+  mDepth: 1020
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: .800000012
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: 6f00930398e30004c8e95c3655a4a4e8, type: 2}
+  mSpriteName: dabi1
+  mFillCenter: 1
 --- !u!1 &21470604
 GameObject:
   m_ObjectHideFlags: 0
@@ -270,6 +352,7 @@ MonoBehaviour:
   mHeight: 50
   mDepth: 997
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -296,7 +379,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 43459235}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_youxiaobi
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -377,6 +460,7 @@ MonoBehaviour:
   mHeight: 68
   mDepth: 985
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -403,7 +487,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 69496654}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_jianba
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -430,7 +514,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 74806352}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_touface
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -462,7 +546,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400056, guid: b1ab38fda96f5d24f9164641c044e816, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 182.281372
+      value: 190
       objectReference: {fileID: 0}
     - target: {fileID: 400056, guid: b1ab38fda96f5d24f9164641c044e816, type: 2}
       propertyPath: m_LocalPosition.z
@@ -496,6 +580,102 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: .50999999
       objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: b1ab38fda96f5d24f9164641c044e816, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100004, guid: b1ab38fda96f5d24f9164641c044e816, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100006, guid: b1ab38fda96f5d24f9164641c044e816, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100022, guid: b1ab38fda96f5d24f9164641c044e816, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100026, guid: b1ab38fda96f5d24f9164641c044e816, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100028, guid: b1ab38fda96f5d24f9164641c044e816, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100032, guid: b1ab38fda96f5d24f9164641c044e816, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100034, guid: b1ab38fda96f5d24f9164641c044e816, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100038, guid: b1ab38fda96f5d24f9164641c044e816, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100040, guid: b1ab38fda96f5d24f9164641c044e816, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100044, guid: b1ab38fda96f5d24f9164641c044e816, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100046, guid: b1ab38fda96f5d24f9164641c044e816, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100050, guid: b1ab38fda96f5d24f9164641c044e816, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100052, guid: b1ab38fda96f5d24f9164641c044e816, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100054, guid: b1ab38fda96f5d24f9164641c044e816, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100056, guid: b1ab38fda96f5d24f9164641c044e816, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100058, guid: b1ab38fda96f5d24f9164641c044e816, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100060, guid: b1ab38fda96f5d24f9164641c044e816, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100066, guid: b1ab38fda96f5d24f9164641c044e816, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100072, guid: b1ab38fda96f5d24f9164641c044e816, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100074, guid: b1ab38fda96f5d24f9164641c044e816, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100082, guid: b1ab38fda96f5d24f9164641c044e816, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100086, guid: b1ab38fda96f5d24f9164641c044e816, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100090, guid: b1ab38fda96f5d24f9164641c044e816, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b1ab38fda96f5d24f9164641c044e816, type: 2}
   m_RootGameObject: {fileID: 1360876655}
@@ -509,7 +689,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 102693999}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_toukuiwai
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -590,6 +770,7 @@ MonoBehaviour:
   mHeight: 28
   mDepth: 987
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -608,6 +789,87 @@ MonoBehaviour:
   mAtlas: {fileID: 11400000, guid: 49562db47213af44490fad8a6f15bd3b, type: 2}
   mSpriteName: youshou
   mFillCenter: 1
+--- !u!1 &109268056
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100004, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 109268057}
+  - 114: {fileID: 109268058}
+  m_Layer: 9
+  m_Name: xiaobi1
+  m_TagString: Sprites
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &109268057
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400004, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 109268056}
+  m_LocalRotation: {x: -4.29146141e-08, y: 6.60532251e-08, z: -.999928951, w: .0119206924}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 349251374}
+--- !u!114 &109268058
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400004, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f,
+    type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 109268056}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 32
+  mHeight: 54
+  mDepth: 1024
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: .592592597
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: 6f00930398e30004c8e95c3655a4a4e8, type: 2}
+  mSpriteName: xiaobi1
+  mFillCenter: 1
 --- !u!1001 &116302466
 Prefab:
   m_ObjectHideFlags: 0
@@ -621,7 +883,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400116, guid: 7a9cfc5683a7d0f479b2a75e56e51109, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 182.281372
+      value: 190
       objectReference: {fileID: 0}
     - target: {fileID: 400116, guid: 7a9cfc5683a7d0f479b2a75e56e51109, type: 2}
       propertyPath: m_LocalPosition.z
@@ -735,6 +997,126 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: .50999999
       objectReference: {fileID: 0}
+    - target: {fileID: 100112, guid: 7a9cfc5683a7d0f479b2a75e56e51109, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100100, guid: 7a9cfc5683a7d0f479b2a75e56e51109, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100094, guid: 7a9cfc5683a7d0f479b2a75e56e51109, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100086, guid: 7a9cfc5683a7d0f479b2a75e56e51109, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100092, guid: 7a9cfc5683a7d0f479b2a75e56e51109, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100088, guid: 7a9cfc5683a7d0f479b2a75e56e51109, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100096, guid: 7a9cfc5683a7d0f479b2a75e56e51109, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100114, guid: 7a9cfc5683a7d0f479b2a75e56e51109, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100116, guid: 7a9cfc5683a7d0f479b2a75e56e51109, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100060, guid: 7a9cfc5683a7d0f479b2a75e56e51109, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100076, guid: 7a9cfc5683a7d0f479b2a75e56e51109, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100106, guid: 7a9cfc5683a7d0f479b2a75e56e51109, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100072, guid: 7a9cfc5683a7d0f479b2a75e56e51109, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100108, guid: 7a9cfc5683a7d0f479b2a75e56e51109, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100082, guid: 7a9cfc5683a7d0f479b2a75e56e51109, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100078, guid: 7a9cfc5683a7d0f479b2a75e56e51109, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100098, guid: 7a9cfc5683a7d0f479b2a75e56e51109, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100080, guid: 7a9cfc5683a7d0f479b2a75e56e51109, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100058, guid: 7a9cfc5683a7d0f479b2a75e56e51109, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100062, guid: 7a9cfc5683a7d0f479b2a75e56e51109, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100110, guid: 7a9cfc5683a7d0f479b2a75e56e51109, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100070, guid: 7a9cfc5683a7d0f479b2a75e56e51109, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100064, guid: 7a9cfc5683a7d0f479b2a75e56e51109, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100074, guid: 7a9cfc5683a7d0f479b2a75e56e51109, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100068, guid: 7a9cfc5683a7d0f479b2a75e56e51109, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100084, guid: 7a9cfc5683a7d0f479b2a75e56e51109, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100104, guid: 7a9cfc5683a7d0f479b2a75e56e51109, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100102, guid: 7a9cfc5683a7d0f479b2a75e56e51109, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100066, guid: 7a9cfc5683a7d0f479b2a75e56e51109, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100090, guid: 7a9cfc5683a7d0f479b2a75e56e51109, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7a9cfc5683a7d0f479b2a75e56e51109, type: 2}
   m_RootGameObject: {fileID: 476383212}
@@ -802,6 +1184,7 @@ MonoBehaviour:
   mHeight: 50
   mDepth: 1021
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -882,6 +1265,7 @@ MonoBehaviour:
   mHeight: 40
   mDepth: 1008
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -962,6 +1346,7 @@ MonoBehaviour:
   mHeight: 30
   mDepth: 994
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -988,7 +1373,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 151218895}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_dun
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -1015,7 +1400,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 153086112}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_toufa01
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -1034,6 +1419,87 @@ Transform:
   m_Children:
   - {fileID: 1588358444}
   m_Father: {fileID: 476383213}
+--- !u!1 &156356061
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100036, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 156356062}
+  - 114: {fileID: 156356063}
+  m_Layer: 9
+  m_Name: datui
+  m_TagString: Sprites
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &156356062
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400036, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 156356061}
+  m_LocalRotation: {x: -.000172371729, y: -4.62649859e-06, z: -.99293977, w: .118619531}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 887082797}
+--- !u!114 &156356063
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400036, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f,
+    type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 156356061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 26
+  mHeight: 32
+  mDepth: 1001
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: .8125
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: 6f00930398e30004c8e95c3655a4a4e8, type: 2}
+  mSpriteName: datui
+  mFillCenter: 1
 --- !u!1 &157157572
 GameObject:
   m_ObjectHideFlags: 0
@@ -1096,6 +1562,7 @@ MonoBehaviour:
   mHeight: 30
   mDepth: 1000
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -1176,6 +1643,7 @@ MonoBehaviour:
   mHeight: 44
   mDepth: 1012
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -1202,7 +1670,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 158759681}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_gupen
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -1229,7 +1697,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 160117460}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_toufa04
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -1256,7 +1724,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 162549851}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_youdabi
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -1283,7 +1751,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 176695667}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_yao
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -1364,6 +1832,7 @@ MonoBehaviour:
   mHeight: 46
   mDepth: 1030
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -1382,6 +1851,33 @@ MonoBehaviour:
   mAtlas: {fileID: 11400000, guid: 5a754015aab43eb4d9663e576a811233, type: 2}
   mSpriteName: dabi
   mFillCenter: 1
+--- !u!1 &186720527
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100070, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 186720528}
+  m_Layer: 9
+  m_Name: D_jiao1
+  m_TagString: Bones
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &186720528
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400070, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 186720527}
+  m_LocalRotation: {x: -.000164362675, y: 5.23244889e-05, z: .998418987, w: -.0562101863}
+  m_LocalPosition: {x: -16.8739624, y: 20.7278099, z: 4.76061916}
+  m_LocalScale: {x: -.999999881, y: -.999999821, z: -1}
+  m_Children:
+  - {fileID: 1058038329}
+  m_Father: {fileID: 1371866354}
 --- !u!1 &189251299
 GameObject:
   m_ObjectHideFlags: 0
@@ -1390,7 +1886,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 189251300}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_youjianjia
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -1417,7 +1913,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 231548983}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_youdatui
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -1498,6 +1994,7 @@ MonoBehaviour:
   mHeight: 24
   mDepth: 1013
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -1524,7 +2021,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 235766024}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_fa3
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -1551,7 +2048,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 238603402}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_youjiao
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -1578,7 +2075,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 240903650}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_youdatui
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -1659,6 +2156,7 @@ MonoBehaviour:
   mHeight: 48
   mDepth: 1013
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -1685,7 +2183,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 268591853}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_zuojianjia
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -1712,7 +2210,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 269094644}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_toufa4
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -1739,7 +2237,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 270299387}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_toufa05
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -1766,7 +2264,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 274349429}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_youxiaobi
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -1793,7 +2291,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 285348684}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_qunbai
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -1874,6 +2372,7 @@ MonoBehaviour:
   mHeight: 194
   mDepth: 984
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -1900,7 +2399,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 324627712}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_wuqi
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -1927,7 +2426,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 325621061}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_toufapiaodai
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -2008,6 +2507,7 @@ MonoBehaviour:
   mHeight: 90
   mDepth: 1000
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -2088,6 +2588,7 @@ MonoBehaviour:
   mHeight: 28
   mDepth: 1001
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -2114,7 +2615,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 344027056}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_dabi
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -2195,6 +2696,7 @@ MonoBehaviour:
   mHeight: 134
   mDepth: 968
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -2213,6 +2715,60 @@ MonoBehaviour:
   mAtlas: {fileID: 11400000, guid: b1ea74f22301d294d88aac8047af51e0, type: 2}
   mSpriteName: toufa5
   mFillCenter: 1
+--- !u!1 &349251373
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100052, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 349251374}
+  m_Layer: 9
+  m_Name: D_xiaobi1
+  m_TagString: Bones
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &349251374
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400052, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 349251373}
+  m_LocalRotation: {x: -7.9366802e-10, y: -6.65742945e-08, z: .999928951, w: .0119206924}
+  m_LocalPosition: {x: -28.8866825, y: 68.5031204, z: 24.4669323}
+  m_LocalScale: {x: -1.00000012, y: -1.00000012, z: -1}
+  m_Children:
+  - {fileID: 109268057}
+  m_Father: {fileID: 1371866354}
+--- !u!1 &378786482
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100050, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 378786483}
+  m_Layer: 9
+  m_Name: D_xiong
+  m_TagString: Bones
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &378786483
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400050, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 378786482}
+  m_LocalRotation: {x: 6.1232336e-17, y: -6.65790267e-08, z: 1, w: 6.12323426e-17}
+  m_LocalPosition: {x: -.669073105, y: 87.8481598, z: 4.25332117}
+  m_LocalScale: {x: -1.00000024, y: -1.00000024, z: -1}
+  m_Children:
+  - {fileID: 1540188951}
+  m_Father: {fileID: 1371866354}
 --- !u!1 &383108634
 GameObject:
   m_ObjectHideFlags: 0
@@ -2275,6 +2831,7 @@ MonoBehaviour:
   mHeight: 30
   mDepth: 1000
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -2293,6 +2850,87 @@ MonoBehaviour:
   mAtlas: {fileID: 11400000, guid: f9074af092c38204893c4aa19d654461, type: 2}
   mSpriteName: zuojiao
   mFillCenter: 1
+--- !u!1 &385504676
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100008, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 385504677}
+  - 114: {fileID: 385504678}
+  m_Layer: 9
+  m_Name: toushiqian
+  m_TagString: Sprites
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &385504677
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400008, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 385504676}
+  m_LocalRotation: {x: -4.37113883e-08, y: 3.32895127e-07, z: -1, w: 1.44900757e-14}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 971116998}
+--- !u!114 &385504678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400008, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f,
+    type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 385504676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 18
+  mHeight: 36
+  mDepth: 1061
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: .5
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: 6f00930398e30004c8e95c3655a4a4e8, type: 2}
+  mSpriteName: toushiqian
+  mFillCenter: 1
 --- !u!1 &385754768
 GameObject:
   m_ObjectHideFlags: 0
@@ -2301,7 +2939,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 385754769}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_toufa3
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -2382,6 +3020,7 @@ MonoBehaviour:
   mHeight: 28
   mDepth: 998
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -2462,6 +3101,7 @@ MonoBehaviour:
   mHeight: 100
   mDepth: 986
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -2542,6 +3182,7 @@ MonoBehaviour:
   mHeight: 38
   mDepth: 997
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -2622,6 +3263,7 @@ MonoBehaviour:
   mHeight: 18
   mDepth: 998
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -2648,7 +3290,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 414884515}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_toufa03
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -2729,6 +3371,7 @@ MonoBehaviour:
   mHeight: 56
   mDepth: 1000
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -2809,6 +3452,7 @@ MonoBehaviour:
   mHeight: 30
   mDepth: 997
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -2889,6 +3533,7 @@ MonoBehaviour:
   mHeight: 46
   mDepth: 987
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -2969,6 +3614,7 @@ MonoBehaviour:
   mHeight: 34
   mDepth: 997
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -3049,6 +3695,7 @@ MonoBehaviour:
   mHeight: 36
   mDepth: 1000
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -3075,7 +3722,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 458464291}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_toufa5
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -3102,7 +3749,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 460787385}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_dao
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -3183,6 +3830,7 @@ MonoBehaviour:
   mHeight: 42
   mDepth: 977
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -3210,7 +3858,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 476383213}
   - 111: {fileID: 476383214}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: sunce
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3224,7 +3872,7 @@ Transform:
   m_PrefabInternal: {fileID: 116302466}
   m_GameObject: {fileID: 476383212}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: -4.37113883e-08}
-  m_LocalPosition: {x: -230.043671, y: 182.281372, z: -2.72648849e-05}
+  m_LocalPosition: {x: -230.043671, y: 190, z: -2.72648849e-05}
   m_LocalScale: {x: .50999999, y: .50999999, z: .50999999}
   m_Children:
   - {fileID: 460787385}
@@ -3276,6 +3924,33 @@ Animation:
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!1 &479292681
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100058, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 479292682}
+  m_Layer: 9
+  m_Name: D_tou
+  m_TagString: Bones
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &479292682
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400058, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 479292681}
+  m_LocalRotation: {x: 1.76698357e-14, y: -6.65790267e-08, z: 1, w: -2.66316107e-07}
+  m_LocalPosition: {x: -24.1360302, y: 179.719864, z: 9.51385021}
+  m_LocalScale: {x: -1.00000024, y: -1.00000024, z: -1}
+  m_Children:
+  - {fileID: 1914528726}
+  m_Father: {fileID: 1371866354}
 --- !u!1 &484612272
 GameObject:
   m_ObjectHideFlags: 0
@@ -3284,7 +3959,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 484612273}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_zuoxiaobi
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -3365,6 +4040,7 @@ MonoBehaviour:
   mHeight: 158
   mDepth: 1000
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -3445,6 +4121,7 @@ MonoBehaviour:
   mHeight: 44
   mDepth: 1035
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -3462,6 +4139,114 @@ MonoBehaviour:
   topType: 1
   mAtlas: {fileID: 11400000, guid: 5a754015aab43eb4d9663e576a811233, type: 2}
   mSpriteName: xiaobi
+  mFillCenter: 1
+--- !u!1 &489553934
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100064, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 489553935}
+  m_Layer: 9
+  m_Name: D_qunbai3
+  m_TagString: Bones
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &489553935
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400064, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 489553934}
+  m_LocalRotation: {x: 1.33158039e-07, y: -6.65789983e-08, z: 1, w: 1.33158068e-07}
+  m_LocalPosition: {x: -23.9599476, y: 32.5729485, z: 7.44228172}
+  m_LocalScale: {x: -1, y: -1, z: -1}
+  m_Children:
+  - {fileID: 2010122881}
+  m_Father: {fileID: 1371866354}
+--- !u!1 &500560357
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100034, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 500560358}
+  - 114: {fileID: 500560359}
+  m_Layer: 9
+  m_Name: datui1
+  m_TagString: Sprites
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &500560358
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400034, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 500560357}
+  m_LocalRotation: {x: .00016931523, y: -3.22910746e-05, z: -.997999668, w: .0632190779}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 649498286}
+--- !u!114 &500560359
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400034, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f,
+    type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 500560357}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 26
+  mHeight: 34
+  mDepth: 1003
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: .764705896
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: 6f00930398e30004c8e95c3655a4a4e8, type: 2}
+  mSpriteName: datui1
   mFillCenter: 1
 --- !u!1 &501542377
 GameObject:
@@ -3625,6 +4410,7 @@ MonoBehaviour:
   mHeight: 42
   mDepth: 1047
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -3705,6 +4491,7 @@ MonoBehaviour:
   mHeight: 44
   mDepth: 1018
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -3731,7 +4518,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 516390321}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_zuodabi
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -3812,6 +4599,7 @@ MonoBehaviour:
   mHeight: 256
   mDepth: 1008
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -3892,6 +4680,7 @@ MonoBehaviour:
   mHeight: 36
   mDepth: 1005
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -3918,7 +4707,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 523065863}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_zuoxiaobi
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -3945,7 +4734,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 524726684}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_zuotui
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -4026,6 +4815,7 @@ MonoBehaviour:
   mHeight: 22
   mDepth: 999
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -4044,6 +4834,33 @@ MonoBehaviour:
   mAtlas: {fileID: 11400000, guid: b1ea74f22301d294d88aac8047af51e0, type: 2}
   mSpriteName: gupen
   mFillCenter: 1
+--- !u!1 &539810454
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100078, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 539810455}
+  m_Layer: 9
+  m_Name: D_fa1
+  m_TagString: Bones
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &539810455
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400078, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 539810454}
+  m_LocalRotation: {x: 6.1232336e-17, y: -6.65790267e-08, z: 1, w: 6.12323426e-17}
+  m_LocalPosition: {x: -22.1508007, y: 154.910507, z: 39.9016151}
+  m_LocalScale: {x: -1.00000024, y: -1.00000024, z: -1}
+  m_Children:
+  - {fileID: 779742632}
+  m_Father: {fileID: 1371866354}
 --- !u!1 &546771871
 GameObject:
   m_ObjectHideFlags: 0
@@ -4106,6 +4923,7 @@ MonoBehaviour:
   mHeight: 172
   mDepth: 1010
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -4186,6 +5004,7 @@ MonoBehaviour:
   mHeight: 40
   mDepth: 990
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -4266,6 +5085,7 @@ MonoBehaviour:
   mHeight: 30
   mDepth: 1007
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -4292,7 +5112,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 567738182}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_youxiaobi
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -4319,7 +5139,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 576835245}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_zuoxiaotui
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -4400,6 +5220,7 @@ MonoBehaviour:
   mHeight: 24
   mDepth: 1000
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -4426,7 +5247,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 581590580}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_qianyaopian
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -4453,7 +5274,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 585195081}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_wuqi
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -4534,6 +5355,7 @@ MonoBehaviour:
   mHeight: 108
   mDepth: 1007
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -4560,7 +5382,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 588963220}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_zuodatui
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -4641,6 +5463,7 @@ MonoBehaviour:
   mHeight: 94
   mDepth: 992
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -4667,7 +5490,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 602699766}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_qunbai2
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -4686,6 +5509,87 @@ Transform:
   m_Children:
   - {fileID: 2138305385}
   m_Father: {fileID: 708552349}
+--- !u!1 &602960994
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100040, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 602960995}
+  - 114: {fileID: 602960996}
+  m_Layer: 9
+  m_Name: dabi3
+  m_TagString: Sprites
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &602960995
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400040, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 602960994}
+  m_LocalRotation: {x: -1.53610856e-07, y: 1.85332407e-08, z: -.965925872, w: .258818924}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1249710925}
+--- !u!114 &602960996
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400040, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f,
+    type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 602960994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 26
+  mHeight: 38
+  mDepth: 998
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: .684210539
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: 6f00930398e30004c8e95c3655a4a4e8, type: 2}
+  mSpriteName: dabi3
+  mFillCenter: 1
 --- !u!1 &608505950
 GameObject:
   m_ObjectHideFlags: 0
@@ -4694,7 +5598,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 608505951}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_youdatui
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -4775,6 +5679,7 @@ MonoBehaviour:
   mHeight: 152
   mDepth: 977
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -4801,7 +5706,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 614698783}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_xiong
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -4828,7 +5733,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 620068795}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_zuodabi
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -4909,6 +5814,7 @@ MonoBehaviour:
   mHeight: 42
   mDepth: 982
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -4935,7 +5841,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 624251971}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_fa1
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -4962,7 +5868,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 634465268}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_lian
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -4989,7 +5895,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 640634050}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_youxiaobi
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -5016,7 +5922,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 645764711}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_youjiao
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -5035,6 +5941,33 @@ Transform:
   m_Children:
   - {fileID: 2067089413}
   m_Father: {fileID: 476383213}
+--- !u!1 &649498285
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100082, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 649498286}
+  m_Layer: 9
+  m_Name: D_datui1
+  m_TagString: Bones
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &649498286
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400082, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 649498285}
+  m_LocalRotation: {x: -.000169358857, y: 3.22883097e-05, z: .997999668, w: .0632190779}
+  m_LocalPosition: {x: -9.38764, y: 48.7214661, z: 3.21394062}
+  m_LocalScale: {x: -1, y: -1, z: -1}
+  m_Children:
+  - {fileID: 500560358}
+  m_Father: {fileID: 1371866354}
 --- !u!1 &656896842
 GameObject:
   m_ObjectHideFlags: 0
@@ -5043,7 +5976,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 656896843}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_toufa1
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -5070,7 +6003,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 673586476}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_toufahou
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -5097,7 +6030,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 676497597}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_youtui
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -5178,6 +6111,7 @@ MonoBehaviour:
   mHeight: 170
   mDepth: 1005
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -5204,7 +6138,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 702198995}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_zuodabi
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -5285,6 +6219,7 @@ MonoBehaviour:
   mHeight: 60
   mDepth: 1001
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -5312,7 +6247,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 708552349}
   - 111: {fileID: 708552350}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: yanliangfbx
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5326,7 +6261,7 @@ Transform:
   m_PrefabInternal: {fileID: 1261623912}
   m_GameObject: {fileID: 708552348}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: -4.37113883e-08}
-  m_LocalPosition: {x: -62.4971313, y: 177.139709, z: 0}
+  m_LocalPosition: {x: -62.4971313, y: 190, z: 0}
   m_LocalScale: {x: .50999999, y: .50999999, z: .50999999}
   m_Children:
   - {fileID: 344027056}
@@ -5435,6 +6370,7 @@ MonoBehaviour:
   mHeight: 40
   mDepth: 1000
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -5453,6 +6389,33 @@ MonoBehaviour:
   mAtlas: {fileID: 11400000, guid: f9074af092c38204893c4aa19d654461, type: 2}
   mSpriteName: zuotui
   mFillCenter: 1
+--- !u!1 &724766223
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100066, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 724766224}
+  m_Layer: 9
+  m_Name: D_qubai2
+  m_TagString: Bones
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &724766224
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400066, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 724766223}
+  m_LocalRotation: {x: -6.12323426e-17, y: -6.65790267e-08, z: 1, w: 6.1232336e-17}
+  m_LocalPosition: {x: 22.8937416, y: 35.9054909, z: 8.05193043}
+  m_LocalScale: {x: -1, y: -1, z: -1}
+  m_Children:
+  - {fileID: 1571684926}
+  m_Father: {fileID: 1371866354}
 --- !u!1 &744106593
 GameObject:
   m_ObjectHideFlags: 0
@@ -5515,6 +6478,7 @@ MonoBehaviour:
   mHeight: 38
   mDepth: 1000
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -5595,6 +6559,7 @@ MonoBehaviour:
   mHeight: 64
   mDepth: 1006
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -5675,6 +6640,7 @@ MonoBehaviour:
   mHeight: 30
   mDepth: 982
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -5755,6 +6721,7 @@ MonoBehaviour:
   mHeight: 32
   mDepth: 1008
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -5835,6 +6802,7 @@ MonoBehaviour:
   mHeight: 40
   mDepth: 998
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -5853,6 +6821,87 @@ MonoBehaviour:
   mAtlas: {fileID: 11400000, guid: b1ea74f22301d294d88aac8047af51e0, type: 2}
   mSpriteName: youdabi
   mFillCenter: 1
+--- !u!1 &759501225
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100046, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 759501226}
+  - 114: {fileID: 759501227}
+  m_Layer: 9
+  m_Name: dabi
+  m_TagString: Sprites
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &759501226
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400046, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 759501225}
+  m_LocalRotation: {x: 7.10542736e-15, y: 6.65790267e-08, z: -1, w: 1.33158053e-07}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1342127300}
+--- !u!114 &759501227
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400046, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f,
+    type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 759501225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 20
+  mHeight: 32
+  mDepth: 996
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: .625
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: 6f00930398e30004c8e95c3655a4a4e8, type: 2}
+  mSpriteName: dabi
+  mFillCenter: 1
 --- !u!1 &765923299
 GameObject:
   m_ObjectHideFlags: 0
@@ -5861,7 +6910,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 765923300}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_youxiaobinei
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -5942,6 +6991,7 @@ MonoBehaviour:
   mHeight: 38
   mDepth: 1005
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -5960,6 +7010,33 @@ MonoBehaviour:
   mAtlas: {fileID: 11400000, guid: b1ea74f22301d294d88aac8047af51e0, type: 2}
   mSpriteName: zuodabi
   mFillCenter: 1
+--- !u!1 &769025189
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100060, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 769025190}
+  m_Layer: 9
+  m_Name: D_shou1
+  m_TagString: Bones
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &769025190
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400060, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 769025189}
+  m_LocalRotation: {x: 1.33158039e-07, y: -6.65790196e-08, z: 1, w: 1.33158068e-07}
+  m_LocalPosition: {x: -17.3848839, y: 54.177887, z: 20.2613392}
+  m_LocalScale: {x: -1.00000012, y: -1.00000012, z: -1}
+  m_Children:
+  - {fileID: 1852278186}
+  m_Father: {fileID: 1371866354}
 --- !u!1 &772617338
 GameObject:
   m_ObjectHideFlags: 0
@@ -5968,7 +7045,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 772617339}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_toufa02
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -5987,6 +7064,87 @@ Transform:
   m_Children:
   - {fileID: 157856269}
   m_Father: {fileID: 476383213}
+--- !u!1 &779742631
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100030, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 779742632}
+  - 114: {fileID: 779742633}
+  m_Layer: 9
+  m_Name: fa1
+  m_TagString: Sprites
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &779742632
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400030, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 779742631}
+  m_LocalRotation: {x: -4.37113883e-08, y: 6.65790267e-08, z: -1, w: 2.97149407e-15}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 539810455}
+--- !u!114 &779742633
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400030, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f,
+    type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 779742631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 74
+  mHeight: 116
+  mDepth: 1039
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: .637931049
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: 6f00930398e30004c8e95c3655a4a4e8, type: 2}
+  mSpriteName: fa1
+  mFillCenter: 1
 --- !u!1 &782155274
 GameObject:
   m_ObjectHideFlags: 0
@@ -6049,6 +7207,7 @@ MonoBehaviour:
   mHeight: 114
   mDepth: 1003
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -6075,7 +7234,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 788341966}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_zuoshou
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -6156,6 +7315,7 @@ MonoBehaviour:
   mHeight: 36
   mDepth: 996
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -6182,7 +7342,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 796085797}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_lian
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -6263,6 +7423,7 @@ MonoBehaviour:
   mHeight: 74
   mDepth: 1000
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -6343,6 +7504,7 @@ MonoBehaviour:
   mHeight: 36
   mDepth: 989
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -6369,7 +7531,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 824011935}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_youshou
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -6396,7 +7558,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 826884752}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_zuodatui
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -6449,6 +7611,7 @@ Transform:
   - {fileID: 2137005890}
   - {fileID: 1925898114}
   - {fileID: 708552349}
+  - {fileID: 1371866354}
   m_Father: {fileID: 0}
 --- !u!54 &829674746
 Rigidbody:
@@ -6533,7 +7696,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 831367777}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_zuojiao
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -6614,6 +7777,7 @@ MonoBehaviour:
   mHeight: 154
   mDepth: 988
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -6694,6 +7858,7 @@ MonoBehaviour:
   mHeight: 40
   mDepth: 1014
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -6774,6 +7939,7 @@ MonoBehaviour:
   mHeight: 54
   mDepth: 1001
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -6854,6 +8020,7 @@ MonoBehaviour:
   mHeight: 38
   mDepth: 998
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -6934,6 +8101,7 @@ MonoBehaviour:
   mHeight: 38
   mDepth: 1016
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -6960,7 +8128,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 875509879}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_gupen
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -7041,6 +8209,7 @@ MonoBehaviour:
   mHeight: 30
   mDepth: 1000
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -7067,7 +8236,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 880506037}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_zuoyaopian
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -7094,7 +8263,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 882730388}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_zuotui
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -7113,6 +8282,33 @@ Transform:
   m_Children:
   - {fileID: 2032723484}
   m_Father: {fileID: 476383213}
+--- !u!1 &887082796
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100084, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 887082797}
+  m_Layer: 9
+  m_Name: D_datui
+  m_TagString: Bones
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &887082797
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400084, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 887082796}
+  m_LocalRotation: {x: .00017232832, y: 4.62131356e-06, z: .99293977, w: .118619531}
+  m_LocalPosition: {x: 4.4540925, y: 49.9586639, z: 1.02108586}
+  m_LocalScale: {x: -1.00000024, y: -1.00000024, z: -.99999994}
+  m_Children:
+  - {fileID: 156356062}
+  m_Father: {fileID: 1371866354}
 --- !u!1 &897857723
 GameObject:
   m_ObjectHideFlags: 0
@@ -7121,7 +8317,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 897857724}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_youshou
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -7148,7 +8344,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 900374857}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_youdabi
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -7218,6 +8414,7 @@ MonoBehaviour:
   mHeight: 26
   mDepth: 1000
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -7309,6 +8506,7 @@ MonoBehaviour:
   mHeight: 46
   mDepth: 1004
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -7335,7 +8533,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 918479815}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_youxiaotui
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -7354,6 +8552,33 @@ Transform:
   m_Children:
   - {fileID: 1245891365}
   m_Father: {fileID: 2137005890}
+--- !u!1 &920935233
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100094, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 920935234}
+  m_Layer: 9
+  m_Name: D_dabi1
+  m_TagString: Bones
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &920935234
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400094, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 920935233}
+  m_LocalRotation: {x: -3.55233658e-14, y: 1.33158053e-07, z: 1, w: -2.66316107e-07}
+  m_LocalPosition: {x: -24.4261742, y: 92.4001541, z: 20.8175144}
+  m_LocalScale: {x: -1, y: -1, z: -1}
+  m_Children:
+  - {fileID: 19439500}
+  m_Father: {fileID: 1371866354}
 --- !u!1 &927952461
 GameObject:
   m_ObjectHideFlags: 0
@@ -7362,7 +8587,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 927952462}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_youyaopian
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -7381,6 +8606,87 @@ Transform:
   m_Children:
   - {fileID: 1295452389}
   m_Father: {fileID: 1925898114}
+--- !u!1 &950214872
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100020, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 950214873}
+  - 114: {fileID: 950214874}
+  m_Layer: 9
+  m_Name: qubai1
+  m_TagString: Sprites
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &950214873
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400020, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 950214872}
+  m_LocalRotation: {x: -4.37113883e-08, y: 6.65790267e-08, z: -1, w: 2.84902941e-15}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1795200580}
+--- !u!114 &950214874
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400020, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f,
+    type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 950214872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 28
+  mHeight: 68
+  mDepth: 1010
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: .411764711
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: 6f00930398e30004c8e95c3655a4a4e8, type: 2}
+  mSpriteName: qubai1
+  mFillCenter: 1
 --- !u!1 &953465272
 GameObject:
   m_ObjectHideFlags: 0
@@ -7389,7 +8695,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 953465273}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_houyaopian
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -7416,7 +8722,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 965870851}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_gongzhong
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -7435,6 +8741,33 @@ Transform:
   m_Children:
   - {fileID: 972786497}
   m_Father: {fileID: 2137005890}
+--- !u!1 &971116997
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100056, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 971116998}
+  m_Layer: 9
+  m_Name: D_toushiqian
+  m_TagString: Bones
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &971116998
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400056, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 971116997}
+  m_LocalRotation: {x: 6.12323559e-17, y: -3.32895127e-07, z: 1, w: -6.12323228e-17}
+  m_LocalPosition: {x: 11.4706802, y: 193.86644, z: 61.7378502}
+  m_LocalScale: {x: -1, y: -1, z: -1}
+  m_Children:
+  - {fileID: 385504677}
+  m_Father: {fileID: 1371866354}
 --- !u!1 &972786496
 GameObject:
   m_ObjectHideFlags: 0
@@ -7497,6 +8830,7 @@ MonoBehaviour:
   mHeight: 30
   mDepth: 998
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -7515,6 +8849,141 @@ MonoBehaviour:
   mAtlas: {fileID: 11400000, guid: b1ea74f22301d294d88aac8047af51e0, type: 2}
   mSpriteName: gongzhong
   mFillCenter: 1
+--- !u!1 &975261504
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100042, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 975261505}
+  - 114: {fileID: 975261506}
+  m_Layer: 9
+  m_Name: dabi2
+  m_TagString: Sprites
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &975261505
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400042, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 975261504}
+  m_LocalRotation: {x: -3.10027531e-07, y: 6.65790978e-08, z: -1, w: -2.66316079e-07}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1335834243}
+--- !u!114 &975261506
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400042, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f,
+    type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 975261504}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 32
+  mHeight: 58
+  mDepth: 1028
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: .551724136
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: 6f00930398e30004c8e95c3655a4a4e8, type: 2}
+  mSpriteName: dabi2
+  mFillCenter: 1
+--- !u!1 &983693710
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100054, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 983693711}
+  m_Layer: 9
+  m_Name: D_xiaobi
+  m_TagString: Bones
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &983693711
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400054, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 983693710}
+  m_LocalRotation: {x: -6.12323559e-17, y: -3.32895127e-07, z: 1, w: 6.12323228e-17}
+  m_LocalPosition: {x: 19.7639122, y: 44.7015266, z: -1.12671959}
+  m_LocalScale: {x: -1, y: -1, z: -1}
+  m_Children:
+  - {fileID: 1147325005}
+  m_Father: {fileID: 1371866354}
+--- !u!1 &985185587
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100076, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 985185588}
+  m_Layer: 9
+  m_Name: D_fa2
+  m_TagString: Bones
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &985185588
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400076, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 985185587}
+  m_LocalRotation: {x: 6.12323228e-17, y: -3.32895127e-07, z: 1, w: 6.12323625e-17}
+  m_LocalPosition: {x: 33.8467102, y: 170.572693, z: 38.5255661}
+  m_LocalScale: {x: -1, y: -1, z: -1}
+  m_Children:
+  - {fileID: 1678941986}
+  m_Father: {fileID: 1371866354}
 --- !u!1 &993746415
 GameObject:
   m_ObjectHideFlags: 0
@@ -7577,6 +9046,7 @@ MonoBehaviour:
   mHeight: 94
   mDepth: 1053
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -7657,6 +9127,7 @@ MonoBehaviour:
   mHeight: 28
   mDepth: 999
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -7737,6 +9208,7 @@ MonoBehaviour:
   mHeight: 52
   mDepth: 996
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -7763,7 +9235,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1026967151}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_youyaopian
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -7844,6 +9316,7 @@ MonoBehaviour:
   mHeight: 84
   mDepth: 1071
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -7924,6 +9397,7 @@ MonoBehaviour:
   mHeight: 44
   mDepth: 999
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -7950,7 +9424,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1037459493}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_tou
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -7977,7 +9451,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1041779980}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_pifengqian
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -8004,7 +9478,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1055241090}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_shou
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -8031,7 +9505,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1055421989}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_zuojianhou
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -8050,6 +9524,87 @@ Transform:
   m_Children:
   - {fileID: 1145979709}
   m_Father: {fileID: 476383213}
+--- !u!1 &1058038328
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100022, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1058038329}
+  - 114: {fileID: 1058038330}
+  m_Layer: 9
+  m_Name: jiao1
+  m_TagString: Sprites
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1058038329
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400022, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 1058038328}
+  m_LocalRotation: {x: .000164319034, y: -5.23220333e-05, z: -.998418987, w: -.0562101863}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 186720528}
+--- !u!114 &1058038330
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400022, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f,
+    type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 1058038328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 26
+  mHeight: 46
+  mDepth: 1004
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: .565217376
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: 6f00930398e30004c8e95c3655a4a4e8, type: 2}
+  mSpriteName: jiao1
+  mFillCenter: 1
 --- !u!1 &1070098715
 GameObject:
   m_ObjectHideFlags: 0
@@ -8058,7 +9613,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1070098716}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_wuqichangbing
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -8077,6 +9632,58 @@ Transform:
   m_Children:
   - {fileID: 516639545}
   m_Father: {fileID: 1360876656}
+--- !u!1001 &1076276659
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 829674745}
+    m_Modifications:
+    - target: {fileID: 400098, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 202.670197
+      objectReference: {fileID: 0}
+    - target: {fileID: 400098, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 190
+      objectReference: {fileID: 0}
+    - target: {fileID: 400098, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400098, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400098, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 400098, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400098, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: -4.37113883e-08
+      objectReference: {fileID: 0}
+    - target: {fileID: 400098, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+      propertyPath: m_LocalScale.x
+      value: .50999999
+      objectReference: {fileID: 0}
+    - target: {fileID: 400098, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+      propertyPath: m_LocalScale.y
+      value: .50999999
+      objectReference: {fileID: 0}
+    - target: {fileID: 400098, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+      propertyPath: m_LocalScale.z
+      value: .50999999
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_RootGameObject: {fileID: 1371866353}
+  m_IsPrefabParent: 0
+  m_IsExploded: 1
 --- !u!1 &1088221006
 GameObject:
   m_ObjectHideFlags: 0
@@ -8085,7 +9692,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1088221007}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_xiong
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -8112,7 +9719,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1096539634}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_youshou
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -8131,6 +9738,87 @@ Transform:
   m_Children:
   - {fileID: 139573350}
   m_Father: {fileID: 1925898114}
+--- !u!1 &1098434965
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100014, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1098434966}
+  - 114: {fileID: 1098434967}
+  m_Layer: 9
+  m_Name: shou
+  m_TagString: Sprites
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1098434966
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400014, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 1098434965}
+  m_LocalRotation: {x: -1.76869435e-07, y: 6.65790267e-08, z: -1, w: 1.17145631e-14}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1407913131}
+--- !u!114 &1098434967
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400014, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f,
+    type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 1098434965}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 26
+  mHeight: 22
+  mDepth: 995
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: 1.18181813
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: 6f00930398e30004c8e95c3655a4a4e8, type: 2}
+  mSpriteName: shou
+  mFillCenter: 1
 --- !u!1 &1105485891
 GameObject:
   m_ObjectHideFlags: 0
@@ -8193,6 +9881,7 @@ MonoBehaviour:
   mHeight: 32
   mDepth: 1003
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -8219,7 +9908,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1108576695}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_youdabi
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -8246,7 +9935,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1117530208}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_yaopian
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -8273,7 +9962,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1134322401}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_xiaobi
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -8354,6 +10043,7 @@ MonoBehaviour:
   mHeight: 50
   mDepth: 1006
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -8434,6 +10124,7 @@ MonoBehaviour:
   mHeight: 40
   mDepth: 1000
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -8452,6 +10143,168 @@ MonoBehaviour:
   mAtlas: {fileID: 11400000, guid: 49562db47213af44490fad8a6f15bd3b, type: 2}
   mSpriteName: zuojianhou
   mFillCenter: 1
+--- !u!1 &1147325004
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100006, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1147325005}
+  - 114: {fileID: 1147325006}
+  m_Layer: 9
+  m_Name: xiaobi
+  m_TagString: Sprites
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1147325005
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400006, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 1147325004}
+  m_LocalRotation: {x: -4.37113883e-08, y: 3.32895127e-07, z: -1, w: 1.46125398e-14}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 983693711}
+--- !u!114 &1147325006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400006, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f,
+    type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 1147325004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 22
+  mHeight: 56
+  mDepth: 999
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: .392857134
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: 6f00930398e30004c8e95c3655a4a4e8, type: 2}
+  mSpriteName: xiaobi
+  mFillCenter: 1
+--- !u!1 &1147661190
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100000, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1147661191}
+  - 114: {fileID: 1147661192}
+  m_Layer: 9
+  m_Name: yao
+  m_TagString: Sprites
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1147661191
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400000, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 1147661190}
+  m_LocalRotation: {x: -4.37113883e-08, y: 6.65790267e-08, z: -1, w: 2.97149407e-15}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1642005227}
+--- !u!114 &1147661192
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400000, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f,
+    type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 1147661190}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 42
+  mHeight: 26
+  mDepth: 1012
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: 1.61538458
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: 6f00930398e30004c8e95c3655a4a4e8, type: 2}
+  mSpriteName: yao
+  mFillCenter: 1
 --- !u!1 &1154502145
 GameObject:
   m_ObjectHideFlags: 0
@@ -8460,7 +10313,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1154502146}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_lian
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -8487,7 +10340,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1159938353}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_zuoshou
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -8514,7 +10367,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1197565089}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_youshou
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -8595,6 +10448,7 @@ MonoBehaviour:
   mHeight: 48
   mDepth: 1000
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -8675,6 +10529,7 @@ MonoBehaviour:
   mHeight: 32
   mDepth: 1000
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -8701,7 +10556,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1222944228}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_fa4
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -8782,6 +10637,7 @@ MonoBehaviour:
   mHeight: 28
   mDepth: 1030
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -8862,6 +10718,7 @@ MonoBehaviour:
   mHeight: 20
   mDepth: 1016
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -8942,6 +10799,7 @@ MonoBehaviour:
   mHeight: 34
   mDepth: 997
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -8960,6 +10818,33 @@ MonoBehaviour:
   mAtlas: {fileID: 11400000, guid: b1ea74f22301d294d88aac8047af51e0, type: 2}
   mSpriteName: youxiaotui
   mFillCenter: 1
+--- !u!1 &1249710924
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100090, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1249710925}
+  m_Layer: 9
+  m_Name: D_dabi3
+  m_TagString: Bones
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1249710925
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400090, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 1249710924}
+  m_LocalRotation: {x: 1.11388893e-07, y: -2.9846575e-08, z: .965925872, w: .258818924}
+  m_LocalPosition: {x: 17.4392929, y: 69.4955597, z: -2.98351359}
+  m_LocalScale: {x: -1, y: -1, z: -1}
+  m_Children:
+  - {fileID: 602960995}
+  m_Father: {fileID: 1371866354}
 --- !u!1 &1254817471
 GameObject:
   m_ObjectHideFlags: 0
@@ -8968,7 +10853,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1254817472}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_toufa2
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -9000,7 +10885,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400076, guid: dc3b37b9250ebfa4fa666a7fd442aa22, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 180.827255
+      value: 190
       objectReference: {fileID: 0}
     - target: {fileID: 400076, guid: dc3b37b9250ebfa4fa666a7fd442aa22, type: 2}
       propertyPath: m_LocalPosition.z
@@ -9037,6 +10922,86 @@ Prefab:
     - target: {fileID: 400076, guid: dc3b37b9250ebfa4fa666a7fd442aa22, type: 2}
       propertyPath: m_LocalScale.z
       value: .50999999
+      objectReference: {fileID: 0}
+    - target: {fileID: 100052, guid: dc3b37b9250ebfa4fa666a7fd442aa22, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100074, guid: dc3b37b9250ebfa4fa666a7fd442aa22, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100062, guid: dc3b37b9250ebfa4fa666a7fd442aa22, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100046, guid: dc3b37b9250ebfa4fa666a7fd442aa22, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100056, guid: dc3b37b9250ebfa4fa666a7fd442aa22, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100070, guid: dc3b37b9250ebfa4fa666a7fd442aa22, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100064, guid: dc3b37b9250ebfa4fa666a7fd442aa22, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100050, guid: dc3b37b9250ebfa4fa666a7fd442aa22, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100048, guid: dc3b37b9250ebfa4fa666a7fd442aa22, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100054, guid: dc3b37b9250ebfa4fa666a7fd442aa22, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100072, guid: dc3b37b9250ebfa4fa666a7fd442aa22, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100068, guid: dc3b37b9250ebfa4fa666a7fd442aa22, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100058, guid: dc3b37b9250ebfa4fa666a7fd442aa22, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100066, guid: dc3b37b9250ebfa4fa666a7fd442aa22, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100060, guid: dc3b37b9250ebfa4fa666a7fd442aa22, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100038, guid: dc3b37b9250ebfa4fa666a7fd442aa22, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100040, guid: dc3b37b9250ebfa4fa666a7fd442aa22, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100044, guid: dc3b37b9250ebfa4fa666a7fd442aa22, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100076, guid: dc3b37b9250ebfa4fa666a7fd442aa22, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100042, guid: dc3b37b9250ebfa4fa666a7fd442aa22, type: 2}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: dc3b37b9250ebfa4fa666a7fd442aa22, type: 2}
@@ -9105,6 +11070,7 @@ MonoBehaviour:
   mHeight: 42
   mDepth: 999
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -9185,6 +11151,7 @@ MonoBehaviour:
   mHeight: 38
   mDepth: 998
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -9216,7 +11183,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400096, guid: ffc2ad0f32e8e0747ae2496b1031deb6, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 177.139709
+      value: 190
       objectReference: {fileID: 0}
     - target: {fileID: 400096, guid: ffc2ad0f32e8e0747ae2496b1031deb6, type: 2}
       propertyPath: m_LocalPosition.z
@@ -9254,6 +11221,106 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: .50999999
       objectReference: {fileID: 0}
+    - target: {fileID: 100052, guid: ffc2ad0f32e8e0747ae2496b1031deb6, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100088, guid: ffc2ad0f32e8e0747ae2496b1031deb6, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100058, guid: ffc2ad0f32e8e0747ae2496b1031deb6, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100074, guid: ffc2ad0f32e8e0747ae2496b1031deb6, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100068, guid: ffc2ad0f32e8e0747ae2496b1031deb6, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100094, guid: ffc2ad0f32e8e0747ae2496b1031deb6, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100050, guid: ffc2ad0f32e8e0747ae2496b1031deb6, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100072, guid: ffc2ad0f32e8e0747ae2496b1031deb6, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100064, guid: ffc2ad0f32e8e0747ae2496b1031deb6, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100092, guid: ffc2ad0f32e8e0747ae2496b1031deb6, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100096, guid: ffc2ad0f32e8e0747ae2496b1031deb6, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100070, guid: ffc2ad0f32e8e0747ae2496b1031deb6, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100066, guid: ffc2ad0f32e8e0747ae2496b1031deb6, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100054, guid: ffc2ad0f32e8e0747ae2496b1031deb6, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100086, guid: ffc2ad0f32e8e0747ae2496b1031deb6, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100062, guid: ffc2ad0f32e8e0747ae2496b1031deb6, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100084, guid: ffc2ad0f32e8e0747ae2496b1031deb6, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100090, guid: ffc2ad0f32e8e0747ae2496b1031deb6, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100076, guid: ffc2ad0f32e8e0747ae2496b1031deb6, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100078, guid: ffc2ad0f32e8e0747ae2496b1031deb6, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100082, guid: ffc2ad0f32e8e0747ae2496b1031deb6, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100060, guid: ffc2ad0f32e8e0747ae2496b1031deb6, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100080, guid: ffc2ad0f32e8e0747ae2496b1031deb6, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100056, guid: ffc2ad0f32e8e0747ae2496b1031deb6, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100048, guid: ffc2ad0f32e8e0747ae2496b1031deb6, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ffc2ad0f32e8e0747ae2496b1031deb6, type: 2}
   m_RootGameObject: {fileID: 708552348}
@@ -9267,7 +11334,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1264233777}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_youtui
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -9294,7 +11361,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1271124331}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_toukui
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -9313,6 +11380,33 @@ Transform:
   m_Children:
   - {fileID: 2131165139}
   m_Father: {fileID: 1360876656}
+--- !u!1 &1281541001
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100080, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1281541002}
+  m_Layer: 9
+  m_Name: D_fa
+  m_TagString: Bones
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1281541002
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400080, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 1281541001}
+  m_LocalRotation: {x: 6.12323426e-17, y: -6.65790267e-08, z: 1, w: -6.1232336e-17}
+  m_LocalPosition: {x: -26.5055313, y: 123.594528, z: -25.6718292}
+  m_LocalScale: {x: -1.00000024, y: -1.00000024, z: -1}
+  m_Children:
+  - {fileID: 1367725418}
+  m_Father: {fileID: 1371866354}
 --- !u!1 &1285495525
 GameObject:
   m_ObjectHideFlags: 0
@@ -9321,7 +11415,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1285495526}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_xiong
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -9402,6 +11496,7 @@ MonoBehaviour:
   mHeight: 26
   mDepth: 1007
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -9482,6 +11577,7 @@ MonoBehaviour:
   mHeight: 74
   mDepth: 1003
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -9500,6 +11596,60 @@ MonoBehaviour:
   mAtlas: {fileID: 11400000, guid: a1d7782fd8b19b847ac89c21822cf06a, type: 2}
   mSpriteName: xiong
   mFillCenter: 1
+--- !u!1 &1335834242
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100092, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1335834243}
+  m_Layer: 9
+  m_Name: D_dabi2
+  m_TagString: Bones
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1335834243
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400092, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 1335834242}
+  m_LocalRotation: {x: 2.66316135e-07, y: -6.65790836e-08, z: 1, w: -2.66316079e-07}
+  m_LocalPosition: {x: -31.096653, y: 42.2335129, z: 28.2982693}
+  m_LocalScale: {x: -.99999994, y: -.99999994, z: -1}
+  m_Children:
+  - {fileID: 975261505}
+  m_Father: {fileID: 1371866354}
+--- !u!1 &1342127299
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100096, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1342127300}
+  m_Layer: 9
+  m_Name: D_dabi
+  m_TagString: Bones
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1342127300
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400096, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 1342127299}
+  m_LocalRotation: {x: -8.80430101e-15, y: -6.65790267e-08, z: 1, w: 1.33158053e-07}
+  m_LocalPosition: {x: 8.86793137, y: 87.5751953, z: -4.53436136}
+  m_LocalScale: {x: -1, y: -1, z: -1}
+  m_Children:
+  - {fileID: 759501226}
+  m_Father: {fileID: 1371866354}
 --- !u!1 &1343114080
 GameObject:
   m_ObjectHideFlags: 0
@@ -9562,6 +11712,7 @@ MonoBehaviour:
   mHeight: 44
   mDepth: 1010
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -9642,6 +11793,7 @@ MonoBehaviour:
   mHeight: 56
   mDepth: 999
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -9669,7 +11821,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 1360876656}
   - 111: {fileID: 1360876657}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: machao
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9683,7 +11835,7 @@ Transform:
   m_PrefabInternal: {fileID: 86387242}
   m_GameObject: {fileID: 1360876655}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: -4.37113883e-08}
-  m_LocalPosition: {x: -528.434143, y: 182.281372, z: -2.22906256e-05}
+  m_LocalPosition: {x: -528.434143, y: 190, z: -2.22906256e-05}
   m_LocalScale: {x: .50999999, y: .50999999, z: .50999999}
   m_Children:
   - {fileID: 796085797}
@@ -9729,6 +11881,158 @@ Animation:
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!1 &1367725417
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100032, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1367725418}
+  - 114: {fileID: 1367725419}
+  m_Layer: 9
+  m_Name: fa
+  m_TagString: Sprites
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1367725418
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400032, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 1367725417}
+  m_LocalRotation: {x: -4.37113883e-08, y: 6.65790267e-08, z: -1, w: 2.84902941e-15}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1281541002}
+--- !u!114 &1367725419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400032, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f,
+    type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 1367725417}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 160
+  mHeight: 206
+  mDepth: 975
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: .776699007
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: 6f00930398e30004c8e95c3655a4a4e8, type: 2}
+  mSpriteName: fa
+  mFillCenter: 1
+--- !u!1 &1371866353
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100098, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1371866354}
+  - 111: {fileID: 1371866355}
+  m_Layer: 9
+  m_Name: zhangchunhua
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1371866354
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400098, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 1371866353}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: -4.37113883e-08}
+  m_LocalPosition: {x: 202.670197, y: 190, z: 0}
+  m_LocalScale: {x: .50999999, y: .50999999, z: .50999999}
+  m_Children:
+  - {fileID: 1342127300}
+  - {fileID: 920935234}
+  - {fileID: 1335834243}
+  - {fileID: 1249710925}
+  - {fileID: 1636557475}
+  - {fileID: 1414728752}
+  - {fileID: 887082797}
+  - {fileID: 649498286}
+  - {fileID: 1281541002}
+  - {fileID: 539810455}
+  - {fileID: 985185588}
+  - {fileID: 1436572794}
+  - {fileID: 2104570921}
+  - {fileID: 186720528}
+  - {fileID: 1795200580}
+  - {fileID: 724766224}
+  - {fileID: 489553935}
+  - {fileID: 1407913131}
+  - {fileID: 769025190}
+  - {fileID: 479292682}
+  - {fileID: 971116998}
+  - {fileID: 983693711}
+  - {fileID: 349251374}
+  - {fileID: 378786483}
+  - {fileID: 1642005227}
+  m_Father: {fileID: 829674745}
+--- !u!111 &1371866355
+Animation:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11100000, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f,
+    type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 1371866353}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 99ff8f3d318103240bb21aa9c5dd6853, type: 3}
+  m_Animations:
+  - {fileID: 7400000, guid: 99ff8f3d318103240bb21aa9c5dd6853, type: 3}
+  - {fileID: 7400002, guid: 99ff8f3d318103240bb21aa9c5dd6853, type: 3}
+  - {fileID: 7400004, guid: 99ff8f3d318103240bb21aa9c5dd6853, type: 3}
+  - {fileID: 7400006, guid: 99ff8f3d318103240bb21aa9c5dd6853, type: 3}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1 &1380846893
 GameObject:
   m_ObjectHideFlags: 0
@@ -9737,7 +12041,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1380846894}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_zuojiao
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -9818,6 +12122,7 @@ MonoBehaviour:
   mHeight: 126
   mDepth: 1005
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -9844,7 +12149,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1404327490}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_toukuili
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -9863,6 +12168,87 @@ Transform:
   m_Children:
   - {fileID: 1257537457}
   m_Father: {fileID: 1360876656}
+--- !u!1 &1407913130
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100062, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1407913131}
+  m_Layer: 9
+  m_Name: D_shou
+  m_TagString: Bones
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1407913131
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400062, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 1407913130}
+  m_LocalRotation: {x: 1.33158053e-07, y: -6.65790267e-08, z: 1, w: 8.80430101e-15}
+  m_LocalPosition: {x: 26.8527355, y: 56.8249474, z: -5.57944918}
+  m_LocalScale: {x: -1, y: -1, z: -1}
+  m_Children:
+  - {fileID: 1098434966}
+  m_Father: {fileID: 1371866354}
+--- !u!1 &1414728751
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100086, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1414728752}
+  m_Layer: 9
+  m_Name: D_dao001
+  m_TagString: Bones
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1414728752
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400086, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 1414728751}
+  m_LocalRotation: {x: 7.54317284e-08, y: -9.26479071e-09, z: .485240519, w: .874380708}
+  m_LocalPosition: {x: 53.8409691, y: 40.0872803, z: -3.91074395}
+  m_LocalScale: {x: -.661036968, y: -.661036968, z: -.661036849}
+  m_Children:
+  - {fileID: 1810426661}
+  m_Father: {fileID: 1371866354}
+--- !u!1 &1436572793
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100074, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1436572794}
+  m_Layer: 9
+  m_Name: D_fa3
+  m_TagString: Bones
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1436572794
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400074, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 1436572793}
+  m_LocalRotation: {x: -6.12323426e-17, y: -6.65790267e-08, z: 1, w: 6.1232336e-17}
+  m_LocalPosition: {x: 35.2063904, y: 157.021606, z: 5.29945898}
+  m_LocalScale: {x: -1, y: -1, z: -1}
+  m_Children:
+  - {fileID: 2060314595}
+  m_Father: {fileID: 1371866354}
 --- !u!1 &1446401602
 GameObject:
   m_ObjectHideFlags: 0
@@ -9871,7 +12257,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1446401603}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_pifenghou
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -9952,6 +12338,7 @@ MonoBehaviour:
   mHeight: 56
   mDepth: 1000
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -10032,6 +12419,7 @@ MonoBehaviour:
   mHeight: 44
   mDepth: 990
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -10112,6 +12500,7 @@ MonoBehaviour:
   mHeight: 50
   mDepth: 1012
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -10192,6 +12581,7 @@ MonoBehaviour:
   mHeight: 28
   mDepth: 1009
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -10272,6 +12662,7 @@ MonoBehaviour:
   mHeight: 40
   mDepth: 1010
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -10298,7 +12689,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1517389980}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_yao
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -10379,6 +12770,7 @@ MonoBehaviour:
   mHeight: 66
   mDepth: 1071
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -10459,6 +12851,7 @@ MonoBehaviour:
   mHeight: 56
   mDepth: 1042
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -10485,7 +12878,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1533160281}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_gongxia
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -10512,7 +12905,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1536957106}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_zuoxiaobi
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -10539,7 +12932,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1539421945}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_fa5
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -10620,6 +13013,7 @@ MonoBehaviour:
   mHeight: 32
   mDepth: 997
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -10638,6 +13032,87 @@ MonoBehaviour:
   mAtlas: {fileID: 11400000, guid: b1ea74f22301d294d88aac8047af51e0, type: 2}
   mSpriteName: youdatui
   mFillCenter: 1
+--- !u!1 &1540188950
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100002, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1540188951}
+  - 114: {fileID: 1540188952}
+  m_Layer: 9
+  m_Name: xiong
+  m_TagString: Sprites
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1540188951
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400002, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 1540188950}
+  m_LocalRotation: {x: -4.37113883e-08, y: 6.65790267e-08, z: -1, w: 2.97149407e-15}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 378786483}
+--- !u!114 &1540188952
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400002, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f,
+    type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 1540188950}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 40
+  mHeight: 60
+  mDepth: 1004
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: .666666687
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: 6f00930398e30004c8e95c3655a4a4e8, type: 2}
+  mSpriteName: xiong
+  mFillCenter: 1
 --- !u!1 &1551246501
 GameObject:
   m_ObjectHideFlags: 0
@@ -10646,7 +13121,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1551246502}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_youjiao
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -10673,7 +13148,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1557430069}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_fa2
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -10692,6 +13167,87 @@ Transform:
   m_Children:
   - {fileID: 2070565891}
   m_Father: {fileID: 708552349}
+--- !u!1 &1571684925
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100018, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1571684926}
+  - 114: {fileID: 1571684927}
+  m_Layer: 9
+  m_Name: qubai2
+  m_TagString: Sprites
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1571684926
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400018, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 1571684925}
+  m_LocalRotation: {x: -4.37113883e-08, y: 6.65790267e-08, z: -1, w: 2.97149407e-15}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 724766224}
+--- !u!114 &1571684927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400018, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f,
+    type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 1571684925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 30
+  mHeight: 52
+  mDepth: 1008
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: .576923072
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: 6f00930398e30004c8e95c3655a4a4e8, type: 2}
+  mSpriteName: qubai2
+  mFillCenter: 1
 --- !u!1 &1572120749
 GameObject:
   m_ObjectHideFlags: 0
@@ -10700,7 +13256,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1572120750}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_zuoyaopian
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -10781,6 +13337,7 @@ MonoBehaviour:
   mHeight: 42
   mDepth: 1009
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -10861,6 +13418,7 @@ MonoBehaviour:
   mHeight: 88
   mDepth: 1017
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -10892,7 +13450,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400118, guid: 8534b3d35029e1a47ae64d5fd1f4e173, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 182.281372
+      value: 190
       objectReference: {fileID: 0}
     - target: {fileID: 400118, guid: 8534b3d35029e1a47ae64d5fd1f4e173, type: 2}
       propertyPath: m_LocalPosition.z
@@ -10929,6 +13487,130 @@ Prefab:
     - target: {fileID: 400118, guid: 8534b3d35029e1a47ae64d5fd1f4e173, type: 2}
       propertyPath: m_LocalScale.z
       value: .50999999
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 8534b3d35029e1a47ae64d5fd1f4e173, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100004, guid: 8534b3d35029e1a47ae64d5fd1f4e173, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100006, guid: 8534b3d35029e1a47ae64d5fd1f4e173, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100008, guid: 8534b3d35029e1a47ae64d5fd1f4e173, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100010, guid: 8534b3d35029e1a47ae64d5fd1f4e173, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100016, guid: 8534b3d35029e1a47ae64d5fd1f4e173, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100024, guid: 8534b3d35029e1a47ae64d5fd1f4e173, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100028, guid: 8534b3d35029e1a47ae64d5fd1f4e173, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100030, guid: 8534b3d35029e1a47ae64d5fd1f4e173, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100034, guid: 8534b3d35029e1a47ae64d5fd1f4e173, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100040, guid: 8534b3d35029e1a47ae64d5fd1f4e173, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100050, guid: 8534b3d35029e1a47ae64d5fd1f4e173, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100052, guid: 8534b3d35029e1a47ae64d5fd1f4e173, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100054, guid: 8534b3d35029e1a47ae64d5fd1f4e173, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100060, guid: 8534b3d35029e1a47ae64d5fd1f4e173, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100062, guid: 8534b3d35029e1a47ae64d5fd1f4e173, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100070, guid: 8534b3d35029e1a47ae64d5fd1f4e173, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100072, guid: 8534b3d35029e1a47ae64d5fd1f4e173, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100074, guid: 8534b3d35029e1a47ae64d5fd1f4e173, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100076, guid: 8534b3d35029e1a47ae64d5fd1f4e173, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100082, guid: 8534b3d35029e1a47ae64d5fd1f4e173, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100088, guid: 8534b3d35029e1a47ae64d5fd1f4e173, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100092, guid: 8534b3d35029e1a47ae64d5fd1f4e173, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100096, guid: 8534b3d35029e1a47ae64d5fd1f4e173, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100100, guid: 8534b3d35029e1a47ae64d5fd1f4e173, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100102, guid: 8534b3d35029e1a47ae64d5fd1f4e173, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100104, guid: 8534b3d35029e1a47ae64d5fd1f4e173, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100108, guid: 8534b3d35029e1a47ae64d5fd1f4e173, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100110, guid: 8534b3d35029e1a47ae64d5fd1f4e173, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100118, guid: 8534b3d35029e1a47ae64d5fd1f4e173, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100120, guid: 8534b3d35029e1a47ae64d5fd1f4e173, type: 2}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8534b3d35029e1a47ae64d5fd1f4e173, type: 2}
@@ -10997,6 +13679,7 @@ MonoBehaviour:
   mHeight: 54
   mDepth: 976
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -11077,6 +13760,7 @@ MonoBehaviour:
   mHeight: 64
   mDepth: 999
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -11157,6 +13841,7 @@ MonoBehaviour:
   mHeight: 56
   mDepth: 1004
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -11175,6 +13860,141 @@ MonoBehaviour:
   mAtlas: {fileID: 11400000, guid: f9074af092c38204893c4aa19d654461, type: 2}
   mSpriteName: yao
   mFillCenter: 1
+--- !u!1 &1634769520
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100100, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1634769521}
+  - 114: {fileID: 1634769522}
+  m_Layer: 9
+  m_Name: dao
+  m_TagString: Sprites
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1634769521
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400100, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 1634769520}
+  m_LocalRotation: {x: 0, y: 0, z: 1, w: -4.37113883e-08}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1636557475}
+--- !u!114 &1634769522
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400048, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f,
+    type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 1634769520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 36
+  mHeight: 120
+  mDepth: 1018
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: .300000012
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: 6f00930398e30004c8e95c3655a4a4e8, type: 2}
+  mSpriteName: dao
+  mFillCenter: 1
+--- !u!1 &1636557474
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100088, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1636557475}
+  m_Layer: 9
+  m_Name: D_dao
+  m_TagString: Bones
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1636557475
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400088, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 1636557474}
+  m_LocalRotation: {x: -1.23648611e-08, y: 1.53605868e-07, z: .44757843, w: .894244671}
+  m_LocalPosition: {x: 9.21436405, y: 27.2323723, z: 18.0844879}
+  m_LocalScale: {x: -.661036849, y: -.661036789, z: -.661036849}
+  m_Children:
+  - {fileID: 1634769521}
+  m_Father: {fileID: 1371866354}
+--- !u!1 &1642005226
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100048, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1642005227}
+  m_Layer: 9
+  m_Name: D_yao
+  m_TagString: Bones
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1642005227
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400048, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 1642005226}
+  m_LocalRotation: {x: 6.1232336e-17, y: -6.65790267e-08, z: 1, w: 6.12323426e-17}
+  m_LocalPosition: {x: -.535810471, y: 65.7215576, z: 12.5926952}
+  m_LocalScale: {x: -1, y: -1, z: -1}
+  m_Children:
+  - {fileID: 1147661191}
+  m_Father: {fileID: 1371866354}
 --- !u!1 &1648601657
 GameObject:
   m_ObjectHideFlags: 0
@@ -11183,7 +14003,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1648601658}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_zuodatui
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -11210,7 +14030,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1655438641}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_zuoyaopian
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -11237,7 +14057,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1658829320}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_youxiaobili
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -11264,7 +14084,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1668140866}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_zuoshou
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -11291,7 +14111,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1670477566}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_zuoxiaobi
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -11318,7 +14138,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1671772417}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_youyaopian
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -11345,7 +14165,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1675215881}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_jianjia
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -11364,6 +14184,87 @@ Transform:
   m_Children:
   - {fileID: 1533020947}
   m_Father: {fileID: 708552349}
+--- !u!1 &1678941985
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100028, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1678941986}
+  - 114: {fileID: 1678941987}
+  m_Layer: 9
+  m_Name: fa2
+  m_TagString: Sprites
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1678941986
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400028, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 1678941985}
+  m_LocalRotation: {x: -4.37113883e-08, y: 3.32895127e-07, z: -1, w: 1.46125398e-14}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 985185588}
+--- !u!114 &1678941987
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400028, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f,
+    type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 1678941985}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 46
+  mHeight: 80
+  mDepth: 1038
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: .574999988
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: 6f00930398e30004c8e95c3655a4a4e8, type: 2}
+  mSpriteName: fa2
+  mFillCenter: 1
 --- !u!1 &1679981303
 GameObject:
   m_ObjectHideFlags: 0
@@ -11372,7 +14273,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1679981304}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_gongshang
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -11453,6 +14354,7 @@ MonoBehaviour:
   mHeight: 36
   mDepth: 1006
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -11479,7 +14381,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1684417551}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_toufaqianshang
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -11560,6 +14462,7 @@ MonoBehaviour:
   mHeight: 64
   mDepth: 1000
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -11586,7 +14489,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1686745304}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_houyao
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -11613,7 +14516,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1689368057}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_yao
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -11640,7 +14543,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1694731073}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_zuojianqian
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -11721,6 +14624,7 @@ MonoBehaviour:
   mHeight: 84
   mDepth: 1000
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -11801,6 +14705,7 @@ MonoBehaviour:
   mHeight: 40
   mDepth: 987
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -11881,6 +14786,7 @@ MonoBehaviour:
   mHeight: 22
   mDepth: 998
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -11907,7 +14813,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1746662219}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_lianbiaoqing01
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -11934,7 +14840,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1760029188}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_zuojiao
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -12015,6 +14921,7 @@ MonoBehaviour:
   mHeight: 30
   mDepth: 998
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -12032,6 +14939,87 @@ MonoBehaviour:
   topType: 1
   mAtlas: {fileID: 11400000, guid: f9074af092c38204893c4aa19d654461, type: 2}
   mSpriteName: youxiaobi
+  mFillCenter: 1
+--- !u!1 &1774042003
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100024, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1774042004}
+  - 114: {fileID: 1774042005}
+  m_Layer: 9
+  m_Name: jiao
+  m_TagString: Sprites
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1774042004
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400024, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 1774042003}
+  m_LocalRotation: {x: -.000172496671, y: -3.15817874e-06, z: -.999280632, w: .0379233696}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2104570921}
+--- !u!114 &1774042005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400024, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f,
+    type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 1774042003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 24
+  mHeight: 46
+  mDepth: 1002
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: .521739125
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: 6f00930398e30004c8e95c3655a4a4e8, type: 2}
+  mSpriteName: jiao
   mFillCenter: 1
 --- !u!1 &1786451017
 GameObject:
@@ -12095,6 +15083,7 @@ MonoBehaviour:
   mHeight: 86
   mDepth: 1007
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -12113,6 +15102,33 @@ MonoBehaviour:
   mAtlas: {fileID: 11400000, guid: 49562db47213af44490fad8a6f15bd3b, type: 2}
   mSpriteName: toufa04
   mFillCenter: 1
+--- !u!1 &1795200579
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100068, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1795200580}
+  m_Layer: 9
+  m_Name: D_qubai1
+  m_TagString: Bones
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1795200580
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400068, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 1795200579}
+  m_LocalRotation: {x: 6.12323426e-17, y: -6.65790267e-08, z: 1, w: -6.1232336e-17}
+  m_LocalPosition: {x: 3.12590289, y: 36.9627037, z: 10.6470728}
+  m_LocalScale: {x: -1, y: -1, z: -1}
+  m_Children:
+  - {fileID: 950214873}
+  m_Father: {fileID: 1371866354}
 --- !u!1 &1798681468
 GameObject:
   m_ObjectHideFlags: 0
@@ -12175,6 +15191,7 @@ MonoBehaviour:
   mHeight: 116
   mDepth: 992
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -12255,6 +15272,7 @@ MonoBehaviour:
   mHeight: 66
   mDepth: 975
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -12281,7 +15299,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1807011537}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_zuoshangbi
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -12300,6 +15318,87 @@ Transform:
   m_Children:
   - {fileID: 1681842431}
   m_Father: {fileID: 1360876656}
+--- !u!1 &1810426660
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100038, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1810426661}
+  - 114: {fileID: 1810426662}
+  m_Layer: 9
+  m_Name: dao1
+  m_TagString: Sprites
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1810426661
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400038, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 1810426660}
+  m_LocalRotation: {x: 0, y: 0, z: 1, w: -4.37113883e-08}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: .999499321, y: -.999499321, z: .99949944}
+  m_Children: []
+  m_Father: {fileID: 1414728752}
+--- !u!114 &1810426662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400038, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f,
+    type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 1810426660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 36
+  mHeight: 120
+  mDepth: 997
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: .300000012
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: 6f00930398e30004c8e95c3655a4a4e8, type: 2}
+  mSpriteName: dao
+  mFillCenter: 1
 --- !u!1 &1833212294
 GameObject:
   m_ObjectHideFlags: 0
@@ -12362,6 +15461,7 @@ MonoBehaviour:
   mHeight: 56
   mDepth: 1003
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -12380,6 +15480,87 @@ MonoBehaviour:
   mAtlas: {fileID: 11400000, guid: f9074af092c38204893c4aa19d654461, type: 2}
   mSpriteName: xiong
   mFillCenter: 1
+--- !u!1 &1852278185
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100012, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1852278186}
+  - 114: {fileID: 1852278187}
+  m_Layer: 9
+  m_Name: shou1
+  m_TagString: Sprites
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1852278186
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400012, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 1852278185}
+  m_LocalRotation: {x: -1.76869435e-07, y: 6.65790125e-08, z: -1, w: 1.33158068e-07}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 769025190}
+--- !u!114 &1852278187
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400012, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f,
+    type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 1852278185}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 24
+  mHeight: 24
+  mDepth: 1020
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: 1
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: 6f00930398e30004c8e95c3655a4a4e8, type: 2}
+  mSpriteName: shou1
+  mFillCenter: 1
 --- !u!1 &1859266137
 GameObject:
   m_ObjectHideFlags: 0
@@ -12388,7 +15569,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1859266138}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_youjian
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -12415,7 +15596,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1863568305}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_youdabi
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -12496,6 +15677,7 @@ MonoBehaviour:
   mHeight: 42
   mDepth: 997
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -12576,6 +15758,7 @@ MonoBehaviour:
   mHeight: 168
   mDepth: 985
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -12594,6 +15777,87 @@ MonoBehaviour:
   mAtlas: {fileID: 11400000, guid: 5a754015aab43eb4d9663e576a811233, type: 2}
   mSpriteName: wuqi
   mFillCenter: 1
+--- !u!1 &1914528725
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100010, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1914528726}
+  - 114: {fileID: 1914528727}
+  m_Layer: 9
+  m_Name: tou
+  m_TagString: Sprites
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1914528726
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400010, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 1914528725}
+  m_LocalRotation: {x: -4.37114061e-08, y: 6.65790409e-08, z: -1, w: -2.66316107e-07}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 479292682}
+--- !u!114 &1914528727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400010, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f,
+    type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 1914528725}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 146
+  mHeight: 150
+  mDepth: 1009
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: .973333359
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: 6f00930398e30004c8e95c3655a4a4e8, type: 2}
+  mSpriteName: tou
+  mFillCenter: 1
 --- !u!1 &1917196193
 GameObject:
   m_ObjectHideFlags: 0
@@ -12602,7 +15866,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1917196194}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_fa6
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -12629,7 +15893,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1921227525}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_youdabi
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -12656,7 +15920,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1924851554}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_shenti
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -12683,7 +15947,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1925140733}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_fa7
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -12711,7 +15975,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 1925898114}
   - 111: {fileID: 1925898115}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: xiahoudunfbx
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12725,7 +15989,7 @@ Transform:
   m_PrefabInternal: {fileID: 1256026572}
   m_GameObject: {fileID: 1925898113}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: -4.37113883e-08}
-  m_LocalPosition: {x: 68.1725464, y: 180.827255, z: 0}
+  m_LocalPosition: {x: 68.1725464, y: 190, z: 0}
   m_LocalScale: {x: .50999999, y: .50999999, z: .50999999}
   m_Children:
   - {fileID: 158759681}
@@ -12775,7 +16039,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1941434488}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_shenti01
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -12802,7 +16066,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1970607987}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_zuoshou
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -12829,7 +16093,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1971096897}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_zuojiao
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -12910,6 +16174,7 @@ MonoBehaviour:
   mHeight: 26
   mDepth: 984
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -12990,6 +16255,7 @@ MonoBehaviour:
   mHeight: 164
   mDepth: 1018
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -13070,6 +16336,7 @@ MonoBehaviour:
   mHeight: 96
   mDepth: 1019
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -13150,6 +16417,7 @@ MonoBehaviour:
   mHeight: 28
   mDepth: 1012
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -13168,6 +16436,87 @@ MonoBehaviour:
   mAtlas: {fileID: 11400000, guid: a1d7782fd8b19b847ac89c21822cf06a, type: 2}
   mSpriteName: zuoshou
   mFillCenter: 1
+--- !u!1 &2010122880
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100016, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 2010122881}
+  - 114: {fileID: 2010122882}
+  m_Layer: 9
+  m_Name: qunbai3
+  m_TagString: Sprites
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2010122881
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400016, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 2010122880}
+  m_LocalRotation: {x: -1.76869435e-07, y: 6.65789912e-08, z: -1, w: 1.33158068e-07}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 489553935}
+--- !u!114 &2010122882
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400016, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f,
+    type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 2010122880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 52
+  mHeight: 54
+  mDepth: 1007
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: .962962985
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: 6f00930398e30004c8e95c3655a4a4e8, type: 2}
+  mSpriteName: qunbai3
+  mFillCenter: 1
 --- !u!1 &2024364510
 GameObject:
   m_ObjectHideFlags: 0
@@ -13176,7 +16525,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 2024364511}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_toufahou
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -13203,7 +16552,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 2030255438}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_youjiao
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -13284,6 +16633,7 @@ MonoBehaviour:
   mHeight: 50
   mDepth: 994
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -13364,6 +16714,7 @@ MonoBehaviour:
   mHeight: 24
   mDepth: 999
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -13444,6 +16795,7 @@ MonoBehaviour:
   mHeight: 40
   mDepth: 1004
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -13461,6 +16813,87 @@ MonoBehaviour:
   topType: 1
   mAtlas: {fileID: 11400000, guid: 5a754015aab43eb4d9663e576a811233, type: 2}
   mSpriteName: youjiao
+  mFillCenter: 1
+--- !u!1 &2060314594
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100026, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 2060314595}
+  - 114: {fileID: 2060314596}
+  m_Layer: 9
+  m_Name: fa3
+  m_TagString: Sprites
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2060314595
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400026, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 2060314594}
+  m_LocalRotation: {x: -4.37113883e-08, y: 6.65790267e-08, z: -1, w: 2.97149407e-15}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1436572794}
+--- !u!114 &2060314596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400026, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f,
+    type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 2060314594}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 36
+  mHeight: 116
+  mDepth: 1005
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: .310344815
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: 6f00930398e30004c8e95c3655a4a4e8, type: 2}
+  mSpriteName: fa3
   mFillCenter: 1
 --- !u!1 &2067089412
 GameObject:
@@ -13524,6 +16957,7 @@ MonoBehaviour:
   mHeight: 30
   mDepth: 991
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -13604,6 +17038,7 @@ MonoBehaviour:
   mHeight: 80
   mDepth: 1003
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -13630,7 +17065,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 2072825478}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_youshou
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -13711,6 +17146,7 @@ MonoBehaviour:
   mHeight: 40
   mDepth: 994
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -13791,6 +17227,7 @@ MonoBehaviour:
   mHeight: 30
   mDepth: 1019
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -13871,6 +17308,7 @@ MonoBehaviour:
   mHeight: 22
   mDepth: 998
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -13897,7 +17335,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 2096226072}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_youjiao
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -13978,6 +17416,7 @@ MonoBehaviour:
   mHeight: 36
   mDepth: 1000
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -13996,6 +17435,33 @@ MonoBehaviour:
   mAtlas: {fileID: 11400000, guid: b1ea74f22301d294d88aac8047af51e0, type: 2}
   mSpriteName: yao
   mFillCenter: 1
+--- !u!1 &2104570920
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100072, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 2104570921}
+  m_Layer: 9
+  m_Name: D_jiao
+  m_TagString: Bones
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2104570921
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400072, guid: 30ea1bb56a59b73419a0fd9a0b2e7b6f, type: 2}
+  m_PrefabInternal: {fileID: 1076276659}
+  m_GameObject: {fileID: 2104570920}
+  m_LocalRotation: {x: .000172452987, y: 3.15652096e-06, z: .999280632, w: .0379233696}
+  m_LocalPosition: {x: 8.27304173, y: 24.7001305, z: 2.00851512}
+  m_LocalScale: {x: -1.00000012, y: -1.00000012, z: -1}
+  m_Children:
+  - {fileID: 1774042004}
+  m_Father: {fileID: 1371866354}
 --- !u!1 &2121672823
 GameObject:
   m_ObjectHideFlags: 0
@@ -14004,7 +17470,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 2121672824}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_zuojiao
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -14085,6 +17551,7 @@ MonoBehaviour:
   mHeight: 34
   mDepth: 1012
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -14165,6 +17632,7 @@ MonoBehaviour:
   mHeight: 142
   mDepth: 1013
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -14192,7 +17660,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 2137005890}
   - 111: {fileID: 2137005891}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: sunshangxiangfbx
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14206,7 +17674,7 @@ Transform:
   m_PrefabInternal: {fileID: 1594764896}
   m_GameObject: {fileID: 2137005889}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: -4.37113883e-08}
-  m_LocalPosition: {x: -376.87912, y: 182.281372, z: 0}
+  m_LocalPosition: {x: -376.87912, y: 190, z: 0}
   m_LocalScale: {x: .50999999, y: .50999999, z: .50999999}
   m_Children:
   - {fileID: 1679981304}
@@ -14267,7 +17735,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 2137469333}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: D_youxiaobi
   m_TagString: Bones
   m_Icon: {fileID: 0}
@@ -14348,6 +17816,7 @@ MonoBehaviour:
   mHeight: 22
   mDepth: 1018
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0

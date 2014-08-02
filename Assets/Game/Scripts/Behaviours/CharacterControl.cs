@@ -1,11 +1,9 @@
-﻿using Template.Auto.Hero;
-using com.kx.sglm.gs.battle.share;
-using com.kx.sglm.gs.battle.share.data;
+﻿using com.kx.sglm.gs.battle.share;
 using com.kx.sglm.gs.battle.share.data.record;
 using com.kx.sglm.gs.hero.properties;
 using System;
 using System.Collections;
-using Template;
+using Template.Auto.Hero;
 using UnityEngine;
 
 public class CharacterControl : MonoBehaviour
@@ -28,27 +26,18 @@ public class CharacterControl : MonoBehaviour
     public int Attack;
     public int Restore;
 
-    public int XIndex;
-    public int YIndex;
-
     public bool IsActive;
-    public int AttrackValue;
+    public int AttackValue;
     public bool HaveSp;
 
     public int AnimationIndex;
 
     public BuffBarController BuffController;
-    
-    private GameObject topAttrackObj;
+
+    private GameObject topAttackObj;
     private bool isSelected;
 
     private float afterTime;
-
-    public void SetIndex(int xindex, int yindex)
-    {
-        XIndex = xindex;
-        YIndex = yindex;
-    }
 
     public void ShowSpEffect(bool isshow)
     {
@@ -121,6 +110,15 @@ public class CharacterControl : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Adjust attack value in case any zero effect buff occurs.
+    /// </summary>
+    public void AdjustAttackValue()
+    {
+        Attack = (CharacterData.BuffController.ZeroAttack) ? 0 : Attack;
+        Restore = (CharacterData.BuffController.ZeroAttack) ? 0 : Restore;
+    }
+
     public void SetAttackLabel(SingleFighterRecord record)
     {
         var uilb = AttrackObj.GetComponent<UILabel>();
@@ -155,7 +153,7 @@ public class CharacterControl : MonoBehaviour
         var uilb = TopTimesObj.GetComponent<UILabel>();
         if (isselected)
         {
-            
+
             if (selectindex > 6)
             {
                 uilb.color = new Color(255, 0, 248);
@@ -169,23 +167,23 @@ public class CharacterControl : MonoBehaviour
                 uilb.color = new Color(234, 240, 240);
             }
             uilb.text = (selectindex == 0) ? "" : "X" + BattleTypeConstant.MoreHitTimes[selectindex];
-            AttrackValue = (FootIndex == (int)FootColorType.Pink) ? (int)(BattleTypeConstant.MoreHitTimes[selectindex] * Restore) : (int)(BattleTypeConstant.MoreHitTimes[selectindex] * Attack);
+            AttackValue = (FootIndex == (int)FootColorType.Pink) ? (int)(BattleTypeConstant.MoreHitTimes[selectindex] * Restore) : (int)(BattleTypeConstant.MoreHitTimes[selectindex] * Attack);
             StartCoroutine(PopPlay());
         }
         else
         {
             uilb.text = "";
-            if (topAttrackObj != null) Destroy(topAttrackObj);
+            if (topAttackObj != null) Destroy(topAttackObj);
         }
     }
 
     private IEnumerator PopPlay()
     {
-        PopTextManager.ShowText(AttrackValue.ToString(), 0.5f, 0, 0, 70, transform.localPosition);
+        PopTextManager.ShowText(AttackValue.ToString(), 0.5f, 0, 0, 70, transform.localPosition);
         yield return new WaitForSeconds(0.5f);
         if (isSelected)
         {
-            topAttrackObj = PopTextManager.ShakeText(AttrackValue.ToString(), -25, 25, transform.localPosition);
+            topAttackObj = PopTextManager.ShakeText(AttackValue.ToString(), -25, 25, transform.localPosition);
         }
     }
 }

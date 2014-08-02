@@ -17,4 +17,9 @@ public class LotteryConstant
 
     /** 抽奖类型-连续10次抽卡 */
     public const int LotteryModeTenthCharge = 3;
+
+    public const string OneTimeHeroLotteryConfirmKey = "UIHeroLottery.OneLotteryHeroConfirm";
+    public const string TenTimeHeroLotteryConfirmKey = "UIHeroLottery.TenLotteryHeroConfirm";  
+    public const string OneTimeItemLotteryConfirmKey = "UIItemLottery.OneLotteryItemConfirm";
+    public const string TenTimeItemLotteryConfirmKey = "UIItemLottery.TenLotteryItemConfirm";
 }

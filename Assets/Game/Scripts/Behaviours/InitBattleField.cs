@@ -78,11 +78,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
 
     #endregion
 
-    /// <summary>
-    /// Waiting stack that hold waiting hero's position.
-    /// </summary>
-    public List<GameObject> WaitingStackList;
-
     private int characterAttackValue;
     private GameObject leftContainerObj;
 
@@ -150,8 +145,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
         EnemyController.OnSelectedChanged = OnEnemySelected;
         InitEnemyList();
 
-        InitWaitingStackList();
-
         InitBattleFace();
 
         // [FIXME] belongs to battle background controller.
@@ -189,22 +182,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
         originalCharacterList.AddRange(TeamController.CharacterList);
 
         Logger.Log("Team controller total num: " + TeamController.Total);
-    }
-
-    private void InitWaitingStackList()
-    {
-        for (var i = 0; i < TeamController.Row; ++i)
-        {
-            var index = (TeamController.Col - 1) * TeamController.Row + i;
-            var targetPosition = TeamController.FormationController.LatestPositionList[index];
-
-            var sourcePosition = targetPosition + targetPosition -
-                TeamController.FormationController.LatestPositionList[index - TeamController.Col];
-
-            Logger.LogWarning("Waiting stack index of: " + index + ", right index: " + (index - TeamController.Col));
-            var waitPosition = WaitingStackList[i];
-            waitPosition.transform.position = sourcePosition;
-        }
     }
 
     private void InitBattleFace()
@@ -435,7 +412,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
                         // Move to target from delta left.
                         var index = TeamController.TwoDimensionToOne(i, j);
                         var targetPosition = TeamController.FormationController.LatestPositionList[index];
-                        var sourcePosition = WaitingStackList[j].transform.position;
+                        var sourcePosition = TeamController.WaitingStackList[j].transform.position;
                         charactersLeft[i, j].transform.position = sourcePosition;
 
                         var target = charactersLeft[i, j];
@@ -497,14 +474,15 @@ public class InitBattleField : MonoBehaviour, IBattleView
 
     private void OnSelected(GameObject selectedObject)
     {
-        var cc = selectedObject.GetComponent<CharacterControl>();
-        currentFootIndex = cc.FootIndex;
-        AddAObj(selectedObject);
+        var characterControll = selectedObject.GetComponent<CharacterControl>();
+        currentFootIndex = characterControll.FootIndex;
+        AddAObj(characterControll);
     }
 
     private void OnDeselected(GameObject selectedObject)
     {
-        AddAObj(selectedObject, false);
+        var characterControll = selectedObject.GetComponent<CharacterControl>();
+        AddAObj(characterControll, false);
     }
 
     private void OnSelectedStart()
@@ -579,23 +557,23 @@ public class InitBattleField : MonoBehaviour, IBattleView
         RequestRecords();
     }
 
-    void AddAObj(GameObject obj, bool isadd = true)
+    void AddAObj(CharacterControl characterControll, bool isadd = true)
     {
-        var tempcc1 = obj.GetComponent<CharacterControl>();
-
         if (isadd)
         {
-            tempcc1.SetSelect(true, TeamController.SelectedCharacterList.Count - 1);
-            selectEffectList.Add(EffectManager.ShowEffect(EffectType.SelectEffects[currentFootIndex], 0, 0, obj.transform.position));
+            // adjust attack value in case zero effect buff is on.
+            characterControll.AdjustAttackValue();
+            characterControll.SetSelect(true, TeamController.SelectedCharacterList.Count - 1);
+            selectEffectList.Add(EffectManager.ShowEffect(EffectType.SelectEffects[currentFootIndex], 0, 0, characterControll.transform.position));
         }
         else
         {
-            tempcc1.SetSelect(false);
+            characterControll.SetSelect(false);
             Destroy(selectEffectList[selectEffectList.Count - 1] as GameObject);
             selectEffectList.RemoveAt(selectEffectList.Count - 1);
         }
 
-        characterAttackValue = isadd ? characterAttackValue + tempcc1.AttrackValue : characterAttackValue - tempcc1.AttrackValue;
+        characterAttackValue = isadd ? characterAttackValue + characterControll.AttackValue : characterAttackValue - characterControll.AttackValue;
         FaceController.SetAttackLabel("" + characterAttackValue);
 
         if (currentFootIndex == (int)FootColorType.Pink)
@@ -1083,7 +1061,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
     {
         if (action.Index < 0 || action.Index >= characterList.Count)
         {
-            Logger.LogWarning("[***************] Could not find character with index: " + action.Index + " in side: " + action.Side);
+            Logger.LogError("[***************] Could not find character with index: " + action.Index + " in side: " + action.Side);
             return null;
         }
         return characterList[action.Index].gameObject;
@@ -1494,8 +1472,8 @@ public class InitBattleField : MonoBehaviour, IBattleView
 
         // get debuff value.
         var characterList = (battleTeamFightRecord.TeamSide == BattleRecordConstants.TARGET_SIDE_A)
-            ? TeamController.CharacterList
-            : EnemyController.CharacterList;
+            ? originalCharacterList
+            : originalEnemyList;
 
         battleTeamFightRecord.BuffAction.ForEach(action =>
         {
@@ -1656,8 +1634,8 @@ public class InitBattleField : MonoBehaviour, IBattleView
         Logger.Log("[-----RECORD-----] showBattleBuffRecord: " + battleBuffRecord);
 
         var characterList = (battleBuffRecord.SideIndex == BattleRecordConstants.TARGET_SIDE_A)
-            ? TeamController.CharacterList
-            : EnemyController.CharacterList;
+            ? originalCharacterList
+            : originalEnemyList;
 
         battleBuffRecord.RecordList.ForEach(record =>
         {
@@ -1665,22 +1643,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
             if (characterObject != null)
             {
                 var character = characterObject.GetComponent<Character>();
-                record.StateUpdateList.ForEach(item =>
-                {
-                    // update buff manager count.
-                    var buffMananger = character.BuffController.BuffCountManager;
-                    buffMananger.Clear();
-
-                    var buffIndex = item.ShowId - 1;
-                    var buffSize = Enum.GetNames(typeof(BuffManager.BuffType)).Count();
-                    if (buffIndex < 0 || buffIndex > buffSize)
-                    {
-                        Logger.LogError("Buff index: " + buffIndex + " should be in range of 0 and " + buffSize + ".");
-                        return;
-                    }
-                    buffMananger[(BuffManager.BuffType)buffIndex] = item.LeftRound;
-                });
-
+                character.BuffController.Set(record.StateUpdateList);
                 ShowBuff(character);
             }
         });
@@ -1731,13 +1694,9 @@ public class InitBattleField : MonoBehaviour, IBattleView
 
         if (battletTeamInfoRecord.Side == BattleRecordConstants.TARGET_SIDE_A)
         {
-            var characterList = TeamController.CharacterList;
             battletTeamInfoRecord.RecordList.ForEach(record =>
             {
-                var characterObject = GetObjectByAction(characterList, record);
-
-                //Logger.LogWarning("Find character: " + characterObject.name + ", index: " + characterObject.GetComponent<Character>().Data.index);
-
+                var characterObject = GetObjectByAction(originalCharacterList, record);
                 var characterControll = characterObject.GetComponent<CharacterControl>();
                 characterControll.SetAttackLabel(record);
             });

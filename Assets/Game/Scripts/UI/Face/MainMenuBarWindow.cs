@@ -126,17 +126,7 @@ public class MainMenuBarWindow : Window
     /// The callback of clicking team button.
     /// </summary>
     private void OnTeamClicked(GameObject go)
-    {
-        if (HeroModelLocator.AlreadyRequest == false)
-        {
-            HeroModelLocator.Instance.GetHeroPos = RaidType.GetHeroInHeroCreateTeam;
-            var csmsg = new CSHeroList();
-            NetManager.SendMessage(csmsg);
-        }
-        else
-        {
-            WindowManager.Instance.Show<UITeamShowingWindow>(true);
-        }  
+    { 
     }
 
     /// <summary>

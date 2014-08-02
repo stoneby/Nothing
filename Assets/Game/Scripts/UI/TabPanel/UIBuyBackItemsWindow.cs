@@ -253,7 +253,7 @@ public class UIBuyBackItemsWindow : Window
     private void RefreshUi()
     {
         selCount.text = selItems.Count.ToString(CultureInfo.InvariantCulture);
-        canBuyBackCount.text = string.Format("{0}/{1}", buyBackItems.Count, 100);
+        canBuyBackCount.text = string.Format("{0}/{1}", buyBackItems.Count, ItemType.BuyBackLimit);
     }
 
     /// <summary>

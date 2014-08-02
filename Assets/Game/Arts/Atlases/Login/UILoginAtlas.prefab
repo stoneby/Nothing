@@ -27,6 +27,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
+  m_RootOrder: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -42,126 +43,9 @@ MonoBehaviour:
   mSprites:
   - name: account-box
     x: 0
-    y: 468
-    width: 563
-    height: 85
-    borderLeft: 0
-    borderRight: 0
-    borderTop: 0
-    borderBottom: 0
-    paddingLeft: 0
-    paddingRight: 0
-    paddingTop: 0
-    paddingBottom: 0
-  - name: bg-list
-    x: 0
-    y: 731
-    width: 564
-    height: 293
-    borderLeft: 0
-    borderRight: 0
-    borderTop: 0
-    borderBottom: 0
-    paddingLeft: 0
-    paddingRight: 0
-    paddingTop: 0
-    paddingBottom: 0
-  - name: btn-delete
-    x: 938
-    y: 918
-    width: 43
-    height: 44
-    borderLeft: 0
-    borderRight: 0
-    borderTop: 0
-    borderBottom: 0
-    paddingLeft: 0
-    paddingRight: 0
-    paddingTop: 0
-    paddingBottom: 0
-  - name: btn-down
-    x: 565
-    y: 955
-    width: 178
-    height: 69
-    borderLeft: 0
-    borderRight: 0
-    borderTop: 0
-    borderBottom: 0
-    paddingLeft: 0
-    paddingRight: 0
-    paddingTop: 0
-    paddingBottom: 0
-  - name: btn-list
-    x: 744
-    y: 751
-    width: 50
-    height: 34
-    borderLeft: 0
-    borderRight: 0
-    borderTop: 0
-    borderBottom: 0
-    paddingLeft: 0
-    paddingRight: 0
-    paddingTop: 0
-    paddingBottom: 0
-  - name: btn-server-down
-    x: 744
-    y: 963
-    width: 193
-    height: 61
-    borderLeft: 0
-    borderRight: 0
-    borderTop: 0
-    borderBottom: 0
-    paddingLeft: 0
-    paddingRight: 0
-    paddingTop: 0
-    paddingBottom: 0
-  - name: btn-server-up
-    x: 744
-    y: 901
-    width: 193
-    height: 61
-    borderLeft: 0
-    borderRight: 0
-    borderTop: 0
-    borderBottom: 0
-    paddingLeft: 0
-    paddingRight: 0
-    paddingTop: 0
-    paddingBottom: 0
-  - name: btn-up
-    x: 565
-    y: 885
-    width: 178
-    height: 69
-    borderLeft: 0
-    borderRight: 0
-    borderTop: 0
-    borderBottom: 0
-    paddingLeft: 0
-    paddingRight: 0
-    paddingTop: 0
-    paddingBottom: 0
-  - name: close-down
-    x: 744
-    y: 786
-    width: 116
-    height: 40
-    borderLeft: 0
-    borderRight: 0
-    borderTop: 0
-    borderBottom: 0
-    paddingLeft: 0
-    paddingRight: 0
-    paddingTop: 0
-    paddingBottom: 0
-  - name: close-up
-    x: 744
-    y: 827
-    width: 116
-    height: 40
+    y: 408
+    width: 689
+    height: 88
     borderLeft: 0
     borderRight: 0
     borderTop: 0
@@ -171,8 +55,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: font-back
-    x: 938
-    y: 995
+    x: 942
+    y: 892
     width: 70
     height: 29
     borderLeft: 0
@@ -184,8 +68,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: font-create
-    x: 643
-    y: 745
+    x: 786
+    y: 714
     width: 82
     height: 37
     borderLeft: 0
@@ -197,8 +81,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: font-login
-    x: 643
-    y: 783
+    x: 786
+    y: 752
     width: 82
     height: 37
     borderLeft: 0
@@ -210,8 +94,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: font-play
-    x: 861
-    y: 834
+    x: 786
+    y: 824
     width: 122
     height: 33
     borderLeft: 0
@@ -223,8 +107,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: font-register
-    x: 861
-    y: 800
+    x: 786
+    y: 790
     width: 122
     height: 33
     borderLeft: 0
@@ -237,7 +121,7 @@ MonoBehaviour:
     paddingBottom: 0
   - name: line
     x: 0
-    y: 465
+    y: 405
     width: 852
     height: 2
     borderLeft: 0
@@ -249,8 +133,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: line-decorate
-    x: 744
-    y: 868
+    x: 786
+    y: 922
     width: 206
     height: 32
     borderLeft: 0
@@ -263,7 +147,7 @@ MonoBehaviour:
     paddingBottom: 0
   - name: line-short
     x: 0
-    y: 462
+    y: 402
     width: 494
     height: 2
     borderLeft: 0
@@ -274,11 +158,11 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
-  - name: LOGO
+  - name: login-bg
     x: 0
-    y: 554
-    width: 537
-    height: 176
+    y: 607
+    width: 785
+    height: 417
     borderLeft: 0
     borderRight: 0
     borderTop: 0
@@ -287,9 +171,48 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
+  - name: login-btn
+    x: 0
+    y: 497
+    width: 688
+    height: 109
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: return-btn
+    x: 786
+    y: 955
+    width: 153
+    height: 69
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: server-btn
+    x: 689
+    y: 544
+    width: 249
+    height: 62
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 1
+    paddingTop: 0
+    paddingBottom: 0
   - name: state-1
-    x: 565
-    y: 757
+    x: 864
+    y: 858
     width: 77
     height: 63
     borderLeft: 0
@@ -301,8 +224,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: state-2
-    x: 643
-    y: 821
+    x: 940
+    y: 961
     width: 77
     height: 63
     borderLeft: 0
@@ -314,8 +237,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: state-3
-    x: 565
-    y: 821
+    x: 786
+    y: 858
     width: 77
     height: 63
     borderLeft: 0

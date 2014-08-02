@@ -18,6 +18,7 @@ public class ServiceManager
     public static string UpdateUrl;
     public static string UpdateInfo;
     public static string GameID;
+    public static bool OpenTestAccount = false;
     //public static int GameVersionValue;
 
     //FValue

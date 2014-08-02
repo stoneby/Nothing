@@ -26,6 +26,14 @@ namespace com.kx.sglm.gs.battle.share.logic.loop
 
 		}
 
+		public override bool Dead
+		{
+			get
+			{
+				return isActorDead(CurAttacker) || isActorDead(CurDefencer);
+			}
+		}
+
 
 		public override void onStart()
 		{

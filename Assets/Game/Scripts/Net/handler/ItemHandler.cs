@@ -87,7 +87,6 @@ namespace Assets.Game.Scripts.Net.handler
                 var infos = ItemModeLocator.Instance.ScAllItemInfos.ItemInfos;
                 infos.RemoveAll(item => deleteIndexs.Contains(item.BagIndex));
                 WindowManager.Instance.GetWindow<UILevelUpItemWindow>().ShowLevelOver();
-                WindowManager.Instance.GetWindow<UIItemCommonWindow>().Refresh(infos);
             }
         }
 
@@ -103,19 +102,20 @@ namespace Assets.Game.Scripts.Net.handler
                     var buyBackIndex = indexeChange.Value;
                     var itemInfo = ItemModeLocator.Instance.FindItem(bagIndex);
                     infos.Remove(itemInfo);
-                    if (ItemModeLocator.Instance.BuyBackItems != null && ItemModeLocator.Instance.BuyBackItems.ItemInfos != null)
+                    if (buyBackIndex != ItemType.InvalidBuyBackIndex)
                     {
-                        var buyBackInfos = ItemModeLocator.Instance.BuyBackItems.ItemInfos;
-                        itemInfo.BagIndex = buyBackIndex;
-                        var expireDateTime = DateTime.Now + new TimeSpan(0, ItemModeLocator.Instance.ServerConfigMsg.SellItemSaveHours, 0, 0);
-                        itemInfo.ExpireTime = Utils.ConvertToJavaTimestamp(expireDateTime);
-                        buyBackInfos.Add(itemInfo);       
+                        if (ItemModeLocator.Instance.BuyBackItems != null && ItemModeLocator.Instance.BuyBackItems.ItemInfos != null)
+                        {
+                            var buyBackInfos = ItemModeLocator.Instance.BuyBackItems.ItemInfos;
+                            itemInfo.BagIndex = buyBackIndex;
+                            var expireDateTime = DateTime.Now + new TimeSpan(0, ItemModeLocator.Instance.ServerConfigMsg.SellItemSaveHours, 0, 0);
+                            itemInfo.ExpireTime = Utils.ConvertToJavaTimestamp(expireDateTime);
+                            buyBackInfos.Add(itemInfo);
+                        }
                     }
                 }
                 var sellItem = WindowManager.Instance.GetWindow<UISellItemWindow>();
-                sellItem.CleanUp();
-                var itemsWindow = WindowManager.Instance.GetWindow<UIItemCommonWindow>();
-                itemsWindow.Refresh(infos);
+                sellItem.ShowSellOver();
             }
         }
 

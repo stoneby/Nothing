@@ -10,6 +10,7 @@ public class FriendItem : MonoBehaviour
     private UILabel atkLbl;
     private UILabel hpLbl;
     private UILabel lvlLbl;
+    private UISprite bindIcon;
 
     protected NGUILongPress longPress;
 
@@ -20,6 +21,11 @@ public class FriendItem : MonoBehaviour
         hpLbl = transform.Find("Hp/HpValue").GetComponent<UILabel>();
         lvlLbl = transform.Find("Level/LevelValue").GetComponent<UILabel>();
         longPress = transform.Find("BG").GetComponent<NGUILongPress>();
+        var bindIconTran = transform.Find("BindIcon");
+        if (bindIconTran)
+        {
+            bindIcon = bindIconTran.GetComponent<UISprite>();
+        }
     }
 
     public virtual void Init(FriendInfo info)
@@ -29,9 +35,23 @@ public class FriendItem : MonoBehaviour
         atkLbl.text = FriendUtils.GetProp(info, RoleProperties.ROLE_ATK).ToString();
         hpLbl.text = FriendUtils.GetProp(info, RoleProperties.ROLE_HP).ToString();
         lvlLbl.text = info.FriendLvl.ToString();
+        if (bindIcon)
+        {
+            bindIcon.enabled = FriendUtils.IsFriendBind(info);
+        }
         if(longPress)
         {
             longPress.OnLongPress = OnLongPress;
+            longPress.OnNormalPress = OnNormalPress;
+        }
+    }
+
+    private void OnNormalPress(GameObject go)
+    {
+        var friendLock = WindowManager.Instance.Show<UIFriendLockWindow>(true);
+        if (friendLock != null)
+        {
+            friendLock.Refresh(FriendInfo, this);
         }
     }
 

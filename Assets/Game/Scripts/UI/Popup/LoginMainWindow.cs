@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using KXSGCodec;
 using UnityEngine;
@@ -12,20 +13,13 @@ public class LoginMainWindow : Window
     private GameObject BtnPlay;
     private GameObject ServerLabel;
     private GameObject AccountLabel;
-//    private GameObject BtnOpenSelectAccount;
 
-//    private GameObject SpriteSelectAccount;
-//    private GameObject LabelDefault;
-//    private GameObject SelectAccountContainer;
-//
-//    private GameObject AccountItemPrefab;
-
-//    private List<GameObject> AccountList; 
+    private GameObject TexLogo;
+    private GameObject ContainerBox;
 
     private UIEventListener AccountUIEventListener;
     private UIEventListener ServiceUIEventListener;
     private UIEventListener BtnLoginUIEventListener;
-//    private UIEventListener BtnSelectAccountUIEventListener;
 
     #region Window
 
@@ -34,99 +28,90 @@ public class LoginMainWindow : Window
         MtaManager.TrackBeginPage(MtaType.LoginMainWindow);
         ResetAccountList();
 
-//        if (ServiceManager.AccountArray != null && ServiceManager.AccountArray.Count > 1)
-//        {
-//            BtnOpenSelectAccount.SetActive(true);
-//        }
-//        else
-//        {
-//            BtnOpenSelectAccount.SetActive(false);
-//        }
-//        SpriteSelectAccount.SetActive(false);
-
-
         BtnLoginUIEventListener.onClick += OnLoginButtonClick;
         AccountUIEventListener.onClick += OnAccountClick;
         ServiceUIEventListener.onClick += OnServerClick;
-//        BtnSelectAccountUIEventListener.onClick += OnSelectAccountClick;
 
-        EventManager.Instance.AddListener<LoginEvent>(OnSCPlayerInfoHandler);
+        //EventManager.Instance.AddListener<LoginEvent>(OnSCPlayerInfoHandler);
         if (ServiceManager.IsCheck)
         {
             FeidouManager.DoLogin();
         }
-//        EventManager.Instance.AddListener<SelectAccountEvent>(OnSelectAccountHandler);
+        else
+        {
+            StartCoroutine(PlayLogo());
+        }
+    }
+
+    IEnumerator PlayLogo()
+    {
+        TexLogo.transform.localPosition = new Vector3(0, 0, 0);
+        TexLogo.transform.localScale = new Vector3(0.01f,0.01f,1);
+        ContainerBox.transform.localPosition = new Vector3(0, 420, 0);
+        yield return new WaitForSeconds(0.1f);
+        PlayTweenScale(TexLogo, 0.3f, new Vector3(0.01f, 0.01f, 1), new Vector3(1.3f,1.3f,1));
+        yield return new WaitForSeconds(0.3f);
+        PlayTweenScale(TexLogo, 0.1f, new Vector3(1.3f, 1.3f, 1), new Vector3(1, 1, 1));
+//        yield return new WaitForSeconds(0.1f);
+//        PlayTweenScale(TexLogo, 0.05f, new Vector3(1, 1, 1), new Vector3(1.2f, 1.2f, 1));
+//        yield return new WaitForSeconds(0.05f);
+//        PlayTweenScale(TexLogo, 0.05f, new Vector3(1.2f, 1.2f, 1), new Vector3(1, 1, 1));
+        yield return new WaitForSeconds(0.2f);
+        PlayTweenPosition(TexLogo, 0.4f, new Vector3(0,0,0), new Vector3(0,180,0));
+        yield return new WaitForSeconds(0.3f);
+        PlayTweenPosition(ContainerBox, 0.4f, new Vector3(0, 420, 0), new Vector3(0, 0, 0));
+    }
+
+    void PlayTweenScale(GameObject obj, float playtime, Vector3 from, Vector3 to)
+    {
+        TweenScale ts = obj.AddComponent<TweenScale>();
+        ts.from = from;
+        ts.to = to;
+        ts.duration = playtime;
+        ts.PlayForward();
+        Destroy(ts, playtime);
+    }
+
+    void PlayTweenPosition(GameObject obj, float playtime, Vector3 from, Vector3 to)
+    {
+        TweenPosition ts = obj.AddComponent<TweenPosition>();
+        ts.from = from;
+        ts.to = to;
+        ts.duration = playtime;
+        ts.PlayForward();
+        Destroy(ts, playtime);
     }
 
     private void ResetAccountList()
     {
-//        var obj = ServiceManager.GetDefaultAccount();
-//        if (obj != null)
-//        {
-            var aclabel = AccountLabel.GetComponent<UILabel>();
+         var aclabel = AccountLabel.GetComponent<UILabel>();
         if (ServiceManager.DebugUserName == "" && ServiceManager.UserName == "")
         {
-            aclabel.text = "";
+            aclabel.text = "µÇÂ¼/×¢²á";
         }
         else
         {
-            aclabel.text = (ServiceManager.IsDebugAccount == 1) ? ServiceManager.DebugUserName : ServiceManager.UserName;
+            var str = (ServiceManager.IsDebugAccount == 1) ? ServiceManager.DebugUserName : ServiceManager.UserName;
+            aclabel.text = "ÕËºÅ£º" + str;
         }
         
-            aclabel.GetComponent<LocalizeWidget>().enabled = false;
-//            aclabel = LabelDefault.GetComponent<UILabel>();
-//            aclabel.text = obj.Account;
-//            ServiceManager.ServerData = ServiceManager.GetServerByUrl(obj.Servers[obj.Servers.Count - 1]);
-//        }
+        aclabel.GetComponent<LocalizeWidget>().enabled = false;
 
         var lb = ServerLabel.GetComponent<UILabel>();
         if (ServiceManager.ServerData != null)
         {
-            lb.text = ServiceManager.ServerData.ServerName;
+            lb.text = "·þÎñÆ÷£º" + ServiceManager.ServerData.ServerName;
             lb.GetComponent<LocalizeWidget>().enabled = false;
         }
-
-//        if (ServiceManager.AccountArray != null)
-//        {
-//            int theindex = 0;
-//            var table = SelectAccountContainer.GetComponent<UITable>();
-//            GameObject item;
-//            for (int i = ServiceManager.AccountArray.Count - 1; i >= 0; i--)
-//            {
-//                if (ServiceManager.AccountArray[i].Account != obj.Account)
-//                {
-//                    if (theindex < table.children.Count)
-//                    {
-//                        item = table.children[theindex].gameObject;
-//                        item.SetActive(true);
-//                    }
-//                    else
-//                    {
-//                        item = NGUITools.AddChild(SelectAccountContainer, AccountItemPrefab);
-//                    }
-//                    var col = item.GetComponent<AccountItemControl>();
-//                    col.SetData(ServiceManager.AccountArray[i]);
-//                    //AccountList.Add(item);
-//                    theindex++;
-//                }
-//            }
-//
-//            while (theindex < table.children.Count)
-//            {
-//                item = table.children[theindex].gameObject;
-//                item.SetActive(false);
-//                theindex++;
-//            }
-//        }
     }
 
-    private bool CheckDeleteAccount(Transform obj)
-    {
-        //throw new System.NotImplementedException();
-        //var item = obj.gameObject.GetComponent<AccountItemControl>();
-        //item
-        return true;
-    }
+//    private bool CheckDeleteAccount(Transform obj)
+//    {
+//        //throw new System.NotImplementedException();
+//        //var item = obj.gameObject.GetComponent<AccountItemControl>();
+//        //item
+//        return true;
+//    }
 
     
 
@@ -135,13 +120,8 @@ public class LoginMainWindow : Window
         if (BtnLoginUIEventListener != null) BtnLoginUIEventListener.onClick -= OnLoginButtonClick;
         if (AccountUIEventListener != null) AccountUIEventListener.onClick -= OnAccountClick;
         if (ServiceUIEventListener != null) ServiceUIEventListener.onClick -= OnServerClick;
-//        if (BtnSelectAccountUIEventListener != null) BtnSelectAccountUIEventListener.onClick -= OnSelectAccountClick;
 
-        EventManager.Instance.RemoveListener<LoginEvent>(OnSCPlayerInfoHandler);
-//        EventManager.Instance.RemoveListener<SelectAccountEvent>(OnSelectAccountHandler);
-
-
-//        GlobalUIEventManager.Instance.EventListener.onClick -= OnFallThroughClick;
+//        EventManager.Instance.RemoveListener<LoginEvent>(OnSCPlayerInfoHandler);
         MtaManager.TrackEndPage(MtaType.LoginMainWindow);
     }
 
@@ -152,35 +132,20 @@ public class LoginMainWindow : Window
     // Use this for initialization
     private void Awake()
     {
-        AccountLabel = transform.FindChild("Sprite - account/Label - account").gameObject;
+        AccountLabel = transform.FindChild("Panel - box/Container - control/Sprite - account/Label - account").gameObject;
+        SpriteAccount = transform.FindChild("Panel - box/Container - control/Sprite - account").gameObject;
+        SpriteServers = transform.FindChild("Panel - box/Container - control/Sprite - server").gameObject;
+        BtnPlay = transform.FindChild("Panel - box/Container - control/Image Button - play").gameObject;
+        ServerLabel = transform.FindChild("Panel - box/Container - control/Sprite - server/Label - server").gameObject;
 
-        SpriteAccount = transform.FindChild("Sprite - account").gameObject;
-        //SpriteAccount.AddComponent<OpenAccountHandler>();
+        TexLogo = transform.FindChild("Texture - logo").gameObject;
+        ContainerBox = transform.FindChild("Panel - box/Container - control").gameObject;
 
-        SpriteServers = transform.FindChild("Sprite - server").gameObject;
-        //SpriteServers.AddComponent<OpenServersHandler>();
-
-        BtnPlay = transform.FindChild("Image Button - play").gameObject;
-        //BtnPlay.AddComponent<PlayHandler>();
-
-        ServerLabel = transform.FindChild("Sprite - server/Label - server").gameObject;
-
-//        BtnOpenSelectAccount = transform.FindChild("Sprite - account/Button - down").gameObject;
-//        SpriteSelectAccount = transform.FindChild("Sprite - select account").gameObject;
-//        LabelDefault = transform.FindChild("Sprite - select account/Label - default").gameObject;
-//        SelectAccountContainer = transform.FindChild("Sprite - select account/Scroll View/Table").gameObject;
-//
-//        AccountItemPrefab = Resources.Load("Prefabs/Component/AccountItem") as GameObject;
+        
 
         BtnLoginUIEventListener = UIEventListener.Get(BtnPlay);
         AccountUIEventListener = UIEventListener.Get(SpriteAccount);
         ServiceUIEventListener = UIEventListener.Get(SpriteServers);
-//        BtnSelectAccountUIEventListener = UIEventListener.Get(BtnOpenSelectAccount);
-    }
-
-    private void Start()
-    {
-//        GlobalUIEventManager.Instance.EventListener.onClick += OnFallThroughClick;
     }
 
     #endregion
@@ -188,7 +153,7 @@ public class LoginMainWindow : Window
     private void OnLoginButtonClick(GameObject game)
     {
         //var obj = ServiceManager.GetDefaultAccount();
-        if (SystemInfo.deviceType == DeviceType.Desktop)
+        if (ServiceManager.OpenTestAccount)
         {
             if (ServiceManager.DebugUserName != "" && ServiceManager.DebugPassword != "")
             {
@@ -215,7 +180,7 @@ public class LoginMainWindow : Window
 
     private void OnAccountClick(GameObject game = null)
     {
-        if (SystemInfo.deviceType == DeviceType.Desktop)
+        if (ServiceManager.OpenTestAccount)
         {
             ServiceManager.IsDebugAccount = 1;
             WindowManager.Instance.Show(typeof(LoginAccountWindow), true);
@@ -231,43 +196,8 @@ public class LoginMainWindow : Window
         WindowManager.Instance.Show(typeof(LoginServersWindow), true);
     }
 
-    private void OnSCPlayerInfoHandler(LoginEvent e)
-    {
-        //ServiceManager.SaveAccount();
-    }
-
-//    private void OnSelectAccountHandler(SelectAccountEvent e)
+//    private void OnSCPlayerInfoHandler(LoginEvent e)
 //    {
-//        if (e.type == SelectAccountEvent.TYPE_CHANGE)
-//        {
-//            ServiceManager.AddAccount(e.account);
-//            ResetAccountList();
-//            SpriteSelectAccount.SetActive(false);
-//            SpriteAccount.SetActive(true);
-//            SpriteServers.SetActive(true);
-//            BtnPlay.SetActive(true);
-//        }
-//        else
-//        {
-//            ServiceManager.DeleteAccount(e.account);
-//            ResetAccountList();
-//            
-//        }
-//    }
-
-//    private void OnSelectAccountClick(GameObject game = null)
-//    {
-//        SpriteSelectAccount.SetActive(true);
-//        SpriteAccount.SetActive(false);
-//        SpriteServers.SetActive(false);
-//        BtnPlay.SetActive(false);
-//    }
-//
-//    private void OnFallThroughClick(GameObject sender)
-//    {
-//        SpriteSelectAccount.SetActive(false);
-//        SpriteAccount.SetActive(true);
-//        SpriteServers.SetActive(true);
-//        BtnPlay.SetActive(true);
+//        //ServiceManager.SaveAccount();
 //    }
 }

@@ -4,6 +4,7 @@ using KXSGCodec;
 public class SortedItem : FriendItem
 {
     public List<string> ThreeWinnerSpriteNames;
+    public string DefaultPassKey = "UIFriendEntry.DefaultRaid";
     public string Separator;
     private UILabel curPass;
     private UILabel highestHit;
@@ -30,6 +31,10 @@ public class SortedItem : FriendItem
             var raid = raidTemp.RaidTmpl[raidStage.RaidId];
             curPass.text = raid.Name + Separator + raidStage.StageName;
         }
+        else
+        {
+            curPass.text = LanguageManager.Instance.GetTextValue(DefaultPassKey);
+        }
     }
 
     public void Init(FriendInfo info, int rank)
@@ -44,7 +49,8 @@ public class SortedItem : FriendItem
         else
         {
             winerSprite.enabled = false;
-            loserLabel.text = "" + rank;
+            //The rank is base on zero, where the display number is based on one.
+            loserLabel.text = "" + (rank + 1);
         }
     }
 }

@@ -10,7 +10,6 @@ namespace com.kx.sglm.gs.battle.share.logic.loop
 	using BattleState = com.kx.sglm.gs.battle.share.enums.BattleState;
 	using InnerBattleEvent = com.kx.sglm.gs.battle.share.@event.InnerBattleEvent;
 	using SceneStartEvent = com.kx.sglm.gs.battle.share.@event.impl.SceneStartEvent;
-	using BattleLogicHelper = com.kx.sglm.gs.battle.share.helper.BattleLogicHelper;
 	using com.kx.sglm.gs.battle.share.logic;
 
 	/// <summary>

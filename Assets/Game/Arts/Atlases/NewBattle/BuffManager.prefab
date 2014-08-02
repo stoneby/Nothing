@@ -28,7 +28,7 @@ GameObject:
   - 114: {fileID: 11400006}
   - 114: {fileID: 11400004}
   m_Layer: 8
-  m_Name: 8_IncreaseData
+  m_Name: 7_IncreaseData
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45,7 +45,7 @@ GameObject:
   - 114: {fileID: 11400008}
   - 114: {fileID: 11400010}
   m_Layer: 8
-  m_Name: 7_Delay
+  m_Name: 8_Delay
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -79,7 +79,7 @@ GameObject:
   - 114: {fileID: 11400016}
   - 114: {fileID: 11400018}
   m_Layer: 8
-  m_Name: 5_Petrify
+  m_Name: 4_Petrify
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -96,7 +96,7 @@ GameObject:
   - 114: {fileID: 11400022}
   - 114: {fileID: 11400020}
   m_Layer: 8
-  m_Name: 4_Freeze
+  m_Name: 5_Freeze
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -113,7 +113,7 @@ GameObject:
   - 114: {fileID: 11400024}
   - 114: {fileID: 11400026}
   m_Layer: 8
-  m_Name: 3_Burn
+  m_Name: 1_Burn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -130,7 +130,7 @@ GameObject:
   - 114: {fileID: 11400030}
   - 114: {fileID: 11400028}
   m_Layer: 8
-  m_Name: 2_Sleep
+  m_Name: 3_Sleep
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -147,7 +147,7 @@ GameObject:
   - 114: {fileID: 11400032}
   - 114: {fileID: 11400034}
   m_Layer: 8
-  m_Name: 1_Palsy
+  m_Name: 2_Palsy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1048,14 +1048,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BuffDisplayerList:
   - {fileID: 11400038}
+  - {fileID: 11400024}
   - {fileID: 11400032}
   - {fileID: 11400030}
-  - {fileID: 11400024}
-  - {fileID: 11400022}
   - {fileID: 11400016}
+  - {fileID: 11400022}
   - {fileID: 11400014}
-  - {fileID: 11400008}
   - {fileID: 11400006}
+  - {fileID: 11400008}
   - {fileID: 11400002}
   BuffColorList:
   - {r: 0, g: 1, b: 0, a: 1}

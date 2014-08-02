@@ -249,11 +249,12 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 			}
 		}
 
-		public override void tryDead()
+		public override bool AllFighterDead
 		{
-			if (CurHp <= 0)
+			get
 			{
-				Deadth = true;
+				return CurHp <= 0;
+    
 			}
 		}
 

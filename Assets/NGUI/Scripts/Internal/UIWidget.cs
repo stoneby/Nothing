@@ -35,12 +35,19 @@ public class UIWidget : UIRect
 	[HideInInspector][SerializeField] protected int mDepth = 0;
 
     /// <summary>
-    /// Offset x for ladder type settings.
+    /// Offset x for ladder type mesh settings.
     /// </summary>
     [HideInInspector]
     [SerializeField]
-    public float OffsetX;
+    public int OffsetX;
 
+    /// <summary>
+    /// Offset y for ladder type mesh settings.
+    /// </summary>
+    [HideInInspector]
+    [SerializeField]
+    public int OffsetY;
+    
     /// <summary>
     /// Mesh factor.
     /// </summary>

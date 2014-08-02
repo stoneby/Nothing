@@ -125,8 +125,8 @@ public class UIHerosPageWindow : Window
     private void OnSortClicked(GameObject go)
     {
         var orderType = HeroModelLocator.Instance.OrderType;
-        orderType = (OrderType)(((int)orderType + 1) % StringTable.SortStrings.Count);
-        sortLabel.text = StringTable.SortStrings[(int)orderType];
+        orderType = (OrderType)(((int)orderType + 1) % (ItemHelper.SortKeys.Count));
+        sortLabel.text = LanguageManager.Instance.GetTextValue(ItemHelper.SortKeys[(int)orderType]);
         HeroModelLocator.Instance.OrderType = orderType;
         Refresh(infos);
         if(OnSortOrderChanged != null)
@@ -159,7 +159,7 @@ public class UIHerosPageWindow : Window
     {
         UpdateItemList(newInfos.Count);
         var orderType = HeroModelLocator.Instance.OrderType;
-        sortLabel.text = StringTable.SortStrings[(int)orderType];
+        sortLabel.text = LanguageManager.Instance.GetTextValue(ItemHelper.SortKeys[(int)orderType]);
         HeroModelLocator.Instance.SortHeroList(orderType, newInfos);
         for (int i = 0; i < newInfos.Count; i++)
         {

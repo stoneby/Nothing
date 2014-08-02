@@ -13,7 +13,10 @@ public class FriendConstant
     public const int AddFriendHandlerIndex = 1;
     public const int FriendEnergyHandlerIndex = 3;
 
+    public const int BindFlag = 0x0001;
+
     public const string ExtendContentKey = "UIFriendEntry.ExtendContent";
     public const string ExtendLimitKey = "UIFriendEntry.ExtendLimit";
-
+    public const sbyte FriendBind = 1;
+    public const sbyte FriendUnBind = 2;
 }

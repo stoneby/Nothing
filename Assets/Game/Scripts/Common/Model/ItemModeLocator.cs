@@ -85,6 +85,10 @@ public class ItemModeLocator
     /// <param name="items">The list of hero info to be sorted.</param>
     public void SortItemList(OrderType sortType, List<ItemInfo> items)
     {
+        if (items == null || items.Count <= 1)
+        {
+            return;
+        }
         switch (sortType)
         {
             case OrderType.Time:

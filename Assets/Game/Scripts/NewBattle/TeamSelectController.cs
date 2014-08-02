@@ -36,8 +36,21 @@ public class TeamSelectController : MonoBehaviour
     public GameObjectHandler OnDeselect;
     public GameObjectHandler OnAttack;
 
+    /// <summary>
+    /// Flag indicates if enable / disable the whole controller.
+    /// </summary>
     public bool Enable;
 
+    /// <summary>
+    /// Flag indicates if auto compute wait stack enabled.
+    /// </summary>
+    public bool AutoWaitEnabled;
+
+    /// <summary>
+    /// Waiting stack that hold waiting hero's position.
+    /// </summary>
+    public List<GameObject> WaitingStackList;
+    
     /// <summary>
     /// Normal dragbar depth.
     /// </summary>
@@ -169,32 +182,8 @@ public class TeamSelectController : MonoBehaviour
             return;
         }
 
-        if (gameObject.GetComponent<BoxCollider>() == null)
-        {
-            gameObject.AddComponent<BoxCollider>();
-        }
-
-        // get latest formation list as default.
-        var positionList = FormationController.LatestPositionList;
-        for (var i = 0; i < CharacterList.Count; ++i)
-        {
-            var character = CharacterList[i];
-            if (i < VisibleCount)
-            {
-                // logic location.
-                character.Location = OneDimensionToTwo(i);
-
-                // world position.
-                character.transform.position = positionList[i];
-            }
-            else
-            {
-                character.transform.position = Vector3.zero;
-                character.gameObject.SetActive(false);
-            }
-            character.Index = i;
-            character.name += "_" + i;
-        }
+        InitOnStagePosition();
+        InitWaitingStackPosition();
 
         // generate bounds according to its children.
         var boundGenerator = GetComponent<BoundsGenerator>() ?? gameObject.AddComponent<BoundsGenerator>();
@@ -486,11 +475,56 @@ public class TeamSelectController : MonoBehaviour
         });
     }
 
+    private void InitOnStagePosition()
+    {
+        // get latest formation list as default.
+        var positionList = FormationController.LatestPositionList;
+        for (var i = 0; i < CharacterList.Count; ++i)
+        {
+            var character = CharacterList[i];
+            if (i < VisibleCount)
+            {
+                // logic location.
+                character.Location = OneDimensionToTwo(i);
+
+                // world position.
+                character.transform.position = positionList[i];
+            }
+            else
+            {
+                character.transform.position = Vector3.zero;
+                character.gameObject.SetActive(false);
+            }
+            character.Index = i;
+            character.name += "_" + i;
+        }
+    }
+
+    private void InitWaitingStackPosition()
+    {
+        if (!AutoWaitEnabled)
+        {
+            return;
+        }
+
+        for (var i = 0; i < Row; ++i)
+        {
+            var index = (Col - 1) * Row + i;
+            var targetPosition = FormationController.LatestPositionList[index];
+
+            var sourcePosition = targetPosition + targetPosition -
+                                 FormationController.LatestPositionList[index - Col];
+
+            Logger.LogWarning("Waiting stack index of: " + index + ", right index: " + (index - Col));
+            WaitingStackList[i].transform.position = sourcePosition;
+        }
+    }
+
     #endregion
 
     #region Mono
 
-    void Start()
+    void Awake()
     {
         Initialize();
     }

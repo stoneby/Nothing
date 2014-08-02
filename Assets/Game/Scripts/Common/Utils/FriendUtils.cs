@@ -17,6 +17,10 @@ public class FriendUtils
         return result;
     }
 
+    public static bool IsFriendBind(FriendInfo info)
+    {
+        return ((info.Status & FriendConstant.BindFlag) != 0);
+    }
 
     /// <summary>
     /// The comparation of friend info by attack.
