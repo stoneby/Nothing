@@ -171,8 +171,7 @@ public class UIHeroDetailWindow : Window
 
     public void RefreshData(HeroInfo info)
     {
-        heroInfo = info;
-        HeroBaseInfoWindow.CurUuid = info.Uuid;
+        HeroInfo = info;
         heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpls[heroInfo.TemplateId];
         RefreshData();
     }

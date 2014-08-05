@@ -39,6 +39,15 @@ public class CharacterBuffController : MonoBehaviour
 
     public UpdateHurtValue OnUpdateHurtValue;
 
+    /// <summary>
+    /// Delegate to seal occurs.
+    /// </summary>
+    /// <param name="sender">Sender</param>
+    /// <param show="show">Flag indicates if show or hide.</param>
+    public delegate void Seal(GameObject sender, bool show);
+
+    public Seal OnSeal;
+
     public float HurtDelay;
 
     public bool CanSelected
@@ -76,6 +85,16 @@ public class CharacterBuffController : MonoBehaviour
 
         // set zero attack flag.
         ZeroAttack = BuffCountManager.ContainsKey(BuffManager.BuffType.Palsy) && (BuffCountManager[BuffManager.BuffType.Palsy] > 0);
+
+        var hasSealed = BuffCountManager.ContainsKey(BuffManager.BuffType.Seal);
+        if (hasSealed)
+        {
+            var isPlaying =  (BuffCountManager[BuffManager.BuffType.Seal] > 0);
+            if (OnSeal != null)
+            {
+                OnSeal(gameObject, isPlaying);
+            }
+        }
     }
 
     public void ShowBuff()
@@ -152,7 +171,8 @@ public class CharacterBuffController : MonoBehaviour
 
     private IEnumerator DoShowDebuff()
     {
-        foreach (var hurt in HurtValueList)
+        var hurtList = HurtValueList.ToList();
+        foreach (var hurt in hurtList)
         {
             if (OnUpdateHurtValue != null)
             {

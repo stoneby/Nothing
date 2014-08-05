@@ -176,6 +176,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
         TeamController.Initialize();
 
         TeamController.CharacterList.ForEach(item => item.BuffController.OnUpdateHurtValue = OnUpdateHurtValue);
+        TeamController.CharacterList.ForEach(item => item.BuffController.OnSeal = OnSeal);
 
         // keep original character list in memory easy for quering.
         originalCharacterList.Clear();
@@ -288,12 +289,10 @@ public class InitBattleField : MonoBehaviour, IBattleView
             if (i >= TeamController.VisibleCount)
             {
                 attackWaitList.Add(character.gameObject);
-                Logger.LogWarning("Add wait list: color, " + character.ColorIndex);
             }
             else
             {
                 charactersLeft[i / TeamController.Row, i % TeamController.Col] = character.gameObject;
-                Logger.LogWarning("Add team list: color, " + character.ColorIndex);
             }
         }
     }
@@ -382,9 +381,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
                                 TeamController.FormationController.LatestPositionList[
                                     TeamController.TwoDimensionToOne(i, j)];
                             iTween.MoveTo(target, targetPosition, duration);
-
-                            Logger.LogWarning("Character: " + target.GetComponent<Character>() + "Move to position: " +
-                                              targetPosition + ", duration: " + duration);
 
                             charactersLeft[k, j] = null;
                             flag = false;
@@ -606,6 +602,15 @@ public class InitBattleField : MonoBehaviour, IBattleView
         yield return StartCoroutine(DoPlayHurt(sender.GetComponent<Character>()));
     }
 
+    private void OnSeal(GameObject sender, bool show)
+    {
+        var character = sender.GetComponent<Character>();
+        if (character.IsLeader)
+        {
+            leaderController.PlaySeal(character.Index, show);
+        }
+    }
+
     private IEnumerator DoPlayHurt(Character character)
     {
         yield return new WaitForSeconds(GameConfig.HeroBeenAttrackTime);
@@ -774,8 +779,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
             obj = TeamController.SelectedCharacterList[TeamController.SelectedCharacterList.Count - 1].gameObject;
             var cc = obj.GetComponent<CharacterControl>();
 
-            Logger.LogWarning("Nine fighting character: " + obj.name);
-
             CameraEffect.LookAt = obj.transform;
             CameraEffect.LookAtTime = GameConfig.MoveCameraTime;
             CameraEffect.LookInto();
@@ -928,7 +931,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
     {
         var enemyList = BattleModelLocator.Instance.EnemyList;
         var enemyIndexBase = (currentEnemyGroupIndex == 0) ? 0 : BattleModelLocator.Instance.EnemyGroup[currentEnemyGroupIndex - 1];
-        Logger.LogWarning("Check enemy index base: " + enemyIndexBase);
         var deadList = new List<int>();
         for (var i = 0; i < EnemyController.CharacterList.Count; ++i)
         {
@@ -1167,8 +1169,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
 
         var character = obj.GetComponent<Character>();
         charactersLeft[character.Location.X, character.Location.Y] = null;
-
-        Logger.LogWarning("Return object: " + obj.name + ", location: " + character.Location);
     }
 
     private void OnLeaderUseHandler(LeaderUseEvent e)
@@ -1300,7 +1300,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
         var cantiner = GameObject.Find("Anchor-left");
 
         var basey = thecount * 160 / 2 - 300;
-        Logger.Log(basey);
         const int offsety = -160;
         float delay = 0;
         for (var i = 0; i < thecount; i++)
@@ -1506,8 +1505,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
     {
         Logger.LogWarning("[-----RECORD-----] - Battle Debug Record: \n" + battleDebugRecord);
 
-        Logger.LogWarning(TeamController);
-
         for (var i = 0; i < battleDebugRecord.PointList.Count; ++i)
         {
             var left = battleDebugRecord.PointList[i];
@@ -1557,15 +1554,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
         DealWithRecord();
     }
 
-    private void PrintColor()
-    {
-        attackWaitList.ForEach(item =>
-        {
-            var character = item.GetComponent<Character>();
-            Logger.Log("Foot manager color to set: " + character);
-        });
-    }
-
     /// <summary>
     /// Show record of hero's color and index.
     /// </summary>
@@ -1581,8 +1569,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
             battleModelLocator.NextList = battleIndexRecord.FillPointList;
             // fill in all character list colors.
             SetColors(TeamController.CharacterList);
-
-            PrintColor();
 
             // init next foot manager's on stage color list.
             footManager.OnStageColorList =
@@ -1602,8 +1588,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
             // init next foot manager's waiting color list.
             footManager.WaitingColorList = battleModelLocator.NextList.Select(item => item.Color).ToList();
         }
-
-        Logger.LogWarning(battleModelLocator);
 
         if (battleIndexRecord.prop.ContainsKey(BattleRecordConstants.BATTLE_HERO_TOTAL_HP))
         {
@@ -1792,12 +1776,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
     private void RequestRecords()
     {
         recordList = BattleModelLocator.Instance.MainBattle.Record.reportRecordListAndClear();
-
-        foreach (var record in recordList)
-        {
-            Logger.LogWarning("RequestRecords: " + record);
-        }
-
         recordIndex = 0;
         DealWithRecord();
     }

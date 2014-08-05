@@ -17,12 +17,14 @@ public class LeaderGroupController : MonoBehaviour
     {
         if (fighterList == null || fighterList.Count <= BattleModelLocator.MinHerosCount)
         {
+            Debug.LogError("figher list should not be null.");
             return;
         }
 
         for (var i = 0; i < LeaderIndex.Count; ++i)
         {
-            LeaderList[i].SetData(fighterList[LeaderIndex[i]], LeaderIndex[i]);
+            var leaderIndex = LeaderIndex[i];
+            LeaderList[i].SetData(fighterList[leaderIndex], leaderIndex);
         }
     }
 
@@ -39,6 +41,12 @@ public class LeaderGroupController : MonoBehaviour
     {
         TotalLeaderCD = 0;
         LeaderList.ForEach(item => item.Reset());
+    }
+
+    public void PlaySeal(int leaderIndex, bool show)
+    {
+        var index = LeaderIndex.IndexOf(leaderIndex);
+        LeaderList[index].PlaySeal(show);
     }
 
     public void Awake()

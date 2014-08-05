@@ -50,7 +50,13 @@ public class TeamSelectController : MonoBehaviour
     /// Waiting stack that hold waiting hero's position.
     /// </summary>
     public List<GameObject> WaitingStackList;
-    
+
+    /// <summary>
+    /// Collider factor that make drag more comfortable and better user experience.
+    /// </summary>
+    [Range(0f, 1f)]
+    public float ColliderFactor = 1f;
+
     /// <summary>
     /// Normal dragbar depth.
     /// </summary>
@@ -212,6 +218,8 @@ public class TeamSelectController : MonoBehaviour
 
         dragStart = false;
         DragBarPool.ObjectList.ForEach(bar => DragBarPool.Return(bar));
+
+        AdjustColliders(1 / ColliderFactor);
     }
 
     public void OnDragOverAnotherTeamHandler(GameObject target)
@@ -297,6 +305,7 @@ public class TeamSelectController : MonoBehaviour
 
         dragStart = true;
         SelectedCharacterList.Clear();
+        AdjustColliders(ColliderFactor);
 
         if (OnStart != null)
         {
@@ -420,6 +429,15 @@ public class TeamSelectController : MonoBehaviour
         return bounds.Contains(worldPos);
     }
 
+    private void AdjustColliders(float factor)
+    {
+        CharacterList.ForEach(character =>
+        {
+            var boxCollider = character.GetComponent<BoxCollider>();
+            boxCollider.size *= factor;
+        });
+    }
+
     private void DrawDragBar(GameObject sender)
     {
         // fix last drag bar's width and rotation.
@@ -524,7 +542,7 @@ public class TeamSelectController : MonoBehaviour
 
     #region Mono
 
-    void Awake()
+    void Start()
     {
         Initialize();
     }

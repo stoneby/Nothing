@@ -1,5 +1,6 @@
 ﻿using KXSGCodec;
 using Template;
+using Template.Auto.Raid;
 using UnityEngine;
 
 public class MissionItemControl : KxItemRender
@@ -77,7 +78,7 @@ public class MissionItemControl : KxItemRender
         var sp = flagSprite.GetComponent<UISprite>();
         if (IsRaid)
         {
-            lb.text = RaidTemp.Name;
+            lb.text = RaidTemp.RaidName;
             energyCountLabel.SetActive(false);
             var starcount = MissionModelLocator.Instance.GetRaidStarCount(RaidData.TemplateId);
             if (starcount <= 0)

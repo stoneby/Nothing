@@ -1,4 +1,5 @@
 ﻿using Assets.Game.Scripts.Common.Model;
+using com.kx.sglm.gs.battle.share;
 using com.kx.sglm.gs.battle.share.data;
 using com.kx.sglm.gs.battle.share.enums;
 using com.kx.sglm.gs.battle.share.factory.creater;
@@ -35,7 +36,7 @@ namespace Assets.Game.Scripts.Net.handler
                 allFighterList.AddRange(BattleModelLocator.Instance.EnemyList);
                 var source = BattleModelLocator.Instance.Source;
                 BattleModelLocator.Instance.Source.FighterProp = allFighterList;
-
+                source.spMaxBuffId = battlestartmsg.SpMaxBuffId;
                 source.heroSkillList.AddRange(battlestartmsg.HeroSkillList);
                 source.MonsterAIList.AddRange(battlestartmsg.MonsterAIList);
                 source.monsterSkillList.AddRange(battlestartmsg.MonsterSkillList);

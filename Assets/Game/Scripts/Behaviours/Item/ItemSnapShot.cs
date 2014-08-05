@@ -62,7 +62,7 @@ public class ItemSnapShot : MonoBehaviour
             var msg = new CSHeroChangeEquip()
             {
                 EquipUuid = info.Id,
-                HeroUuid = HeroBaseInfoWindow.CurUuid,
+                HeroUuid = detailWindow.HeroInfo.Uuid,
                 Index = detailWindow.CurEquipIndex
             };
             NetManager.SendMessage(msg);

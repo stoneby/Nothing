@@ -261,6 +261,11 @@ namespace com.kx.sglm.gs.battle.share.buff
 				return this.stackingList.Count == 0;
 			}
 		}
+
+		public virtual void printInfo()
+		{
+			Logger.Log(string.Format("buffId = {0:D}, leftRound = {1:D}", buffAction.Id, stackingList.First.Value.LeftRound));
+		}
 	}
 
 }

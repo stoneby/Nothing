@@ -20,7 +20,7 @@ public class HeroLockHandler : MonoBehaviour
     private int cachedLockCount;
     private UILabel sortLabel;
     private UIEventListener sortBtnLis;
-    private UIHerosPageWindow herosWindow;
+    //private UIHerosPageWindow herosWindow;
 
     #endregion
 
@@ -28,7 +28,7 @@ public class HeroLockHandler : MonoBehaviour
 
     private void OnEnable()
     {
-        herosWindow = WindowManager.Instance.GetWindow<UIHerosPageWindow>();
+        //herosWindow = WindowManager.Instance.GetWindow<UIHerosPageWindow>();
         InitLockData();
         var capacity = PlayerModelLocator.Instance.HeroMax;
         bindCount.text = string.Format("{0}/{1}", cachedLockCount, capacity);
@@ -101,16 +101,16 @@ public class HeroLockHandler : MonoBehaviour
 
     private void ShowLockMask(long uid, bool show)
     {
-        var itemsTran = herosWindow.Heros.transform;
-        for (var i = 0; i < itemsTran.childCount; i++)
-        {
-            var item = itemsTran.GetChild(i).GetComponent<HeroItem>();
-            if (item.Uuid == uid)
-            {
-                item.ShowLockMask(show);
-                break;
-            }
-        }
+        //var itemsTran = herosWindow.Heros.transform;
+        //for (var i = 0; i < itemsTran.childCount; i++)
+        //{
+        //    var item = itemsTran.GetChild(i).GetComponent<HeroItem>();
+        //    if (item.Uuid == uid)
+        //    {
+        //        item.ShowLockMask(show);
+        //        break;
+        //    }
+        //}
     }
 
     private bool LockStateChanged()

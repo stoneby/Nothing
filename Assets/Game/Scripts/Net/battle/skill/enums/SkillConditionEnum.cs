@@ -5,6 +5,8 @@ namespace com.kx.sglm.gs.battle.share.skill.enums
 	using IBattlePartInfo = com.kx.sglm.gs.battle.share.enums.IBattlePartInfo;
 	using FighterLeaderCondition = com.kx.sglm.gs.battle.share.skill.condition.FighterLeaderCondition;
 	using HPLeftMoreCondition = com.kx.sglm.gs.battle.share.skill.condition.HPLeftMoreCondition;
+	using NIndexConnectCondition = com.kx.sglm.gs.battle.share.skill.condition.NIndexConnectCondition;
+	using NPointConnectCondition = com.kx.sglm.gs.battle.share.skill.condition.NPointConnectCondition;
 	using SkillRateCondition = com.kx.sglm.gs.battle.share.skill.condition.SkillRateCondition;
 
 	public abstract class SkillConditionEnum : BaseBattleFactoryEnum
@@ -24,7 +26,6 @@ namespace com.kx.sglm.gs.battle.share.skill.enums
 				return null;
 			}
 		}
-
 
 		public static readonly SkillConditionEnum RATE = new SkillConditionEnumAnonymousInnerClassHelper2();
 
@@ -71,12 +72,41 @@ namespace com.kx.sglm.gs.battle.share.skill.enums
 			}
 		}
 
+		public static readonly SkillConditionEnum NINDEX_CONNECT = new SkillConditionEnumAnonymousInnerClassHelper5();
+
+		private class SkillConditionEnumAnonymousInnerClassHelper5 : SkillConditionEnum
+		{
+			public SkillConditionEnumAnonymousInnerClassHelper5() : base(4)
+			{
+			}
+
+
+			public override IBattlePartInfo createInstance()
+			{
+				return new NIndexConnectCondition();
+			}
+		}
+
+		public static readonly SkillConditionEnum NPOINT_CONNECT = new SkillConditionEnumAnonymousInnerClassHelper6();
+
+		private class SkillConditionEnumAnonymousInnerClassHelper6 : SkillConditionEnum
+		{
+			public SkillConditionEnumAnonymousInnerClassHelper6() : base(5)
+			{
+			}
+
+
+			public override IBattlePartInfo createInstance()
+			{
+				return new NPointConnectCondition();
+			}
+		}
+
 		public SkillConditionEnum(int index) : base(index)
 		{
 		}
 
-
-		private static readonly SkillConditionEnum[] VALUES = new SkillConditionEnum[] {NIL, RATE, HP_LEFT_CONDITION, LEADER_CONDITION};
+		private static readonly SkillConditionEnum[] VALUES = new SkillConditionEnum[] {NIL, RATE, HP_LEFT_CONDITION, LEADER_CONDITION, NINDEX_CONNECT, NPOINT_CONNECT};
 
 		public static SkillConditionEnum[] values()
 		{

@@ -254,6 +254,10 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 
 		public virtual void addBuff(int buffId)
 		{
+			if (!hasHp())
+			{
+				return;
+			}
 			buffManager.addBuff(buffId);
 		}
 
@@ -296,7 +300,8 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 
 		public virtual void onSceneStop()
 		{
-			buffManager.clearAllBuff();
+			buffManager.onSceneStop();
+	//		stateManager.clearState();
 			stateManager.clearState();
 		}
 
@@ -340,11 +345,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 		{
 			get
 			{
-				if (!baseProp.BattleProperty.ContainsKey(RoleAProperty.HP))
-				{
-					Logger.Log("error");
-				}
-				return baseProp.BattleProperty[RoleAProperty.HP];
+				return (int)fighterProp.BattleProp.get(RoleAProperty.HP);
 			}
 		}
 
@@ -352,7 +353,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 		{
 			get
 			{
-				return baseProp.BattleProperty[RoleAProperty.MP];
+				return (int)fighterProp.BattleProp.get(RoleAProperty.MP);
 			}
 		}
 
@@ -391,6 +392,20 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 			{
 				Dead = true;
 			}
+		}
+
+		public virtual void randomSpMax()
+		{
+			float _lucky = fighterProp.BattleProp.get(RoleAProperty.LUCY);
+			if (MathUtils.randomRate(_lucky, BattleConstants.BATTLE_RATIO_BASE))
+			{
+				addSpMaxBuff();
+			}
+		}
+
+		public virtual void addSpMaxBuff()
+		{
+			addBuff(BattleActionService.Service.SpMaxBuffId);
 		}
 
 		public virtual BattleSideEnum BattleSide

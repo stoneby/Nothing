@@ -42,6 +42,8 @@ namespace com.kx.sglm.gs.battle.share.data
 		/// 战斗开始时间 </summary>
 		protected internal long startTime;
 
+		protected internal int spMaxBuffId;
+
 		/// <summary>
 		/// 英雄技能列表 </summary>
 		protected internal List<BattleHeroSkillMsgAction> heroSkillList;
@@ -182,6 +184,19 @@ namespace com.kx.sglm.gs.battle.share.data
 			set
 			{
 				this.buffList = value;
+			}
+		}
+
+
+		public virtual int SpMaxBuffId
+		{
+			get
+			{
+				return spMaxBuffId;
+			}
+			set
+			{
+				this.spMaxBuffId = value;
 			}
 		}
 

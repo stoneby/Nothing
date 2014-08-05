@@ -25,7 +25,7 @@ namespace com.kx.sglm.gs.battle.share.buff.effect
 
 		public override void onRemove(BattleFighter fighter)
 		{
-			fighter.BuffManager.addBuff(Id);
+			fighter.addBuff(Id);
 			Logger.Log(string.Format("shield remove, index = {0:D}", fighter.Index));
 		}
 

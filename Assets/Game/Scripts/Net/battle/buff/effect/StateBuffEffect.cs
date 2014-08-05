@@ -29,11 +29,6 @@ namespace com.kx.sglm.gs.battle.share.buff.effect
 		}
 
 
-		public override void onAttack(BattleFighter attacker)
-		{
-
-		}
-
 		public override void build(params string[] param)
 		{
 

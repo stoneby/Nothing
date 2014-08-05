@@ -28,7 +28,7 @@ namespace Assets.Game.Scripts.Net.handler
                     }
                     else if(HeroModelLocator.Instance.GetHeroPos == RaidType.GetHeroInHeroCreateTeam)
                     {
-                        WindowManager.Instance.Show<UITeamShowingWindow>(true);
+                        //WindowManager.Instance.Show<UITeamShowingWindow>(true);
                     }
                     break;
 
@@ -85,7 +85,6 @@ namespace Assets.Game.Scripts.Net.handler
                     if(themsg != null)
                     {
                         PlayerModelLocator.Instance.HeroMax = themsg.RefreshHeroCountLimit;
-                        WindowManager.Instance.GetWindow<UIHeroDispTabWindow>().HeroViewHandler.Refresh();
                     }
                     break;
                 case (short) MessageType.SC_HERO_CHANGE_EQUIP:
@@ -94,7 +93,6 @@ namespace Assets.Game.Scripts.Net.handler
                     {
                         var heroDetail = WindowManager.Instance.GetWindow<UIHeroDetailWindow>();
                         heroDetail.HeroInfo.EquipUuid[heroDetail.CurEquipIndex] = hChangeEquipMsg.EquipUuid;
-                        //heroDetail.RefreshData(heroDetail.HeroInfo);
                         heroDetail.EquipOver(heroDetail.HeroInfo);
                     }
                     break;
@@ -109,7 +107,7 @@ namespace Assets.Game.Scripts.Net.handler
                             var heroInfo = HeroModelLocator.Instance.FindHero(uid);
                             heroInfo.Bind = !heroInfo.Bind;
                         }
-                        WindowManager.Instance.GetWindow<UIHerosPageWindow>().Refresh(HeroModelLocator.Instance.SCHeroList.HeroList);
+                        //WindowManager.Instance.GetWindow<UIHerosPageWindow>().Refresh(HeroModelLocator.Instance.SCHeroList.HeroList);
                     }
                     break;
             }

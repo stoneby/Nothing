@@ -51,6 +51,11 @@ public class Character : MonoBehaviour
     public int ColorIndex;
 
     /// <summary>
+    /// Flag indicates if current character is leader.
+    /// </summary>
+    public bool IsLeader;
+
+    /// <summary>
     /// Animator if any.
     /// </summary>
     public Animator Animator;

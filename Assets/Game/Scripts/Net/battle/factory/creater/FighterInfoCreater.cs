@@ -25,6 +25,7 @@ namespace com.kx.sglm.gs.battle.share.factory.creater
 		public static void initBattleSkillService(BattleSource battleSource)
 		{
 			BattleActionService _service = BattleActionService.Service;
+			_service.SpMaxBuffId = battleSource.SpMaxBuffId;
 			_service.initNormalAction();
 			_service.initTemplateHeroSkillAction(battleSource.HeroSkillList);
 			_service.initTemplateMonsterSkillAction(battleSource.MonsterSkillList);

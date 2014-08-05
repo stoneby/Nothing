@@ -62,7 +62,7 @@ namespace com.kx.sglm.gs.battle.share.skill.creater
 			{
 				AbstractBuffEffect _buffAction = (AbstractBuffEffect) values[obj.Buffkey].createInstance();
 				_buffAction.Id = obj.BuffId;
-				_buffAction.BuffFlag = obj.Buffkey;
+				_buffAction.BuffFlag = obj.BuffFlag;
 				_buffAction.TypeA = obj.TypeA;
 				_buffAction.TypeB = obj.TypeB;
 				_buffAction.CDRound = obj.Round;

@@ -119,6 +119,7 @@ MonoBehaviour:
   mHeight: 126
   mDepth: 3
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -171,6 +172,7 @@ MonoBehaviour:
   mHeight: 100
   mDepth: 2
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -203,8 +205,10 @@ MonoBehaviour:
   SpriteBg: {fileID: 100002}
   SpriteLight: {fileID: 100000}
   SpriteHead: {fileID: 11400006}
-  LeaderIndex: 0
-  HeadIndex: 0
+  Data:
+    LeaderIndex: 0
+    BaseCd: 0
+  SealEffect: {fileID: 100016, guid: dd207e2b9571fe34f82c55417c630892, type: 2}
 --- !u!114 &11400006
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -239,6 +243,7 @@ MonoBehaviour:
   mHeight: 90
   mDepth: 4
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0

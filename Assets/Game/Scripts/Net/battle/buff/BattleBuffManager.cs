@@ -226,6 +226,35 @@ namespace com.kx.sglm.gs.battle.share.buff
 			}
 		}
 
+		public virtual HashSet<int> AllBuffIds
+		{
+			get
+			{
+				return getBuffIdsInHolder(buffHolderMap);
+			}
+		}
+
+		public virtual HashSet<int> AllDebuffIds
+		{
+			get
+			{
+				return getBuffIdsInHolder(debuffHolderMap);
+			}
+		}
+
+		protected internal virtual HashSet<int> getBuffIdsInHolder(Dictionary<int, BuffTypeHolder> holderMap)
+		{
+			HashSet<int> _buffIds = new HashSet<int>();
+			foreach (BuffTypeHolder _holder in holderMap.Values)
+			{
+				foreach (int _buffId in _holder.BuffIds)
+				{
+					_buffIds.Add(_buffId);
+				}
+			}
+			return _buffIds;
+		}
+
 		/// <summary>
 		/// add buff effect to fighter, every team shot effect once
 		/// </summary>
@@ -260,6 +289,12 @@ namespace com.kx.sglm.gs.battle.share.buff
 			{
 				removeSingleBuff(_buff);
 			}
+		}
+
+		public virtual void removeSingleBuff(int buffId)
+		{
+			BattleFighterBuff _buff = get(buffId);
+			removeSingleBuff(_buff);
 		}
 
 
@@ -415,7 +450,34 @@ namespace com.kx.sglm.gs.battle.share.buff
 		{
 			allBuffs.Clear();
 			buffHolderMap.Clear();
+			debuffHolderMap.Clear();
 		}
+
+		public virtual void onSceneStop()
+		{
+			printAllBuffs();
+			removeAllBuffByType(debuffHolderMap);
+		}
+
+		protected internal virtual void removeAllBuffByType(Dictionary<int, BuffTypeHolder> toRemoveHolder)
+		{
+			HashSet<int> _allIds = getBuffIdsInHolder(toRemoveHolder);
+			foreach (int _id in _allIds)
+			{
+				removeSingleBuff(_id);
+			}
+			toRemoveHolder.Clear();
+		}
+
+
+		protected internal virtual void printAllBuffs()
+		{
+			foreach (BattleFighterBuff _buff in allBuffs.Values)
+			{
+				_buff.printInfo();
+			}
+		}
+
 	}
 
 }

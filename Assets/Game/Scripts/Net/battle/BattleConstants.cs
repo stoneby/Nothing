@@ -149,6 +149,8 @@ namespace com.kx.sglm.gs.battle.share
 		/// 护盾提供的减伤比例 </summary>
 		public const float MONSTER_SHIELD_DAMAGE_REDUCE = 2000;
 
+		public const int SP_MAX_NEED_RECOVER = 4;
+
 	}
 
 }

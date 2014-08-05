@@ -124,13 +124,13 @@ namespace Assets.Game.Scripts.Net.handler
             var themsg = msg.GetContent() as SCItemLockOperSucc;
             if (themsg != null)
             {
-                for (int i = 0; i < ItemLockHandler.ChangedLockList.Count; i++)
-                {
-                    var bagIndex = ItemLockHandler.ChangedLockList[i];
-                    var itemInfo = ItemModeLocator.Instance.FindItem(bagIndex);
-                    itemInfo.BindStatus = (sbyte)(1 - itemInfo.BindStatus);
-                }
-                WindowManager.Instance.GetWindow<UItemsWindow>().Refresh(ItemModeLocator.Instance.ScAllItemInfos.ItemInfos);
+                //for (int i = 0; i < ItemLockHandler.ChangedLockList.Count; i++)
+                //{
+                //    var bagIndex = ItemLockHandler.ChangedLockList[i];
+                //    var itemInfo = ItemModeLocator.Instance.FindItem(bagIndex);
+                //    itemInfo.BindStatus = (sbyte)(1 - itemInfo.BindStatus);
+                //}
+                //WindowManager.Instance.GetWindow<UItemsWindow>().Refresh(ItemModeLocator.Instance.ScAllItemInfos.ItemInfos);
             }
         }
 
@@ -180,7 +180,7 @@ namespace Assets.Game.Scripts.Net.handler
             if (themsg != null)
             {
                 ItemModeLocator.Instance.ScAllItemInfos.Capacity = themsg.Capacity;
-                WindowManager.Instance.GetWindow<UIEquipDispTabWindow>().ItemViewHandler.Refresh();
+                //WindowManager.Instance.GetWindow<UIEquipDispTabWindow>().ItemViewHandler.Refresh();
             }
         }
     }

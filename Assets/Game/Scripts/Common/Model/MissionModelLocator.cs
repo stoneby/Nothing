@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using Template;
+using Template.Auto.Raid;
 using Object = UnityEngine.Object;
 
 public sealed class MissionModelLocator
@@ -64,18 +65,18 @@ public sealed class MissionModelLocator
 
     public RaidTemplate GetRaidByTemplateId(int templateid)
     {
-        if (RaidTemplates != null && RaidTemplates.RaidTmpl != null && RaidTemplates.RaidTmpl.ContainsKey(templateid))
+        if (RaidTemplates != null && RaidTemplates.RaidTmpls != null && RaidTemplates.RaidTmpls.ContainsKey(templateid))
         {
-            return RaidTemplates.RaidTmpl[templateid];
+            return RaidTemplates.RaidTmpls[templateid];
         }
         return null;
     }
 
     public RaidStageTemplate GetRaidStagrByTemplateId(int templateid)
     {
-        if (RaidTemplates != null && RaidTemplates.RaidStageTmpl != null && RaidTemplates.RaidStageTmpl.ContainsKey(templateid))
+        if (RaidTemplates != null && RaidTemplates.RaidStageTmpls != null && RaidTemplates.RaidStageTmpls.ContainsKey(templateid))
         {
-            return RaidTemplates.RaidStageTmpl[templateid];
+            return RaidTemplates.RaidStageTmpls[templateid];
         }
         return null;
     }
@@ -165,7 +166,7 @@ public sealed class MissionModelLocator
 
     public List<RaidInfo> GetRaidsByType(int thetype)
     {
-        var raidtemplates = RaidTemplates.RaidTmpl;
+        var raidtemplates = RaidTemplates.RaidTmpls;
         var newraids = new List<RaidInfo>();
         var raids = (thetype == RaidType.RaidElite) ? RaidLoadingAll.RaidInfoElite : RaidLoadingAll.RaidInfoMaster;
         foreach (KeyValuePair<int, RaidTemplate> item in raidtemplates)
@@ -188,7 +189,7 @@ public sealed class MissionModelLocator
                     raid.StateInfo = new List<RaidStageInfo>();
                 }
 
-                foreach (KeyValuePair<int, RaidStageTemplate> stageitem in RaidTemplates.RaidStageTmpl)
+                foreach (KeyValuePair<int, RaidStageTemplate> stageitem in RaidTemplates.RaidStageTmpls)
                 {
                     if (stageitem.Value.RaidId == raid.TemplateId)
                     {
@@ -263,7 +264,7 @@ public sealed class MissionModelLocator
             return;
         }
 
-        var raidtemplates = Instance.RaidTemplates.RaidStageTmpl;
+        var raidtemplates = Instance.RaidTemplates.RaidStageTmpls;
         TotalStageCount = new Dictionary<int, int>();
         TotalStarCount = new Dictionary<int, int>();
 

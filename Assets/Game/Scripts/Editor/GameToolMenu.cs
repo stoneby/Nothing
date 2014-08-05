@@ -1,4 +1,5 @@
 ﻿using UnityEditor;
+using UnityEngine;
 
 /// <summary>
 /// Tool menu shows on unity menu bar.
@@ -43,10 +44,10 @@ public static class GameToolMenu
         EditorWindow.GetWindow<LocalizationManagerEditorWindow>(false, "Localization Manager", true);
     }
 
-    [MenuItem("Tool/Battle Ground Configurator", false, 0)]
-    static public void OpenBattleGroundConfigurator()
+    [MenuItem("Tool/AltasReplacer", false, 0)]
+    static public void OpenAltasReplacer()
     {
-        EditorWindow.GetWindow<BattlegroundEditorWindow>(false, "Battle Ground Configurator", true);
+        EditorWindow.GetWindow<AltasReplacerEditorWindow>(false, "Altas Replacer", true);
     }
 
     #endregion

@@ -25,11 +25,11 @@ public class SortedItem : FriendItem
         base.Init(info);
         highestHit.text = info.MaxDamage.ToString();
         var raidTemp = MissionModelLocator.Instance.RaidTemplates;
-        if(raidTemp.RaidStageTmpl.ContainsKey(info.RaidStageId))
+        if(raidTemp.RaidStageTmpls.ContainsKey(info.RaidStageId))
         {
-            var raidStage = raidTemp.RaidStageTmpl[info.RaidStageId];
-            var raid = raidTemp.RaidTmpl[raidStage.RaidId];
-            curPass.text = raid.Name + Separator + raidStage.StageName;
+            var raidStage = raidTemp.RaidStageTmpls[info.RaidStageId];
+            var raid = raidTemp.RaidTmpls[raidStage.RaidId];
+            curPass.text = raid.RaidName + Separator + raidStage.StageName;
         }
         else
         {

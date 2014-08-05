@@ -161,6 +161,15 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 			joinWatingHeroList(_fighterList);
 		}
 
+		protected internal virtual void randomCreateSpMax(HeroPoint heroPoint)
+		{
+			if (heroPoint.Color.Recover)
+			{
+				return;
+			}
+			heroPoint.Fighter.randomSpMax();
+		}
+
 		protected internal virtual void joinWatingHeroList(List<BattleFighter> fighterList)
 		{
 //JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
@@ -178,6 +187,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 		public virtual HeroPoint createHeroPoint(BattleFighter battleFighter, HeroColor color)
 		{
 			HeroPoint _newPoint = new HeroPoint(battleFighter, color);
+			randomCreateSpMax(_newPoint);
 			indexedHeroPoint[battleFighter.Index] = _newPoint;
 			return _newPoint;
 		}
@@ -275,9 +285,10 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 			// TODO: 这里不太好先重构
 			BattleIndexRecord _indexRecord = Battle.Record.OrCreateIndexRecord;
 			updateCurActionArr(battleIndexes);
-			calcFighterAction();
+			bool _isRecover = CurActionRecover;
+			calcFighterAction(_isRecover);
+			createSpMaxForRecover(_isRecover);
 			addProp(BattleKeyConstants.BATTLE_KEY_HERO_TEAM_TARGET, targetIndex);
-			printAllColor("#handleBattleFightInfo");
 			return true;
 		}
 
@@ -302,17 +313,46 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 			return true;
 		}
 
-		protected internal virtual void calcFighterAction()
+		protected internal virtual bool CurActionRecover
+		{
+			get
+			{
+				return getHeroPoint(curActionArr[0]).Color.Recover;
+			}
+		}
+
+		protected internal virtual void calcFighterAction(bool isRecover)
 		{
 			BattleTeamFightRecord _record = Battle.Record.OrCreateTeamFighterRecord;
+			if (isRecover)
+			{
+				return;
+			}
 			for (int _i = 0; _i < curActionArr.Length; _i++)
 			{
 				HeroPoint _point = getHeroPoint(curActionArr[_i]);
-				if (_point.Color.Recover)
-				{
-					continue;
-				}
 				_point.Fighter.onHandleFightInputAction(_record);
+			}
+		}
+
+		protected internal virtual void createSpMaxForRecover(bool isRecover)
+		{
+			if (!isRecover)
+			{
+				return;
+			}
+			if (curActionArr.Length < BattleConstants.SP_MAX_NEED_RECOVER)
+			{
+				return;
+			}
+			foreach (HeroPoint _point in waitingHeroList)
+			{
+				if (!_point.Color.Recover)
+				{
+					_point.Fighter.randomSpMax();
+					//只生成一个SP
+					break;
+				}
 			}
 		}
 
@@ -497,27 +537,6 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 			actionRecord.addProp(BattleRecordConstants.BATTLE_HERO_PROP_COLOR_CHANGE, _point.Color.Index);
 		}
 
-		protected internal virtual void printAllColor(string @event)
-		{
-			StringBuilder _sb = new StringBuilder();
-			_sb.Append("curAction: ");
-			foreach (int _index in curActionArr)
-			{
-				_sb.Append(_index).Append(";");
-			}
-			_sb.Append("  curPoint: ");
-			foreach (HeroPoint _point in battlingHeroArr)
-			{
-				_sb.Append(_point.toLogString()).Append(";");
-			}
-			_sb.Append("  curWaiting: ");
-			foreach (HeroPoint _point in waitingHeroList)
-			{
-				_sb.Append(_point.toLogString()).Append(";");
-			}
-			Logger.Log(_sb.ToString());
-		}
-
 		public override int getFighterColor(int fighterIndex)
 		{
 			HeroPoint _point = indexedHeroPoint[fighterIndex];
@@ -561,7 +580,6 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 		{
 			return CurFightIndex;
 		}
-
 
 	}
 

@@ -115,6 +115,19 @@ namespace com.kx.sglm.gs.battle.share.buff
 			}
 		}
 
+		public virtual ICollection<int> BuffIds
+		{
+			get
+			{
+				HashSet<int> _ids = new HashSet<int>();
+				foreach (BattleFighterBuff _buff in buffMap.Values)
+				{
+					_ids.Add(_buff.BuffId);
+				}
+				return _ids;
+			}
+		}
+
 	}
 
 }

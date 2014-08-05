@@ -34,6 +34,8 @@ namespace com.kx.sglm.gs.battle.share
 		/// 因为需要转换成C#代码，这个类没有被归入全局的GSService，使用自己的单例，在客户端战斗中这个地方是用的时候才创建的，而且不包括全部的技能 </summary>
 		private static BattleActionService service = new BattleActionService();
 
+		private int spMaxBuffId;
+
 		/// <summary>
 		/// 英雄普通攻击 </summary>
 		private BaseHeroBattleSkillAction normalHeroAttack;
@@ -194,6 +196,21 @@ namespace com.kx.sglm.gs.battle.share
 				allBuffAction[_action.Id] = _action;
 			}
 		}
+
+
+
+		public virtual int SpMaxBuffId
+		{
+			get
+			{
+				return spMaxBuffId;
+			}
+			set
+			{
+				this.spMaxBuffId = value;
+			}
+		}
+
 
 		public virtual BaseHeroBattleSkillAction NormalHeroAttack
 		{

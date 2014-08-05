@@ -95,6 +95,7 @@ namespace com.kx.sglm.gs.battle.share.executer.impl
 		public override void initDataOnCreate()
 		{
 			//初始化英雄站位
+			attackerTeam().recalcTeamProp();
 			attackerTeam().initHero();
 			recordInitDate();
 			//记录等待列表

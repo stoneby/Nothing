@@ -12,6 +12,11 @@ public class LeaderControl : MonoBehaviour
 
     public LeaderData Data;
 
+    /// <summary>
+    /// Seal particle effect.
+    /// </summary>
+    public GameObject SealEffect;
+
     private GameObject shineObj;
     private int currentCD;
 
@@ -20,6 +25,8 @@ public class LeaderControl : MonoBehaviour
     private HeroBattleSkillTemplate skillData;
     private string defaultHeadSpriteName;
     private const string InvalidHeadSpriteName = "head_0";
+
+    private EffectController sealEffectClone;
 
     /// <summary>
     /// Reset status.
@@ -45,11 +52,7 @@ public class LeaderControl : MonoBehaviour
         Data.LeaderIndex = leaderIndex;
         figherData = data;
         skillData = HeroModelLocator.Instance.GetLeaderSkillTemplateById(figherData.ActiveSkillId);
-        if (skillData == null)
-        {
-            SpriteHead.spriteName = InvalidHeadSpriteName;
-        }
-        else
+        if (skillData != null)
         {
             SpriteHead.spriteName = defaultHeadSpriteName;
             Data.BaseCd = skillData.CostMP;
@@ -65,6 +68,18 @@ public class LeaderControl : MonoBehaviour
     {
         currentCD = currentcd;
         SpriteLight.SetActive((skillData != null && currentcd >= Data.BaseCd));
+    }
+
+    public void PlaySeal(bool show)
+    {
+        if (show)
+        {
+            sealEffectClone.Play(true);
+        }
+        else
+        {
+            sealEffectClone.Stop();
+        }
     }
 
     /// <summary>
@@ -117,5 +132,8 @@ public class LeaderControl : MonoBehaviour
     private void Awake()
     {
         defaultHeadSpriteName = SpriteHead.spriteName;
+
+        var sealEffect = Instantiate(SealEffect) as GameObject;
+        sealEffectClone = sealEffect.GetComponent<EffectController>() ?? sealEffect.AddComponent<EffectController>();
     }
 }

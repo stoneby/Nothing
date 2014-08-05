@@ -12,7 +12,7 @@ public class BoundsGenerator : MonoBehaviour
     /// </summary>
     /// <remarks>1 as default, which is just bounds in all children.</remarks>
     [Range(0f, 2f)]
-    public float Scale;
+    public float Scale = 1f;
 
     [ContextMenu("Generate")]
     public void Generate()
@@ -33,7 +33,12 @@ public class BoundsGenerator : MonoBehaviour
             }
             bounds.Encapsulate(child.collider.bounds);
         }
-        var boxCollider = GetComponent<BoxCollider>() ?? gameObject.AddComponent<BoxCollider>();
+        var boxCollider = GetComponent<BoxCollider>();
+        if (boxCollider == null)
+        {
+            boxCollider = gameObject.AddComponent<BoxCollider>();
+        }
+
         // convert world space to local space.
         // Note: bounds using world space, but box collider using local space.
         var localMin = transform.InverseTransformPoint(bounds.min);

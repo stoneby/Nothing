@@ -188,7 +188,7 @@ public class MissionWindow : Window
         var lb = MapInfoLabel.GetComponent<UILabel>();
         var raidtemp = MissionModelLocator.Instance.GetRaidByTemplateId(raid.TemplateId);
         
-        lb.text = raidtemp.Name + "\n      " + raidtemp.RaidDesc;
+        lb.text = raidtemp.RaidName + "\n      " + raidtemp.RaidDesc;
         
         var addition = MissionModelLocator.Instance.GetAdditionInfoByRaidTemplateID(raid.TemplateId);
         if (addition != null)

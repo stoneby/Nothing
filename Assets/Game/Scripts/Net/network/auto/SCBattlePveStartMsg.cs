@@ -28,6 +28,7 @@ namespace KXSGCodec
   {
     private long _uuid;
     private sbyte _battleType;
+    private int _spMaxBuffId;
     private int _raidID;
     private List<KXSGCodec.BattleMsgHero> _fighterList;
     private List<int> _monsterGroup;
@@ -66,6 +67,22 @@ namespace KXSGCodec
       {
         __isset.battleType = true;
         this._battleType = value;
+      }
+    }
+
+    /// <summary>
+    /// SP蓝光BUFFId
+    /// </summary>
+    public int SpMaxBuffId
+    {
+      get
+      {
+        return _spMaxBuffId;
+      }
+      set
+      {
+        __isset.spMaxBuffId = true;
+        this._spMaxBuffId = value;
       }
     }
 
@@ -205,6 +222,7 @@ namespace KXSGCodec
     public struct Isset {
       public bool uuid;
       public bool battleType;
+      public bool spMaxBuffId;
       public bool raidID;
       public bool fighterList;
       public bool monsterGroup;
@@ -246,12 +264,19 @@ namespace KXSGCodec
             break;
           case 3:
             if (field.Type == TType.I32) {
-              RaidID = iprot.ReadI32();
+              SpMaxBuffId = iprot.ReadI32();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
             break;
           case 4:
+            if (field.Type == TType.I32) {
+              RaidID = iprot.ReadI32();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 5:
             if (field.Type == TType.List) {
               {
                 FighterList = new List<KXSGCodec.BattleMsgHero>();
@@ -269,7 +294,7 @@ namespace KXSGCodec
               TProtocolUtil.Skip(iprot, field.Type);
             }
             break;
-          case 5:
+          case 6:
             if (field.Type == TType.List) {
               {
                 MonsterGroup = new List<int>();
@@ -286,7 +311,7 @@ namespace KXSGCodec
               TProtocolUtil.Skip(iprot, field.Type);
             }
             break;
-          case 6:
+          case 7:
             if (field.Type == TType.List) {
               {
                 MonsterList = new List<KXSGCodec.BattleMsgMonster>();
@@ -304,7 +329,7 @@ namespace KXSGCodec
               TProtocolUtil.Skip(iprot, field.Type);
             }
             break;
-          case 7:
+          case 8:
             if (field.Type == TType.List) {
               {
                 HeroSkillList = new List<KXSGCodec.BattleHeroSkillMsgAction>();
@@ -322,7 +347,7 @@ namespace KXSGCodec
               TProtocolUtil.Skip(iprot, field.Type);
             }
             break;
-          case 8:
+          case 9:
             if (field.Type == TType.List) {
               {
                 MonsterSkillList = new List<KXSGCodec.BattleMonsterSkillMsgAction>();
@@ -340,7 +365,7 @@ namespace KXSGCodec
               TProtocolUtil.Skip(iprot, field.Type);
             }
             break;
-          case 9:
+          case 10:
             if (field.Type == TType.List) {
               {
                 MonsterAIList = new List<KXSGCodec.BattleMonsterAIMsgAction>();
@@ -358,7 +383,7 @@ namespace KXSGCodec
               TProtocolUtil.Skip(iprot, field.Type);
             }
             break;
-          case 10:
+          case 11:
             if (field.Type == TType.List) {
               {
                 BuffList = new List<KXSGCodec.BattleBuffMsgData>();
@@ -405,10 +430,18 @@ namespace KXSGCodec
         oprot.WriteByte(BattleType);
         oprot.WriteFieldEnd();
       }
+      if (__isset.spMaxBuffId) {
+        field.Name = "spMaxBuffId";
+        field.Type = TType.I32;
+        field.ID = 3;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteI32(SpMaxBuffId);
+        oprot.WriteFieldEnd();
+      }
       if (__isset.raidID) {
         field.Name = "raidID";
         field.Type = TType.I32;
-        field.ID = 3;
+        field.ID = 4;
         oprot.WriteFieldBegin(field);
         oprot.WriteI32(RaidID);
         oprot.WriteFieldEnd();
@@ -416,7 +449,7 @@ namespace KXSGCodec
       if (FighterList != null && __isset.fighterList) {
         field.Name = "fighterList";
         field.Type = TType.List;
-        field.ID = 4;
+        field.ID = 5;
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.Struct, FighterList.Count));
@@ -431,7 +464,7 @@ namespace KXSGCodec
       if (MonsterGroup != null && __isset.monsterGroup) {
         field.Name = "monsterGroup";
         field.Type = TType.List;
-        field.ID = 5;
+        field.ID = 6;
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.I32, MonsterGroup.Count));
@@ -446,7 +479,7 @@ namespace KXSGCodec
       if (MonsterList != null && __isset.monsterList) {
         field.Name = "monsterList";
         field.Type = TType.List;
-        field.ID = 6;
+        field.ID = 7;
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.Struct, MonsterList.Count));
@@ -461,7 +494,7 @@ namespace KXSGCodec
       if (HeroSkillList != null && __isset.heroSkillList) {
         field.Name = "heroSkillList";
         field.Type = TType.List;
-        field.ID = 7;
+        field.ID = 8;
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.Struct, HeroSkillList.Count));
@@ -476,7 +509,7 @@ namespace KXSGCodec
       if (MonsterSkillList != null && __isset.monsterSkillList) {
         field.Name = "monsterSkillList";
         field.Type = TType.List;
-        field.ID = 8;
+        field.ID = 9;
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.Struct, MonsterSkillList.Count));
@@ -491,7 +524,7 @@ namespace KXSGCodec
       if (MonsterAIList != null && __isset.monsterAIList) {
         field.Name = "monsterAIList";
         field.Type = TType.List;
-        field.ID = 9;
+        field.ID = 10;
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.Struct, MonsterAIList.Count));
@@ -506,7 +539,7 @@ namespace KXSGCodec
       if (BuffList != null && __isset.buffList) {
         field.Name = "buffList";
         field.Type = TType.List;
-        field.ID = 10;
+        field.ID = 11;
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.Struct, BuffList.Count));
@@ -528,6 +561,8 @@ namespace KXSGCodec
       sb.Append(Uuid);
       sb.Append(",BattleType: ");
       sb.Append(BattleType);
+      sb.Append(",SpMaxBuffId: ");
+      sb.Append(SpMaxBuffId);
       sb.Append(",RaidID: ");
       sb.Append(RaidID);
       sb.Append(",FighterList: ");
