@@ -12,52 +12,69 @@ public class LeaderControl : MonoBehaviour
 
     public LeaderData Data;
 
+    public Character Character;
+
     /// <summary>
     /// Seal particle effect.
     /// </summary>
     public GameObject SealEffect;
 
+    public delegate void ActiveLeaderSkill(LeaderData data);
+
+    /// <summary>
+    /// Callback on active leader skill.
+    /// </summary>
+    public ActiveLeaderSkill OnActiveLeaderSkill;
+
     private GameObject shineObj;
     private int currentCD;
 
-    private bool alertFlag = true;
     private FighterInfo figherData;
     private HeroBattleSkillTemplate skillData;
-    private string defaultHeadSpriteName;
-    private const string InvalidHeadSpriteName = "head_0";
 
     private EffectController sealEffectClone;
+
+    private const string HeadPrefix = "head_";
+
+    /// <summary>
+    /// Initialize.
+    /// </summary>
+    public void Initialize()
+    {
+        if (Character == null)
+        {
+            Logger.LogError("Character should not be null, please set either in inspector or by script.");
+            return;
+        }
+
+        SpriteHead.spriteName = string.Format("{0}{1}", HeadPrefix, Character.IDIndex);
+    }
 
     /// <summary>
     /// Reset status.
     /// </summary>
     public void Reset()
     {
-        if (string.IsNullOrEmpty(defaultHeadSpriteName))
-        {
-            defaultHeadSpriteName = SpriteHead.spriteName;
-        }
-
         SpriteLight.SetActive(false);
-        SpriteHead.spriteName = defaultHeadSpriteName;
     }
 
     /// <summary>
     /// Set inner data before using.
     /// </summary>
     /// <param name="data">Fighter infor.</param>
+    /// <param name="character">Character reference.</param>
     /// <param name="leaderIndex">Leader index.</param>
-    public void SetData(FighterInfo data, int leaderIndex)
+    public void SetData(FighterInfo data, Character character, int leaderIndex)
     {
-        Data.LeaderIndex = leaderIndex;
         figherData = data;
+        Character = character;
         skillData = HeroModelLocator.Instance.GetLeaderSkillTemplateById(figherData.ActiveSkillId);
         if (skillData != null)
         {
-            SpriteHead.spriteName = defaultHeadSpriteName;
             Data.BaseCd = skillData.CostMP;
-            Debug.LogError("Leader base CD: " + Data.BaseCd + ", name: " + name);
+            Logger.LogWarning("Leader base CD: " + Data.BaseCd + ", name: " + name);
         }
+        Data.LeaderIndex = leaderIndex;
     }
 
     /// <summary>
@@ -74,10 +91,14 @@ public class LeaderControl : MonoBehaviour
     {
         if (show)
         {
+            sealEffectClone.gameObject.SetActive(true);
+            collider.enabled = false;
             sealEffectClone.Play(true);
         }
         else
         {
+            sealEffectClone.gameObject.SetActive(false);
+            collider.enabled = true;
             sealEffectClone.Stop();
         }
     }
@@ -91,8 +112,6 @@ public class LeaderControl : MonoBehaviour
         {
             return;
         }
-
-        alertFlag = false;
         Alert.Show(AssertionWindow.Type.OkCancel, skillData.BaseTmpl.Name, skillData.BaseTmpl.Desc, OnAssertButtonClicked, OnCancelClicked);
         BattleModelLocator.Instance.CanSelectHero = false;
     }
@@ -103,20 +122,15 @@ public class LeaderControl : MonoBehaviour
     /// <param name="sender">Sender</param>
     private void OnAssertButtonClicked(GameObject sender)
     {
-        if (alertFlag)
-        {
-            return;
-        }
-
-        alertFlag = true;
         var action = new UseActiveSkillAction {FighterIndex = Data.LeaderIndex};
         BattleModelLocator.Instance.MainBattle.handleBattleEvent(action);
         BattleModelLocator.Instance.Skill = skillData;
-        var e = new LeaderUseEvent
+
+        if (OnActiveLeaderSkill != null)
         {
-            CDCount = Data.BaseCd, SkillIndex = Data.LeaderIndex
-        };
-        EventManager.Instance.Post(e);
+            OnActiveLeaderSkill(Data);
+        }
+
         BattleModelLocator.Instance.CanSelectHero = true;
     }
 
@@ -131,9 +145,15 @@ public class LeaderControl : MonoBehaviour
 
     private void Awake()
     {
-        defaultHeadSpriteName = SpriteHead.spriteName;
-
         var sealEffect = Instantiate(SealEffect) as GameObject;
+        sealEffect.transform.position = transform.position;
+        sealEffect.transform.localScale = Vector3.one;
+        sealEffect.transform.parent = transform;
+
+        var renderQueue = sealEffect.GetComponent<SetRenderQueue>() ?? sealEffect.AddComponent<SetRenderQueue>();
+        renderQueue.RenderQueue = RenderQueue.FaceEffect;
+
         sealEffectClone = sealEffect.GetComponent<EffectController>() ?? sealEffect.AddComponent<EffectController>();
+        sealEffectClone.gameObject.SetActive(false);
     }
 }

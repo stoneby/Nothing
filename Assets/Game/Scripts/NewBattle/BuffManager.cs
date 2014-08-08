@@ -19,6 +19,7 @@ public class BuffManager : Singleton<BuffManager>
         Freeze,
         Seal,
         IncreaseData,
+        BlueLight,
         Delay,
         Relieve
     }

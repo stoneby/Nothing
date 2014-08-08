@@ -230,7 +230,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400002}
-  m_RootOrder: 0
 --- !u!4 &400002
 Transform:
   m_ObjectHideFlags: 1
@@ -245,7 +244,6 @@ Transform:
   - {fileID: 400004}
   - {fileID: 400006}
   m_Father: {fileID: 400018}
-  m_RootOrder: 1
 --- !u!4 &400004
 Transform:
   m_ObjectHideFlags: 1
@@ -257,7 +255,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400002}
-  m_RootOrder: 1
 --- !u!4 &400006
 Transform:
   m_ObjectHideFlags: 1
@@ -269,7 +266,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400002}
-  m_RootOrder: 2
 --- !u!4 &400008
 Transform:
   m_ObjectHideFlags: 1
@@ -281,7 +277,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400010}
-  m_RootOrder: 2
 --- !u!4 &400010
 Transform:
   m_ObjectHideFlags: 1
@@ -296,7 +291,6 @@ Transform:
   - {fileID: 400018}
   - {fileID: 400008}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
 --- !u!4 &400012
 Transform:
   m_ObjectHideFlags: 1
@@ -308,7 +302,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400010}
-  m_RootOrder: 0
 --- !u!4 &400014
 Transform:
   m_ObjectHideFlags: 1
@@ -320,7 +313,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400018}
-  m_RootOrder: 3
 --- !u!4 &400016
 Transform:
   m_ObjectHideFlags: 1
@@ -332,7 +324,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400018}
-  m_RootOrder: 0
 --- !u!4 &400018
 Transform:
   m_ObjectHideFlags: 1
@@ -348,7 +339,6 @@ Transform:
   - {fileID: 400020}
   - {fileID: 400014}
   m_Father: {fileID: 400010}
-  m_RootOrder: 1
 --- !u!4 &400020
 Transform:
   m_ObjectHideFlags: 1
@@ -362,7 +352,6 @@ Transform:
   - {fileID: 400022}
   - {fileID: 400024}
   m_Father: {fileID: 400018}
-  m_RootOrder: 2
 --- !u!4 &400022
 Transform:
   m_ObjectHideFlags: 1
@@ -374,7 +363,6 @@ Transform:
   m_LocalScale: {x: 1.00007999, y: 1.00007999, z: 1.00007999}
   m_Children: []
   m_Father: {fileID: 400020}
-  m_RootOrder: 0
 --- !u!4 &400024
 Transform:
   m_ObjectHideFlags: 1
@@ -386,7 +374,6 @@ Transform:
   m_LocalScale: {x: 1.00007999, y: 1.00007999, z: 1.00007999}
   m_Children: []
   m_Father: {fileID: 400020}
-  m_RootOrder: 1
 --- !u!65 &6500000
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -447,6 +434,9 @@ MonoBehaviour:
   mWidth: 128
   mHeight: 22
   mDepth: 7
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -519,6 +509,9 @@ MonoBehaviour:
   mWidth: 150
   mHeight: 20
   mDepth: 9
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -581,6 +574,9 @@ MonoBehaviour:
   mWidth: 170
   mHeight: 220
   mDepth: 6
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -631,6 +627,9 @@ MonoBehaviour:
   mWidth: 168
   mHeight: 238
   mDepth: 5
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 1
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -664,8 +663,10 @@ MonoBehaviour:
     Y: 0
   Type: 0
   ColorIndex: 0
+  IsLeader: 0
   Animator: {fileID: 0}
   Animation: {fileID: 0}
+  BuffController: {fileID: 0}
 --- !u!114 &11400016
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -699,6 +700,9 @@ MonoBehaviour:
   mWidth: 84
   mHeight: 86
   mDepth: 12
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -767,6 +771,9 @@ MonoBehaviour:
   mWidth: 128
   mHeight: 22
   mDepth: 8
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -899,6 +906,9 @@ MonoBehaviour:
   mWidth: 77
   mHeight: 16
   mDepth: 11
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -1046,6 +1056,9 @@ MonoBehaviour:
   mWidth: 100
   mHeight: 100
   mDepth: 23
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -1083,6 +1096,9 @@ MonoBehaviour:
   mWidth: 100
   mHeight: 100
   mDepth: 26
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -1160,6 +1176,9 @@ MonoBehaviour:
   mWidth: 46
   mHeight: 24
   mDepth: 22
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -1222,6 +1241,9 @@ MonoBehaviour:
   mWidth: 84
   mHeight: 20
   mDepth: 22
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0

@@ -2,9 +2,8 @@
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
-using System.Collections;
 
-public class FindWidget : MonoBehaviour
+public class FindWidget
 {
     public static List<string> FindAllPrefabs(string PrefabExt, List<string> PathFilterList)
     {

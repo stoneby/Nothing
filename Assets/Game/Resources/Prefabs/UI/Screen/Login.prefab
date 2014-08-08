@@ -44,7 +44,6 @@ Transform:
   m_Children:
   - {fileID: 400018}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
 --- !u!4 &400018
 Transform:
   m_ObjectHideFlags: 1
@@ -56,7 +55,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400000}
-  m_RootOrder: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -103,6 +101,9 @@ MonoBehaviour:
   mWidth: 1280
   mHeight: 720
   mDepth: 0
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0

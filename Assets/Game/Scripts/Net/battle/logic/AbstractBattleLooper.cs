@@ -36,7 +36,7 @@ namespace com.kx.sglm.gs.battle.share.logic
 		/// <summary>
 		/// 循环次数的计数
 		/// </summary>
-		private int loopCount;
+		protected int loopCount;
 
 		public AbstractBattleLooper(Battle battle)
 		{

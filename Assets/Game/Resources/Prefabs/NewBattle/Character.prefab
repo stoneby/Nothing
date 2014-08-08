@@ -212,7 +212,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400012}
-  m_RootOrder: 0
 --- !u!4 &400002
 Transform:
   m_ObjectHideFlags: 1
@@ -226,7 +225,6 @@ Transform:
   - {fileID: 400018}
   - {fileID: 400022}
   m_Father: {fileID: 400016}
-  m_RootOrder: 2
 --- !u!4 &400004
 Transform:
   m_ObjectHideFlags: 1
@@ -238,7 +236,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400016}
-  m_RootOrder: 5
 --- !u!4 &400006
 Transform:
   m_ObjectHideFlags: 1
@@ -250,7 +247,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400016}
-  m_RootOrder: 4
 --- !u!4 &400008
 Transform:
   m_ObjectHideFlags: 1
@@ -262,7 +258,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400016}
-  m_RootOrder: 1
 --- !u!4 &400010
 Transform:
   m_ObjectHideFlags: 1
@@ -274,7 +269,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400012}
-  m_RootOrder: 1
 --- !u!4 &400012
 Transform:
   m_ObjectHideFlags: 1
@@ -289,7 +283,6 @@ Transform:
   - {fileID: 400010}
   - {fileID: 400016}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
 --- !u!4 &400014
 Transform:
   m_ObjectHideFlags: 1
@@ -301,7 +294,6 @@ Transform:
   m_LocalScale: {x: .999919951, y: .999919951, z: .999919951}
   m_Children: []
   m_Father: {fileID: 400016}
-  m_RootOrder: 3
 --- !u!4 &400016
 Transform:
   m_ObjectHideFlags: 1
@@ -319,7 +311,6 @@ Transform:
   - {fileID: 400006}
   - {fileID: 400004}
   m_Father: {fileID: 400012}
-  m_RootOrder: 2
 --- !u!4 &400018
 Transform:
   m_ObjectHideFlags: 1
@@ -331,7 +322,6 @@ Transform:
   m_LocalScale: {x: 1.00007999, y: 1.00007999, z: 1.00007999}
   m_Children: []
   m_Father: {fileID: 400002}
-  m_RootOrder: 0
 --- !u!4 &400020
 Transform:
   m_ObjectHideFlags: 1
@@ -343,7 +333,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400016}
-  m_RootOrder: 0
 --- !u!4 &400022
 Transform:
   m_ObjectHideFlags: 1
@@ -355,7 +344,6 @@ Transform:
   m_LocalScale: {x: 1.00007999, y: 1.00007999, z: 1.00007999}
   m_Children: []
   m_Father: {fileID: 400002}
-  m_RootOrder: 1
 --- !u!65 &6500000
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -401,6 +389,9 @@ MonoBehaviour:
   mWidth: 150
   mHeight: 100
   mDepth: 6
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -415,7 +406,7 @@ MonoBehaviour:
   rightType: 1
   bottomType: 1
   topType: 1
-  mAtlas: {fileID: 11400000, guid: c756b7e0779433e48add498d07ffe3b1, type: 2}
+  mAtlas: {fileID: 11400000, guid: 12b7e66db3dc20643a46423ddaaea8bd, type: 2}
   mSpriteName: pck_1
   mFillCenter: 1
 --- !u!114 &11400002
@@ -466,6 +457,9 @@ MonoBehaviour:
   mWidth: 100
   mHeight: 100
   mDepth: 26
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -543,6 +537,9 @@ MonoBehaviour:
   mWidth: 78
   mHeight: 24
   mDepth: 21
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -605,6 +602,9 @@ MonoBehaviour:
   mWidth: 32
   mHeight: 32
   mDepth: 10
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -655,6 +655,9 @@ MonoBehaviour:
   mWidth: 65
   mHeight: 20
   mDepth: 9
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -717,6 +720,9 @@ MonoBehaviour:
   mWidth: 250
   mHeight: 200
   mDepth: 8
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -752,8 +758,10 @@ MonoBehaviour:
     Y: 0
   Type: 0
   ColorIndex: 0
+  IsLeader: 0
   Animator: {fileID: 0}
   Animation: {fileID: 0}
+  BuffController: {fileID: 0}
 --- !u!114 &11400018
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -819,10 +827,8 @@ MonoBehaviour:
   JobIndex: 0
   Attack: 0
   Restore: 0
-  XIndex: 0
-  YIndex: 0
   IsActive: 0
-  AttrackValue: 0
+  AttackValue: 0
   HaveSp: 0
   AnimationIndex: 0
   BuffController: {fileID: 11400038}
@@ -859,6 +865,9 @@ MonoBehaviour:
   mWidth: 123
   mHeight: 25
   mDepth: 9
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -921,6 +930,9 @@ MonoBehaviour:
   mWidth: 122
   mHeight: 161
   mDepth: 24
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -958,6 +970,9 @@ MonoBehaviour:
   mWidth: 100
   mHeight: 100
   mDepth: 25
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -995,6 +1010,9 @@ MonoBehaviour:
   mWidth: 46
   mHeight: 24
   mDepth: 22
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -1057,6 +1075,9 @@ MonoBehaviour:
   mWidth: 84
   mHeight: 20
   mDepth: 22
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -1159,6 +1180,9 @@ MonoBehaviour:
   mWidth: 78
   mHeight: 25
   mDepth: 22
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0

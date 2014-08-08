@@ -9,7 +9,7 @@ public class StarController : MonoBehaviour
     public List<UISprite> StarList;
     public List<float> RatioList;
 
-    public int CurrentStar { get; private set; }
+    public int CurrentStar { get; set; }
 
     public void Reset()
     {
@@ -19,13 +19,21 @@ public class StarController : MonoBehaviour
 
     public void Show(float ratio)
     {
-        CurrentStar = RatioList.Count;
+        if (CurrentStar == null && RatioList != null)
+        {
+            CurrentStar = RatioList.Count;
+        } 
+        
         for (var i = RatioList.Count - 1; i >= 0; --i)
         {
-            if (ratio < RatioList[i])
+            if (ratio < RatioList[i] && CurrentStar >= i)
+            {
+                CurrentStar = i;
+            }
+
+            if (i >= CurrentStar)
             {
                 StarList[i].gameObject.SetActive(false);
-                CurrentStar = i;
             }
         }
     }

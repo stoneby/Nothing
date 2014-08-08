@@ -158,6 +158,9 @@ MonoBehaviour:
   mWidth: 152
   mHeight: 110
   mDepth: 4
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -172,7 +175,7 @@ MonoBehaviour:
   rightType: 1
   bottomType: 1
   topType: 1
-  mAtlas: {fileID: 11400000, guid: c756b7e0779433e48add498d07ffe3b1, type: 2}
+  mAtlas: {fileID: 11400000, guid: 12b7e66db3dc20643a46423ddaaea8bd, type: 2}
   mSpriteName: headbox_light
   mFillCenter: 1
 --- !u!114 &11400004
@@ -189,8 +192,11 @@ MonoBehaviour:
   SpriteBg: {fileID: 0}
   SpriteLight: {fileID: 0}
   SpriteHead: {fileID: 0}
-  LeaderIndex: 0
-  HeadIndex: 0
+  Data:
+    LeaderIndex: 0
+    BaseCd: 0
+  Character: {fileID: 0}
+  SealEffect: {fileID: 0}
 --- !u!114 &11400006
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -224,6 +230,9 @@ MonoBehaviour:
   mWidth: 100
   mHeight: 100
   mDepth: 5
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -261,6 +270,9 @@ MonoBehaviour:
   mWidth: 116
   mHeight: 72
   mDepth: 7
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -275,7 +287,7 @@ MonoBehaviour:
   rightType: 1
   bottomType: 1
   topType: 1
-  mAtlas: {fileID: 11400000, guid: c756b7e0779433e48add498d07ffe3b1, type: 2}
+  mAtlas: {fileID: 11400000, guid: 12b7e66db3dc20643a46423ddaaea8bd, type: 2}
   mSpriteName: head_0
   mFillCenter: 1
 --- !u!114 &11400010
@@ -311,6 +323,9 @@ MonoBehaviour:
   mWidth: 124
   mHeight: 82
   mDepth: 2
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -325,7 +340,7 @@ MonoBehaviour:
   rightType: 1
   bottomType: 1
   topType: 1
-  mAtlas: {fileID: 11400000, guid: c756b7e0779433e48add498d07ffe3b1, type: 2}
+  mAtlas: {fileID: 11400000, guid: 12b7e66db3dc20643a46423ddaaea8bd, type: 2}
   mSpriteName: headbox_normal
   mFillCenter: 1
 --- !u!1001 &100100000

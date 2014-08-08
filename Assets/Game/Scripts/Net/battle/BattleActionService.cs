@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace com.kx.sglm.gs.battle.share
@@ -128,7 +129,15 @@ namespace com.kx.sglm.gs.battle.share
 
 		public virtual IBuffAction getBuffAction(int buffId)
 		{
-			return allBuffAction[buffId];
+		    try
+		    {
+                return allBuffAction[buffId];
+		    }
+		    catch (Exception)
+		    {
+                Logger.LogError("!!!!!!!!!!!!!!!!!!!!!!!!!allBuffAction[buffid] is null, buffid:"+buffId);
+		        return null;
+		    }
 		}
 
 

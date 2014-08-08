@@ -5,43 +5,77 @@ using Template;
 using Template.Auto.Raid;
 using Object = UnityEngine.Object;
 
+#if !SILVERLIGHT
+[Serializable]
+#endif
 public sealed class MissionModelLocator
 {
     public SCRaidLoadingAll RaidLoadingAll;
+
+    [NonSerialized]
     public SCRaidAddtion RaidAddition;
+
+    [NonSerialized]
     public string DestTime;
+
+    [NonSerialized]
     public int NextRaidType = 1;
+
+    [NonSerialized]
     public int CurrRaidType = 0;
 
     public RaidInfo Raid;
 
+    [NonSerialized]
     public SCRaidQueryFriend FriendsMsg;
 
     public FriendVO FriendData;
+
+    [NonSerialized]
     public int SelectedStageId;
 
+    [NonSerialized]
     public int MissionStep;
 
+    [NonSerialized]
     public SCRaidReward BattleReward;
 
     public int OldExp;
     public int OldLevel;
+    public int StarCount;
 
+    [NonSerialized]
     public bool ShowAddFriendAlert = false;
 
+    [NonSerialized]
     private const int FirstTime = 8;
+
+    [NonSerialized]
     private const int SecondTime = 16;
+
+    [NonSerialized]
     private const int ThirdTime = 24;
 
+    [NonSerialized]
     private static volatile MissionModelLocator instance;
+
+    [NonSerialized]
     private static readonly object SyncRoot = new Object();
 
+    [NonSerialized]
     private Raid raidTemplates;
+
+    [NonSerialized]
     private List<RaidInfo> raidInfoElite;
+
+    [NonSerialized]
     private List<RaidInfo> raidInfoMaster;
 
+    [NonSerialized]
     private const string RaidTemlatePath = "Templates/Raid";
+
     private MissionModelLocator() { }
+
     public static MissionModelLocator Instance
     {
         get
@@ -56,6 +90,7 @@ public sealed class MissionModelLocator
             }
             return instance;
         }
+        set { instance = value; }
     }
 
     public Raid RaidTemplates
@@ -113,53 +148,53 @@ public sealed class MissionModelLocator
     {
         if (RaidAddition == null || RaidAddition.AddtionInfo == null) return null;
         var date = DateTime.Now;
-        
-		int desttime;
-		int flag;
-		if (date.Hour < FirstTime)
-		{
-			desttime = FirstTime;
-			flag = 0;
-		}
-		else if (date.Hour < SecondTime)
-		{
-			desttime = SecondTime;
-			flag = 1;
-		}
-		else
-		{
-			desttime = ThirdTime;
-			flag = 2;
-		}
 
-		int v = desttime - date.Hour;
-		if (v > 1)
-		{
-			DestTime = "剩余" + v + "小时";
-		}
-		else
-		{
-			v = 60 - date.Minute;
-			if (v > 1)
-			{
-                DestTime = "剩余" + v + "分钟";
-			}
-			else
-			{
-                DestTime = "剩余1分钟";
-			}
-		}
-
-		if (CurrRaidType == RaidAddition.AddtionInfo[flag].RaidType)
+        int desttime;
+        int flag;
+        if (date.Hour < FirstTime)
         {
-			for (int j = 0; j < RaidAddition.AddtionInfo[flag].RaidTemplateId.Count; j++)
+            desttime = FirstTime;
+            flag = 0;
+        }
+        else if (date.Hour < SecondTime)
+        {
+            desttime = SecondTime;
+            flag = 1;
+        }
+        else
+        {
+            desttime = ThirdTime;
+            flag = 2;
+        }
+
+        int v = desttime - date.Hour;
+        if (v > 1)
+        {
+            DestTime = "剩余" + v + "小时";
+        }
+        else
+        {
+            v = 60 - date.Minute;
+            if (v > 1)
             {
-				if (templateid == RaidAddition.AddtionInfo[flag].RaidTemplateId[j])
+                DestTime = "剩余" + v + "分钟";
+            }
+            else
+            {
+                DestTime = "剩余1分钟";
+            }
+        }
+
+        if (CurrRaidType == RaidAddition.AddtionInfo[flag].RaidType)
+        {
+            for (int j = 0; j < RaidAddition.AddtionInfo[flag].RaidTemplateId.Count; j++)
+            {
+                if (templateid == RaidAddition.AddtionInfo[flag].RaidTemplateId[j])
                 {
-					return RaidAddition.AddtionInfo[flag];
-				}
-			}
-         }
+                    return RaidAddition.AddtionInfo[flag];
+                }
+            }
+        }
 
         return null;
     }
@@ -212,7 +247,7 @@ public sealed class MissionModelLocator
                         }
                     }
                 }
-                
+
                 newraids.Add(raid);
             }
         }
@@ -253,9 +288,10 @@ public sealed class MissionModelLocator
                 break;
         }
     }
-
+    [NonSerialized]
     public Dictionary<int, int> TotalStageCount;
-    public Dictionary<int, int> TotalStarCount; 
+    //[NonSerialized]
+    public Dictionary<int, int> TotalStarCount;
 
     public void ComputeStagecount()
     {
@@ -378,7 +414,7 @@ public sealed class MissionModelLocator
                     {
                         if (raids[i].StateInfo[j].TemplateId == SelectedStageId)
                         {
-                            var v = (sbyte) count - raids[i].StateInfo[j].Star;
+                            var v = (sbyte)count - raids[i].StateInfo[j].Star;
                             if (v > 0)
                             {
                                 TotalStarCount[Raid.TemplateId] += v;

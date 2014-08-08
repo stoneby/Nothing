@@ -33,4 +33,7 @@ public static class RenderQueue
     public const int ScreenLines = Transparent + 100;
 
     public const int Overlay = 4000;
+
+    // Effect upon battle face panel, which is 4100.
+    public const int FaceEffect = Overlay + 200;
 }

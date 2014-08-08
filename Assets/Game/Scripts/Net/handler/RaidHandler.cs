@@ -1,4 +1,5 @@
-﻿using Assets.Game.Scripts.Common.Model;
+﻿using System.IO;
+using Assets.Game.Scripts.Common.Model;
 using com.kx.sglm.gs.battle.share.data;
 using com.kx.sglm.gs.battle.share.enums;
 using com.kx.sglm.gs.battle.share.factory.creater;
@@ -58,7 +59,15 @@ namespace Assets.Game.Scripts.Net.handler
             if (themsg != null)
             {
                 MissionModelLocator.Instance.BattleReward = themsg;
+                BattleWindow.isRaidReward = true;
+                //Delete file.
+                new FileInfo(BattleWindow.MissionModelLocatorPath).Delete();
+                new FileInfo(BattleWindow.StartBattleMessagePath).Delete();
+                new FileInfo(BattleWindow.PersistencePath).Delete();
+                new FileInfo(BattleWindow.BattleEndMessagePath).Delete();
+
                 WindowManager.Instance.Show(typeof(BattleWinWindow), true);
+                Logger.Log("!!!!!!!!!!!!!!!!!!Show BattleWinWindow, set isRaidReward:"+BattleWindow.isRaidReward.ToString());
             }
             else
             {
@@ -128,7 +137,6 @@ namespace Assets.Game.Scripts.Net.handler
             if (themsg != null)
             {
                 MissionModelLocator.Instance.ShowAddFriendAlert = true;
-                
             }
         }
 

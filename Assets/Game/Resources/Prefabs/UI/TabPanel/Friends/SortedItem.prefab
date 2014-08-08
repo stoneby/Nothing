@@ -47,21 +47,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &100006
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 400006}
-  m_Layer: 8
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1 &100008
 GameObject:
   m_ObjectHideFlags: 1
@@ -358,17 +343,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400002}
---- !u!4 &400006
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100006}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 94.915184, y: -116.418648, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 400030}
 --- !u!4 &400008
 Transform:
   m_ObjectHideFlags: 1
@@ -508,7 +482,6 @@ Transform:
   - {fileID: 400018}
   - {fileID: 400038}
   - {fileID: 400020}
-  - {fileID: 400006}
   - {fileID: 400016}
   - {fileID: 400024}
   - {fileID: 400022}
@@ -620,6 +593,7 @@ MonoBehaviour:
   mHeight: 50
   mDepth: 0
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -684,6 +658,7 @@ MonoBehaviour:
   mHeight: 82
   mDepth: 18
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -699,7 +674,7 @@ MonoBehaviour:
   rightType: 1
   bottomType: 1
   topType: 1
-  mAtlas: {fileID: 11400000, guid: 498fdabfa116ccc41ba5e1e7291ee2d3, type: 2}
+  mAtlas: {fileID: 11400000, guid: 5b92cbdcb180fb042a7069f903d9f7ae, type: 2}
   mSpriteName: Golden
   mFillCenter: 1
 --- !u!114 &11400004
@@ -736,6 +711,7 @@ MonoBehaviour:
   mHeight: 22
   mDepth: 17
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -800,6 +776,7 @@ MonoBehaviour:
   mHeight: 22
   mDepth: 16
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -864,6 +841,7 @@ MonoBehaviour:
   mHeight: 22
   mDepth: 15
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -940,6 +918,7 @@ MonoBehaviour:
   mHeight: 130
   mDepth: 13
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -955,7 +934,7 @@ MonoBehaviour:
   rightType: 1
   bottomType: 1
   topType: 1
-  mAtlas: {fileID: 11400000, guid: 498fdabfa116ccc41ba5e1e7291ee2d3, type: 2}
+  mAtlas: {fileID: 11400000, guid: 5b92cbdcb180fb042a7069f903d9f7ae, type: 2}
   mSpriteName: Decorate
   mFillCenter: 1
 --- !u!114 &11400014
@@ -992,6 +971,7 @@ MonoBehaviour:
   mHeight: 24
   mDepth: 9
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -1056,6 +1036,7 @@ MonoBehaviour:
   mHeight: 24
   mDepth: 8
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -1120,6 +1101,7 @@ MonoBehaviour:
   mHeight: 100
   mDepth: 7
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -1135,8 +1117,8 @@ MonoBehaviour:
   rightType: 1
   bottomType: 1
   topType: 1
-  mAtlas: {fileID: 11400000, guid: 2e5f36b2f1b529d4e9cfe99802d4dcb6, type: 2}
-  mSpriteName: Human3
+  mAtlas: {fileID: 11400000, guid: 12b7e66db3dc20643a46423ddaaea8bd, type: 2}
+  mSpriteName: head_3
   mFillCenter: 1
 --- !u!114 &11400020
 MonoBehaviour:
@@ -1172,6 +1154,7 @@ MonoBehaviour:
   mHeight: 114
   mDepth: 6
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 1
   hideIfOffScreen: 0
@@ -1187,7 +1170,7 @@ MonoBehaviour:
   rightType: 1
   bottomType: 1
   topType: 1
-  mAtlas: {fileID: 11400000, guid: 498fdabfa116ccc41ba5e1e7291ee2d3, type: 2}
+  mAtlas: {fileID: 11400000, guid: 5b92cbdcb180fb042a7069f903d9f7ae, type: 2}
   mSpriteName: HeadF
   mFillCenter: 1
 --- !u!114 &11400022
@@ -1224,6 +1207,7 @@ MonoBehaviour:
   mHeight: 22
   mDepth: 17
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -1288,6 +1272,7 @@ MonoBehaviour:
   mHeight: 22
   mDepth: 16
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -1365,6 +1350,7 @@ MonoBehaviour:
   mHeight: 130
   mDepth: 4
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 1
   hideIfOffScreen: 0
@@ -1404,6 +1390,7 @@ MonoBehaviour:
   mHeight: 24
   mDepth: 19
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -1464,15 +1451,16 @@ MonoBehaviour:
   updateAnchors: 1
   mColor: {r: .20588237, g: .0151384119, b: .0151384119, a: 1}
   mPivot: 3
-  mWidth: 94
+  mWidth: 96
   mHeight: 24
   mDepth: 20
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
-  aspectRatio: 3.91666675
+  aspectRatio: 4
   keepCrispWhenShrunk: 1
   mTrueTypeFont: {fileID: 12800000, guid: b3fbdf8bfd77b87448d4ecfa565a9c49, type: 3}
   mFont: {fileID: 0}
@@ -1528,15 +1516,16 @@ MonoBehaviour:
   updateAnchors: 1
   mColor: {r: .20588237, g: .0151384119, b: .0151384119, a: 1}
   mPivot: 3
-  mWidth: 154
+  mWidth: 156
   mHeight: 24
   mDepth: 20
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
-  aspectRatio: 6.41666651
+  aspectRatio: 6.5
   keepCrispWhenShrunk: 1
   mTrueTypeFont: {fileID: 12800000, guid: b3fbdf8bfd77b87448d4ecfa565a9c49, type: 3}
   mFont: {fileID: 0}
@@ -1596,6 +1585,7 @@ MonoBehaviour:
   mHeight: 24
   mDepth: 19
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -1677,6 +1667,7 @@ MonoBehaviour:
   mHeight: 36
   mDepth: 20
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -1692,7 +1683,7 @@ MonoBehaviour:
   rightType: 1
   bottomType: 1
   topType: 1
-  mAtlas: {fileID: 11400000, guid: 498fdabfa116ccc41ba5e1e7291ee2d3, type: 2}
+  mAtlas: {fileID: 11400000, guid: 5b92cbdcb180fb042a7069f903d9f7ae, type: 2}
   mSpriteName: FriendBind
   mFillCenter: 1
 --- !u!1001 &100100000

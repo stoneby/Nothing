@@ -39,14 +39,6 @@ public class AltasReplacerEditorWindow : EditorWindow
         FindAllSprites();
     }
 
-    private void OnDestory()
-    {
-        FindWidget.RestoreActiveStatus(activeStatus);
-        AssetDatabase.SaveAssets();
-        AssetDatabase.Refresh();
-        Resources.UnloadUnusedAssets();
-    }
-
     private void FindAllSprites()
     {
         Logger.LogWarning("Find all prefabs begins.");
@@ -185,8 +177,11 @@ public class AltasReplacerEditorWindow : EditorWindow
             foreach (var sourceSprite in sprites)
             {
                 sourceSprite.atlas = target;
-                ShowNotification(new GUIContent("Altas 替换成功！"));
             }
+            FindWidget.RestoreActiveStatus(activeStatus);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+            ShowNotification(new GUIContent("Altas 替换成功！"));
         }
     }
 

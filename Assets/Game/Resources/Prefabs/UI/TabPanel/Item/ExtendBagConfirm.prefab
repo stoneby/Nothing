@@ -60,8 +60,8 @@ GameObject:
   - 4: {fileID: 400006}
   - 114: {fileID: 11400008}
   - 65: {fileID: 6500002}
-  - 114: {fileID: 11400050}
   - 114: {fileID: 11400044}
+  - 114: {fileID: 11400052}
   m_Layer: 8
   m_Name: OK
   m_TagString: Untagged
@@ -96,8 +96,8 @@ GameObject:
   - 4: {fileID: 400010}
   - 114: {fileID: 11400012}
   - 65: {fileID: 6500000}
-  - 114: {fileID: 11400052}
   - 114: {fileID: 11400038}
+  - 114: {fileID: 11400050}
   m_Layer: 8
   m_Name: Cancel
   m_TagString: Untagged
@@ -685,6 +685,7 @@ MonoBehaviour:
   mHeight: 50
   mDepth: 2
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -749,6 +750,7 @@ MonoBehaviour:
   mHeight: 314
   mDepth: 0
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -764,7 +766,7 @@ MonoBehaviour:
   rightType: 1
   bottomType: 1
   topType: 1
-  mAtlas: {fileID: 11400000, guid: 7a5b8a5a3ed372d43bf8c47dcc5108ce, type: 2}
+  mAtlas: {fileID: 11400000, guid: 5b92cbdcb180fb042a7069f903d9f7ae, type: 2}
   mSpriteName: main_frame
   mFillCenter: 1
 --- !u!114 &11400008
@@ -801,6 +803,7 @@ MonoBehaviour:
   mHeight: 53
   mDepth: 4
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 1
   hideIfOffScreen: 0
@@ -816,8 +819,8 @@ MonoBehaviour:
   rightType: 1
   bottomType: 1
   topType: 1
-  mAtlas: {fileID: 11400000, guid: 8334cafb3d14e8645a9306828c0e15b8, type: 2}
-  mSpriteName: EditOkBtnN
+  mAtlas: {fileID: 11400000, guid: 5b92cbdcb180fb042a7069f903d9f7ae, type: 2}
+  mSpriteName: OKN
   mFillCenter: 1
 --- !u!114 &11400010
 MonoBehaviour:
@@ -853,6 +856,7 @@ MonoBehaviour:
   mHeight: 30
   mDepth: 5
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -917,6 +921,7 @@ MonoBehaviour:
   mHeight: 53
   mDepth: 6
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 1
   hideIfOffScreen: 0
@@ -932,8 +937,8 @@ MonoBehaviour:
   rightType: 1
   bottomType: 1
   topType: 1
-  mAtlas: {fileID: 11400000, guid: 8334cafb3d14e8645a9306828c0e15b8, type: 2}
-  mSpriteName: CancelBtnN
+  mAtlas: {fileID: 11400000, guid: 5b92cbdcb180fb042a7069f903d9f7ae, type: 2}
+  mSpriteName: RejectN
   mFillCenter: 1
 --- !u!114 &11400014
 MonoBehaviour:
@@ -969,6 +974,7 @@ MonoBehaviour:
   mHeight: 72
   mDepth: 7
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 1
   hideIfOffScreen: 0
@@ -984,7 +990,7 @@ MonoBehaviour:
   rightType: 1
   bottomType: 1
   topType: 1
-  mAtlas: {fileID: 11400000, guid: 7a5b8a5a3ed372d43bf8c47dcc5108ce, type: 2}
+  mAtlas: {fileID: 11400000, guid: 5b92cbdcb180fb042a7069f903d9f7ae, type: 2}
   mSpriteName: nega_default
   mFillCenter: 1
 --- !u!114 &11400016
@@ -1021,6 +1027,7 @@ MonoBehaviour:
   mHeight: 72
   mDepth: 8
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 1
   hideIfOffScreen: 0
@@ -1036,7 +1043,7 @@ MonoBehaviour:
   rightType: 1
   bottomType: 1
   topType: 1
-  mAtlas: {fileID: 11400000, guid: 7a5b8a5a3ed372d43bf8c47dcc5108ce, type: 2}
+  mAtlas: {fileID: 11400000, guid: 5b92cbdcb180fb042a7069f903d9f7ae, type: 2}
   mSpriteName: plus_default
   mFillCenter: 1
 --- !u!114 &11400018
@@ -1073,6 +1080,7 @@ MonoBehaviour:
   mHeight: 70
   mDepth: 9
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -1088,7 +1096,7 @@ MonoBehaviour:
   rightType: 1
   bottomType: 1
   topType: 1
-  mAtlas: {fileID: 11400000, guid: 7a5b8a5a3ed372d43bf8c47dcc5108ce, type: 2}
+  mAtlas: {fileID: 11400000, guid: 5b92cbdcb180fb042a7069f903d9f7ae, type: 2}
   mSpriteName: num_frame
   mFillCenter: 1
 --- !u!114 &11400020
@@ -1125,6 +1133,7 @@ MonoBehaviour:
   mHeight: 30
   mDepth: 7
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -1189,6 +1198,7 @@ MonoBehaviour:
   mHeight: 30
   mDepth: 10
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -1253,6 +1263,7 @@ MonoBehaviour:
   mHeight: 50
   mDepth: 1
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -1317,6 +1328,7 @@ MonoBehaviour:
   mHeight: 50
   mDepth: 1
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -1381,6 +1393,7 @@ MonoBehaviour:
   mHeight: 50
   mDepth: 1
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -1445,6 +1458,7 @@ MonoBehaviour:
   mHeight: 50
   mDepth: 1
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -1509,6 +1523,7 @@ MonoBehaviour:
   mHeight: 50
   mDepth: 1
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -1584,6 +1599,7 @@ MonoBehaviour:
   mHeight: 1024
   mDepth: -1
   OffsetX: 0
+  OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 1
   hideIfOffScreen: 0
@@ -1718,28 +1734,6 @@ MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100006}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1fdca5042b1d12a4890ec1bd4f04290d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tweenTarget: {fileID: 100006}
-  hover: {r: 1, g: 1, b: 1, a: 1}
-  pressed: {r: 1, g: 1, b: 1, a: 1}
-  disabledColor: {r: 1, g: 1, b: 1, a: 1}
-  duration: .200000003
-  dragHighlight: 0
-  hoverSprite: EditOkBtnD
-  pressedSprite: EditOkBtnD
-  disabledSprite: EditOkBtnN
-  pixelSnap: 0
-  onClick: []
---- !u!114 &11400052
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100010}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -1752,9 +1746,31 @@ MonoBehaviour:
   disabledColor: {r: 1, g: 1, b: 1, a: 1}
   duration: .200000003
   dragHighlight: 0
-  hoverSprite: CancelBtnD
-  pressedSprite: CancelBtnD
-  disabledSprite: CancelBtnN
+  hoverSprite: RejectD
+  pressedSprite: RejectD
+  disabledSprite: RejectN
+  pixelSnap: 0
+  onClick: []
+--- !u!114 &11400052
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fdca5042b1d12a4890ec1bd4f04290d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tweenTarget: {fileID: 100006}
+  hover: {r: 1, g: 1, b: 1, a: 1}
+  pressed: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 1, g: 1, b: 1, a: 1}
+  duration: .200000003
+  dragHighlight: 0
+  hoverSprite: OKD
+  pressedSprite: OKD
+  disabledSprite: OKN
   pixelSnap: 0
   onClick: []
 --- !u!114 &11400054

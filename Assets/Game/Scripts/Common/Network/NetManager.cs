@@ -17,6 +17,7 @@ public class NetManager
     private static readonly Thread MsgThread = new Thread(DoSend);
 
     private static string sessionId = "";
+    private const int PkgReadLenPerTime = 1024;
 
     public delegate void MessageSended();
     public static MessageSended OnMessageSended;
@@ -126,11 +127,29 @@ public class NetManager
                         continue;
                     }
 
-                    var recDatas = new byte[respLen];
                     responseStream = hwresponse.GetResponseStream();
-                    responseStream.Read(recDatas, 0, respLen);
+                    ByteBuffer recBuffer = new ByteBuffer(respLen);
+                    var recDataPerTime = new byte[PkgReadLenPerTime];
+                    long totalBytesRead = 0;
+                    int bytesRead;
+
+                    while ((bytesRead = responseStream.Read(recDataPerTime, 0, recDataPerTime.Length)) > 0)
+                    {
+                        totalBytesRead += bytesRead;
+                        recBuffer.Put(recDataPerTime, bytesRead);
+                    }
+                    if (totalBytesRead < respLen)
+                    {
+                        Logger.Log("An error occurred: msg read len is not:" + respLen);
+                        continue;
+                    }
+                    recBuffer.Flip();
+
+                    var recDatas = new byte[respLen];
+                    recBuffer.Get(recDatas);
                     responseStream.Close();
                     responseStream = null;
+
                     SocketClient.DecodeMsg(recDatas, respLen, SCMsgQueue);
 
                     sessionId = hwresponse.GetResponseHeader("ISESSION");

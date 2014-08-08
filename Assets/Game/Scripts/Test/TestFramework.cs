@@ -85,7 +85,7 @@ public class TestFramework : MonoBehaviour
             //battleEndController.Show();
             var battleWin = WindowManager.Instance.Show(typeof(BattleWinWindow), true);
             var battleWinControl = battleWin.GetComponent<BattleWinControl>();
-            battleWinControl.Show();
+            //battleWinControl.Show();
         } 
     }
 

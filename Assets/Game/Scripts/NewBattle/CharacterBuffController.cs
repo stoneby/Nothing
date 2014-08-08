@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using com.kx.sglm.gs.battle.share;
 using com.kx.sglm.gs.battle.share.data.record;
 using UnityEngine;
 
@@ -80,6 +81,7 @@ public class CharacterBuffController : MonoBehaviour
                 Logger.LogError("Buff index: " + buffIndex + " should be in range of 0 and " + buffSize + ".");
                 return;
             }
+            //item.getParam(BattleKeyConstants.BATTLE_BUFF_CUR_SHIELD_ORDER);
             BuffCountManager[(BuffManager.BuffType)buffIndex] = item.LeftRound;
         });
 

@@ -1,5 +1,4 @@
 ﻿using Assets.Game.Scripts.Common.Model;
-using com.kx.sglm.gs.battle.share;
 using com.kx.sglm.gs.battle.share.data;
 using com.kx.sglm.gs.battle.share.enums;
 using com.kx.sglm.gs.battle.share.factory.creater;
@@ -13,6 +12,15 @@ namespace Assets.Game.Scripts.Net.handler
         public static void OnBattlePveStart(ThriftSCMessage msg)
         {
             var battlestartmsg = msg.GetContent() as SCBattlePveStartMsg;
+
+#if !UNITY_IPHONE
+
+            //Store missionmodellocator and battlestartmsg for battle persistence.
+            BattleWindow.StoreMissionModelLocator(MissionModelLocator.Instance);
+            BattleWindow.StoreStartBattleMessage(battlestartmsg);
+
+#endif
+
             if (battlestartmsg != null)
             {
                 PopTextManager.PopTip("返回战斗数据");

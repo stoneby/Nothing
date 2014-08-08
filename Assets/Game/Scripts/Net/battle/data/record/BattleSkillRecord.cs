@@ -116,6 +116,10 @@ namespace com.kx.sglm.gs.battle.share.data.record
 			return null;
 		}
 
+        public override string ToString()
+        {
+            return string.Format("{0}- Team side: {1}", GetType().Name, teamSide);
+        }
 	}
 
 }

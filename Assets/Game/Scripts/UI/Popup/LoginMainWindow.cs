@@ -87,12 +87,12 @@ public class LoginMainWindow : Window
          var aclabel = AccountLabel.GetComponent<UILabel>();
         if (ServiceManager.DebugUserName == "" && ServiceManager.UserName == "")
         {
-            aclabel.text = "µÇÂ¼/×¢²á";
+            aclabel.text = "";
         }
         else
         {
             var str = (ServiceManager.IsDebugAccount == 1) ? ServiceManager.DebugUserName : ServiceManager.UserName;
-            aclabel.text = "ÕËºÅ£º" + str;
+            aclabel.text = "" + str;
         }
         
         aclabel.GetComponent<LocalizeWidget>().enabled = false;
@@ -100,7 +100,7 @@ public class LoginMainWindow : Window
         var lb = ServerLabel.GetComponent<UILabel>();
         if (ServiceManager.ServerData != null)
         {
-            lb.text = "·þÎñÆ÷£º" + ServiceManager.ServerData.ServerName;
+            lb.text = "" + ServiceManager.ServerData.ServerName;
             lb.GetComponent<LocalizeWidget>().enabled = false;
         }
     }

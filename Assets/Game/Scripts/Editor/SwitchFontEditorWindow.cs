@@ -17,7 +17,7 @@ public class SwitchFontEditorWindow : EditorWindow
         ShrinkContent,
         ClampContent,
         ResizeFreely,
-        ResizeHeight,
+        ResizeHeight
     }
 
     private enum Crisp

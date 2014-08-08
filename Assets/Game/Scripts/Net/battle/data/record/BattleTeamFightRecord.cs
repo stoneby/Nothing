@@ -123,6 +123,10 @@ namespace com.kx.sglm.gs.battle.share.data.record
 			return null;
 		}
 
+        public override string ToString()
+        {
+            return string.Format("{0}: Team type: {1} Team side: {2}", GetType().Name, teamType, teamSide);
+        }
 	}
 
 }

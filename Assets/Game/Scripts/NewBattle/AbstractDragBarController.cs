@@ -63,6 +63,9 @@ public abstract class AbstractDragBarController : MonoBehaviour
     protected virtual void Start()
     {
         Factor = UIRoot.GetPixelSizeAdjustment(gameObject);
-        Factor *= UICamera.currentCamera.orthographicSize;
+        if (UICamera.currentCamera != null)
+        {
+            Factor *= UICamera.currentCamera.orthographicSize;
+        }
     }
 }
