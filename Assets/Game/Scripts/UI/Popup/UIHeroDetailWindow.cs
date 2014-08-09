@@ -213,15 +213,15 @@ public class UIHeroDetailWindow : Window
         if (skillTmp.ContainsKey(heroTemplate.SpSkill))
         {
             var activeSkillTemp = skillTmp[heroTemplate.ActiveSkill];
-            activeSkillName.text = activeSkillTemp.BaseTmpl.Name;
-            activeSkillDesc.text = activeSkillTemp.BaseTmpl.Desc;
+            activeSkillName.text = activeSkillTemp.Name;
+            activeSkillDesc.text = activeSkillTemp.Desc;
         }
 
         if (skillTmp.ContainsKey(heroTemplate.LeaderSkill))
         {
             var leaderSkillTemp = skillTmp[heroTemplate.LeaderSkill];
-            leaderSkillName.text = leaderSkillTemp.BaseTmpl.Name;
-            leaderSkillDesc.text = leaderSkillTemp.BaseTmpl.Desc;
+            leaderSkillName.text = leaderSkillTemp.Name;
+            leaderSkillDesc.text = leaderSkillTemp.Desc;
         }
         InitEquipedItems();
     }

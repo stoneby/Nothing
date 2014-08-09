@@ -76,6 +76,10 @@ namespace KXSGCodec
             {
                 return new SCHeroChangeEquip();
             }
+			            if (type == MessageType.SC_HERO_CHANGE_TEAM_SUCC.GetHashCode())
+            {
+                return new SCHeroChangeTeamSucc();
+            }
 			            if (type == MessageType.SC_HERO_CREATE_ONE.GetHashCode())
             {
                 return new SCHeroCreateOne();
@@ -191,6 +195,10 @@ namespace KXSGCodec
 			            if (type == MessageType.SC_ADD_ITEMS_AND_HEROS.GetHashCode())
             {
                 return new SCAddItemsAndHeros();
+            }
+			            if (type == MessageType.SC_ENERGY_NOT_ENOUGH.GetHashCode())
+            {
+                return new SCEnergyNotEnough();
             }
 			            if (type == MessageType.SC_RAID_ADDTION.GetHashCode())
             {

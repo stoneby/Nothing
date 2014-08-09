@@ -63,11 +63,11 @@ namespace com.kx.sglm.gs.battle.share.buff
 		}
 
 
-		public virtual void effectBuff()
+		public virtual void onTeamBeforeAttack()
 		{
 			foreach (BattleFighterBuff _buff in values())
 			{
-				_buff.effectBuff();
+				_buff.onTeamBeforeAttack();
 			}
 		}
 

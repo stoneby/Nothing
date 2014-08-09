@@ -7,7 +7,7 @@ namespace com.kx.sglm.gs.battle.share.enums
 	{
 
 		//TODO: modify to side left and side right 
-		public static readonly BattleSideEnum SIDEA = new BattleSideEnumAnonymousInnerClassHelper();
+		public static readonly BattleSideEnum SIDE_LEFT = new BattleSideEnumAnonymousInnerClassHelper();
 
 		private class BattleSideEnumAnonymousInnerClassHelper : BattleSideEnum
 		{
@@ -19,11 +19,11 @@ namespace com.kx.sglm.gs.battle.share.enums
 			{
 				get
 				{
-					return SIDEB;
+					return SIDEB_RIGHT;
 				}
 			}
 		}
-		public static readonly BattleSideEnum SIDEB = new BattleSideEnumAnonymousInnerClassHelper2();
+		public static readonly BattleSideEnum SIDEB_RIGHT = new BattleSideEnumAnonymousInnerClassHelper2();
 
 		private class BattleSideEnumAnonymousInnerClassHelper2 : BattleSideEnum
 		{
@@ -35,7 +35,7 @@ namespace com.kx.sglm.gs.battle.share.enums
 			{
 				get
 				{
-					return SIDEA;
+					return SIDE_LEFT;
 				}
 			}
 		}
@@ -80,7 +80,7 @@ namespace com.kx.sglm.gs.battle.share.enums
 			return VALUES;
 		}
 
-		private static readonly BattleSideEnum[] VALUES = new BattleSideEnum[] {SIDEB, SIDEA};
+		private static readonly BattleSideEnum[] VALUES = new BattleSideEnum[] {SIDEB_RIGHT, SIDE_LEFT};
 
 	}
 }

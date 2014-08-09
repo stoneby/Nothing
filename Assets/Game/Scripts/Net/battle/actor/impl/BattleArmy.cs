@@ -25,7 +25,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 		{
 			get
 			{
-				return getActor(BattleSideEnum.SIDEA.Index);
+				return getActor(BattleSideEnum.SIDE_LEFT.Index);
 			}
 		}
 
@@ -33,7 +33,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 		{
 			get
 			{
-				return getActor(BattleSideEnum.SIDEB.Index);
+				return getActor(BattleSideEnum.SIDEB_RIGHT.Index);
 			}
 		}
 

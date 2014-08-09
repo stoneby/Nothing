@@ -28,12 +28,7 @@ namespace KXSGCodec
   {
     private int _index;
     private int _templateId;
-    private int _defaultCD;
-    private List<sbyte> _shieldList;
-    private Dictionary<int, int> _fighteProp;
     private Dictionary<sbyte, int> _dropMap;
-    private int _aiID;
-    private List<int> _skillList;
 
     /// <summary>
     /// 位置Index
@@ -68,54 +63,6 @@ namespace KXSGCodec
     }
 
     /// <summary>
-    /// 默认CD
-    /// </summary>
-    public int DefaultCD
-    {
-      get
-      {
-        return _defaultCD;
-      }
-      set
-      {
-        __isset.defaultCD = true;
-        this._defaultCD = value;
-      }
-    }
-
-    /// <summary>
-    /// 护盾列表（测试用字段）
-    /// </summary>
-    public List<sbyte> ShieldList
-    {
-      get
-      {
-        return _shieldList;
-      }
-      set
-      {
-        __isset.shieldList = true;
-        this._shieldList = value;
-      }
-    }
-
-    /// <summary>
-    /// 战斗属性map，hp,sp等（测试用字段）
-    /// </summary>
-    public Dictionary<int, int> FighteProp
-    {
-      get
-      {
-        return _fighteProp;
-      }
-      set
-      {
-        __isset.fighteProp = true;
-        this._fighteProp = value;
-      }
-    }
-
-    /// <summary>
     /// 战斗掉落
     /// </summary>
     public Dictionary<sbyte, int> DropMap
@@ -131,38 +78,6 @@ namespace KXSGCodec
       }
     }
 
-    /// <summary>
-    /// 怪物AI ID
-    /// </summary>
-    public int AiID
-    {
-      get
-      {
-        return _aiID;
-      }
-      set
-      {
-        __isset.aiID = true;
-        this._aiID = value;
-      }
-    }
-
-    /// <summary>
-    /// 怪物技能列表
-    /// </summary>
-    public List<int> SkillList
-    {
-      get
-      {
-        return _skillList;
-      }
-      set
-      {
-        __isset.skillList = true;
-        this._skillList = value;
-      }
-    }
-
 
     public Isset __isset;
     #if !SILVERLIGHT
@@ -171,12 +86,7 @@ namespace KXSGCodec
     public struct Isset {
       public bool index;
       public bool templateId;
-      public bool defaultCD;
-      public bool shieldList;
-      public bool fighteProp;
       public bool dropMap;
-      public bool aiID;
-      public bool skillList;
     }
 
     public BattleMsgMonster() {
@@ -209,86 +119,19 @@ namespace KXSGCodec
             }
             break;
           case 3:
-            if (field.Type == TType.I32) {
-              DefaultCD = iprot.ReadI32();
-            } else { 
-              TProtocolUtil.Skip(iprot, field.Type);
-            }
-            break;
-          case 4:
-            if (field.Type == TType.List) {
-              {
-                ShieldList = new List<sbyte>();
-                TList _list48 = iprot.ReadListBegin();
-                for( int _i49 = 0; _i49 < _list48.Count; ++_i49)
-                {
-                  sbyte _elem50 = 0;
-                  _elem50 = iprot.ReadByte();
-                  ShieldList.Add(_elem50);
-                }
-                iprot.ReadListEnd();
-              }
-            } else { 
-              TProtocolUtil.Skip(iprot, field.Type);
-            }
-            break;
-          case 5:
-            if (field.Type == TType.Map) {
-              {
-                FighteProp = new Dictionary<int, int>();
-                TMap _map51 = iprot.ReadMapBegin();
-                for( int _i52 = 0; _i52 < _map51.Count; ++_i52)
-                {
-                  int _key53;
-                  int _val54;
-                  _key53 = iprot.ReadI32();
-                  _val54 = iprot.ReadI32();
-                  FighteProp[_key53] = _val54;
-                }
-                iprot.ReadMapEnd();
-              }
-            } else { 
-              TProtocolUtil.Skip(iprot, field.Type);
-            }
-            break;
-          case 6:
             if (field.Type == TType.Map) {
               {
                 DropMap = new Dictionary<sbyte, int>();
-                TMap _map55 = iprot.ReadMapBegin();
-                for( int _i56 = 0; _i56 < _map55.Count; ++_i56)
+                TMap _map0 = iprot.ReadMapBegin();
+                for( int _i1 = 0; _i1 < _map0.Count; ++_i1)
                 {
-                  sbyte _key57;
-                  int _val58;
-                  _key57 = iprot.ReadByte();
-                  _val58 = iprot.ReadI32();
-                  DropMap[_key57] = _val58;
+                  sbyte _key2;
+                  int _val3;
+                  _key2 = iprot.ReadByte();
+                  _val3 = iprot.ReadI32();
+                  DropMap[_key2] = _val3;
                 }
                 iprot.ReadMapEnd();
-              }
-            } else { 
-              TProtocolUtil.Skip(iprot, field.Type);
-            }
-            break;
-          case 7:
-            if (field.Type == TType.I32) {
-              AiID = iprot.ReadI32();
-            } else { 
-              TProtocolUtil.Skip(iprot, field.Type);
-            }
-            break;
-          case 8:
-            if (field.Type == TType.List) {
-              {
-                SkillList = new List<int>();
-                TList _list59 = iprot.ReadListBegin();
-                for( int _i60 = 0; _i60 < _list59.Count; ++_i60)
-                {
-                  int _elem61 = 0;
-                  _elem61 = iprot.ReadI32();
-                  SkillList.Add(_elem61);
-                }
-                iprot.ReadListEnd();
               }
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
@@ -323,81 +166,19 @@ namespace KXSGCodec
         oprot.WriteI32(TemplateId);
         oprot.WriteFieldEnd();
       }
-      if (__isset.defaultCD) {
-        field.Name = "defaultCD";
-        field.Type = TType.I32;
-        field.ID = 3;
-        oprot.WriteFieldBegin(field);
-        oprot.WriteI32(DefaultCD);
-        oprot.WriteFieldEnd();
-      }
-      if (ShieldList != null && __isset.shieldList) {
-        field.Name = "shieldList";
-        field.Type = TType.List;
-        field.ID = 4;
-        oprot.WriteFieldBegin(field);
-        {
-          oprot.WriteListBegin(new TList(TType.Byte, ShieldList.Count));
-          foreach (sbyte _iter62 in ShieldList)
-          {
-            oprot.WriteByte(_iter62);
-          }
-          oprot.WriteListEnd();
-        }
-        oprot.WriteFieldEnd();
-      }
-      if (FighteProp != null && __isset.fighteProp) {
-        field.Name = "fighteProp";
-        field.Type = TType.Map;
-        field.ID = 5;
-        oprot.WriteFieldBegin(field);
-        {
-          oprot.WriteMapBegin(new TMap(TType.I32, TType.I32, FighteProp.Count));
-          foreach (int _iter63 in FighteProp.Keys)
-          {
-            oprot.WriteI32(_iter63);
-            oprot.WriteI32(FighteProp[_iter63]);
-          }
-          oprot.WriteMapEnd();
-        }
-        oprot.WriteFieldEnd();
-      }
       if (DropMap != null && __isset.dropMap) {
         field.Name = "dropMap";
         field.Type = TType.Map;
-        field.ID = 6;
+        field.ID = 3;
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteMapBegin(new TMap(TType.Byte, TType.I32, DropMap.Count));
-          foreach (sbyte _iter64 in DropMap.Keys)
+          foreach (sbyte _iter4 in DropMap.Keys)
           {
-            oprot.WriteByte(_iter64);
-            oprot.WriteI32(DropMap[_iter64]);
+            oprot.WriteByte(_iter4);
+            oprot.WriteI32(DropMap[_iter4]);
           }
           oprot.WriteMapEnd();
-        }
-        oprot.WriteFieldEnd();
-      }
-      if (__isset.aiID) {
-        field.Name = "aiID";
-        field.Type = TType.I32;
-        field.ID = 7;
-        oprot.WriteFieldBegin(field);
-        oprot.WriteI32(AiID);
-        oprot.WriteFieldEnd();
-      }
-      if (SkillList != null && __isset.skillList) {
-        field.Name = "skillList";
-        field.Type = TType.List;
-        field.ID = 8;
-        oprot.WriteFieldBegin(field);
-        {
-          oprot.WriteListBegin(new TList(TType.I32, SkillList.Count));
-          foreach (int _iter65 in SkillList)
-          {
-            oprot.WriteI32(_iter65);
-          }
-          oprot.WriteListEnd();
         }
         oprot.WriteFieldEnd();
       }
@@ -411,18 +192,8 @@ namespace KXSGCodec
       sb.Append(Index);
       sb.Append(",TemplateId: ");
       sb.Append(TemplateId);
-      sb.Append(",DefaultCD: ");
-      sb.Append(DefaultCD);
-      sb.Append(",ShieldList: ");
-      sb.Append(ShieldList);
-      sb.Append(",FighteProp: ");
-      sb.Append(FighteProp);
       sb.Append(",DropMap: ");
       sb.Append(DropMap);
-      sb.Append(",AiID: ");
-      sb.Append(AiID);
-      sb.Append(",SkillList: ");
-      sb.Append(SkillList);
       sb.Append(")");
       return sb.ToString();
     }

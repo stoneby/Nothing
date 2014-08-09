@@ -23,23 +23,176 @@ namespace Template.Auto.Skill
   #endif
   public partial class HeroBattleSkillTemplate : TBase
   {
-    private BaseSkillTemplate _baseTmpl;
+    private int _id;
+    private string _name;
+    private string _desc;
+    private int _skillType;
+    private int _level;
+    private int _maxLevel;
+    private int _nextSkillId;
+    private int _comperhendAble;
+    private int _triggerId;
+    private int _triggerRate;
     private int _costMP;
     private List<SkillBattleConditionData> _skillConditionList;
     private List<SkillTargetGetterData> _enemyTargetList;
     private List<SkillTargetGetterData> _friendTargetList;
     private List<SkillBattleEffectData> _effectList;
 
-    public BaseSkillTemplate BaseTmpl
+    public int Id
     {
       get
       {
-        return _baseTmpl;
+        return _id;
       }
       set
       {
-        __isset.baseTmpl = true;
-        this._baseTmpl = value;
+        __isset.id = true;
+        this._id = value;
+      }
+    }
+
+    /// <summary>
+    /// 技能名称
+    /// </summary>
+    public string Name
+    {
+      get
+      {
+        return _name;
+      }
+      set
+      {
+        __isset.name = true;
+        this._name = value;
+      }
+    }
+
+    /// <summary>
+    /// 技能描述
+    /// </summary>
+    public string Desc
+    {
+      get
+      {
+        return _desc;
+      }
+      set
+      {
+        __isset.desc = true;
+        this._desc = value;
+      }
+    }
+
+    /// <summary>
+    /// 技能类型
+    /// </summary>
+    public int SkillType
+    {
+      get
+      {
+        return _skillType;
+      }
+      set
+      {
+        __isset.skillType = true;
+        this._skillType = value;
+      }
+    }
+
+    /// <summary>
+    /// 技能等级
+    /// </summary>
+    public int Level
+    {
+      get
+      {
+        return _level;
+      }
+      set
+      {
+        __isset.level = true;
+        this._level = value;
+      }
+    }
+
+    /// <summary>
+    /// 最高等级
+    /// </summary>
+    public int MaxLevel
+    {
+      get
+      {
+        return _maxLevel;
+      }
+      set
+      {
+        __isset.maxLevel = true;
+        this._maxLevel = value;
+      }
+    }
+
+    /// <summary>
+    /// 下一等级技能ID
+    /// </summary>
+    public int NextSkillId
+    {
+      get
+      {
+        return _nextSkillId;
+      }
+      set
+      {
+        __isset.nextSkillId = true;
+        this._nextSkillId = value;
+      }
+    }
+
+    /// <summary>
+    /// 是否能被领悟
+    /// </summary>
+    public int ComperhendAble
+    {
+      get
+      {
+        return _comperhendAble;
+      }
+      set
+      {
+        __isset.comperhendAble = true;
+        this._comperhendAble = value;
+      }
+    }
+
+    /// <summary>
+    /// 触发节点
+    /// </summary>
+    public int TriggerId
+    {
+      get
+      {
+        return _triggerId;
+      }
+      set
+      {
+        __isset.triggerId = true;
+        this._triggerId = value;
+      }
+    }
+
+    /// <summary>
+    /// 触发几率
+    /// </summary>
+    public int TriggerRate
+    {
+      get
+      {
+        return _triggerRate;
+      }
+      set
+      {
+        __isset.triggerRate = true;
+        this._triggerRate = value;
       }
     }
 
@@ -129,7 +282,16 @@ namespace Template.Auto.Skill
     [Serializable]
     #endif
     public struct Isset {
-      public bool baseTmpl;
+      public bool id;
+      public bool name;
+      public bool desc;
+      public bool skillType;
+      public bool level;
+      public bool maxLevel;
+      public bool nextSkillId;
+      public bool comperhendAble;
+      public bool triggerId;
+      public bool triggerRate;
       public bool costMP;
       public bool skillConditionList;
       public bool enemyTargetList;
@@ -153,21 +315,83 @@ namespace Template.Auto.Skill
         switch (field.ID)
         {
           case 1:
-            if (field.Type == TType.Struct) {
-              BaseTmpl = new BaseSkillTemplate();
-              BaseTmpl.Read(iprot);
+            if (field.Type == TType.I32) {
+              Id = iprot.ReadI32();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
             break;
           case 2:
+            if (field.Type == TType.String) {
+              Name = iprot.ReadString();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 3:
+            if (field.Type == TType.String) {
+              Desc = iprot.ReadString();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 4:
+            if (field.Type == TType.I32) {
+              SkillType = iprot.ReadI32();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 5:
+            if (field.Type == TType.I32) {
+              Level = iprot.ReadI32();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 6:
+            if (field.Type == TType.I32) {
+              MaxLevel = iprot.ReadI32();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 7:
+            if (field.Type == TType.I32) {
+              NextSkillId = iprot.ReadI32();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 8:
+            if (field.Type == TType.I32) {
+              ComperhendAble = iprot.ReadI32();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 9:
+            if (field.Type == TType.I32) {
+              TriggerId = iprot.ReadI32();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 10:
+            if (field.Type == TType.I32) {
+              TriggerRate = iprot.ReadI32();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 11:
             if (field.Type == TType.I32) {
               CostMP = iprot.ReadI32();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
             break;
-          case 3:
+          case 12:
             if (field.Type == TType.List) {
               {
                 SkillConditionList = new List<SkillBattleConditionData>();
@@ -185,7 +409,7 @@ namespace Template.Auto.Skill
               TProtocolUtil.Skip(iprot, field.Type);
             }
             break;
-          case 4:
+          case 13:
             if (field.Type == TType.List) {
               {
                 EnemyTargetList = new List<SkillTargetGetterData>();
@@ -203,7 +427,7 @@ namespace Template.Auto.Skill
               TProtocolUtil.Skip(iprot, field.Type);
             }
             break;
-          case 5:
+          case 14:
             if (field.Type == TType.List) {
               {
                 FriendTargetList = new List<SkillTargetGetterData>();
@@ -221,7 +445,7 @@ namespace Template.Auto.Skill
               TProtocolUtil.Skip(iprot, field.Type);
             }
             break;
-          case 6:
+          case 15:
             if (field.Type == TType.List) {
               {
                 EffectList = new List<SkillBattleEffectData>();
@@ -252,18 +476,90 @@ namespace Template.Auto.Skill
       TStruct struc = new TStruct("HeroBattleSkillTemplate");
       oprot.WriteStructBegin(struc);
       TField field = new TField();
-      if (BaseTmpl != null && __isset.baseTmpl) {
-        field.Name = "baseTmpl";
-        field.Type = TType.Struct;
+      if (__isset.id) {
+        field.Name = "id";
+        field.Type = TType.I32;
         field.ID = 1;
         oprot.WriteFieldBegin(field);
-        BaseTmpl.Write(oprot);
+        oprot.WriteI32(Id);
+        oprot.WriteFieldEnd();
+      }
+      if (Name != null && __isset.name) {
+        field.Name = "name";
+        field.Type = TType.String;
+        field.ID = 2;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteString(Name);
+        oprot.WriteFieldEnd();
+      }
+      if (Desc != null && __isset.desc) {
+        field.Name = "desc";
+        field.Type = TType.String;
+        field.ID = 3;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteString(Desc);
+        oprot.WriteFieldEnd();
+      }
+      if (__isset.skillType) {
+        field.Name = "skillType";
+        field.Type = TType.I32;
+        field.ID = 4;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteI32(SkillType);
+        oprot.WriteFieldEnd();
+      }
+      if (__isset.level) {
+        field.Name = "level";
+        field.Type = TType.I32;
+        field.ID = 5;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteI32(Level);
+        oprot.WriteFieldEnd();
+      }
+      if (__isset.maxLevel) {
+        field.Name = "maxLevel";
+        field.Type = TType.I32;
+        field.ID = 6;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteI32(MaxLevel);
+        oprot.WriteFieldEnd();
+      }
+      if (__isset.nextSkillId) {
+        field.Name = "nextSkillId";
+        field.Type = TType.I32;
+        field.ID = 7;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteI32(NextSkillId);
+        oprot.WriteFieldEnd();
+      }
+      if (__isset.comperhendAble) {
+        field.Name = "comperhendAble";
+        field.Type = TType.I32;
+        field.ID = 8;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteI32(ComperhendAble);
+        oprot.WriteFieldEnd();
+      }
+      if (__isset.triggerId) {
+        field.Name = "triggerId";
+        field.Type = TType.I32;
+        field.ID = 9;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteI32(TriggerId);
+        oprot.WriteFieldEnd();
+      }
+      if (__isset.triggerRate) {
+        field.Name = "triggerRate";
+        field.Type = TType.I32;
+        field.ID = 10;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteI32(TriggerRate);
         oprot.WriteFieldEnd();
       }
       if (__isset.costMP) {
         field.Name = "costMP";
         field.Type = TType.I32;
-        field.ID = 2;
+        field.ID = 11;
         oprot.WriteFieldBegin(field);
         oprot.WriteI32(CostMP);
         oprot.WriteFieldEnd();
@@ -271,7 +567,7 @@ namespace Template.Auto.Skill
       if (SkillConditionList != null && __isset.skillConditionList) {
         field.Name = "skillConditionList";
         field.Type = TType.List;
-        field.ID = 3;
+        field.ID = 12;
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.Struct, SkillConditionList.Count));
@@ -286,7 +582,7 @@ namespace Template.Auto.Skill
       if (EnemyTargetList != null && __isset.enemyTargetList) {
         field.Name = "enemyTargetList";
         field.Type = TType.List;
-        field.ID = 4;
+        field.ID = 13;
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.Struct, EnemyTargetList.Count));
@@ -301,7 +597,7 @@ namespace Template.Auto.Skill
       if (FriendTargetList != null && __isset.friendTargetList) {
         field.Name = "friendTargetList";
         field.Type = TType.List;
-        field.ID = 5;
+        field.ID = 14;
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.Struct, FriendTargetList.Count));
@@ -316,7 +612,7 @@ namespace Template.Auto.Skill
       if (EffectList != null && __isset.effectList) {
         field.Name = "effectList";
         field.Type = TType.List;
-        field.ID = 6;
+        field.ID = 15;
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.Struct, EffectList.Count));
@@ -334,8 +630,26 @@ namespace Template.Auto.Skill
 
     public override string ToString() {
       StringBuilder sb = new StringBuilder("HeroBattleSkillTemplate(");
-      sb.Append("BaseTmpl: ");
-      sb.Append(BaseTmpl== null ? "<null>" : BaseTmpl.ToString());
+      sb.Append("Id: ");
+      sb.Append(Id);
+      sb.Append(",Name: ");
+      sb.Append(Name);
+      sb.Append(",Desc: ");
+      sb.Append(Desc);
+      sb.Append(",SkillType: ");
+      sb.Append(SkillType);
+      sb.Append(",Level: ");
+      sb.Append(Level);
+      sb.Append(",MaxLevel: ");
+      sb.Append(MaxLevel);
+      sb.Append(",NextSkillId: ");
+      sb.Append(NextSkillId);
+      sb.Append(",ComperhendAble: ");
+      sb.Append(ComperhendAble);
+      sb.Append(",TriggerId: ");
+      sb.Append(TriggerId);
+      sb.Append(",TriggerRate: ");
+      sb.Append(TriggerRate);
       sb.Append(",CostMP: ");
       sb.Append(CostMP);
       sb.Append(",SkillConditionList: ");

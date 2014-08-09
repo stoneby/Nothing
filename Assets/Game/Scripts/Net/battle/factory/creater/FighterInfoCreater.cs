@@ -5,14 +5,12 @@ namespace com.kx.sglm.gs.battle.share.factory.creater
 
 
 	using MathUtils = com.kx.sglm.core.util.MathUtils;
-	using BattleSource = com.kx.sglm.gs.battle.share.data.BattleSource;
 	using FighterInfo = com.kx.sglm.gs.battle.share.data.FighterInfo;
 	using BattleSideEnum = com.kx.sglm.gs.battle.share.enums.BattleSideEnum;
 	using FighterType = com.kx.sglm.gs.battle.share.enums.FighterType;
 	using RoleAProperty = com.kx.sglm.gs.hero.properties.RoleAProperty;
 	using BattleMsgHero = KXSGCodec.BattleMsgHero;
 	using BattleMsgMonster = KXSGCodec.BattleMsgMonster;
-
 
 	/// 
 	/// <summary>
@@ -21,18 +19,6 @@ namespace com.kx.sglm.gs.battle.share.factory.creater
 	/// </summary>
 	public class FighterInfoCreater
 	{
-
-		public static void initBattleSkillService(BattleSource battleSource)
-		{
-			BattleActionService _service = BattleActionService.Service;
-			_service.SpMaxBuffId = battleSource.SpMaxBuffId;
-			_service.initNormalAction();
-			_service.initTemplateHeroSkillAction(battleSource.HeroSkillList);
-			_service.initTemplateMonsterSkillAction(battleSource.MonsterSkillList);
-			_service.initAllMonsterAI(battleSource.MonsterAIList);
-			_service.initTemplateBuffAction(battleSource.BuffList);
-		}
-
 
 		public static List<FighterInfo> createListFromMsgHero(BattleSideEnum side, List<BattleMsgHero> msgHeroList)
 		{
@@ -43,29 +29,6 @@ namespace com.kx.sglm.gs.battle.share.factory.creater
 				_fighterList.Add(_info);
 			}
 			return _fighterList;
-		}
-
-		public static List<FighterInfo> createListFormMsgMonster(BattleSideEnum side, List<int> monsterGroup, List<BattleMsgMonster> msgMonsterList)
-		{
-			List<FighterInfo> _monsterList = new List<FighterInfo>();
-
-			// 在创建MonsterInfo的时候注入SceneIndex
-			int _sceneMonsterCount = 0;
-			int _sceneIndex = 0;
-
-			foreach (BattleMsgMonster _monster in msgMonsterList)
-			{
-				FighterInfo _info = createFighterFromMsgMonster(side, _monster);
-				_info.addNormalProp(BattleKeyConstants.BATTLE_KEY_MONSTER_SCENE, _sceneIndex);
-				_info.Index = _sceneMonsterCount;
-				if (++_sceneMonsterCount >= monsterGroup[_sceneIndex])
-				{
-					_sceneIndex++;
-					_sceneMonsterCount = 0;
-				}
-				_monsterList.Add(_info);
-			}
-			return _monsterList;
 		}
 
 		public static FighterInfo createFighterFromMsgHero(BattleSideEnum side, BattleMsgHero msgHero)
@@ -84,6 +47,40 @@ namespace com.kx.sglm.gs.battle.share.factory.creater
 			return _info;
 		}
 
+		public static void initDropMapFromMsgMonster(List<FighterInfo> fighterInfos, List<BattleMsgMonster> msgMonsters)
+		{
+			int _fighterSize = fighterInfos.Count;
+			int _monsterSize = msgMonsters.Count;
+			if (_fighterSize != _monsterSize)
+			{
+				Logger.Log(string.Format("fighterInfo size = {0:D}, msgMonster size = {1:D}, not fit!", _fighterSize, _monsterSize));
+			}
+			for (int _i = 0; _i < _fighterSize; _i++)
+			{
+				createMonsterDrop(fighterInfos[_i], msgMonsters[_i].DropMap);
+			}
+		}
+
+		public static void initFighterIndexFromMonsterGrop(BattleSideEnum side, List<int> monsterGroup, List<FighterInfo> monsterFighter)
+		{
+
+			// 在创建MonsterInfo的时候注入SceneIndex
+			int _sceneMonsterCount = 0;
+			int _sceneIndex = 0;
+
+			foreach (FighterInfo _info in monsterFighter)
+			{
+				_info.addNormalProp(BattleKeyConstants.BATTLE_KEY_MONSTER_SCENE, _sceneIndex);
+				_info.Index = _sceneMonsterCount;
+				if (++_sceneMonsterCount >= monsterGroup[_sceneIndex])
+				{
+					_sceneIndex++;
+					_sceneMonsterCount = 0;
+				}
+			}
+
+		}
+
 		public static FighterInfo createFighterFromMsgMonster(BattleSideEnum side, BattleMsgMonster msgMonster)
 		{
 			FighterInfo _info = new FighterInfo();
@@ -93,9 +90,6 @@ namespace com.kx.sglm.gs.battle.share.factory.creater
 			_info.addNormalProp(BattleKeyConstants.BATTLE_KEY_HERO_JOB, 1);
 			_info.FighterType = FighterType.MONSTER;
 			createMonsterDrop(_info, msgMonster.DropMap);
-			_info.BattleProperty = msgMonster.FighteProp;
-			_info.addNormalProp(BattleKeyConstants.BATTLE_PROP_MONSTER_AI_ID, msgMonster.AiID);
-			_info.addNormalProp(BattleKeyConstants.BATTLE_PROP_MONSTER_DEFAULT_CD, msgMonster.DefaultCD);
 			return _info;
 		}
 

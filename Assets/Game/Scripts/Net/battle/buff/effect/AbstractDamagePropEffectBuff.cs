@@ -5,6 +5,7 @@ namespace com.kx.sglm.gs.battle.share.buff.effect
 	using FighterStateEnum = com.kx.sglm.gs.battle.share.enums.FighterStateEnum;
 
 	/// <summary>
+	/// 加上，减伤，与<seealso cref="AbstractNormalPropEffectBuff"/>的属性计算方式不同
 	/// @author liyuan2
 	/// 
 	/// </summary>

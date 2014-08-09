@@ -112,7 +112,7 @@ public class LeaderControl : MonoBehaviour
         {
             return;
         }
-        Alert.Show(AssertionWindow.Type.OkCancel, skillData.BaseTmpl.Name, skillData.BaseTmpl.Desc, OnAssertButtonClicked, OnCancelClicked);
+        Alert.Show(AssertionWindow.Type.OkCancel, skillData.Name, skillData.Desc, OnAssertButtonClicked, OnCancelClicked);
         BattleModelLocator.Instance.CanSelectHero = false;
     }
 

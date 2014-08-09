@@ -1,5 +1,4 @@
-﻿using System.Runtime.Serialization.Formatters;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class SDKLoginManager : MonoBehaviour 
 {

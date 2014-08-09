@@ -82,13 +82,13 @@ namespace com.kx.sglm.gs.battle.share.buff
 			}
 		}
 
-		public virtual void effectBuff()
+		public virtual void onTeamBeforeAttack()
 		{
 			foreach (BuffStackInfo _info in stackingList)
 			{
 				if (_info.Active)
 				{
-					buffAction.onEffect(Owner);
+					buffAction.onTeamBeforeAttack(Owner);
 				}
 			}
 		}

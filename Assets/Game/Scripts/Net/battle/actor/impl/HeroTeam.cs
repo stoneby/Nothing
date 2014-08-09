@@ -289,6 +289,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 			calcFighterAction(_isRecover);
 			createSpMaxForRecover(_isRecover);
 			addProp(BattleKeyConstants.BATTLE_KEY_HERO_TEAM_TARGET, targetIndex);
+			printAllColor("#handleBattleFightInfo");
 			return true;
 		}
 
@@ -535,6 +536,27 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 			}
 			_point.updateColor(color);
 			actionRecord.addProp(BattleRecordConstants.BATTLE_HERO_PROP_COLOR_CHANGE, _point.Color.Index);
+		}
+
+		protected internal virtual void printAllColor(string @event)
+		{
+			StringBuilder _sb = new StringBuilder();
+			_sb.Append("curAction: ");
+			foreach (int _index in curActionArr)
+			{
+				_sb.Append(_index).Append(";");
+			}
+			_sb.Append("  curPoint: ");
+			foreach (HeroPoint _point in battlingHeroArr)
+			{
+				_sb.Append(_point.toLogString()).Append(";");
+			}
+			_sb.Append("  curWaiting: ");
+			foreach (HeroPoint _point in waitingHeroList)
+			{
+				_sb.Append(_point.toLogString()).Append(";");
+			}
+			Logger.Log(_sb.ToString());
 		}
 
 		public override int getFighterColor(int fighterIndex)

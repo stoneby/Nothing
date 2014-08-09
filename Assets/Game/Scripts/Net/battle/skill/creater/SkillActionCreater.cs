@@ -21,15 +21,6 @@ namespace com.kx.sglm.gs.battle.share.skill.creater
 	using SkillEffectEnum = com.kx.sglm.gs.battle.share.skill.enums.SkillEffectEnum;
 	using SkillTargetEnum = com.kx.sglm.gs.battle.share.skill.enums.SkillTargetEnum;
 	using ArrayUtils = com.kx.sglm.gs.battle.share.utils.ArrayUtils;
-	using BattleBuffMsgData = KXSGCodec.BattleBuffMsgData;
-	using BattleHeroSkillMsgAction = KXSGCodec.BattleHeroSkillMsgAction;
-	using BattleMonsterAIMsgAction = KXSGCodec.BattleMonsterAIMsgAction;
-	using BattleMonsterSkillMsgAction = KXSGCodec.BattleMonsterSkillMsgAction;
-	using BattleSkillMsgCondition = KXSGCodec.BattleSkillMsgCondition;
-	using MonsterSkillAIMsgData = KXSGCodec.MonsterSkillAIMsgData;
-	using SkillBattleEffectMsgData = KXSGCodec.SkillBattleEffectMsgData;
-	using SkillRatePairMsgData = KXSGCodec.SkillRatePairMsgData;
-	using SkillTargetGetterMsgData = KXSGCodec.SkillTargetGetterMsgData;
 
 	/// <summary>
 	/// 技能动作生成类
@@ -45,31 +36,31 @@ namespace com.kx.sglm.gs.battle.share.skill.creater
 		/// </summary>
 		/// <param name="msgDataList">
 		/// @return </param>
-		public static List<IBuffAction> createBuffActions(List<BattleBuffMsgData> msgDataList)
+		public static List<IBuffAction> createBuffActions(List<Template.Auto.Buff.BattleBuffTemplate> msgDataList)
 		{
-			SkillPartInfoCreater<IBuffAction, BuffEffectEnum, BattleBuffMsgData> _creater = new SkillPartInfoCreaterAnonymousInnerClassHelper();
+			SkillPartInfoCreater<IBuffAction, BuffEffectEnum, Template.Auto.Buff.BattleBuffTemplate> _creater = new SkillPartInfoCreaterAnonymousInnerClassHelper();
 			return _creater.createInfoList(msgDataList, BuffEffectEnum.values());
 		}
 
-		private class SkillPartInfoCreaterAnonymousInnerClassHelper : SkillPartInfoCreater<IBuffAction, BuffEffectEnum, BattleBuffMsgData>
+		private class SkillPartInfoCreaterAnonymousInnerClassHelper : SkillPartInfoCreater<IBuffAction, BuffEffectEnum, Template.Auto.Buff.BattleBuffTemplate>
 		{
 			public SkillPartInfoCreaterAnonymousInnerClassHelper()
 			{
 			}
 
 
-			internal override IBuffAction createObj(BuffEffectEnum[] values, BattleBuffMsgData obj)
+			internal override IBuffAction createObj(BuffEffectEnum[] values, Template.Auto.Buff.BattleBuffTemplate obj)
 			{
-				AbstractBuffEffect _buffAction = (AbstractBuffEffect) values[obj.Buffkey].createInstance();
-				_buffAction.Id = obj.BuffId;
+				AbstractBuffEffect _buffAction = (AbstractBuffEffect) values[obj.BuffKey].createInstance();
+				_buffAction.Id = obj.Id;
 				_buffAction.BuffFlag = obj.BuffFlag;
 				_buffAction.TypeA = obj.TypeA;
 				_buffAction.TypeB = obj.TypeB;
 				_buffAction.CDRound = obj.Round;
 				_buffAction.Priority = obj.Proiority;
-				_buffAction.MaxStackingCount = obj.StackingRound;
+				_buffAction.MaxStackingCount = obj.StackingCount;
 				_buffAction.BuffShowId = obj.BuffShowId;
-				_buffAction.build(obj.BuffParam);
+				_buffAction.build(obj.BuffParams);
 				return _buffAction;
 			}
 		}
@@ -79,7 +70,7 @@ namespace com.kx.sglm.gs.battle.share.skill.creater
 		/// </summary>
 		/// <param name="baseData">
 		/// @return </param>
-		public static MonsterAI createMonsterAI(BattleMonsterAIMsgAction baseData)
+		public static MonsterAI createMonsterAI(Template.Auto.Monster.MonsterBattleAITemplate baseData)
 		{
 			MonsterAI _ai = new MonsterAI();
 			_ai.AiId = baseData.Id;
@@ -94,7 +85,7 @@ namespace com.kx.sglm.gs.battle.share.skill.creater
 		/// </summary>
 		/// <param name="baseData">
 		/// @return </param>
-		public static BaseMonsterSkillAction createMonsterSkillAction(BattleMonsterSkillMsgAction baseData)
+		public static BaseMonsterSkillAction createMonsterSkillAction(Template.Auto.Skill.MonsterBattleSkillTemplate baseData)
 		{
 			BaseMonsterSkillAction _action = new BaseMonsterSkillAction();
 
@@ -132,7 +123,7 @@ namespace com.kx.sglm.gs.battle.share.skill.creater
 		/// </summary>
 		/// <param name="baseData">
 		/// @return </param>
-		public static BaseHeroBattleSkillAction createHeroSkillAction(BattleHeroSkillMsgAction baseData)
+		public static BaseHeroBattleSkillAction createHeroSkillAction(Template.Auto.Skill.HeroBattleSkillTemplate baseData)
 		{
 			BaseHeroBattleSkillAction _action = new BaseHeroBattleSkillAction();
 			List<ISkillCondition> _conditionList = createCondition(baseData);
@@ -142,7 +133,7 @@ namespace com.kx.sglm.gs.battle.share.skill.creater
 			// 装入数据
 			_action.SkillId = baseData.Id;
 			_action.TriggerId = baseData.TriggerId;
-			_action.CostMp = baseData.CostMp;
+			_action.CostMp = baseData.CostMP;
 			_action.addCondition(_conditionList);
 			_action.addEnemyTargetGetter(_enemyTargetGetterList);
 			_action.addFriendTargetGetter(_friendTargetGetterList);
@@ -156,35 +147,35 @@ namespace com.kx.sglm.gs.battle.share.skill.creater
 		/// </summary>
 		/// <param name="baseData">
 		/// @return </param>
-		protected internal static List<SkillRoulettePair> createDefaultSkillFromTemp(BattleMonsterAIMsgAction baseData)
+		protected internal static List<SkillRoulettePair> createDefaultSkillFromTemp(Template.Auto.Monster.MonsterBattleAITemplate baseData)
 		{
 			List<SkillRoulettePair> _skillList = new List<SkillRoulettePair>();
-			List<SkillRatePairMsgData> _dataList = baseData.DefaultSkills;
-			foreach (SkillRatePairMsgData _dataPair in _dataList)
+			List<Template.Auto.Monster.SkillRatePairData> _dataList = baseData.DefaultSkills;
+			foreach (Template.Auto.Monster.SkillRatePairData _dataPair in _dataList)
 			{
 				_skillList.Add(createRottlePairFromData(_dataPair));
 			}
 			return _skillList;
 		}
 
-		protected internal static SkillRoulettePair createRottlePairFromData(SkillRatePairMsgData pairData)
+		protected internal static SkillRoulettePair createRottlePairFromData(Template.Auto.Monster.SkillRatePairData pairData)
 		{
 			return createRottlePairFromParam(pairData.SkillId, pairData.RouletteRate);
 		}
 
-		protected internal static List<SkillAIHolder> createSkillAIHolderFromTemp(BattleMonsterAIMsgAction baseData)
+		protected internal static List<SkillAIHolder> createSkillAIHolderFromTemp(Template.Auto.Monster.MonsterBattleAITemplate baseData)
 		{
 			List<SkillAIHolder> _holderList = new List<SkillAIHolder>();
-			List<MonsterSkillAIMsgData> _aiDataList = baseData.AiSkills;
+			List<Template.Auto.Monster.MonsterSkillAIData> _aiDataList = baseData.AiSkills;
 			Dictionary<int, SkillAIHolder> _holderMap = new Dictionary<int, SkillAIHolder>();
 
 			if (ArrayUtils.isEmpty(_aiDataList))
 			{
-				_aiDataList = new List<MonsterSkillAIMsgData>();
+				_aiDataList = new List<Template.Auto.Monster.MonsterSkillAIData>();
 				// TODO: 太糙，以后重构
 			}
 
-			foreach (MonsterSkillAIMsgData _data in _aiDataList)
+			foreach (Template.Auto.Monster.MonsterSkillAIData _data in _aiDataList)
 			{
 				SkillAI _ai = createSkillAIFromData(_data);
 				int _proiority = _ai.Priority;
@@ -221,7 +212,7 @@ namespace com.kx.sglm.gs.battle.share.skill.creater
 		/// </summary>
 		/// <param name="aiData">
 		/// @return </param>
-		protected internal static SkillAI createSkillAIFromData(MonsterSkillAIMsgData aiData)
+		protected internal static SkillAI createSkillAIFromData(Template.Auto.Monster.MonsterSkillAIData aiData)
 		{
 			SkillAI _skillAI = new SkillAI();
 			int _priority = aiData.Weight;
@@ -248,7 +239,7 @@ namespace com.kx.sglm.gs.battle.share.skill.creater
 		/// </summary>
 		/// <param name="aiData">
 		/// @return </param>
-		protected internal static IAICondition createAIConditionFromData(MonsterSkillAIMsgData aiData)
+		protected internal static IAICondition createAIConditionFromData(Template.Auto.Monster.MonsterSkillAIData aiData)
 		{
 			AIConditionEnum _conditionType = AIConditionEnum.values()[aiData.ConditionType];
 			IAICondition _condition = null;
@@ -283,11 +274,11 @@ namespace com.kx.sglm.gs.battle.share.skill.creater
 		/// </summary>
 		/// <param name="baseData">
 		/// @return </param>
-		public static List<ISkillCondition> createCondition(BattleHeroSkillMsgAction baseData)
+		public static List<ISkillCondition> createCondition(Template.Auto.Skill.HeroBattleSkillTemplate baseData)
 		{
 			List<ISkillCondition> _allCondition = new List<ISkillCondition>();
 			List<ISkillCondition> _defaultCondition = createDefaultCondition(Convert.ToString(baseData.TriggerRate));
-			List<ISkillCondition> _conditionList = createConditionListFromList(baseData.ConditionList);
+			List<ISkillCondition> _conditionList = createConditionListFromList(baseData.SkillConditionList);
 
 			_allCondition.AddRange(_defaultCondition);
 			_allCondition.AddRange(_conditionList);
@@ -300,27 +291,27 @@ namespace com.kx.sglm.gs.battle.share.skill.creater
 		/// </summary>
 		/// <param name="conditionDataList">
 		/// @return </param>
-		public static List<ISkillCondition> createConditionListFromList(List<BattleSkillMsgCondition> conditionDataList)
+		public static List<ISkillCondition> createConditionListFromList(List<Template.Auto.Skill.SkillBattleConditionData> conditionDataList)
 		{
 
-			SkillPartInfoCreater<ISkillCondition, SkillConditionEnum, BattleSkillMsgCondition> _creater = new SkillPartInfoCreaterAnonymousInnerClassHelper2();
+			SkillPartInfoCreater<ISkillCondition, SkillConditionEnum, Template.Auto.Skill.SkillBattleConditionData> _creater = new SkillPartInfoCreaterAnonymousInnerClassHelper2();
 			return _creater.createInfoList(conditionDataList, SkillConditionEnum.values());
 		}
 
-		private class SkillPartInfoCreaterAnonymousInnerClassHelper2 : SkillPartInfoCreater<ISkillCondition, SkillConditionEnum, BattleSkillMsgCondition>
+		private class SkillPartInfoCreaterAnonymousInnerClassHelper2 : SkillPartInfoCreater<ISkillCondition, SkillConditionEnum, Template.Auto.Skill.SkillBattleConditionData>
 		{
 			public SkillPartInfoCreaterAnonymousInnerClassHelper2()
 			{
 			}
 
 
-			internal override ISkillCondition createObj(SkillConditionEnum[] values, BattleSkillMsgCondition obj)
+			internal override ISkillCondition createObj(SkillConditionEnum[] values, Template.Auto.Skill.SkillBattleConditionData obj)
 			{
 				return (ISkillCondition) createSingleInfo(values, obj.ConditionKey, obj.ConditionVal);
 			}
 		}
 
-		public static List<ISkillTargetGetter> createTargetGetter(bool enemySide, List<SkillTargetGetterMsgData> targetDataList, bool all)
+		public static List<ISkillTargetGetter> createTargetGetter(bool enemySide, List<Template.Auto.Skill.SkillTargetGetterData> targetDataList, bool all)
 		{
 			List<ISkillTargetGetter> _targetGetterList = new List<ISkillTargetGetter>();
 			if (ArrayUtils.isEmpty(targetDataList))
@@ -334,7 +325,7 @@ namespace com.kx.sglm.gs.battle.share.skill.creater
 			return _targetGetterList;
 		}
 
-		public static List<ISkillTargetGetter> createTargetGetter(bool enemySide, List<SkillTargetGetterMsgData> targetDataList)
+		public static List<ISkillTargetGetter> createTargetGetter(bool enemySide, List<Template.Auto.Skill.SkillTargetGetterData> targetDataList)
 		{
 			return createTargetGetter(enemySide, targetDataList, false);
 		}
@@ -352,22 +343,22 @@ namespace com.kx.sglm.gs.battle.share.skill.creater
 		/// </summary>
 		/// <param name="targetDataList">
 		/// @return </param>
-		public static List<ISkillTargetGetter> createTargetGetterFromList(List<SkillTargetGetterMsgData> targetDataList)
+		public static List<ISkillTargetGetter> createTargetGetterFromList(List<Template.Auto.Skill.SkillTargetGetterData> targetDataList)
 		{
 
-			SkillPartInfoCreater<ISkillTargetGetter, SkillTargetEnum, SkillTargetGetterMsgData> _creater = new SkillPartInfoCreaterAnonymousInnerClassHelper3();
+			SkillPartInfoCreater<ISkillTargetGetter, SkillTargetEnum, Template.Auto.Skill.SkillTargetGetterData> _creater = new SkillPartInfoCreaterAnonymousInnerClassHelper3();
 
 			return _creater.createInfoList(targetDataList, SkillTargetEnum.values());
 		}
 
-		private class SkillPartInfoCreaterAnonymousInnerClassHelper3 : SkillPartInfoCreater<ISkillTargetGetter, SkillTargetEnum, SkillTargetGetterMsgData>
+		private class SkillPartInfoCreaterAnonymousInnerClassHelper3 : SkillPartInfoCreater<ISkillTargetGetter, SkillTargetEnum, Template.Auto.Skill.SkillTargetGetterData>
 		{
 			public SkillPartInfoCreaterAnonymousInnerClassHelper3()
 			{
 			}
 
 
-			internal override ISkillTargetGetter createObj(SkillTargetEnum[] values, SkillTargetGetterMsgData obj)
+			internal override ISkillTargetGetter createObj(SkillTargetEnum[] values, Template.Auto.Skill.SkillTargetGetterData obj)
 			{
 				return (ISkillTargetGetter) createSingleInfo(values, obj.TargetType, obj.TargetValue);
 			}
@@ -378,20 +369,20 @@ namespace com.kx.sglm.gs.battle.share.skill.creater
 		/// </summary>
 		/// <param name="effectDataList">
 		/// @return </param>
-		public static List<ISkillEffect> createEffectList(List<SkillBattleEffectMsgData> effectDataList)
+		public static List<ISkillEffect> createEffectList(List<Template.Auto.Skill.SkillBattleEffectData> effectDataList)
 		{
-			SkillPartInfoCreater<ISkillEffect, SkillEffectEnum, SkillBattleEffectMsgData> _creater = new SkillPartInfoCreaterAnonymousInnerClassHelper4();
+			SkillPartInfoCreater<ISkillEffect, SkillEffectEnum, Template.Auto.Skill.SkillBattleEffectData> _creater = new SkillPartInfoCreaterAnonymousInnerClassHelper4();
 			return _creater.createInfoList(effectDataList, SkillEffectEnum.values());
 		}
 
-		private class SkillPartInfoCreaterAnonymousInnerClassHelper4 : SkillPartInfoCreater<ISkillEffect, SkillEffectEnum, SkillBattleEffectMsgData>
+		private class SkillPartInfoCreaterAnonymousInnerClassHelper4 : SkillPartInfoCreater<ISkillEffect, SkillEffectEnum, Template.Auto.Skill.SkillBattleEffectData>
 		{
 			public SkillPartInfoCreaterAnonymousInnerClassHelper4()
 			{
 			}
 
 
-			internal override ISkillEffect createObj(SkillEffectEnum[] values, SkillBattleEffectMsgData obj)
+			internal override ISkillEffect createObj(SkillEffectEnum[] values, Template.Auto.Skill.SkillBattleEffectData obj)
 			{
 				ISkillEffect _effect = (ISkillEffect) createSingleInfo(values, obj.BattleEffectType, obj.BattleEffectParam1, obj.BattleEffectParam2, obj.BattleEffectParam3);
 				_effect.Ratio = obj.BattleEffectRatio;

@@ -17,7 +17,7 @@ namespace com.kx.sglm.gs.battle.share.buff.effect
 		}
 
 
-		public override void onEffect(BattleFighter fighter)
+		public override void onTeamBeforeAttack(BattleFighter fighter)
 		{
 			onActive(fighter);
 		}

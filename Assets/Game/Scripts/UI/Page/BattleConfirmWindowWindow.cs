@@ -40,7 +40,7 @@ public class BattleConfirmWindowWindow : Window
             HeroModelLocator.Instance.GetHeroByTemplateId(
                 MissionModelLocator.Instance.FriendData.Data.HeroProp[0].HeroTemplateId);
         var lb = LabelFriendLeader.GetComponent<UILabel>();
-        lb.text = HeroModelLocator.Instance.GetLeaderSkillTemplateById(hero.LeaderSkill).BaseTmpl.Desc;
+        lb.text = HeroModelLocator.Instance.GetLeaderSkillTemplateById(hero.LeaderSkill).Desc;
 
         var hor = HorContainer.GetComponent<KxListRender>();
         hor.Init(HeroModelLocator.Instance.SCHeroList.TeamList, "Prefabs/Component/AtkHeroGroup", 0, 630, 430, OnSelectedhandler);
@@ -153,7 +153,7 @@ public class BattleConfirmWindowWindow : Window
             {
                 lb = LabelLeader.GetComponent<UILabel>();
                 lb.text = HeroModelLocator.Instance.GetLeaderSkillTemplateById(
-                    HeroModelLocator.Instance.GetHeroByTemplateId(hero.TemplateId).LeaderSkill).BaseTmpl.Desc;
+                    HeroModelLocator.Instance.GetHeroByTemplateId(hero.TemplateId).LeaderSkill).Desc;
             }
             if (hero == null) continue;
             if (hero.Prop.ContainsKey(RoleProperties.ROLE_ATK))

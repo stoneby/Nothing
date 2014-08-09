@@ -244,14 +244,14 @@ namespace KXSGCodec
             if (field.Type == TType.Map) {
               {
                 FighteProp = new Dictionary<int, int>();
-                TMap _map66 = iprot.ReadMapBegin();
-                for( int _i67 = 0; _i67 < _map66.Count; ++_i67)
+                TMap _map5 = iprot.ReadMapBegin();
+                for( int _i6 = 0; _i6 < _map5.Count; ++_i6)
                 {
-                  int _key68;
-                  int _val69;
-                  _key68 = iprot.ReadI32();
-                  _val69 = iprot.ReadI32();
-                  FighteProp[_key68] = _val69;
+                  int _key7;
+                  int _val8;
+                  _key7 = iprot.ReadI32();
+                  _val8 = iprot.ReadI32();
+                  FighteProp[_key7] = _val8;
                 }
                 iprot.ReadMapEnd();
               }
@@ -263,14 +263,14 @@ namespace KXSGCodec
             if (field.Type == TType.Map) {
               {
                 OtherProp = new Dictionary<int, int>();
-                TMap _map70 = iprot.ReadMapBegin();
-                for( int _i71 = 0; _i71 < _map70.Count; ++_i71)
+                TMap _map9 = iprot.ReadMapBegin();
+                for( int _i10 = 0; _i10 < _map9.Count; ++_i10)
                 {
-                  int _key72;
-                  int _val73;
-                  _key72 = iprot.ReadI32();
-                  _val73 = iprot.ReadI32();
-                  OtherProp[_key72] = _val73;
+                  int _key11;
+                  int _val12;
+                  _key11 = iprot.ReadI32();
+                  _val12 = iprot.ReadI32();
+                  OtherProp[_key11] = _val12;
                 }
                 iprot.ReadMapEnd();
               }
@@ -296,12 +296,12 @@ namespace KXSGCodec
             if (field.Type == TType.List) {
               {
                 AllSkill = new List<int>();
-                TList _list74 = iprot.ReadListBegin();
-                for( int _i75 = 0; _i75 < _list74.Count; ++_i75)
+                TList _list13 = iprot.ReadListBegin();
+                for( int _i14 = 0; _i14 < _list13.Count; ++_i14)
                 {
-                  int _elem76 = 0;
-                  _elem76 = iprot.ReadI32();
-                  AllSkill.Add(_elem76);
+                  int _elem15 = 0;
+                  _elem15 = iprot.ReadI32();
+                  AllSkill.Add(_elem15);
                 }
                 iprot.ReadListEnd();
               }
@@ -361,10 +361,10 @@ namespace KXSGCodec
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteMapBegin(new TMap(TType.I32, TType.I32, FighteProp.Count));
-          foreach (int _iter77 in FighteProp.Keys)
+          foreach (int _iter16 in FighteProp.Keys)
           {
-            oprot.WriteI32(_iter77);
-            oprot.WriteI32(FighteProp[_iter77]);
+            oprot.WriteI32(_iter16);
+            oprot.WriteI32(FighteProp[_iter16]);
           }
           oprot.WriteMapEnd();
         }
@@ -377,10 +377,10 @@ namespace KXSGCodec
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteMapBegin(new TMap(TType.I32, TType.I32, OtherProp.Count));
-          foreach (int _iter78 in OtherProp.Keys)
+          foreach (int _iter17 in OtherProp.Keys)
           {
-            oprot.WriteI32(_iter78);
-            oprot.WriteI32(OtherProp[_iter78]);
+            oprot.WriteI32(_iter17);
+            oprot.WriteI32(OtherProp[_iter17]);
           }
           oprot.WriteMapEnd();
         }
@@ -409,9 +409,9 @@ namespace KXSGCodec
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.I32, AllSkill.Count));
-          foreach (int _iter79 in AllSkill)
+          foreach (int _iter18 in AllSkill)
           {
-            oprot.WriteI32(_iter79);
+            oprot.WriteI32(_iter18);
           }
           oprot.WriteListEnd();
         }

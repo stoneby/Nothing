@@ -1,15 +1,17 @@
 ﻿using KXSGCodec;
 using System;
 using System.Collections.Generic;
-using Template;
+using Template.Auto.Raid;
 using Template.Auto.Raid;
 using Object = UnityEngine.Object;
 
 #if !SILVERLIGHT
 [Serializable]
 #endif
+
 public sealed class MissionModelLocator
 {
+    [NonSerialized]
     public SCRaidLoadingAll RaidLoadingAll;
 
     [NonSerialized]
@@ -31,7 +33,6 @@ public sealed class MissionModelLocator
 
     public FriendVO FriendData;
 
-    [NonSerialized]
     public int SelectedStageId;
 
     [NonSerialized]
@@ -112,6 +113,15 @@ public sealed class MissionModelLocator
         if (RaidTemplates != null && RaidTemplates.RaidStageTmpls != null && RaidTemplates.RaidStageTmpls.ContainsKey(templateid))
         {
             return RaidTemplates.RaidStageTmpls[templateid];
+        }
+        return null;
+    }
+
+    public RaidMonsterGroupTemplate GetRaidMonsterGroupTemplateId(int groupTempId)
+    {
+        if (RaidTemplates != null && RaidTemplates.RaidMonsterGroupTmpls != null && RaidTemplates.RaidMonsterGroupTmpls.ContainsKey(groupTempId))
+        {
+            return RaidTemplates.RaidMonsterGroupTmpls[groupTempId];
         }
         return null;
     }
@@ -290,7 +300,7 @@ public sealed class MissionModelLocator
     }
     [NonSerialized]
     public Dictionary<int, int> TotalStageCount;
-    //[NonSerialized]
+
     public Dictionary<int, int> TotalStarCount;
 
     public void ComputeStagecount()
@@ -316,10 +326,12 @@ public sealed class MissionModelLocator
                 TotalStarCount.Add(item.Value.RaidId, 0);
             }
         }
-
-        ComputeStarCount(RaidLoadingAll.RaidInfoNormal);
-        ComputeStarCount(RaidLoadingAll.RaidInfoElite);
-        ComputeStarCount(RaidLoadingAll.RaidInfoMaster);
+        if (RaidLoadingAll != null)
+        {
+            ComputeStarCount(RaidLoadingAll.RaidInfoNormal);
+            ComputeStarCount(RaidLoadingAll.RaidInfoElite);
+            ComputeStarCount(RaidLoadingAll.RaidInfoMaster);
+        }
     }
 
     public void ComputeStarCount(List<RaidInfo> raids)

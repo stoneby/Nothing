@@ -46,11 +46,11 @@ namespace com.kx.sglm.gs.battle.share.data.record
 
 		/// <summary>
 		/// 目标SideAID </summary>
-		public static readonly int TARGET_SIDE_A = BattleSideEnum.SIDEA.Index;
+		public static readonly int TARGET_SIDE_LEFT = BattleSideEnum.SIDE_LEFT.Index;
 
 		/// <summary>
 		/// 目标SideBID </summary>
-		public static readonly int TARGET_SIDE_B = BattleSideEnum.SIDEB.Index;
+		public static readonly int TARGET_SIDE_RIGHT = BattleSideEnum.SIDEB_RIGHT.Index;
 
 		/// <summary>
 		/// 场景结束 </summary>

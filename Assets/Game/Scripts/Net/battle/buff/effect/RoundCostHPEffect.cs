@@ -52,7 +52,7 @@ namespace com.kx.sglm.gs.battle.share.buff.effect
 			return BuffShowId > 0;
 		}
 
-		public override void onEffect(BattleFighter fighter)
+		public override void onTeamBeforeAttack(BattleFighter fighter)
 		{
 			if (!fighter.ActiveFighter)
 			{

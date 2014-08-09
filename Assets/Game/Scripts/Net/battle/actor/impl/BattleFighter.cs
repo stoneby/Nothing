@@ -601,7 +601,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 
 		public virtual void effectAllBuff()
 		{
-			buffManager.effectAllBuff();
+			buffManager.onTeamBeforeAttack();
 		}
 
 	}

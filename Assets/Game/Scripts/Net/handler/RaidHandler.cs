@@ -1,11 +1,4 @@
-﻿using System.IO;
-using Assets.Game.Scripts.Common.Model;
-using com.kx.sglm.gs.battle.share.data;
-using com.kx.sglm.gs.battle.share.enums;
-using com.kx.sglm.gs.battle.share.factory.creater;
-using KXSGCodec;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using KXSGCodec;
 
 namespace Assets.Game.Scripts.Net.handler
 {
@@ -59,15 +52,9 @@ namespace Assets.Game.Scripts.Net.handler
             if (themsg != null)
             {
                 MissionModelLocator.Instance.BattleReward = themsg;
-                BattleWindow.isRaidReward = true;
-                //Delete file.
-                new FileInfo(BattleWindow.MissionModelLocatorPath).Delete();
-                new FileInfo(BattleWindow.StartBattleMessagePath).Delete();
-                new FileInfo(BattleWindow.PersistencePath).Delete();
-                new FileInfo(BattleWindow.BattleEndMessagePath).Delete();
+                PersistenceHandler.isRaidReward = true;
 
                 WindowManager.Instance.Show(typeof(BattleWinWindow), true);
-                Logger.Log("!!!!!!!!!!!!!!!!!!Show BattleWinWindow, set isRaidReward:"+BattleWindow.isRaidReward.ToString());
             }
             else
             {

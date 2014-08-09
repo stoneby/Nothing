@@ -103,14 +103,6 @@ namespace com.kx.sglm.gs.battle.share.logic.loop
 
 		}
 
-        /// <summary>
-        /// Added by liangxiao
-        /// </summary>
-        /// <param name="scene"></param>
-	    public void SetLoopCount(int scene)
-	    {
-	        this.loopCount = scene;
-	    }
 
 	}
 

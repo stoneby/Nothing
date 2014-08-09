@@ -29,7 +29,7 @@ namespace com.kx.sglm.gs.battle.share.buff.effect
 			Logger.Log(string.Format("shield remove, index = {0:D}", fighter.Index));
 		}
 
-		public override void onEffect(BattleFighter fighter)
+		public override void onTeamBeforeAttack(BattleFighter fighter)
 		{
 
 		}

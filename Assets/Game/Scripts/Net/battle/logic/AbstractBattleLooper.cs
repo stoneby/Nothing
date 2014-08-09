@@ -36,7 +36,7 @@ namespace com.kx.sglm.gs.battle.share.logic
 		/// <summary>
 		/// 循环次数的计数
 		/// </summary>
-		protected int loopCount;
+		private int loopCount;
 
 		public AbstractBattleLooper(Battle battle)
 		{
@@ -283,6 +283,14 @@ namespace com.kx.sglm.gs.battle.share.logic
 			get
 			{
 				return battle.Record;
+			}
+		}
+
+		public virtual int LoopCountForce
+		{
+			set
+			{
+				this.loopCount = value;
 			}
 		}
 

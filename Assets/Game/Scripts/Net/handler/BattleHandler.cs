@@ -1,9 +1,13 @@
-﻿using Assets.Game.Scripts.Common.Model;
+﻿using System.Collections.Generic;
+using Assets.Game.Scripts.Common.Model;
 using com.kx.sglm.gs.battle.share.data;
 using com.kx.sglm.gs.battle.share.enums;
 using com.kx.sglm.gs.battle.share.factory.creater;
 using KXSGCodec;
-using System.Collections.Generic;
+
+using UnityEngine;
+
+
 
 namespace Assets.Game.Scripts.Net.handler
 {
@@ -16,45 +20,38 @@ namespace Assets.Game.Scripts.Net.handler
 #if !UNITY_IPHONE
 
             //Store missionmodellocator and battlestartmsg for battle persistence.
-            BattleWindow.StoreMissionModelLocator(MissionModelLocator.Instance);
-            BattleWindow.StoreStartBattleMessage(battlestartmsg);
+            var persistenceHandler = GameObject.Find("Global").GetComponent<PersistenceHandler>();
+            persistenceHandler.StoreMissionModelLocator();
+            persistenceHandler.StoreStartBattleMessage(battlestartmsg);
 
 #endif
 
             if (battlestartmsg != null)
             {
                 PopTextManager.PopTip("返回战斗数据");
-                BattleModelLocator.Instance.BattleType = battlestartmsg.BattleType;
-                BattleModelLocator.Instance.EnemyGroup = battlestartmsg.MonsterGroup;
-                BattleModelLocator.Instance.RaidID = battlestartmsg.RaidID;
-                BattleModelLocator.Instance.Uuid = battlestartmsg.Uuid;
+//                BattleModelLocator.Instance.BattleType = battlestartmsg.BattleType;
+//                BattleModelLocator.Instance.RaidID = battlestartmsg.RaidID;
+//                BattleModelLocator.Instance.Uuid = battlestartmsg.Uuid;
+//
+//                // server logic data.
+//                var type = BattleType.getValue(battlestartmsg.BattleType);
+//                BattleModelLocator.Instance.Source = new BattleSource(type)
+//                {
+//                    Uuid = battlestartmsg.Uuid
+//                };
+//                IBattleTemplateService _service = BattleTemplateModelLocator.Instance;
+//                var _creater = new BattleSourceTemplateCreater(_service);
+//                var _source = _creater.createPVESource(battlestartmsg);
+//
+//                //赋值给BattleModeLocator
+//                BattleModelLocator.Instance.HeroList = _source.getSideFighters(BattleSideEnum.SIDE_LEFT);
+//                BattleModelLocator.Instance.EnemyList = _source.getSideFighters(BattleSideEnum.SIDEB_RIGHT);
+//
+//                BattleModelLocator.Instance.Source = _source;
+//                BattleModelLocator.Instance.EnemyGroup = _source.MonsterGroup;
+                BattleCreateUtils.initBattleModeLocator(BattleModelLocator.Instance, battlestartmsg);
 
-                // server logic data.
-                var type = BattleType.getValue(battlestartmsg.BattleType);
-                BattleModelLocator.Instance.Source = new BattleSource(type)
-                {
-                    Uuid = battlestartmsg.Uuid
-                };
-
-                BattleModelLocator.Instance.HeroList = FighterInfoCreater.createListFromMsgHero(BattleSideEnum.SIDEA, battlestartmsg.FighterList);
-                BattleModelLocator.Instance.EnemyList = FighterInfoCreater.createListFormMsgMonster(BattleSideEnum.SIDEB, battlestartmsg.MonsterGroup, battlestartmsg.MonsterList);
-
-                var allFighterList = new List<FighterInfo>();
-                allFighterList.AddRange(BattleModelLocator.Instance.HeroList);
-                allFighterList.AddRange(BattleModelLocator.Instance.EnemyList);
-                var source = BattleModelLocator.Instance.Source;
-                BattleModelLocator.Instance.Source.FighterProp = allFighterList;
-                source.spMaxBuffId = battlestartmsg.SpMaxBuffId;
-                source.heroSkillList.AddRange(battlestartmsg.HeroSkillList);
-                source.MonsterAIList.AddRange(battlestartmsg.MonsterAIList);
-                source.monsterSkillList.AddRange(battlestartmsg.MonsterSkillList);
-                if (battlestartmsg.BuffList != null)
-                {
-                    source.buffList.AddRange(battlestartmsg.BuffList);
-                }
-                FighterInfoCreater.initBattleSkillService(source);
-
-                var factory = type.Factory;
+                var factory = BattleModelLocator.Instance.Source.BattleType.Factory;
                 BattleModelLocator.Instance.MainBattle = factory.createBattle(BattleModelLocator.Instance.Source);
                 BattleModelLocator.Instance.MainBattle.start();
                 BattleModelLocator.Instance.MonsterIndex = 0;
@@ -70,5 +67,6 @@ namespace Assets.Game.Scripts.Net.handler
                 PopTextManager.PopTip("返回战斗的数据错误");
             }
         }
+
     }
 }

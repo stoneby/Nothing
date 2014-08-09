@@ -25,6 +25,7 @@ namespace Template.Auto.Raid
   {
     private Dictionary<int, RaidTemplate> _raidTmpls;
     private Dictionary<int, RaidStageTemplate> _raidStageTmpls;
+    private Dictionary<int, RaidMonsterGroupTemplate> _raidMonsterGroupTmpls;
 
     /// <summary>
     /// 副本模板信息
@@ -58,6 +59,22 @@ namespace Template.Auto.Raid
       }
     }
 
+    /// <summary>
+    /// 怪物组信息
+    /// </summary>
+    public Dictionary<int, RaidMonsterGroupTemplate> RaidMonsterGroupTmpls
+    {
+      get
+      {
+        return _raidMonsterGroupTmpls;
+      }
+      set
+      {
+        __isset.raidMonsterGroupTmpls = true;
+        this._raidMonsterGroupTmpls = value;
+      }
+    }
+
 
     public Isset __isset;
     #if !SILVERLIGHT
@@ -66,6 +83,7 @@ namespace Template.Auto.Raid
     public struct Isset {
       public bool raidTmpls;
       public bool raidStageTmpls;
+      public bool raidMonsterGroupTmpls;
     }
 
     public Raid() {
@@ -87,15 +105,15 @@ namespace Template.Auto.Raid
             if (field.Type == TType.Map) {
               {
                 RaidTmpls = new Dictionary<int, RaidTemplate>();
-                TMap _map0 = iprot.ReadMapBegin();
-                for( int _i1 = 0; _i1 < _map0.Count; ++_i1)
+                TMap _map4 = iprot.ReadMapBegin();
+                for( int _i5 = 0; _i5 < _map4.Count; ++_i5)
                 {
-                  int _key2;
-                  RaidTemplate _val3;
-                  _key2 = iprot.ReadI32();
-                  _val3 = new RaidTemplate();
-                  _val3.Read(iprot);
-                  RaidTmpls[_key2] = _val3;
+                  int _key6;
+                  RaidTemplate _val7;
+                  _key6 = iprot.ReadI32();
+                  _val7 = new RaidTemplate();
+                  _val7.Read(iprot);
+                  RaidTmpls[_key6] = _val7;
                 }
                 iprot.ReadMapEnd();
               }
@@ -107,15 +125,35 @@ namespace Template.Auto.Raid
             if (field.Type == TType.Map) {
               {
                 RaidStageTmpls = new Dictionary<int, RaidStageTemplate>();
-                TMap _map4 = iprot.ReadMapBegin();
-                for( int _i5 = 0; _i5 < _map4.Count; ++_i5)
+                TMap _map8 = iprot.ReadMapBegin();
+                for( int _i9 = 0; _i9 < _map8.Count; ++_i9)
                 {
-                  int _key6;
-                  RaidStageTemplate _val7;
-                  _key6 = iprot.ReadI32();
-                  _val7 = new RaidStageTemplate();
-                  _val7.Read(iprot);
-                  RaidStageTmpls[_key6] = _val7;
+                  int _key10;
+                  RaidStageTemplate _val11;
+                  _key10 = iprot.ReadI32();
+                  _val11 = new RaidStageTemplate();
+                  _val11.Read(iprot);
+                  RaidStageTmpls[_key10] = _val11;
+                }
+                iprot.ReadMapEnd();
+              }
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 3:
+            if (field.Type == TType.Map) {
+              {
+                RaidMonsterGroupTmpls = new Dictionary<int, RaidMonsterGroupTemplate>();
+                TMap _map12 = iprot.ReadMapBegin();
+                for( int _i13 = 0; _i13 < _map12.Count; ++_i13)
+                {
+                  int _key14;
+                  RaidMonsterGroupTemplate _val15;
+                  _key14 = iprot.ReadI32();
+                  _val15 = new RaidMonsterGroupTemplate();
+                  _val15.Read(iprot);
+                  RaidMonsterGroupTmpls[_key14] = _val15;
                 }
                 iprot.ReadMapEnd();
               }
@@ -143,10 +181,10 @@ namespace Template.Auto.Raid
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteMapBegin(new TMap(TType.I32, TType.Struct, RaidTmpls.Count));
-          foreach (int _iter8 in RaidTmpls.Keys)
+          foreach (int _iter16 in RaidTmpls.Keys)
           {
-            oprot.WriteI32(_iter8);
-            RaidTmpls[_iter8].Write(oprot);
+            oprot.WriteI32(_iter16);
+            RaidTmpls[_iter16].Write(oprot);
           }
           oprot.WriteMapEnd();
         }
@@ -159,10 +197,26 @@ namespace Template.Auto.Raid
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteMapBegin(new TMap(TType.I32, TType.Struct, RaidStageTmpls.Count));
-          foreach (int _iter9 in RaidStageTmpls.Keys)
+          foreach (int _iter17 in RaidStageTmpls.Keys)
           {
-            oprot.WriteI32(_iter9);
-            RaidStageTmpls[_iter9].Write(oprot);
+            oprot.WriteI32(_iter17);
+            RaidStageTmpls[_iter17].Write(oprot);
+          }
+          oprot.WriteMapEnd();
+        }
+        oprot.WriteFieldEnd();
+      }
+      if (RaidMonsterGroupTmpls != null && __isset.raidMonsterGroupTmpls) {
+        field.Name = "raidMonsterGroupTmpls";
+        field.Type = TType.Map;
+        field.ID = 3;
+        oprot.WriteFieldBegin(field);
+        {
+          oprot.WriteMapBegin(new TMap(TType.I32, TType.Struct, RaidMonsterGroupTmpls.Count));
+          foreach (int _iter18 in RaidMonsterGroupTmpls.Keys)
+          {
+            oprot.WriteI32(_iter18);
+            RaidMonsterGroupTmpls[_iter18].Write(oprot);
           }
           oprot.WriteMapEnd();
         }
@@ -178,6 +232,8 @@ namespace Template.Auto.Raid
       sb.Append(RaidTmpls);
       sb.Append(",RaidStageTmpls: ");
       sb.Append(RaidStageTmpls);
+      sb.Append(",RaidMonsterGroupTmpls: ");
+      sb.Append(RaidMonsterGroupTmpls);
       sb.Append(")");
       return sb.ToString();
     }

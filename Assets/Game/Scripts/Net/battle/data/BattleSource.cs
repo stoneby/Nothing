@@ -6,11 +6,8 @@ namespace com.kx.sglm.gs.battle.share.data
 
 	using BattleSideEnum = com.kx.sglm.gs.battle.share.enums.BattleSideEnum;
 	using BattleType = com.kx.sglm.gs.battle.share.enums.BattleType;
+	using FighterType = com.kx.sglm.gs.battle.share.enums.FighterType;
 	using PropertyRawSet = com.kx.sglm.gs.battle.share.utils.PropertyRawSet;
-	using BattleBuffMsgData = KXSGCodec.BattleBuffMsgData;
-	using BattleHeroSkillMsgAction = KXSGCodec.BattleHeroSkillMsgAction;
-	using BattleMonsterAIMsgAction = KXSGCodec.BattleMonsterAIMsgAction;
-	using BattleMonsterSkillMsgAction = KXSGCodec.BattleMonsterSkillMsgAction;
 
 	/// <summary>
 	/// 可以构建一个完整战斗的元素，用于 1.与客户端通讯构建， 2.在玩家身上存储战斗信息<br>
@@ -28,6 +25,7 @@ namespace com.kx.sglm.gs.battle.share.data
 
 		/// <summary>
 		/// 全部的Fighter都在这里，不管有几个阵营，通过<seealso cref="FighterInfo #battleSide"/>区分阵营 </summary>
+
 		protected internal List<FighterInfo> fighterProp;
 
 		/// <summary>
@@ -44,29 +42,16 @@ namespace com.kx.sglm.gs.battle.share.data
 
 		protected internal int spMaxBuffId;
 
-		/// <summary>
-		/// 英雄技能列表 </summary>
-		protected internal List<BattleHeroSkillMsgAction> heroSkillList;
+		protected internal int raidStageId;
 
-		/// <summary>
-		/// 怪物技能列表 </summary>
-		protected internal List<BattleMonsterSkillMsgAction> monsterSkillList;
+		protected internal List<int> monsterGroup;
 
-		/// <summary>
-		/// 怪物AI列表 </summary>
-		protected internal List<BattleMonsterAIMsgAction> monsterAIList;
-
-		protected internal List<BattleBuffMsgData> buffList;
 
 		public BattleSource(BattleType battleType)
 		{
 			this.battleType = battleType;
 			this.fighterProp = new List<FighterInfo>();
 			this.props = new PropertyRawSet();
-			this.heroSkillList = new List<BattleHeroSkillMsgAction>();
-			this.monsterSkillList = new List<BattleMonsterSkillMsgAction>();
-			this.monsterAIList = new List<BattleMonsterAIMsgAction>();
-			this.buffList = new List<BattleBuffMsgData>();
 		}
 
 		public virtual long Uuid
@@ -105,6 +90,32 @@ namespace com.kx.sglm.gs.battle.share.data
 			return props.getInt(key, 0);
 		}
 
+		public virtual int RaidStageId
+		{
+			get
+			{
+				return raidStageId;
+			}
+			set
+			{
+				this.raidStageId = value;
+			}
+		}
+
+
+		public virtual List<FighterInfo> getTypeFighter(FighterType fighterType)
+		{
+			List<FighterInfo> _typeFighters = new List<FighterInfo>();
+			foreach (FighterInfo _prop in FighterProp)
+			{
+				if (_prop.fighterType == fighterType)
+				{
+					_typeFighters.Add(_prop);
+				}
+			}
+			return _typeFighters;
+		}
+
 		public virtual List<FighterInfo> getSideFighters(BattleSideEnum battelSide)
 		{
 			List<FighterInfo> _sideFighter = new List<FighterInfo>();
@@ -130,63 +141,31 @@ namespace com.kx.sglm.gs.battle.share.data
 			}
 		}
 
+		public virtual List<int> getFighterPropList(int key, bool notZero)
+		{
+			List<int> _propList = new List<int>();
+			foreach (FighterInfo _info in FighterProp)
+			{
+				int _value = _info.getIntProp(key);
+				if (notZero && _value == 0)
+				{
+					continue;
+				}
+				_propList.Add(_value);
+			}
+			return _propList;
+		}
+
+
+		public virtual void addFighterProp(List<FighterInfo> fighterList)
+		{
+			this.fighterProp.AddRange(fighterList);
+		}
 
 		public virtual void addProp(int key, object value)
 		{
 			this.props.set(key, value);
 		}
-
-		public virtual List<BattleHeroSkillMsgAction> HeroSkillList
-		{
-			get
-			{
-				return heroSkillList;
-			}
-			set
-			{
-				this.heroSkillList = value;
-			}
-		}
-
-
-		public virtual List<BattleMonsterSkillMsgAction> MonsterSkillList
-		{
-			get
-			{
-				return monsterSkillList;
-			}
-			set
-			{
-				this.monsterSkillList = value;
-			}
-		}
-
-
-		public virtual List<BattleMonsterAIMsgAction> MonsterAIList
-		{
-			get
-			{
-				return monsterAIList;
-			}
-			set
-			{
-				this.monsterAIList = value;
-			}
-		}
-
-
-		public virtual List<BattleBuffMsgData> BuffList
-		{
-			get
-			{
-				return buffList;
-			}
-			set
-			{
-				this.buffList = value;
-			}
-		}
-
 
 		public virtual int SpMaxBuffId
 		{
@@ -201,6 +180,17 @@ namespace com.kx.sglm.gs.battle.share.data
 		}
 
 
+		public virtual List<int> MonsterGroup
+		{
+			get
+			{
+				return monsterGroup;
+			}
+			set
+			{
+				this.monsterGroup = value;
+			}
+		}
 
 
 

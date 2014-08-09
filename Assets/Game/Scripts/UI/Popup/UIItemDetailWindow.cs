@@ -68,15 +68,15 @@ public class UIItemDetailWindow : Window
         if (skillTmp.ContainsKey(initSkillId))
         {
             var initTmp = skillTmp[initSkillId];
-            skillInitTitle.text = initTmp.BaseTmpl.Name;
-            skillInitDesc.text = initTmp.BaseTmpl.Desc;
+            skillInitTitle.text = initTmp.Name;
+            skillInitDesc.text = initTmp.Desc;
         }
         var randSkillId = detail.RandSkillId;
         if (skillTmp.ContainsKey(randSkillId))
         {
             var randTmp = skillTmp[randSkillId];
-            skillRandTitle.text = randTmp.BaseTmpl.Name;
-            skillRandDesc.text = randTmp.BaseTmpl.Desc;
+            skillRandTitle.text = randTmp.Name;
+            skillRandDesc.text = randTmp.Desc;
         }
         matchDesc.text = detail.MatchInfo;
     }

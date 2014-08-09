@@ -24,7 +24,7 @@ namespace Template.Auto.Skill
   public partial class SkillTargetGetterData : TBase
   {
     private int _targetType;
-    private int _targetValue;
+    private string _targetValue;
 
     public int TargetType
     {
@@ -39,7 +39,7 @@ namespace Template.Auto.Skill
       }
     }
 
-    public int TargetValue
+    public string TargetValue
     {
       get
       {
@@ -85,8 +85,8 @@ namespace Template.Auto.Skill
             }
             break;
           case 2:
-            if (field.Type == TType.I32) {
-              TargetValue = iprot.ReadI32();
+            if (field.Type == TType.String) {
+              TargetValue = iprot.ReadString();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
@@ -112,12 +112,12 @@ namespace Template.Auto.Skill
         oprot.WriteI32(TargetType);
         oprot.WriteFieldEnd();
       }
-      if (__isset.targetValue) {
+      if (TargetValue != null && __isset.targetValue) {
         field.Name = "targetValue";
-        field.Type = TType.I32;
+        field.Type = TType.String;
         field.ID = 2;
         oprot.WriteFieldBegin(field);
-        oprot.WriteI32(TargetValue);
+        oprot.WriteString(TargetValue);
         oprot.WriteFieldEnd();
       }
       oprot.WriteFieldStop();

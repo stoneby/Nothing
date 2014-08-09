@@ -139,7 +139,6 @@ namespace com.kx.sglm.gs.battle.share.data
 
 
 
-
 		public virtual int AiId
 		{
 			get

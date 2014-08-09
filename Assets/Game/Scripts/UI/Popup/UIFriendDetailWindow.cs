@@ -68,7 +68,7 @@ public class UIFriendDetailWindow : Window
                 if (skillTmp.ContainsKey(leaderSkillId))
                 {
                     var leaderSkill = skillTmp[leaderSkillId];
-                    leaderSkLable.text = leaderSkill.BaseTmpl.Desc;
+                    leaderSkLable.text = leaderSkill.Desc;
                 }
                 RefreshLeaders(value);
             }

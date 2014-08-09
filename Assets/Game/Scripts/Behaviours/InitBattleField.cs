@@ -1,3 +1,4 @@
+using System.Xml.Schema;
 using Assets.Game.Scripts.Common.Model;
 using com.kx.sglm.gs.battle.share;
 using com.kx.sglm.gs.battle.share.data.record;
@@ -1203,7 +1204,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
 
         TextObject.transform.localScale = new Vector3(5, 5, 1);
         var lb = TextObject.GetComponent<UILabel>();
-        lb.text = BattleModelLocator.Instance.Skill.BaseTmpl.Name;
+        lb.text = BattleModelLocator.Instance.Skill.Name;
         lb.alpha = 1;
         TextObject.SetActive(true);
 
@@ -1435,25 +1436,25 @@ public class InitBattleField : MonoBehaviour, IBattleView
 
         // Store info for persistence fight.
 
-        Dictionary<string,float> persistenceInfo = new Dictionary<string, float>();
+        Dictionary<string, float> persistenceInfo = new Dictionary<string, float>();
         persistenceInfo.Clear();
         //TopData
-        persistenceInfo.Add("TopData",currentEnemyGroupIndex);
+        persistenceInfo.Add("TopData", currentEnemyGroupIndex);
         //hp,mp
-        persistenceInfo.Add("Hp",characterValue);
-        persistenceInfo.Add("Mp",leaderController.TotalLeaderCD);
+        persistenceInfo.Add("Hp", characterValue);
+        persistenceInfo.Add("Mp", leaderController.TotalLeaderCD);
         //enemy list
-        persistenceInfo.Add("EnemyModelIndex",BattleModelLocator.Instance.MonsterIndex - EnemyController.Total);
+        persistenceInfo.Add("EnemyModelIndex", BattleModelLocator.Instance.MonsterIndex - EnemyController.Total);
         //topinfo
-        persistenceInfo.Add("BoxCount",topController.BoxCount);
-        persistenceInfo.Add("GoldCount",topController.GoldCount);
+        persistenceInfo.Add("BoxCount", topController.BoxCount);
+        persistenceInfo.Add("GoldCount", topController.GoldCount);
         //popinfo
-        persistenceInfo.Add("EnergyCount",popController.EnergyCount);
-        persistenceInfo.Add("FPCount",popController.FPCount);
+        persistenceInfo.Add("EnergyCount", popController.EnergyCount);
+        persistenceInfo.Add("FPCount", popController.FPCount);
         //star
-        persistenceInfo.Add("StarCount",starController.CurrentStar);
+        persistenceInfo.Add("StarCount", starController.CurrentStar);
 
-        BattleWindow.StorePersistence(persistenceInfo);
+        GameObject.Find("Global").GetComponent<PersistenceHandler>().StorePersistence(persistenceInfo);
 
 #endif
 
@@ -1469,7 +1470,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
     {
         Logger.Log("[-----RECORD-----] - battle skill record: " + battleSkillRecord);
 
-        if (battleSkillRecord.TeamSide == BattleRecordConstants.TARGET_SIDE_A)
+        if (battleSkillRecord.TeamSide == BattleRecordConstants.TARGET_SIDE_LEFT)
         {
             leaderSkillRecord = battleSkillRecord;
 
@@ -1495,7 +1496,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
         Logger.Log("[-----RECORD-----] - battle team fight record: " + battleTeamFightRecord.RecordList.Count + ", " + battleTeamFightRecord);
 
         // get debuff value.
-        var characterList = (battleTeamFightRecord.TeamSide == BattleRecordConstants.TARGET_SIDE_A)
+        var characterList = (battleTeamFightRecord.TeamSide == BattleRecordConstants.TARGET_SIDE_LEFT)
             ? originalCharacterList
             : originalEnemyList;
 
@@ -1511,7 +1512,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
         });
 
         battleTeamRecord = battleTeamFightRecord;
-        if (battleTeamRecord.TeamSide == BattleRecordConstants.TARGET_SIDE_A)
+        if (battleTeamRecord.TeamSide == BattleRecordConstants.TARGET_SIDE_LEFT)
         {
             Logger.LogWarning("Team controller selected to false");
 
@@ -1563,7 +1564,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
             {
                 var action = roundCountRecord.RecordList[i];
 
-                if (action.SideIndex == BattleRecordConstants.TARGET_SIDE_A)
+                if (action.SideIndex == BattleRecordConstants.TARGET_SIDE_LEFT)
                 {
                 }
                 else
@@ -1644,7 +1645,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
     {
         Logger.Log("[-----RECORD-----] showBattleBuffRecord: " + battleBuffRecord);
 
-        var characterList = (battleBuffRecord.SideIndex == BattleRecordConstants.TARGET_SIDE_A)
+        var characterList = (battleBuffRecord.SideIndex == BattleRecordConstants.TARGET_SIDE_LEFT)
             ? originalCharacterList
             : originalEnemyList;
 
@@ -1705,7 +1706,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
     {
         Logger.Log("[-----RECORD-----] showBattleTeamInfoRecord: " + battletTeamInfoRecord + ", count: " + battletTeamInfoRecord.RecordList.Count);
 
-        if (battletTeamInfoRecord.Side == BattleRecordConstants.TARGET_SIDE_A)
+        if (battletTeamInfoRecord.Side == BattleRecordConstants.TARGET_SIDE_LEFT)
         {
             battletTeamInfoRecord.RecordList.ForEach(record =>
             {
@@ -1750,7 +1751,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
                         Uuid = BattleModelLocator.Instance.Uuid
                     };
 
-                    if (k == BattleRecordConstants.TARGET_SIDE_A)
+                    if (k == BattleRecordConstants.TARGET_SIDE_LEFT)
                     {
                         msg.BattleResult = 1;
                     }
@@ -1765,32 +1766,39 @@ public class InitBattleField : MonoBehaviour, IBattleView
 
                     // reset everything here.
                     ResetAll();
-
-                    MissionModelLocator.Instance.AddStar(starController.CurrentStar);
+                    if (MissionModelLocator.Instance.RaidLoadingAll != null)
+                    {
+                        MissionModelLocator.Instance.AddStar(starController.CurrentStar);
+                    }
                     MissionModelLocator.Instance.OldExp = PlayerModelLocator.Instance.Exp;
                     MissionModelLocator.Instance.OldLevel = PlayerModelLocator.Instance.Level;
-                    MissionModelLocator.Instance.AddFinishTime(MissionModelLocator.Instance.SelectedStageId);
+                    if (MissionModelLocator.Instance.RaidLoadingAll != null)
+                    {
+                        MissionModelLocator.Instance.AddFinishTime(MissionModelLocator.Instance.SelectedStageId);
+                    }
                     msg.Star = (sbyte)starController.CurrentStar;
 
 #if !UNITY_IPHONE
 
                     //Store BattleEndMessage and modified modelmissionlocator.
-                    Dictionary<string,float> value=new Dictionary<string, float>();
-                    value.Add("Uuid", msg.Uuid);
-                    value.Add("BattleResult", msg.BattleResult);
-                    value.Add("Star",msg.Star);
-                    BattleWindow.StoreBattleEndMessage(value);
-                    BattleWindow.StoreMissionModelLocator(MissionModelLocator.Instance);
+                    Dictionary<string, float> valueBattleEndMessage = new Dictionary<string, float>();
+                    valueBattleEndMessage.Add("Uuid", msg.Uuid);
+                    valueBattleEndMessage.Add("BattleResult", msg.BattleResult);
+                    valueBattleEndMessage.Add("Star", msg.Star);
+
+                    var persistenceHandler = GameObject.Find("Global").GetComponent<PersistenceHandler>();
+                    persistenceHandler.StoreBattleEndMessage(valueBattleEndMessage);
+                    persistenceHandler.StoreMissionModelLocator();
 
 #endif
 
-                    BattleWindow.isRaidReward = false;
+                    PersistenceHandler.isRaidReward = false;
 
                     NetManager.SendMessage(msg);
                     MtaManager.TrackEndPage(MtaType.BattleScreen);
 
                     //Check battle end succeed.
-                    StartCoroutine(BattleWindow.MakeBattleEndSucceed(msg));
+                    StartCoroutine(GameObject.Find("Global").gameObject.GetComponent<PersistenceHandler>().MakeBattleEndSucceed(msg));
                 }
                 break;
             default:
@@ -1851,7 +1859,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
         }
     }
 
-    public void PersisitenceSet(Dictionary<string,float> value)
+    public void PersisitenceSet(Dictionary<string, float> value)
     {
         //Sync TopData
         currentEnemyGroupIndex = (int)value["TopData"];

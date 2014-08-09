@@ -18,156 +18,142 @@ using Thrift.Transport;
 namespace KXSGCodec
 {
 
-#if !SILVERLIGHT
-    [Serializable]
-#endif
-    public partial class HeroPropInfo : TBase
+  #if !SILVERLIGHT
+  [Serializable]
+  #endif
+  public partial class HeroPropInfo : TBase
+  {
+    private int _heroTemplateId;
+    private Dictionary<int, int> _prop;
+
+    public int HeroTemplateId
     {
-        private int _heroTemplateId;
-
-        [NonSerialized]
-        private Dictionary<int, int> _prop;
-
-        public int HeroTemplateId
-        {
-            get
-            {
-                return _heroTemplateId;
-            }
-            set
-            {
-                __isset.heroTemplateId = true;
-                this._heroTemplateId = value;
-            }
-        }
-
-        public Dictionary<int, int> Prop
-        {
-            get
-            {
-                return _prop;
-            }
-            set
-            {
-                __isset.prop = true;
-                this._prop = value;
-            }
-        }
-
-        public Isset __isset;
-#if !SILVERLIGHT
-        [Serializable]
-#endif
-        public struct Isset
-        {
-            public bool heroTemplateId;
-            public bool prop;
-        }
-
-        public HeroPropInfo()
-        {
-        }
-
-        public void Read(TProtocol iprot)
-        {
-            TField field;
-            iprot.ReadStructBegin();
-            while (true)
-            {
-                field = iprot.ReadFieldBegin();
-                if (field.Type == TType.Stop)
-                {
-                    break;
-                }
-                switch (field.ID)
-                {
-                    case 1:
-                        if (field.Type == TType.I32)
-                        {
-                            HeroTemplateId = iprot.ReadI32();
-                        }
-                        else
-                        {
-                            TProtocolUtil.Skip(iprot, field.Type);
-                        }
-                        break;
-                    case 2:
-                        if (field.Type == TType.Map)
-                        {
-                            {
-                                Prop = new Dictionary<int, int>();
-                                TMap _map0 = iprot.ReadMapBegin();
-                                for (int _i1 = 0; _i1 < _map0.Count; ++_i1)
-                                {
-                                    int _key2;
-                                    int _val3;
-                                    _key2 = iprot.ReadI32();
-                                    _val3 = iprot.ReadI32();
-                                    Prop[_key2] = _val3;
-                                }
-                                iprot.ReadMapEnd();
-                            }
-                        }
-                        else
-                        {
-                            TProtocolUtil.Skip(iprot, field.Type);
-                        }
-                        break;
-                    default:
-                        TProtocolUtil.Skip(iprot, field.Type);
-                        break;
-                }
-                iprot.ReadFieldEnd();
-            }
-            iprot.ReadStructEnd();
-        }
-
-        public void Write(TProtocol oprot)
-        {
-            TStruct struc = new TStruct("HeroPropInfo");
-            oprot.WriteStructBegin(struc);
-            TField field = new TField();
-            if (__isset.heroTemplateId)
-            {
-                field.Name = "heroTemplateId";
-                field.Type = TType.I32;
-                field.ID = 1;
-                oprot.WriteFieldBegin(field);
-                oprot.WriteI32(HeroTemplateId);
-                oprot.WriteFieldEnd();
-            }
-            if (Prop != null && __isset.prop)
-            {
-                field.Name = "prop";
-                field.Type = TType.Map;
-                field.ID = 2;
-                oprot.WriteFieldBegin(field);
-                {
-                    oprot.WriteMapBegin(new TMap(TType.I32, TType.I32, Prop.Count));
-                    foreach (int _iter4 in Prop.Keys)
-                    {
-                        oprot.WriteI32(_iter4);
-                        oprot.WriteI32(Prop[_iter4]);
-                    }
-                    oprot.WriteMapEnd();
-                }
-                oprot.WriteFieldEnd();
-            }
-            oprot.WriteFieldStop();
-            oprot.WriteStructEnd();
-        }
-
-        public override string ToString()
-        {
-            StringBuilder sb = new StringBuilder("HeroPropInfo(");
-            sb.Append("HeroTemplateId: ");
-            sb.Append(HeroTemplateId);
-            sb.Append(",Prop: ");
-            sb.Append(Prop);
-            sb.Append(")");
-            return sb.ToString();
-        }
-
+      get
+      {
+        return _heroTemplateId;
+      }
+      set
+      {
+        __isset.heroTemplateId = true;
+        this._heroTemplateId = value;
+      }
     }
+
+    public Dictionary<int, int> Prop
+    {
+      get
+      {
+        return _prop;
+      }
+      set
+      {
+        __isset.prop = true;
+        this._prop = value;
+      }
+    }
+
+
+    public Isset __isset;
+    #if !SILVERLIGHT
+    [Serializable]
+    #endif
+    public struct Isset {
+      public bool heroTemplateId;
+      public bool prop;
+    }
+
+    public HeroPropInfo() {
+    }
+
+    public void Read (TProtocol iprot)
+    {
+      TField field;
+      iprot.ReadStructBegin();
+      while (true)
+      {
+        field = iprot.ReadFieldBegin();
+        if (field.Type == TType.Stop) { 
+          break;
+        }
+        switch (field.ID)
+        {
+          case 1:
+            if (field.Type == TType.I32) {
+              HeroTemplateId = iprot.ReadI32();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 2:
+            if (field.Type == TType.Map) {
+              {
+                Prop = new Dictionary<int, int>();
+                TMap _map0 = iprot.ReadMapBegin();
+                for( int _i1 = 0; _i1 < _map0.Count; ++_i1)
+                {
+                  int _key2;
+                  int _val3;
+                  _key2 = iprot.ReadI32();
+                  _val3 = iprot.ReadI32();
+                  Prop[_key2] = _val3;
+                }
+                iprot.ReadMapEnd();
+              }
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          default: 
+            TProtocolUtil.Skip(iprot, field.Type);
+            break;
+        }
+        iprot.ReadFieldEnd();
+      }
+      iprot.ReadStructEnd();
+    }
+
+    public void Write(TProtocol oprot) {
+      TStruct struc = new TStruct("HeroPropInfo");
+      oprot.WriteStructBegin(struc);
+      TField field = new TField();
+      if (__isset.heroTemplateId) {
+        field.Name = "heroTemplateId";
+        field.Type = TType.I32;
+        field.ID = 1;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteI32(HeroTemplateId);
+        oprot.WriteFieldEnd();
+      }
+      if (Prop != null && __isset.prop) {
+        field.Name = "prop";
+        field.Type = TType.Map;
+        field.ID = 2;
+        oprot.WriteFieldBegin(field);
+        {
+          oprot.WriteMapBegin(new TMap(TType.I32, TType.I32, Prop.Count));
+          foreach (int _iter4 in Prop.Keys)
+          {
+            oprot.WriteI32(_iter4);
+            oprot.WriteI32(Prop[_iter4]);
+          }
+          oprot.WriteMapEnd();
+        }
+        oprot.WriteFieldEnd();
+      }
+      oprot.WriteFieldStop();
+      oprot.WriteStructEnd();
+    }
+
+    public override string ToString() {
+      StringBuilder sb = new StringBuilder("HeroPropInfo(");
+      sb.Append("HeroTemplateId: ");
+      sb.Append(HeroTemplateId);
+      sb.Append(",Prop: ");
+      sb.Append(Prop);
+      sb.Append(")");
+      return sb.ToString();
+    }
+
+  }
 
 }

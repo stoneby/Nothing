@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
-using KXSGCodec;
-using System.IO;
+﻿using KXSGCodec;
+using UnityEngine;
 
 namespace Assets.Game.Scripts.Net.handler
 {
@@ -55,57 +54,7 @@ namespace Assets.Game.Scripts.Net.handler
 
 #if !UNITY_IPHONE
 
-            //Load perisitence file
-            if (new FileInfo(BattleWindow.LoginInfoPath).Exists == true)
-            {
-                if(BattleWindow.LoadLoginInfo()["AccountID"] == themsg.UName&&
-                BattleWindow.LoadLoginInfo()["ServerID"] == ServiceManager.ServerData.ID)
-                {
-                    if (new FileInfo(BattleWindow.StartBattleMessagePath).Exists == true &&
-                        new FileInfo(BattleWindow.BattleEndMessagePath).Exists == false)
-                    {
-                        Logger.Log("Persistence mode: ReStartBattle.");
-
-                        if (new FileInfo(BattleWindow.PersistencePath).Exists == false)
-                        {
-                            PersistenceConfirmWindow.Mode = PersistenceConfirmWindow.PersistenceMode.ReStartBattle;
-                        }
-                        else
-                        {
-                            PersistenceConfirmWindow.Mode =
-                                PersistenceConfirmWindow.PersistenceMode.ReStartBattleWithPersistence;
-                        }
-                        var window = WindowManager.Instance.Show<PersistenceConfirmWindow>(true);
-                        window.gameObject.SetActive(true);
-                        window.SetLabel();
-                    }
-                    else if (new FileInfo(BattleWindow.StartBattleMessagePath).Exists == true &&
-                        new FileInfo(BattleWindow.BattleEndMessagePath).Exists == true)
-                    {
-                        Logger.Log("Persistence mode: ReSendMessage.");
-
-                        PersistenceConfirmWindow.Mode = PersistenceConfirmWindow.PersistenceMode.ReSendMessageNext;
-                        var window = WindowManager.Instance.Show<PersistenceConfirmWindow>(true);
-                        window.gameObject.SetActive(true);
-                        window.SetLabel();
-                    }
-                }
-                else
-                {
-                    //Delete file if switch account or server.
-                    new FileInfo(BattleWindow.MissionModelLocatorPath).Delete();
-                    new FileInfo(BattleWindow.StartBattleMessagePath).Delete();
-                    new FileInfo(BattleWindow.PersistencePath).Delete();
-                    new FileInfo(BattleWindow.BattleEndMessagePath).Delete();
-                }
-            }
-            
-            //Store loginaccount file 
-            var tempDictionary = new Dictionary<string, string>();
-            tempDictionary.Add("AccountID", themsg.UName);
-            tempDictionary.Add("ServerID", ServiceManager.ServerData.ID);
-
-            BattleWindow.StoreLoginInfo(tempDictionary);
+            GameObject.Find("Global").gameObject.GetComponent<PersistenceHandler>().GoToPersistenceWay();
 
 #endif
 

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace com.kx.sglm.gs.battle.share
@@ -13,10 +12,6 @@ namespace com.kx.sglm.gs.battle.share
 	using BaseHeroBattleSkillAction = com.kx.sglm.gs.battle.share.skill.action.BaseHeroBattleSkillAction;
 	using BaseMonsterSkillAction = com.kx.sglm.gs.battle.share.skill.action.BaseMonsterSkillAction;
 	using SkillActionCreater = com.kx.sglm.gs.battle.share.skill.creater.SkillActionCreater;
-	using BattleBuffMsgData = KXSGCodec.BattleBuffMsgData;
-	using BattleHeroSkillMsgAction = KXSGCodec.BattleHeroSkillMsgAction;
-	using BattleMonsterAIMsgAction = KXSGCodec.BattleMonsterAIMsgAction;
-	using BattleMonsterSkillMsgAction = KXSGCodec.BattleMonsterSkillMsgAction;
 	using AmendManagerImpl = com.kx.sglm.gs.role.properties.amend.AmendManagerImpl;
 	using IAmendManager = com.kx.sglm.gs.role.properties.amend.IAmendManager;
 
@@ -129,15 +124,7 @@ namespace com.kx.sglm.gs.battle.share
 
 		public virtual IBuffAction getBuffAction(int buffId)
 		{
-		    try
-		    {
-                return allBuffAction[buffId];
-		    }
-		    catch (Exception)
-		    {
-                Logger.LogError("!!!!!!!!!!!!!!!!!!!!!!!!!allBuffAction[buffid] is null, buffid:"+buffId);
-		        return null;
-		    }
+			return allBuffAction[buffId];
 		}
 
 
@@ -165,9 +152,9 @@ namespace com.kx.sglm.gs.battle.share
 		/// 将传入的所需技能模板转换成技能使用对象
 		/// </summary>
 		/// <param name="dataList"> </param>
-		public virtual void initTemplateHeroSkillAction(List<BattleHeroSkillMsgAction> dataList)
+		public virtual void initTemplateHeroSkillAction(List<Template.Auto.Skill.HeroBattleSkillTemplate> dataList)
 		{
-			foreach (BattleHeroSkillMsgAction _data in dataList)
+			foreach (Template.Auto.Skill.HeroBattleSkillTemplate _data in dataList)
 			{
 				BaseHeroBattleSkillAction _action = SkillActionCreater.createHeroSkillAction(_data);
 				heroSkillActionMap[_data.Id] = _action;
@@ -176,9 +163,9 @@ namespace com.kx.sglm.gs.battle.share
 
 
 
-		public virtual void initAllMonsterAI(List<BattleMonsterAIMsgAction> allMonsterAIData)
+		public virtual void initAllMonsterAI(List<Template.Auto.Monster.MonsterBattleAITemplate> allMonsterAIData)
 		{
-			foreach (BattleMonsterAIMsgAction _actionData in allMonsterAIData)
+			foreach (Template.Auto.Monster.MonsterBattleAITemplate _actionData in allMonsterAIData)
 			{
 				MonsterAI _ai = SkillActionCreater.createMonsterAI(_actionData);
 				monsterAIMap[_actionData.Id] = _ai;
@@ -188,16 +175,16 @@ namespace com.kx.sglm.gs.battle.share
 		/// 创建怪物技能信息对象
 		/// </summary>
 		/// <param name="dataList"> </param>
-		public virtual void initTemplateMonsterSkillAction(List<BattleMonsterSkillMsgAction> dataList)
+		public virtual void initTemplateMonsterSkillAction(List<Template.Auto.Skill.MonsterBattleSkillTemplate> dataList)
 		{
-			foreach (BattleMonsterSkillMsgAction _data in dataList)
+			foreach (Template.Auto.Skill.MonsterBattleSkillTemplate _data in dataList)
 			{
 				BaseMonsterSkillAction _action = SkillActionCreater.createMonsterSkillAction(_data);
 				monsterSkillActionMap[_data.Id] = _action;
 			}
 		}
 
-		public virtual void initTemplateBuffAction(List<BattleBuffMsgData> dataList)
+		public virtual void initTemplateBuffAction(List<Template.Auto.Buff.BattleBuffTemplate> dataList)
 		{
 			List<IBuffAction> _actionList = SkillActionCreater.createBuffActions(dataList);
 			foreach (IBuffAction _action in _actionList)

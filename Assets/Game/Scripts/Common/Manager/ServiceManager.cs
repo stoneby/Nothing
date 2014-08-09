@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 //using UnityEditor;
@@ -19,6 +18,7 @@ public class ServiceManager
     public static string UpdateInfo;
     public static string GameID;
     public static bool OpenTestAccount = false;
+    public static bool OpenBattlePersistence = true;
     //public static int GameVersionValue;
 
     //FValue

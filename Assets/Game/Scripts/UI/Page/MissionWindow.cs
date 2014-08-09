@@ -94,16 +94,23 @@ public class MissionWindow : Window
         RewardBox.SetActive(false);
         MissionModelLocator.Instance.ComputeStagecount();
 
-        Raids = MissionModelLocator.Instance.GetCurrentRaids();
+        if (MissionModelLocator.Instance.RaidLoadingAll != null)
+        {
+            Raids = MissionModelLocator.Instance.GetCurrentRaids();
+        }
         var table = ItemsContainer.GetComponent<KxVListRender>();
         List<RaidInfo> temp;
-        if (MissionModelLocator.Instance.CurrRaidType == RaidType.RaidNormal)
+        if (MissionModelLocator.Instance.RaidLoadingAll != null)
         {
-            temp = new List<RaidInfo>(Raids.OrderByDescending(raidInfo => raidInfo.TemplateId));
-        }
-        else
-        {
-            temp = new List<RaidInfo>(Raids.OrderBy(raidInfo => raidInfo.TemplateId));
+            if (MissionModelLocator.Instance.CurrRaidType == RaidType.RaidNormal)
+            {
+                temp = new List<RaidInfo>(Raids.OrderByDescending(raidInfo => raidInfo.TemplateId));
+            }
+            else
+            {
+                temp = new List<RaidInfo>(Raids.OrderBy(raidInfo => raidInfo.TemplateId));
+            }
+            table.Init(temp, "Prefabs/Component/MissionItem", 537, 521, 537, 160, OnItemClicktHandler);
         }
 
 //        for (int i = 0; i < 10; i++)
@@ -113,8 +120,6 @@ public class MissionWindow : Window
 //                temp.Add(Raids[j]);
 //            }
 //        }
-
-        table.Init(temp, "Prefabs/Component/MissionItem", 537, 521, 537, 160, OnItemClicktHandler);
 
         var lb = MapInfoLabel.GetComponent<UILabel>();
         lb.text = "";

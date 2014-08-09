@@ -123,8 +123,8 @@ namespace com.kx.sglm.gs.battle.share.factory.creater
 		public static List<MonsterTeam> createMonsterTeamList(Battle battle)
 		{
 //JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final java.util.List<com.kx.sglm.gs.battle.share.data.FighterInfo> _monsterList = getSideFighter(battle, com.kx.sglm.gs.battle.share.enums.BattleSideEnum.SIDEB);
-			List<FighterInfo> _monsterList = getSideFighter(battle, BattleSideEnum.SIDEB);
+//ORIGINAL LINE: final java.util.List<com.kx.sglm.gs.battle.share.data.FighterInfo> _monsterList = getSideFighter(battle, com.kx.sglm.gs.battle.share.enums.BattleSideEnum.SIDEB_RIGHT);
+			List<FighterInfo> _monsterList = getSideFighter(battle, BattleSideEnum.SIDEB_RIGHT);
 //JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
 //ORIGINAL LINE: final java.util.Map<Integer, java.util.List<com.kx.sglm.gs.battle.share.data.FighterInfo>> _monsterMap = createSceneFighterMap(_monsterList);
 			Dictionary<int, List<FighterInfo>> _monsterMap = createSceneFighterMap(_monsterList);
@@ -136,7 +136,7 @@ namespace com.kx.sglm.gs.battle.share.factory.creater
 			for (int _i = 0; _i < _sceneSize; _i++)
 			{
 				List<FighterInfo> _list = _monsterMap[_i];
-				MonsterTeam _monster = BattleFighterCreater.createMonsterTeam(battle, _list, BattleSideEnum.SIDEB);
+				MonsterTeam _monster = BattleFighterCreater.createMonsterTeam(battle, _list, BattleSideEnum.SIDEB_RIGHT);
 				_monsterTeamList.Add(_monster);
 			}
 			return _monsterTeamList;

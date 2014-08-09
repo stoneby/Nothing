@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using KXSGCodec;
+using System.Collections;
 using UnityEngine;
 
 /// <summary>

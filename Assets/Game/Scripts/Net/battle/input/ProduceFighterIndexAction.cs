@@ -11,7 +11,7 @@ namespace com.kx.sglm.gs.battle.share.input
 	{
 
 		private int[] heroIndex;
-		private int sideIndex = BattleSideEnum.SIDEA.Index;
+		private int sideIndex = BattleSideEnum.SIDE_LEFT.Index;
 		private int targetIndex;
 
 

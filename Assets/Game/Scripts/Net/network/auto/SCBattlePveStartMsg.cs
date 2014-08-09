@@ -31,12 +31,7 @@ namespace KXSGCodec
     private int _spMaxBuffId;
     private int _raidID;
     private List<KXSGCodec.BattleMsgHero> _fighterList;
-    private List<int> _monsterGroup;
     private List<KXSGCodec.BattleMsgMonster> _monsterList;
-    private List<KXSGCodec.BattleHeroSkillMsgAction> _heroSkillList;
-    private List<KXSGCodec.BattleMonsterSkillMsgAction> _monsterSkillList;
-    private List<KXSGCodec.BattleMonsterAIMsgAction> _monsterAIList;
-    private List<KXSGCodec.BattleBuffMsgData> _buffList;
 
     /// <summary>
     /// 战斗UUID
@@ -119,22 +114,6 @@ namespace KXSGCodec
     }
 
     /// <summary>
-    /// 怪物分组
-    /// </summary>
-    public List<int> MonsterGroup
-    {
-      get
-      {
-        return _monsterGroup;
-      }
-      set
-      {
-        __isset.monsterGroup = true;
-        this._monsterGroup = value;
-      }
-    }
-
-    /// <summary>
     /// 怪物列表
     /// </summary>
     public List<KXSGCodec.BattleMsgMonster> MonsterList
@@ -150,70 +129,6 @@ namespace KXSGCodec
       }
     }
 
-    /// <summary>
-    /// 武将技能列表
-    /// </summary>
-    public List<KXSGCodec.BattleHeroSkillMsgAction> HeroSkillList
-    {
-      get
-      {
-        return _heroSkillList;
-      }
-      set
-      {
-        __isset.heroSkillList = true;
-        this._heroSkillList = value;
-      }
-    }
-
-    /// <summary>
-    /// 怪物技能列表
-    /// </summary>
-    public List<KXSGCodec.BattleMonsterSkillMsgAction> MonsterSkillList
-    {
-      get
-      {
-        return _monsterSkillList;
-      }
-      set
-      {
-        __isset.monsterSkillList = true;
-        this._monsterSkillList = value;
-      }
-    }
-
-    /// <summary>
-    /// 怪物AI列表
-    /// </summary>
-    public List<KXSGCodec.BattleMonsterAIMsgAction> MonsterAIList
-    {
-      get
-      {
-        return _monsterAIList;
-      }
-      set
-      {
-        __isset.monsterAIList = true;
-        this._monsterAIList = value;
-      }
-    }
-
-    /// <summary>
-    /// buff列表
-    /// </summary>
-    public List<KXSGCodec.BattleBuffMsgData> BuffList
-    {
-      get
-      {
-        return _buffList;
-      }
-      set
-      {
-        __isset.buffList = true;
-        this._buffList = value;
-      }
-    }
-
 
     public Isset __isset;
     #if !SILVERLIGHT
@@ -225,12 +140,7 @@ namespace KXSGCodec
       public bool spMaxBuffId;
       public bool raidID;
       public bool fighterList;
-      public bool monsterGroup;
       public bool monsterList;
-      public bool heroSkillList;
-      public bool monsterSkillList;
-      public bool monsterAIList;
-      public bool buffList;
     }
 
     public SCBattlePveStartMsg() {
@@ -297,103 +207,14 @@ namespace KXSGCodec
           case 6:
             if (field.Type == TType.List) {
               {
-                MonsterGroup = new List<int>();
+                MonsterList = new List<KXSGCodec.BattleMsgMonster>();
                 TList _list3 = iprot.ReadListBegin();
                 for( int _i4 = 0; _i4 < _list3.Count; ++_i4)
                 {
-                  int _elem5 = 0;
-                  _elem5 = iprot.ReadI32();
-                  MonsterGroup.Add(_elem5);
-                }
-                iprot.ReadListEnd();
-              }
-            } else { 
-              TProtocolUtil.Skip(iprot, field.Type);
-            }
-            break;
-          case 7:
-            if (field.Type == TType.List) {
-              {
-                MonsterList = new List<KXSGCodec.BattleMsgMonster>();
-                TList _list6 = iprot.ReadListBegin();
-                for( int _i7 = 0; _i7 < _list6.Count; ++_i7)
-                {
-                  KXSGCodec.BattleMsgMonster _elem8 = new KXSGCodec.BattleMsgMonster();
-                  _elem8 = new KXSGCodec.BattleMsgMonster();
-                  _elem8.Read(iprot);
-                  MonsterList.Add(_elem8);
-                }
-                iprot.ReadListEnd();
-              }
-            } else { 
-              TProtocolUtil.Skip(iprot, field.Type);
-            }
-            break;
-          case 8:
-            if (field.Type == TType.List) {
-              {
-                HeroSkillList = new List<KXSGCodec.BattleHeroSkillMsgAction>();
-                TList _list9 = iprot.ReadListBegin();
-                for( int _i10 = 0; _i10 < _list9.Count; ++_i10)
-                {
-                  KXSGCodec.BattleHeroSkillMsgAction _elem11 = new KXSGCodec.BattleHeroSkillMsgAction();
-                  _elem11 = new KXSGCodec.BattleHeroSkillMsgAction();
-                  _elem11.Read(iprot);
-                  HeroSkillList.Add(_elem11);
-                }
-                iprot.ReadListEnd();
-              }
-            } else { 
-              TProtocolUtil.Skip(iprot, field.Type);
-            }
-            break;
-          case 9:
-            if (field.Type == TType.List) {
-              {
-                MonsterSkillList = new List<KXSGCodec.BattleMonsterSkillMsgAction>();
-                TList _list12 = iprot.ReadListBegin();
-                for( int _i13 = 0; _i13 < _list12.Count; ++_i13)
-                {
-                  KXSGCodec.BattleMonsterSkillMsgAction _elem14 = new KXSGCodec.BattleMonsterSkillMsgAction();
-                  _elem14 = new KXSGCodec.BattleMonsterSkillMsgAction();
-                  _elem14.Read(iprot);
-                  MonsterSkillList.Add(_elem14);
-                }
-                iprot.ReadListEnd();
-              }
-            } else { 
-              TProtocolUtil.Skip(iprot, field.Type);
-            }
-            break;
-          case 10:
-            if (field.Type == TType.List) {
-              {
-                MonsterAIList = new List<KXSGCodec.BattleMonsterAIMsgAction>();
-                TList _list15 = iprot.ReadListBegin();
-                for( int _i16 = 0; _i16 < _list15.Count; ++_i16)
-                {
-                  KXSGCodec.BattleMonsterAIMsgAction _elem17 = new KXSGCodec.BattleMonsterAIMsgAction();
-                  _elem17 = new KXSGCodec.BattleMonsterAIMsgAction();
-                  _elem17.Read(iprot);
-                  MonsterAIList.Add(_elem17);
-                }
-                iprot.ReadListEnd();
-              }
-            } else { 
-              TProtocolUtil.Skip(iprot, field.Type);
-            }
-            break;
-          case 11:
-            if (field.Type == TType.List) {
-              {
-                BuffList = new List<KXSGCodec.BattleBuffMsgData>();
-                TList _list18 = iprot.ReadListBegin();
-                for( int _i19 = 0; _i19 < _list18.Count; ++_i19)
-                {
-                  KXSGCodec.BattleBuffMsgData _elem20 = new KXSGCodec.BattleBuffMsgData();
-                  _elem20 = new KXSGCodec.BattleBuffMsgData();
-                  _elem20.Read(iprot);
-                  BuffList.Add(_elem20);
+                  KXSGCodec.BattleMsgMonster _elem5 = new KXSGCodec.BattleMsgMonster();
+                  _elem5 = new KXSGCodec.BattleMsgMonster();
+                  _elem5.Read(iprot);
+                  MonsterList.Add(_elem5);
                 }
                 iprot.ReadListEnd();
               }
@@ -453,24 +274,9 @@ namespace KXSGCodec
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.Struct, FighterList.Count));
-          foreach (KXSGCodec.BattleMsgHero _iter21 in FighterList)
+          foreach (KXSGCodec.BattleMsgHero _iter6 in FighterList)
           {
-            _iter21.Write(oprot);
-          }
-          oprot.WriteListEnd();
-        }
-        oprot.WriteFieldEnd();
-      }
-      if (MonsterGroup != null && __isset.monsterGroup) {
-        field.Name = "monsterGroup";
-        field.Type = TType.List;
-        field.ID = 6;
-        oprot.WriteFieldBegin(field);
-        {
-          oprot.WriteListBegin(new TList(TType.I32, MonsterGroup.Count));
-          foreach (int _iter22 in MonsterGroup)
-          {
-            oprot.WriteI32(_iter22);
+            _iter6.Write(oprot);
           }
           oprot.WriteListEnd();
         }
@@ -479,73 +285,13 @@ namespace KXSGCodec
       if (MonsterList != null && __isset.monsterList) {
         field.Name = "monsterList";
         field.Type = TType.List;
-        field.ID = 7;
+        field.ID = 6;
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.Struct, MonsterList.Count));
-          foreach (KXSGCodec.BattleMsgMonster _iter23 in MonsterList)
+          foreach (KXSGCodec.BattleMsgMonster _iter7 in MonsterList)
           {
-            _iter23.Write(oprot);
-          }
-          oprot.WriteListEnd();
-        }
-        oprot.WriteFieldEnd();
-      }
-      if (HeroSkillList != null && __isset.heroSkillList) {
-        field.Name = "heroSkillList";
-        field.Type = TType.List;
-        field.ID = 8;
-        oprot.WriteFieldBegin(field);
-        {
-          oprot.WriteListBegin(new TList(TType.Struct, HeroSkillList.Count));
-          foreach (KXSGCodec.BattleHeroSkillMsgAction _iter24 in HeroSkillList)
-          {
-            _iter24.Write(oprot);
-          }
-          oprot.WriteListEnd();
-        }
-        oprot.WriteFieldEnd();
-      }
-      if (MonsterSkillList != null && __isset.monsterSkillList) {
-        field.Name = "monsterSkillList";
-        field.Type = TType.List;
-        field.ID = 9;
-        oprot.WriteFieldBegin(field);
-        {
-          oprot.WriteListBegin(new TList(TType.Struct, MonsterSkillList.Count));
-          foreach (KXSGCodec.BattleMonsterSkillMsgAction _iter25 in MonsterSkillList)
-          {
-            _iter25.Write(oprot);
-          }
-          oprot.WriteListEnd();
-        }
-        oprot.WriteFieldEnd();
-      }
-      if (MonsterAIList != null && __isset.monsterAIList) {
-        field.Name = "monsterAIList";
-        field.Type = TType.List;
-        field.ID = 10;
-        oprot.WriteFieldBegin(field);
-        {
-          oprot.WriteListBegin(new TList(TType.Struct, MonsterAIList.Count));
-          foreach (KXSGCodec.BattleMonsterAIMsgAction _iter26 in MonsterAIList)
-          {
-            _iter26.Write(oprot);
-          }
-          oprot.WriteListEnd();
-        }
-        oprot.WriteFieldEnd();
-      }
-      if (BuffList != null && __isset.buffList) {
-        field.Name = "buffList";
-        field.Type = TType.List;
-        field.ID = 11;
-        oprot.WriteFieldBegin(field);
-        {
-          oprot.WriteListBegin(new TList(TType.Struct, BuffList.Count));
-          foreach (KXSGCodec.BattleBuffMsgData _iter27 in BuffList)
-          {
-            _iter27.Write(oprot);
+            _iter7.Write(oprot);
           }
           oprot.WriteListEnd();
         }
@@ -567,18 +313,8 @@ namespace KXSGCodec
       sb.Append(RaidID);
       sb.Append(",FighterList: ");
       sb.Append(FighterList);
-      sb.Append(",MonsterGroup: ");
-      sb.Append(MonsterGroup);
       sb.Append(",MonsterList: ");
       sb.Append(MonsterList);
-      sb.Append(",HeroSkillList: ");
-      sb.Append(HeroSkillList);
-      sb.Append(",MonsterSkillList: ");
-      sb.Append(MonsterSkillList);
-      sb.Append(",MonsterAIList: ");
-      sb.Append(MonsterAIList);
-      sb.Append(",BuffList: ");
-      sb.Append(BuffList);
       sb.Append(")");
       return sb.ToString();
     }

@@ -71,6 +71,8 @@ namespace com.kx.sglm.gs.battle.share.logic.loop
 		{
 			// 结算自己的BUFF
 			CurAttacker.activeAllBuff(BattleConstants.BUFF_ALL_FALG);
+			//这里暂时不加影响
+	//		getCurAttacker().effectAllBuff();
 			//刷新所有人的显示状态
 			BattleLogicHelper.refreshState(Battle.BattleArmy);
 			// 如果是玩家处理下一批武将的入场

@@ -23,8 +23,42 @@ namespace Template.Auto.Monster
   #endif
   public partial class MonsterBattleAITemplate : TBase
   {
+    private int _id;
+    private int _shieldBuffId;
     private List<SkillRatePairData> _defaultSkills;
     private List<MonsterSkillAIData> _aiSkills;
+
+    /// <summary>
+    /// ID
+    /// </summary>
+    public int Id
+    {
+      get
+      {
+        return _id;
+      }
+      set
+      {
+        __isset.id = true;
+        this._id = value;
+      }
+    }
+
+    /// <summary>
+    /// 护盾ID
+    /// </summary>
+    public int ShieldBuffId
+    {
+      get
+      {
+        return _shieldBuffId;
+      }
+      set
+      {
+        __isset.shieldBuffId = true;
+        this._shieldBuffId = value;
+      }
+    }
 
     /// <summary>
     /// 默认技能
@@ -64,6 +98,8 @@ namespace Template.Auto.Monster
     [Serializable]
     #endif
     public struct Isset {
+      public bool id;
+      public bool shieldBuffId;
       public bool defaultSkills;
       public bool aiSkills;
     }
@@ -84,6 +120,20 @@ namespace Template.Auto.Monster
         switch (field.ID)
         {
           case 1:
+            if (field.Type == TType.I32) {
+              Id = iprot.ReadI32();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 2:
+            if (field.Type == TType.I32) {
+              ShieldBuffId = iprot.ReadI32();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 3:
             if (field.Type == TType.List) {
               {
                 DefaultSkills = new List<SkillRatePairData>();
@@ -101,7 +151,7 @@ namespace Template.Auto.Monster
               TProtocolUtil.Skip(iprot, field.Type);
             }
             break;
-          case 2:
+          case 4:
             if (field.Type == TType.List) {
               {
                 AiSkills = new List<MonsterSkillAIData>();
@@ -132,10 +182,26 @@ namespace Template.Auto.Monster
       TStruct struc = new TStruct("MonsterBattleAITemplate");
       oprot.WriteStructBegin(struc);
       TField field = new TField();
+      if (__isset.id) {
+        field.Name = "id";
+        field.Type = TType.I32;
+        field.ID = 1;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteI32(Id);
+        oprot.WriteFieldEnd();
+      }
+      if (__isset.shieldBuffId) {
+        field.Name = "shieldBuffId";
+        field.Type = TType.I32;
+        field.ID = 2;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteI32(ShieldBuffId);
+        oprot.WriteFieldEnd();
+      }
       if (DefaultSkills != null && __isset.defaultSkills) {
         field.Name = "defaultSkills";
         field.Type = TType.List;
-        field.ID = 1;
+        field.ID = 3;
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.Struct, DefaultSkills.Count));
@@ -150,7 +216,7 @@ namespace Template.Auto.Monster
       if (AiSkills != null && __isset.aiSkills) {
         field.Name = "aiSkills";
         field.Type = TType.List;
-        field.ID = 2;
+        field.ID = 4;
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.Struct, AiSkills.Count));
@@ -168,7 +234,11 @@ namespace Template.Auto.Monster
 
     public override string ToString() {
       StringBuilder sb = new StringBuilder("MonsterBattleAITemplate(");
-      sb.Append("DefaultSkills: ");
+      sb.Append("Id: ");
+      sb.Append(Id);
+      sb.Append(",ShieldBuffId: ");
+      sb.Append(ShieldBuffId);
+      sb.Append(",DefaultSkills: ");
       sb.Append(DefaultSkills);
       sb.Append(",AiSkills: ");
       sb.Append(AiSkills);

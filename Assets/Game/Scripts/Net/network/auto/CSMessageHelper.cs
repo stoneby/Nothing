@@ -62,6 +62,7 @@ namespace KXSGCodec
 			            MSG_TYPE_DICT[typeof(CSLotteryCompose)] = (short)MessageType.CS_LOTTERY_COMPOSE.GetHashCode();
 			            MSG_TYPE_DICT[typeof(CSLotteryComposeList)] = (short)MessageType.CS_LOTTERY_COMPOSE_LIST.GetHashCode();
 			            MSG_TYPE_DICT[typeof(CSLotteryList)] = (short)MessageType.CS_LOTTERY_LIST.GetHashCode();
+			            MSG_TYPE_DICT[typeof(CSBuyEnergy)] = (short)MessageType.CS_BUY_ENERGY.GetHashCode();
 			            MSG_TYPE_DICT[typeof(CSRaidLoadingAll)] = (short)MessageType.CS_RAID_LOADING_ALL.GetHashCode();
 			            MSG_TYPE_DICT[typeof(CSRaidQueryFriend)] = (short)MessageType.CS_RAID_QUERY_FRIEND.GetHashCode();
 			            MSG_TYPE_DICT[typeof(CSRaidReceiveAwards)] = (short)MessageType.CS_RAID_RECEIVE_AWARDS.GetHashCode();

@@ -18,7 +18,7 @@ namespace com.kx.sglm.gs.battle.share.input
 
 		public virtual void fireEvent(Battle battle)
 		{
-			BattleTeam _heroTeam = battle.BattleArmy.getActor(BattleSideEnum.SIDEA.Index);
+			BattleTeam _heroTeam = battle.BattleArmy.getActor(BattleSideEnum.SIDE_LEFT.Index);
 			if (_heroTeam == null)
 			{
 				//TODO: loggers.error

@@ -148,10 +148,8 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 					continue;
 				}
 				_actor.activeBuff(buffFlag);
-				_actor.effectAllBuff();
 			}
 		}
-
 
 
 		public abstract bool hasFightFighter();

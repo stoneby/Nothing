@@ -212,9 +212,10 @@ namespace com.kx.sglm.gs.battle.share.skill.manager
 
 		public override void onActiveOption()
 		{
-	//		 if (!canActiveSkill()) {
-	//			 return;
-	//		 }
+			 if (!canActiveSkill())
+			 {
+				 return;
+			 }
 			BattleRecord _record = Battle.Record;
 			BattleSkillRecord _actSkillRecord = _record.OrCreateSkillRecord;
 			BattleRecordHelper.initBattelActiveSkill(_actSkillRecord, Owner);

@@ -27,7 +27,7 @@ namespace Template.Auto.Monster
     private int _weight;
     private int _rouletteRate;
     private int _conditionType;
-    private int _conditionParam;
+    private string _conditionParam;
 
     public int SkillId
     {
@@ -81,7 +81,7 @@ namespace Template.Auto.Monster
       }
     }
 
-    public int ConditionParam
+    public string ConditionParam
     {
       get
       {
@@ -151,8 +151,8 @@ namespace Template.Auto.Monster
             }
             break;
           case 5:
-            if (field.Type == TType.I32) {
-              ConditionParam = iprot.ReadI32();
+            if (field.Type == TType.String) {
+              ConditionParam = iprot.ReadString();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
@@ -202,12 +202,12 @@ namespace Template.Auto.Monster
         oprot.WriteI32(ConditionType);
         oprot.WriteFieldEnd();
       }
-      if (__isset.conditionParam) {
+      if (ConditionParam != null && __isset.conditionParam) {
         field.Name = "conditionParam";
-        field.Type = TType.I32;
+        field.Type = TType.String;
         field.ID = 5;
         oprot.WriteFieldBegin(field);
-        oprot.WriteI32(ConditionParam);
+        oprot.WriteString(ConditionParam);
         oprot.WriteFieldEnd();
       }
       oprot.WriteFieldStop();

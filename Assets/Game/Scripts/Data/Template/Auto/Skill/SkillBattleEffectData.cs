@@ -25,9 +25,9 @@ namespace Template.Auto.Skill
   {
     private int _battleEffectType;
     private int _battleEffectRatio;
-    private int _battleEffectParam1;
-    private int _battleEffectParam2;
-    private int _battleEffectParam3;
+    private string _battleEffectParam1;
+    private string _battleEffectParam2;
+    private string _battleEffectParam3;
 
     public int BattleEffectType
     {
@@ -55,7 +55,7 @@ namespace Template.Auto.Skill
       }
     }
 
-    public int BattleEffectParam1
+    public string BattleEffectParam1
     {
       get
       {
@@ -68,7 +68,7 @@ namespace Template.Auto.Skill
       }
     }
 
-    public int BattleEffectParam2
+    public string BattleEffectParam2
     {
       get
       {
@@ -81,7 +81,7 @@ namespace Template.Auto.Skill
       }
     }
 
-    public int BattleEffectParam3
+    public string BattleEffectParam3
     {
       get
       {
@@ -137,22 +137,22 @@ namespace Template.Auto.Skill
             }
             break;
           case 3:
-            if (field.Type == TType.I32) {
-              BattleEffectParam1 = iprot.ReadI32();
+            if (field.Type == TType.String) {
+              BattleEffectParam1 = iprot.ReadString();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
             break;
           case 4:
-            if (field.Type == TType.I32) {
-              BattleEffectParam2 = iprot.ReadI32();
+            if (field.Type == TType.String) {
+              BattleEffectParam2 = iprot.ReadString();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
             break;
           case 5:
-            if (field.Type == TType.I32) {
-              BattleEffectParam3 = iprot.ReadI32();
+            if (field.Type == TType.String) {
+              BattleEffectParam3 = iprot.ReadString();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
@@ -186,28 +186,28 @@ namespace Template.Auto.Skill
         oprot.WriteI32(BattleEffectRatio);
         oprot.WriteFieldEnd();
       }
-      if (__isset.battleEffectParam1) {
+      if (BattleEffectParam1 != null && __isset.battleEffectParam1) {
         field.Name = "battleEffectParam1";
-        field.Type = TType.I32;
+        field.Type = TType.String;
         field.ID = 3;
         oprot.WriteFieldBegin(field);
-        oprot.WriteI32(BattleEffectParam1);
+        oprot.WriteString(BattleEffectParam1);
         oprot.WriteFieldEnd();
       }
-      if (__isset.battleEffectParam2) {
+      if (BattleEffectParam2 != null && __isset.battleEffectParam2) {
         field.Name = "battleEffectParam2";
-        field.Type = TType.I32;
+        field.Type = TType.String;
         field.ID = 4;
         oprot.WriteFieldBegin(field);
-        oprot.WriteI32(BattleEffectParam2);
+        oprot.WriteString(BattleEffectParam2);
         oprot.WriteFieldEnd();
       }
-      if (__isset.battleEffectParam3) {
+      if (BattleEffectParam3 != null && __isset.battleEffectParam3) {
         field.Name = "battleEffectParam3";
-        field.Type = TType.I32;
+        field.Type = TType.String;
         field.ID = 5;
         oprot.WriteFieldBegin(field);
-        oprot.WriteI32(BattleEffectParam3);
+        oprot.WriteString(BattleEffectParam3);
         oprot.WriteFieldEnd();
       }
       oprot.WriteFieldStop();

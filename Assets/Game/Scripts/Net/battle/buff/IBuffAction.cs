@@ -45,7 +45,7 @@ namespace com.kx.sglm.gs.battle.share.buff
 
 		public abstract void onRemove(BattleFighter fighter);
 
-		public abstract void onEffect(BattleFighter fighter);
+		public abstract void onTeamBeforeAttack(BattleFighter fighter);
 
 		public abstract void onAttack(BattleFighter attacker);
 

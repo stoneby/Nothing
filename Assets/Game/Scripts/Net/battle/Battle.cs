@@ -47,7 +47,12 @@ namespace com.kx.sglm.gs.battle.share
 		/// <summary>
 		/// 战斗开始触发
 		/// </summary>
-		public virtual void start(int scene=0)
+		public virtual void start()
+		{
+			startOnSceneIndex(0);
+		}
+
+		public virtual void startOnSceneIndex(int index)
 		{
 			if (!canStartBattle())
 			{
@@ -55,9 +60,7 @@ namespace com.kx.sglm.gs.battle.share
 				return;
 			}
 			battleField = new BattleField(this);
-
-            //Added by liangxiao
-            battleField.SetLoopCount(scene);
+			battleField.LoopCountForce = index;
 			battleField.onAction();
 		}
 

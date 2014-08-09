@@ -258,10 +258,10 @@ namespace com.kx.sglm.gs.battle.share.buff
 		/// <summary>
 		/// add buff effect to fighter, every team shot effect once
 		/// </summary>
-		public virtual void effectAllBuff()
+		public virtual void onTeamBeforeAttack()
 		{
-			effectBuff(buffHolderMap);
-			effectBuff(debuffHolderMap);
+			onTeamBeforeAttack(buffHolderMap);
+			onTeamBeforeAttack(debuffHolderMap);
 		}
 
 
@@ -328,11 +328,11 @@ namespace com.kx.sglm.gs.battle.share.buff
 			}
 		}
 
-		protected internal virtual void effectBuff(Dictionary<int, BuffTypeHolder> holderMap)
+		protected internal virtual void onTeamBeforeAttack(Dictionary<int, BuffTypeHolder> holderMap)
 		{
 			foreach (BuffTypeHolder _holder in holderMap.Values)
 			{
-				_holder.effectBuff();
+				_holder.onTeamBeforeAttack();
 			}
 		}
 
@@ -414,14 +414,10 @@ namespace com.kx.sglm.gs.battle.share.buff
 
 		public virtual void onTeamShotStart(TeamShotStartEvent @event)
 		{
-			recalcBuffEffect();
-		}
-
-
-		public virtual void recalcBuffEffect()
-		{
 			owner.FighterProp.resetBuffProp();
+			onTeamBeforeAttack();
 		}
+
 
 		public virtual List<BattleFighterState> AllFighterState
 		{
