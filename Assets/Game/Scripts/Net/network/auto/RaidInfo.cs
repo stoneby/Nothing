@@ -18,140 +18,208 @@ using Thrift.Transport;
 namespace KXSGCodec
 {
 
-  #if !SILVERLIGHT
-  [Serializable]
-  #endif
-  public partial class RaidInfo : TBase
-  {
-    private int _templateId;
-    private List<RaidStageInfo> _stateInfo;
-
-    public int TemplateId
-    {
-      get
-      {
-        return _templateId;
-      }
-      set
-      {
-        __isset.templateId = true;
-        this._templateId = value;
-      }
-    }
-
-    public List<RaidStageInfo> StateInfo
-    {
-      get
-      {
-        return _stateInfo;
-      }
-      set
-      {
-        __isset.stateInfo = true;
-        this._stateInfo = value;
-      }
-    }
-
-
-    public Isset __isset;
-    #if !SILVERLIGHT
+#if !SILVERLIGHT
     [Serializable]
-    #endif
-    public struct Isset {
-      public bool templateId;
-      public bool stateInfo;
-    }
-
-    public RaidInfo() {
-    }
-
-    public void Read (TProtocol iprot)
+#endif
+    public partial class RaidInfo : TBase
     {
-      TField field;
-      iprot.ReadStructBegin();
-      while (true)
-      {
-        field = iprot.ReadFieldBegin();
-        if (field.Type == TType.Stop) { 
-          break;
-        }
-        switch (field.ID)
+        private const int FieldCount = 3;
+        private const int BasicCount = 1;
+        private const int ISSetFieldCount = 2;
+        private const string BasicName = "RaidBasic:";
+        private const string StateInfoListName = "StateInfoList:";
+        private const string ISSetName = "Iset:";
+
+        private int _templateId;
+        private List<RaidStageInfo> _stateInfo;
+
+        public int TemplateId
         {
-          case 1:
-            if (field.Type == TType.I32) {
-              TemplateId = iprot.ReadI32();
-            } else { 
-              TProtocolUtil.Skip(iprot, field.Type);
+            get
+            {
+                return _templateId;
             }
-            break;
-          case 2:
-            if (field.Type == TType.List) {
-              {
-                StateInfo = new List<RaidStageInfo>();
-                TList _list0 = iprot.ReadListBegin();
-                for( int _i1 = 0; _i1 < _list0.Count; ++_i1)
+            set
+            {
+                __isset.templateId = true;
+                this._templateId = value;
+            }
+        }
+
+        public List<RaidStageInfo> StateInfo
+        {
+            get
+            {
+                return _stateInfo;
+            }
+            set
+            {
+                __isset.stateInfo = true;
+                this._stateInfo = value;
+            }
+        }
+
+
+        public Isset __isset;
+
+#if !SILVERLIGHT
+        [Serializable]
+#endif
+        public struct Isset
+        {
+            public bool templateId;
+            public bool stateInfo;
+        }
+
+        public RaidInfo()
+        {
+        }
+
+        public void Read(TProtocol iprot)
+        {
+            TField field;
+            iprot.ReadStructBegin();
+            while (true)
+            {
+                field = iprot.ReadFieldBegin();
+                if (field.Type == TType.Stop)
                 {
-                  RaidStageInfo _elem2 = new RaidStageInfo();
-                  _elem2 = new RaidStageInfo();
-                  _elem2.Read(iprot);
-                  StateInfo.Add(_elem2);
+                    break;
                 }
-                iprot.ReadListEnd();
-              }
-            } else { 
-              TProtocolUtil.Skip(iprot, field.Type);
+                switch (field.ID)
+                {
+                    case 1:
+                        if (field.Type == TType.I32)
+                        {
+                            TemplateId = iprot.ReadI32();
+                        }
+                        else
+                        {
+                            TProtocolUtil.Skip(iprot, field.Type);
+                        }
+                        break;
+                    case 2:
+                        if (field.Type == TType.List)
+                        {
+                            {
+                                StateInfo = new List<RaidStageInfo>();
+                                TList _list0 = iprot.ReadListBegin();
+                                for (int _i1 = 0; _i1 < _list0.Count; ++_i1)
+                                {
+                                    RaidStageInfo _elem2 = new RaidStageInfo();
+                                    _elem2 = new RaidStageInfo();
+                                    _elem2.Read(iprot);
+                                    StateInfo.Add(_elem2);
+                                }
+                                iprot.ReadListEnd();
+                            }
+                        }
+                        else
+                        {
+                            TProtocolUtil.Skip(iprot, field.Type);
+                        }
+                        break;
+                    default:
+                        TProtocolUtil.Skip(iprot, field.Type);
+                        break;
+                }
+                iprot.ReadFieldEnd();
             }
-            break;
-          default: 
-            TProtocolUtil.Skip(iprot, field.Type);
-            break;
+            iprot.ReadStructEnd();
         }
-        iprot.ReadFieldEnd();
-      }
-      iprot.ReadStructEnd();
-    }
 
-    public void Write(TProtocol oprot) {
-      TStruct struc = new TStruct("RaidInfo");
-      oprot.WriteStructBegin(struc);
-      TField field = new TField();
-      if (__isset.templateId) {
-        field.Name = "templateId";
-        field.Type = TType.I32;
-        field.ID = 1;
-        oprot.WriteFieldBegin(field);
-        oprot.WriteI32(TemplateId);
-        oprot.WriteFieldEnd();
-      }
-      if (StateInfo != null && __isset.stateInfo) {
-        field.Name = "stateInfo";
-        field.Type = TType.List;
-        field.ID = 2;
-        oprot.WriteFieldBegin(field);
+        public void Write(TProtocol oprot)
         {
-          oprot.WriteListBegin(new TList(TType.Struct, StateInfo.Count));
-          foreach (RaidStageInfo _iter3 in StateInfo)
-          {
-            _iter3.Write(oprot);
-          }
-          oprot.WriteListEnd();
+            TStruct struc = new TStruct("RaidInfo");
+            oprot.WriteStructBegin(struc);
+            TField field = new TField();
+            if (__isset.templateId)
+            {
+                field.Name = "templateId";
+                field.Type = TType.I32;
+                field.ID = 1;
+                oprot.WriteFieldBegin(field);
+                oprot.WriteI32(TemplateId);
+                oprot.WriteFieldEnd();
+            }
+            if (StateInfo != null && __isset.stateInfo)
+            {
+                field.Name = "stateInfo";
+                field.Type = TType.List;
+                field.ID = 2;
+                oprot.WriteFieldBegin(field);
+                {
+                    oprot.WriteListBegin(new TList(TType.Struct, StateInfo.Count));
+                    foreach (RaidStageInfo _iter3 in StateInfo)
+                    {
+                        _iter3.Write(oprot);
+                    }
+                    oprot.WriteListEnd();
+                }
+                oprot.WriteFieldEnd();
+            }
+            oprot.WriteFieldStop();
+            oprot.WriteStructEnd();
         }
-        oprot.WriteFieldEnd();
-      }
-      oprot.WriteFieldStop();
-      oprot.WriteStructEnd();
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder("RaidInfo(");
+            sb.Append("TemplateId: ");
+            sb.Append(TemplateId);
+            sb.Append(",StateInfo: ");
+            sb.Append(StateInfo);
+            sb.Append(")");
+            return sb.ToString();
+        }
+
+        public void WriteClass(StreamWriter writer, string className)
+        {
+            writer.Write(className);
+            writer.Write(BasicName);
+            PersistenceFileIOHandler.WriteBasic(writer,TemplateId);
+            writer.Write(StateInfoListName);
+            for (int i = 0; i < StateInfo.Count; i++)
+            {
+                StateInfo[i].WriteClass(writer);
+            }
+            writer.Write(ISSetName);
+            PersistenceFileIOHandler.WriteBasic(writer,__isset.templateId);
+            PersistenceFileIOHandler.WriteBasic(writer, __isset.stateInfo);
+        }
+
+        public void ReadClass(string value)
+        {
+            string[] splitStrings = new string[] { BasicName, StateInfoListName, ISSetName };
+            string[] outStrings = value.Split(splitStrings, StringSplitOptions.RemoveEmptyEntries);
+            PersistenceFileIOHandler.CheckCount(outStrings, FieldCount);
+
+            string[] splitedBasic = outStrings[0].Split(new char[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
+            PersistenceFileIOHandler.CheckCount(splitedBasic, BasicCount);
+            TemplateId = int.Parse(splitedBasic[0]);
+
+            string[] splitedStateInfoList = outStrings[1].Split(new char[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
+            if (splitedStateInfoList.Length%4 != 0)
+            {
+                Logger.LogError("NotCorrect strings num!");
+                throw new Exception("ReadStateInfoList: NotCorrect strings num!");
+            }
+            int stateInfoCount = 0;
+            StateInfo=new List<RaidStageInfo>();
+            for (int i= 0; i < splitedStateInfoList.Length/4; stateInfoCount++)
+            {
+                StateInfo.Add(new RaidStageInfo());
+                StateInfo[stateInfoCount].TemplateId = int.Parse(splitedStateInfoList[i]);
+                StateInfo[stateInfoCount].Star = sbyte.Parse(splitedStateInfoList[i + 1]);
+                StateInfo[stateInfoCount].__isset.templateId = bool.Parse(splitedStateInfoList[i + 2]);
+                StateInfo[stateInfoCount].__isset.star = bool.Parse(splitedStateInfoList[i + 3]);
+                i+=4;
+            }
+
+            string[] splitedISet = outStrings[2].Split(new char[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
+            PersistenceFileIOHandler.CheckCount(splitedISet, ISSetFieldCount);
+            __isset.templateId = bool.Parse(splitedISet[0]);
+            __isset.stateInfo = bool.Parse(splitedISet[1]);
+        }
     }
-
-    public override string ToString() {
-      StringBuilder sb = new StringBuilder("RaidInfo(");
-      sb.Append("TemplateId: ");
-      sb.Append(TemplateId);
-      sb.Append(",StateInfo: ");
-      sb.Append(StateInfo);
-      sb.Append(")");
-      return sb.ToString();
-    }
-
-  }
-
 }

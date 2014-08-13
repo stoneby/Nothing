@@ -5,7 +5,10 @@ public abstract class KxItemRender : MonoBehaviour
 {
     public delegate void OnSelectedCallback(GameObject obj);
 
+    public delegate void OnHoverCallback(GameObject go, bool state);
+
     public OnSelectedCallback OnSelected;
+    public OnHoverCallback OnHovered;
 
     private UIEventListener BtnClickUIEventListener;
 
@@ -22,13 +25,17 @@ public abstract class KxItemRender : MonoBehaviour
 	
 	}
 
-    public void InitItem()
+    public void InitItem(bool addhover = false)
     {
         if (HaveNotInit)
         {
             HaveNotInit = false;
             BtnClickUIEventListener = UIEventListener.Get(gameObject);
             BtnClickUIEventListener.onClick += OnItemClick;
+            if (addhover)
+            {
+                BtnClickUIEventListener.onHover += OnItemHover;
+            }
         }
     }
 
@@ -40,8 +47,14 @@ public abstract class KxItemRender : MonoBehaviour
         {
             OnSelected(game);
         }
-        
+    }
 
 
+    private void OnItemHover(GameObject game, bool state)
+    {
+        if (OnHovered != null)
+        {
+            OnHovered(game, state);
+        }
     }
 }

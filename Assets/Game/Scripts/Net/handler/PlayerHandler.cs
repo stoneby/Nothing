@@ -1,5 +1,4 @@
 ﻿using KXSGCodec;
-using UnityEngine;
 
 namespace Assets.Game.Scripts.Net.handler
 {
@@ -12,6 +11,28 @@ namespace Assets.Game.Scripts.Net.handler
                 ServiceManager.SetDebugAccount(ServiceManager.DebugUserName, ServiceManager.DebugPassword);
             }
             WindowManager.Instance.Show<LoginCreateRoleWindow>(true);
+
+            var scCreatePlayerMsg = msg.GetContent() as SCCreatePlayerMsg;
+            //Set user's name if it's a new account
+            if (scCreatePlayerMsg.CharName != null)
+            {
+                var windowObject = WindowManager.Instance.GetWindow<LoginCreateRoleWindow>().gameObject;
+                var inputObject = Utils.FindChild(windowObject.transform, "Input - account");
+                var labelObject = Utils.FindChild(inputObject.transform, "Label");
+                inputObject.GetComponent<UIInput>().value =
+                    labelObject.GetComponent<UILabel>().text = scCreatePlayerMsg.CharName;
+            }
+        }
+
+        public static void OnRandomCharName(ThriftSCMessage msg)
+        {
+            var scRandomNameMsg = msg.GetContent() as SCRandomCharNameMsg;
+
+            var windowObject = WindowManager.Instance.GetWindow<LoginCreateRoleWindow>().gameObject;
+            var inputObject = Utils.FindChild(windowObject.transform, "Input - account");
+            var labelObject = Utils.FindChild(inputObject.transform, "Label");
+            inputObject.GetComponent<UIInput>().value =
+                labelObject.GetComponent<UILabel>().text = scRandomNameMsg.CharName;
         }
 
         public static void OnPlayerInfo(ThriftSCMessage msg)
@@ -52,16 +73,20 @@ namespace Assets.Game.Scripts.Net.handler
 
             WindowManager.Instance.Show(WindowGroupType.Popup, false);
 
-#if !UNITY_IPHONE
+            //BattlePersistence
+            PersistenceHandler.Instance.GoToPersistenceWay();
 
-            GameObject.Find("Global").gameObject.GetComponent<PersistenceHandler>().GoToPersistenceWay();
-
-#endif
-
-            WindowManager.Instance.Show<UIMainScreenWindow>(true);
-            WindowManager.Instance.Show<MainMenuBarWindow>(true);
-
+            HttpResourceManager.OnLoadFinish += OnFinish;
+            //WindowManager.Instance.Show<MainMenuBarWindow>(true);
             HttpResourceManager.LoadAll();
+            WindowManager.Instance.Show<LoadingWaitWindow>(true);
+        }
+
+        private static void OnFinish()
+        {
+            WindowManager.Instance.Show<LoadingWaitWindow>(false);
+            WindowManager.Instance.Show<UIMainScreenWindow>(true);
+            HttpResourceManager.OnLoadFinish -= OnFinish;
         }
     }
 }

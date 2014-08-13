@@ -45,6 +45,11 @@ namespace com.kx.sglm.gs.battle.share.buff.effect
 			{
 				return;
 			}
+			//睡眠状态不会打护盾
+			if (attacker.hasState(BattleConstants.ATTACK_ZERO_FLAG))
+			{
+				return;
+			}
 			BattleFighterBuff _buff = owner.BuffManager.getBattleBuff(this);
 			if (_buff == null)
 			{
@@ -86,6 +91,7 @@ namespace com.kx.sglm.gs.battle.share.buff.effect
 			{
 				Logger.Log(string.Format("shield break, index = {0:D}", owner.Index));
 				buff.ExtraRound = BreakShieldCd;
+				buff.Permanent = false;
 				SheildLeftRound = owner;
 				owner.removeStateFlag(Id);
 			}

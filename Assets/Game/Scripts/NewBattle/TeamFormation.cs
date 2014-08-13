@@ -29,7 +29,7 @@ public class TeamFormation
     {
         var descriptionNode = element.SelectSingleNode("Description");
         Description = descriptionNode.InnerText;
-        Debug.Log("Description: " + Description);
+        Logger.Log("Description: " + Description);
         var positionNodeList = element.SelectNodes("Position");
         PositionList.Clear();
         foreach (XmlNode positionNode in positionNodeList)

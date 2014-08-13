@@ -291,7 +291,18 @@ public abstract class UIBasicSprite : UIWidget
 		{
 			Color colF = color;
 			colF.a = finalAlpha;
-			return premultipliedAlpha ? NGUITools.ApplyPMA(colF) : colF;
+
+		    if (premultipliedAlpha)
+		    {
+		        NGUITools.ApplyPMA(colF);
+		    }
+
+		    if (material != null)
+		    {
+		        material.SetFloat("_HighLight", HighLight);
+		    }
+
+            return colF;
 		}
 	}
 

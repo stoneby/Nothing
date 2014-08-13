@@ -67,8 +67,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: box
-    x: 0
-    y: 5
+    x: 245
+    y: 434
     width: 100
     height: 100
     borderLeft: 0
@@ -81,7 +81,7 @@ MonoBehaviour:
     paddingBottom: 0
   - name: buff_1
     x: 206
-    y: 260
+    y: 214
     width: 34
     height: 45
     borderLeft: 0
@@ -93,8 +93,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: buff_2
-    x: 207
-    y: 430
+    x: 206
+    y: 260
     width: 34
     height: 45
     borderLeft: 0
@@ -107,7 +107,7 @@ MonoBehaviour:
     paddingBottom: 0
   - name: buff_3
     x: 204
-    y: 363
+    y: 317
     width: 34
     height: 45
     borderLeft: 0
@@ -120,7 +120,7 @@ MonoBehaviour:
     paddingBottom: 0
   - name: buff_4
     x: 204
-    y: 317
+    y: 363
     width: 34
     height: 45
     borderLeft: 0
@@ -132,8 +132,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: buff_5
-    x: 206
-    y: 214
+    x: 207
+    y: 430
     width: 34
     height: 45
     borderLeft: 0
@@ -145,8 +145,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: cancel_down
-    x: 245
-    y: 312
+    x: 673
+    y: 581
     width: 99
     height: 40
     borderLeft: 0
@@ -171,8 +171,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: confirm_down
-    x: 245
-    y: 353
+    x: 473
+    y: 581
     width: 99
     height: 40
     borderLeft: 0
@@ -184,8 +184,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: confirm_up
-    x: 245
-    y: 394
+    x: 573
+    y: 581
     width: 99
     height: 40
     borderLeft: 0
@@ -198,7 +198,7 @@ MonoBehaviour:
     paddingBottom: 0
   - name: head_0
     x: 0
-    y: 206
+    y: 6
     width: 102
     height: 99
     borderLeft: 0
@@ -210,7 +210,7 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: head_1
-    x: 0
+    x: 103
     y: 106
     width: 102
     height: 99
@@ -222,7 +222,7 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
-  - name: head_2
+  - name: head_10
     x: 101
     y: 309
     width: 102
@@ -235,9 +235,61 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
+  - name: head_11
+    x: 245
+    y: 234
+    width: 100
+    height: 99
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 1
+    paddingRight: 1
+    paddingTop: 0
+    paddingBottom: 0
+  - name: head_12
+    x: 103
+    y: 206
+    width: 102
+    height: 99
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: head_13
+    x: 0
+    y: 206
+    width: 102
+    height: 99
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: head_2
+    x: 103
+    y: 6
+    width: 102
+    height: 99
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
   - name: head_3
     x: 245
-    y: 535
+    y: 134
     width: 99
     height: 99
     borderLeft: 0
@@ -249,8 +301,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: head_4
-    x: 245
-    y: 435
+    x: 348
+    y: 453
     width: 95
     height: 99
     borderLeft: 0
@@ -262,8 +314,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: head_5
-    x: 103
-    y: 24
+    x: 245
+    y: 334
     width: 101
     height: 99
     borderLeft: 0
@@ -288,8 +340,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: head_7
-    x: 103
-    y: 206
+    x: 245
+    y: 535
     width: 102
     height: 99
     borderLeft: 0
@@ -298,6 +350,32 @@ MonoBehaviour:
     borderBottom: 0
     paddingLeft: 0
     paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: head_8
+    x: 0
+    y: 106
+    width: 102
+    height: 99
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: head_9
+    x: 245
+    y: 34
+    width: 97
+    height: 99
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 2
+    paddingRight: 3
     paddingTop: 0
     paddingBottom: 0
   - name: headbox_light
@@ -314,8 +392,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: headbox_normal
-    x: 103
-    y: 124
+    x: 348
+    y: 553
     width: 124
     height: 81
     borderLeft: 0
@@ -328,7 +406,7 @@ MonoBehaviour:
     paddingBottom: 0
   - name: HP_1
     x: 554
-    y: 654
+    y: 641
     width: 446
     height: 12
     borderLeft: 0
@@ -340,7 +418,7 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: HP_2
-    x: 345
+    x: 473
     y: 622
     width: 446
     height: 12
@@ -379,8 +457,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: icon_box
-    x: 205
-    y: 100
+    x: 206
+    y: 182
     width: 28
     height: 23
     borderLeft: 0
@@ -392,8 +470,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: icon_energy
-    x: 942
-    y: 698
+    x: 206
+    y: 55
     width: 25
     height: 24
     borderLeft: 0
@@ -406,7 +484,7 @@ MonoBehaviour:
     paddingBottom: 0
   - name: icon_fp
     x: 270
-    y: 237
+    y: 11
     width: 26
     height: 22
     borderLeft: 0
@@ -418,8 +496,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: icon_gold
-    x: 163
-    y: 1
+    x: 206
+    y: 107
     width: 26
     height: 22
     borderLeft: 0
@@ -431,8 +509,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: job_1
-    x: 993
-    y: 698
+    x: 206
+    y: 30
     width: 24
     height: 24
     borderLeft: 0
@@ -444,8 +522,8 @@ MonoBehaviour:
     paddingTop: 4
     paddingBottom: 4
   - name: job_2
-    x: 205
-    y: 74
+    x: 206
+    y: 156
     width: 25
     height: 25
     borderLeft: 0
@@ -457,8 +535,8 @@ MonoBehaviour:
     paddingTop: 3
     paddingBottom: 4
   - name: job_3
-    x: 968
-    y: 698
+    x: 206
+    y: 5
     width: 24
     height: 24
     borderLeft: 0
@@ -470,8 +548,8 @@ MonoBehaviour:
     paddingTop: 4
     paddingBottom: 4
   - name: job_4
-    x: 205
-    y: 48
+    x: 206
+    y: 130
     width: 24
     height: 25
     borderLeft: 0
@@ -484,7 +562,7 @@ MonoBehaviour:
     paddingBottom: 4
   - name: job_5
     x: 245
-    y: 235
+    y: 9
     width: 24
     height: 24
     borderLeft: 0
@@ -509,8 +587,8 @@ MonoBehaviour:
     paddingTop: 6
     paddingBottom: 6
   - name: job_7
-    x: 205
-    y: 22
+    x: 206
+    y: 80
     width: 24
     height: 25
     borderLeft: 0
@@ -522,8 +600,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: light_close
-    x: 290
-    y: 260
+    x: 773
+    y: 570
     width: 44
     height: 51
     borderLeft: 0
@@ -535,8 +613,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: light_open
-    x: 245
-    y: 260
+    x: 818
+    y: 570
     width: 44
     height: 51
     borderLeft: 0
@@ -548,8 +626,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: line
-    x: 345
-    y: 619
+    x: 444
+    y: 550
     width: 492
     height: 2
     borderLeft: 0
@@ -574,19 +652,6 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: menu_btn_down
-    x: 819
-    y: 724
-    width: 116
-    height: 40
-    borderLeft: 0
-    borderRight: 0
-    borderTop: 0
-    borderBottom: 0
-    paddingLeft: 0
-    paddingRight: 0
-    paddingTop: 0
-    paddingBottom: 0
-  - name: menu_btn_up
     x: 725
     y: 682
     width: 116
@@ -599,9 +664,22 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
+  - name: menu_btn_up
+    x: 819
+    y: 724
+    width: 116
+    height: 40
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
   - name: meun
-    x: 103
-    y: 3
+    x: 942
+    y: 702
     width: 59
     height: 20
     borderLeft: 0
@@ -614,7 +692,7 @@ MonoBehaviour:
     paddingBottom: 0
   - name: MP_1
     x: 554
-    y: 641
+    y: 654
     width: 446
     height: 12
     borderLeft: 0

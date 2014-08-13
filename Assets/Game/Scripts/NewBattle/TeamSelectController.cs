@@ -141,7 +141,10 @@ public class TeamSelectController : MonoBehaviour
         initialized = false;
 
         // return back to pool.
-        CharacterList.ForEach(character => CharacterPool.Return(character.gameObject));
+        if (CharacterPool != null)
+        {
+            CharacterList.ForEach(character => CharacterPool.Return(character.gameObject));
+        }
 
         // unregister events to all characters.
         UnregisterEventHandlers();
@@ -169,6 +172,12 @@ public class TeamSelectController : MonoBehaviour
         if (CharacterList.Count == 0)
         {
             Logger.LogWarning("Dynamic binding mode, take character from pool of number: " + Total);
+
+            if (CharacterPool == null)
+            {
+                Logger.LogError("Dynamic binding mode need CharacterPool not be null.");
+                return;
+            }
 
             for (var i = 0; i < Total; ++i)
             {
@@ -465,7 +474,6 @@ public class TeamSelectController : MonoBehaviour
 
     private void RegisterEventHandlers()
     {
-        Debug.Log("RegisterEventHandlers");
         CharacterList.ForEach(character =>
         {
             var listener = UIEventListener.Get(character.gameObject);
@@ -480,7 +488,6 @@ public class TeamSelectController : MonoBehaviour
 
     private void UnregisterEventHandlers()
     {
-        Debug.Log("UnregisterEventHandlers");
         CharacterList.ForEach(character =>
         {
             var listener = UIEventListener.Get(character.gameObject);

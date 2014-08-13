@@ -24,7 +24,6 @@ public class WidgetLooper : MonoBehaviour
     public UIWidget BaseWidget;
 
     private UIWidget widget;
-    private TweenPosition positionTween;
     private Vector3 defaultPosition;
     private Vector3 currentPosition;
 
@@ -47,15 +46,21 @@ public class WidgetLooper : MonoBehaviour
         if (currentPosition.x < MinX)
         {
             currentPosition.x = MaxX;
+            transform.localPosition = currentPosition;
         }
 
         if (currentPosition.x > MaxX)
         {
             currentPosition.x = MinX;
+            transform.localPosition = currentPosition;
         }
 
         var distance = new Vector3(duration * Speed * BaseWidget.width, 0, 0);
-        PlayTween(positionTween, currentPosition, currentPosition - distance);
+
+        // using itween here to make consistent with texture looper, to keep in the same frame. NGUI tween has issue by eating frames.
+        iTween.MoveTo(gameObject,
+            iTween.Hash("position", (transform.localPosition - distance), "time", Duration, "easetype" ,"linear", "islocal", true));
+
         currentPosition -= distance;
     }
 
@@ -81,21 +86,9 @@ public class WidgetLooper : MonoBehaviour
         }
     }
 
-    private void PlayTween(TweenPosition tween, Vector3 from, Vector3 to)
-    {
-        tween.ResetToBeginning();
-        tween.from = from;
-        tween.to = to;
-        tween.PlayForward();
-        tween.duration = Duration;
-    }
-
-    // Use this for initialization
     private void Awake()
     {
         widget = GetComponent<UIWidget>();
-        positionTween = GetComponent<TweenPosition>() ?? gameObject.AddComponent<TweenPosition>();
-        positionTween.enabled = false;
 
         defaultPosition = transform.localPosition;
         currentPosition = defaultPosition;

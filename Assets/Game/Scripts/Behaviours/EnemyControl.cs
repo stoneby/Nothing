@@ -26,6 +26,21 @@ public class EnemyControl : MonoBehaviour
     public BuffBarController BuffController;
 
     /// <summary>
+    /// Base widget of moving standard.
+    /// </summary>
+    public UIWidget BaseWidget;
+
+    /// <summary>
+    /// Speed of moving to next round.
+    /// </summary>
+    public float MoveSpeed;
+
+    /// <summary>
+    /// Duration of moving to next round.
+    /// </summary>
+    public float MoveDuration;
+
+    /// <summary>
     /// Character data.
     /// </summary>
     public Character CharacterData;
@@ -151,6 +166,15 @@ public class EnemyControl : MonoBehaviour
         EnemySprite.transform.localPosition = originalPosition;
         ShowBlood(true);
         ShowAimTo(false);
+    }
+
+    public void Move()
+    {
+        var distance = new Vector3(MoveDuration * MoveSpeed * BaseWidget.width, 0, 0);
+        // using itween here to make consistent with texture looper, to keep in the same frame. NGUI tween has issue by eating frames.
+        iTween.MoveFrom(gameObject,
+            iTween.Hash("position", (transform.localPosition + distance), "time", MoveDuration, "easetype", "linear",
+                "islocal", true));
     }
 
     #endregion

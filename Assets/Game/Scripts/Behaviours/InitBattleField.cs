@@ -1,4 +1,3 @@
-using System.Xml.Schema;
 using Assets.Game.Scripts.Common.Model;
 using com.kx.sglm.gs.battle.share;
 using com.kx.sglm.gs.battle.share.data.record;
@@ -22,8 +21,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
     public GameObject SpritePrefab;
     public GameObject EffectBg;
     public GameObject EffectObject;
-
-    public GameObject BattleBG;
 
     public GameObject BreakObject;
     public GameObject TextBGObject;
@@ -62,6 +59,11 @@ public class InitBattleField : MonoBehaviour, IBattleView
     /// Battle face controller.
     /// </summary>
     public BattleFaceController FaceController;
+
+    /// <summary>
+    /// Battleground controller
+    /// </summary>
+    public BattlegroundController BattleController;
 
     #region Battle Face Inner Controller
 
@@ -109,10 +111,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
     private BattleSkillRecord leaderSkillRecord;
     private BattleTeamFightRecord battleTeamRecord;
 
-    private GameObject tempGameObj;
-
-    private static int bgIndex;
-
     public void Init()
     {
         EffectBg.SetActive(false);
@@ -149,11 +147,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
 
         InitBattleFace();
 
-        // [FIXME] belongs to battle background controller.
-        var bg = BattleBG.GetComponent<BattleBGControl>();
-        bgIndex++;
-        bg.SetData("00" + bgIndex);
-        bgIndex = bgIndex % 3;
+        InitBattleground();
 
         ShowTopData();
 
@@ -167,7 +161,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
 
     private void InitTeamController()
     {
-        TeamController.Cleanup();
         TeamController.Total = BattleModelLocator.Instance.HeroList.Count;
         TeamController.Row = 3;
         TeamController.Col = 3;
@@ -199,6 +192,17 @@ public class InitBattleField : MonoBehaviour, IBattleView
         stepController.TotalValue = BattleModelLocator.Instance.EnemyGroup.Count;
     }
 
+    private void InitBattleground()
+    {
+        BattleController.Reset();
+
+        var enemyGroup = BattleModelLocator.Instance.EnemyGroup;
+        BattleController.TotalStep = enemyGroup.Count;
+        // Battle ID which is 1, so...
+        BattleController.BattleID = Random.Range(0, BattleController.TotalBattleNum) + 1;
+        BattleController.Initialize();
+    }
+
     private void ShowTopData()
     {
         stepController.CurrentValue = (currentEnemyGroupIndex + 1);
@@ -221,6 +225,16 @@ public class InitBattleField : MonoBehaviour, IBattleView
             characterList.Add(character);
         });
         return characterList;
+    }
+
+    private void ResetCharacterList()
+    {
+        TeamController.CharacterList.ForEach(character =>
+        {
+            var idIndex = character.IDIndex;
+            var pool = CharacterPoolManager.Instance.CharacterPoolList[idIndex];
+            pool.Return(character.gameObject);
+        });
     }
 
     private void InitCharacterList()
@@ -263,6 +277,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
             enemyController.Reset();
             enemyController.SetBloodBar(maxValue, maxValue);
             enemyController.CharacterData.Data = enemyData;
+            enemyController.BaseWidget = BattleController.GetComponent<UIWidget>();
 
             Logger.Log("Init enemy of index: " + (BattleModelLocator.Instance.MonsterIndex + i));
         }
@@ -673,18 +688,12 @@ public class InitBattleField : MonoBehaviour, IBattleView
             }
         }
 
-        var bg = BattleBG.GetComponent<BattleBGControl>();
-        bg.MoveToNext();
+        BattleController.Play();
 
         // [FIXME] This place move enemy when next page.
-        foreach (var t in EnemyController.CharacterList)
+        foreach (var enemyController in EnemyController.CharacterList.Select(character => character.GetComponent<EnemyControl>()))
         {
-            var obj = t.gameObject;
-            var temptp = obj.AddComponent<TweenPosition>();
-            temptp.duration = GameConfig.RunRoNextMonstersTime;
-            temptp.@from = new Vector3(obj.transform.localPosition.x + 640, obj.transform.localPosition.y, 0);
-            temptp.to = new Vector3(obj.transform.localPosition.x, obj.transform.localPosition.y, 0);
-            temptp.PlayForward();
+            enemyController.Move();
         }
     }
 
@@ -1432,10 +1441,8 @@ public class InitBattleField : MonoBehaviour, IBattleView
         }
         BattleModelLocator.Instance.CanSelectHero = true;
 
-#if !UNITY_IPHONE
 
         // Store info for persistence fight.
-
         Dictionary<string, float> persistenceInfo = new Dictionary<string, float>();
         persistenceInfo.Clear();
         //TopData
@@ -1454,9 +1461,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
         //star
         persistenceInfo.Add("StarCount", starController.CurrentStar);
 
-        GameObject.Find("Global").GetComponent<PersistenceHandler>().StorePersistence(persistenceInfo);
-
-#endif
+        PersistenceHandler.Instance.StorePersistence(persistenceInfo);
 
         recordIndex++;
         DealWithRecord();
@@ -1499,8 +1504,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
         var characterList = (battleTeamFightRecord.TeamSide == BattleRecordConstants.TARGET_SIDE_LEFT)
             ? originalCharacterList
             : originalEnemyList;
-
-        Debug.LogWarning("Character count: ----------------------- " + characterList.Count);
 
         battleTeamFightRecord.BuffAction.ForEach(action =>
         {
@@ -1649,8 +1652,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
             ? originalCharacterList
             : originalEnemyList;
 
-        Debug.LogWarning("Character count: ----------------------- " + characterList.Count);
-
         battleBuffRecord.RecordList.ForEach(record =>
         {
             var characterObject = GetObjectByAction(characterList, record);
@@ -1764,41 +1765,28 @@ public class InitBattleField : MonoBehaviour, IBattleView
                     recordIndex++;
                     DealWithRecord();
 
-                    // reset everything here.
-                    ResetAll();
                     if (MissionModelLocator.Instance.RaidLoadingAll != null)
                     {
                         MissionModelLocator.Instance.AddStar(starController.CurrentStar);
                     }
                     MissionModelLocator.Instance.OldExp = PlayerModelLocator.Instance.Exp;
                     MissionModelLocator.Instance.OldLevel = PlayerModelLocator.Instance.Level;
+                    MissionModelLocator.Instance.StarCount = starController.CurrentStar;
                     if (MissionModelLocator.Instance.RaidLoadingAll != null)
                     {
                         MissionModelLocator.Instance.AddFinishTime(MissionModelLocator.Instance.SelectedStageId);
                     }
                     msg.Star = (sbyte)starController.CurrentStar;
 
-#if !UNITY_IPHONE
-
-                    //Store BattleEndMessage and modified modelmissionlocator.
-                    Dictionary<string, float> valueBattleEndMessage = new Dictionary<string, float>();
-                    valueBattleEndMessage.Add("Uuid", msg.Uuid);
-                    valueBattleEndMessage.Add("BattleResult", msg.BattleResult);
-                    valueBattleEndMessage.Add("Star", msg.Star);
-
-                    var persistenceHandler = GameObject.Find("Global").GetComponent<PersistenceHandler>();
-                    persistenceHandler.StoreBattleEndMessage(valueBattleEndMessage);
-                    persistenceHandler.StoreMissionModelLocator();
-
-#endif
-
+                    //Battle persistence
+                    PersistenceHandler.Instance.StoreBattleEndMessage(msg);
                     PersistenceHandler.isRaidReward = false;
 
                     NetManager.SendMessage(msg);
                     MtaManager.TrackEndPage(MtaType.BattleScreen);
 
-                    //Check battle end succeed.
-                    StartCoroutine(GameObject.Find("Global").gameObject.GetComponent<PersistenceHandler>().MakeBattleEndSucceed(msg));
+                    //Battle persistence:Check battle end succeed.
+                    StartCoroutine(PersistenceHandler.Instance.MakeBattleEndSucceed(msg));
                 }
                 break;
             default:
@@ -1808,15 +1796,18 @@ public class InitBattleField : MonoBehaviour, IBattleView
         }
     }
 
-
-
-
-    private void ResetAll()
+    public void ResetAll()
     {
         BattleModelLocator.Instance.NextList = null;
         EnemyController.OnSelectedChanged = null;
 
+        ResetBattle();
         ResetBuffAll();
+
+        BattleController.Cleanup();
+
+        ResetCharacterList();
+        TeamController.Cleanup();
 
         leaderController.LeaderList.ForEach(leader => leader.OnActiveLeaderSkill -= OnActiveLeaderSkill);
     }

@@ -48,8 +48,9 @@ public abstract class BattleResultWindow : Window
         WindowManager.Instance.ClearHistory();
 
         WindowManager.Instance.Show(WindowGroupType.Popup, false);
-        WindowManager.Instance.Show(typeof(MainMenuBarWindow), true);
-        WindowManager.Instance.Show(typeof(MissionTabWindow), true);
+//        WindowManager.Instance.Show(typeof(MainMenuBarWindow), true);
+        //WindowManager.Instance.Show(typeof(RaidsWindow), true);
+        MissionModelLocator.Instance.ShowRaidWindow();
     }
 
     #endregion

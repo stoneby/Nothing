@@ -19,9 +19,6 @@ public class CharacterControl : MonoBehaviour
 
     public Character CharacterData;
 
-    private HeroTemplate templateData;
-
-    public int FootIndex;
     public int JobIndex;
     public int Attack;
     public int Restore;
@@ -34,6 +31,12 @@ public class CharacterControl : MonoBehaviour
 
     public BuffBarController BuffController;
 
+    public int FootIndex
+    {
+        get { return CharacterData.ColorIndex; }
+    }
+
+    private HeroTemplate templateData;
     private GameObject topAttackObj;
     private bool isSelected;
 
@@ -65,7 +68,11 @@ public class CharacterControl : MonoBehaviour
 
     public void SetFootIndex(int footindex)
     {
-        FootIndex = footindex;
+        if (footindex <= 0 || footindex > Character.TotalColorCount)
+        {
+            Logger.LogError("Foot index error, should be in range (0, " + Character.TotalColorCount + "], but is: " + footindex);
+        }
+
         var uisp = FootObj.GetComponent<UISprite>();
         uisp.spriteName = "pck_" + footindex;
         uisp = JobObj.GetComponent<UISprite>();

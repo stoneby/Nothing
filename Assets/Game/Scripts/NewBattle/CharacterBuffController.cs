@@ -106,7 +106,8 @@ public class CharacterBuffController : MonoBehaviour
         {
             var buffType = pair.Key;
             var counter = pair.Value;
-            if (counter > 0)
+            // buff count equals 0 means stop, -1 means always show, greater than 0 means buff count left.
+            if (counter != 0)
             {
                 buffManager.Show(buffType, gameObject);
             }

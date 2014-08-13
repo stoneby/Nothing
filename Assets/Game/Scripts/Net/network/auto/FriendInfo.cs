@@ -18,396 +18,523 @@ using Thrift.Transport;
 namespace KXSGCodec
 {
 
-  #if !SILVERLIGHT
-  [Serializable]
-  #endif
-  public partial class FriendInfo : TBase
-  {
-    private long _friendUuid;
-    private string _friendName;
-    private int _friendLvl;
-    private int _friendFamous;
-    private List<HeroPropInfo> _heroProp;
-    private long _lastLoginTime;
-    private long _giveEnergyTime;
-    private sbyte _status;
-    private int _raidStageId;
-    private int _maxDamage;
-
-    public long FriendUuid
-    {
-      get
-      {
-        return _friendUuid;
-      }
-      set
-      {
-        __isset.friendUuid = true;
-        this._friendUuid = value;
-      }
-    }
-
-    public string FriendName
-    {
-      get
-      {
-        return _friendName;
-      }
-      set
-      {
-        __isset.friendName = true;
-        this._friendName = value;
-      }
-    }
-
-    public int FriendLvl
-    {
-      get
-      {
-        return _friendLvl;
-      }
-      set
-      {
-        __isset.friendLvl = true;
-        this._friendLvl = value;
-      }
-    }
-
-    public int FriendFamous
-    {
-      get
-      {
-        return _friendFamous;
-      }
-      set
-      {
-        __isset.friendFamous = true;
-        this._friendFamous = value;
-      }
-    }
-
-    public List<HeroPropInfo> HeroProp
-    {
-      get
-      {
-        return _heroProp;
-      }
-      set
-      {
-        __isset.heroProp = true;
-        this._heroProp = value;
-      }
-    }
-
-    public long LastLoginTime
-    {
-      get
-      {
-        return _lastLoginTime;
-      }
-      set
-      {
-        __isset.lastLoginTime = true;
-        this._lastLoginTime = value;
-      }
-    }
-
-    public long GiveEnergyTime
-    {
-      get
-      {
-        return _giveEnergyTime;
-      }
-      set
-      {
-        __isset.giveEnergyTime = true;
-        this._giveEnergyTime = value;
-      }
-    }
-
-    public sbyte Status
-    {
-      get
-      {
-        return _status;
-      }
-      set
-      {
-        __isset.status = true;
-        this._status = value;
-      }
-    }
-
-    public int RaidStageId
-    {
-      get
-      {
-        return _raidStageId;
-      }
-      set
-      {
-        __isset.raidStageId = true;
-        this._raidStageId = value;
-      }
-    }
-
-    public int MaxDamage
-    {
-      get
-      {
-        return _maxDamage;
-      }
-      set
-      {
-        __isset.maxDamage = true;
-        this._maxDamage = value;
-      }
-    }
-
-
-    public Isset __isset;
-    #if !SILVERLIGHT
+#if !SILVERLIGHT
     [Serializable]
-    #endif
-    public struct Isset {
-      public bool friendUuid;
-      public bool friendName;
-      public bool friendLvl;
-      public bool friendFamous;
-      public bool heroProp;
-      public bool lastLoginTime;
-      public bool giveEnergyTime;
-      public bool status;
-      public bool raidStageId;
-      public bool maxDamage;
-    }
-
-    public FriendInfo() {
-    }
-
-    public void Read (TProtocol iprot)
+#endif
+    public partial class FriendInfo : TBase
     {
-      TField field;
-      iprot.ReadStructBegin();
-      while (true)
-      {
-        field = iprot.ReadFieldBegin();
-        if (field.Type == TType.Stop) { 
-          break;
-        }
-        switch (field.ID)
+        private const int FieldCount = 3;
+        private const int BasicFieldCount = 9;
+        private const int IsSetCount = 10;
+
+        private const string BasicName = "FriendInfoBasic:";
+        private const string HeroPropListName = "HeroPropLis:";
+        private const string HeroPropInfoClassName = "HePr:";
+        private const string ISSetName = "Iset:";
+
+        private long _friendUuid;
+        private string _friendName;
+        private int _friendLvl;
+        private int _friendFamous;
+        private List<HeroPropInfo> _heroProp;
+        private long _lastLoginTime;
+        private long _giveEnergyTime;
+        private sbyte _status;
+        private int _raidStageId;
+        private int _maxDamage;
+
+        public long FriendUuid
         {
-          case 1:
-            if (field.Type == TType.I64) {
-              FriendUuid = iprot.ReadI64();
-            } else { 
-              TProtocolUtil.Skip(iprot, field.Type);
+            get
+            {
+                return _friendUuid;
             }
-            break;
-          case 2:
-            if (field.Type == TType.String) {
-              FriendName = iprot.ReadString();
-            } else { 
-              TProtocolUtil.Skip(iprot, field.Type);
+            set
+            {
+                __isset.friendUuid = true;
+                this._friendUuid = value;
             }
-            break;
-          case 3:
-            if (field.Type == TType.I32) {
-              FriendLvl = iprot.ReadI32();
-            } else { 
-              TProtocolUtil.Skip(iprot, field.Type);
+        }
+
+        public string FriendName
+        {
+            get
+            {
+                return _friendName;
             }
-            break;
-          case 4:
-            if (field.Type == TType.I32) {
-              FriendFamous = iprot.ReadI32();
-            } else { 
-              TProtocolUtil.Skip(iprot, field.Type);
+            set
+            {
+                __isset.friendName = true;
+                this._friendName = value;
             }
-            break;
-          case 5:
-            if (field.Type == TType.List) {
-              {
-                HeroProp = new List<HeroPropInfo>();
-                TList _list5 = iprot.ReadListBegin();
-                for( int _i6 = 0; _i6 < _list5.Count; ++_i6)
+        }
+
+        public int FriendLvl
+        {
+            get
+            {
+                return _friendLvl;
+            }
+            set
+            {
+                __isset.friendLvl = true;
+                this._friendLvl = value;
+            }
+        }
+
+        public int FriendFamous
+        {
+            get
+            {
+                return _friendFamous;
+            }
+            set
+            {
+                __isset.friendFamous = true;
+                this._friendFamous = value;
+            }
+        }
+
+        public List<HeroPropInfo> HeroProp
+        {
+            get
+            {
+                return _heroProp;
+            }
+            set
+            {
+                __isset.heroProp = true;
+                this._heroProp = value;
+            }
+        }
+
+        public long LastLoginTime
+        {
+            get
+            {
+                return _lastLoginTime;
+            }
+            set
+            {
+                __isset.lastLoginTime = true;
+                this._lastLoginTime = value;
+            }
+        }
+
+        public long GiveEnergyTime
+        {
+            get
+            {
+                return _giveEnergyTime;
+            }
+            set
+            {
+                __isset.giveEnergyTime = true;
+                this._giveEnergyTime = value;
+            }
+        }
+
+        public sbyte Status
+        {
+            get
+            {
+                return _status;
+            }
+            set
+            {
+                __isset.status = true;
+                this._status = value;
+            }
+        }
+
+        public int RaidStageId
+        {
+            get
+            {
+                return _raidStageId;
+            }
+            set
+            {
+                __isset.raidStageId = true;
+                this._raidStageId = value;
+            }
+        }
+
+        public int MaxDamage
+        {
+            get
+            {
+                return _maxDamage;
+            }
+            set
+            {
+                __isset.maxDamage = true;
+                this._maxDamage = value;
+            }
+        }
+
+
+        public Isset __isset;
+
+#if !SILVERLIGHT
+        [Serializable]
+#endif
+        public struct Isset
+        {
+            public bool friendUuid;
+            public bool friendName;
+            public bool friendLvl;
+            public bool friendFamous;
+            public bool heroProp;
+            public bool lastLoginTime;
+            public bool giveEnergyTime;
+            public bool status;
+            public bool raidStageId;
+            public bool maxDamage;
+        }
+
+        public FriendInfo()
+        {
+        }
+
+        public void Read(TProtocol iprot)
+        {
+            TField field;
+            iprot.ReadStructBegin();
+            while (true)
+            {
+                field = iprot.ReadFieldBegin();
+                if (field.Type == TType.Stop)
                 {
-                  HeroPropInfo _elem7 = new HeroPropInfo();
-                  _elem7 = new HeroPropInfo();
-                  _elem7.Read(iprot);
-                  HeroProp.Add(_elem7);
+                    break;
                 }
-                iprot.ReadListEnd();
-              }
-            } else { 
-              TProtocolUtil.Skip(iprot, field.Type);
+                switch (field.ID)
+                {
+                    case 1:
+                        if (field.Type == TType.I64)
+                        {
+                            FriendUuid = iprot.ReadI64();
+                        }
+                        else
+                        {
+                            TProtocolUtil.Skip(iprot, field.Type);
+                        }
+                        break;
+                    case 2:
+                        if (field.Type == TType.String)
+                        {
+                            FriendName = iprot.ReadString();
+                        }
+                        else
+                        {
+                            TProtocolUtil.Skip(iprot, field.Type);
+                        }
+                        break;
+                    case 3:
+                        if (field.Type == TType.I32)
+                        {
+                            FriendLvl = iprot.ReadI32();
+                        }
+                        else
+                        {
+                            TProtocolUtil.Skip(iprot, field.Type);
+                        }
+                        break;
+                    case 4:
+                        if (field.Type == TType.I32)
+                        {
+                            FriendFamous = iprot.ReadI32();
+                        }
+                        else
+                        {
+                            TProtocolUtil.Skip(iprot, field.Type);
+                        }
+                        break;
+                    case 5:
+                        if (field.Type == TType.List)
+                        {
+                            {
+                                HeroProp = new List<HeroPropInfo>();
+                                TList _list5 = iprot.ReadListBegin();
+                                for (int _i6 = 0; _i6 < _list5.Count; ++_i6)
+                                {
+                                    HeroPropInfo _elem7 = new HeroPropInfo();
+                                    _elem7 = new HeroPropInfo();
+                                    _elem7.Read(iprot);
+                                    HeroProp.Add(_elem7);
+                                }
+                                iprot.ReadListEnd();
+                            }
+                        }
+                        else
+                        {
+                            TProtocolUtil.Skip(iprot, field.Type);
+                        }
+                        break;
+                    case 6:
+                        if (field.Type == TType.I64)
+                        {
+                            LastLoginTime = iprot.ReadI64();
+                        }
+                        else
+                        {
+                            TProtocolUtil.Skip(iprot, field.Type);
+                        }
+                        break;
+                    case 7:
+                        if (field.Type == TType.I64)
+                        {
+                            GiveEnergyTime = iprot.ReadI64();
+                        }
+                        else
+                        {
+                            TProtocolUtil.Skip(iprot, field.Type);
+                        }
+                        break;
+                    case 8:
+                        if (field.Type == TType.Byte)
+                        {
+                            Status = iprot.ReadByte();
+                        }
+                        else
+                        {
+                            TProtocolUtil.Skip(iprot, field.Type);
+                        }
+                        break;
+                    case 9:
+                        if (field.Type == TType.I32)
+                        {
+                            RaidStageId = iprot.ReadI32();
+                        }
+                        else
+                        {
+                            TProtocolUtil.Skip(iprot, field.Type);
+                        }
+                        break;
+                    case 10:
+                        if (field.Type == TType.I32)
+                        {
+                            MaxDamage = iprot.ReadI32();
+                        }
+                        else
+                        {
+                            TProtocolUtil.Skip(iprot, field.Type);
+                        }
+                        break;
+                    default:
+                        TProtocolUtil.Skip(iprot, field.Type);
+                        break;
+                }
+                iprot.ReadFieldEnd();
             }
-            break;
-          case 6:
-            if (field.Type == TType.I64) {
-              LastLoginTime = iprot.ReadI64();
-            } else { 
-              TProtocolUtil.Skip(iprot, field.Type);
-            }
-            break;
-          case 7:
-            if (field.Type == TType.I64) {
-              GiveEnergyTime = iprot.ReadI64();
-            } else { 
-              TProtocolUtil.Skip(iprot, field.Type);
-            }
-            break;
-          case 8:
-            if (field.Type == TType.Byte) {
-              Status = iprot.ReadByte();
-            } else { 
-              TProtocolUtil.Skip(iprot, field.Type);
-            }
-            break;
-          case 9:
-            if (field.Type == TType.I32) {
-              RaidStageId = iprot.ReadI32();
-            } else { 
-              TProtocolUtil.Skip(iprot, field.Type);
-            }
-            break;
-          case 10:
-            if (field.Type == TType.I32) {
-              MaxDamage = iprot.ReadI32();
-            } else { 
-              TProtocolUtil.Skip(iprot, field.Type);
-            }
-            break;
-          default: 
-            TProtocolUtil.Skip(iprot, field.Type);
-            break;
+            iprot.ReadStructEnd();
         }
-        iprot.ReadFieldEnd();
-      }
-      iprot.ReadStructEnd();
-    }
 
-    public void Write(TProtocol oprot) {
-      TStruct struc = new TStruct("FriendInfo");
-      oprot.WriteStructBegin(struc);
-      TField field = new TField();
-      if (__isset.friendUuid) {
-        field.Name = "friendUuid";
-        field.Type = TType.I64;
-        field.ID = 1;
-        oprot.WriteFieldBegin(field);
-        oprot.WriteI64(FriendUuid);
-        oprot.WriteFieldEnd();
-      }
-      if (FriendName != null && __isset.friendName) {
-        field.Name = "friendName";
-        field.Type = TType.String;
-        field.ID = 2;
-        oprot.WriteFieldBegin(field);
-        oprot.WriteString(FriendName);
-        oprot.WriteFieldEnd();
-      }
-      if (__isset.friendLvl) {
-        field.Name = "friendLvl";
-        field.Type = TType.I32;
-        field.ID = 3;
-        oprot.WriteFieldBegin(field);
-        oprot.WriteI32(FriendLvl);
-        oprot.WriteFieldEnd();
-      }
-      if (__isset.friendFamous) {
-        field.Name = "friendFamous";
-        field.Type = TType.I32;
-        field.ID = 4;
-        oprot.WriteFieldBegin(field);
-        oprot.WriteI32(FriendFamous);
-        oprot.WriteFieldEnd();
-      }
-      if (HeroProp != null && __isset.heroProp) {
-        field.Name = "heroProp";
-        field.Type = TType.List;
-        field.ID = 5;
-        oprot.WriteFieldBegin(field);
+        public void Write(TProtocol oprot)
         {
-          oprot.WriteListBegin(new TList(TType.Struct, HeroProp.Count));
-          foreach (HeroPropInfo _iter8 in HeroProp)
-          {
-            _iter8.Write(oprot);
-          }
-          oprot.WriteListEnd();
+            TStruct struc = new TStruct("FriendInfo");
+            oprot.WriteStructBegin(struc);
+            TField field = new TField();
+            if (__isset.friendUuid)
+            {
+                field.Name = "friendUuid";
+                field.Type = TType.I64;
+                field.ID = 1;
+                oprot.WriteFieldBegin(field);
+                oprot.WriteI64(FriendUuid);
+                oprot.WriteFieldEnd();
+            }
+            if (FriendName != null && __isset.friendName)
+            {
+                field.Name = "friendName";
+                field.Type = TType.String;
+                field.ID = 2;
+                oprot.WriteFieldBegin(field);
+                oprot.WriteString(FriendName);
+                oprot.WriteFieldEnd();
+            }
+            if (__isset.friendLvl)
+            {
+                field.Name = "friendLvl";
+                field.Type = TType.I32;
+                field.ID = 3;
+                oprot.WriteFieldBegin(field);
+                oprot.WriteI32(FriendLvl);
+                oprot.WriteFieldEnd();
+            }
+            if (__isset.friendFamous)
+            {
+                field.Name = "friendFamous";
+                field.Type = TType.I32;
+                field.ID = 4;
+                oprot.WriteFieldBegin(field);
+                oprot.WriteI32(FriendFamous);
+                oprot.WriteFieldEnd();
+            }
+            if (HeroProp != null && __isset.heroProp)
+            {
+                field.Name = "heroProp";
+                field.Type = TType.List;
+                field.ID = 5;
+                oprot.WriteFieldBegin(field);
+                {
+                    oprot.WriteListBegin(new TList(TType.Struct, HeroProp.Count));
+                    foreach (HeroPropInfo _iter8 in HeroProp)
+                    {
+                        _iter8.Write(oprot);
+                    }
+                    oprot.WriteListEnd();
+                }
+                oprot.WriteFieldEnd();
+            }
+            if (__isset.lastLoginTime)
+            {
+                field.Name = "lastLoginTime";
+                field.Type = TType.I64;
+                field.ID = 6;
+                oprot.WriteFieldBegin(field);
+                oprot.WriteI64(LastLoginTime);
+                oprot.WriteFieldEnd();
+            }
+            if (__isset.giveEnergyTime)
+            {
+                field.Name = "giveEnergyTime";
+                field.Type = TType.I64;
+                field.ID = 7;
+                oprot.WriteFieldBegin(field);
+                oprot.WriteI64(GiveEnergyTime);
+                oprot.WriteFieldEnd();
+            }
+            if (__isset.status)
+            {
+                field.Name = "status";
+                field.Type = TType.Byte;
+                field.ID = 8;
+                oprot.WriteFieldBegin(field);
+                oprot.WriteByte(Status);
+                oprot.WriteFieldEnd();
+            }
+            if (__isset.raidStageId)
+            {
+                field.Name = "raidStageId";
+                field.Type = TType.I32;
+                field.ID = 9;
+                oprot.WriteFieldBegin(field);
+                oprot.WriteI32(RaidStageId);
+                oprot.WriteFieldEnd();
+            }
+            if (__isset.maxDamage)
+            {
+                field.Name = "maxDamage";
+                field.Type = TType.I32;
+                field.ID = 10;
+                oprot.WriteFieldBegin(field);
+                oprot.WriteI32(MaxDamage);
+                oprot.WriteFieldEnd();
+            }
+            oprot.WriteFieldStop();
+            oprot.WriteStructEnd();
         }
-        oprot.WriteFieldEnd();
-      }
-      if (__isset.lastLoginTime) {
-        field.Name = "lastLoginTime";
-        field.Type = TType.I64;
-        field.ID = 6;
-        oprot.WriteFieldBegin(field);
-        oprot.WriteI64(LastLoginTime);
-        oprot.WriteFieldEnd();
-      }
-      if (__isset.giveEnergyTime) {
-        field.Name = "giveEnergyTime";
-        field.Type = TType.I64;
-        field.ID = 7;
-        oprot.WriteFieldBegin(field);
-        oprot.WriteI64(GiveEnergyTime);
-        oprot.WriteFieldEnd();
-      }
-      if (__isset.status) {
-        field.Name = "status";
-        field.Type = TType.Byte;
-        field.ID = 8;
-        oprot.WriteFieldBegin(field);
-        oprot.WriteByte(Status);
-        oprot.WriteFieldEnd();
-      }
-      if (__isset.raidStageId) {
-        field.Name = "raidStageId";
-        field.Type = TType.I32;
-        field.ID = 9;
-        oprot.WriteFieldBegin(field);
-        oprot.WriteI32(RaidStageId);
-        oprot.WriteFieldEnd();
-      }
-      if (__isset.maxDamage) {
-        field.Name = "maxDamage";
-        field.Type = TType.I32;
-        field.ID = 10;
-        oprot.WriteFieldBegin(field);
-        oprot.WriteI32(MaxDamage);
-        oprot.WriteFieldEnd();
-      }
-      oprot.WriteFieldStop();
-      oprot.WriteStructEnd();
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder("FriendInfo(");
+            sb.Append("FriendUuid: ");
+            sb.Append(FriendUuid);
+            sb.Append(",FriendName: ");
+            sb.Append(FriendName);
+            sb.Append(",FriendLvl: ");
+            sb.Append(FriendLvl);
+            sb.Append(",FriendFamous: ");
+            sb.Append(FriendFamous);
+            sb.Append(",HeroProp: ");
+            sb.Append(HeroProp);
+            sb.Append(",LastLoginTime: ");
+            sb.Append(LastLoginTime);
+            sb.Append(",GiveEnergyTime: ");
+            sb.Append(GiveEnergyTime);
+            sb.Append(",Status: ");
+            sb.Append(Status);
+            sb.Append(",RaidStageId: ");
+            sb.Append(RaidStageId);
+            sb.Append(",MaxDamage: ");
+            sb.Append(MaxDamage);
+            sb.Append(")");
+            return sb.ToString();
+        }
+
+
+
+        public void WriteClass(StreamWriter writer, string className)
+        {
+            writer.Write(className);
+            writer.Write(BasicName);
+            PersistenceFileIOHandler.WriteBasic(writer, FriendUuid);
+            PersistenceFileIOHandler.WriteBasic(writer, FriendName);
+            PersistenceFileIOHandler.WriteBasic(writer, FriendLvl);
+            PersistenceFileIOHandler.WriteBasic(writer, FriendFamous);
+            PersistenceFileIOHandler.WriteBasic(writer, LastLoginTime);
+            PersistenceFileIOHandler.WriteBasic(writer, GiveEnergyTime);
+            PersistenceFileIOHandler.WriteBasic(writer, Status);
+            PersistenceFileIOHandler.WriteBasic(writer, RaidStageId);
+            PersistenceFileIOHandler.WriteBasic(writer, MaxDamage);
+            writer.Write(HeroPropListName);
+            for (int i = 0; i < HeroProp.Count; i++)
+            {
+                HeroProp[i].WriteClass(writer, HeroPropInfoClassName);
+            }
+            writer.Write(ISSetName);
+            PersistenceFileIOHandler.WriteBasic(writer, __isset.friendUuid);
+            PersistenceFileIOHandler.WriteBasic(writer, __isset.friendName);
+            PersistenceFileIOHandler.WriteBasic(writer, __isset.friendLvl);
+            PersistenceFileIOHandler.WriteBasic(writer, __isset.friendFamous);
+            PersistenceFileIOHandler.WriteBasic(writer, __isset.heroProp);
+            PersistenceFileIOHandler.WriteBasic(writer, __isset.lastLoginTime);
+            PersistenceFileIOHandler.WriteBasic(writer, __isset.giveEnergyTime);
+            PersistenceFileIOHandler.WriteBasic(writer, __isset.status);
+            PersistenceFileIOHandler.WriteBasic(writer, __isset.raidStageId);
+            PersistenceFileIOHandler.WriteBasic(writer, __isset.maxDamage);
+        }
+
+        public void ReadClass(string value)
+        {
+            string[] splitStrings = new string[] { BasicName, HeroPropListName, ISSetName };
+            string[] outStrings = value.Split(splitStrings,StringSplitOptions.RemoveEmptyEntries);
+            PersistenceFileIOHandler.CheckCount(outStrings,FieldCount);
+
+            string[] splitedBasic = outStrings[0].Split(new char[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
+            PersistenceFileIOHandler.CheckCount(splitedBasic, BasicFieldCount);
+            FriendUuid = long.Parse(splitedBasic[0]);
+            FriendName = splitedBasic[1];
+            FriendLvl = int.Parse(splitedBasic[2]);
+            FriendFamous = int.Parse(splitedBasic[3]);
+            LastLoginTime = long.Parse(splitedBasic[4]);
+            GiveEnergyTime = long.Parse(splitedBasic[5]);
+            Status = sbyte.Parse(splitedBasic[6]);
+            RaidStageId = int.Parse(splitedBasic[7]);
+            MaxDamage = int.Parse(splitedBasic[8]);
+
+            string[] splitedHeroProp = outStrings[1].Split(new string[] { "HePr:" }, StringSplitOptions.RemoveEmptyEntries);
+            HeroProp=new List<HeroPropInfo>();
+            for (int i = 0; i < splitedHeroProp.Length; i++)
+            {
+                var temp = new HeroPropInfo();
+                temp.ReadClass(splitedHeroProp[i]);
+                HeroProp.Add(temp);
+            }
+
+            string[] splitedISet = outStrings[2].Split(new char[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
+            PersistenceFileIOHandler.CheckCount(splitedISet, IsSetCount);
+            __isset.friendUuid = bool.Parse(splitedISet[0]);
+            __isset.friendName = bool.Parse(splitedISet[1]);
+            __isset.friendLvl = bool.Parse(splitedISet[2]);
+            __isset.friendFamous = bool.Parse(splitedISet[3]);
+            __isset.heroProp = bool.Parse(splitedISet[4]);
+            __isset.lastLoginTime = bool.Parse(splitedISet[5]);
+            __isset.giveEnergyTime = bool.Parse(splitedISet[6]);
+            __isset.status = bool.Parse(splitedISet[7]);
+            __isset.raidStageId = bool.Parse(splitedISet[8]);
+            __isset.maxDamage = bool.Parse(splitedISet[9]);
+        }
     }
-
-    public override string ToString() {
-      StringBuilder sb = new StringBuilder("FriendInfo(");
-      sb.Append("FriendUuid: ");
-      sb.Append(FriendUuid);
-      sb.Append(",FriendName: ");
-      sb.Append(FriendName);
-      sb.Append(",FriendLvl: ");
-      sb.Append(FriendLvl);
-      sb.Append(",FriendFamous: ");
-      sb.Append(FriendFamous);
-      sb.Append(",HeroProp: ");
-      sb.Append(HeroProp);
-      sb.Append(",LastLoginTime: ");
-      sb.Append(LastLoginTime);
-      sb.Append(",GiveEnergyTime: ");
-      sb.Append(GiveEnergyTime);
-      sb.Append(",Status: ");
-      sb.Append(Status);
-      sb.Append(",RaidStageId: ");
-      sb.Append(RaidStageId);
-      sb.Append(",MaxDamage: ");
-      sb.Append(MaxDamage);
-      sb.Append(")");
-      return sb.ToString();
-    }
-
-  }
-
 }

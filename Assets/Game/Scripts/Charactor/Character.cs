@@ -74,22 +74,27 @@ public class Character : MonoBehaviour
     }
 
     /// <summary>
+    /// Buff data.
+    /// </summary>
+    public CharacterBuffController BuffController;
+
+    /// <summary>
     /// Logic data.
     /// </summary>
     [HideInInspector]
     public FighterInfo Data;
 
     /// <summary>
-    /// Buff data.
+    /// Total color count which is 5 for now
     /// </summary>
-    public CharacterBuffController BuffController;
+    /// <remarks>The index is started from 1 to 5, not 0 based in atlas.</remarks>
+    public const int TotalColorCount = 5;
 
     #endregion
 
     #region Private Fields
 
     private const int NeighborDistance = 1;
-
     private List<string> animationList; 
 
     #endregion

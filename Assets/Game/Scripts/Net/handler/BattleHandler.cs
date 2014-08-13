@@ -13,42 +13,17 @@ namespace Assets.Game.Scripts.Net.handler
 {
     class BattleHandler
     {
+        public const string EnergyNotEnoughKey = "Battle.EnergyNotEnough";
         public static void OnBattlePveStart(ThriftSCMessage msg)
         {
             var battlestartmsg = msg.GetContent() as SCBattlePveStartMsg;
 
-#if !UNITY_IPHONE
-
             //Store missionmodellocator and battlestartmsg for battle persistence.
-            var persistenceHandler = GameObject.Find("Global").GetComponent<PersistenceHandler>();
-            persistenceHandler.StoreMissionModelLocator();
-            persistenceHandler.StoreStartBattleMessage(battlestartmsg);
-
-#endif
+            PersistenceHandler.Instance.StoreStartBattle(battlestartmsg);
 
             if (battlestartmsg != null)
             {
                 PopTextManager.PopTip("返回战斗数据");
-//                BattleModelLocator.Instance.BattleType = battlestartmsg.BattleType;
-//                BattleModelLocator.Instance.RaidID = battlestartmsg.RaidID;
-//                BattleModelLocator.Instance.Uuid = battlestartmsg.Uuid;
-//
-//                // server logic data.
-//                var type = BattleType.getValue(battlestartmsg.BattleType);
-//                BattleModelLocator.Instance.Source = new BattleSource(type)
-//                {
-//                    Uuid = battlestartmsg.Uuid
-//                };
-//                IBattleTemplateService _service = BattleTemplateModelLocator.Instance;
-//                var _creater = new BattleSourceTemplateCreater(_service);
-//                var _source = _creater.createPVESource(battlestartmsg);
-//
-//                //赋值给BattleModeLocator
-//                BattleModelLocator.Instance.HeroList = _source.getSideFighters(BattleSideEnum.SIDE_LEFT);
-//                BattleModelLocator.Instance.EnemyList = _source.getSideFighters(BattleSideEnum.SIDEB_RIGHT);
-//
-//                BattleModelLocator.Instance.Source = _source;
-//                BattleModelLocator.Instance.EnemyGroup = _source.MonsterGroup;
                 BattleCreateUtils.initBattleModeLocator(BattleModelLocator.Instance, battlestartmsg);
 
                 var factory = BattleModelLocator.Instance.Source.BattleType.Factory;
@@ -58,9 +33,9 @@ namespace Assets.Game.Scripts.Net.handler
 
                 // client side show.
                 var window = WindowManager.Instance.Show(typeof(BattleWindow), true).gameObject;
-                WindowManager.Instance.Show(typeof(MissionTabWindow), false);
-                WindowManager.Instance.Show(typeof(MainMenuBarWindow), false);
-                WindowManager.Instance.Show(typeof (BattleConfirmTabWindow), false);
+                WindowManager.Instance.Show(typeof(RaidsWindow), false);
+                //WindowManager.Instance.Show(typeof(MainMenuBarWindow), false);
+                WindowManager.Instance.Show(typeof (SetBattleWindow), false);
             }
             else
             {
@@ -68,5 +43,26 @@ namespace Assets.Game.Scripts.Net.handler
             }
         }
 
+        public static void OnEnergyNotEnough(ThriftSCMessage msg)
+        {
+            var energyNotEnough = msg.GetContent() as SCEnergyNotEnough;
+            if(energyNotEnough != null)
+            {
+                var assertWindow = WindowManager.Instance.GetWindow<AssertionWindow>();
+                assertWindow.AssertType = AssertionWindow.Type.OkCancel;
+                assertWindow.Title = string.Format(LanguageManager.Instance.GetTextValue(EnergyNotEnoughKey), energyNotEnough.BuyEnergyCost);
+                assertWindow.Message = "";
+                assertWindow.OkButtonClicked += OkButtonClicked;
+                WindowManager.Instance.Show(typeof(AssertionWindow), true);
+            }
+        }
+
+        private static void OkButtonClicked(GameObject sender)
+        {
+            var assertWindow = WindowManager.Instance.GetWindow<AssertionWindow>();
+            assertWindow.OkButtonClicked -= OkButtonClicked;
+            var msg = new CSBuyEnergy();
+            NetManager.SendMessage(msg);
+        }
     }
 }

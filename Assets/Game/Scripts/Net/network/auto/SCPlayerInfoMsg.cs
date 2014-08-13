@@ -39,6 +39,7 @@ namespace KXSGCodec
     private short _heroExtendTimes;
     private short _itemExtendTimes;
     private List<int> _teamList;
+    private Dictionary<int, int> _teamProp;
 
     public long UId
     {
@@ -254,6 +255,19 @@ namespace KXSGCodec
       }
     }
 
+    public Dictionary<int, int> TeamProp
+    {
+      get
+      {
+        return _teamProp;
+      }
+      set
+      {
+        __isset.teamProp = true;
+        this._teamProp = value;
+      }
+    }
+
 
     public Isset __isset;
     #if !SILVERLIGHT
@@ -276,6 +290,7 @@ namespace KXSGCodec
       public bool heroExtendTimes;
       public bool itemExtendTimes;
       public bool teamList;
+      public bool teamProp;
     }
 
     public SCPlayerInfoMsg() {
@@ -410,6 +425,25 @@ namespace KXSGCodec
                   TeamList.Add(_elem6);
                 }
                 iprot.ReadListEnd();
+              }
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 17:
+            if (field.Type == TType.Map) {
+              {
+                TeamProp = new Dictionary<int, int>();
+                TMap _map7 = iprot.ReadMapBegin();
+                for( int _i8 = 0; _i8 < _map7.Count; ++_i8)
+                {
+                  int _key9;
+                  int _val10;
+                  _key9 = iprot.ReadI32();
+                  _val10 = iprot.ReadI32();
+                  TeamProp[_key9] = _val10;
+                }
+                iprot.ReadMapEnd();
               }
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
@@ -555,11 +589,27 @@ namespace KXSGCodec
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.I32, TeamList.Count));
-          foreach (int _iter7 in TeamList)
+          foreach (int _iter11 in TeamList)
           {
-            oprot.WriteI32(_iter7);
+            oprot.WriteI32(_iter11);
           }
           oprot.WriteListEnd();
+        }
+        oprot.WriteFieldEnd();
+      }
+      if (TeamProp != null && __isset.teamProp) {
+        field.Name = "teamProp";
+        field.Type = TType.Map;
+        field.ID = 17;
+        oprot.WriteFieldBegin(field);
+        {
+          oprot.WriteMapBegin(new TMap(TType.I32, TType.I32, TeamProp.Count));
+          foreach (int _iter12 in TeamProp.Keys)
+          {
+            oprot.WriteI32(_iter12);
+            oprot.WriteI32(TeamProp[_iter12]);
+          }
+          oprot.WriteMapEnd();
         }
         oprot.WriteFieldEnd();
       }
@@ -601,6 +651,8 @@ namespace KXSGCodec
       sb.Append(ItemExtendTimes);
       sb.Append(",TeamList: ");
       sb.Append(TeamList);
+      sb.Append(",TeamProp: ");
+      sb.Append(TeamProp);
       sb.Append(")");
       return sb.ToString();
     }

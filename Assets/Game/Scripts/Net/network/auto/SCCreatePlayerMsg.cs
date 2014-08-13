@@ -23,6 +23,29 @@ namespace KXSGCodec
   #endif
   public partial class SCCreatePlayerMsg : TBase
   {
+    private string _charName;
+
+    public string CharName
+    {
+      get
+      {
+        return _charName;
+      }
+      set
+      {
+        __isset.charName = true;
+        this._charName = value;
+      }
+    }
+
+
+    public Isset __isset;
+    #if !SILVERLIGHT
+    [Serializable]
+    #endif
+    public struct Isset {
+      public bool charName;
+    }
 
     public SCCreatePlayerMsg() {
     }
@@ -39,6 +62,13 @@ namespace KXSGCodec
         }
         switch (field.ID)
         {
+          case 1:
+            if (field.Type == TType.String) {
+              CharName = iprot.ReadString();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
           default: 
             TProtocolUtil.Skip(iprot, field.Type);
             break;
@@ -51,12 +81,23 @@ namespace KXSGCodec
     public void Write(TProtocol oprot) {
       TStruct struc = new TStruct("SCCreatePlayerMsg");
       oprot.WriteStructBegin(struc);
+      TField field = new TField();
+      if (CharName != null && __isset.charName) {
+        field.Name = "charName";
+        field.Type = TType.String;
+        field.ID = 1;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteString(CharName);
+        oprot.WriteFieldEnd();
+      }
       oprot.WriteFieldStop();
       oprot.WriteStructEnd();
     }
 
     public override string ToString() {
       StringBuilder sb = new StringBuilder("SCCreatePlayerMsg(");
+      sb.Append("CharName: ");
+      sb.Append(CharName);
       sb.Append(")");
       return sb.ToString();
     }

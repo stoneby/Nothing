@@ -251,8 +251,6 @@ public class MissionWindow : Window
             friendlist.Add(friend);
         }
 
-
-
         var box = FriendContainer.GetComponent<KxVListRender>();
         box.Init(friendlist, "Prefabs/Component/FriendItem", 1034, 522, 1034, 160, OnFriendSelected);
     }
@@ -330,11 +328,6 @@ public class MissionWindow : Window
         }
         else
         {
-//            if (PlayerModelLocator.Instance.Energy < control.StageTemp.CostEnergy)
-//            {
-//                PopTextManager.PopTip(LanguageManager.Instance.GetTextValue("Poptip.HaveNotEnoughEnemy"));
-//            }
-//            else 
             if (MissionModelLocator.Instance.RaidLoadingAll != null && 
                 MissionModelLocator.Instance.RaidLoadingAll.TodayFinishTimes != null && 
                 MissionModelLocator.Instance.RaidLoadingAll.TodayFinishTimes.ContainsKey(control.StageTemp.Id) &&

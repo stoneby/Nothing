@@ -18,307 +18,413 @@ using Thrift.Transport;
 namespace KXSGCodec
 {
 
-  /// <summary>
-  /// PVE战斗开始协议
-  /// </summary>
-  #if !SILVERLIGHT
-  [Serializable]
-  #endif
-  public partial class SCBattlePveStartMsg : TBase
-  {
-    private long _uuid;
-    private sbyte _battleType;
-    private int _spMaxBuffId;
-    private int _raidID;
-    private List<KXSGCodec.BattleMsgHero> _fighterList;
-    private List<KXSGCodec.BattleMsgMonster> _monsterList;
-
     /// <summary>
-    /// 战斗UUID
+    /// PVE战斗开始协议
     /// </summary>
-    public long Uuid
-    {
-      get
-      {
-        return _uuid;
-      }
-      set
-      {
-        __isset.uuid = true;
-        this._uuid = value;
-      }
-    }
-
-    /// <summary>
-    /// 战斗类型
-    /// </summary>
-    public sbyte BattleType
-    {
-      get
-      {
-        return _battleType;
-      }
-      set
-      {
-        __isset.battleType = true;
-        this._battleType = value;
-      }
-    }
-
-    /// <summary>
-    /// SP蓝光BUFFId
-    /// </summary>
-    public int SpMaxBuffId
-    {
-      get
-      {
-        return _spMaxBuffId;
-      }
-      set
-      {
-        __isset.spMaxBuffId = true;
-        this._spMaxBuffId = value;
-      }
-    }
-
-    /// <summary>
-    /// 副本ID
-    /// </summary>
-    public int RaidID
-    {
-      get
-      {
-        return _raidID;
-      }
-      set
-      {
-        __isset.raidID = true;
-        this._raidID = value;
-      }
-    }
-
-    /// <summary>
-    /// 武将列表
-    /// </summary>
-    public List<KXSGCodec.BattleMsgHero> FighterList
-    {
-      get
-      {
-        return _fighterList;
-      }
-      set
-      {
-        __isset.fighterList = true;
-        this._fighterList = value;
-      }
-    }
-
-    /// <summary>
-    /// 怪物列表
-    /// </summary>
-    public List<KXSGCodec.BattleMsgMonster> MonsterList
-    {
-      get
-      {
-        return _monsterList;
-      }
-      set
-      {
-        __isset.monsterList = true;
-        this._monsterList = value;
-      }
-    }
-
-
-    public Isset __isset;
-    #if !SILVERLIGHT
+#if !SILVERLIGHT
     [Serializable]
-    #endif
-    public struct Isset {
-      public bool uuid;
-      public bool battleType;
-      public bool spMaxBuffId;
-      public bool raidID;
-      public bool fighterList;
-      public bool monsterList;
-    }
-
-    public SCBattlePveStartMsg() {
-    }
-
-    public void Read (TProtocol iprot)
+#endif
+    public partial class SCBattlePveStartMsg : TBase
     {
-      TField field;
-      iprot.ReadStructBegin();
-      while (true)
-      {
-        field = iprot.ReadFieldBegin();
-        if (field.Type == TType.Stop) { 
-          break;
-        }
-        switch (field.ID)
+        private const int FieldCount = 4;
+        private const int BasicFieldCount = 4;
+        private const int ISSetCount = 6;
+
+        private const string BasicName = "SCBattleStartBasic:";
+        private const string ISSetName = "SCBattleStartIset:";
+        private const string FighterListName = "FighterList:";
+        private const string BattleMsgHeroClassName = "MsHe:";
+        private const string MonsterListName = "MonsterList:";
+        private const string BattleMsgMonsterClassName = "MsMo:";
+
+        private long _uuid;
+        private sbyte _battleType;
+        private int _spMaxBuffId;
+        private int _raidID;
+        private List<KXSGCodec.BattleMsgHero> _fighterList;
+        private List<KXSGCodec.BattleMsgMonster> _monsterList;
+
+        /// <summary>
+        /// 战斗UUID
+        /// </summary>
+        public long Uuid
         {
-          case 1:
-            if (field.Type == TType.I64) {
-              Uuid = iprot.ReadI64();
-            } else { 
-              TProtocolUtil.Skip(iprot, field.Type);
+            get
+            {
+                return _uuid;
             }
-            break;
-          case 2:
-            if (field.Type == TType.Byte) {
-              BattleType = iprot.ReadByte();
-            } else { 
-              TProtocolUtil.Skip(iprot, field.Type);
+            set
+            {
+                __isset.uuid = true;
+                this._uuid = value;
             }
-            break;
-          case 3:
-            if (field.Type == TType.I32) {
-              SpMaxBuffId = iprot.ReadI32();
-            } else { 
-              TProtocolUtil.Skip(iprot, field.Type);
+        }
+
+        /// <summary>
+        /// 战斗类型
+        /// </summary>
+        public sbyte BattleType
+        {
+            get
+            {
+                return _battleType;
             }
-            break;
-          case 4:
-            if (field.Type == TType.I32) {
-              RaidID = iprot.ReadI32();
-            } else { 
-              TProtocolUtil.Skip(iprot, field.Type);
+            set
+            {
+                __isset.battleType = true;
+                this._battleType = value;
             }
-            break;
-          case 5:
-            if (field.Type == TType.List) {
-              {
-                FighterList = new List<KXSGCodec.BattleMsgHero>();
-                TList _list0 = iprot.ReadListBegin();
-                for( int _i1 = 0; _i1 < _list0.Count; ++_i1)
+        }
+
+        /// <summary>
+        /// SP蓝光BUFFId
+        /// </summary>
+        public int SpMaxBuffId
+        {
+            get
+            {
+                return _spMaxBuffId;
+            }
+            set
+            {
+                __isset.spMaxBuffId = true;
+                this._spMaxBuffId = value;
+            }
+        }
+
+        /// <summary>
+        /// 副本ID
+        /// </summary>
+        public int RaidID
+        {
+            get
+            {
+                return _raidID;
+            }
+            set
+            {
+                __isset.raidID = true;
+                this._raidID = value;
+            }
+        }
+
+        /// <summary>
+        /// 武将列表
+        /// </summary>
+        public List<KXSGCodec.BattleMsgHero> FighterList
+        {
+            get
+            {
+                return _fighterList;
+            }
+            set
+            {
+                __isset.fighterList = true;
+                this._fighterList = value;
+            }
+        }
+
+        /// <summary>
+        /// 怪物列表
+        /// </summary>
+        public List<KXSGCodec.BattleMsgMonster> MonsterList
+        {
+            get
+            {
+                return _monsterList;
+            }
+            set
+            {
+                __isset.monsterList = true;
+                this._monsterList = value;
+            }
+        }
+
+
+        public Isset __isset;
+#if !SILVERLIGHT
+        [Serializable]
+#endif
+        public struct Isset
+        {
+            public bool uuid;
+            public bool battleType;
+            public bool spMaxBuffId;
+            public bool raidID;
+            public bool fighterList;
+            public bool monsterList;
+        }
+
+        public SCBattlePveStartMsg()
+        {
+        }
+
+        public void Read(TProtocol iprot)
+        {
+            TField field;
+            iprot.ReadStructBegin();
+            while (true)
+            {
+                field = iprot.ReadFieldBegin();
+                if (field.Type == TType.Stop)
                 {
-                  KXSGCodec.BattleMsgHero _elem2 = new KXSGCodec.BattleMsgHero();
-                  _elem2 = new KXSGCodec.BattleMsgHero();
-                  _elem2.Read(iprot);
-                  FighterList.Add(_elem2);
+                    break;
                 }
-                iprot.ReadListEnd();
-              }
-            } else { 
-              TProtocolUtil.Skip(iprot, field.Type);
-            }
-            break;
-          case 6:
-            if (field.Type == TType.List) {
-              {
-                MonsterList = new List<KXSGCodec.BattleMsgMonster>();
-                TList _list3 = iprot.ReadListBegin();
-                for( int _i4 = 0; _i4 < _list3.Count; ++_i4)
+                switch (field.ID)
                 {
-                  KXSGCodec.BattleMsgMonster _elem5 = new KXSGCodec.BattleMsgMonster();
-                  _elem5 = new KXSGCodec.BattleMsgMonster();
-                  _elem5.Read(iprot);
-                  MonsterList.Add(_elem5);
+                    case 1:
+                        if (field.Type == TType.I64)
+                        {
+                            Uuid = iprot.ReadI64();
+                        }
+                        else
+                        {
+                            TProtocolUtil.Skip(iprot, field.Type);
+                        }
+                        break;
+                    case 2:
+                        if (field.Type == TType.Byte)
+                        {
+                            BattleType = iprot.ReadByte();
+                        }
+                        else
+                        {
+                            TProtocolUtil.Skip(iprot, field.Type);
+                        }
+                        break;
+                    case 3:
+                        if (field.Type == TType.I32)
+                        {
+                            SpMaxBuffId = iprot.ReadI32();
+                        }
+                        else
+                        {
+                            TProtocolUtil.Skip(iprot, field.Type);
+                        }
+                        break;
+                    case 4:
+                        if (field.Type == TType.I32)
+                        {
+                            RaidID = iprot.ReadI32();
+                        }
+                        else
+                        {
+                            TProtocolUtil.Skip(iprot, field.Type);
+                        }
+                        break;
+                    case 5:
+                        if (field.Type == TType.List)
+                        {
+                            {
+                                FighterList = new List<KXSGCodec.BattleMsgHero>();
+                                TList _list0 = iprot.ReadListBegin();
+                                for (int _i1 = 0; _i1 < _list0.Count; ++_i1)
+                                {
+                                    KXSGCodec.BattleMsgHero _elem2 = new KXSGCodec.BattleMsgHero();
+                                    _elem2 = new KXSGCodec.BattleMsgHero();
+                                    _elem2.Read(iprot);
+                                    FighterList.Add(_elem2);
+                                }
+                                iprot.ReadListEnd();
+                            }
+                        }
+                        else
+                        {
+                            TProtocolUtil.Skip(iprot, field.Type);
+                        }
+                        break;
+                    case 6:
+                        if (field.Type == TType.List)
+                        {
+                            {
+                                MonsterList = new List<KXSGCodec.BattleMsgMonster>();
+                                TList _list3 = iprot.ReadListBegin();
+                                for (int _i4 = 0; _i4 < _list3.Count; ++_i4)
+                                {
+                                    KXSGCodec.BattleMsgMonster _elem5 = new KXSGCodec.BattleMsgMonster();
+                                    _elem5 = new KXSGCodec.BattleMsgMonster();
+                                    _elem5.Read(iprot);
+                                    MonsterList.Add(_elem5);
+                                }
+                                iprot.ReadListEnd();
+                            }
+                        }
+                        else
+                        {
+                            TProtocolUtil.Skip(iprot, field.Type);
+                        }
+                        break;
+                    default:
+                        TProtocolUtil.Skip(iprot, field.Type);
+                        break;
                 }
-                iprot.ReadListEnd();
-              }
-            } else { 
-              TProtocolUtil.Skip(iprot, field.Type);
+                iprot.ReadFieldEnd();
             }
-            break;
-          default: 
-            TProtocolUtil.Skip(iprot, field.Type);
-            break;
+            iprot.ReadStructEnd();
         }
-        iprot.ReadFieldEnd();
-      }
-      iprot.ReadStructEnd();
-    }
 
-    public void Write(TProtocol oprot) {
-      TStruct struc = new TStruct("SCBattlePveStartMsg");
-      oprot.WriteStructBegin(struc);
-      TField field = new TField();
-      if (__isset.uuid) {
-        field.Name = "uuid";
-        field.Type = TType.I64;
-        field.ID = 1;
-        oprot.WriteFieldBegin(field);
-        oprot.WriteI64(Uuid);
-        oprot.WriteFieldEnd();
-      }
-      if (__isset.battleType) {
-        field.Name = "battleType";
-        field.Type = TType.Byte;
-        field.ID = 2;
-        oprot.WriteFieldBegin(field);
-        oprot.WriteByte(BattleType);
-        oprot.WriteFieldEnd();
-      }
-      if (__isset.spMaxBuffId) {
-        field.Name = "spMaxBuffId";
-        field.Type = TType.I32;
-        field.ID = 3;
-        oprot.WriteFieldBegin(field);
-        oprot.WriteI32(SpMaxBuffId);
-        oprot.WriteFieldEnd();
-      }
-      if (__isset.raidID) {
-        field.Name = "raidID";
-        field.Type = TType.I32;
-        field.ID = 4;
-        oprot.WriteFieldBegin(field);
-        oprot.WriteI32(RaidID);
-        oprot.WriteFieldEnd();
-      }
-      if (FighterList != null && __isset.fighterList) {
-        field.Name = "fighterList";
-        field.Type = TType.List;
-        field.ID = 5;
-        oprot.WriteFieldBegin(field);
+        public void Write(TProtocol oprot)
         {
-          oprot.WriteListBegin(new TList(TType.Struct, FighterList.Count));
-          foreach (KXSGCodec.BattleMsgHero _iter6 in FighterList)
-          {
-            _iter6.Write(oprot);
-          }
-          oprot.WriteListEnd();
+            TStruct struc = new TStruct("SCBattlePveStartMsg");
+            oprot.WriteStructBegin(struc);
+            TField field = new TField();
+            if (__isset.uuid)
+            {
+                field.Name = "uuid";
+                field.Type = TType.I64;
+                field.ID = 1;
+                oprot.WriteFieldBegin(field);
+                oprot.WriteI64(Uuid);
+                oprot.WriteFieldEnd();
+            }
+            if (__isset.battleType)
+            {
+                field.Name = "battleType";
+                field.Type = TType.Byte;
+                field.ID = 2;
+                oprot.WriteFieldBegin(field);
+                oprot.WriteByte(BattleType);
+                oprot.WriteFieldEnd();
+            }
+            if (__isset.spMaxBuffId)
+            {
+                field.Name = "spMaxBuffId";
+                field.Type = TType.I32;
+                field.ID = 3;
+                oprot.WriteFieldBegin(field);
+                oprot.WriteI32(SpMaxBuffId);
+                oprot.WriteFieldEnd();
+            }
+            if (__isset.raidID)
+            {
+                field.Name = "raidID";
+                field.Type = TType.I32;
+                field.ID = 4;
+                oprot.WriteFieldBegin(field);
+                oprot.WriteI32(RaidID);
+                oprot.WriteFieldEnd();
+            }
+            if (FighterList != null && __isset.fighterList)
+            {
+                field.Name = "fighterList";
+                field.Type = TType.List;
+                field.ID = 5;
+                oprot.WriteFieldBegin(field);
+                {
+                    oprot.WriteListBegin(new TList(TType.Struct, FighterList.Count));
+                    foreach (KXSGCodec.BattleMsgHero _iter6 in FighterList)
+                    {
+                        _iter6.Write(oprot);
+                    }
+                    oprot.WriteListEnd();
+                }
+                oprot.WriteFieldEnd();
+            }
+            if (MonsterList != null && __isset.monsterList)
+            {
+                field.Name = "monsterList";
+                field.Type = TType.List;
+                field.ID = 6;
+                oprot.WriteFieldBegin(field);
+                {
+                    oprot.WriteListBegin(new TList(TType.Struct, MonsterList.Count));
+                    foreach (KXSGCodec.BattleMsgMonster _iter7 in MonsterList)
+                    {
+                        _iter7.Write(oprot);
+                    }
+                    oprot.WriteListEnd();
+                }
+                oprot.WriteFieldEnd();
+            }
+            oprot.WriteFieldStop();
+            oprot.WriteStructEnd();
         }
-        oprot.WriteFieldEnd();
-      }
-      if (MonsterList != null && __isset.monsterList) {
-        field.Name = "monsterList";
-        field.Type = TType.List;
-        field.ID = 6;
-        oprot.WriteFieldBegin(field);
+
+        public override string ToString()
         {
-          oprot.WriteListBegin(new TList(TType.Struct, MonsterList.Count));
-          foreach (KXSGCodec.BattleMsgMonster _iter7 in MonsterList)
-          {
-            _iter7.Write(oprot);
-          }
-          oprot.WriteListEnd();
+            StringBuilder sb = new StringBuilder("SCBattlePveStartMsg(");
+            sb.Append("Uuid: ");
+            sb.Append(Uuid);
+            sb.Append(",BattleType: ");
+            sb.Append(BattleType);
+            sb.Append(",SpMaxBuffId: ");
+            sb.Append(SpMaxBuffId);
+            sb.Append(",RaidID: ");
+            sb.Append(RaidID);
+            sb.Append(",FighterList: ");
+            sb.Append(FighterList);
+            sb.Append(",MonsterList: ");
+            sb.Append(MonsterList);
+            sb.Append(")");
+            return sb.ToString();
         }
-        oprot.WriteFieldEnd();
-      }
-      oprot.WriteFieldStop();
-      oprot.WriteStructEnd();
+
+        public void WriteClass(StreamWriter writer, string className)
+        {
+            writer.Write(className);
+            writer.Write(BasicName);
+            PersistenceFileIOHandler.WriteBasic(writer, Uuid);
+            PersistenceFileIOHandler.WriteBasic(writer, BattleType);
+            PersistenceFileIOHandler.WriteBasic(writer, SpMaxBuffId);
+            PersistenceFileIOHandler.WriteBasic(writer, RaidID);
+            writer.Write(ISSetName);
+            PersistenceFileIOHandler.WriteBasic(writer, __isset.uuid);
+            PersistenceFileIOHandler.WriteBasic(writer, __isset.battleType);
+            PersistenceFileIOHandler.WriteBasic(writer, __isset.spMaxBuffId);
+            PersistenceFileIOHandler.WriteBasic(writer, __isset.raidID);
+            PersistenceFileIOHandler.WriteBasic(writer, __isset.fighterList);
+            PersistenceFileIOHandler.WriteBasic(writer, __isset.monsterList);
+            writer.Write(FighterListName);
+            for (int i = 0; i < FighterList.Count; i++)
+            {
+                FighterList[i].WriteClass(writer, BattleMsgHeroClassName);
+            }
+            writer.Write(MonsterListName);
+            for (int i = 0; i < MonsterList.Count; i++)
+            {
+                MonsterList[i].WriteClass(writer, BattleMsgMonsterClassName);
+            }
+        }
+
+        public void ReadClass(string value)
+        {
+            string[] splitStrings = new string[] { BasicName, ISSetName, FighterListName, MonsterListName };
+            string[] outStrings = value.Split(splitStrings, StringSplitOptions.RemoveEmptyEntries);
+            PersistenceFileIOHandler.CheckCount(outStrings, FieldCount);
+
+            string[] splitedBasic = outStrings[0].Split(new char[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
+            PersistenceFileIOHandler.CheckCount(splitedBasic, BasicFieldCount);
+            Uuid = long.Parse(splitedBasic[0]);
+            BattleType = sbyte.Parse(splitedBasic[1]);
+            SpMaxBuffId = int.Parse(splitedBasic[2]);
+            RaidID = int.Parse(splitedBasic[3]);
+
+            string[] splitedISet = outStrings[1].Split(new char[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
+            PersistenceFileIOHandler.CheckCount(splitedISet, ISSetCount);
+            __isset.uuid = bool.Parse(splitedISet[0]);
+            __isset.battleType = bool.Parse(splitedISet[1]);
+            __isset.spMaxBuffId = bool.Parse(splitedISet[2]);
+            __isset.raidID = bool.Parse(splitedISet[3]);
+            __isset.fighterList = bool.Parse(splitedISet[4]);
+            __isset.monsterList = bool.Parse(splitedISet[5]);
+
+            string[] splitedFighter = outStrings[2].Split(new string[] { BattleMsgHeroClassName }, StringSplitOptions.RemoveEmptyEntries);
+            FighterList=new List<BattleMsgHero>();
+            for (int i = 0; i < splitedFighter.Length; i++)
+            {
+                var temp = new BattleMsgHero();
+                temp.ReadClass(splitedFighter[i]);
+                FighterList.Add(temp);
+            }
+
+            string[] splitedMonster = outStrings[3].Split(new string[] { BattleMsgMonsterClassName }, StringSplitOptions.RemoveEmptyEntries);
+            MonsterList=new List<BattleMsgMonster>();
+            for (int i = 0; i < splitedMonster.Length; i++)
+            {
+                var temp = new BattleMsgMonster();
+                temp.ReadClass(splitedMonster[i]);
+                MonsterList.Add(temp);
+            }
+        }
     }
-
-    public override string ToString() {
-      StringBuilder sb = new StringBuilder("SCBattlePveStartMsg(");
-      sb.Append("Uuid: ");
-      sb.Append(Uuid);
-      sb.Append(",BattleType: ");
-      sb.Append(BattleType);
-      sb.Append(",SpMaxBuffId: ");
-      sb.Append(SpMaxBuffId);
-      sb.Append(",RaidID: ");
-      sb.Append(RaidID);
-      sb.Append(",FighterList: ");
-      sb.Append(FighterList);
-      sb.Append(",MonsterList: ");
-      sb.Append(MonsterList);
-      sb.Append(")");
-      return sb.ToString();
-    }
-
-  }
-
 }

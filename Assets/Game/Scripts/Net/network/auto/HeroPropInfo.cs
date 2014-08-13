@@ -9,6 +9,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
+using System.Xml.Serialization;
 using Thrift;
 using Thrift.Collections;
 using System.Runtime.Serialization;
@@ -18,142 +19,181 @@ using Thrift.Transport;
 namespace KXSGCodec
 {
 
-  #if !SILVERLIGHT
-  [Serializable]
-  #endif
-  public partial class HeroPropInfo : TBase
-  {
-    private int _heroTemplateId;
-    private Dictionary<int, int> _prop;
-
-    public int HeroTemplateId
-    {
-      get
-      {
-        return _heroTemplateId;
-      }
-      set
-      {
-        __isset.heroTemplateId = true;
-        this._heroTemplateId = value;
-      }
-    }
-
-    public Dictionary<int, int> Prop
-    {
-      get
-      {
-        return _prop;
-      }
-      set
-      {
-        __isset.prop = true;
-        this._prop = value;
-      }
-    }
-
-
-    public Isset __isset;
-    #if !SILVERLIGHT
+#if !SILVERLIGHT
     [Serializable]
-    #endif
-    public struct Isset {
-      public bool heroTemplateId;
-      public bool prop;
-    }
-
-    public HeroPropInfo() {
-    }
-
-    public void Read (TProtocol iprot)
+#endif
+    public partial class HeroPropInfo : TBase
     {
-      TField field;
-      iprot.ReadStructBegin();
-      while (true)
-      {
-        field = iprot.ReadFieldBegin();
-        if (field.Type == TType.Stop) { 
-          break;
-        }
-        switch (field.ID)
+        private int _heroTemplateId;
+        [XmlIgnore]
+        private Dictionary<int, int> _prop;
+
+        public int HeroTemplateId
         {
-          case 1:
-            if (field.Type == TType.I32) {
-              HeroTemplateId = iprot.ReadI32();
-            } else { 
-              TProtocolUtil.Skip(iprot, field.Type);
+            get
+            {
+                return _heroTemplateId;
             }
-            break;
-          case 2:
-            if (field.Type == TType.Map) {
-              {
-                Prop = new Dictionary<int, int>();
-                TMap _map0 = iprot.ReadMapBegin();
-                for( int _i1 = 0; _i1 < _map0.Count; ++_i1)
+            set
+            {
+                __isset.heroTemplateId = true;
+                this._heroTemplateId = value;
+            }
+        }
+
+        [XmlIgnore]
+        public Dictionary<int, int> Prop
+        {
+            get
+            {
+                return _prop;
+            }
+            set
+            {
+                __isset.prop = true;
+                this._prop = value;
+            }
+        }
+
+
+        public Isset __isset;
+
+#if !SILVERLIGHT
+        [Serializable]
+#endif
+        public struct Isset
+        {
+            public bool heroTemplateId;
+            public bool prop;
+        }
+
+        public HeroPropInfo()
+        {
+        }
+
+        public void Read(TProtocol iprot)
+        {
+            TField field;
+            iprot.ReadStructBegin();
+            while (true)
+            {
+                field = iprot.ReadFieldBegin();
+                if (field.Type == TType.Stop)
                 {
-                  int _key2;
-                  int _val3;
-                  _key2 = iprot.ReadI32();
-                  _val3 = iprot.ReadI32();
-                  Prop[_key2] = _val3;
+                    break;
                 }
-                iprot.ReadMapEnd();
-              }
-            } else { 
-              TProtocolUtil.Skip(iprot, field.Type);
+                switch (field.ID)
+                {
+                    case 1:
+                        if (field.Type == TType.I32)
+                        {
+                            HeroTemplateId = iprot.ReadI32();
+                        }
+                        else
+                        {
+                            TProtocolUtil.Skip(iprot, field.Type);
+                        }
+                        break;
+                    case 2:
+                        if (field.Type == TType.Map)
+                        {
+                            {
+                                Prop = new Dictionary<int, int>();
+                                TMap _map0 = iprot.ReadMapBegin();
+                                for (int _i1 = 0; _i1 < _map0.Count; ++_i1)
+                                {
+                                    int _key2;
+                                    int _val3;
+                                    _key2 = iprot.ReadI32();
+                                    _val3 = iprot.ReadI32();
+                                    Prop[_key2] = _val3;
+                                }
+                                iprot.ReadMapEnd();
+                            }
+                        }
+                        else
+                        {
+                            TProtocolUtil.Skip(iprot, field.Type);
+                        }
+                        break;
+                    default:
+                        TProtocolUtil.Skip(iprot, field.Type);
+                        break;
+                }
+                iprot.ReadFieldEnd();
             }
-            break;
-          default: 
-            TProtocolUtil.Skip(iprot, field.Type);
-            break;
+            iprot.ReadStructEnd();
         }
-        iprot.ReadFieldEnd();
-      }
-      iprot.ReadStructEnd();
-    }
 
-    public void Write(TProtocol oprot) {
-      TStruct struc = new TStruct("HeroPropInfo");
-      oprot.WriteStructBegin(struc);
-      TField field = new TField();
-      if (__isset.heroTemplateId) {
-        field.Name = "heroTemplateId";
-        field.Type = TType.I32;
-        field.ID = 1;
-        oprot.WriteFieldBegin(field);
-        oprot.WriteI32(HeroTemplateId);
-        oprot.WriteFieldEnd();
-      }
-      if (Prop != null && __isset.prop) {
-        field.Name = "prop";
-        field.Type = TType.Map;
-        field.ID = 2;
-        oprot.WriteFieldBegin(field);
+        public void Write(TProtocol oprot)
         {
-          oprot.WriteMapBegin(new TMap(TType.I32, TType.I32, Prop.Count));
-          foreach (int _iter4 in Prop.Keys)
-          {
-            oprot.WriteI32(_iter4);
-            oprot.WriteI32(Prop[_iter4]);
-          }
-          oprot.WriteMapEnd();
+            TStruct struc = new TStruct("HeroPropInfo");
+            oprot.WriteStructBegin(struc);
+            TField field = new TField();
+            if (__isset.heroTemplateId)
+            {
+                field.Name = "heroTemplateId";
+                field.Type = TType.I32;
+                field.ID = 1;
+                oprot.WriteFieldBegin(field);
+                oprot.WriteI32(HeroTemplateId);
+                oprot.WriteFieldEnd();
+            }
+            if (Prop != null && __isset.prop)
+            {
+                field.Name = "prop";
+                field.Type = TType.Map;
+                field.ID = 2;
+                oprot.WriteFieldBegin(field);
+                {
+                    oprot.WriteMapBegin(new TMap(TType.I32, TType.I32, Prop.Count));
+                    foreach (int _iter4 in Prop.Keys)
+                    {
+                        oprot.WriteI32(_iter4);
+                        oprot.WriteI32(Prop[_iter4]);
+                    }
+                    oprot.WriteMapEnd();
+                }
+                oprot.WriteFieldEnd();
+            }
+            oprot.WriteFieldStop();
+            oprot.WriteStructEnd();
         }
-        oprot.WriteFieldEnd();
-      }
-      oprot.WriteFieldStop();
-      oprot.WriteStructEnd();
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder("HeroPropInfo(");
+            sb.Append("HeroTemplateId: ");
+            sb.Append(HeroTemplateId);
+            sb.Append(",Prop: ");
+            sb.Append(Prop);
+            sb.Append(")");
+            return sb.ToString();
+        }
+
+        public void WriteClass(StreamWriter writer, string className)
+        {
+            writer.Write(className);
+            PersistenceFileIOHandler.WriteBasic(writer,HeroTemplateId);
+            PersistenceFileIOHandler.WriteBasic(writer, __isset.heroTemplateId);
+            PersistenceFileIOHandler.WriteBasic(writer, __isset.prop);
+            PersistenceFileIOHandler.WriteDic(writer,null,Prop);
+        }
+
+        public void ReadClass(string value)
+        {
+            string[] outStrings = value.Split(new char[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
+            if ((outStrings.Length - 3)%2 != 0)
+            {
+                Logger.LogError("Not correct string num.");
+                throw new Exception("ReadPropDic: Not couple strings num");
+            }
+
+            HeroTemplateId = int.Parse(outStrings[0]);
+            __isset.heroTemplateId = bool.Parse(outStrings[1]);
+            __isset.prop = bool.Parse(outStrings[2]);
+
+            Prop = PersistenceFileIOHandler.ReadDic<int, int>(outStrings, 3, outStrings.Length - 1);
+        }
     }
-
-    public override string ToString() {
-      StringBuilder sb = new StringBuilder("HeroPropInfo(");
-      sb.Append("HeroTemplateId: ");
-      sb.Append(HeroTemplateId);
-      sb.Append(",Prop: ");
-      sb.Append(Prop);
-      sb.Append(")");
-      return sb.ToString();
-    }
-
-  }
-
 }

@@ -37,5 +37,12 @@ public static class BuildMenu
         EditorWindow.GetWindow(typeof(PackageWindow));
     }
 
+    [MenuItem("Package/Save Big Map", false, 0)]
+    static public void SaveBigMap()
+    {
+        //EditorWindow.GetWindow<WindowMappingXmlGeneratorWindow>(false, "Window Mapping XML Generator", true);
+        EditorWindow.GetWindow(typeof(GetMapDataWindow));
+    }
+
     #endregion
 }

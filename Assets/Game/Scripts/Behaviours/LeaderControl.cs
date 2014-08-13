@@ -56,6 +56,7 @@ public class LeaderControl : MonoBehaviour
     public void Reset()
     {
         SpriteLight.SetActive(false);
+        StopSeal();
     }
 
     /// <summary>
@@ -91,15 +92,11 @@ public class LeaderControl : MonoBehaviour
     {
         if (show)
         {
-            sealEffectClone.gameObject.SetActive(true);
-            collider.enabled = false;
-            sealEffectClone.Play(true);
+            PlaySeal();
         }
         else
         {
-            sealEffectClone.gameObject.SetActive(false);
-            collider.enabled = true;
-            sealEffectClone.Stop();
+            StopSeal();
         }
     }
 
@@ -141,6 +138,28 @@ public class LeaderControl : MonoBehaviour
     private void OnCancelClicked(GameObject sender)
     {
         BattleModelLocator.Instance.CanSelectHero = true;
+    }
+
+    private void PlaySeal()
+    {
+        if (sealEffectClone == null)
+        {
+            return;
+        }
+        sealEffectClone.gameObject.SetActive(true);
+        collider.enabled = false;
+        sealEffectClone.Play(true);
+    }
+
+    private void StopSeal()
+    {
+        if (sealEffectClone == null)
+        {
+            return;
+        }
+        sealEffectClone.gameObject.SetActive(false);
+        collider.enabled = true;
+        sealEffectClone.Stop();
     }
 
     private void Awake()

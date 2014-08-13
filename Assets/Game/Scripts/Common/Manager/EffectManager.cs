@@ -139,6 +139,10 @@ public class EffectManager
             }
         }
         var obj = Resources.Load(effecttype) as GameObject;
+        if (obj == null)
+        {
+            Debug.LogError("Could not get effect from path: " + effecttype);
+        }
         effectFabs.Add(obj);
         names.Add(effecttype);
         return obj;

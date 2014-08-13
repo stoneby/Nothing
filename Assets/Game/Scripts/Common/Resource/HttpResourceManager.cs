@@ -11,6 +11,10 @@ public class HttpResourceManager : MonoBehaviour
 
     private static Dictionary<string, byte[]> FileDatas;
 
+    public delegate void LoadFinish();
+
+    public static LoadFinish OnLoadFinish;
+
     void Start()
     {
         MainObj = gameObject;
@@ -40,12 +44,15 @@ public class HttpResourceManager : MonoBehaviour
         foreach (var t in ResourcePath.ByteFiles)
         {
             var theurl = ServiceManager.ServerData.DataUrl + t + str;
-            Logger.Log(theurl);
             var www = new WWW(theurl);
             
             // Wait for download to complete
             yield return www;
             FileDatas[t] = www.bytes;
+        }
+        if (OnLoadFinish != null)
+        {
+            OnLoadFinish();
         }
     }
 }

@@ -9,6 +9,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
+using System.Xml.Serialization;
 using Thrift;
 using Thrift.Collections;
 using System.Runtime.Serialization;
@@ -18,433 +19,569 @@ using Thrift.Transport;
 namespace KXSGCodec
 {
 
-  /// <summary>
-  /// 英雄武将信息
-  /// </summary>
-  #if !SILVERLIGHT
-  [Serializable]
-  #endif
-  public partial class BattleMsgHero : TBase
-  {
-    private int _index;
-    private int _templateId;
-    private int _jobId;
-    private int _heroType;
-    private Dictionary<int, int> _fighteProp;
-    private Dictionary<int, int> _otherProp;
-    private int _activeSkillId;
-    private int _leaderSkill;
-    private List<int> _allSkill;
-
     /// <summary>
-    /// 武将位置Index
+    /// 英雄武将信息
     /// </summary>
-    public int Index
-    {
-      get
-      {
-        return _index;
-      }
-      set
-      {
-        __isset.index = true;
-        this._index = value;
-      }
-    }
-
-    /// <summary>
-    /// 武将模板ID
-    /// </summary>
-    public int TemplateId
-    {
-      get
-      {
-        return _templateId;
-      }
-      set
-      {
-        __isset.templateId = true;
-        this._templateId = value;
-      }
-    }
-
-    /// <summary>
-    /// 武将职业ID
-    /// </summary>
-    public int JobId
-    {
-      get
-      {
-        return _jobId;
-      }
-      set
-      {
-        __isset.jobId = true;
-        this._jobId = value;
-      }
-    }
-
-    /// <summary>
-    /// 武将类型，1：普通武将，2：好友武将，3：guest武将
-    /// </summary>
-    public int HeroType
-    {
-      get
-      {
-        return _heroType;
-      }
-      set
-      {
-        __isset.heroType = true;
-        this._heroType = value;
-      }
-    }
-
-    /// <summary>
-    /// 战斗属性map，hp,sp等
-    /// </summary>
-    public Dictionary<int, int> FighteProp
-    {
-      get
-      {
-        return _fighteProp;
-      }
-      set
-      {
-        __isset.fighteProp = true;
-        this._fighteProp = value;
-      }
-    }
-
-    /// <summary>
-    /// 额外属性，比如怪物掉落显示
-    /// </summary>
-    public Dictionary<int, int> OtherProp
-    {
-      get
-      {
-        return _otherProp;
-      }
-      set
-      {
-        __isset.otherProp = true;
-        this._otherProp = value;
-      }
-    }
-
-    /// <summary>
-    /// 主动技能ID
-    /// </summary>
-    public int ActiveSkillId
-    {
-      get
-      {
-        return _activeSkillId;
-      }
-      set
-      {
-        __isset.activeSkillId = true;
-        this._activeSkillId = value;
-      }
-    }
-
-    /// <summary>
-    /// 队长技能
-    /// </summary>
-    public int LeaderSkill
-    {
-      get
-      {
-        return _leaderSkill;
-      }
-      set
-      {
-        __isset.leaderSkill = true;
-        this._leaderSkill = value;
-      }
-    }
-
-    /// <summary>
-    /// 全部技能
-    /// </summary>
-    public List<int> AllSkill
-    {
-      get
-      {
-        return _allSkill;
-      }
-      set
-      {
-        __isset.allSkill = true;
-        this._allSkill = value;
-      }
-    }
-
-
-    public Isset __isset;
-    #if !SILVERLIGHT
+#if !SILVERLIGHT
     [Serializable]
-    #endif
-    public struct Isset {
-      public bool index;
-      public bool templateId;
-      public bool jobId;
-      public bool heroType;
-      public bool fighteProp;
-      public bool otherProp;
-      public bool activeSkillId;
-      public bool leaderSkill;
-      public bool allSkill;
-    }
-
-    public BattleMsgHero() {
-    }
-
-    public void Read (TProtocol iprot)
+#endif
+    public partial class BattleMsgHero : TBase
     {
-      TField field;
-      iprot.ReadStructBegin();
-      while (true)
-      {
-        field = iprot.ReadFieldBegin();
-        if (field.Type == TType.Stop) { 
-          break;
-        }
-        switch (field.ID)
-        {
-          case 1:
-            if (field.Type == TType.I32) {
-              Index = iprot.ReadI32();
-            } else { 
-              TProtocolUtil.Skip(iprot, field.Type);
-            }
-            break;
-          case 2:
-            if (field.Type == TType.I32) {
-              TemplateId = iprot.ReadI32();
-            } else { 
-              TProtocolUtil.Skip(iprot, field.Type);
-            }
-            break;
-          case 3:
-            if (field.Type == TType.I32) {
-              JobId = iprot.ReadI32();
-            } else { 
-              TProtocolUtil.Skip(iprot, field.Type);
-            }
-            break;
-          case 4:
-            if (field.Type == TType.I32) {
-              HeroType = iprot.ReadI32();
-            } else { 
-              TProtocolUtil.Skip(iprot, field.Type);
-            }
-            break;
-          case 5:
-            if (field.Type == TType.Map) {
-              {
-                FighteProp = new Dictionary<int, int>();
-                TMap _map5 = iprot.ReadMapBegin();
-                for( int _i6 = 0; _i6 < _map5.Count; ++_i6)
-                {
-                  int _key7;
-                  int _val8;
-                  _key7 = iprot.ReadI32();
-                  _val8 = iprot.ReadI32();
-                  FighteProp[_key7] = _val8;
-                }
-                iprot.ReadMapEnd();
-              }
-            } else { 
-              TProtocolUtil.Skip(iprot, field.Type);
-            }
-            break;
-          case 6:
-            if (field.Type == TType.Map) {
-              {
-                OtherProp = new Dictionary<int, int>();
-                TMap _map9 = iprot.ReadMapBegin();
-                for( int _i10 = 0; _i10 < _map9.Count; ++_i10)
-                {
-                  int _key11;
-                  int _val12;
-                  _key11 = iprot.ReadI32();
-                  _val12 = iprot.ReadI32();
-                  OtherProp[_key11] = _val12;
-                }
-                iprot.ReadMapEnd();
-              }
-            } else { 
-              TProtocolUtil.Skip(iprot, field.Type);
-            }
-            break;
-          case 7:
-            if (field.Type == TType.I32) {
-              ActiveSkillId = iprot.ReadI32();
-            } else { 
-              TProtocolUtil.Skip(iprot, field.Type);
-            }
-            break;
-          case 8:
-            if (field.Type == TType.I32) {
-              LeaderSkill = iprot.ReadI32();
-            } else { 
-              TProtocolUtil.Skip(iprot, field.Type);
-            }
-            break;
-          case 9:
-            if (field.Type == TType.List) {
-              {
-                AllSkill = new List<int>();
-                TList _list13 = iprot.ReadListBegin();
-                for( int _i14 = 0; _i14 < _list13.Count; ++_i14)
-                {
-                  int _elem15 = 0;
-                  _elem15 = iprot.ReadI32();
-                  AllSkill.Add(_elem15);
-                }
-                iprot.ReadListEnd();
-              }
-            } else { 
-              TProtocolUtil.Skip(iprot, field.Type);
-            }
-            break;
-          default: 
-            TProtocolUtil.Skip(iprot, field.Type);
-            break;
-        }
-        iprot.ReadFieldEnd();
-      }
-      iprot.ReadStructEnd();
-    }
+        private const int FieldCount = 5;
+        private const int BasicFieldCount = 6;
+        private const int ISSetCount = 9;
 
-    public void Write(TProtocol oprot) {
-      TStruct struc = new TStruct("BattleMsgHero");
-      oprot.WriteStructBegin(struc);
-      TField field = new TField();
-      if (__isset.index) {
-        field.Name = "index";
-        field.Type = TType.I32;
-        field.ID = 1;
-        oprot.WriteFieldBegin(field);
-        oprot.WriteI32(Index);
-        oprot.WriteFieldEnd();
-      }
-      if (__isset.templateId) {
-        field.Name = "templateId";
-        field.Type = TType.I32;
-        field.ID = 2;
-        oprot.WriteFieldBegin(field);
-        oprot.WriteI32(TemplateId);
-        oprot.WriteFieldEnd();
-      }
-      if (__isset.jobId) {
-        field.Name = "jobId";
-        field.Type = TType.I32;
-        field.ID = 3;
-        oprot.WriteFieldBegin(field);
-        oprot.WriteI32(JobId);
-        oprot.WriteFieldEnd();
-      }
-      if (__isset.heroType) {
-        field.Name = "heroType";
-        field.Type = TType.I32;
-        field.ID = 4;
-        oprot.WriteFieldBegin(field);
-        oprot.WriteI32(HeroType);
-        oprot.WriteFieldEnd();
-      }
-      if (FighteProp != null && __isset.fighteProp) {
-        field.Name = "fighteProp";
-        field.Type = TType.Map;
-        field.ID = 5;
-        oprot.WriteFieldBegin(field);
-        {
-          oprot.WriteMapBegin(new TMap(TType.I32, TType.I32, FighteProp.Count));
-          foreach (int _iter16 in FighteProp.Keys)
-          {
-            oprot.WriteI32(_iter16);
-            oprot.WriteI32(FighteProp[_iter16]);
-          }
-          oprot.WriteMapEnd();
-        }
-        oprot.WriteFieldEnd();
-      }
-      if (OtherProp != null && __isset.otherProp) {
-        field.Name = "otherProp";
-        field.Type = TType.Map;
-        field.ID = 6;
-        oprot.WriteFieldBegin(field);
-        {
-          oprot.WriteMapBegin(new TMap(TType.I32, TType.I32, OtherProp.Count));
-          foreach (int _iter17 in OtherProp.Keys)
-          {
-            oprot.WriteI32(_iter17);
-            oprot.WriteI32(OtherProp[_iter17]);
-          }
-          oprot.WriteMapEnd();
-        }
-        oprot.WriteFieldEnd();
-      }
-      if (__isset.activeSkillId) {
-        field.Name = "activeSkillId";
-        field.Type = TType.I32;
-        field.ID = 7;
-        oprot.WriteFieldBegin(field);
-        oprot.WriteI32(ActiveSkillId);
-        oprot.WriteFieldEnd();
-      }
-      if (__isset.leaderSkill) {
-        field.Name = "leaderSkill";
-        field.Type = TType.I32;
-        field.ID = 8;
-        oprot.WriteFieldBegin(field);
-        oprot.WriteI32(LeaderSkill);
-        oprot.WriteFieldEnd();
-      }
-      if (AllSkill != null && __isset.allSkill) {
-        field.Name = "allSkill";
-        field.Type = TType.List;
-        field.ID = 9;
-        oprot.WriteFieldBegin(field);
-        {
-          oprot.WriteListBegin(new TList(TType.I32, AllSkill.Count));
-          foreach (int _iter18 in AllSkill)
-          {
-            oprot.WriteI32(_iter18);
-          }
-          oprot.WriteListEnd();
-        }
-        oprot.WriteFieldEnd();
-      }
-      oprot.WriteFieldStop();
-      oprot.WriteStructEnd();
-    }
+        private const string BasicName = "Basic:";
+        private const string ISSetName = "Iset:";
+        private const string FighterPropDictionaryName = "FigDic:";
+        private const string AllSkillListName = "ASLis:";
+        private const string OtherPropDictionaryName = "OtDic:";
 
-    public override string ToString() {
-      StringBuilder sb = new StringBuilder("BattleMsgHero(");
-      sb.Append("Index: ");
-      sb.Append(Index);
-      sb.Append(",TemplateId: ");
-      sb.Append(TemplateId);
-      sb.Append(",JobId: ");
-      sb.Append(JobId);
-      sb.Append(",HeroType: ");
-      sb.Append(HeroType);
-      sb.Append(",FighteProp: ");
-      sb.Append(FighteProp);
-      sb.Append(",OtherProp: ");
-      sb.Append(OtherProp);
-      sb.Append(",ActiveSkillId: ");
-      sb.Append(ActiveSkillId);
-      sb.Append(",LeaderSkill: ");
-      sb.Append(LeaderSkill);
-      sb.Append(",AllSkill: ");
-      sb.Append(AllSkill);
-      sb.Append(")");
-      return sb.ToString();
-    }
+        private int _index;
+        private int _templateId;
+        private int _jobId;
+        private int _heroType;
+        private Dictionary<int, int> _fighteProp;
+        private Dictionary<int, int> _otherProp;
+        private int _activeSkillId;
+        private int _leaderSkill;
+        private List<int> _allSkill;
 
-  }
+        /// <summary>
+        /// 武将位置Index
+        /// </summary>
+        public int Index
+        {
+            get
+            {
+                return _index;
+            }
+            set
+            {
+                __isset.index = true;
+                this._index = value;
+            }
+        }
+
+        /// <summary>
+        /// 武将模板ID
+        /// </summary>
+        public int TemplateId
+        {
+            get
+            {
+                return _templateId;
+            }
+            set
+            {
+                __isset.templateId = true;
+                this._templateId = value;
+            }
+        }
+
+        /// <summary>
+        /// 武将职业ID
+        /// </summary>
+        public int JobId
+        {
+            get
+            {
+                return _jobId;
+            }
+            set
+            {
+                __isset.jobId = true;
+                this._jobId = value;
+            }
+        }
+
+        /// <summary>
+        /// 武将类型，1：普通武将，2：好友武将，3：guest武将
+        /// </summary>
+        public int HeroType
+        {
+            get
+            {
+                return _heroType;
+            }
+            set
+            {
+                __isset.heroType = true;
+                this._heroType = value;
+            }
+        }
+
+        /// <summary>
+        /// 战斗属性map，hp,sp等
+        /// </summary>
+        [XmlIgnore]
+        public Dictionary<int, int> FighteProp
+        {
+            get
+            {
+                return _fighteProp;
+            }
+            set
+            {
+                __isset.fighteProp = true;
+                this._fighteProp = value;
+            }
+        }
+
+        /// <summary>
+        /// 额外属性，比如怪物掉落显示
+        /// </summary>
+        [XmlIgnore]
+        public Dictionary<int, int> OtherProp
+        {
+            get
+            {
+                return _otherProp;
+            }
+            set
+            {
+                __isset.otherProp = true;
+                this._otherProp = value;
+            }
+        }
+
+        /// <summary>
+        /// 主动技能ID
+        /// </summary>
+        public int ActiveSkillId
+        {
+            get
+            {
+                return _activeSkillId;
+            }
+            set
+            {
+                __isset.activeSkillId = true;
+                this._activeSkillId = value;
+            }
+        }
+
+        /// <summary>
+        /// 队长技能
+        /// </summary>
+        public int LeaderSkill
+        {
+            get
+            {
+                return _leaderSkill;
+            }
+            set
+            {
+                __isset.leaderSkill = true;
+                this._leaderSkill = value;
+            }
+        }
+
+        /// <summary>
+        /// 全部技能
+        /// </summary>
+        public List<int> AllSkill
+        {
+            get
+            {
+                return _allSkill;
+            }
+            set
+            {
+                __isset.allSkill = true;
+                this._allSkill = value;
+            }
+        }
+
+
+        public Isset __isset;
+#if !SILVERLIGHT
+        [Serializable]
+#endif
+        public struct Isset
+        {
+            public bool index;
+            public bool templateId;
+            public bool jobId;
+            public bool heroType;
+            public bool fighteProp;
+            public bool otherProp;
+            public bool activeSkillId;
+            public bool leaderSkill;
+            public bool allSkill;
+        }
+
+        public BattleMsgHero()
+        {
+        }
+
+        public void Read(TProtocol iprot)
+        {
+            TField field;
+            iprot.ReadStructBegin();
+            while (true)
+            {
+                field = iprot.ReadFieldBegin();
+                if (field.Type == TType.Stop)
+                {
+                    break;
+                }
+                switch (field.ID)
+                {
+                    case 1:
+                        if (field.Type == TType.I32)
+                        {
+                            Index = iprot.ReadI32();
+                        }
+                        else
+                        {
+                            TProtocolUtil.Skip(iprot, field.Type);
+                        }
+                        break;
+                    case 2:
+                        if (field.Type == TType.I32)
+                        {
+                            TemplateId = iprot.ReadI32();
+                        }
+                        else
+                        {
+                            TProtocolUtil.Skip(iprot, field.Type);
+                        }
+                        break;
+                    case 3:
+                        if (field.Type == TType.I32)
+                        {
+                            JobId = iprot.ReadI32();
+                        }
+                        else
+                        {
+                            TProtocolUtil.Skip(iprot, field.Type);
+                        }
+                        break;
+                    case 4:
+                        if (field.Type == TType.I32)
+                        {
+                            HeroType = iprot.ReadI32();
+                        }
+                        else
+                        {
+                            TProtocolUtil.Skip(iprot, field.Type);
+                        }
+                        break;
+                    case 5:
+                        if (field.Type == TType.Map)
+                        {
+                            {
+                                FighteProp = new Dictionary<int, int>();
+                                TMap _map5 = iprot.ReadMapBegin();
+                                for (int _i6 = 0; _i6 < _map5.Count; ++_i6)
+                                {
+                                    int _key7;
+                                    int _val8;
+                                    _key7 = iprot.ReadI32();
+                                    _val8 = iprot.ReadI32();
+                                    FighteProp[_key7] = _val8;
+                                }
+                                iprot.ReadMapEnd();
+                            }
+                        }
+                        else
+                        {
+                            TProtocolUtil.Skip(iprot, field.Type);
+                        }
+                        break;
+                    case 6:
+                        if (field.Type == TType.Map)
+                        {
+                            {
+                                OtherProp = new Dictionary<int, int>();
+                                TMap _map9 = iprot.ReadMapBegin();
+                                for (int _i10 = 0; _i10 < _map9.Count; ++_i10)
+                                {
+                                    int _key11;
+                                    int _val12;
+                                    _key11 = iprot.ReadI32();
+                                    _val12 = iprot.ReadI32();
+                                    OtherProp[_key11] = _val12;
+                                }
+                                iprot.ReadMapEnd();
+                            }
+                        }
+                        else
+                        {
+                            TProtocolUtil.Skip(iprot, field.Type);
+                        }
+                        break;
+                    case 7:
+                        if (field.Type == TType.I32)
+                        {
+                            ActiveSkillId = iprot.ReadI32();
+                        }
+                        else
+                        {
+                            TProtocolUtil.Skip(iprot, field.Type);
+                        }
+                        break;
+                    case 8:
+                        if (field.Type == TType.I32)
+                        {
+                            LeaderSkill = iprot.ReadI32();
+                        }
+                        else
+                        {
+                            TProtocolUtil.Skip(iprot, field.Type);
+                        }
+                        break;
+                    case 9:
+                        if (field.Type == TType.List)
+                        {
+                            {
+                                AllSkill = new List<int>();
+                                TList _list13 = iprot.ReadListBegin();
+                                for (int _i14 = 0; _i14 < _list13.Count; ++_i14)
+                                {
+                                    int _elem15 = 0;
+                                    _elem15 = iprot.ReadI32();
+                                    AllSkill.Add(_elem15);
+                                }
+                                iprot.ReadListEnd();
+                            }
+                        }
+                        else
+                        {
+                            TProtocolUtil.Skip(iprot, field.Type);
+                        }
+                        break;
+                    default:
+                        TProtocolUtil.Skip(iprot, field.Type);
+                        break;
+                }
+                iprot.ReadFieldEnd();
+            }
+            iprot.ReadStructEnd();
+        }
+
+        public void Write(TProtocol oprot)
+        {
+            TStruct struc = new TStruct("BattleMsgHero");
+            oprot.WriteStructBegin(struc);
+            TField field = new TField();
+            if (__isset.index)
+            {
+                field.Name = "index";
+                field.Type = TType.I32;
+                field.ID = 1;
+                oprot.WriteFieldBegin(field);
+                oprot.WriteI32(Index);
+                oprot.WriteFieldEnd();
+            }
+            if (__isset.templateId)
+            {
+                field.Name = "templateId";
+                field.Type = TType.I32;
+                field.ID = 2;
+                oprot.WriteFieldBegin(field);
+                oprot.WriteI32(TemplateId);
+                oprot.WriteFieldEnd();
+            }
+            if (__isset.jobId)
+            {
+                field.Name = "jobId";
+                field.Type = TType.I32;
+                field.ID = 3;
+                oprot.WriteFieldBegin(field);
+                oprot.WriteI32(JobId);
+                oprot.WriteFieldEnd();
+            }
+            if (__isset.heroType)
+            {
+                field.Name = "heroType";
+                field.Type = TType.I32;
+                field.ID = 4;
+                oprot.WriteFieldBegin(field);
+                oprot.WriteI32(HeroType);
+                oprot.WriteFieldEnd();
+            }
+            if (FighteProp != null && __isset.fighteProp)
+            {
+                field.Name = "fighteProp";
+                field.Type = TType.Map;
+                field.ID = 5;
+                oprot.WriteFieldBegin(field);
+                {
+                    oprot.WriteMapBegin(new TMap(TType.I32, TType.I32, FighteProp.Count));
+                    foreach (int _iter16 in FighteProp.Keys)
+                    {
+                        oprot.WriteI32(_iter16);
+                        oprot.WriteI32(FighteProp[_iter16]);
+                    }
+                    oprot.WriteMapEnd();
+                }
+                oprot.WriteFieldEnd();
+            }
+            if (OtherProp != null && __isset.otherProp)
+            {
+                field.Name = "otherProp";
+                field.Type = TType.Map;
+                field.ID = 6;
+                oprot.WriteFieldBegin(field);
+                {
+                    oprot.WriteMapBegin(new TMap(TType.I32, TType.I32, OtherProp.Count));
+                    foreach (int _iter17 in OtherProp.Keys)
+                    {
+                        oprot.WriteI32(_iter17);
+                        oprot.WriteI32(OtherProp[_iter17]);
+                    }
+                    oprot.WriteMapEnd();
+                }
+                oprot.WriteFieldEnd();
+            }
+            if (__isset.activeSkillId)
+            {
+                field.Name = "activeSkillId";
+                field.Type = TType.I32;
+                field.ID = 7;
+                oprot.WriteFieldBegin(field);
+                oprot.WriteI32(ActiveSkillId);
+                oprot.WriteFieldEnd();
+            }
+            if (__isset.leaderSkill)
+            {
+                field.Name = "leaderSkill";
+                field.Type = TType.I32;
+                field.ID = 8;
+                oprot.WriteFieldBegin(field);
+                oprot.WriteI32(LeaderSkill);
+                oprot.WriteFieldEnd();
+            }
+            if (AllSkill != null && __isset.allSkill)
+            {
+                field.Name = "allSkill";
+                field.Type = TType.List;
+                field.ID = 9;
+                oprot.WriteFieldBegin(field);
+                {
+                    oprot.WriteListBegin(new TList(TType.I32, AllSkill.Count));
+                    foreach (int _iter18 in AllSkill)
+                    {
+                        oprot.WriteI32(_iter18);
+                    }
+                    oprot.WriteListEnd();
+                }
+                oprot.WriteFieldEnd();
+            }
+            oprot.WriteFieldStop();
+            oprot.WriteStructEnd();
+        }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder("BattleMsgHero(");
+            sb.Append("Index: ");
+            sb.Append(Index);
+            sb.Append(",TemplateId: ");
+            sb.Append(TemplateId);
+            sb.Append(",JobId: ");
+            sb.Append(JobId);
+            sb.Append(",HeroType: ");
+            sb.Append(HeroType);
+            sb.Append(",FighteProp: ");
+            sb.Append(FighteProp);
+            sb.Append(",OtherProp: ");
+            sb.Append(OtherProp);
+            sb.Append(",ActiveSkillId: ");
+            sb.Append(ActiveSkillId);
+            sb.Append(",LeaderSkill: ");
+            sb.Append(LeaderSkill);
+            sb.Append(",AllSkill: ");
+            sb.Append(AllSkill);
+            sb.Append(")");
+            return sb.ToString();
+        }
+
+        public void WriteClass(StreamWriter writer, string className)
+        {
+            writer.Write(className);
+            writer.Write(BasicName);
+            PersistenceFileIOHandler.WriteBasic(writer, Index);
+            PersistenceFileIOHandler.WriteBasic(writer, TemplateId);
+            PersistenceFileIOHandler.WriteBasic(writer, JobId);
+            PersistenceFileIOHandler.WriteBasic(writer, HeroType);
+            PersistenceFileIOHandler.WriteBasic(writer, ActiveSkillId);
+            PersistenceFileIOHandler.WriteBasic(writer, LeaderSkill);
+
+            writer.Write(ISSetName);
+            PersistenceFileIOHandler.WriteBasic(writer, __isset.index);
+            PersistenceFileIOHandler.WriteBasic(writer, __isset.templateId);
+            PersistenceFileIOHandler.WriteBasic(writer, __isset.jobId);
+            PersistenceFileIOHandler.WriteBasic(writer, __isset.heroType);
+            PersistenceFileIOHandler.WriteBasic(writer, __isset.fighteProp);
+            PersistenceFileIOHandler.WriteBasic(writer, __isset.otherProp);
+            PersistenceFileIOHandler.WriteBasic(writer, __isset.activeSkillId);
+            PersistenceFileIOHandler.WriteBasic(writer, __isset.leaderSkill);
+            PersistenceFileIOHandler.WriteBasic(writer, __isset.allSkill);
+
+            PersistenceFileIOHandler.WriteDic(writer, FighterPropDictionaryName, FighteProp);
+            PersistenceFileIOHandler.WriteList(writer, AllSkillListName, AllSkill);
+            PersistenceFileIOHandler.WriteDic(writer, OtherPropDictionaryName, OtherProp);
+        }
+
+        public void ReadClass(string value)
+        {
+            string[] splitStrings = new string[] { BasicName, ISSetName, FighterPropDictionaryName, AllSkillListName, OtherPropDictionaryName };
+            string[] outStrings = value.Split(splitStrings, StringSplitOptions.RemoveEmptyEntries);
+            int outStringsCount = PersistenceFileIOHandler.CheckCount(outStrings, FieldCount-1, FieldCount);
+
+            string[] splitedBasic = outStrings[0].Split(new char[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
+            PersistenceFileIOHandler.CheckCount(splitedBasic, BasicFieldCount);
+            Index = int.Parse(splitedBasic[0]);
+            TemplateId = int.Parse(splitedBasic[1]);
+            JobId = int.Parse(splitedBasic[2]);
+            HeroType = int.Parse(splitedBasic[3]);
+            ActiveSkillId = int.Parse(splitedBasic[4]);
+            LeaderSkill = int.Parse(splitedBasic[5]);
+
+            string[] splitedISet = outStrings[1].Split(new char[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
+            PersistenceFileIOHandler.CheckCount(splitedISet, ISSetCount);
+            __isset.index = bool.Parse(splitedISet[0]);
+            __isset.templateId = bool.Parse(splitedISet[1]);
+            __isset.jobId = bool.Parse(splitedISet[2]);
+            __isset.heroType = bool.Parse(splitedISet[3]);
+            __isset.fighteProp = bool.Parse(splitedISet[4]);
+            __isset.otherProp = bool.Parse(splitedISet[5]);
+            __isset.activeSkillId = bool.Parse(splitedISet[6]);
+            __isset.leaderSkill = bool.Parse(splitedISet[7]);
+            __isset.allSkill = bool.Parse(splitedISet[8]);
+
+            string[] splitedFighterProp = outStrings[2].Split(new char[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
+            if (splitedFighterProp.Length % 2 != 0)
+            {
+                Logger.LogError("Not correct strings num.");
+                throw new Exception("ReadFighterPropDic: Not couple strings num");
+            }
+            FighteProp = PersistenceFileIOHandler.ReadDic<int, int>(splitedFighterProp, 0, splitedFighterProp.Length - 1);
+
+            string[] splitedAllSkillList = outStrings[3].Split(new char[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
+            AllSkill = PersistenceFileIOHandler.ReadList<int>(splitedAllSkillList, 0, splitedAllSkillList.Length - 1);
+
+            if (outStringsCount==5)
+            {
+                string[] splitedOtherProp = outStrings[4].Split(new char[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
+                if (splitedOtherProp.Length % 2 != 0)
+                {
+                    Logger.LogError("Not correct strings num.");
+                    throw new Exception("ReadOtherPropDic: Not couple strings num");
+                }
+                if (splitedOtherProp.Length != 0)
+                {
+                    OtherProp = PersistenceFileIOHandler.ReadDic<int, int>(splitedOtherProp, 0, splitedOtherProp.Length - 1);
+                }
+            }
+            else if(outStringsCount==4)
+            {
+                Logger.LogWarning("A OtherPropDictionary is empty.");
+            }
+        }
+    }
 
 }

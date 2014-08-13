@@ -66,6 +66,7 @@ public class BattleWinWindow : Window
     private GameObject BtnCancelFriend;
 
     private GameObject FriendNameLanel;
+    private GameObject FriendHeadSprite;
 
     //private GameObject ProgressBarExp;
 
@@ -94,7 +95,7 @@ public class BattleWinWindow : Window
 
     public override void OnExit()
     {
-        
+        BattleResultHelper.Cleanup();
     }
 
     private void OnEnterHandler()
@@ -310,6 +311,14 @@ public class BattleWinWindow : Window
             PopupAddFriend.SetActive(true);
             var lb = FriendNameLanel.GetComponent<UILabel>();
             lb.text = MissionModelLocator.Instance.FriendData.Data.FriendName;
+            var sp = FriendHeadSprite.GetComponent<UISprite>();
+            int k = 0;
+            if (MissionModelLocator.Instance.FriendData.Data.HeroProp.Count > 0)
+            {
+                k = MissionModelLocator.Instance.FriendData.Data.HeroProp[0].HeroTemplateId % 14;
+            }
+            
+            sp.spriteName = "head_" + k;
             CanClick = false;
             //Alert.Show(AssertionWindow.Type.OkCancel, "系统提示", "你要添加“" + MissionModelLocator.Instance.FriendData.Data.FriendName + "”为好友吗？", AddFriendHandler);
         }
@@ -339,7 +348,7 @@ public class BattleWinWindow : Window
     /// </summary>
     public void Show()
     {
-        StartCoroutine("ShowBattleWin");
+        StartCoroutine(ShowBattleWin());
     }
 
     private IEnumerator ShowItemStep()
@@ -444,21 +453,11 @@ public class BattleWinWindow : Window
 
     private void ShowEnd()
     {
-        var currentScreen = WindowManager.Instance.CurrentWindowMap[WindowGroupType.Screen];
-        var battlemanager = currentScreen.GetComponent<InitBattleField>();
-        if (battlemanager != null)
-        {
-            battlemanager.ResetBattle();
-        }
-
-        // [NOTE:] Clear history window at this point.
-        WindowManager.Instance.ClearHistory();
-
         WindowManager.Instance.Show(WindowGroupType.Popup, false);
-        WindowManager.Instance.Show(typeof(UIMainScreenWindow), true);
-        WindowManager.Instance.Show(typeof(MainMenuBarWindow), true);
-        WindowManager.Instance.Show(typeof(MissionTabWindow), true);
-
+//        WindowManager.Instance.Show(typeof(UIMainScreenWindow), true);
+//        WindowManager.Instance.Show(typeof(MainMenuBarWindow), true);
+        //WindowManager.Instance.Show(typeof(RaidsWindow), true);
+        MissionModelLocator.Instance.ShowRaidWindow();
         OnExitHandler();
     }
 
@@ -504,6 +503,7 @@ public class BattleWinWindow : Window
         BtnCancelFriend = transform.FindChild("Container add friend/Button cancel").gameObject;
 
         FriendNameLanel = transform.FindChild("Container add friend/Label name").gameObject;
+        FriendHeadSprite = transform.FindChild("Container add friend/Sprite head").gameObject;
 
         BattleAgainUIEventListener = UIEventListener.Get(BtnBattleAgain);
         NextRaidUIEventListener = UIEventListener.Get(BtnNextRaid);
@@ -522,12 +522,13 @@ public class BattleWinWindow : Window
 
     private void BattleAgainHandler(GameObject obj)
     {
-
+        ShowEnd();
+        WindowManager.Instance.Show(typeof(SetBattleWindow), true);
     }
 
     private void NextRaidHandler(GameObject obj)
     {
-
+        ShowEnd();
     }
 
     private void BackToRaidHandler(GameObject obj)

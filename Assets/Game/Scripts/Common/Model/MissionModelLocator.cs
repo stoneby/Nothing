@@ -1,4 +1,6 @@
-﻿using KXSGCodec;
+﻿using System.IO;
+using System.Xml.Serialization;
+using KXSGCodec;
 using System;
 using System.Collections.Generic;
 using Template.Auto.Raid;
@@ -8,37 +10,55 @@ using Object = UnityEngine.Object;
 #if !SILVERLIGHT
 [Serializable]
 #endif
-
 public sealed class MissionModelLocator
 {
+    private const int FieldCount = 4;
+    private const int BasicFieldCount = 4;
+    private const string BasicName = "MMLBasic:";
+    private const string TotalStarDictionaryName = "TotalStarDic:";
+    private const string RaidClassName = "Raid:";
+    private const string FriendDataClassName = "FriendData:";
+
     [NonSerialized]
+    [XmlIgnore]
     public SCRaidLoadingAll RaidLoadingAll;
 
     [NonSerialized]
+    [XmlIgnore]
     public SCRaidAddtion RaidAddition;
 
     [NonSerialized]
+    [XmlIgnore]
     public string DestTime;
 
     [NonSerialized]
+    [XmlIgnore]
     public int NextRaidType = 1;
 
     [NonSerialized]
-    public int CurrRaidType = 0;
+    [XmlIgnore]
+    public int CurrRaidType = 1;
 
     public RaidInfo Raid;
 
     [NonSerialized]
+    [XmlIgnore]
     public SCRaidQueryFriend FriendsMsg;
 
     public FriendVO FriendData;
 
     public int SelectedStageId;
+    public string SelectRaidName;
+    public string SelectStageName;
+    public int SelectStageNeedEnegry;
+    public string SelectStageCountStr;
 
     [NonSerialized]
+    [XmlIgnore]
     public int MissionStep;
 
     [NonSerialized]
+    [XmlIgnore]
     public SCRaidReward BattleReward;
 
     public int OldExp;
@@ -46,34 +66,20 @@ public sealed class MissionModelLocator
     public int StarCount;
 
     [NonSerialized]
+    [XmlIgnore]
     public bool ShowAddFriendAlert = false;
 
-    [NonSerialized]
     private const int FirstTime = 8;
-
-    [NonSerialized]
     private const int SecondTime = 16;
-
-    [NonSerialized]
     private const int ThirdTime = 24;
-
-    [NonSerialized]
     private static volatile MissionModelLocator instance;
-
-    [NonSerialized]
     private static readonly object SyncRoot = new Object();
-
-    [NonSerialized]
     private Raid raidTemplates;
-
-    [NonSerialized]
     private List<RaidInfo> raidInfoElite;
-
-    [NonSerialized]
     private List<RaidInfo> raidInfoMaster;
-
-    [NonSerialized]
     private const string RaidTemlatePath = "Templates/Raid";
+    public List<MapVO> RaidMaps;
+    public List<MapVO> StageMaps;
 
     private MissionModelLocator() { }
 
@@ -94,6 +100,7 @@ public sealed class MissionModelLocator
         set { instance = value; }
     }
 
+    [XmlIgnore]
     public Raid RaidTemplates
     {
         get { return raidTemplates ?? (raidTemplates = Utils.Decode<Raid>(RaidTemlatePath)); }
@@ -280,6 +287,20 @@ public sealed class MissionModelLocator
         }
     }
 
+    public void ShowRaidWindow()
+    {
+        if (Instance.RaidLoadingAll == null)
+        {
+            var csmsg = new CSRaidLoadingAll();
+            NetManager.SendMessage(csmsg);
+        }
+        else
+        {
+            WindowManager.Instance.Show(typeof(RaidsWindow), true);
+            //WindowManager.Instance.Show<MainMenuBarWindow>(false);
+        }
+    }
+
     public void SetCurrentRaids(List<RaidInfo> raids)
     {
         switch (CurrRaidType)
@@ -298,9 +319,12 @@ public sealed class MissionModelLocator
                 break;
         }
     }
+
     [NonSerialized]
+    [XmlIgnore]
     public Dictionary<int, int> TotalStageCount;
 
+    [XmlIgnore]
     public Dictionary<int, int> TotalStarCount;
 
     public void ComputeStagecount()
@@ -440,5 +464,54 @@ public sealed class MissionModelLocator
             }
             SetCurrentRaids(raids);
         }
+    }
+
+    public void WriteClass(StreamWriter writer, string className)
+    {
+        writer.Write(className);
+        writer.Write(BasicName);
+        PersistenceFileIOHandler.WriteBasic(writer, SelectedStageId);
+        PersistenceFileIOHandler.WriteBasic(writer, OldExp);
+        PersistenceFileIOHandler.WriteBasic(writer, OldLevel);
+        PersistenceFileIOHandler.WriteBasic(writer, StarCount);
+        Raid.WriteClass(writer, RaidClassName);
+        FriendData.WriteClass(writer, FriendDataClassName);
+        PersistenceFileIOHandler.WriteDic(writer, TotalStarDictionaryName, TotalStarCount);
+    }
+
+    public void ReadClass(string value)
+    {
+        string[] splitStrings = new string[] { BasicName, RaidClassName, FriendDataClassName, TotalStarDictionaryName };
+        string[] outStrings = value.Split(splitStrings, StringSplitOptions.RemoveEmptyEntries);
+        PersistenceFileIOHandler.CheckCount(outStrings,FieldCount-1,FieldCount);
+
+        string[] splitedBasic = outStrings[0].Split(new char[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
+        PersistenceFileIOHandler.CheckCount(splitedBasic,BasicFieldCount);
+        SelectedStageId = int.Parse(splitedBasic[0]);
+        OldExp = int.Parse(splitedBasic[1]);
+        OldLevel = int.Parse(splitedBasic[2]);
+        StarCount = int.Parse(splitedBasic[3]);
+
+        Raid=new RaidInfo();
+        Raid.ReadClass(outStrings[1]);
+
+        FriendData=new FriendVO();
+        FriendData.ReadClass(outStrings[2]);
+
+        if (outStrings.Length == FieldCount)
+        {
+            string[] splitedTotalStarDic = outStrings[3].Split(new char[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
+            if (splitedTotalStarDic.Length % 2 != 0)
+            {
+                Logger.LogError("Not correct string num!");
+                throw new Exception("ReadTotalStarDic: Not couple strings num");
+            }
+            TotalStarCount = PersistenceFileIOHandler.ReadDic<int, int>(splitedTotalStarDic, 0, splitedTotalStarDic.Length - 1);
+        }
+        else
+        {
+            Logger.LogWarning("A TotalStarCountDic is empty.");
+        }
+
     }
 }

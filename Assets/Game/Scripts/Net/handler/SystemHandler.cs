@@ -25,7 +25,7 @@ namespace Assets.Game.Scripts.Net.handler
 
         private static void AlertHandler(GameObject sender = null)
         {
-            WindowManager.Instance.Show(typeof(MainMenuBarWindow), false);
+            //WindowManager.Instance.Show(typeof(MainMenuBarWindow), false);
             WindowManager.Instance.Show(typeof(LoginWindow), true);
             WindowManager.Instance.Show(false);
         }

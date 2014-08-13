@@ -24,6 +24,8 @@ namespace com.kx.sglm.gs.battle.share.buff
 
 		private BattleFighter owner;
 
+		private bool permanent;
+
 		/// <summary>
 		/// buff叠加层数列表 </summary>
 		private LinkedList<BuffStackInfo> stackingList;
@@ -36,6 +38,7 @@ namespace com.kx.sglm.gs.battle.share.buff
 			this.owner = owner;
 			this.stackingList = new LinkedList<BuffStackInfo>();
 			this.paramMap = new Dictionary<int, int>();
+			this.permanent = buffAction.CDRound <= 0;
 		}
 
 		private void addStackingRound()
@@ -146,7 +149,15 @@ namespace com.kx.sglm.gs.battle.share.buff
 		{
 			get
 			{
-				return buffAction.CDRound <= 0;
+				return permanent;
+			}
+		}
+
+		public virtual bool Permanent
+		{
+			set
+			{
+				this.permanent = value;
 			}
 		}
 

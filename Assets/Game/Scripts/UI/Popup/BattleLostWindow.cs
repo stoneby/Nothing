@@ -51,24 +51,18 @@ public class BattleLostWindow : Window
         if (BackToRaidUIEventListener != null) BackToRaidUIEventListener.onClick -= BackToRaidHandler;
         if (ToHeroUIEventListener != null) ToHeroUIEventListener.onClick -= ToHeroHandler;
 
-        //base.OnExit();
-        //Logger.Log("I am OnExit with type - " + GetType().Name);
+        BattleResultHelper.Cleanup();
+
         MtaManager.TrackEndPage(MtaType.BattleFailWindow);
     }
 
     private void ReturnHandler(GameObject obj)
     {
-        var currentScreen = WindowManager.Instance.CurrentWindowMap[WindowGroupType.Screen];
-        var battlemanager = currentScreen.GetComponent<InitBattleField>();
-        battlemanager.ResetBattle();
-
-        // [NOTE:] Clear history window at this point.
-        WindowManager.Instance.ClearHistory();
-
         WindowManager.Instance.Show(WindowGroupType.Popup, false);
-        WindowManager.Instance.Show(typeof(UIMainScreenWindow), true);
-        WindowManager.Instance.Show(typeof(MainMenuBarWindow), true);
-        //WindowManager.Instance.Show(typeof(MissionTabWindow), true);
+//        WindowManager.Instance.Show(typeof(UIMainScreenWindow), true);
+//        WindowManager.Instance.Show(typeof(MainMenuBarWindow), true);
+        MissionModelLocator.Instance.ShowRaidWindow();
+        //WindowManager.Instance.Show(typeof(RaidsWindow), true);
     }
 
     private void ToEquipHandler(GameObject obj)
@@ -78,17 +72,11 @@ public class BattleLostWindow : Window
 
     private void BackToRaidHandler(GameObject obj)
     {
-        var currentScreen = WindowManager.Instance.CurrentWindowMap[WindowGroupType.Screen];
-        var battlemanager = currentScreen.GetComponent<InitBattleField>();
-        battlemanager.ResetBattle();
-
-        // [NOTE:] Clear history window at this point.
-        WindowManager.Instance.ClearHistory();
-
         WindowManager.Instance.Show(WindowGroupType.Popup, false);
-        WindowManager.Instance.Show(typeof(UIMainScreenWindow), true);
-        WindowManager.Instance.Show(typeof(MainMenuBarWindow), true);
-        WindowManager.Instance.Show(typeof(MissionTabWindow), true);
+        //WindowManager.Instance.Show(typeof(UIMainScreenWindow), true);
+        //WindowManager.Instance.Show(typeof(MainMenuBarWindow), true);
+        //WindowManager.Instance.Show(typeof(RaidsWindow), true);
+        MissionModelLocator.Instance.ShowRaidWindow();
     }
 
     private void ToHeroHandler(GameObject obj)

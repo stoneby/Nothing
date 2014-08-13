@@ -116,7 +116,7 @@ public class TeamFormationController : MonoBehaviour
             var spawnObject = NGUITools.AddChild(gameObject, FormationPrefab);
             spawnObject.name = string.Format("{0}_{1}", FormationPrefab.name, counter++);
             SpawnList.Add(spawnObject);
-            Debug.Log("Add spawn object: " + spawnObject.name);
+            Logger.Log("Add spawn object: " + spawnObject.name);
         }
     }
     

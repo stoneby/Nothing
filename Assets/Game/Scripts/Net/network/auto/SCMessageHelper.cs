@@ -152,6 +152,10 @@ namespace KXSGCodec
             {
                 return new SCPlayerInfoMsg();
             }
+			            if (type == MessageType.SC_RANDOM_CHAR_NAME_MSG.GetHashCode())
+            {
+                return new SCRandomCharNameMsg();
+            }
 			            if (type == MessageType.SC_RECHARGE_ID_MSG.GetHashCode())
             {
                 return new SCRechargeIdMsg();

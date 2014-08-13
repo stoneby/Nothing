@@ -17,7 +17,8 @@ namespace Assets.Game.Scripts.Net.handler
                     HeroModelLocator.AlreadyRequest = true;
                     if(HeroModelLocator.Instance.GetHeroPos == RaidType.GetHeroInBattle)
                     {
-                        WindowManager.Instance.Show<BattleConfirmTabWindow>(true);                
+                        WindowManager.Instance.Show<SetBattleWindow>(true);
+                        //WindowManager.Instance.Show<RaidsWindow>(false);    
                     }
                     else if(HeroModelLocator.Instance.GetHeroPos == RaidType.GetHeroInHeroPanel)
                     {

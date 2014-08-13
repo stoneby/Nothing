@@ -24,6 +24,8 @@ namespace Template.Auto.Raid
   public partial class RaidTemplate : TBase
   {
     private int _id;
+    private int _bigMap;
+    private int _smallMap;
     private string _raidName;
     private string _raidDesc;
     private int _raidType;
@@ -41,6 +43,38 @@ namespace Template.Auto.Raid
       {
         __isset.id = true;
         this._id = value;
+      }
+    }
+
+    /// <summary>
+    /// 大地图
+    /// </summary>
+    public int BigMap
+    {
+      get
+      {
+        return _bigMap;
+      }
+      set
+      {
+        __isset.bigMap = true;
+        this._bigMap = value;
+      }
+    }
+
+    /// <summary>
+    /// 小地图
+    /// </summary>
+    public int SmallMap
+    {
+      get
+      {
+        return _smallMap;
+      }
+      set
+      {
+        __isset.smallMap = true;
+        this._smallMap = value;
       }
     }
 
@@ -147,6 +181,8 @@ namespace Template.Auto.Raid
     #endif
     public struct Isset {
       public bool id;
+      public bool bigMap;
+      public bool smallMap;
       public bool raidName;
       public bool raidDesc;
       public bool raidType;
@@ -178,41 +214,55 @@ namespace Template.Auto.Raid
             }
             break;
           case 2:
+            if (field.Type == TType.I32) {
+              BigMap = iprot.ReadI32();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 3:
+            if (field.Type == TType.I32) {
+              SmallMap = iprot.ReadI32();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 4:
             if (field.Type == TType.String) {
               RaidName = iprot.ReadString();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
             break;
-          case 3:
+          case 5:
             if (field.Type == TType.String) {
               RaidDesc = iprot.ReadString();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
             break;
-          case 4:
+          case 6:
             if (field.Type == TType.I32) {
               RaidType = iprot.ReadI32();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
             break;
-          case 5:
+          case 7:
             if (field.Type == TType.I32) {
               MapId = iprot.ReadI32();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
             break;
-          case 6:
+          case 8:
             if (field.Type == TType.I32) {
               OpenLvl = iprot.ReadI32();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
             break;
-          case 7:
+          case 9:
             if (field.Type == TType.I32) {
               AllStarRewardItem = iprot.ReadI32();
             } else { 
@@ -240,10 +290,26 @@ namespace Template.Auto.Raid
         oprot.WriteI32(Id);
         oprot.WriteFieldEnd();
       }
+      if (__isset.bigMap) {
+        field.Name = "bigMap";
+        field.Type = TType.I32;
+        field.ID = 2;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteI32(BigMap);
+        oprot.WriteFieldEnd();
+      }
+      if (__isset.smallMap) {
+        field.Name = "smallMap";
+        field.Type = TType.I32;
+        field.ID = 3;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteI32(SmallMap);
+        oprot.WriteFieldEnd();
+      }
       if (RaidName != null && __isset.raidName) {
         field.Name = "raidName";
         field.Type = TType.String;
-        field.ID = 2;
+        field.ID = 4;
         oprot.WriteFieldBegin(field);
         oprot.WriteString(RaidName);
         oprot.WriteFieldEnd();
@@ -251,7 +317,7 @@ namespace Template.Auto.Raid
       if (RaidDesc != null && __isset.raidDesc) {
         field.Name = "raidDesc";
         field.Type = TType.String;
-        field.ID = 3;
+        field.ID = 5;
         oprot.WriteFieldBegin(field);
         oprot.WriteString(RaidDesc);
         oprot.WriteFieldEnd();
@@ -259,7 +325,7 @@ namespace Template.Auto.Raid
       if (__isset.raidType) {
         field.Name = "raidType";
         field.Type = TType.I32;
-        field.ID = 4;
+        field.ID = 6;
         oprot.WriteFieldBegin(field);
         oprot.WriteI32(RaidType);
         oprot.WriteFieldEnd();
@@ -267,7 +333,7 @@ namespace Template.Auto.Raid
       if (__isset.mapId) {
         field.Name = "mapId";
         field.Type = TType.I32;
-        field.ID = 5;
+        field.ID = 7;
         oprot.WriteFieldBegin(field);
         oprot.WriteI32(MapId);
         oprot.WriteFieldEnd();
@@ -275,7 +341,7 @@ namespace Template.Auto.Raid
       if (__isset.openLvl) {
         field.Name = "openLvl";
         field.Type = TType.I32;
-        field.ID = 6;
+        field.ID = 8;
         oprot.WriteFieldBegin(field);
         oprot.WriteI32(OpenLvl);
         oprot.WriteFieldEnd();
@@ -283,7 +349,7 @@ namespace Template.Auto.Raid
       if (__isset.allStarRewardItem) {
         field.Name = "allStarRewardItem";
         field.Type = TType.I32;
-        field.ID = 7;
+        field.ID = 9;
         oprot.WriteFieldBegin(field);
         oprot.WriteI32(AllStarRewardItem);
         oprot.WriteFieldEnd();
@@ -296,6 +362,10 @@ namespace Template.Auto.Raid
       StringBuilder sb = new StringBuilder("RaidTemplate(");
       sb.Append("Id: ");
       sb.Append(Id);
+      sb.Append(",BigMap: ");
+      sb.Append(BigMap);
+      sb.Append(",SmallMap: ");
+      sb.Append(SmallMap);
       sb.Append(",RaidName: ");
       sb.Append(RaidName);
       sb.Append(",RaidDesc: ");

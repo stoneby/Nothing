@@ -9,6 +9,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
+using System.Xml.Serialization;
 using Thrift;
 using Thrift.Collections;
 using System.Runtime.Serialization;
@@ -18,186 +19,240 @@ using Thrift.Transport;
 namespace KXSGCodec
 {
 
-  /// <summary>
-  /// 怪物武将信息
-  /// </summary>
-  #if !SILVERLIGHT
-  [Serializable]
-  #endif
-  public partial class BattleMsgMonster : TBase
-  {
-    private int _index;
-    private int _templateId;
-    private Dictionary<sbyte, int> _dropMap;
-
     /// <summary>
-    /// 位置Index
+    /// 怪物武将信息
     /// </summary>
-    public int Index
-    {
-      get
-      {
-        return _index;
-      }
-      set
-      {
-        __isset.index = true;
-        this._index = value;
-      }
-    }
-
-    /// <summary>
-    /// 怪物模板ID
-    /// </summary>
-    public int TemplateId
-    {
-      get
-      {
-        return _templateId;
-      }
-      set
-      {
-        __isset.templateId = true;
-        this._templateId = value;
-      }
-    }
-
-    /// <summary>
-    /// 战斗掉落
-    /// </summary>
-    public Dictionary<sbyte, int> DropMap
-    {
-      get
-      {
-        return _dropMap;
-      }
-      set
-      {
-        __isset.dropMap = true;
-        this._dropMap = value;
-      }
-    }
-
-
-    public Isset __isset;
-    #if !SILVERLIGHT
+#if !SILVERLIGHT
     [Serializable]
-    #endif
-    public struct Isset {
-      public bool index;
-      public bool templateId;
-      public bool dropMap;
-    }
-
-    public BattleMsgMonster() {
-    }
-
-    public void Read (TProtocol iprot)
+#endif
+    public partial class BattleMsgMonster : TBase
     {
-      TField field;
-      iprot.ReadStructBegin();
-      while (true)
-      {
-        field = iprot.ReadFieldBegin();
-        if (field.Type == TType.Stop) { 
-          break;
-        }
-        switch (field.ID)
+        private const int BasicCount = 5;
+
+        private int _index;
+        private int _templateId;
+        private Dictionary<sbyte, int> _dropMap;
+
+        /// <summary>
+        /// 位置Index
+        /// </summary>
+        public int Index
         {
-          case 1:
-            if (field.Type == TType.I32) {
-              Index = iprot.ReadI32();
-            } else { 
-              TProtocolUtil.Skip(iprot, field.Type);
+            get
+            {
+                return _index;
             }
-            break;
-          case 2:
-            if (field.Type == TType.I32) {
-              TemplateId = iprot.ReadI32();
-            } else { 
-              TProtocolUtil.Skip(iprot, field.Type);
+            set
+            {
+                __isset.index = true;
+                this._index = value;
             }
-            break;
-          case 3:
-            if (field.Type == TType.Map) {
-              {
-                DropMap = new Dictionary<sbyte, int>();
-                TMap _map0 = iprot.ReadMapBegin();
-                for( int _i1 = 0; _i1 < _map0.Count; ++_i1)
+        }
+
+        /// <summary>
+        /// 怪物模板ID
+        /// </summary>
+        public int TemplateId
+        {
+            get
+            {
+                return _templateId;
+            }
+            set
+            {
+                __isset.templateId = true;
+                this._templateId = value;
+            }
+        }
+
+        /// <summary>
+        /// 战斗掉落
+        /// </summary>
+        [XmlIgnore]
+        public Dictionary<sbyte, int> DropMap
+        {
+            get
+            {
+                return _dropMap;
+            }
+            set
+            {
+                __isset.dropMap = true;
+                this._dropMap = value;
+            }
+        }
+
+
+        public Isset __isset;
+#if !SILVERLIGHT
+        [Serializable]
+#endif
+        public struct Isset
+        {
+            public bool index;
+            public bool templateId;
+            public bool dropMap;
+        }
+
+        public BattleMsgMonster()
+        {
+        }
+
+        public void Read(TProtocol iprot)
+        {
+            TField field;
+            iprot.ReadStructBegin();
+            while (true)
+            {
+                field = iprot.ReadFieldBegin();
+                if (field.Type == TType.Stop)
                 {
-                  sbyte _key2;
-                  int _val3;
-                  _key2 = iprot.ReadByte();
-                  _val3 = iprot.ReadI32();
-                  DropMap[_key2] = _val3;
+                    break;
                 }
-                iprot.ReadMapEnd();
-              }
-            } else { 
-              TProtocolUtil.Skip(iprot, field.Type);
+                switch (field.ID)
+                {
+                    case 1:
+                        if (field.Type == TType.I32)
+                        {
+                            Index = iprot.ReadI32();
+                        }
+                        else
+                        {
+                            TProtocolUtil.Skip(iprot, field.Type);
+                        }
+                        break;
+                    case 2:
+                        if (field.Type == TType.I32)
+                        {
+                            TemplateId = iprot.ReadI32();
+                        }
+                        else
+                        {
+                            TProtocolUtil.Skip(iprot, field.Type);
+                        }
+                        break;
+                    case 3:
+                        if (field.Type == TType.Map)
+                        {
+                            {
+                                DropMap = new Dictionary<sbyte, int>();
+                                TMap _map0 = iprot.ReadMapBegin();
+                                for (int _i1 = 0; _i1 < _map0.Count; ++_i1)
+                                {
+                                    sbyte _key2;
+                                    int _val3;
+                                    _key2 = iprot.ReadByte();
+                                    _val3 = iprot.ReadI32();
+                                    DropMap[_key2] = _val3;
+                                }
+                                iprot.ReadMapEnd();
+                            }
+                        }
+                        else
+                        {
+                            TProtocolUtil.Skip(iprot, field.Type);
+                        }
+                        break;
+                    default:
+                        TProtocolUtil.Skip(iprot, field.Type);
+                        break;
+                }
+                iprot.ReadFieldEnd();
             }
-            break;
-          default: 
-            TProtocolUtil.Skip(iprot, field.Type);
-            break;
+            iprot.ReadStructEnd();
         }
-        iprot.ReadFieldEnd();
-      }
-      iprot.ReadStructEnd();
-    }
 
-    public void Write(TProtocol oprot) {
-      TStruct struc = new TStruct("BattleMsgMonster");
-      oprot.WriteStructBegin(struc);
-      TField field = new TField();
-      if (__isset.index) {
-        field.Name = "index";
-        field.Type = TType.I32;
-        field.ID = 1;
-        oprot.WriteFieldBegin(field);
-        oprot.WriteI32(Index);
-        oprot.WriteFieldEnd();
-      }
-      if (__isset.templateId) {
-        field.Name = "templateId";
-        field.Type = TType.I32;
-        field.ID = 2;
-        oprot.WriteFieldBegin(field);
-        oprot.WriteI32(TemplateId);
-        oprot.WriteFieldEnd();
-      }
-      if (DropMap != null && __isset.dropMap) {
-        field.Name = "dropMap";
-        field.Type = TType.Map;
-        field.ID = 3;
-        oprot.WriteFieldBegin(field);
+        public void Write(TProtocol oprot)
         {
-          oprot.WriteMapBegin(new TMap(TType.Byte, TType.I32, DropMap.Count));
-          foreach (sbyte _iter4 in DropMap.Keys)
-          {
-            oprot.WriteByte(_iter4);
-            oprot.WriteI32(DropMap[_iter4]);
-          }
-          oprot.WriteMapEnd();
+            TStruct struc = new TStruct("BattleMsgMonster");
+            oprot.WriteStructBegin(struc);
+            TField field = new TField();
+            if (__isset.index)
+            {
+                field.Name = "index";
+                field.Type = TType.I32;
+                field.ID = 1;
+                oprot.WriteFieldBegin(field);
+                oprot.WriteI32(Index);
+                oprot.WriteFieldEnd();
+            }
+            if (__isset.templateId)
+            {
+                field.Name = "templateId";
+                field.Type = TType.I32;
+                field.ID = 2;
+                oprot.WriteFieldBegin(field);
+                oprot.WriteI32(TemplateId);
+                oprot.WriteFieldEnd();
+            }
+            if (DropMap != null && __isset.dropMap)
+            {
+                field.Name = "dropMap";
+                field.Type = TType.Map;
+                field.ID = 3;
+                oprot.WriteFieldBegin(field);
+                {
+                    oprot.WriteMapBegin(new TMap(TType.Byte, TType.I32, DropMap.Count));
+                    foreach (sbyte _iter4 in DropMap.Keys)
+                    {
+                        oprot.WriteByte(_iter4);
+                        oprot.WriteI32(DropMap[_iter4]);
+                    }
+                    oprot.WriteMapEnd();
+                }
+                oprot.WriteFieldEnd();
+            }
+            oprot.WriteFieldStop();
+            oprot.WriteStructEnd();
         }
-        oprot.WriteFieldEnd();
-      }
-      oprot.WriteFieldStop();
-      oprot.WriteStructEnd();
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder("BattleMsgMonster(");
+            sb.Append("Index: ");
+            sb.Append(Index);
+            sb.Append(",TemplateId: ");
+            sb.Append(TemplateId);
+            sb.Append(",DropMap: ");
+            sb.Append(DropMap);
+            sb.Append(")");
+            return sb.ToString();
+        }
+
+        public void WriteClass(StreamWriter writer, string className)
+        {
+            writer.Write(className);
+            PersistenceFileIOHandler.WriteBasic(writer,Index);
+            PersistenceFileIOHandler.WriteBasic(writer,TemplateId);
+            PersistenceFileIOHandler.WriteBasic(writer, __isset.index);
+            PersistenceFileIOHandler.WriteBasic(writer, __isset.templateId);
+            PersistenceFileIOHandler.WriteBasic(writer, __isset.dropMap);
+            PersistenceFileIOHandler.WriteDic(writer,null ,DropMap);
+        }
+
+        public void ReadClass(string value)
+        {
+            string[] outStrings = value.Split(new char[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
+            if ((outStrings.Length - BasicCount)%2 != 0)
+            {
+                Logger.LogError("Not correct strings num.");
+                throw new Exception("ReadDropMapDic: Not couple strings num");
+            }
+
+            Index = int.Parse(outStrings[0]);
+            TemplateId = int.Parse(outStrings[1]);
+            __isset.index = bool.Parse(outStrings[2]);
+            __isset.templateId = bool.Parse(outStrings[3]);
+            __isset.dropMap = bool.Parse(outStrings[4]);
+
+            if ((outStrings.Length - BasicCount) != 0)
+            {
+                DropMap = PersistenceFileIOHandler.ReadDic<sbyte, int>(outStrings, 5, outStrings.Length - 1);
+            }
+            else
+            {
+                Logger.LogWarning("A DropMap is empty!");
+            }
+        }
     }
-
-    public override string ToString() {
-      StringBuilder sb = new StringBuilder("BattleMsgMonster(");
-      sb.Append("Index: ");
-      sb.Append(Index);
-      sb.Append(",TemplateId: ");
-      sb.Append(TemplateId);
-      sb.Append(",DropMap: ");
-      sb.Append(DropMap);
-      sb.Append(")");
-      return sb.ToString();
-    }
-
-  }
-
 }

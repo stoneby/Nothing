@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using KXSGCodec;
 using UnityEngine;
 
@@ -13,8 +14,19 @@ public class UIMainScreenWindow : Window
 
 	private UILabel gold;
 	private UILabel diamond;
-    private UILabel sprit;
+    private UILabel soul;
     private UILabel nameLabel;
+    private UILabel coins;
+
+    private UILabel level;
+    private UISlider lvlSlider;
+    private UISlider energySlider;
+
+    private const int LeaderCount = 3;
+
+    private readonly List<Transform> leaders = new List<Transform>();
+    private readonly List<int> indexs = new List<int>();
+    private readonly List<Transform> characterToolkits = new List<Transform>();
 
     #region Window
 
@@ -22,30 +34,67 @@ public class UIMainScreenWindow : Window
     {
         InstallHandlers();
 		RefreshData ();
+        SpawnAndPlay();
     }
 
     public override void OnExit()
     {
         UnstallHandlers();
+        Despawn();
     }
 
     #endregion
 
     #region Private Methods
 
+    private void Despawn()
+    {
+        foreach (var ch in characterToolkits)
+        {
+            NGUITools.SetActive(ch.gameObject, true);
+        }
+        var count = leaders.Count;
+        for(var i = count - 1; i >= 0 ; i--)
+        {
+            var character = leaders[i].GetChild(0).GetComponent<Character>();
+            character.StopState(Character.State.Idle);
+            CharacterPoolManager.Instance.CharacterPoolList[indexs[i]].Return(character.gameObject);
+        }
+        indexs.Clear();
+        characterToolkits.Clear();
+    } 
+    
+    private void SpawnAndPlay()
+    {
+        for (int i = 0; i < LeaderCount; i++)
+        {
+            var characterPoolManager = CharacterPoolManager.Instance;
+            var character = characterPoolManager.CharacterPoolList[i].Take().GetComponent<Character>();
+            character.PlayState(Character.State.Idle, true);
+            var characterToolkit = character.transform.Find("CharacterToolkit");
+            NGUITools.SetActive(characterToolkit.gameObject, false);
+            characterToolkits.Add(characterToolkit);
+            Utils.AddChild(leaders[i].gameObject, character.gameObject);
+            indexs.Add(i);
+        }
+    }
+
     // Use this for initialization
     private void Awake()
     {
-        addMoneyLis = UIEventListener.Get(Utils.FindChild(transform, "Button-AddMoney").gameObject);
-        addMp = UIEventListener.Get(Utils.FindChild(transform, "Button-AddMp").gameObject);
         startGameLis = UIEventListener.Get(Utils.FindChild(transform, "Button-Start").gameObject);
-        filpLeftLis = UIEventListener.Get(Utils.FindChild(transform, "Button-FlipL").gameObject);
-
-		diamond = transform.FindChild("Fortune/Diamond/Coins-Value").GetComponent<UILabel>();
-		gold = transform.FindChild("Fortune/Coins/Coins-Value").GetComponent<UILabel>();
-		sprit = transform.FindChild("Fortune/Souls/Coins-Value").GetComponent<UILabel>();
-        nameLabel = transform.FindChild("Info/Name - Label").GetComponent<UILabel>();
+        nameLabel = transform.FindChild("Name").GetComponent<UILabel>();
+        level = transform.FindChild("Level/LvlValue").GetComponent<UILabel>();
+        lvlSlider = transform.FindChild("Level/LvlBar").GetComponent<UISlider>();
+        var fortune = transform.FindChild("Fortune");
+        energySlider = fortune.FindChild("Energy/EnergyBar").GetComponent<UISlider>();
+        coins = fortune.FindChild("Coins/CoinsValue").GetComponent<UILabel>();
+        soul = fortune.FindChild("Soul/SoulValue").GetComponent<UILabel>();
         CommonHandler.PlayerPropertyChanged += OnPlayerPropertyChanged;
+        var leadersTran = transform.Find("Leaders");
+        leaders.Add(leadersTran.Find("MainLeader"));
+        leaders.Add(leadersTran.Find("SecondLeader"));
+        leaders.Add(leadersTran.Find("ThirdLeader"));
     }
 
     /// <summary>
@@ -58,27 +107,30 @@ public class UIMainScreenWindow : Window
 
     private void InstallHandlers()
     {
-        addMoneyLis.onClick = OnAddMoneyClicked;
-        addMp.onClick = OnAddMpClicked;
         startGameLis.onClick = OnStartGameClicked;
-        filpLeftLis.onClick = OnFlipLeftClicked;
     }
 
     private void UnstallHandlers()
     {
-        addMoneyLis.onClick = null;
-        addMp.onClick = null;
         startGameLis.onClick = null;
-        filpLeftLis.onClick = null;
     }
 
     private void RefreshData()
     {
-        if (diamond == null) return;
-        diamond.text = PlayerModelLocator.Instance.Diamond.ToString();
-        gold.text = PlayerModelLocator.Instance.Gold.ToString();
-        sprit.text = PlayerModelLocator.Instance.Sprit.ToString();
+        coins.text = PlayerModelLocator.Instance.Gold.ToString();
+        soul.text = PlayerModelLocator.Instance.Sprit.ToString();
         nameLabel.text = PlayerModelLocator.Instance.Name;
+        var curLvl = PlayerModelLocator.Instance.Level;
+        level.text = curLvl.ToString();
+        var levelTemps = LevelModelLocator.Instance.LevelUpTemplates.LevelUpTmpls;
+        if (!levelTemps.ContainsKey(curLvl))
+        {
+            Logger.LogError(string.Format("The current player level is {0}, it is not in the level up template.",curLvl));
+        }
+        var levelTemp = levelTemps[curLvl];
+        lvlSlider.value = (float)PlayerModelLocator.Instance.Exp / levelTemp.MaxExp;
+        energySlider.value = (float)PlayerModelLocator.Instance.Energy / levelTemp.MaxEnergy;
+        
     }
 
     private void OnPlayerPropertyChanged(SCPropertyChangedNumber scpropertychanged)
@@ -86,32 +138,9 @@ public class UIMainScreenWindow : Window
         RefreshData();
     }
 
-    private void OnAddMoneyClicked(GameObject go)
-    {
-        
-    }
-
-    private void OnAddMpClicked(GameObject go)
-    {
-        
-    }
-
     private void OnStartGameClicked(GameObject go)
     {
-        if (MissionModelLocator.Instance.RaidLoadingAll == null)
-        {
-            var csmsg = new CSRaidLoadingAll();
-            NetManager.SendMessage(csmsg);
-        }
-        else
-        {
-            WindowManager.Instance.Show(typeof(MissionTabWindow), true);
-        }
-    }
-
-    private void OnFlipLeftClicked(GameObject go)
-    {
-        
+        MissionModelLocator.Instance.ShowRaidWindow();  
     }
 
     #endregion

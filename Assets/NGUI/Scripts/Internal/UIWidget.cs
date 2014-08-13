@@ -34,6 +34,14 @@ public class UIWidget : UIRect
 	[HideInInspector][SerializeField] protected int mHeight = 100;
 	[HideInInspector][SerializeField] protected int mDepth = 0;
 
+
+    /// <summary>
+    /// Highlight factor for pixel texturing.
+    /// </summary>
+    [HideInInspector]
+    [SerializeField]
+    public float HighLight;
+
     /// <summary>
     /// Offset x for ladder type mesh settings.
     /// </summary>

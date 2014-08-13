@@ -42,6 +42,9 @@ public class NetworkControl : MonoBehaviour
                         case (short)MessageType.SC_BATTLE_PVE_START_MSG:
                             BattleHandler.OnBattlePveStart(msg);
                             break;
+                        case (short)MessageType.SC_ENERGY_NOT_ENOUGH:
+                            BattleHandler.OnEnergyNotEnough(msg);
+                            break;
                         case (short)MessageType.SC_HERO_LIST:
                         case (short)MessageType.SC_HERO_MODIFY_TEAM:
                         case (short)MessageType.SC_HERO_SELL:
@@ -170,15 +173,19 @@ public class NetworkControl : MonoBehaviour
                         case (short)MessageType.SC_FRIEND_DELETE_SUCC:
                             FriendHandler.OnFriendDelSucc(msg);
                             break;
+                        case(short)MessageType.SC_RANDOM_CHAR_NAME_MSG:
+                            PlayerHandler.OnRandomCharName(msg);
+                            break;
                     }
                     msg = NetManager.GetMessage();
                 }
             }
             catch (Exception e)
             {
-                PopTextManager.PopTip(string.Format("Message Parse Error.\n StackTrace:\n{0}\nMessage:\n{1}\n", e.StackTrace, e.Message));
-                Debug.Log(string.Format("Message Parse Error.\n StackTrace:\n{0}\nMessage:\n{1}\n", e.StackTrace, e.Message));
-                //throw;
+                var errorLog = string.Format("Message Parse Error.\n StackTrace:\n{0}\nMessage:\n{1}\n", e.StackTrace,
+                    e.Message);
+                PopTextManager.PopTip(errorLog);
+                Debug.LogWarning(errorLog);
             }
             
             yield return new WaitForSeconds(0.5f);

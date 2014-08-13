@@ -23,7 +23,8 @@ namespace Assets.Game.Scripts.Net.handler
             if (themsg != null)
             {
                 MissionModelLocator.Instance.RaidLoadingAll = themsg;
-                WindowManager.Instance.Show(typeof(MissionTabWindow), true);
+                WindowManager.Instance.Show(typeof(RaidsWindow), true);
+                //WindowManager.Instance.Show<MainMenuBarWindow>(false);
             }
             else
             {
@@ -36,9 +37,22 @@ namespace Assets.Game.Scripts.Net.handler
             var themsg = msg.GetContent() as SCRaidQueryFriend;
             if (themsg != null)
             {
-                var e = new FriendEvent();
-                e.RaidFriend = themsg;
-                EventManager.Instance.Post(e);
+                //var e = new FriendEvent();
+                //e.RaidFriend = themsg;
+                //EventManager.Instance.Post(e);
+                MissionModelLocator.Instance.FriendsMsg = themsg;
+
+                if (HeroModelLocator.AlreadyRequest == false)
+                {
+                    HeroModelLocator.Instance.GetHeroPos = RaidType.GetHeroInBattle;
+                    var csmsg = new CSHeroList();
+                    NetManager.SendMessage(csmsg);
+                }
+                else
+                {
+                    WindowManager.Instance.Show(typeof(SetBattleWindow), true);
+                    //WindowManager.Instance.Show<RaidsWindow>(false);
+                }
             }
             else
             {

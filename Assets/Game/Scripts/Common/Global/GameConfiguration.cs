@@ -16,6 +16,7 @@ public class GameConfiguration : Singleton<GameConfiguration>
 
     public TextAsset FeatureConfigurationText;
     public TextAsset GameConfigurationText;
+    public TextAsset RaidMapText;
 
     public ClickEffectHandler ClickEffect;
 
@@ -97,21 +98,55 @@ public class GameConfiguration : Singleton<GameConfiguration>
                 GameConfig.LocalServicePath = string.Format("{0}/{1}", Application.persistentDataPath,
                     node["LocalServicePath"].InnerText);
             }
+        }
+    }
 
-//            if (node["CookieAddress"] != null)
-//            {
-//                GameConfig.CookieAddress = string.Format("{0}/{1}", Application.persistentDataPath, node["CookieAddress"].InnerText);
-//                Logger.LogWarning("cookie path" + GameConfig.CookieAddress);
-//                if (!File.Exists(GameConfig.CookieAddress))
-//                {
-//                    var path = new FileInfo(GameConfig.CookieAddress).DirectoryName;
-//                    if (!File.Exists(path))
-//                    {
-//                        Directory.CreateDirectory(path);
-//                    }
-//                    File.Create(GameConfig.CookieAddress);
-//                }
-//            }
+    private void ReadRaidMapXml()
+    {
+        var xmlDoc = new XmlDocument();
+        xmlDoc.LoadXml(RaidMapText.text);
+        var nodeList = xmlDoc.SelectNodes("Maps");
+
+        if (nodeList == null)
+        {
+            return;
+        }
+
+        foreach (XmlNode node in nodeList)
+        {
+            if (node["Chapters"] != null)
+            {
+                //MissionModelLocator.Instance.StageMaps = new List<MapVO>();
+
+                var bigmaps = node["Chapters"].GetElementsByTagName("map");
+                if (bigmaps != null)
+                {
+                    Logger.Log("map count: " + bigmaps.Count);
+                    MissionModelLocator.Instance.RaidMaps = new List<MapVO>();
+                    for (int i = 0; i < bigmaps.Count; i++)
+                    {
+                        MissionModelLocator.Instance.RaidMaps.Add(MapVO.Parse(bigmaps[i].OuterXml));
+                    }
+                }
+                Logger.Log("map count: " + bigmaps.Count);
+            }
+
+            if (node["Raids"] != null)
+            {
+                //MissionModelLocator.Instance.StageMaps = new List<MapVO>();
+
+                var smallmaps = node["Raids"].GetElementsByTagName("map");
+                if (smallmaps != null)
+                {
+                    Logger.Log("map count: " + smallmaps.Count);
+                    MissionModelLocator.Instance.StageMaps = new List<MapVO>();
+                    for (int i = 0; i < smallmaps.Count; i++)
+                    {
+                        MissionModelLocator.Instance.StageMaps.Add(MapVO.Parse(smallmaps[i].OuterXml));
+                    }
+                }
+                Logger.Log("map count: " + smallmaps.Count);
+            }
         }
     }
 
@@ -362,6 +397,7 @@ public class GameConfiguration : Singleton<GameConfiguration>
 
         ReadFeatureConfigurationXml();
         ReadGameConfigurationXml();
+        ReadRaidMapXml();
         HandleAsyncOperation();
     }
 
