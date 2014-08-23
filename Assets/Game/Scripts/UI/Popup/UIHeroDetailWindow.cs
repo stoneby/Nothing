@@ -105,6 +105,7 @@ public class UIHeroDetailWindow : Window
             var child = equips.GetChild(i);
             heroSelItemLis.Add(UIEventListener.Get(child.gameObject));
         }
+       
     }
 
     private void InstallHandlers()

@@ -171,6 +171,11 @@ namespace KXSGCodec
             return sb.ToString();
         }
 
+        /// <summary>
+        /// Write this whole class to stream.
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="className"></param>
         public void WriteClass(StreamWriter writer, string className)
         {
             writer.Write(className);
@@ -180,6 +185,10 @@ namespace KXSGCodec
             PersistenceFileIOHandler.WriteDic(writer,null,Prop);
         }
 
+        /// <summary>
+        /// Read this whole class from string.
+        /// </summary>
+        /// <param name="value"></param>
         public void ReadClass(string value)
         {
             string[] outStrings = value.Split(new char[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);

@@ -7,11 +7,11 @@ namespace com.kx.sglm.gs.battle.share.buff.effect
 	public abstract class AbstractNormalPropEffectBuff : BasePropEffectBuff
 	{
 
-		public override void onActive(BattleFighter fighter)
+
+		public override void effectProp(BattleFighter fighter)
 		{
 			fighter.FighterProp.addBuffProp(amendTriple);
 		}
-
 
 		public override FighterStateEnum StateEnum
 		{

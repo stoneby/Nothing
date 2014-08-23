@@ -41,6 +41,11 @@ public class EnemyControl : MonoBehaviour
     public float MoveDuration;
 
     /// <summary>
+    /// High light value.
+    /// </summary>
+    public float HighLight;
+
+    /// <summary>
     /// Character data.
     /// </summary>
     public Character CharacterData;
@@ -127,6 +132,8 @@ public class EnemyControl : MonoBehaviour
     /// </summary>
     public void PlayShake()
     {
+        StopAll();
+        ResetPosition();
         iTweenEvent.GetEvent(EnemySprite, "ShakeTween").Play();
     }
 
@@ -135,17 +142,27 @@ public class EnemyControl : MonoBehaviour
     /// </summary>
     public void PlayBigShake()
     {
+        StopAll();
+        ResetPosition();
         iTweenEvent.GetEvent(EnemySprite, "ShakeBigTween").Play();
+    }
+
+    /// <summary>
+    /// Stop shake and big shake.
+    /// </summary>
+    public void StopAll()
+    {
+        iTween.Stop(gameObject);
     }
 
     /// <summary>
     /// Play attack animation.
     /// </summary>
     /// <returns>The attrack.</returns>
-    public float PlayAttrack()
+    public float PlayAttack()
     {
         StartCoroutine(DoPlayAttarck());
-        return GameConfig.MonsterAttrackStepTime * 3;
+        return GameConfig.MonsterAttackStepTime * 3;
     }
 
     /// <summary>
@@ -168,8 +185,16 @@ public class EnemyControl : MonoBehaviour
         ShowAimTo(false);
     }
 
+    public void ResetPosition()
+    {
+        EnemySprite.transform.localPosition = originalPosition;
+    }
+
     public void Move()
     {
+        StopAll();
+        ResetPosition();
+
         var distance = new Vector3(MoveDuration * MoveSpeed * BaseWidget.width, 0, 0);
         // using itween here to make consistent with texture looper, to keep in the same frame. NGUI tween has issue by eating frames.
         iTween.MoveFrom(gameObject,
@@ -183,16 +208,40 @@ public class EnemyControl : MonoBehaviour
 
     private IEnumerator DoPlayAttarck()
     {
-        var sp = EnemySprite.GetComponent<UISprite>();
-        yield return new WaitForSeconds(GameConfig.MonsterAttrackStepTime);
-        sp.spriteName = BossWhite;
-        yield return new WaitForSeconds(GameConfig.MonsterAttrackStepTime);
-        sp.spriteName = BossBlack;
-        yield return new WaitForSeconds(GameConfig.MonsterAttrackStepTime);
-        sp.spriteName = BossWhite;
-        yield return new WaitForSeconds(GameConfig.MonsterAttrackStepTime);
-        sp.spriteName = BossNormal;
+        var enemySprite = EnemySprite.GetComponent<UIWidget>();
+        yield return new WaitForSeconds(GameConfig.MonsterAttackStepTime);
+        //AttackWhite(enemySprite);
+        yield return new WaitForSeconds(GameConfig.MonsterAttackStepTime);
+        AttackBlack(enemySprite);
+        yield return new WaitForSeconds(GameConfig.MonsterAttackStepTime);
+        //AttackWhite(enemySprite);
+        yield return new WaitForSeconds(GameConfig.MonsterAttackStepTime);
+        AttackNormal(enemySprite);
     }
+
+    private void AttackBlack(UIWidget enemySprite)
+    {
+        enemySprite.color = Color.black;
+        enemySprite.HighLight = 0f;
+        enemySprite.Invalidate(true);
+        enemySprite.panel.Refresh();
+    }
+
+    private void AttackWhite(UIWidget enemySprite)
+    {
+        enemySprite.color = Color.white;
+        enemySprite.HighLight = HighLight;
+        enemySprite.Invalidate(true);
+        enemySprite.panel.Refresh();
+    }
+    private void AttackNormal(UIWidget enemySprite)
+    {
+        enemySprite.color = Color.white;
+        enemySprite.HighLight = 0f;
+        enemySprite.Invalidate(true);
+        enemySprite.panel.Refresh();
+    }
+
 
     #endregion
 

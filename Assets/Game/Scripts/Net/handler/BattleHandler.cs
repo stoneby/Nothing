@@ -23,7 +23,7 @@ namespace Assets.Game.Scripts.Net.handler
 
             if (battlestartmsg != null)
             {
-                PopTextManager.PopTip("返回战斗数据");
+                //PopTextManager.PopTip("返回战斗数据");
                 BattleCreateUtils.initBattleModeLocator(BattleModelLocator.Instance, battlestartmsg);
 
                 var factory = BattleModelLocator.Instance.Source.BattleType.Factory;
@@ -39,7 +39,7 @@ namespace Assets.Game.Scripts.Net.handler
             }
             else
             {
-                PopTextManager.PopTip("返回战斗的数据错误");
+                //PopTextManager.PopTip("返回战斗的数据错误");
             }
         }
 
@@ -52,17 +52,26 @@ namespace Assets.Game.Scripts.Net.handler
                 assertWindow.AssertType = AssertionWindow.Type.OkCancel;
                 assertWindow.Title = string.Format(LanguageManager.Instance.GetTextValue(EnergyNotEnoughKey), energyNotEnough.BuyEnergyCost);
                 assertWindow.Message = "";
-                assertWindow.OkButtonClicked += OkButtonClicked;
+                assertWindow.OkButtonClicked = OkClicked;
+                assertWindow.CancelButtonClicked = CancelClicked;
                 WindowManager.Instance.Show(typeof(AssertionWindow), true);
             }
         }
 
-        private static void OkButtonClicked(GameObject sender)
+        private static void OkClicked(GameObject sender)
         {
-            var assertWindow = WindowManager.Instance.GetWindow<AssertionWindow>();
-            assertWindow.OkButtonClicked -= OkButtonClicked;
+            UnRegist();
             var msg = new CSBuyEnergy();
             NetManager.SendMessage(msg);
+        }
+
+        private static void CancelClicked(GameObject sender)
+        {
+            UnRegist();
+        }
+
+        private static void UnRegist()
+        {
         }
     }
 }

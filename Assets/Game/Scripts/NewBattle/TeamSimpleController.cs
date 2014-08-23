@@ -5,12 +5,7 @@ public class TeamSimpleController : MonoBehaviour
 {
     #region Public Fields
 
-    public TeamFormationController FormationController;
-
-    public List<Character> CharacterList;
-    public MyPoolManager CharacterPool;
-
-    public int Total;
+    public CharacterGroupController GroupController;
 
     public bool EditMode;
 
@@ -21,6 +16,29 @@ public class TeamSimpleController : MonoBehaviour
 
     [HideInInspector]
     public Character CurrentSelect;
+
+    /// <summary>
+    /// Character list.
+    /// </summary>
+    public List<Character> CharacterList
+    {
+        get { return GroupController.CharacterList; }
+    }
+
+    /// <summary>
+    /// Team Formation controller.
+    /// </summary>
+    public TeamFormationController FormationController
+    {
+        get { return GroupController.FormationController; }
+    }
+
+    public int Total
+    {
+        get { return GroupController.Total; }
+        set { GroupController.Total = value; }
+    }
+
 
     #endregion
 
@@ -48,7 +66,7 @@ public class TeamSimpleController : MonoBehaviour
         character.ResetBuff();
 
         CharacterList.RemoveAt(index);
-        CharacterPool.Return(character.gameObject);
+        GroupController.Generator.Return(character.gameObject);
 
         if (CurrentSelect == character)
         {
@@ -80,8 +98,7 @@ public class TeamSimpleController : MonoBehaviour
 
         initialized = false;
 
-        // return back to pool.
-        CharacterList.ForEach(character => CharacterPool.Return(character.gameObject));
+        GroupController.Cleanup();
 
         // unregister events to all characters.
         CharacterList.ForEach(character =>
@@ -105,29 +122,7 @@ public class TeamSimpleController : MonoBehaviour
 
         initialized = true;
 
-        if (CharacterList == null)
-        {
-            CharacterList = new List<Character>();
-        }
-
-        if (CharacterList.Count == 0)
-        {
-            Logger.LogWarning("Dynamic binding mode, take character from pool of number: " + Total, gameObject);
-
-            for (var i = 0; i < Total; ++i)
-            {
-                var character = CharacterPool.Take().GetComponent<Character>();
-                CharacterList.Add(character);
-                AddChild(gameObject, character.gameObject);
-            }
-        }
-
-        Total = CharacterList.Count;
-        if (Total <= 0)
-        {
-            Logger.LogError("Total is: " + Total + ", which means there is nothing to spawn with.", gameObject);
-            return;
-        }
+        GroupController.Initialize();
 
         if (FormationController.FormationList.Count < Total)
         {
@@ -137,26 +132,7 @@ public class TeamSimpleController : MonoBehaviour
             return;
         }
 
-        // get formation with position list count with total.
-        var positionList = FormationController.FormationList[Total - 1].PositionList;
-        if (positionList.Count != Total)
-        {
-            Logger.LogError("Total: " + Total + " should be equal to position list count: " + positionList.Count +
-                            " of index: " + (Total - 1) + " from formation list.", gameObject);
-            return;
-        }
-
-        for (var i = 0; i < CharacterList.Count; ++i)
-        {
-            var character = CharacterList[i];
-            // logic location.
-            character.Index = i;
-            character.Location = new Position { X = 0, Y = i };
-
-            // world position.
-            character.name += "_" + character.Index;
-            character.transform.position = positionList[i];
-        }
+        InitOnStagePosition();
 
         CharacterList.ForEach(character =>
         {
@@ -197,15 +173,23 @@ public class TeamSimpleController : MonoBehaviour
         }
     }
 
-    private void AddChild(GameObject sender, GameObject childObject)
+    private void InitOnStagePosition()
     {
-        var t = childObject.transform;
-        t.parent = sender.transform;
-        t.localPosition = Vector3.zero;
-        t.localRotation = Quaternion.identity;
-        t.localScale = Vector3.one;
-        childObject.SetActive(true);
+        var positionList = GroupController.PositionList;
+        for (var i = 0; i < CharacterList.Count; ++i)
+        {
+            var character = CharacterList[i];
+            // logic location.
+            character.Index = i;
+            character.Location = new Position { X = 0, Y = i };
+
+            // world position.
+            character.name += "_" + character.Index;
+            character.transform.position = positionList[i];
+        }
+
     }
+
 
     #endregion
 

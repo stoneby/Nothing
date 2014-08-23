@@ -4,6 +4,7 @@ namespace com.kx.sglm.gs.battle.share.buff.effect
 {
 
 
+
 	public class PropEffectBuff : AbstractNormalPropEffectBuff
 	{
 
@@ -11,6 +12,7 @@ namespace com.kx.sglm.gs.battle.share.buff.effect
 		{
 			return Convert.ToInt32(param);
 		}
+
 	}
 
 }

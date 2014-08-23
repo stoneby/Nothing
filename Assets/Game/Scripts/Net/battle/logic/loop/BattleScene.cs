@@ -70,6 +70,7 @@ namespace com.kx.sglm.gs.battle.share.logic.loop
 		public override void onFinish()
 		{
 			CurAttacker.onSceneStop();
+			Battle.BattleExcuter.onBattleSceneFinish(this);
 			BattleEndRecord _record = Record.OrCreateEndRecord;
 			Console.WriteLine("#BattleScene.onFinish()------BattleSceneEnd");
 			_record.EndType = BattleRecordConstants.BATTLE_SCENE_END;

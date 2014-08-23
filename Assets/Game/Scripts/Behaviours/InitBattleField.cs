@@ -133,6 +133,9 @@ public class InitBattleField : MonoBehaviour, IBattleView
         MtaManager.TrackBeginPage(MtaType.BattleScreen);
         leftContainerObj = GameObject.Find("BattleFieldWidgetLeft");
 
+        // First reset for case that battle result window does not show correctly.
+        ResetAll();
+
         // team controller initialization should be at the right beginning.
         // everything else is depend on this structure.
         InitTeamController();
@@ -164,8 +167,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
         TeamController.Total = BattleModelLocator.Instance.HeroList.Count;
         TeamController.Row = 3;
         TeamController.Col = 3;
-        var characterList = GenerateCharacterList();
-        TeamController.CharacterList.AddRange(characterList);
         TeamController.Initialize();
 
         TeamController.CharacterList.ForEach(item => item.BuffController.OnUpdateHurtValue = OnUpdateHurtValue);
@@ -216,8 +217,16 @@ public class InitBattleField : MonoBehaviour, IBattleView
         BattleModelLocator.Instance.HeroList.ForEach(data =>
         {
             var tempid = Int32.Parse(data.getProp(BattleKeyConstants.BATTLE_KEY_HERO_TEMPLATE));
+            var heroTemplate = HeroModelLocator.Instance.GetHeroByTemplateId(tempid);
             // [FIXME]: Currently we are not binding character id to character in pool.
-            var index = (Random.Range(0, characterPoolManager.CharacterPoolList.Count));
+            //var index = (Random.Range(0, characterPoolManager.CharacterPoolList.Count));
+            // convert from 1 based template id to 0 based programe id.
+            var index = heroTemplate.Icon - 1;
+            if (index < 0 || index >= characterPoolManager.CharacterPoolList.Count)
+            {
+                Logger.LogError("Hero index should be in range [0, " + characterPoolManager.CharacterPoolList.Count + ").");
+                return;
+            }
             var character = characterPoolManager.CharacterPoolList[index].Take().GetComponent<Character>();
             Utils.AddChild(TeamController.gameObject, character.gameObject);
             character.Data = data;
@@ -360,9 +369,9 @@ public class InitBattleField : MonoBehaviour, IBattleView
             }
         }
 
-        while (attackWaitList.Count > 0)
+        if (attackWaitList != null)
         {
-            attackWaitList.RemoveAt(0);
+            attackWaitList.Clear();
         }
     }
 
@@ -454,11 +463,10 @@ public class InitBattleField : MonoBehaviour, IBattleView
         for (var i = 0; i < nextColorList.Count; ++i)
         {
             var colorIndex = nextColorList[i].Color;
-            var cc = characterList[i].GetComponent<CharacterControl>();
-            cc.SetFootIndex(nextColorList[i].Color);
-
             var character = characterList[i];
             character.ColorIndex = colorIndex;
+            var cc = characterList[i].GetComponent<CharacterControl>();
+            cc.SetFootIndex();
         }
     }
 
@@ -767,7 +775,8 @@ public class InitBattleField : MonoBehaviour, IBattleView
 
         if (battleTeamRecord.RecordList.Count > 1)
         {
-            var count = (battleTeamRecord.RecordList.Count != 9 || isRecover) ? battleTeamRecord.RecordList.Count : battleTeamRecord.RecordList.Count - 1;
+            //var count = (battleTeamRecord.RecordList.Count != 9 || isRecover) ? battleTeamRecord.RecordList.Count : battleTeamRecord.RecordList.Count - 1;
+            var count = battleTeamRecord.RecordList.Count;
             for (var i = 1; i < count; i++)
             {
                 record = battleTeamRecord.RecordList[i];
@@ -779,118 +788,118 @@ public class InitBattleField : MonoBehaviour, IBattleView
             }
         }
 
-        if (battleTeamRecord.RecordList.Count == 9 && !isRecover)
-        {
-            yield return new WaitForSeconds(GameConfig.TotalHeroAttrackTime);
-            record = battleTeamRecord.RecordList[battleTeamRecord.RecordList.Count - 1];
-            var monster = GetEnemyByAction(record.ActionList[0]);
-            var ec = monster.GetComponent<EnemyControl>();
-            obj = TeamController.SelectedCharacterList[TeamController.SelectedCharacterList.Count - 1].gameObject;
-            var cc = obj.GetComponent<CharacterControl>();
+        //if (battleTeamRecord.RecordList.Count == 9 && !isRecover)
+        //{
+        //    yield return new WaitForSeconds(GameConfig.TotalHeroAttrackTime);
+        //    record = battleTeamRecord.RecordList[battleTeamRecord.RecordList.Count - 1];
+        //    var monster = GetEnemyByAction(record.ActionList[0]);
+        //    var ec = monster.GetComponent<EnemyControl>();
+        //    obj = TeamController.SelectedCharacterList[TeamController.SelectedCharacterList.Count - 1].gameObject;
+        //    var cc = obj.GetComponent<CharacterControl>();
 
-            CameraEffect.LookAt = obj.transform;
-            CameraEffect.LookAtTime = GameConfig.MoveCameraTime;
-            CameraEffect.LookInto();
+        //    CameraEffect.LookAt = obj.transform;
+        //    CameraEffect.LookAtTime = GameConfig.MoveCameraTime;
+        //    CameraEffect.LookInto();
 
-            cc.CharacterData.StopState();
-            yield return new WaitForSeconds(GameConfig.MoveCameraTime);//显示遮罩
-            Picture91.SetActive(true);
+        //    cc.CharacterData.StopState();
+        //    yield return new WaitForSeconds(GameConfig.MoveCameraTime);//显示遮罩
+        //    Picture91.SetActive(true);
 
-            //播放角色特效
-            EffectManager.PlayEffect(EffectType.NineAttrack, GameConfig.Attrack9PlayEffectTime, -25, 0, obj.transform.position);
-            yield return new WaitForSeconds(GameConfig.Attrack9PlayEffectTime);
-            //人物大图飞入
-            var tt = EffectObject.GetComponent<UITexture>();
-            tt.mainTexture = (Texture2D)Resources.Load(EffectType.LeaderTextures[Random.Range(0, 11)], typeof(Texture2D));
-            tt.alpha = 1;
-            EffectObject.transform.localPosition = new Vector3(Screen.width / 2 + 300, -80, 0);
-            EffectObject.transform.localScale = new Vector3(1, 1, 1);
-            EffectObject.SetActive(true);
+        //    //播放角色特效
+        //    EffectManager.PlayEffect(EffectType.NineAttrack, GameConfig.Attrack9PlayEffectTime, -25, 0, obj.transform.position);
+        //    yield return new WaitForSeconds(GameConfig.Attrack9PlayEffectTime);
+        //    //人物大图飞入
+        //    var tt = EffectObject.GetComponent<UITexture>();
+        //    tt.mainTexture = (Texture2D)Resources.Load(EffectType.LeaderTextures[Random.Range(0, 11)], typeof(Texture2D));
+        //    tt.alpha = 1;
+        //    EffectObject.transform.localPosition = new Vector3(Screen.width / 2 + 300, -80, 0);
+        //    EffectObject.transform.localScale = new Vector3(1, 1, 1);
+        //    EffectObject.SetActive(true);
 
-            PlayTweenPosition(EffectObject, GameConfig.Attrack9HeroInTime, new Vector3(Screen.width / 2 + 300, -80, 0), new Vector3(0, -80, 0));
-            yield return new WaitForSeconds(GameConfig.Attrack9HeroInTime);
-            //显示文字背景
-            PlayTweenPosition(EffectObject, 1.2f, new Vector3(0, -80, 0), new Vector3(-25, -80, 0));
-            TextBG91.SetActive(true);
-            tt = TextBG91.GetComponent<UITexture>();
-            tt.alpha = 1;
-            yield return new WaitForSeconds(0.1f);
-            //文字出现
-            Text91.SetActive(true);
-            Text91.transform.localScale = new Vector3(5, 5, 1);
-            PlayTweenScale(Text91, GameConfig.Attrack9TextInTime, new Vector3(5, 5, 1), new Vector3(1, 1, 1));
-            UILabel lb = Text91.GetComponent<UILabel>();
-            lb.alpha = 1;
-            yield return new WaitForSeconds(GameConfig.Attrack9TextShowTime);
-            //文字消失
-            PlayTweenScale(Text91, GameConfig.Attrack9TextFadeTime, new Vector3(1, 1, 1), new Vector3(5, 5, 1));
-            PlayTweenAlpha(Text91, GameConfig.Attrack9TextFadeTime, 1, 0);
-            PlayTweenAlpha(TextBG91, GameConfig.Attrack9TextFadeTime, 1, 0);
-            yield return new WaitForSeconds(GameConfig.Attrack9TextFadeTime / 2);
-            //遮罩和大图消失
-            Picture91.SetActive(false);
-            PlayTweenAlpha(EffectObject, GameConfig.Attrack9HeroFadeTime, 1, 0);
-            PlayTweenScale(EffectObject, GameConfig.Attrack9HeroFadeTime, new Vector3(1, 1, 1), new Vector3(5, 5, 1));
-            yield return new WaitForSeconds(GameConfig.Attrack9HeroFadeTime);
-            //镜头拉回
-            Text91.SetActive(false);
-            TextBG91.SetActive(false);
+        //    PlayTweenPosition(EffectObject, GameConfig.Attrack9HeroInTime, new Vector3(Screen.width / 2 + 300, -80, 0), new Vector3(0, -80, 0));
+        //    yield return new WaitForSeconds(GameConfig.Attrack9HeroInTime);
+        //    //显示文字背景
+        //    PlayTweenPosition(EffectObject, 1.2f, new Vector3(0, -80, 0), new Vector3(-25, -80, 0));
+        //    TextBG91.SetActive(true);
+        //    tt = TextBG91.GetComponent<UITexture>();
+        //    tt.alpha = 1;
+        //    yield return new WaitForSeconds(0.1f);
+        //    //文字出现
+        //    Text91.SetActive(true);
+        //    Text91.transform.localScale = new Vector3(5, 5, 1);
+        //    PlayTweenScale(Text91, GameConfig.Attrack9TextInTime, new Vector3(5, 5, 1), new Vector3(1, 1, 1));
+        //    UILabel lb = Text91.GetComponent<UILabel>();
+        //    lb.alpha = 1;
+        //    yield return new WaitForSeconds(GameConfig.Attrack9TextShowTime);
+        //    //文字消失
+        //    PlayTweenScale(Text91, GameConfig.Attrack9TextFadeTime, new Vector3(1, 1, 1), new Vector3(5, 5, 1));
+        //    PlayTweenAlpha(Text91, GameConfig.Attrack9TextFadeTime, 1, 0);
+        //    PlayTweenAlpha(TextBG91, GameConfig.Attrack9TextFadeTime, 1, 0);
+        //    yield return new WaitForSeconds(GameConfig.Attrack9TextFadeTime / 2);
+        //    //遮罩和大图消失
+        //    Picture91.SetActive(false);
+        //    PlayTweenAlpha(EffectObject, GameConfig.Attrack9HeroFadeTime, 1, 0);
+        //    PlayTweenScale(EffectObject, GameConfig.Attrack9HeroFadeTime, new Vector3(1, 1, 1), new Vector3(5, 5, 1));
+        //    yield return new WaitForSeconds(GameConfig.Attrack9HeroFadeTime);
+        //    //镜头拉回
+        //    Text91.SetActive(false);
+        //    TextBG91.SetActive(false);
 
-            yield return new WaitForSeconds(GameConfig.MoveCameraTime);
+        //    yield return new WaitForSeconds(GameConfig.MoveCameraTime);
 
-            CameraEffect.LookOut();
+        //    CameraEffect.LookOut();
 
-            //攻击动作
-            cc.CharacterData.PlayState(Character.State.Attack, false);
+        //    //攻击动作
+        //    cc.CharacterData.PlayState(Character.State.Attack, false);
 
-            RunToAttackPlace(obj, monster);
-            yield return new WaitForSeconds(GameConfig.RunToAttrackPosTime);
+        //    RunToAttackPlace(obj, monster);
+        //    yield return new WaitForSeconds(GameConfig.RunToAttrackPosTime);
 
-            cc.PlayCharacter(Character.State.Attack, false);
-            yield return new WaitForSeconds(GameConfig.PlayAttrackTime);
+        //    cc.PlayCharacter(Character.State.Attack, false);
+        //    yield return new WaitForSeconds(GameConfig.PlayAttrackTime);
 
-            //9连击播放刀光
-            TexSwardBg91.SetActive(true);
-            cc.CharacterData.StopState();
+        //    //9连击播放刀光
+        //    TexSwardBg91.SetActive(true);
+        //    cc.CharacterData.StopState();
 
-            var offset = 0.5f;
-            //Vector3 pos = enemy.transform.position;
-            var pos = new Vector3(0, 0, monster.transform.position.z);
-            EffectManager.PlayEffect(EffectType.SwordEffect3, GameConfig.Attrack9SwardEffectTime, 0, 0, new Vector3(pos.x + offset, pos.y - offset, pos.z), 0, true);
-            yield return new WaitForSeconds(GameConfig.Attrack9SwardWaitTime);
+        //    var offset = 0.5f;
+        //    //Vector3 pos = enemy.transform.position;
+        //    var pos = new Vector3(0, 0, monster.transform.position.z);
+        //    EffectManager.PlayEffect(EffectType.SwordEffect3, GameConfig.Attrack9SwardEffectTime, 0, 0, new Vector3(pos.x + offset, pos.y - offset, pos.z), 0, true);
+        //    yield return new WaitForSeconds(GameConfig.Attrack9SwardWaitTime);
 
-            ec.PlayShake();
-            EffectManager.PlayEffect(EffectType.SwordEffect2, GameConfig.Attrack9SwardEffectTime, 0, 0, new Vector3(pos.x - offset, pos.y + offset, pos.z), 0, true);
-            yield return new WaitForSeconds(GameConfig.Attrack9SwardWaitTime);
+        //    ec.PlayShake();
+        //    EffectManager.PlayEffect(EffectType.SwordEffect2, GameConfig.Attrack9SwardEffectTime, 0, 0, new Vector3(pos.x - offset, pos.y + offset, pos.z), 0, true);
+        //    yield return new WaitForSeconds(GameConfig.Attrack9SwardWaitTime);
 
-            EffectManager.PlayEffect(EffectType.SwordEffect3, GameConfig.Attrack9SwardEffectTime, 0, 0, new Vector3(pos.x + offset, pos.y + offset, pos.z), 90, true);
-            yield return new WaitForSeconds(GameConfig.Attrack9SwardWaitTime);
+        //    EffectManager.PlayEffect(EffectType.SwordEffect3, GameConfig.Attrack9SwardEffectTime, 0, 0, new Vector3(pos.x + offset, pos.y + offset, pos.z), 90, true);
+        //    yield return new WaitForSeconds(GameConfig.Attrack9SwardWaitTime);
 
-            ec.PlayShake();
-            EffectManager.PlayEffect(EffectType.SwordEffect2, GameConfig.Attrack9SwardEffectTime, 0, 0, new Vector3(pos.x - offset, pos.y - offset, pos.z), 90, true);
-            yield return new WaitForSeconds(GameConfig.Attrack9SwardWaitTime);
+        //    ec.PlayShake();
+        //    EffectManager.PlayEffect(EffectType.SwordEffect2, GameConfig.Attrack9SwardEffectTime, 0, 0, new Vector3(pos.x - offset, pos.y - offset, pos.z), 90, true);
+        //    yield return new WaitForSeconds(GameConfig.Attrack9SwardWaitTime);
 
-            offset = 0.3f;
-            EffectManager.PlayEffect(EffectType.SwordEffect2, GameConfig.Attrack9SwardEffectTime, 0, 0, new Vector3(pos.x + offset, pos.y - offset, pos.z), 0, true);
-            yield return new WaitForSeconds(GameConfig.Attrack9SwardWaitTime);
+        //    offset = 0.3f;
+        //    EffectManager.PlayEffect(EffectType.SwordEffect2, GameConfig.Attrack9SwardEffectTime, 0, 0, new Vector3(pos.x + offset, pos.y - offset, pos.z), 0, true);
+        //    yield return new WaitForSeconds(GameConfig.Attrack9SwardWaitTime);
 
-            ec.PlayShake();
-            EffectManager.PlayEffect(EffectType.SwordEffect3, GameConfig.Attrack9SwardEffectTime, 0, 0, new Vector3(pos.x - offset, pos.y + offset, pos.z), 0, true);
-            yield return new WaitForSeconds(GameConfig.Attrack9SwardWaitTime);
+        //    ec.PlayShake();
+        //    EffectManager.PlayEffect(EffectType.SwordEffect3, GameConfig.Attrack9SwardEffectTime, 0, 0, new Vector3(pos.x - offset, pos.y + offset, pos.z), 0, true);
+        //    yield return new WaitForSeconds(GameConfig.Attrack9SwardWaitTime);
 
-            EffectManager.PlayEffect(EffectType.SwordEffect3, GameConfig.Attrack9SwardEffectTime, 0, 0, new Vector3(pos.x + offset, pos.y + offset, pos.z), 90, true);
-            yield return new WaitForSeconds(GameConfig.Attrack9SwardWaitTime);
+        //    EffectManager.PlayEffect(EffectType.SwordEffect3, GameConfig.Attrack9SwardEffectTime, 0, 0, new Vector3(pos.x + offset, pos.y + offset, pos.z), 90, true);
+        //    yield return new WaitForSeconds(GameConfig.Attrack9SwardWaitTime);
 
-            EffectManager.PlayEffect(EffectType.SwordEffect2, GameConfig.Attrack9SwardEffectTime, 0, 0, new Vector3(pos.x - offset, pos.y - offset, pos.z), 90, true);
-            yield return new WaitForSeconds(GameConfig.Attrack9TotalSwardTime);
-            TexSwardBg91.SetActive(false);
-            PlayEnemyBeenAttrack(record.ActionList, true);
+        //    EffectManager.PlayEffect(EffectType.SwordEffect2, GameConfig.Attrack9SwardEffectTime, 0, 0, new Vector3(pos.x - offset, pos.y - offset, pos.z), 90, true);
+        //    yield return new WaitForSeconds(GameConfig.Attrack9TotalSwardTime);
+        //    TexSwardBg91.SetActive(false);
+        //    PlayEnemyBeenAttrack(record.ActionList, true);
 
-            yield return new WaitForSeconds(.4f);
+        //    yield return new WaitForSeconds(.4f);
 
-            cc.CharacterData.PlayState(Character.State.Attack, false);
-            RunReturn(obj, GameConfig.HeroRunReturnTime);
-        }
+        //    cc.CharacterData.PlayState(Character.State.Attack, false);
+        //    RunReturn(obj, GameConfig.HeroRunReturnTime);
+        //}
 
         if (isRecover)
         {
@@ -901,11 +910,9 @@ public class InitBattleField : MonoBehaviour, IBattleView
             {
                 for (var i = 0; i < battleTeamRecord.RecordList.Count; i++)
                 {
-
                     record = battleTeamRecord.RecordList[i];
                     obj = GetCharacterByAction(record.getAttackAction());
                     if (obj != null) RunReturn(obj, GameConfig.HeroRunReturnTime);
-
                 }
             }
         }
@@ -994,17 +1001,19 @@ public class InitBattleField : MonoBehaviour, IBattleView
                 {
                     case BattleRecordConstants.SINGLE_ACTION_TYPE_SP_ATTACK:
 
-                        CameraEffect.LookAt = enemy.transform;
-                        CameraEffect.LookAtTime = GameConfig.MoveCameraTime;
-                        CameraEffect.LookInto();
+                        //CameraEffect.LookAt = enemy.transform;
+                        //CameraEffect.LookAtTime = GameConfig.MoveCameraTime;
+                        //CameraEffect.LookInto();
 
-                        yield return new WaitForSeconds(GameConfig.MoveCameraTime);
-                        EffectManager.PlayEffect(EffectType.EnemySprite, GameConfig.PlayMonsterEffectTime, 0, 0, enemy.transform.position);
-                        yield return new WaitForSeconds(GameConfig.PlayMonsterEffectTime);
+                        //yield return new WaitForSeconds(GameConfig.MoveCameraTime);
+                        //EffectManager.PlayEffect(EffectType.EnemySprite, GameConfig.PlayMonsterEffectTime, 0, 0, enemy.transform.position);
+                        //yield return new WaitForSeconds(GameConfig.PlayMonsterEffectTime);
 
-                        CameraEffect.LookOut();
+                        //CameraEffect.LookOut();
 
-                        yield return new WaitForSeconds(GameConfig.MoveCameraTime);
+                        //yield return new WaitForSeconds(GameConfig.MoveCameraTime);
+                        // [FIXME] will be removed after apple commitment.
+                        yield return new WaitForSeconds(ec.PlayAttack());
                         yield return StartCoroutine(PlayCharacterBeenAttrack(record.ActionList));
                         break;
                     case BattleRecordConstants.SINGLE_ACTION_TYPE_RECOVER:
@@ -1014,7 +1023,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
                     case BattleRecordConstants.SINGLE_ACTION_TYPE_DEFENCE:
                         break;
                     default:
-                        yield return new WaitForSeconds(ec.PlayAttrack());
+                        yield return new WaitForSeconds(ec.PlayAttack());
                         yield return StartCoroutine(PlayCharacterBeenAttrack(record.ActionList));
                         break;
                 }
@@ -1271,10 +1280,9 @@ public class InitBattleField : MonoBehaviour, IBattleView
                     var k =
                         t.getIntProp(
                             BattleRecordConstants.BATTLE_HERO_PROP_COLOR_CHANGE);
-                    cc.SetFootIndex(k);
-
                     var character = cc.GetComponent<Character>();
                     character.ColorIndex = k;
+                    cc.SetFootIndex();
                 }
             }
             else if (attack.ActType == BattleRecordConstants.SINGLE_ACTION_TYPE_RECOVER)
@@ -1441,27 +1449,8 @@ public class InitBattleField : MonoBehaviour, IBattleView
         }
         BattleModelLocator.Instance.CanSelectHero = true;
 
-
-        // Store info for persistence fight.
-        Dictionary<string, float> persistenceInfo = new Dictionary<string, float>();
-        persistenceInfo.Clear();
-        //TopData
-        persistenceInfo.Add("TopData", currentEnemyGroupIndex);
-        //hp,mp
-        persistenceInfo.Add("Hp", characterValue);
-        persistenceInfo.Add("Mp", leaderController.TotalLeaderCD);
-        //enemy list
-        persistenceInfo.Add("EnemyModelIndex", BattleModelLocator.Instance.MonsterIndex - EnemyController.Total);
-        //topinfo
-        persistenceInfo.Add("BoxCount", topController.BoxCount);
-        persistenceInfo.Add("GoldCount", topController.GoldCount);
-        //popinfo
-        persistenceInfo.Add("EnergyCount", popController.EnergyCount);
-        persistenceInfo.Add("FPCount", popController.FPCount);
-        //star
-        persistenceInfo.Add("StarCount", starController.CurrentStar);
-
-        PersistenceHandler.Instance.StorePersistence(persistenceInfo);
+        //Store persistence file
+        PersistenceStore();
 
         recordIndex++;
         DealWithRecord();
@@ -1745,6 +1734,8 @@ public class InitBattleField : MonoBehaviour, IBattleView
                 break;
             case BattleRecordConstants.BATTLE_ALL_END:
                 {
+                    PersistenceHandler.IsRaidFinish = false;
+
                     var k = battleEndRecord.getIntProp(BattleRecordConstants.BATTLE_END_WIN_SIDE);
 
                     var msg = new CSBattlePveFinishMsg
@@ -1758,6 +1749,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
                     }
                     else
                     {
+                        PersistenceHandler.IsRaidFinish = true;
                         WindowManager.Instance.Show(typeof(BattleLostWindow), true);
                         msg.BattleResult = 0;
                     }
@@ -1780,13 +1772,12 @@ public class InitBattleField : MonoBehaviour, IBattleView
 
                     //Battle persistence
                     PersistenceHandler.Instance.StoreBattleEndMessage(msg);
-                    PersistenceHandler.isRaidReward = false;
 
                     NetManager.SendMessage(msg);
                     MtaManager.TrackEndPage(MtaType.BattleScreen);
 
                     //Battle persistence:Check battle end succeed.
-                    StartCoroutine(PersistenceHandler.Instance.MakeBattleEndSucceed(msg));
+                    StartCoroutine(PersistenceHandler.Instance.CheckBattleEndSucceed(msg));
                 }
                 break;
             default:
@@ -1850,29 +1841,52 @@ public class InitBattleField : MonoBehaviour, IBattleView
         }
     }
 
-    public void PersisitenceSet(Dictionary<string, float> value)
+    public void PersisitenceSet(Dictionary<string, string> value)
     {
         //Sync TopData
-        currentEnemyGroupIndex = (int)value["TopData"];
+        currentEnemyGroupIndex = int.Parse(value["TopData"]);
         ShowTopData();
         //Sync Hp,Mp
-        characterValue = value["Hp"];
-        leaderController.TotalLeaderCD = (int)value["Mp"];
+        characterValue = float.Parse(value["Hp"]);
+        leaderController.TotalLeaderCD = int.Parse(value["Mp"]);
         hpController.ShowForgroundBar(characterValue);
         mpController.ShowForgroundBar(leaderController.TotalLeaderCD);
         //Sync Enemy Model Index
-        BattleModelLocator.Instance.MonsterIndex = (int)value["EnemyModelIndex"];
+        BattleModelLocator.Instance.MonsterIndex = int.Parse(value["EnemyModelIndex"]);
         InitEnemyList();
         //Sync Topinfo
-        topController.BoxCount = value["BoxCount"];
-        topController.GoldCount = value["GoldCount"];
+        topController.BoxCount = float.Parse(value["BoxCount"]);
+        topController.GoldCount = float.Parse(value["GoldCount"]);
         topController.Show();
         //Sync Popinfo
-        popController.EnergyCount = value["EnergyCount"];
-        popController.FPCount = value["FPCount"];
+        popController.EnergyCount = float.Parse(value["EnergyCount"]);
+        popController.FPCount = float.Parse(value["FPCount"]);
         popController.Show(false);
         //Sync Star
-        starController.CurrentStar = (int)value["StarCount"];
+        starController.CurrentStar = int.Parse(value["StarCount"]);
+    }
+
+    private void PersistenceStore()
+    {
+        Dictionary<string, string> persistenceInfo = new Dictionary<string, string>();
+        persistenceInfo.Clear();
+        //TopData
+        persistenceInfo.Add("TopData", currentEnemyGroupIndex.ToString());
+        //hp,mp
+        persistenceInfo.Add("Hp", characterValue.ToString());
+        persistenceInfo.Add("Mp", leaderController.TotalLeaderCD.ToString());
+        //enemy list
+        persistenceInfo.Add("EnemyModelIndex", (BattleModelLocator.Instance.MonsterIndex - EnemyController.Total).ToString());
+        //topinfo
+        persistenceInfo.Add("BoxCount", topController.BoxCount.ToString());
+        persistenceInfo.Add("GoldCount", topController.GoldCount.ToString());
+        //popinfo
+        persistenceInfo.Add("EnergyCount", popController.EnergyCount.ToString());
+        persistenceInfo.Add("FPCount", popController.FPCount.ToString());
+        //star
+        persistenceInfo.Add("StarCount", starController.CurrentStar.ToString());
+
+        PersistenceHandler.Instance.StorePersistence(persistenceInfo);
     }
 
     private void Awake()

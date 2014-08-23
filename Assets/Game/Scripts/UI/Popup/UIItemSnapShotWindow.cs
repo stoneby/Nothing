@@ -19,6 +19,7 @@ public class UIItemSnapShotWindow : Window
     private UILabel level;
     private UILabel nameLabel;
     private UISprite jobIcon;
+    private UISprite itemIcon;
 
     public UIEventListener.VoidDelegate TemplateBtnPressed;
 
@@ -74,6 +75,7 @@ public class UIItemSnapShotWindow : Window
         mpLabel = property.Find("MP/MPValue").GetComponent<UILabel>();
         level = transform.Find("Item/Level/LevelLabel").GetComponent<UILabel>();
         jobIcon = transform.Find("Item/Job/JobIcon").GetComponent<UISprite>();
+        itemIcon = transform.Find("Item/ItemIcon").GetComponent<UISprite>();
         nameLabel = transform.Find("Name").GetComponent<UILabel>();
     }
 
@@ -105,7 +107,7 @@ public class UIItemSnapShotWindow : Window
 
     private void OnViewDetail(GameObject go)
     {
-        UIItemDetailWindow.IsLongPressEnter = false;
+        UIItemDetailHandler.IsLongPressEnter = false;
         var csmsg = new CSQueryItemDetail { BagIndex = ItemInfo.BagIndex };
         NetManager.SendMessage(csmsg);
     }
@@ -129,6 +131,7 @@ public class UIItemSnapShotWindow : Window
         level.text = ItemInfo.Level.ToString(CultureInfo.InvariantCulture);
         var tempId = ItemInfo.TmplId;
         jobIcon.spriteName = HeroConstant.HeroJobPrefix + ItemModeLocator.Instance.GetJob(tempId);
+        itemIcon.spriteName = ItemType.ItemHeadPrefix + ItemModeLocator.Instance.GetIconId(tempId);
         nameLabel.text = ItemModeLocator.Instance.GetName(tempId);
     }
 

@@ -6,6 +6,7 @@ namespace com.kx.sglm.gs.battle.share.buff
 
 	using BattleFighter = com.kx.sglm.gs.battle.share.actor.impl.BattleFighter;
 	using BattleFighterState = com.kx.sglm.gs.battle.share.actor.impl.BattleFighterState;
+	using BasePropEffectBuff = com.kx.sglm.gs.battle.share.buff.effect.BasePropEffectBuff;
 	using BuffPolicyEnum = com.kx.sglm.gs.battle.share.buff.enums.BuffPolicyEnum;
 	using BattleFightRecord = com.kx.sglm.gs.battle.share.data.record.BattleFightRecord;
 	using BattleRoundCountRecord = com.kx.sglm.gs.battle.share.data.record.BattleRoundCountRecord;
@@ -291,13 +292,6 @@ namespace com.kx.sglm.gs.battle.share.buff
 			}
 		}
 
-		public virtual void removeSingleBuff(int buffId)
-		{
-			BattleFighterBuff _buff = get(buffId);
-			removeSingleBuff(_buff);
-		}
-
-
 		/// <summary>
 		/// remove single buff from all collection and reset buff effect
 		/// </summary>
@@ -414,7 +408,7 @@ namespace com.kx.sglm.gs.battle.share.buff
 
 		public virtual void onTeamShotStart(TeamShotStartEvent @event)
 		{
-			owner.FighterProp.resetBuffProp();
+			recalcPropEffectBuffs();
 			onTeamBeforeAttack();
 		}
 
@@ -452,18 +446,38 @@ namespace com.kx.sglm.gs.battle.share.buff
 		public virtual void onSceneStop()
 		{
 			printAllBuffs();
-			removeAllBuffByType(debuffHolderMap);
+			removeOnSceneStop(buffHolderMap);
+			removeOnSceneStop(debuffHolderMap);
 		}
 
-		protected internal virtual void removeAllBuffByType(Dictionary<int, BuffTypeHolder> toRemoveHolder)
+		protected internal virtual void removeOnSceneStop(Dictionary<int, BuffTypeHolder> toRemoveHolder)
 		{
 			HashSet<int> _allIds = getBuffIdsInHolder(toRemoveHolder);
 			foreach (int _id in _allIds)
 			{
-				removeSingleBuff(_id);
+				BattleFighterBuff _buff = get(_id);
+				if (_buff.BuffAction.SceneClearBuff)
+				{
+					removeSingleBuff(_buff);
+				}
 			}
-			toRemoveHolder.Clear();
+
 		}
+
+
+		/// <summary>
+		/// 单纯的重算所有对属性的影响，无视增加时间和位置，只对属性影响的buff生效，这里有待重构因为用了强转
+		/// </summary>
+		public virtual void recalcPropEffectBuffs()
+		{
+			Owner.FighterProp.resetBuffProp();
+			foreach (BattleFighterBuff _buff in allBuffs.Values)
+			{
+				_buff.effectProp();
+			}
+		}
+
+
 
 
 		protected internal virtual void printAllBuffs()

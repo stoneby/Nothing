@@ -3,7 +3,7 @@ Shader "Unlit/Transparent Colored"
 	Properties
 	{
 		_MainTex ("Base (RGB), Alpha (A)", 2D) = "black" {}
-		_HighLight ("HighLight", float) = 1 
+		_HighLight ("HighLight", Range (0, 1)) = 0
 	}
 	
 	SubShader
@@ -62,7 +62,7 @@ Shader "Unlit/Transparent Colored"
 			fixed4 frag (v2f i) : COLOR
 			{
 				fixed4 col = tex2D(_MainTex, i.texcoord) * i.color;
-				col.rgb = pow(col.rgb, _HighLight);
+				col.rgb += _HighLight;
 				return col;
 			}
 			ENDCG

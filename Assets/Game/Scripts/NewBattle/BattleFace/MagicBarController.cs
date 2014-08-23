@@ -1,13 +1,10 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 /// <summary>
 /// Bar controller to bars like hp / mp in face of the battle.
 /// </summary>
 public class MagicBarController : MonoBehaviour
 {
-    public UILabel TitleLabel;
-    public UILabel TotalLabel;
     public UISprite ForgroundBar;
     public UISprite BackgroundBar;
 

@@ -12,13 +12,13 @@ namespace Assets.Game.Scripts.Net.handler
             if (sysmsg != null && sysmsg.Info != null && sysmsg.Info != "")
             {
                 Logger.Log("服务端系统消息1：" + sysmsg.Info);
-                PopTextManager.PopTip(sysmsg.Info);
+                PopTextManager.PopTip(sysmsg.Info, false);
             }
             else
             {
                 var clientmsg = msg as ClientSCMessage;
                 Logger.Log("服务端系统消息2：" + clientmsg.Info);
-                PopTextManager.PopTip(clientmsg.Info);
+                //PopTextManager.PopTip(clientmsg.Info);
                 Alert.Show(AssertionWindow.Type.Ok, "系统提示", clientmsg.Info, AlertHandler);
             }
         }
@@ -26,8 +26,10 @@ namespace Assets.Game.Scripts.Net.handler
         private static void AlertHandler(GameObject sender = null)
         {
             //WindowManager.Instance.Show(typeof(MainMenuBarWindow), false);
-            WindowManager.Instance.Show(typeof(LoginWindow), true);
+            
             WindowManager.Instance.Show(false);
+            WindowManager.Instance.Show(typeof(LoginWindow), true);
+            WindowManager.Instance.Show(typeof(LoginMainWindow), true);
         }
 
         public static void OnErrorInfo(ThriftSCMessage msg)
@@ -80,7 +82,7 @@ namespace Assets.Game.Scripts.Net.handler
                         str = "未处理的ErrorCode：" + errmsg.ErrorCode;
                         break;
                 }
-                PopTextManager.PopTip(str);
+                PopTextManager.PopTip(str, false);
             }
         }
 

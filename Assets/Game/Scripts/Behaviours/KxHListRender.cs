@@ -49,6 +49,12 @@ public class KxHListRender : MonoBehaviour {
         int thewidth, int theheight, int itemwidth, int itemheight, OnSelectedCallback selectedcallback = null)
     {
         dataPravider = datas;
+        if (datas == null || datas.Count == 0)
+        {
+            gameObject.SetActive(false);
+            return;
+        }
+        gameObject.SetActive(true);
         //PopTextManager.PopTip("Stage count " + dataPravider.Count);
         OnSelected = selectedcallback;
         if (haveNotInit)

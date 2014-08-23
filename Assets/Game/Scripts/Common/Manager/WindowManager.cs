@@ -104,6 +104,29 @@ public class WindowManager : Singleton<WindowManager>
     }
 
     /// <summary>
+    /// Check whether contain specific window of type T 
+    /// </summary>
+    /// <typeparam name="T">Window type</typeparam>
+    /// <returns>True if contain window of type T</returns>
+    public bool ContainWindow<T>()
+    {
+        var type = typeof(T);
+        return ContainWindow(type);
+    }
+
+    /// <summary>
+    /// Check whether contain specific window of type T 
+    /// </summary>
+    /// <param name="type">Window type</param>
+    /// <returns></returns>
+    public bool ContainWindow(Type type)
+    {
+        var path = Mapping.TypePathMap[type];
+        var windowGroupType = Mapping.PathLayerMap[path];
+        return windowMap.ContainsKey(windowGroupType);
+    }
+
+    /// <summary>
     /// Show by generic type.
     /// </summary>
     /// <typeparam name="T">Generic window type</typeparam>
@@ -138,6 +161,12 @@ public class WindowManager : Singleton<WindowManager>
     /// <returns>Window to show</returns>
     public Window Show(Type type, bool show, bool inHistory = false)
     {
+        if (!ContainWindow(type) && !show)
+        {
+            Logger.Log("Window of type: " + type + " is not showing any way, just return null.");
+            return null;
+        }
+
         var path = Mapping.TypePathMap[type];
         var windowGroupType = Mapping.PathLayerMap[path];
         var window = GetWindow(type);
@@ -220,7 +249,12 @@ public class WindowManager : Singleton<WindowManager>
                            ", please double check with WindowGroupType, that's all we have.");
             return;
         }
-
+        if (!windowMap.ContainsKey(groupType))
+        {
+            Logger.LogWarning("The window group type - " + groupType +
+               ", has already closed, we need not call show window to close them.");
+            return;
+        }
         windowMap[groupType].ForEach(win =>
         {
             if (win.gameObject.activeSelf != show)
@@ -236,10 +270,16 @@ public class WindowManager : Singleton<WindowManager>
     /// <param name="show">Flag indicates if show or hide</param>
     public void Show(bool show)
     {
-        foreach (var windowGroupType in Mapping.LayerPathMap.Keys)
+        foreach(var map in windowMap)
         {
-            Show(windowGroupType, show);
-        }
+            map.Value.ForEach(win =>
+            {
+                if (win.gameObject.activeSelf != show)
+                {
+                    win.gameObject.SetActive(show);
+                }
+            });
+        }     
     }
 
     /// <summary>

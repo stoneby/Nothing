@@ -45,10 +45,13 @@ public class KxVListRender : MonoBehaviour
     private float minItemY;
     private float maxItemY;
 
+    private bool NeedPlayEffect = false;
+
     public void Init(IList datas, string prefabname,
-        int thewidth, int theheight, int itemwidth, int itemheight, OnSelectedCallback selectedcallback = null)
+        int thewidth, int theheight, int itemwidth, int itemheight, OnSelectedCallback selectedcallback = null, bool playeffect = true)
     {
         dataPravider = datas;
+        NeedPlayEffect = playeffect;
         //PopTextManager.PopTip("Stage count " + dataPravider.Count);
         OnSelected = selectedcallback;
         if (haveNotInit)
@@ -87,6 +90,7 @@ public class KxVListRender : MonoBehaviour
             Items.Add(NGUITools.AddChild(itemBox, itemPrefab));
             var theitem = Items[Items.Count - 1].GetComponent<KxItemRender>();
             theitem.OnSelected += OnSelecteHandler;
+            theitem.OnPress += OnPressHandler;
             theitem.InitItem();
         }
 
@@ -103,11 +107,70 @@ public class KxVListRender : MonoBehaviour
             theitem.ItemIndex = i;
             EndDataIndex = i;
             theitem.SetData(dataPravider[i]);
-            Items[i].transform.localPosition = new Vector3(0, maxY - itemHeight * i, 0);
+            Items[i].transform.localPosition = playeffect ? new Vector3(thewidth, maxY - itemHeight * i, 0) : new Vector3(0, maxY - itemHeight * i, 0);
+
         }
         StartIndex = 0;
         StartDataIndex = 0;
+        if (NeedPlayEffect) itemBox.transform.localPosition = new Vector3(0, 0, 0);
+        if (gameObject.activeInHierarchy)
+        {
+            ShowItems();
+        }
         //PopTextManager.PopTip("data count " + dataPravider.Count);
+    }
+
+    public void ShowItems()
+    {
+        StartCoroutine(PlayShowItems());
+    }
+
+    IEnumerator PlayShowItems()
+    {
+        if (NeedPlayEffect)
+        {
+            //yield return new WaitForSeconds(0.1f);
+            for (int i = 0; i < Items.Count; i++)
+            {
+                yield return new WaitForSeconds(0.1f);
+
+                PlayTweenPosition(Items[i], 0.2f, new Vector3(theWidth, Items[i].transform.localPosition.y, 0),
+                    new Vector3(0, Items[i].transform.localPosition.y, 0));
+
+            }
+        }
+    }
+
+//    public void ResetCollider()
+//    {
+//        if (Items == null || dataPravider == null) return;
+//        for (int i = 0; i < Items.Count && i < dataPravider.Count; i++)
+//        {
+//            //Items[i].SetActive(true);
+//            var theitem = Items[i].GetComponent<Collider2D>();
+//            if (theitem == null)continue;
+//            theitem.isTrigger = false;
+//            theitem.isTrigger = true;
+//        }
+//    }
+
+    private void OnPressHandler(GameObject go, bool state)
+    {
+        //throw new System.NotImplementedException();
+        var mx = Input.mousePosition.x - centerX;
+        var my = Input.mousePosition.y - centerY;
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (!isMoving && mx > baseX1 && mx < baseX2 && my > baseY1 && my < baseY2)
+            {
+                isDraging = true;
+                oldY = my;
+                startY = itemBox.transform.localPosition.y;
+                startTime = Time.time;
+                //PopTextManager.PopTip(startTime.ToString());
+            }
+        }
     }
 
     private void OnSelecteHandler(GameObject obj)
@@ -129,17 +192,17 @@ public class KxVListRender : MonoBehaviour
         var mx = Input.mousePosition.x - centerX;
         var my = Input.mousePosition.y - centerY;
 
-        if (Input.GetMouseButtonDown(0))
-        {
-            if (!isMoving && mx > baseX1 && mx < baseX2 && my > baseY1 && my < baseY2)
-            {
-                isDraging = true;
-                oldY = my;
-                startY = itemBox.transform.localPosition.y;
-                startTime = Time.time;
-                //PopTextManager.PopTip(startTime.ToString());
-            }
-        }
+//        if (Input.GetMouseButtonDown(0))
+//        {
+//            if (!isMoving && mx > baseX1 && mx < baseX2 && my > baseY1 && my < baseY2)
+//            {
+//                isDraging = true;
+//                oldY = my;
+//                startY = itemBox.transform.localPosition.y;
+//                startTime = Time.time;
+//                //PopTextManager.PopTip(startTime.ToString());
+//            }
+//        }
 
         if (Input.GetMouseButtonUp(0) && isDraging)
         {

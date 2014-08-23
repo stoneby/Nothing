@@ -4,6 +4,10 @@ using UnityEngine;
 public class ItemBase : MonoBehaviour 
 {
     protected Transform cachedTran;
+    private UISprite icon;
+
+    public ItemInfo TheItemInfo;
+
     private sbyte quality;
     public virtual sbyte Quality
     {
@@ -30,16 +34,19 @@ public class ItemBase : MonoBehaviour
     protected virtual void Awake()
     {
         cachedTran = transform;
+        icon = transform.Find("Icon").GetComponent<UISprite>();
     }
 
     public virtual void InitItem(ItemInfo itemInfo)
     {
+        TheItemInfo = itemInfo;
         BagIndex = itemInfo.BagIndex;
-        Quality = ItemModeLocator.Instance.GetQuality(itemInfo.TmplId);
+        InitItem(itemInfo.TmplId);
     }
 
     public virtual void InitItem(int temId)
     {
         Quality = ItemModeLocator.Instance.GetQuality(temId);
+        icon.spriteName = "Item_" + ItemModeLocator.Instance.GetIconId(temId);
     }
 }

@@ -47,13 +47,14 @@ public class RaidHeadControl : MonoBehaviour
         IsFriend = false;
         TheType = type;
         HeroData = h0;
+        Attrack = 0;
+        Hp = 0;
+        Recover = 0;
+        Mp = 0;
         if (HeroData != null)
         {
             HeroTemp = HeroModelLocator.Instance.GetHeroByTemplateId(HeroData.TemplateId);
-            Attrack = 0;
-            Hp = 0;
-            Recover = 0;
-            Mp = 0;
+            
             if (HeroData.Prop.ContainsKey(RoleProperties.ROLE_ATK))
             {
                 Attrack += HeroData.Prop[RoleProperties.ROLE_ATK];
@@ -80,13 +81,14 @@ public class RaidHeadControl : MonoBehaviour
         IsFriend = true;
         TheType = type;
         FriendHeroData = h0;
+        Attrack = 0;
+        Hp = 0;
+        Recover = 0;
+        Mp = 0;
         if (FriendHeroData != null)
         {
             HeroTemp = HeroModelLocator.Instance.GetHeroByTemplateId(FriendHeroData.HeroTemplateId);
-            Attrack = 0;
-            Hp = 0;
-            Recover = 0;
-            Mp = 0;
+            
             if (FriendHeroData.Prop.ContainsKey(RoleProperties.ROLE_ATK))
             {
                 Attrack += FriendHeroData.Prop[RoleProperties.ROLE_ATK];

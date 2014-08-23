@@ -148,16 +148,12 @@ public class TestFramework : MonoBehaviour
 
             Logger.LogWarning("Show assert window.");
 
-            assertWindow.OkButtonClicked += OnOkButtonClicked;
-            assertWindow.CancelButtonClicked += OnCancelButtonClicked;
+            assertWindow.OkButtonClicked = OnOkButtonClicked;
+            assertWindow.CancelButtonClicked = OnCancelButtonClicked;
         }
 
         if (GUILayout.Button("Hide Assert Window"))
         {
-            var assertWindow = WindowManager.Instance.Show(typeof(AssertionWindow), false) as AssertionWindow;
-
-            assertWindow.OkButtonClicked -= OnOkButtonClicked;
-            assertWindow.CancelButtonClicked -= OnCancelButtonClicked;
         }
     }
 

@@ -14,6 +14,7 @@ namespace com.kx.sglm.gs.battle.share.buff.effect
 		private int priority_Renamed;
 		private int cdRound;
 		private int buffShowId;
+		private int sceneClear;
 		private int maxStackingCount;
 
 
@@ -128,6 +129,27 @@ namespace com.kx.sglm.gs.battle.share.buff.effect
 		}
 
 
+
+		public override int SceneClear
+		{
+			get
+			{
+				return sceneClear;
+			}
+			set
+			{
+				this.sceneClear = value;
+			}
+		}
+
+
+		public override bool SceneClearBuff
+		{
+			get
+			{
+				return SceneClear > 0;
+			}
+		}
 
 		public virtual void build(List<string> param)
 		{

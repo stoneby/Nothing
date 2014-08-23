@@ -21,5 +21,7 @@ public class TopDataController : MonoBehaviour
     {
         BoxCount = 0;
         GoldCount = 0;
+
+        Show();
     }
 }

@@ -10,6 +10,8 @@ public class MapVO  {
     public int y;
     public int w;
     public int h;
+    public int ww;
+    public int hh;
     public Vector2[] points;
 
     public static MapVO Parse(string datastr)
@@ -23,6 +25,8 @@ public class MapVO  {
         app.y = int.Parse(data.Attribute("y").Value);
         app.w = int.Parse(data.Attribute("w").Value);
         app.h = int.Parse(data.Attribute("h").Value);
+        app.ww = int.Parse(data.Attribute("ww").Value);
+        app.hh = int.Parse(data.Attribute("hh").Value);
 
         string str = data.Attribute("points").Value;
         string[] ps = str.Split(',');

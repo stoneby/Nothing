@@ -5,6 +5,9 @@ public class GameInit : MonoBehaviour
     public GameObject Parent;
     public GameObject GameInputBox;
 
+    private const float DelayTime = 0.1f;
+    private const string ShowDelay = "ShowDelay";
+
     #region Coroutine
 
     private static void GameStart(WindowManagerReady e)
@@ -12,9 +15,10 @@ public class GameInit : MonoBehaviour
         EventManager.Instance.RemoveListener<WindowManagerReady>(GameStart);
 
         Logger.Log("GameInit started after everything ready, all start later call.");
+        WindowManager.Instance.Show(typeof(LoginWindow), true);
         WindowManager.Instance.Show<LoadingWaitWindow>(true);
         NetManager.OnMessageSended = OnMessageSended;
-        NetworkControl.OnMessageReceived = OnMessageReceived;
+        NetManager.OnMessageReceived = OnMessageReceived;
     }
 
     #endregion
@@ -33,12 +37,13 @@ public class GameInit : MonoBehaviour
 
     private static void OnMessageReceived()
     {
-        WindowManager.Instance.Show<CommunitingWindow>(false);
+        Loom.QueueOnMainThread(() => WindowManager.Instance.Show<LoadingWaitWindow>(false));
+        Loom.Instance.RemoveDelay(ShowDelay);
     }
 
     private static void OnMessageSended()
     {
-        WindowManager.Instance.Show<CommunitingWindow>(true);
+        Loom.QueueOnMainThread(() => WindowManager.Instance.Show<LoadingWaitWindow>(true), DelayTime, ShowDelay);
     }
 
     #endregion

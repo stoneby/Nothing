@@ -247,7 +247,7 @@ public class UIBuyBackItemsWindow : Window
 
     private void OnLongPress(GameObject go)
     {
-        WindowManager.Instance.Show<UIItemDetailWindow>(true);
+        //WindowManager.Instance.Show<UIItemDetailHandler>(true);
     }
 
     private void RefreshUi()

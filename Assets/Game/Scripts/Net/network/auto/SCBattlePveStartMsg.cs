@@ -26,6 +26,7 @@ namespace KXSGCodec
 #endif
     public partial class SCBattlePveStartMsg : TBase
     {
+        //Nums count and ClassName.
         private const int FieldCount = 4;
         private const int BasicFieldCount = 4;
         private const int ISSetCount = 6;
@@ -359,6 +360,11 @@ namespace KXSGCodec
             return sb.ToString();
         }
 
+        /// <summary>
+        /// Write this whole class to stream.
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="className"></param>
         public void WriteClass(StreamWriter writer, string className)
         {
             writer.Write(className);
@@ -386,6 +392,10 @@ namespace KXSGCodec
             }
         }
 
+        /// <summary>
+        /// Read this whole class from string.
+        /// </summary>
+        /// <param name="value"></param>
         public void ReadClass(string value)
         {
             string[] splitStrings = new string[] { BasicName, ISSetName, FighterListName, MonsterListName };

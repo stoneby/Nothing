@@ -9,6 +9,7 @@ public abstract class KxItemRender : MonoBehaviour
 
     public OnSelectedCallback OnSelected;
     public OnHoverCallback OnHovered;
+    public OnHoverCallback OnPress;
 
     private UIEventListener BtnClickUIEventListener;
 
@@ -32,6 +33,7 @@ public abstract class KxItemRender : MonoBehaviour
             HaveNotInit = false;
             BtnClickUIEventListener = UIEventListener.Get(gameObject);
             BtnClickUIEventListener.onClick += OnItemClick;
+            BtnClickUIEventListener.onPress += OnItemPress;
             if (addhover)
             {
                 BtnClickUIEventListener.onHover += OnItemHover;
@@ -55,6 +57,14 @@ public abstract class KxItemRender : MonoBehaviour
         if (OnHovered != null)
         {
             OnHovered(game, state);
+        }
+    }
+
+    private void OnItemPress(GameObject game, bool state)
+    {
+        if (OnPress != null)
+        {
+            OnPress(game, state);
         }
     }
 }

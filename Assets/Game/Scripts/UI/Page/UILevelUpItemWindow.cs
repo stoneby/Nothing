@@ -458,7 +458,7 @@ public class UILevelUpItemWindow : Window
         Refresh(level);
         ResetPreshowData();
         CleanMats(false, true);
-        itemsWindow.Items.repositionNow = true;
+        //itemsWindow.Items.repositionNow = true;
         itemsWindow.RefreshItemCount(itemsWindow.Items.transform.childCount);
     }
 

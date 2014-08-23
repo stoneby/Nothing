@@ -23,6 +23,7 @@ namespace KXSGCodec
 #endif
     public partial class FriendInfo : TBase
     {
+        //Nums count and ClassName.
         private const int FieldCount = 3;
         private const int BasicFieldCount = 9;
         private const int IsSetCount = 10;
@@ -463,8 +464,11 @@ namespace KXSGCodec
             return sb.ToString();
         }
 
-
-
+        /// <summary>
+        /// Write this whole class to stream.
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="className"></param>
         public void WriteClass(StreamWriter writer, string className)
         {
             writer.Write(className);
@@ -496,6 +500,10 @@ namespace KXSGCodec
             PersistenceFileIOHandler.WriteBasic(writer, __isset.maxDamage);
         }
 
+        /// <summary>
+        /// Read this whole class from string.
+        /// </summary>
+        /// <param name="value"></param>
         public void ReadClass(string value)
         {
             string[] splitStrings = new string[] { BasicName, HeroPropListName, ISSetName };

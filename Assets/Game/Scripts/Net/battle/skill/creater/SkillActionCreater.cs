@@ -59,6 +59,7 @@ namespace com.kx.sglm.gs.battle.share.skill.creater
 				_buffAction.CDRound = obj.Round;
 				_buffAction.Priority = obj.Proiority;
 				_buffAction.MaxStackingCount = obj.StackingCount;
+				_buffAction.SceneClear = obj.SceneClear;
 				_buffAction.BuffShowId = obj.BuffShowId;
 				_buffAction.build(obj.BuffParams);
 				return _buffAction;

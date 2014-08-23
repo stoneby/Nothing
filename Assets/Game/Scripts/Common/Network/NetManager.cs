@@ -20,13 +20,16 @@ public class NetManager
     private const int PkgReadLenPerTime = 1024;
 
     public delegate void MessageSended();
+    public delegate void MessageReceived();
     public static MessageSended OnMessageSended;
+    public static MessageSended OnMessageReceived;
 
     public static void SendMessage(TBase msg, bool playEffect = true)
     {
         lock (CSMsgQueue.SyncRoot)
         {
             CSMsgQueue.Enqueue(msg);
+            //Throw the message sended event.
             if (OnMessageSended != null)
             {
                 OnMessageSended();
@@ -115,6 +118,11 @@ public class NetManager
                 // deal with receive sc msg
                 hwresponse = (HttpWebResponse)hwrequest.GetResponse();
                 Logger.Log("response status:" + hwresponse.StatusCode);
+                //Throw the message receive event.
+                if (OnMessageReceived != null)
+                {
+                    OnMessageReceived();
+                }
                 if (hwresponse.StatusCode == HttpStatusCode.OK)
                 {
 

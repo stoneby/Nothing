@@ -1,4 +1,5 @@
-﻿using KXSGCodec;
+﻿using System.Collections.Generic;
+using KXSGCodec;
 
 namespace Assets.Game.Scripts.Net.handler
 {
@@ -24,6 +25,10 @@ namespace Assets.Game.Scripts.Net.handler
             }
         }
 
+        /// <summary>
+        /// Set RandomCharName from server.
+        /// </summary>
+        /// <param name="msg"></param>
         public static void OnRandomCharName(ThriftSCMessage msg)
         {
             var scRandomNameMsg = msg.GetContent() as SCRandomCharNameMsg;
@@ -37,7 +42,7 @@ namespace Assets.Game.Scripts.Net.handler
 
         public static void OnPlayerInfo(ThriftSCMessage msg)
         {
-            PopTextManager.PopTip("登录成功，返回玩家角色信息");
+            //PopTextManager.PopTip("登录成功，返回玩家角色信息");
             var themsg = msg.GetContent() as SCPlayerInfoMsg;
 
 
@@ -56,6 +61,7 @@ namespace Assets.Game.Scripts.Net.handler
                 PlayerModelLocator.Instance.ExtendItemTimes = themsg.ItemExtendTimes;
                 PlayerModelLocator.Instance.HeroMax = themsg.HeroMax;
                 PlayerModelLocator.Instance.Energy = themsg.Energy;
+                PlayerModelLocator.Instance.TeamProp = new Dictionary<int, int>(themsg.TeamProp);
                 ServiceManager.UserID = themsg.UId;
                 if (ServiceManager.IsDebugAccount == 1)
                 {
@@ -63,7 +69,6 @@ namespace Assets.Game.Scripts.Net.handler
                 }
                 else
                 {
-                    //PopTextManager.PopTip("玩家账号：" + themsg.UName);
                     ServiceManager.AddServer(ServiceManager.ServerData.Url);
                     ServiceManager.SetAccount(themsg.UName);
                     MtaManager.ReportGameUser(ServiceManager.UserName, ServiceManager.ServerData.ID, PlayerModelLocator.Instance.Level.ToString());
@@ -71,7 +76,7 @@ namespace Assets.Game.Scripts.Net.handler
             }
             EventManager.Instance.Post(new LoginEvent { Message = "This is login event." });
 
-            WindowManager.Instance.Show(WindowGroupType.Popup, false);
+          
 
             //BattlePersistence
             PersistenceHandler.Instance.GoToPersistenceWay();
@@ -84,8 +89,13 @@ namespace Assets.Game.Scripts.Net.handler
 
         private static void OnFinish()
         {
-            WindowManager.Instance.Show<LoadingWaitWindow>(false);
             WindowManager.Instance.Show<UIMainScreenWindow>(true);
+            WindowManager.Instance.Show<LoginAccountWindow>(false);
+            WindowManager.Instance.Show<LoginCreateRoleWindow>(false);
+            WindowManager.Instance.Show<LoginMainWindow>(false);
+            WindowManager.Instance.Show<LoginRegisterWindow>(false);
+            WindowManager.Instance.Show<LoginServersWindow>(false);
+            WindowManager.Instance.Show<LoadingWaitWindow>(false);
             HttpResourceManager.OnLoadFinish -= OnFinish;
         }
     }

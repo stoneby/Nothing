@@ -7,13 +7,14 @@ public class EnemyControlTest : MonoBehaviour
     private string currentValue = string.Empty;
     private string maxValue = string.Empty;
     private string cd = string.Empty;
+    private string highlight = string.Empty;
 
 #if UNITY_EDITOR
     void OnGUI()
     {
         if (GUILayout.Button("PlayAttack"))
         {
-            EnemyController.PlayAttrack();
+            EnemyController.PlayAttack();
         }
         else if (GUILayout.Button("Play shake"))
         {
@@ -51,6 +52,15 @@ public class EnemyControlTest : MonoBehaviour
         if (GUILayout.Button("Set cd label"))
         {
             EnemyController.SetCdLabel(int.Parse(cd));
+        }
+
+        highlight = (GUILayout.TextField(highlight, 40));
+        if (GUILayout.Button("Set highlight"))
+        {
+            var enemySprite = EnemyController.EnemySprite.GetComponent<UISprite>();
+            enemySprite.HighLight = float.Parse(highlight);
+            enemySprite.Invalidate(true);
+            enemySprite.panel.Refresh();
         }
     }
 #endif

@@ -23,6 +23,9 @@ namespace KXSGCodec
 #endif
     public partial class CSBattlePveFinishMsg : TBase
     {
+        //Nums count and ClassName.
+        private const int BasicCount = 3;
+
         private long _uuid;
         private int _battleResult;
         private sbyte _star;
@@ -219,6 +222,11 @@ namespace KXSGCodec
             return sb.ToString();
         }
 
+        /// <summary>
+        /// Write this whole class to stream.
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="className"></param>
         public void WriteClass(StreamWriter writer, string className)
         {
             writer.Write(className);
@@ -227,10 +235,14 @@ namespace KXSGCodec
             PersistenceFileIOHandler.WriteBasic(writer, Star);
         }
 
+        /// <summary>
+        /// Read this whole class from string.
+        /// </summary>
+        /// <param name="value"></param>
         public void ReadClass(string value)
         {
             string[] outStrings = value.Split(new char[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
-            PersistenceFileIOHandler.CheckCount(outStrings, 3);
+            PersistenceFileIOHandler.CheckCount(outStrings, BasicCount);
 
             Uuid = long.Parse(outStrings[0]);
             BattleResult = int.Parse(outStrings[1]);

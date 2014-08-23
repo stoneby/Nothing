@@ -29,6 +29,8 @@ namespace com.kx.sglm.gs.battle.share.buff
 
 		public abstract int MaxStackingCount {get;set;}
 
+		public abstract int SceneClear {get;set;}
+
 		public abstract FighterStateEnum StateEnum {get;}
 
 
@@ -38,6 +40,7 @@ namespace com.kx.sglm.gs.battle.share.buff
 
 
 		public abstract int BuffFlag {set;}
+
 
 
 
@@ -54,6 +57,8 @@ namespace com.kx.sglm.gs.battle.share.buff
 		public abstract bool needShow(BattleFighterBuff buffInst);
 
 		public abstract bool Buff {get;}
+
+		public abstract bool SceneClearBuff {get;}
 
 	}
 

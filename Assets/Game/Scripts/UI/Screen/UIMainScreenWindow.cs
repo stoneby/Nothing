@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using KXSGCodec;
+using Property;
 using UnityEngine;
 
 /// <summary>
@@ -7,23 +8,64 @@ using UnityEngine;
 /// </summary>
 public class UIMainScreenWindow : Window
 {
-    private UIEventListener addMoneyLis;
-    private UIEventListener addMp;
-    private UIEventListener startGameLis;
-    private UIEventListener filpLeftLis;
+    public float Scale = 1.8f;
 
+    private UIEventListener startGameLis;
 	private UILabel gold;
 	private UILabel diamond;
     private UILabel soul;
     private UILabel nameLabel;
     private UILabel coins;
-
     private UILabel level;
+    private UILabel atk;
+    private UILabel hp;
+    private UILabel recover;
+    private UILabel mp;
+    private UILabel energy;
+
+    private int Atk
+    {
+        set { atk.text = value.ToString(); }
+    } 
+    
+    private int Hp
+    {
+        set { hp.text = value.ToString(); }
+    } 
+    
+    private int Recover
+    {
+        set { recover.text = value.ToString(); }
+    } 
+    
+    private int Mp
+    {
+        set { mp.text = value.ToString(); }
+    } 
+    
+    private int Lvl
+    {
+        set
+        {
+            var levelTemps = LevelModelLocator.Instance.LevelUpTemplates.LevelUpTmpls;
+            if(!levelTemps.ContainsKey(value))
+            {
+                Logger.LogError(string.Format("The current player level is {0}, it is not in the level up template.",
+                                              value));
+            }
+            var levelTemp = levelTemps[value];
+            lvlSlider.value = (float) PlayerModelLocator.Instance.Exp / levelTemp.MaxExp;
+            var energyValue = PlayerModelLocator.Instance.Energy;
+            var maxEnergy = levelTemp.MaxEnergy;
+            energySlider.value = (float) energyValue / maxEnergy;
+            energy.text = string.Format("{0}/{1}", energyValue, maxEnergy);
+            level.text = value.ToString();
+        }
+    }
+
     private UISlider lvlSlider;
     private UISlider energySlider;
-
     private const int LeaderCount = 3;
-
     private readonly List<Transform> leaders = new List<Transform>();
     private readonly List<int> indexs = new List<int>();
     private readonly List<Transform> characterToolkits = new List<Transform>();
@@ -32,6 +74,10 @@ public class UIMainScreenWindow : Window
 
     public override void OnEnter()
     {
+        if (ServiceManager.IsTest)
+        {
+            WindowManager.Instance.Show<MainMenuBarWindow>(true);
+        }
         InstallHandlers();
 		RefreshData ();
         SpawnAndPlay();
@@ -39,6 +85,10 @@ public class UIMainScreenWindow : Window
 
     public override void OnExit()
     {
+        if (ServiceManager.IsTest)
+        {
+            WindowManager.Instance.Show<MainMenuBarWindow>(false);
+        }
         UnstallHandlers();
         Despawn();
     }
@@ -58,6 +108,7 @@ public class UIMainScreenWindow : Window
         {
             var character = leaders[i].GetChild(0).GetComponent<Character>();
             character.StopState(Character.State.Idle);
+            character.transform.localScale = Vector3.one;
             CharacterPoolManager.Instance.CharacterPoolList[indexs[i]].Return(character.gameObject);
         }
         indexs.Clear();
@@ -75,6 +126,7 @@ public class UIMainScreenWindow : Window
             NGUITools.SetActive(characterToolkit.gameObject, false);
             characterToolkits.Add(characterToolkit);
             Utils.AddChild(leaders[i].gameObject, character.gameObject);
+            character.transform.localScale = Scale * Vector3.one;
             indexs.Add(i);
         }
     }
@@ -83,18 +135,26 @@ public class UIMainScreenWindow : Window
     private void Awake()
     {
         startGameLis = UIEventListener.Get(Utils.FindChild(transform, "Button-Start").gameObject);
-        nameLabel = transform.FindChild("Name").GetComponent<UILabel>();
-        level = transform.FindChild("Level/LvlValue").GetComponent<UILabel>();
-        lvlSlider = transform.FindChild("Level/LvlBar").GetComponent<UISlider>();
-        var fortune = transform.FindChild("Fortune");
-        energySlider = fortune.FindChild("Energy/EnergyBar").GetComponent<UISlider>();
-        coins = fortune.FindChild("Coins/CoinsValue").GetComponent<UILabel>();
-        soul = fortune.FindChild("Soul/SoulValue").GetComponent<UILabel>();
-        CommonHandler.PlayerPropertyChanged += OnPlayerPropertyChanged;
+        nameLabel = transform.Find("Name").GetComponent<UILabel>();
+        level = transform.Find("Level/LvlValue").GetComponent<UILabel>();
+        var property = transform.Find("Property");
+        atk = property.Find("Atk/AtkValue").GetComponent<UILabel>();
+        hp = property.Find("Hp/HpValue").GetComponent<UILabel>();
+        recover = property.Find("Recover/RecoverValue").GetComponent<UILabel>();
+        mp = property.Find("Mp/MpValue").GetComponent<UILabel>();
+        
+        lvlSlider = transform.Find("Level/LvlBar").GetComponent<UISlider>();
+        var fortune = transform.Find("Fortune");
+        diamond = fortune.Find("Diamond/DiamondValue").GetComponent<UILabel>();
+        energySlider = fortune.Find("Energy/EnergyBar").GetComponent<UISlider>();
+        energy = fortune.Find("Energy/EnergyValue").GetComponent<UILabel>();
+        coins = fortune.Find("Coins/CoinsValue").GetComponent<UILabel>();
+        soul = fortune.Find("Soul/SoulValue").GetComponent<UILabel>();
         var leadersTran = transform.Find("Leaders");
         leaders.Add(leadersTran.Find("MainLeader"));
         leaders.Add(leadersTran.Find("SecondLeader"));
         leaders.Add(leadersTran.Find("ThirdLeader"));
+        CommonHandler.PlayerPropertyChanged += OnPlayerPropertyChanged;
     }
 
     /// <summary>
@@ -117,20 +177,15 @@ public class UIMainScreenWindow : Window
 
     private void RefreshData()
     {
+        diamond.text = PlayerModelLocator.Instance.Diamond.ToString();
         coins.text = PlayerModelLocator.Instance.Gold.ToString();
         soul.text = PlayerModelLocator.Instance.Sprit.ToString();
         nameLabel.text = PlayerModelLocator.Instance.Name;
-        var curLvl = PlayerModelLocator.Instance.Level;
-        level.text = curLvl.ToString();
-        var levelTemps = LevelModelLocator.Instance.LevelUpTemplates.LevelUpTmpls;
-        if (!levelTemps.ContainsKey(curLvl))
-        {
-            Logger.LogError(string.Format("The current player level is {0}, it is not in the level up template.",curLvl));
-        }
-        var levelTemp = levelTemps[curLvl];
-        lvlSlider.value = (float)PlayerModelLocator.Instance.Exp / levelTemp.MaxExp;
-        energySlider.value = (float)PlayerModelLocator.Instance.Energy / levelTemp.MaxEnergy;
-        
+        Lvl = PlayerModelLocator.Instance.Level;
+        Atk = PlayerModelLocator.Instance.TeamProp[RoleProperties.ROLE_ATK];
+        Hp = PlayerModelLocator.Instance.TeamProp[RoleProperties.ROLE_HP];
+        Recover = PlayerModelLocator.Instance.TeamProp[RoleProperties.ROLE_RECOVER];
+        Mp = PlayerModelLocator.Instance.TeamProp[RoleProperties.ROLE_MP];
     }
 
     private void OnPlayerPropertyChanged(SCPropertyChangedNumber scpropertychanged)
@@ -141,6 +196,12 @@ public class UIMainScreenWindow : Window
     private void OnStartGameClicked(GameObject go)
     {
         MissionModelLocator.Instance.ShowRaidWindow();  
+    }
+
+    public static void GoToMainScreen()
+    {
+        WindowManager.Instance.Show<UIMainScreenWindow>(true);
+        WindowManager.Instance.Show<MainMenuBarWindow>(true);
     }
 
     #endregion

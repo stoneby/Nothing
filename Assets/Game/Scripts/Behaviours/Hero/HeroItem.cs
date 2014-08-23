@@ -8,8 +8,7 @@ using System.Linq;
 public class HeroItem : HeroItemBase
 {
     public string LeaderSpriteName;
-    public string SecondLeaderSpriteName;
-    public string ThirdLeaderSpriteName;
+    public string ViceLeaderSpriteName;
     public string MemberSpriteName;
     public string MemberInOtherSpriteName;
 
@@ -34,16 +33,11 @@ public class HeroItem : HeroItemBase
                         break;
                     }
 
-                case LeaderState.SecondLeader:
+                case LeaderState.ViceLeader:
                     {
-                        leaderStateSprite.spriteName = SecondLeaderSpriteName;
+                        leaderStateSprite.spriteName = ViceLeaderSpriteName;
                         break;
                     }     
-                case LeaderState.ThirdLeader:
-                    {
-                        leaderStateSprite.spriteName = ThirdLeaderSpriteName;
-                        break;
-                    }
 
                 case LeaderState.Member:
                     {

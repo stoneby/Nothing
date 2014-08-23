@@ -31,6 +31,7 @@ namespace com.kx.sglm.gs.battle.share.logic.loop
 		}
 
 
+
 		public override void onFinish()
 		{
 			//当一个BattleField完成的时候战斗就完成了

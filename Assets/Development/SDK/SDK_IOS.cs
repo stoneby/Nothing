@@ -1,25 +1,8 @@
 ﻿using System.Runtime.InteropServices;
 using UnityEngine;
 
-public class SDK_IOS : MonoBehaviour
+public class SDK_IOS
 {
-	#region Mono
-	
-	// Use this for initialization
-	void Start () 
-	{
-		
-	}
-	
-	// Update is called once per frame
-	void Update () 
-	{
-		
-	}
-	
-	#endregion
-
-//#if UNITY_IPHONE
 	[DllImport("__Internal")]
 	private static extern void PressInitialize(int gameid,string appversion,string f,string extradata);
 	[DllImport("__Internal")]
@@ -38,8 +21,10 @@ public class SDK_IOS : MonoBehaviour
     private static extern void PressPay(string remark, int userid, int serverid, string roleid, string extradata);
     [DllImport("__Internal")]
 	private static extern void PressWeburl(int userid,int urltype,string url,int serverid);
-    
-	
+
+    /// <summary>
+    /// Calling initialize function in IOS SDK from Unity.
+    /// </summary>
 	public static void ActivateInitialize()
 	{
 		if (Application.platform != RuntimePlatform.OSXEditor)
@@ -48,7 +33,10 @@ public class SDK_IOS : MonoBehaviour
             PressInitialize(int.Parse(ServiceManager.GameID), GameConfig.Version, ServiceManager.FValue, "111111111");
 		}
 	}
-	
+
+	/// <summary>
+	/// Calling login function in IOS SDK from Unity.
+	/// </summary>
 	public static void ActivateLogin()
 	{
 		if (Application.platform != RuntimePlatform.OSXEditor)
@@ -57,7 +45,10 @@ public class SDK_IOS : MonoBehaviour
             PressLogin(int.Parse(ServiceManager.ServerData.SID), "111111111");
 		}
 	}
-	
+
+    /// <summary>
+    /// Calling logout function in IOS SDK from Unity.
+    /// </summary>
 	public static void ActivateLogout()
 	{
 		if (Application.platform != RuntimePlatform.OSXEditor)
@@ -65,7 +56,10 @@ public class SDK_IOS : MonoBehaviour
             PressLogout(int.Parse(ServiceManager.UserID.ToString()), int.Parse(ServiceManager.ServerData.SID), "111111111");
 		}
 	}
-	
+
+    /// <summary>
+    /// Calling addrole function in IOS SDK from Unity.
+    /// </summary>
 	public static void ActivateAddrole()
 	{
 		if (Application.platform != RuntimePlatform.OSXEditor)
@@ -73,7 +67,10 @@ public class SDK_IOS : MonoBehaviour
 			//PressAddrole(159630813,"123456","123456",15,"111111111");
 		}
 	}
-	
+
+    /// <summary>
+    /// Calling iospay function in IOS SDK from Unity.
+    /// </summary>
 	public static void ActivateIospay()
 	{
 		if (Application.platform != RuntimePlatform.OSXEditor)
@@ -81,7 +78,10 @@ public class SDK_IOS : MonoBehaviour
             PressIospay(int.Parse(ServiceManager.UserID.ToString()), "1", "1", "1", "1", "1", 1, "1", "1", "1", 15, "111111111");
 		}
 	}
-	
+
+    /// <summary>
+    /// Calling weburl function in IOS SDK from Unity.
+    /// </summary>
 	public static void ActivateWeburl()
 	{
 		if (Application.platform != RuntimePlatform.OSXEditor)
@@ -90,6 +90,9 @@ public class SDK_IOS : MonoBehaviour
 		}
 	}
 
+    /// <summary>
+    /// Calling pay function in IOS SDK from Unity.
+    /// </summary>
     public static void ActivatePay(string gameOrderId)
     {
         if (Application.platform != RuntimePlatform.OSXEditor)
@@ -98,5 +101,4 @@ public class SDK_IOS : MonoBehaviour
                 PlayerModelLocator.Instance.RoleId.ToString(), "11");
         }
     }
-//#endif
 }

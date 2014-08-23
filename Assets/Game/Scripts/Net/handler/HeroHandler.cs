@@ -18,7 +18,7 @@ namespace Assets.Game.Scripts.Net.handler
                     if(HeroModelLocator.Instance.GetHeroPos == RaidType.GetHeroInBattle)
                     {
                         WindowManager.Instance.Show<SetBattleWindow>(true);
-                        //WindowManager.Instance.Show<RaidsWindow>(false);    
+                        WindowManager.Instance.Show<RaidsWindow>(false);    
                     }
                     else if(HeroModelLocator.Instance.GetHeroPos == RaidType.GetHeroInHeroPanel)
                     {
@@ -26,6 +26,7 @@ namespace Assets.Game.Scripts.Net.handler
                         {
                             HeroListInHeroPanel();
                         }
+                        WindowManager.Instance.Show<UIHeroCommonWindow>(true);
                     }
                     else if(HeroModelLocator.Instance.GetHeroPos == RaidType.GetHeroInHeroCreateTeam)
                     {
@@ -43,8 +44,8 @@ namespace Assets.Game.Scripts.Net.handler
                         }
                         var infos = HeroModelLocator.Instance.SCHeroList.HeroList;
                         infos.Add(createOneMsg.NewHero);
-                        var herosWindow = WindowManager.Instance.GetWindow<UIHeroCommonWindow>();
-                        herosWindow.Refresh(infos);
+                        //var herosWindow = WindowManager.Instance.GetWindow<UIHeroCommonWindow>();
+                        //herosWindow.Refresh(infos);
                     }
                     break;
                 case (short) MessageType.SC_HERO_MODIFY_TEAM:
@@ -71,15 +72,14 @@ namespace Assets.Game.Scripts.Net.handler
                             }
                         }
                         WindowManager.Instance.Show<UISellDialogWindow>(false);
-                        var sellhero = WindowManager.Instance.GetWindow<UISellHeroWindow>();
+                        var sellhero = WindowManager.Instance.GetWindow<UIHeroCommonWindow>().SellHeroHandler;
                         sellhero.CleanUp();
                         WindowManager.Instance.GetWindow<UIHeroCommonWindow>().Refresh(heroList);
-                        sellhero.FreshSellStates();
                     }
                     break;
 
                 case (short) MessageType.SC_HERO_LVL_UP:
-                    WindowManager.Instance.GetWindow<UILevelUpHeroWindow>().ShowLevelOver();
+                    WindowManager.Instance.GetWindow<UIHeroCommonWindow>().LevelUpHeroHandler.ShowLevelOver();
                     break;
                 case (short) MessageType.SC_HERO_MAX_EXTEND:
                     var themsg = msg.GetContent() as SCHeroMaxExtend;
@@ -92,9 +92,30 @@ namespace Assets.Game.Scripts.Net.handler
                     var hChangeEquipMsg = msg.GetContent() as SCHeroChangeEquip;
                     if(hChangeEquipMsg != null)
                     {
-                        var heroDetail = WindowManager.Instance.GetWindow<UIHeroDetailWindow>();
-                        heroDetail.HeroInfo.EquipUuid[heroDetail.CurEquipIndex] = hChangeEquipMsg.EquipUuid;
-                        heroDetail.EquipOver(heroDetail.HeroInfo);
+                        //var heroDetail = WindowManager.Instance.GetWindow<UIHeroDetailWindow>();
+                        //heroDetail.HeroInfo.EquipUuid[heroDetail.CurEquipIndex] = hChangeEquipMsg.EquipUuid;
+                        //heroDetail.EquipOver(heroDetail.HeroInfo);
+                        for (int k = 0; k < ItemModeLocator.Instance.ScAllItemInfos.ItemInfos.Count; k++)
+                        {
+                            if (ItemModeLocator.Instance.ScAllItemInfos.ItemInfos[k].Id == hChangeEquipMsg.EquipUuid)
+                            {
+                                ItemModeLocator.Instance.ScAllItemInfos.ItemInfos[k].EquipStatus = 1;
+                                for (int i = 0; i < HeroModelLocator.Instance.SCHeroList.HeroList.Count; i++)
+                                {
+                                    if (HeroModelLocator.Instance.SCHeroList.HeroList[i].Uuid == hChangeEquipMsg.HeroUuid)
+                                    {
+                                        HeroModelLocator.Instance.SCHeroList.HeroList[i].EquipUuid[hChangeEquipMsg.Index] =
+                                            hChangeEquipMsg.EquipUuid;
+                                        HeroModelLocator.Instance.SCHeroList.HeroList[i].EquipTemplateId[hChangeEquipMsg.Index] =
+                                            ItemModeLocator.Instance.ScAllItemInfos.ItemInfos[k].TmplId;
+                                    }
+                                }
+                            }
+                            if (ItemModeLocator.Instance.ScAllItemInfos.ItemInfos[k].Id == hChangeEquipMsg.UnEquipUuid)
+                            {
+                                ItemModeLocator.Instance.ScAllItemInfos.ItemInfos[k].EquipStatus = 0;
+                            }
+                        }
                     }
                     break;
                 case (short) MessageType.SC_HERO_BIND_SUCC:

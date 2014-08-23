@@ -38,7 +38,7 @@ public class GameConfig
     public static float Attrack9SwardWaitTime = 0.1f;    //第9击刀光效果时间间隔
     public static float Attrack9TotalSwardTime = 1.0f;   //第9击刀光使用总时间
     public static float PlayMonsterEffectTime = 0.7f;    //怪的特效时间
-    public static float MonsterAttrackStepTime = 0.2f;   //怪普通攻击间隔时间
+    public static float MonsterAttackStepTime = 0.2f;   //怪普通攻击间隔时间
     public static float HeroBeenAttrackTime = 0.5f;      //武将受击时间
 
 }

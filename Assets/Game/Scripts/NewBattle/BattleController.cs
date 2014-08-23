@@ -53,7 +53,7 @@ public class BattleController : MonoBehaviour
 
             // enemy hurt.
             var enemyControll = enemy.GetComponent<EnemyControl>();
-            enemyControll.PlayAttrack();
+            enemyControll.PlayAttack();
             enemyControll.PlayShake();
 
             // set run state.

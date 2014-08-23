@@ -296,6 +296,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 		public virtual void activeSceneStartBuff(SceneStartEvent @event)
 		{
 			buffManager.activeAllBuff(BattleConstants.BUFF_ALL_FALG);
+			effectAllBuff();
 		}
 
 		public virtual void onSceneStop()
@@ -303,6 +304,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 			buffManager.onSceneStop();
 	//		stateManager.clearState();
 			stateManager.clearState();
+			recalcProp();
 		}
 
 		/// <summary>
@@ -601,7 +603,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 
 		public virtual void effectAllBuff()
 		{
-			buffManager.onTeamBeforeAttack();
+			buffManager.recalcPropEffectBuffs();
 		}
 
 	}

@@ -73,12 +73,9 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 400008}
-  - 114: {fileID: 11400008}
   - 114: {fileID: 11400022}
   - 114: {fileID: 11400024}
-  - 114: {fileID: 11400028}
-  - 114: {fileID: 11400030}
-  - 114: {fileID: 11400012}
+  - 114: {fileID: 11400008}
   m_Layer: 8
   m_Name: SpriteEnemy
   m_TagString: Untagged
@@ -273,7 +270,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100008}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 17, z: 0}
+  m_LocalPosition: {x: 0, y: 57, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400010}
@@ -433,7 +430,8 @@ MonoBehaviour:
   mPivot: 3
   mWidth: 128
   mHeight: 22
-  mDepth: 7
+  mDepth: 16
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -508,7 +506,8 @@ MonoBehaviour:
   mPivot: 4
   mWidth: 150
   mHeight: 20
-  mDepth: 9
+  mDepth: 25
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -571,16 +570,17 @@ MonoBehaviour:
   updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
-  mWidth: 170
-  mHeight: 220
-  mDepth: 6
+  mWidth: 224
+  mHeight: 286
+  mDepth: 15
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
-  aspectRatio: .772727251
+  aspectRatio: .783216774
   mType: 0
   mFillDirection: 4
   mFillAmount: 1
@@ -591,8 +591,8 @@ MonoBehaviour:
   rightType: 1
   bottomType: 1
   topType: 1
-  mAtlas: {fileID: 11400000, guid: d87aa08f93592fd48a2676650e3a1190, type: 2}
-  mSpriteName: BossNormal
+  mAtlas: {fileID: 11400000, guid: aef2f83cf81d2a84b901d9980a7f782a, type: 2}
+  mSpriteName: Pangzi
   mFillCenter: 1
 --- !u!114 &11400010
 MonoBehaviour:
@@ -627,6 +627,7 @@ MonoBehaviour:
   mWidth: 168
   mHeight: 238
   mDepth: 5
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -634,17 +635,6 @@ MonoBehaviour:
   hideIfOffScreen: 0
   keepAspectRatio: 0
   aspectRatio: .70588237
---- !u!114 &11400012
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100008}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35bf19002dfba914292777ad767f6cdf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &11400014
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -658,9 +648,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Index: 0
   IDIndex: 0
-  Location:
-    X: 0
-    Y: 0
   Type: 0
   ColorIndex: 0
   IsLeader: 0
@@ -700,6 +687,7 @@ MonoBehaviour:
   mWidth: 84
   mHeight: 86
   mDepth: 12
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -740,6 +728,7 @@ MonoBehaviour:
   BaseWidget: {fileID: 0}
   MoveSpeed: 1
   MoveDuration: .5
+  HighLight: .600000024
   CharacterData: {fileID: 11400014}
 --- !u!114 &11400020
 MonoBehaviour:
@@ -773,7 +762,8 @@ MonoBehaviour:
   mPivot: 3
   mWidth: 128
   mHeight: 22
-  mDepth: 8
+  mDepth: 16
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -908,7 +898,8 @@ MonoBehaviour:
   mPivot: 4
   mWidth: 77
   mHeight: 16
-  mDepth: 11
+  mDepth: 25
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -941,91 +932,6 @@ MonoBehaviour:
   mMaxLineHeight: 0
   mLineWidth: 0
   mMultiline: 1
---- !u!114 &11400028
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100008}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0401554a0e6f9466db3c1a798d358b8c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tweenName: ScallTween
-  playAutomatically: 0
-  delay: 0
-  type: 30
-  showIconInInspector: 0
-  keys:
-  - scale
-  - time
-  - oncomplete
-  indexes: 000000000000000000000000
-  metadatas:
-  - v
-  - 
-  - 
-  ints: 
-  floats:
-  - .200000003
-  bools: 
-  strings:
-  - OnScallComplete
-  vector3s:
-  - {x: 1.5, y: 1.5, z: 0}
-  colors: []
-  spaces: 
-  easeTypes: 
-  loopTypes: 
-  gameObjects: []
-  transforms: []
-  audioClips: []
-  audioSources: []
-  vector3Arrays: []
-  transformArrays: []
-  paths: []
---- !u!114 &11400030
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100008}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0401554a0e6f9466db3c1a798d358b8c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tweenName: ScallEndTween
-  playAutomatically: 0
-  delay: 0
-  type: 30
-  showIconInInspector: 0
-  keys:
-  - scale
-  - time
-  indexes: 0000000000000000
-  metadatas:
-  - v
-  - 
-  ints: 
-  floats:
-  - .300000012
-  bools: 
-  strings: []
-  vector3s:
-  - {x: 1, y: 1, z: 0}
-  colors: []
-  spaces: 
-  easeTypes: 
-  loopTypes: 
-  gameObjects: []
-  transforms: []
-  audioClips: []
-  audioSources: []
-  vector3Arrays: []
-  transformArrays: []
-  paths: []
 --- !u!114 &11400032
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1059,6 +965,7 @@ MonoBehaviour:
   mWidth: 100
   mHeight: 100
   mDepth: 23
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -1099,6 +1006,7 @@ MonoBehaviour:
   mWidth: 100
   mHeight: 100
   mDepth: 26
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -1178,7 +1086,8 @@ MonoBehaviour:
   mPivot: 4
   mWidth: 46
   mHeight: 24
-  mDepth: 22
+  mDepth: 25
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -1241,9 +1150,10 @@ MonoBehaviour:
   updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
-  mWidth: 84
+  mWidth: 82
   mHeight: 20
-  mDepth: 22
+  mDepth: 25
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1

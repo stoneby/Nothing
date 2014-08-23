@@ -32,9 +32,10 @@ public class PopTextManager
 
     private static float LastTime = -10;
     private static float LastPos = 0;
-    public static void PopTip(string str)
+    public static void PopTip(string str, bool checktest = true)
     {
-        Logger.Log(str);
+        //Logger.Log(str);
+        if (checktest && !ServiceManager.IsTest) return;
         var t = Time.time;
         if (t - LastTime < 3 && LastPos < 300)
         {

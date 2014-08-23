@@ -45,7 +45,7 @@ public class HeroMenuBarWindow : Window
                 }
                 case BarItemType.HeroLevelUp:
                 {
-                    WindowManager.Instance.Show<UILevelUpHeroWindow>(true, true);
+                    //WindowManager.Instance.Show<UILevelUpHeroWindow>(true, true);
                     break;
                 }
                 case BarItemType.HeroBreak:
@@ -54,7 +54,7 @@ public class HeroMenuBarWindow : Window
                 }
                 case BarItemType.HeroSell:
                 {
-                    WindowManager.Instance.Show<UISellHeroWindow>(true, true);
+                    //WindowManager.Instance.Show<UISellHeroWindow>(true, true);
                     break;
                 }
         }
@@ -107,7 +107,7 @@ public class HeroMenuBarWindow : Window
         else
         {
             WindowManager.Instance.Show<UIHeroCommonWindow>(true, true);
-            WindowManager.Instance.Show<UILevelUpHeroWindow>(true, true);
+            //WindowManager.Instance.Show<UILevelUpHeroWindow>(true, true);
         }    
     }
 
@@ -128,7 +128,7 @@ public class HeroMenuBarWindow : Window
         else
         {
             WindowManager.Instance.Show<UIHeroCommonWindow>(true, true);
-            WindowManager.Instance.Show<UISellHeroWindow>(true, true);
+            //WindowManager.Instance.Show<UISellHeroWindow>(true, true);
         }  
     }
 

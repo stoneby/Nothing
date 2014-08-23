@@ -13,12 +13,11 @@ public class TeamSelectController : MonoBehaviour
 {
     #region Public Fields
 
-    public TeamFormationController FormationController;
+    public CharacterGroupController GroupController;
+
     public AttackSimulator AttackSimulator;
 
-    public List<Character> CharacterList;
     public MyPoolManager DragBarPool;
-    public MyPoolManager CharacterPool;
 
     public int Row;
     public int Col;
@@ -74,6 +73,22 @@ public class TeamSelectController : MonoBehaviour
     public int VisibleCount
     {
         get { return Row * Col; }
+    }
+
+    /// <summary>
+    /// Character list.
+    /// </summary>
+    public List<Character> CharacterList
+    {
+        get { return GroupController.CharacterList; }
+    }
+
+    /// <summary>
+    /// Team Formation controller.
+    /// </summary>
+    public TeamFormationController FormationController
+    {
+        get { return GroupController.FormationController; }
     }
 
     #endregion
@@ -140,11 +155,7 @@ public class TeamSelectController : MonoBehaviour
 
         initialized = false;
 
-        // return back to pool.
-        if (CharacterPool != null)
-        {
-            CharacterList.ForEach(character => CharacterPool.Return(character.gameObject));
-        }
+        GroupController.Cleanup();
 
         // unregister events to all characters.
         UnregisterEventHandlers();
@@ -164,30 +175,7 @@ public class TeamSelectController : MonoBehaviour
         // could select as default.
         Enable = true;
 
-        if (CharacterList == null)
-        {
-            CharacterList = new List<Character>();
-        }
-
-        if (CharacterList.Count == 0)
-        {
-            Logger.LogWarning("Dynamic binding mode, take character from pool of number: " + Total);
-
-            if (CharacterPool == null)
-            {
-                Logger.LogError("Dynamic binding mode need CharacterPool not be null.");
-                return;
-            }
-
-            for (var i = 0; i < Total; ++i)
-            {
-                var character = CharacterPool.Take().GetComponent<Character>();
-                CharacterList.Add(character);
-                Utils.AddChild(gameObject, character.gameObject);
-            }
-        }
-
-        Total = CharacterList.Count;
+        GroupController.Initialize();
 
         if (CharacterList.Count < VisibleCount)
         {
@@ -197,8 +185,8 @@ public class TeamSelectController : MonoBehaviour
             return;
         }
 
-        InitOnStagePosition();
         InitWaitingStackPosition();
+        InitOnStagePosition();
 
         // generate bounds according to its children.
         var boundGenerator = GetComponent<BoundsGenerator>() ?? gameObject.AddComponent<BoundsGenerator>();
@@ -503,7 +491,7 @@ public class TeamSelectController : MonoBehaviour
     private void InitOnStagePosition()
     {
         // get latest formation list as default.
-        var positionList = FormationController.LatestPositionList;
+        var positionList = GroupController.PositionList;
         for (var i = 0; i < CharacterList.Count; ++i)
         {
             var character = CharacterList[i];
@@ -517,8 +505,9 @@ public class TeamSelectController : MonoBehaviour
             }
             else
             {
-                character.transform.position = Vector3.zero;
-                character.gameObject.SetActive(false);
+                var stackCount = WaitingStackList.Count;
+                var index = i % stackCount;
+                character.transform.position = WaitingStackList[index].transform.position;
             }
             character.Index = i;
             character.name += "_" + i;

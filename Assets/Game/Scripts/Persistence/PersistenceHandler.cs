@@ -10,20 +10,27 @@ public class PersistenceHandler : Singleton<PersistenceHandler>
 {
     #region Private Fields
 
-    private bool isOpenPersistence = true;
+    //Switcher to open or close Battle Persistence function.
+    private readonly bool isOpenPersistence = true;
 
-    //Waiting seconds
+    //Check BattleEndMessage sent succeed or not after waiting seconds.
     private const int WaitingSeconds = 3;
 
-    private bool IsReSendMessageNowClickDown = false;
+    //Nums count for verifying stored data.
+    private const int LoginInfoCount = 2;
+    private const int PersistenceInfoCount = 10;
 
-    private const int loginInfoCount = 2;
-    private const int persistenceInfoCount = 9;
+    //Store BattleEndMessage for resending if send failed.
+    private CSBattlePveFinishMsg tempEndBattleMsg = new CSBattlePveFinishMsg();
 
     #endregion
 
     #region Private Methods
 
+    /// <summary>
+    /// ReStart Battle function, assigned to OKBtn listener in SimpleConfirmWindow
+    /// </summary>
+    /// <param name="go"></param>
     private void OnReStratBattle(GameObject go)
     {
         StartCoroutine(DoReStartBattle());
@@ -50,11 +57,13 @@ public class PersistenceHandler : Singleton<PersistenceHandler>
 
             BattleModelLocator.Instance.MainBattle = factory.createBattle(BattleModelLocator.Instance.Source);
 
-            Dictionary<string, float> tempPersistence = new Dictionary<string, float>();
+            var tempPersistence = new Dictionary<string, string>();
+
+            //Start battle scene accroding to different Mode.
             if (Mode == PersistenceMode.ReStartBattleWithPersistence)
             {
                 tempPersistence = LoadPersistence();
-                BattleModelLocator.Instance.MainBattle.startOnSceneIndex((int)tempPersistence["TopData"]);
+                BattleModelLocator.Instance.MainBattle.startFromDataStore(tempPersistence["ServerLogicKey"]);
             }
             else
             {
@@ -66,7 +75,7 @@ public class PersistenceHandler : Singleton<PersistenceHandler>
             // client side show.
             var window = Singleton<WindowManager>.Instance.Show(typeof(BattleWindow), true).gameObject;
             Singleton<WindowManager>.Instance.Show(typeof(RaidsWindow), false);
-            //Singleton<WindowManager>.Instance.Show(typeof(MainMenuBarWindow), false);
+            Singleton<WindowManager>.Instance.Show(typeof(MainMenuBarWindow), false);
             Singleton<WindowManager>.Instance.Show(typeof(SetBattleWindow), false);
 
             if (Mode == PersistenceMode.ReStartBattleWithPersistence)
@@ -76,18 +85,27 @@ public class PersistenceHandler : Singleton<PersistenceHandler>
         }
         catch (Exception e)
         {
+            //Delete all stored file if catch exception.
             Debug.LogError("Catch Exception in DoReStartBattle, delete all persistence file to initialize.");
             Debug.LogException(e);
-            PopTextManager.PopTip("执行持久化操作时出现异常，已经删除存储的持久化信息, 请重启游戏。");
-            new FileInfo(LoginInfoPath).Delete();
-            new FileInfo(StartBattlePath).Delete();
-            new FileInfo(PersistencePath).Delete();
-            new FileInfo(EndBattlePath).Delete();
+            PopTextManager.PopTip("执行持久化操作时出现异常，已经删除存储的持久化信息。");
+            File.Move(LoginInfoPath, LoginInfoPath + "Rename");
+            new FileInfo(LoginInfoPath + "Rename").Delete();
+            File.Move(StartBattlePath, StartBattlePath + "Rename");
+            new FileInfo(StartBattlePath + "Rename").Delete();
+            File.Move(PersistencePath, PersistencePath + "Rename");
+            new FileInfo(PersistencePath + "Rename").Delete();
+            File.Move(EndBattlePath, EndBattlePath + "Rename");
+            new FileInfo(EndBattlePath + "Rename").Delete();
         }
 
         yield return null;
     }
 
+    /// <summary>
+    /// ReSendMessage function, assigned to OKBtn listener in SimpleConfirmWindow
+    /// </summary>
+    /// <param name="go"></param>
     private void OnReSendMessage(GameObject go)
     {
         StartCoroutine(DoReSendMessage());
@@ -97,6 +115,8 @@ public class PersistenceHandler : Singleton<PersistenceHandler>
     {
         try
         {
+            WindowManager.Instance.Show<SimpleConfirmWindow>(false);
+
             if (Mode == PersistenceMode.ReSendMessageNext)
             {
                 var battleEndMsg = LoadBattleEndMessage();
@@ -105,28 +125,39 @@ public class PersistenceHandler : Singleton<PersistenceHandler>
                 MtaManager.TrackEndPage(MtaType.BattleScreen);
 
                 //Check battle end succeed.
-                StartCoroutine(MakeBattleEndSucceed(battleEndMsg));
+                StartCoroutine(CheckBattleEndSucceed(battleEndMsg));
             }
 
             if (Mode == PersistenceMode.ReSendMessageNow)
             {
-                IsReSendMessageNowClickDown = true;
+                Logger.Log("Resend Battle End Message now.");
+                NetManager.SendMessage(tempEndBattleMsg);
+                StartCoroutine(CheckBattleEndSucceed(tempEndBattleMsg));
             }
         }
         catch (Exception e)
         {
+            //Delete all stored file if catch exception.
             Debug.LogError("Catch Exception in DoReSendMessage, delete all persistence file to initialize.");
             Debug.LogException(e);
-            PopTextManager.PopTip("执行持久化操作时出现异常，已经删除存储的持久化信息, 请重启游戏。");
-            new FileInfo(LoginInfoPath).Delete();
-            new FileInfo(StartBattlePath).Delete();
-            new FileInfo(PersistencePath).Delete();
-            new FileInfo(EndBattlePath).Delete();
+            PopTextManager.PopTip("执行持久化操作时出现异常，已经删除存储的持久化信息。");
+            File.Move(LoginInfoPath, LoginInfoPath + "Rename");
+            new FileInfo(LoginInfoPath + "Rename").Delete();
+            File.Move(StartBattlePath, StartBattlePath + "Rename");
+            new FileInfo(StartBattlePath + "Rename").Delete();
+            File.Move(PersistencePath, PersistencePath + "Rename");
+            new FileInfo(PersistencePath + "Rename").Delete();
+            File.Move(EndBattlePath, EndBattlePath + "Rename");
+            new FileInfo(EndBattlePath + "Rename").Delete();
         }
 
         yield return null;
     }
 
+    /// <summary>
+    /// Cancel operation, assigned to CancelBtn.OnClick delegate in SimpleConfirmWindow
+    /// </summary>
+    /// <param name="go"></param>
     private void OnCancel(GameObject go)
     {
         WindowManager.Instance.Show<SimpleConfirmWindow>(false);
@@ -136,9 +167,12 @@ public class PersistenceHandler : Singleton<PersistenceHandler>
             new FileInfo(PersistencePath).Delete();
             new FileInfo(EndBattlePath).Delete();
         }
-        //StopCoroutine(MakeBattleEndSucceed(null));
     }
 
+    /// <summary>
+    /// Set SimpleConfirmWindow's label and eventlistener accroding to different Mode.
+    /// </summary>
+    /// <param name="window"></param>
     private void SetConfirmWindow(SimpleConfirmWindow window)
     {
         if (Mode == PersistenceMode.ReStartBattle || Mode == PersistenceMode.ReStartBattleWithPersistence)
@@ -159,6 +193,7 @@ public class PersistenceHandler : Singleton<PersistenceHandler>
         }
     }
 
+    //Store and Load persistence data functions.
     private void StoreLoginInfo(Dictionary<string, string> value)
     {
         if (isOpenPersistence)
@@ -169,12 +204,8 @@ public class PersistenceHandler : Singleton<PersistenceHandler>
             {
                 fileInfo.Delete();
             }
-#if false
-            StreamWriter writer = File.AppendText(LoginInfoPath);
-#else
-            StreamWriter writer = new StreamWriter(EncryptionManagement.Encrypt(LoginInfoPath));
-#endif
 
+            StreamWriter writer = new StreamWriter(EncryptionManagement.Encrypt(LoginInfoPath));
             foreach (var pair in value)
             {
                 writer.WriteLine(pair.Key + "\t" + pair.Value);
@@ -195,12 +226,7 @@ public class PersistenceHandler : Singleton<PersistenceHandler>
             throw new Exception("LoginInfo file not existed.");
         }
 
-#if false
-        StreamReader reader = File.OpenText(LoginInfoPath);
-#else
         StreamReader reader = new StreamReader(EncryptionManagement.Decrypt(LoginInfoPath));
-#endif
-
         var loginInfo = new Dictionary<string, string>();
 
         string tempString;
@@ -208,6 +234,8 @@ public class PersistenceHandler : Singleton<PersistenceHandler>
         while ((tempString = reader.ReadLine()) != null)
         {
             string[] splitedStrings = tempString.Split(splitChars);
+
+            //Check string array's num.
             if (splitedStrings.Length != 2)
             {
                 Logger.LogError("Not key,value pair in file. Loading file aborted!");
@@ -217,7 +245,8 @@ public class PersistenceHandler : Singleton<PersistenceHandler>
             loginInfo.Add(splitedStrings[0], splitedStrings[1]);
         }
 
-        if (loginInfo.Count != loginInfoCount)
+        //Check string array's num.
+        if (loginInfo.Count != LoginInfoCount)
         {
             Logger.LogError("Not correct key,value pair in file. Loading file aborted!");
             reader.Close();
@@ -235,12 +264,7 @@ public class PersistenceHandler : Singleton<PersistenceHandler>
         StartBattleSerialize battleStart = new StartBattleSerialize();
         battleStart.BattleStartMsg = battlestartmsg;
 
-#if false
-        StreamWriter writer = File.AppendText(StartBattlePath);
-#else
         StreamWriter writer = new StreamWriter(EncryptionManagement.Encrypt(StartBattlePath));
-#endif
-
         battleStart.WriteClass(writer, "BattleStart:");
         writer.Close();
 
@@ -257,12 +281,7 @@ public class PersistenceHandler : Singleton<PersistenceHandler>
             throw new Exception("Start battle file not existed!");
         }
 
-#if false
-        StreamReader reader = File.OpenText(StartBattlePath);
-#else
         StreamReader reader = new StreamReader(EncryptionManagement.Decrypt(StartBattlePath));
-#endif
-
         string value = reader.ReadToEnd();
         string[] outStrings = value.Split(new string[] { "BattleStart:" }, StringSplitOptions.RemoveEmptyEntries);
         PersistenceFileIOHandler.CheckCount(outStrings, 1);
@@ -274,7 +293,7 @@ public class PersistenceHandler : Singleton<PersistenceHandler>
         return battleStart.BattleStartMsg;
     }
 
-    private void DoStorePersistence(Dictionary<string, float> value)
+    private void DoStorePersistence(Dictionary<string, string> value)
     {
         var fileInfo = new FileInfo(PersistencePath);
 
@@ -282,22 +301,20 @@ public class PersistenceHandler : Singleton<PersistenceHandler>
         {
             fileInfo.Delete();
         }
-#if false
-        StreamWriter writer = File.AppendText(PersistencePath);
-#else
-        StreamWriter writer = new StreamWriter(EncryptionManagement.Encrypt(PersistencePath));
-#endif
 
+        StreamWriter writer = new StreamWriter(EncryptionManagement.Encrypt(PersistencePath));
         foreach (var pair in value)
         {
-            writer.WriteLine(pair.Key + "\t" + pair.Value.ToString());
+            writer.WriteLine(pair.Key + "\t" + pair.Value);
         }
+        var tempString=BattleModelLocator.Instance.MainBattle.StoreData.toStoreStr();
+        writer.WriteLine("ServerLogicKey" + "\t" + tempString);
 
         writer.Close();
         Logger.Log("Persistence file written");
     }
 
-    private Dictionary<string, float> LoadPersistence()
+    private Dictionary<string, string> LoadPersistence()
     {
         var fileInfo = new FileInfo(PersistencePath);
 
@@ -307,13 +324,8 @@ public class PersistenceHandler : Singleton<PersistenceHandler>
             throw new Exception("Persistence file not existed!");
         }
 
-#if false
-        StreamReader reader = File.OpenText(PersistencePath);
-#else
         StreamReader reader = new StreamReader(EncryptionManagement.Decrypt(PersistencePath));
-#endif
-
-        Dictionary<string, float> persistenceInfo = new Dictionary<string, float>();
+        Dictionary<string, string> persistenceInfo = new Dictionary<string, string>();
         persistenceInfo.Clear();
 
         string tempString;
@@ -321,15 +333,17 @@ public class PersistenceHandler : Singleton<PersistenceHandler>
         while ((tempString = reader.ReadLine()) != null)
         {
             string[] splitedStrings = tempString.Split(splitChars);
+            //Check string array's num.
             if (splitedStrings.Length != 2)
             {
                 reader.Close();
                 throw new Exception("ReadPersistenceDic: not couple strings.");
             }
-            persistenceInfo.Add(splitedStrings[0], Single.Parse(splitedStrings[1]));
+            persistenceInfo.Add(splitedStrings[0], splitedStrings[1]);
         }
 
-        if (persistenceInfo.Count != persistenceInfoCount)
+        //Check string array's num.
+        if (persistenceInfo.Count != PersistenceInfoCount)
         {
             Logger.LogError("Not correct key,value pair in file. Loading file aborted!");
             reader.Close();
@@ -347,12 +361,7 @@ public class PersistenceHandler : Singleton<PersistenceHandler>
         EndBattleSerialize battleEnd = new EndBattleSerialize();
         battleEnd.BattleEndMsg = msg;
 
-#if false
-        StreamWriter writer = File.AppendText(EndBattlePath);
-#else
         StreamWriter writer = new StreamWriter(EncryptionManagement.Encrypt(EndBattlePath));
-#endif
-
         battleEnd.WriteClass(writer, "BattleEnd:");
         writer.Close();
         Logger.Log("EndBattle file written");
@@ -371,12 +380,7 @@ public class PersistenceHandler : Singleton<PersistenceHandler>
             throw new Exception("End battle file not existed!");
         }
 
-#if false
-        StreamReader reader = File.OpenText(EndBattlePath);
-#else
         StreamReader reader = new StreamReader(EncryptionManagement.Decrypt(EndBattlePath));
-#endif
-
         string value = reader.ReadToEnd();
         string[] outStrings = value.Split(new string[] { "BattleEnd:" }, StringSplitOptions.RemoveEmptyEntries);
         PersistenceFileIOHandler.CheckCount(outStrings, 1);
@@ -388,15 +392,21 @@ public class PersistenceHandler : Singleton<PersistenceHandler>
         return battleEnd.BattleEndMsg;
     }
 
+    /// <summary>
+    /// Check persistence state, is called in GoToPersistenceWay by another coroutine.
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator PersistenceExecute()
     {
-        //Load perisitence file
         try
         {
+            //Check login file exist
             if (new FileInfo(LoginInfoPath).Exists == true)
             {
+                //Check login file consistent
                 if (long.Parse(LoadLoginInfo()["AccountID"]) == ServiceManager.UserID && LoadLoginInfo()["ServerID"] == ServiceManager.ServerData.ID)
                 {
+                    //Verifying persistence Mode
                     if (new FileInfo(StartBattlePath).Exists == true && new FileInfo(EndBattlePath).Exists == false)
                     {
                         Logger.Log("Persistence mode: ReStartBattle.");
@@ -425,8 +435,8 @@ public class PersistenceHandler : Singleton<PersistenceHandler>
                 }
                 else
                 {
-                    PopTextManager.PopTip("更换账号/服务器，或持久化信息不满足战斗要求，已经删除存储的持久化信息。");
                     //Delete file if switch account or server.
+                    PopTextManager.PopTip("更换账号/服务器，或持久化信息不满足战斗要求，已经删除存储的持久化信息。");
                     new FileInfo(StartBattlePath).Delete();
                     new FileInfo(PersistencePath).Delete();
                     new FileInfo(EndBattlePath).Delete();
@@ -435,13 +445,18 @@ public class PersistenceHandler : Singleton<PersistenceHandler>
         }
         catch (Exception e)
         {
+            //Delete all stored files if catch exception.
             Debug.LogError("Catch Exception in PersistenceExecute, delete all persistence file to initialize.");
             Debug.LogException(e);
-            PopTextManager.PopTip("执行持久化操作时出现异常，已经删除存储的持久化信息, 请重启游戏。");
-            new FileInfo(LoginInfoPath).Delete();
-            new FileInfo(StartBattlePath).Delete();
-            new FileInfo(PersistencePath).Delete();
-            new FileInfo(EndBattlePath).Delete();
+            PopTextManager.PopTip("执行持久化操作时出现异常，已经删除存储的持久化信息。");
+            File.Move(LoginInfoPath, LoginInfoPath + "Rename");
+            new FileInfo(LoginInfoPath + "Rename").Delete();
+            File.Move(StartBattlePath, StartBattlePath + "Rename");
+            new FileInfo(StartBattlePath + "Rename").Delete();
+            File.Move(PersistencePath, PersistencePath + "Rename");
+            new FileInfo(PersistencePath + "Rename").Delete();
+            File.Move(EndBattlePath, EndBattlePath + "Rename");
+            new FileInfo(EndBattlePath + "Rename").Delete();
         }
 
         //Store loginaccount file 
@@ -459,6 +474,7 @@ public class PersistenceHandler : Singleton<PersistenceHandler>
 
     #region Public Fields
 
+    // Stored persistence file path.
 #if UNITY_EDITOR
 
     public static string LoginInfoPath = Application.dataPath + "/LoginInfo.txt";
@@ -475,7 +491,10 @@ public class PersistenceHandler : Singleton<PersistenceHandler>
 
 #endif
 
-    public static bool isRaidReward = false;
+    /// <summary>
+    /// Flag to verifying BattleEndMessage sent succeed or not.
+    /// </summary>
+    public static bool IsRaidFinish = false;
 
     public enum PersistenceMode
     {
@@ -485,12 +504,18 @@ public class PersistenceHandler : Singleton<PersistenceHandler>
         ReSendMessageNext,
         Normal
     }
+    /// <summary>
+    /// Mode for managing SimpleConfirmWindow.
+    /// </summary>
     public static PersistenceMode Mode = PersistenceMode.Normal;
 
     #endregion
 
     #region Public Methods
 
+    /// <summary>
+    ///  Store Start Battle data for persistence.
+    /// </summary>
     public void StoreStartBattle(SCBattlePveStartMsg battlestartmsg)
     {
         if (isOpenPersistence)
@@ -499,7 +524,10 @@ public class PersistenceHandler : Singleton<PersistenceHandler>
         }
     }
 
-    public void StorePersistence(Dictionary<string, float> value)
+    /// <summary>
+    ///  Store Persistence data for persistence.
+    /// </summary>
+    public void StorePersistence(Dictionary<string, string> value)
     {
         if (isOpenPersistence)
         {
@@ -507,6 +535,9 @@ public class PersistenceHandler : Singleton<PersistenceHandler>
         }
     }
 
+    /// <summary>
+    ///  Store Battle End data for persistence.
+    /// </summary>
     public void StoreBattleEndMessage(CSBattlePveFinishMsg msg)
     {
         if (isOpenPersistence)
@@ -515,13 +546,23 @@ public class PersistenceHandler : Singleton<PersistenceHandler>
         }
     }
 
-    public IEnumerator MakeBattleEndSucceed(CSBattlePveFinishMsg msg)
+    /// <summary>
+    /// Check BattleEndMessage sent succeed function, is called after sending BattleEndMessage.
+    /// </summary>
+    /// <param name="msg"></param>
+    /// <returns></returns>
+    public IEnumerator CheckBattleEndSucceed(CSBattlePveFinishMsg msg)
     {
         if (isOpenPersistence)
         {
+            //wait several seconds.
             yield return new WaitForSeconds(WaitingSeconds);
-            while (isRaidReward == false)
+
+            if (IsRaidFinish == false)
             {
+                //Show ConfirmWindow if battle end msg sent failed.
+                tempEndBattleMsg = msg;
+
                 if (WindowManager.Instance.GetWindow<SimpleConfirmWindow>() == null)
                 {
                     WindowManager.Instance.Show<SimpleConfirmWindow>(true);
@@ -531,24 +572,23 @@ public class PersistenceHandler : Singleton<PersistenceHandler>
                 window.gameObject.SetActive(true);
                 SetConfirmWindow(window);
 
-                if (IsReSendMessageNowClickDown == true)
-                {
-                    WindowManager.Instance.Show<SimpleConfirmWindow>(false);
-
-                    IsReSendMessageNowClickDown = false;
-                    Logger.Log("Resend Battle End Message now.");
-                    NetManager.SendMessage(msg);
-                }
-                yield return new WaitForSeconds(WaitingSeconds);
+                yield break;
             }
 
-            //Delete file.
+            //Delete file if battle end msg sent succeed.
             new FileInfo(StartBattlePath).Delete();
             new FileInfo(PersistencePath).Delete();
             new FileInfo(EndBattlePath).Delete();
         }
+        else
+        {
+            yield return null;
+        }
     }
 
+    /// <summary>
+    /// Check persistence state, is called when returning playerinfo.
+    /// </summary>
     public void GoToPersistenceWay()
     {
         if (isOpenPersistence)

@@ -50,11 +50,11 @@ public class SetBattleWindow : Window
         RightUIEventListener.onClick += OnRightClick;
         ReturnUIEventListener.onClick += OnReturnClick;
 
-        var cma = Camera.main.GetComponent<UICamera>();
-        if (cma != null)
-        {
-            cma.eventType = UICamera.EventType.UI;
-        }
+//        var cma = Camera.main.GetComponent<UICamera>();
+//        if (cma != null)
+//        {
+//            cma.eventType = UICamera.EventType.UI;
+//        }
         
         SetContent();
     }
@@ -84,7 +84,8 @@ public class SetBattleWindow : Window
         lb.text = MissionModelLocator.Instance.SelectStageNeedEnegry.ToString();
 
         lb = LabelCount.GetComponent<UILabel>();
-        lb.text = "´ÎÊý:" + MissionModelLocator.Instance.SelectStageCountStr;
+        //UIRaid.Count
+        lb.text = LanguageManager.Instance.GetTextValue("UIRaid.Count") + ":" + MissionModelLocator.Instance.SelectStageCountStr;
     }
 
     private void SetSelectFriendHeros(FriendVO thedata)
@@ -100,7 +101,8 @@ public class SetBattleWindow : Window
             var hero = HeroModelLocator.Instance.GetHeroByTemplateId(
                 MissionModelLocator.Instance.FriendData.Data.HeroProp[0].HeroTemplateId);
             var lb = LabelFriendSkill.GetComponent<UILabel>();
-            lb.text = HeroModelLocator.Instance.GetLeaderSkillTemplateById(hero.LeaderSkill).Desc;
+            lb.text = (hero.LeaderSkill == 0) ? "" :HeroModelLocator.Instance.GetLeaderSkillTemplateById(hero.LeaderSkill).Desc;
+            OnSelectedhandler();
         }
     }
 
@@ -159,20 +161,26 @@ public class SetBattleWindow : Window
     {
         var friendlist = new List<FriendVO>();
 
-        for (int i = 0; i < friends.BattleFriend.Count; i++)
+        if (friends != null && friends.BattleFriend != null)
         {
-            var friend = new FriendVO();
-            friend.Data = friends.BattleFriend[i];
-            friend.IsFriend = true;
-            friendlist.Add(friend);
+            for (int i = 0; i < friends.BattleFriend.Count; i++)
+            {
+                var friend = new FriendVO();
+                friend.Data = friends.BattleFriend[i];
+                friend.IsFriend = true;
+                friendlist.Add(friend);
+            }
         }
 
-        for (int i = 0; i < friends.BattleGuest.Count; i++)
+        if (friends != null && friends.BattleGuest != null)
         {
-            var friend = new FriendVO();
-            friend.Data = friends.BattleGuest[i];
-            friend.IsFriend = false;
-            friendlist.Add(friend);
+            for (int i = 0; i < friends.BattleGuest.Count; i++)
+            {
+                var friend = new FriendVO();
+                friend.Data = friends.BattleGuest[i];
+                friend.IsFriend = false;
+                friendlist.Add(friend);
+            }
         }
 
         var box = HListFriends.GetComponent<KxHListRender>();
@@ -230,12 +238,12 @@ public class SetBattleWindow : Window
     private void OnReturnClick(GameObject game)
     {
         WindowManager.Instance.Show(typeof(SetBattleWindow), false);
-        //WindowManager.Instance.Show(typeof(RaidsWindow), true);
-        var cma = Camera.main.GetComponent<UICamera>();
-        if (cma != null)
-        {
-            cma.eventType = UICamera.EventType.Unity2D;
-        }
+        WindowManager.Instance.Show(typeof(RaidsWindow), true);
+//        var cma = Camera.main.GetComponent<UICamera>();
+//        if (cma != null)
+//        {
+//            cma.eventType = UICamera.EventType.Unity2D;
+//        }
     }
 
     private void OnSelectedhandler(GameObject obj = null)
@@ -257,8 +265,8 @@ public class SetBattleWindow : Window
             if (i == 0)
             {
                 lb = LabelLeaderSkill.GetComponent<UILabel>();
-                lb.text = HeroModelLocator.Instance.GetLeaderSkillTemplateById(
-                    HeroModelLocator.Instance.GetHeroByTemplateId(hero.TemplateId).LeaderSkill).Desc;
+                var temp = HeroModelLocator.Instance.GetHeroByTemplateId(hero.TemplateId);
+                lb.text = (temp == null || temp.LeaderSkill == 0) ? "" : HeroModelLocator.Instance.GetLeaderSkillTemplateById(temp.LeaderSkill).Desc;
             }
             if (hero == null) continue;
             if (hero.Prop.ContainsKey(RoleProperties.ROLE_ATK))
@@ -278,6 +286,22 @@ public class SetBattleWindow : Window
                 v3 += hero.Prop[RoleProperties.ROLE_MP];
             }
         }
+
+        var select = SelectFriendItem1.GetComponent<RaidHeadControl>();
+        v0 += select.Attrack;
+        v1 += select.Hp;
+        v2 += select.Recover;
+        v3 += select.Mp;
+        select = SelectFriendItem2.GetComponent<RaidHeadControl>();
+        v0 += select.Attrack;
+        v1 += select.Hp;
+        v2 += select.Recover;
+        v3 += select.Mp;
+        select = SelectFriendItem3.GetComponent<RaidHeadControl>();
+        v0 += select.Attrack;
+        v1 += select.Hp;
+        v2 += select.Recover;
+        v3 += select.Mp;
 
         lb = LabelAtk.GetComponent<UILabel>();
         lb.text = v0.ToString();

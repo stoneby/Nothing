@@ -9,9 +9,14 @@ namespace com.kx.sglm.gs.battle.share.buff.effect
 
 		protected internal AmendTriple amendTriple;
 
-
+		public abstract void effectProp(BattleFighter fighter);
 
 		public override void onRemove(BattleFighter fighter)
+		{
+
+		}
+
+		public override void onActive(BattleFighter fighter)
 		{
 
 		}
@@ -19,7 +24,7 @@ namespace com.kx.sglm.gs.battle.share.buff.effect
 
 		public override void onTeamBeforeAttack(BattleFighter fighter)
 		{
-			onActive(fighter);
+
 		}
 
 

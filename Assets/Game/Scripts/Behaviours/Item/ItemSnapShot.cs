@@ -16,14 +16,14 @@ public class ItemSnapShot : MonoBehaviour
     private UILabel nameLabel;
 
     private short bagIndex;
-    private UIHeroDetailWindow detailWindow;
+    private UIHeroDetailHandler detailHandler;
 
     private void Awake()
     {
         viewDetailLis = UIEventListener.Get(transform.Find("Buttons/ViewDetailBtn").gameObject);
         equipLis = UIEventListener.Get(transform.Find("Buttons/EquipBtn").gameObject);
         cancelLis = UIEventListener.Get(transform.Find("Buttons/CancelBtn").gameObject);
-        detailWindow = WindowManager.Instance.GetWindow<UIHeroDetailWindow>();
+        //detailHandler = WindowManager.Instance.GetWindow<UIHeroDetailHandler>();
         var property = transform.Find("Property");
         atkLabel = property.Find("Attack/AttackValue").GetComponent<UILabel>();
         hpLabel = property.Find("HP/HPValue").GetComponent<UILabel>();
@@ -55,18 +55,18 @@ public class ItemSnapShot : MonoBehaviour
 
     private void OnEquip(GameObject go)
     {
-        var info = ItemModeLocator.Instance.FindItem(bagIndex);
+        //var info = ItemModeLocator.Instance.FindItem(bagIndex);
 
-        if (detailWindow.HeroInfo.EquipUuid[detailWindow.CurEquipIndex] != info.Id)
-        {
-            var msg = new CSHeroChangeEquip()
-            {
-                EquipUuid = info.Id,
-                HeroUuid = detailWindow.HeroInfo.Uuid,
-                Index = detailWindow.CurEquipIndex
-            };
-            NetManager.SendMessage(msg);
-        }
+        //if (detailHandler.HeroInfo.EquipUuid[detailHandler.CurEquipIndex] != info.Id)
+        //{
+        //    var msg = new CSHeroChangeEquip()
+        //    {
+        //        EquipUuid = info.Id,
+        //        HeroUuid = detailHandler.HeroInfo.Uuid,
+        //        Index = detailHandler.CurEquipIndex
+        //    };
+        //    NetManager.SendMessage(msg);
+        //}
     }
 
     private void OnCancel(GameObject go)

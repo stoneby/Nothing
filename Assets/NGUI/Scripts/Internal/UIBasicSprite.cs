@@ -300,7 +300,7 @@ public abstract class UIBasicSprite : UIWidget
 		    if (material != null)
 		    {
 		        material.SetFloat("_HighLight", HighLight);
-		    }
+            }
 
             return colF;
 		}

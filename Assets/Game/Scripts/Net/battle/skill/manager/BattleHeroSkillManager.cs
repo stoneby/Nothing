@@ -234,12 +234,29 @@ namespace com.kx.sglm.gs.battle.share.skill.manager
 
 		protected internal virtual bool canActiveSkill()
 		{
-			return hasEnoughMP() && ActiveFighter;
+			if (!hasActiveSkill())
+			{
+				return false;
+			}
+			if (!hasEnoughMP())
+			{
+				return false;
+			}
+			if (!ActiveFighter)
+			{
+				return false;
+			}
+			return true;
 		}
 
 		protected internal virtual bool hasEnoughMP()
 		{
 			return Owner.getOwnerTeam().CurMp >= activeAction.CostMp;
+		}
+
+		protected internal virtual bool hasActiveSkill()
+		{
+			return activeAction != null;
 		}
 
 		protected internal virtual bool ActiveFighter

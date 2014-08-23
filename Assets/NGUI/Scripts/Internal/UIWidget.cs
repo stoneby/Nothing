@@ -40,6 +40,7 @@ public class UIWidget : UIRect
     /// </summary>
     [HideInInspector]
     [SerializeField]
+    [Range(0f, 1f)]
     public float HighLight;
 
     /// <summary>

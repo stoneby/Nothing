@@ -16,7 +16,24 @@
 	</target>
 	<target name="ZipIos"  depends="Clean">
 		<echo>Rename Ios File</echo>
-		<echo>sglm-${DSTAMP}-${TSTAMP}.ipa</echo>
-		<copy file="./IosRelease/ipa/kxsg.ipa" tofile="./IosRelease/sglm-${DSTAMP}-${TSTAMP}.ipa"/>
+		<echo>sglm-${IOS_Type}-${GameVersion}-${DSTAMP}-${TSTAMP}.ipa</echo>
+		<copy file="./IosRelease/ipa/kxsg.ipa" tofile="./IosRelease/sglm-${IOS_Type}-${GameVersion}-${DSTAMP}-${TSTAMP}.ipa"/>
+	</target>
+	<target name="IosReplaceImage">
+		<echo>Replace Ios Splash Images File</echo>
+		<delete file="./IosBuild/Default.png"/> 
+		<delete file="./IosBuild/Default@2x.png"/> 
+		<delete file="./IosBuild/Default-568h@2x.png"/> 
+		<delete file="./IosBuild/Default-Landscape.png"/> 
+		<delete file="./IosBuild/Default-Landscape@2x.png"/> 
+		<delete file="./IosBuild/Default-Portrait.png"/> 
+		<delete file="./IosBuild/Default-Portrait@2x.png"/> 
+		<copy file="./build/splash/Default.png" tofile="./IosBuild/Default.png"/>
+		<copy file="./build/splash/Default@2x.png" tofile="./IosBuild/Default@2x.png"/>
+		<copy file="./build/splash/Default-568h@2x.png" tofile="./IosBuild/Default-568h@2x.png"/>
+		<copy file="./build/splash/Default-Landscape.png" tofile="./IosBuild/Default-Landscape.png"/>
+		<copy file="./build/splash/Default-Landscape@2x.png" tofile="./IosBuild/Default-Landscape@2x.png"/>
+		<copy file="./build/splash/Default-Portrait.png" tofile="./IosBuild/Default-Portrait.png"/>
+		<copy file="./build/splash/Default-Portrait@2x.png" tofile="./IosBuild/Default-Portrait@2x.png"/>
 	</target>
 </project>

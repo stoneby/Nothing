@@ -21,6 +21,7 @@ public class BuildManager
         PlayerSettings.productName = GameConfig.GameName;
         PlayerSettings.bundleVersion = GameConfig.Version;
         PlayerSettings.bundleIdentifier = GameConfig.BundleID;
+        PlayerSettings.defaultInterfaceOrientation = UIOrientation.LandscapeLeft;
 
         PlayerSettings.Android.keystoreName = "release/key/user.keystore";
         PlayerSettings.Android.keystorePass = "111111";
@@ -82,6 +83,18 @@ public class BuildManager
         Debug.Log("打包完成");
     }
 
+    private static void SwapAsset(string src, string target)
+    {
+        if (System.IO.File.Exists(target))
+        {
+            FileUtil.ReplaceFile(src, target);
+        }
+        else
+        {
+            FileUtil.CopyFileOrDirectory(src, target);
+        }
+    }
+
     public static void BuildIos()
     {
         EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTarget.iPhone);
@@ -91,6 +104,26 @@ public class BuildManager
         PlayerSettings.productName = GameConfig.GameName;
         PlayerSettings.bundleVersion = GameConfig.Version;
         PlayerSettings.bundleIdentifier = GameConfig.BundleID;
+        PlayerSettings.defaultInterfaceOrientation = UIOrientation.LandscapeLeft;
+        PlayerSettings.iOS.exitOnSuspend = true;
+        PlayerSettings.iOS.sdkVersion = iOSSdkVersion.DeviceSDK;
+        var iconFile = "Assets/icons/sglm/icon.png";
+        int[] sizeList = PlayerSettings.GetIconSizesForTargetGroup(BuildTargetGroup.iPhone);
+        Texture2D[] iconList = new Texture2D[sizeList.Length];
+        for (int i = 0; i < sizeList.Length; i++)
+        {
+            int iconSize = sizeList[i];
+            iconList[i] = AssetDatabase.LoadMainAssetAtPath(iconFile) as Texture2D;
+            iconList[i].Resize(iconSize, iconSize, TextureFormat.ARGB32, false);
+        }
+        PlayerSettings.SetIconsForTargetGroup(BuildTargetGroup.iPhone, iconList);
+        
+//        var splashStr = "Assets/loading/device/splash.png";
+//        var resourcePath = "Assets/loading/sglm/splash.png";
+//        SwapAsset(resourcePath, splashStr);
+//        AssetDatabase.Refresh();
+        
+        PlayerSettings.iOS.targetDevice = iOSTargetDevice.iPhoneAndiPad;
 
         FileUtil.DeleteFileOrDirectory("release/IosBuild");
         Directory.CreateDirectory("release/IosBuild");

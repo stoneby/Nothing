@@ -5,6 +5,7 @@ namespace com.kx.sglm.gs.battle.share.buff.effect
 
 
 
+
 	public class DamagePropEffectBuff : AbstractDamagePropEffectBuff
 	{
 
@@ -13,7 +14,6 @@ namespace com.kx.sglm.gs.battle.share.buff.effect
 		{
 			return Convert.ToInt32(param);
 		}
-
 	}
 
 }

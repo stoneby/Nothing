@@ -280,7 +280,8 @@ public sealed class HeroModelLocator
     /// </summary>
     /// <param name="orderType">The specific order type.</param>
     /// <param name="heros">The list of hero info to be sorted.</param>
-    public void SortHeroList(OrderType orderType, List<HeroInfo> heros)
+    /// <param name="isDescend">Descend or ascend of the sorting.</param>
+    public void SortHeroList(OrderType orderType, List<HeroInfo> heros, bool isDescend = true)
     {
         switch (orderType)
         {
@@ -315,6 +316,10 @@ public sealed class HeroModelLocator
             case OrderType.Level:
                 heros.Sort(CompareHeroByLv);
                 break;
+        }
+        if(isDescend == false)
+        {
+            heros.Reverse();
         }
     }
 

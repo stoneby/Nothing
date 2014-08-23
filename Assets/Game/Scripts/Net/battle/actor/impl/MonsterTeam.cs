@@ -169,7 +169,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 
 		public override int getFighterTotalHp(BattleFighter fighter)
 		{
-			return fighter.TotalMp;
+			return fighter.TotalHp;
 		}
 
 		public override void costFighterHp(int costHp, BattleFighter fighter)

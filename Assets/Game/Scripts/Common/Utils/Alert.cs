@@ -11,11 +11,11 @@ public static class Alert
         WindowManager.Instance.Show(typeof(AssertionWindow), true);
         if (confimfunc != null)
         {
-            assertWindow.OkButtonClicked += confimfunc;
+            assertWindow.OkButtonClicked = confimfunc;
         }
         if (cancelfunc != null)
         {
-            assertWindow.CancelButtonClicked += cancelfunc;
+            assertWindow.CancelButtonClicked = cancelfunc;
         }
     }
 }

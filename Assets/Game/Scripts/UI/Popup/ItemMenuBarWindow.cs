@@ -40,7 +40,7 @@ public class ItemMenuBarWindow : Window
             case BarItemType.ItemSell:
                 {
                     WindowManager.Instance.Show<UIItemCommonWindow>(true, true);
-                    WindowManager.Instance.Show<UISellItemWindow>(true, true);
+                    //WindowManager.Instance.Show<UISellItemHandler>(true, true);
                     break;
                 }
             case BarItemType.ItemLevelUp:
@@ -52,7 +52,7 @@ public class ItemMenuBarWindow : Window
             case BarItemType.ItemEvolve:
                 {
                     WindowManager.Instance.Show<UIItemCommonWindow>(true, true);
-                    WindowManager.Instance.Show<UIEvolveItemWindow>(true, true);
+                    //WindowManager.Instance.Show<UIEvolveItemHandler>(true, true);
                     break;
                 }
             case BarItemType.ItemBuyBack:
@@ -94,7 +94,7 @@ public class ItemMenuBarWindow : Window
         else
         {
             WindowManager.Instance.Show<UIItemCommonWindow>(true, true);
-            WindowManager.Instance.Show<UISellItemWindow>(true, true);
+            //WindowManager.Instance.Show<UISellItemHandler>(true, true);
         }
     }
 
@@ -126,7 +126,7 @@ public class ItemMenuBarWindow : Window
         else
         {
             WindowManager.Instance.Show<UIItemCommonWindow>(true, true);
-            WindowManager.Instance.Show<UIEvolveItemWindow>(true, true);
+            //WindowManager.Instance.Show<UIEvolveItemHandler>(true, true);
         }
     }
 

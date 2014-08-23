@@ -445,13 +445,13 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 		public virtual void addCurMp(int addVal)
 		{
 			int _totalVal = changeValue(CurMp, addVal, TotalHp);
-			this.curMp = _totalVal;
+			HeroCurMp = _totalVal;
 		}
 
 		public virtual void costCurMp(int costVal)
 		{
 			int _reVal = changeValue(CurMp, -costVal, TotalMp);
-			this.curMp = _reVal;
+			HeroCurMp = _reVal;
 		}
 
 		public virtual int changeValue(int baseValue, int changeValue, int maxValue)
@@ -489,7 +489,24 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 		public override void changeHp(int changeHp, BattleFighter defencer)
 		{
 			int _totalHp = changeValue(CurHp, changeHp, TotalHp);
-			curHp = _totalHp;
+			HeroCurHp = _totalHp;
+		}
+
+		public virtual int HeroCurHp
+		{
+			set
+			{
+				this.curHp = value;
+			}
+		}
+
+
+		public virtual int HeroCurMp
+		{
+			set
+			{
+				this.curMp = value;
+			}
 		}
 
 		public virtual BattleFighter getFighterFromCurActArr(int fighterIndex)
@@ -602,6 +619,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 		{
 			return CurFightIndex;
 		}
+
 
 	}
 

@@ -58,17 +58,13 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 			mutiProp.set(amendTriple.AmendIndex, _baseProp.get(amendTriple.AmendIndex));
 		}
 
-		public virtual void addBuffProp(int key, float value)
-		{
-			buffProp.add(key, value);
-		}
-
 		public virtual void resetBuffProp()
 		{
 			this.buffProp.clear();
 			this.mutiProp.clear();
 			this.mutiProp.add(RoleAProperty.DECRDAMAGE, BattleConstants.BATTLE_RATIO_BASE);
 			this.mutiProp.add(RoleAProperty.INCRDAMAGE, BattleConstants.BATTLE_RATIO_BASE);
+			Logger.Log("clear all buff prop");
 		}
 
 
@@ -84,6 +80,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 				int _index = BattleConstants.BATTLE_MUTI_PROP_ARR[_i];
 				battleProp.set(_index, mutiProp.get(_index));
 			}
+			Logger.Log(string.Format("#recalcBattleProp.cur prop = {0}", toPropStr(battleProp)));
 		}
 
 		protected internal virtual string toPropStr(RoleAProperty prop)

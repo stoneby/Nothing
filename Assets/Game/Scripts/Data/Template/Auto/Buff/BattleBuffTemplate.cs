@@ -30,6 +30,7 @@ namespace Template.Auto.Buff
     private int _proiority;
     private int _stackingCount;
     private int _round;
+    private int _sceneClear;
     private int _buffShowId;
     private int _buffKey;
     private List<string> _buffParams;
@@ -144,6 +145,22 @@ namespace Template.Auto.Buff
     }
 
     /// <summary>
+    /// 过场清除
+    /// </summary>
+    public int SceneClear
+    {
+      get
+      {
+        return _sceneClear;
+      }
+      set
+      {
+        __isset.sceneClear = true;
+        this._sceneClear = value;
+      }
+    }
+
+    /// <summary>
     /// buff效果类型
     /// </summary>
     public int BuffShowId
@@ -201,6 +218,7 @@ namespace Template.Auto.Buff
       public bool proiority;
       public bool stackingCount;
       public bool round;
+      public bool sceneClear;
       public bool buffShowId;
       public bool buffKey;
       public bool buffParams;
@@ -272,19 +290,26 @@ namespace Template.Auto.Buff
             break;
           case 8:
             if (field.Type == TType.I32) {
-              BuffShowId = iprot.ReadI32();
+              SceneClear = iprot.ReadI32();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
             break;
           case 9:
             if (field.Type == TType.I32) {
-              BuffKey = iprot.ReadI32();
+              BuffShowId = iprot.ReadI32();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
             break;
           case 10:
+            if (field.Type == TType.I32) {
+              BuffKey = iprot.ReadI32();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 11:
             if (field.Type == TType.List) {
               {
                 BuffParams = new List<string>();
@@ -370,10 +395,18 @@ namespace Template.Auto.Buff
         oprot.WriteI32(Round);
         oprot.WriteFieldEnd();
       }
+      if (__isset.sceneClear) {
+        field.Name = "sceneClear";
+        field.Type = TType.I32;
+        field.ID = 8;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteI32(SceneClear);
+        oprot.WriteFieldEnd();
+      }
       if (__isset.buffShowId) {
         field.Name = "buffShowId";
         field.Type = TType.I32;
-        field.ID = 8;
+        field.ID = 9;
         oprot.WriteFieldBegin(field);
         oprot.WriteI32(BuffShowId);
         oprot.WriteFieldEnd();
@@ -381,7 +414,7 @@ namespace Template.Auto.Buff
       if (__isset.buffKey) {
         field.Name = "buffKey";
         field.Type = TType.I32;
-        field.ID = 9;
+        field.ID = 10;
         oprot.WriteFieldBegin(field);
         oprot.WriteI32(BuffKey);
         oprot.WriteFieldEnd();
@@ -389,7 +422,7 @@ namespace Template.Auto.Buff
       if (BuffParams != null && __isset.buffParams) {
         field.Name = "buffParams";
         field.Type = TType.List;
-        field.ID = 10;
+        field.ID = 11;
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.String, BuffParams.Count));
@@ -421,6 +454,8 @@ namespace Template.Auto.Buff
       sb.Append(StackingCount);
       sb.Append(",Round: ");
       sb.Append(Round);
+      sb.Append(",SceneClear: ");
+      sb.Append(SceneClear);
       sb.Append(",BuffShowId: ");
       sb.Append(BuffShowId);
       sb.Append(",BuffKey: ");

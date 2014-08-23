@@ -123,14 +123,12 @@ public class UIFriendLockWindow : Window
         assertWindow.Title = LanguageManager.Instance.GetTextValue("UIFriendLock.DelFriendAssert") + friendItem.FriendInfo.FriendName + "?";
         assertWindow.Message = "";
         assertWindow.AssertType = AssertionWindow.Type.OkCancel;
-        assertWindow.OkButtonClicked += OnDelOkPressed;
+        assertWindow.OkButtonClicked = OnDelOkPressed;
         WindowManager.Instance.Show<AssertionWindow>(true);
     }
 
     private void OnDelOkPressed(GameObject sender)
     {
-        var assertWindow = WindowManager.Instance.GetWindow<AssertionWindow>();
-        assertWindow.OkButtonClicked -= OnDelOkPressed;
         var msg = new CSFriendDelete { FriendUuid = friendItem.FriendInfo.FriendUuid };
         NetManager.SendMessage(msg);
     }

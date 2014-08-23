@@ -21,7 +21,8 @@ namespace com.kx.sglm.gs.battle.share.buff.effect
 			}
 		}
 
-		public override void onActive(BattleFighter fighter)
+
+		public override void effectProp(BattleFighter fighter)
 		{
 			fighter.FighterProp.addAttackProp(amendTriple);
 		}

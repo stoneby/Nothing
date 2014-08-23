@@ -873,7 +873,7 @@ public class UIWidgetInspector : UIRectEditor
 			}
 
             NGUIEditorTools.DrawProperty("HighLight", serializedObject, "HighLight", GUILayout.Width(120f));
-
+            
 			DrawPivot();
 			DrawDepth(type == PrefabType.Prefab);
 			DrawDimensions(type == PrefabType.Prefab);

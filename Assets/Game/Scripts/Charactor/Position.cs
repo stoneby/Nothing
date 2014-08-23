@@ -2,7 +2,7 @@
 using UnityEngine;
 
 [Serializable]
-public class Position
+public struct Position
 {
     #region public Fields
 

@@ -12,7 +12,7 @@ public class LoginWindow : Window
     public override void OnEnter()
     {
         //GlobalUIEventManager.Instance.EventListener.onClick += OnFallThroughClick;
-        WindowManager.Instance.Show(typeof(LoginMainWindow), true);
+        //WindowManager.Instance.Show(typeof(LoginMainWindow), true);
     }
 
     public override void OnExit()

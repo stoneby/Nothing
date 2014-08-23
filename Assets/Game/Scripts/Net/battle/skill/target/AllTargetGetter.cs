@@ -14,7 +14,7 @@ namespace com.kx.sglm.gs.battle.share.skill.target
 		public override List<BattleFighter> getTarget(BattleFighter attacker, BattleTeam targetTeam)
 		{
 			List<BattleFighter> _curFighterList = new List<BattleFighter>();
-			_curFighterList.AddRange(targetTeam.AllBattingFighter);
+			_curFighterList.AddRange(targetTeam.ActorList);
 			return _curFighterList;
 		}
 

@@ -2,17 +2,29 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
-using System.Linq.Expressions;
-using UnityEngine;
-using System.Collections;
 
+/// <summary>
+/// Handle the read and write of stored persistence file.
+/// </summary>
 public class PersistenceFileIOHandler
 {
+    /// <summary>
+    /// Write basic variable with '\t' after it.
+    /// </summary>
+    /// <param name="writer"></param>
+    /// <param name="basic"></param>
     public static void WriteBasic(StreamWriter writer, object basic)
     {
         writer.Write(basic + "\t");
     }
 
+    /// <summary>
+    /// Write generic list with '\t' after each item.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="writer"></param>
+    /// <param name="listName"></param>
+    /// <param name="list"></param>
     public static void WriteList<T>(StreamWriter writer, string listName, List<T> list)
     {
         if (listName != null)
@@ -26,6 +38,14 @@ public class PersistenceFileIOHandler
         }
     }
 
+    /// <summary>
+    /// Write generic dictionary with '\t' after each item.
+    /// </summary>
+    /// <typeparam name="T1"></typeparam>
+    /// <typeparam name="T2"></typeparam>
+    /// <param name="writer"></param>
+    /// <param name="dicName"></param>
+    /// <param name="dic"></param>
     public static void WriteDic<T1, T2>(StreamWriter writer, string dicName, Dictionary<T1, T2> dic)
     {
         if (dicName != null)
@@ -43,6 +63,14 @@ public class PersistenceFileIOHandler
         }
     }
 
+    /// <summary>
+    /// Read generic list from string array with start and end index.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="listStrings"></param>
+    /// <param name="startIndex"></param>
+    /// <param name="endIndex"></param>
+    /// <returns></returns>
     public static List<T> ReadList<T>(string[] listStrings, int startIndex, int endIndex)
     {
         if (startIndex >= listStrings.Length)
@@ -59,6 +87,15 @@ public class PersistenceFileIOHandler
         return returnList;
     }
 
+    /// <summary>
+    /// Read generic dictionary from string array with start and end index.
+    /// </summary>
+    /// <typeparam name="T1"></typeparam>
+    /// <typeparam name="T2"></typeparam>
+    /// <param name="listStrings"></param>
+    /// <param name="startIndex"></param>
+    /// <param name="endIndex"></param>
+    /// <returns></returns>
     public static Dictionary<T1, T2> ReadDic<T1, T2>(string[] listStrings, int startIndex, int endIndex)
     {
         if (startIndex >= listStrings.Length)
@@ -82,6 +119,12 @@ public class PersistenceFileIOHandler
         return returnDic;
     }
 
+    /// <summary>
+    /// Transform string to generics, which is useful in .NET3.5.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="input"></param>
+    /// <returns></returns>
     private static T Convert<T>(string input)
     {
         var converter = TypeDescriptor.GetConverter(typeof(T));
@@ -93,16 +136,29 @@ public class PersistenceFileIOHandler
         return default(T);
     }
 
+    /// <summary>
+    /// Check string array's count.
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="count"></param>
+    /// <returns></returns>
     public static int CheckCount(string[] value, int count)
     {
         if (value.Length != count)
         {
             Logger.LogError("NotCorrect strings num! Num=" + value.Length);
             throw new Exception("NotCorrect strings num! Num=" + value.Length + "not equal to" + count);
-        } 
+        }
         return value.Length;
     }
 
+    /// <summary>
+    /// Override CheckCount function for checking mutiple count.
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="count1"></param>
+    /// <param name="count2"></param>
+    /// <returns></returns>
     public static int CheckCount(string[] value, int count1, int count2)
     {
         if (value.Length != count1 && value.Length != count2)

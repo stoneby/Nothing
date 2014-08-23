@@ -13,7 +13,7 @@ namespace Assets.Game.Scripts.Net.handler
             }
             else
             {
-                //PopTextManager.PopTip("返回战斗的数据错误");
+                PopTextManager.PopTip("返回战斗的数据错误");
             }
         }
 
@@ -24,11 +24,11 @@ namespace Assets.Game.Scripts.Net.handler
             {
                 MissionModelLocator.Instance.RaidLoadingAll = themsg;
                 WindowManager.Instance.Show(typeof(RaidsWindow), true);
-                //WindowManager.Instance.Show<MainMenuBarWindow>(false);
+                WindowManager.Instance.Show<MainMenuBarWindow>(false);
             }
             else
             {
-                PopTextManager.PopTip("返回的副本数据错误");
+                //PopTextManager.PopTip("返回的副本数据错误");
             }
         }
 
@@ -51,12 +51,12 @@ namespace Assets.Game.Scripts.Net.handler
                 else
                 {
                     WindowManager.Instance.Show(typeof(SetBattleWindow), true);
-                    //WindowManager.Instance.Show<RaidsWindow>(false);
+                    WindowManager.Instance.Show<RaidsWindow>(false);
                 }
             }
             else
             {
-                //PopTextManager.PopTip("返回战斗的数据错误");
+                PopTextManager.PopTip("返回战斗的数据错误");
             }
         }
 
@@ -66,7 +66,7 @@ namespace Assets.Game.Scripts.Net.handler
             if (themsg != null)
             {
                 MissionModelLocator.Instance.BattleReward = themsg;
-                PersistenceHandler.isRaidReward = true;
+                PersistenceHandler.IsRaidFinish = true;
 
                 WindowManager.Instance.Show(typeof(BattleWinWindow), true);
             }
@@ -94,7 +94,7 @@ namespace Assets.Game.Scripts.Net.handler
             var themsg = msg.GetContent() as SCRaidEnterFail;
             if (themsg != null)
             {
-                PopTextManager.PopTip(themsg.Reason);
+                PopTextManager.PopTip(themsg.Reason, false);
             }
             else
             {

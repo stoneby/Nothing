@@ -157,7 +157,8 @@ public class GameConfiguration : Singleton<GameConfiguration>
 
         yield return new WaitForSeconds(LoadingTestTime);
 
-        WindowManager.Instance.Show(typeof(LoginWindow), true);
+        WindowManager.Instance.Show<LoadingWaitWindow>(false);
+        WindowManager.Instance.Show(typeof(LoginMainWindow), true);
     }
 
     private IEnumerator DoReadRemoteServiceXml()
@@ -226,6 +227,9 @@ public class GameConfiguration : Singleton<GameConfiguration>
                     ServiceManager.CheckServerUrl = app.CheckServerUrl;
                 }
             }
+
+            // set default value.
+            ServiceManager.IsTest = false;
 
             //appMap
             var apps = appMap.Elements("app");
@@ -331,7 +335,7 @@ public class GameConfiguration : Singleton<GameConfiguration>
             GameConfig.Attrack9TotalSwardTime = GetValueByName(doc, "Attrack9TotalSwardTime");
 
             GameConfig.PlayMonsterEffectTime = GetValueByName(doc, "PlayMonsterEffectTime");
-            GameConfig.MonsterAttrackStepTime = GetValueByName(doc, "MonsterAttrackStepTime");
+            GameConfig.MonsterAttackStepTime = GetValueByName(doc, "MonsterAttrackStepTime");
             GameConfig.HeroBeenAttrackTime = GetValueByName(doc, "HeroBeenAttrackTime");
 
             Logger.Log("解析BattleConfig.xml成功");

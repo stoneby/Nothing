@@ -94,13 +94,9 @@ public class HeroUtils
                     }
 
                 case HeroConstant.SecondLeaderPosInTeam:
-                    {
-                        return LeaderState.SecondLeader;
-                    }
-
                 case HeroConstant.ThirdLeaderPosInTeam:
                     {
-                        return LeaderState.ThirdLeader;
+                        return LeaderState.ViceLeader;
                     }
                 default:
                     {

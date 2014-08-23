@@ -18,7 +18,7 @@ public class EnemyAction : MonoBehaviour
     {
         // enemy attack.
         var enemyControll = attackObject.GetComponent<EnemyControl>();
-        enemyControll.PlayAttrack();
+        enemyControll.PlayAttack();
         enemyControll.PlayShake();
 
         yield return new WaitForSeconds(AttackTime);

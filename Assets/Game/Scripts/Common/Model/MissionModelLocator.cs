@@ -12,6 +12,7 @@ using Object = UnityEngine.Object;
 #endif
 public sealed class MissionModelLocator
 {
+    //Nums count and ClassName.
     private const int FieldCount = 4;
     private const int BasicFieldCount = 4;
     private const string BasicName = "MMLBasic:";
@@ -297,7 +298,7 @@ public sealed class MissionModelLocator
         else
         {
             WindowManager.Instance.Show(typeof(RaidsWindow), true);
-            //WindowManager.Instance.Show<MainMenuBarWindow>(false);
+            WindowManager.Instance.Show<MainMenuBarWindow>(false);
         }
     }
 
@@ -466,6 +467,11 @@ public sealed class MissionModelLocator
         }
     }
 
+    /// <summary>
+    /// Write this whole class to stream.
+    /// </summary>
+    /// <param name="writer"></param>
+    /// <param name="className"></param>
     public void WriteClass(StreamWriter writer, string className)
     {
         writer.Write(className);
@@ -479,11 +485,15 @@ public sealed class MissionModelLocator
         PersistenceFileIOHandler.WriteDic(writer, TotalStarDictionaryName, TotalStarCount);
     }
 
+    /// <summary>
+    /// Read this whole class from string.
+    /// </summary>
+    /// <param name="value"></param>
     public void ReadClass(string value)
     {
         string[] splitStrings = new string[] { BasicName, RaidClassName, FriendDataClassName, TotalStarDictionaryName };
         string[] outStrings = value.Split(splitStrings, StringSplitOptions.RemoveEmptyEntries);
-        PersistenceFileIOHandler.CheckCount(outStrings,FieldCount-1,FieldCount);
+        PersistenceFileIOHandler.CheckCount(outStrings, FieldCount - 1, FieldCount);
 
         string[] splitedBasic = outStrings[0].Split(new char[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
         PersistenceFileIOHandler.CheckCount(splitedBasic,BasicFieldCount);
@@ -492,7 +502,7 @@ public sealed class MissionModelLocator
         OldLevel = int.Parse(splitedBasic[2]);
         StarCount = int.Parse(splitedBasic[3]);
 
-        Raid=new RaidInfo();
+        Raid = new RaidInfo();
         Raid.ReadClass(outStrings[1]);
 
         FriendData=new FriendVO();

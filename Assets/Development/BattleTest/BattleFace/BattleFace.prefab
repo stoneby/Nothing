@@ -40,10 +40,88 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   material: {fileID: 2100000, guid: d13cd013f46228b4a9d8e03524ee3d70, type: 2}
   mSprites:
-  - name: BlueBar
-    x: 526
-    y: 998
-    width: 466
+  - name: HpDecorate
+    x: 412
+    y: 477
+    width: 50
+    height: 35
+    borderLeft: 22
+    borderRight: 15
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: HpFrame
+    x: 334
+    y: 433
+    width: 20
+    height: 28
+    borderLeft: 0
+    borderRight: 6
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: LeaderFrame
+    x: 463
+    y: 472
+    width: 40
+    height: 40
+    borderLeft: 6
+    borderRight: 6
+    borderTop: 6
+    borderBottom: 6
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: menu_normal
+    x: 0
+    y: 269
+    width: 69
+    height: 69
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: menu_press
+    x: 0
+    y: 339
+    width: 69
+    height: 69
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: MonsterHP
+    x: 412
+    y: 462
+    width: 10
+    height: 14
+    borderLeft: 2
+    borderRight: 1
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: MonsterHPFrame
+    x: 133
+    y: 435
+    width: 200
     height: 26
     borderLeft: 0
     borderRight: 0
@@ -53,11 +131,11 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
-  - name: HP
-    x: 526
-    y: 987
-    width: 429
-    height: 10
+  - name: MP 1
+    x: 259
+    y: 463
+    width: 10
+    height: 12
     borderLeft: 0
     borderRight: 0
     borderTop: 0
@@ -66,11 +144,37 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
-  - name: menu
-    x: 956
-    y: 942
-    width: 54
-    height: 55
+  - name: MP_Frame2
+    x: 174
+    y: 416
+    width: 40
+    height: 18
+    borderLeft: 10
+    borderRight: 10
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: MP_Frame3
+    x: 133
+    y: 414
+    width: 40
+    height: 20
+    borderLeft: 10
+    borderRight: 10
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: MP_Seperate
+    x: 259
+    y: 416
+    width: 9
+    height: 18
     borderLeft: 0
     borderRight: 0
     borderTop: 0
@@ -79,24 +183,37 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
-  - name: MP
-    x: 526
-    y: 976
-    width: 429
-    height: 10
-    borderLeft: 7
-    borderRight: 7
+  - name: NEXT
+    x: 215
+    y: 419
+    width: 43
+    height: 15
+    borderLeft: 0
+    borderRight: 0
     borderTop: 0
     borderBottom: 0
     paddingLeft: 0
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
-  - name: RedBar
+  - name: NumBackground
     x: 0
-    y: 932
-    width: 525
-    height: 92
+    y: 409
+    width: 132
+    height: 52
+    borderLeft: 10
+    borderRight: 10
+    borderTop: 10
+    borderBottom: 10
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: NumberChar
+    x: 259
+    y: 476
+    width: 152
+    height: 36
     borderLeft: 0
     borderRight: 0
     borderTop: 0
@@ -105,28 +222,15 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
-  - name: Round
-    x: 526
-    y: 938
-    width: 113
-    height: 37
-    borderLeft: 0
-    borderRight: 0
-    borderTop: 0
-    borderBottom: 0
-    paddingLeft: 0
-    paddingRight: 0
-    paddingTop: 0
-    paddingBottom: 0
-  - name: SkillFrame
+  - name: RoundBackground
     x: 0
-    y: 829
-    width: 102
-    height: 102
-    borderLeft: 8
-    borderRight: 8
-    borderTop: 8
-    borderBottom: 8
+    y: 462
+    width: 258
+    height: 50
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
     paddingLeft: 0
     paddingRight: 0
     paddingTop: 0

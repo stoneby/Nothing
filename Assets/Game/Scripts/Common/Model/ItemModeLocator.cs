@@ -83,7 +83,8 @@ public class ItemModeLocator
     /// </summary>
     /// <param name="sortType">The specific order type.</param>
     /// <param name="items">The list of hero info to be sorted.</param>
-    public void SortItemList(OrderType sortType, List<ItemInfo> items)
+    /// <param name="isDescend">Descend or ascend of the sorting.</param>
+    public void SortItemList(OrderType sortType, List<ItemInfo> items, bool isDescend = true)
     {
         if (items == null || items.Count <= 1)
         {
@@ -118,6 +119,10 @@ public class ItemModeLocator
             case OrderType.Level:
                 items.Sort(CompareItemByLv);
                 break;
+        }
+        if (isDescend == false)
+        {
+            items.Reverse();
         }
     }
 
@@ -305,6 +310,31 @@ public class ItemModeLocator
         if (materialTempl.ContainsKey(tempId))
         {
             return materialTempl[tempId].BaseTmpl.Quality;
+        }
+        return -1;
+    } 
+    
+    /// <summary>
+    /// Get the icon id of the item.
+    /// </summary>
+    /// <param name="tempId">The templete id of the item.</param>
+    /// <returns>The icon id of the item.</returns>
+    public int GetIconId(int tempId)
+    {
+        var equipTmpl = ItemTemplates.EquipTmpls;
+        var armorTmpl = ItemTemplates.ArmorTmpls;
+        var materialTempl = ItemTemplates.MaterialTmpls;
+        if (equipTmpl.ContainsKey(tempId))
+        {
+            return equipTmpl[tempId].BaseTmpl.IconId;
+        }
+        if (armorTmpl.ContainsKey(tempId))
+        {
+            return armorTmpl[tempId].BaseTmpl.IconId;
+        }
+        if (materialTempl.ContainsKey(tempId))
+        {
+            return materialTempl[tempId].BaseTmpl.IconId;
         }
         return -1;
     }

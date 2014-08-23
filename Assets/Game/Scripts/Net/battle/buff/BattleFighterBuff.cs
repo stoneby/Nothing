@@ -6,6 +6,7 @@ namespace com.kx.sglm.gs.battle.share.buff
 
 	using BattleFighter = com.kx.sglm.gs.battle.share.actor.impl.BattleFighter;
 	using BattleFighterState = com.kx.sglm.gs.battle.share.actor.impl.BattleFighterState;
+	using BasePropEffectBuff = com.kx.sglm.gs.battle.share.buff.effect.BasePropEffectBuff;
 	using BattleRoundCountRecord = com.kx.sglm.gs.battle.share.data.record.BattleRoundCountRecord;
 	using InnerBattleEvent = com.kx.sglm.gs.battle.share.@event.InnerBattleEvent;
 
@@ -144,6 +145,30 @@ namespace com.kx.sglm.gs.battle.share.buff
 			refreshShowLeftRound();
 		}
 
+
+		public virtual void effectProp()
+		{
+			if (!PropEffectBuff)
+			{
+				return;
+			}
+			BasePropEffectBuff _propEffectBuff = (BasePropEffectBuff)BuffAction;
+			foreach (BuffStackInfo _info in stackingList)
+			{
+				if (_info.Active)
+				{
+					_propEffectBuff.effectProp(Owner);
+				}
+			}
+		}
+
+		protected internal virtual bool PropEffectBuff
+		{
+			get
+			{
+				return BuffAction is BasePropEffectBuff;
+			}
+		}
 
 		protected internal virtual bool PermanentBuff
 		{

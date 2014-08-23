@@ -35,6 +35,7 @@ namespace com.kx.sglm.gs.battle.share.input
 			battle.updateBattleState(BattleState.RUNTIME);
 			_team.beforeAttack(new BeforeAttackEvent());
 			BattleLogicHelper.refreshState(battle.BattleArmy);
+			battle.StoreHandler.handleStartAttack(heroIndex.Length);
 			battle.onAction();
 		}
 

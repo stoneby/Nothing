@@ -4,27 +4,30 @@ using UnityEngine;
 
 public class SDKResponse : MonoBehaviour
 {
-    #region Private Fields
-
-    #endregion
-
     #region Public Fields
 
+    /// <summary>
+    /// Verifying SDK initialized or not.
+    /// </summary>
     public static bool IsInitialized=false;
 
+    /// <summary>
+    /// Go to which function after receive the response from SDK.
+    /// </summary>
     public delegate void Responses();
     public static Responses WhichResponse;
 
     #endregion
 
     #region Public Methods
+    
+#if UNITY_ANDROID
 
     /// <summary>
     /// Process the string from Android SDK.
     /// ':'is the key char.
     /// </summary>
     /// <param name="str"></param>
-#if UNITY_ANDROID
     public void Message(string str)
     {
         if (Application.platform != RuntimePlatform.WindowsEditor)
@@ -62,6 +65,7 @@ public class SDKResponse : MonoBehaviour
                 Debug.Log("Response platformBillingResult succeed!Sending message to server.");
                 var msg = new CSRefreshRechargeMsg() { OrderId = split[1] };
                 NetManager.SendMessage(msg);
+                SDKPayManager.IsPaying = false;
             }
             else
             {
@@ -69,14 +73,16 @@ public class SDKResponse : MonoBehaviour
             }
         }
     }
+
 #endif
+
+#if UNITY_IPHONE
 
     /// <summary>
     /// Process the string from IOS SDK.
     /// ':'is the key char.
     /// </summary>
     /// <param name="str"></param>
-#if UNITY_IPHONE
 	public void Respond(string str)
 	{
 		if (Application.platform != RuntimePlatform.OSXEditor) 
@@ -116,22 +122,12 @@ public class SDKResponse : MonoBehaviour
 		        Debug.Log("Response Pay succeed, sending message to server.");
 		        var msg = new CSRefreshRechargeMsg() {OrderId = split[1]};
 		        NetManager.SendMessage(msg);
+                SDKPayManager.IsPaying = false;
 		    }
 		}
 	}
+
 #endif
 
     #endregion
-
-    // Use this for initialization
-	void Start () 
-    {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () 
-    {
-	
-	}
 }

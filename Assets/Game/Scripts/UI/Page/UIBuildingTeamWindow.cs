@@ -164,7 +164,7 @@ public class UIBuildingTeamWindow : Window
         leftArraw.onClick = OnLeftArrowClicked;
         rightArraw.onClick = OnRightArrowClicked;
         backLis.onClick = OnBack;
-        herosWindow.OnSortOrderChanged += OnSortOrderChanged;
+        //herosWindow.OnSortOrderChanged += OnSortOrderChanged;
     }
 
     /// <summary>
@@ -175,7 +175,7 @@ public class UIBuildingTeamWindow : Window
         leftArraw.onClick = null;
         rightArraw.onClick = null;
         backLis.onClick = null;
-        herosWindow.OnSortOrderChanged -= OnSortOrderChanged;
+        //herosWindow.OnSortOrderChanged -= OnSortOrderChanged;
     }
 
     private void OnSortOrderChanged(GameObject go)
@@ -336,7 +336,7 @@ public class UIBuildingTeamWindow : Window
         endlessSwipeEffect.InitCustomData(CurTeamIndex, scHeroList.TeamList.Count);
         dragDropSurface.ReparentTarget = endlessSwipeEffect.CurrentItem.Find("Grid");
         HeroConstant.EnterType = HeroConstant.HeroDetailEnterType.BuildingTeam;
-        RefreshTeam(curTeam);
+        //RefreshTeam(curTeam);
     }
 
     private void RefreshTeam(List<long> curTeamUuids)

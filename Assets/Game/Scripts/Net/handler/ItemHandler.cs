@@ -20,6 +20,7 @@ namespace Assets.Game.Scripts.Net.handler
                     {
                         ItemModeLocator.Instance.ScAllItemInfos = themsg;
                         ItemModeLocator.AlreadyMainRequest = true;
+                        WindowManager.Instance.Show<UIItemCommonWindow>(true, true);
                     }
                     if (themsg.BagType == ItemType.BuyBackItemBagType)
                     {
@@ -36,7 +37,7 @@ namespace Assets.Game.Scripts.Net.handler
                     if (themsg.BagType == ItemType.MainItemBagType)
                     {
                         ItemModeLocator.Instance.ScAllItemInfos = themsg;
-                        WindowManager.Instance.GetWindow<UIHeroDetailWindow>().RefreshCanEquipItems();
+                        //WindowManager.Instance.GetWindow<UIHeroDetailHandler>().RefreshCanEquipItems();
                         ItemModeLocator.AlreadyMainRequest = true;
                     }
                 }
@@ -74,7 +75,9 @@ namespace Assets.Game.Scripts.Net.handler
             if (themsg != null)
             {
                 ItemModeLocator.Instance.ItemDetail = themsg;
-                WindowManager.Instance.Show<UIItemDetailWindow>(true);
+                var itemDetailHandler = WindowManager.Instance.GetWindow<UIItemCommonWindow>().ItemDetailHandler;
+                itemDetailHandler.Refresh();
+                //WindowManager.Instance.Show<UIItemDetailHandler>(true);
             }
         }
 
@@ -114,8 +117,9 @@ namespace Assets.Game.Scripts.Net.handler
                         }
                     }
                 }
-                var sellItem = WindowManager.Instance.GetWindow<UISellItemWindow>();
-                sellItem.ShowSellOver();
+                var sellItem = WindowManager.Instance.GetWindow<UIItemCommonWindow>().ItemSellHandler;
+                sellItem.CleanUp();
+                WindowManager.Instance.GetWindow<UIItemCommonWindow>().Refresh(infos);
             }
         }
 
@@ -169,7 +173,7 @@ namespace Assets.Game.Scripts.Net.handler
                 var infos = ItemModeLocator.Instance.ScAllItemInfos.ItemInfos;
                 infos.RemoveAll(item => deleteIndexs.Contains(item.BagIndex));
                 infos.Add(themsg.EvolutedItemInfo.Info);
-                WindowManager.Instance.GetWindow<UIEvolveItemWindow>().ShowEvolveOver();
+                //WindowManager.Instance.GetWindow<UIEvolveItemHandler>().ShowEvolveOver();
                 WindowManager.Instance.GetWindow<UIItemCommonWindow>().Refresh(infos);
             }
         }

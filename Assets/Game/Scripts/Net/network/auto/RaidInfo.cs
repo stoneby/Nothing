@@ -23,6 +23,7 @@ namespace KXSGCodec
 #endif
     public partial class RaidInfo : TBase
     {
+        //Nums count and ClassName.
         private const int FieldCount = 3;
         private const int BasicCount = 1;
         private const int ISSetFieldCount = 2;
@@ -173,6 +174,11 @@ namespace KXSGCodec
             return sb.ToString();
         }
 
+        /// <summary>
+        /// Write this whole class to stream.
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="className"></param>
         public void WriteClass(StreamWriter writer, string className)
         {
             writer.Write(className);
@@ -188,6 +194,10 @@ namespace KXSGCodec
             PersistenceFileIOHandler.WriteBasic(writer, __isset.stateInfo);
         }
 
+        /// <summary>
+        /// Read this whole class from string.
+        /// </summary>
+        /// <param name="value"></param>
         public void ReadClass(string value)
         {
             string[] splitStrings = new string[] { BasicName, StateInfoListName, ISSetName };

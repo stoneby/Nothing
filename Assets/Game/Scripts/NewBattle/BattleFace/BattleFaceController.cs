@@ -25,6 +25,7 @@ public class BattleFaceController : MonoBehaviour
         LeaderController.Reset();
         StepRecord.Reset();
         StarController.Reset();
+        ResetAttackLabel();
     }
 
     public void ResetAttackLabel()

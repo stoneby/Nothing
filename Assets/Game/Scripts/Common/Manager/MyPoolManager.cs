@@ -44,7 +44,7 @@ public class MyPoolManager : MonoBehaviour
         {
             Logger.LogWarning("Take too more than Capacity as " + Capacity + ", make it twice more larger.");
             EnlargeCapacity();
-            Debug.LogWarning("Object list: " + ObjectList.Count + ", index: " + Capacity);
+            Logger.LogWarning("Object list: " + ObjectList.Count + ", index: " + Capacity);
             // return the last one.
             CurrentObject = ObjectList[Capacity - 1];
             return CurrentObject;
@@ -145,6 +145,12 @@ public class MyPoolManager : MonoBehaviour
 
     void Awake()
     {
+        // you need to call Initialize() manually since the spawn object is not ready.
+        if (SpawnObject == null)
+        {
+            return;
+        }
+
         Initialize();
     }
 

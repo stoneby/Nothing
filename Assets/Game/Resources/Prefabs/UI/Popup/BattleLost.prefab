@@ -48,22 +48,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &100006
-GameObject:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 400006}
-  - 114: {fileID: 11400010}
-  m_Layer: 8
-  m_Name: Label
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1 &100008
 GameObject:
   m_ObjectHideFlags: 1
@@ -97,23 +81,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!1 &100012
-GameObject:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 400012}
-  - 114: {fileID: 11400018}
-  m_Layer: 8
-  m_Name: Label
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &100014
 GameObject:
   m_ObjectHideFlags: 0
@@ -129,7 +97,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &100016
 GameObject:
   m_ObjectHideFlags: 1
@@ -163,7 +131,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &100020
 GameObject:
   m_ObjectHideFlags: 0
@@ -745,7 +713,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &100092
 GameObject:
   m_ObjectHideFlags: 1
@@ -757,22 +725,6 @@ GameObject:
   - 114: {fileID: 11400098}
   m_Layer: 8
   m_Name: Background
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!1 &100094
-GameObject:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 400094}
-  - 114: {fileID: 11400100}
-  m_Layer: 8
-  m_Name: Label
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -816,18 +768,6 @@ Transform:
   - {fileID: 400000}
   m_Father: {fileID: 400014}
   m_RootOrder: 25
---- !u!4 &400006
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100006}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 400010}
-  m_RootOrder: 1
 --- !u!4 &400008
 Transform:
   m_ObjectHideFlags: 1
@@ -851,21 +791,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400008}
-  - {fileID: 400006}
   m_Father: {fileID: 400070}
   m_RootOrder: 4
---- !u!4 &400012
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100012}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 400018}
-  m_RootOrder: 1
 --- !u!4 &400014
 Transform:
   m_ObjectHideFlags: 1
@@ -927,7 +854,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400016}
-  - {fileID: 400012}
   m_Father: {fileID: 400070}
   m_RootOrder: 3
 --- !u!4 &400020
@@ -1374,7 +1300,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400092}
-  - {fileID: 400094}
   m_Father: {fileID: 400070}
   m_RootOrder: 2
 --- !u!4 &400092
@@ -1389,18 +1314,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 400090}
   m_RootOrder: 0
---- !u!4 &400094
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100094}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 400090}
-  m_RootOrder: 1
 --- !u!65 &6500000
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -1494,6 +1407,7 @@ MonoBehaviour:
   mWidth: 92
   mHeight: 49
   mDepth: 36
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -1547,6 +1461,7 @@ MonoBehaviour:
   mWidth: 611
   mHeight: 36
   mDepth: 35
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -1612,6 +1527,7 @@ MonoBehaviour:
   mWidth: 643
   mHeight: 42
   mDepth: 34
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -1669,71 +1585,6 @@ MonoBehaviour:
   disabledSprite: 
   pixelSnap: 0
   onClick: []
---- !u!114 &11400010
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100006}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e9d0b5f3bbe925a408bd595c79d0bf63, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  leftAnchor:
-    target: {fileID: 0}
-    relative: 0
-    absolute: 0
-  rightAnchor:
-    target: {fileID: 0}
-    relative: 1
-    absolute: 0
-  bottomAnchor:
-    target: {fileID: 0}
-    relative: 0
-    absolute: 0
-  topAnchor:
-    target: {fileID: 0}
-    relative: 1
-    absolute: 0
-  updateAnchors: 1
-  mColor: {r: 1, g: 1, b: 1, a: 1}
-  mPivot: 4
-  mWidth: 50
-  mHeight: 16
-  mDepth: 33
-  OffsetX: 0
-  OffsetY: 0
-  MeshFactor: 1
-  autoResizeBoxCollider: 0
-  hideIfOffScreen: 0
-  keepAspectRatio: 0
-  aspectRatio: 3.125
-  keepCrispWhenShrunk: 1
-  mTrueTypeFont: {fileID: 0}
-  mFont: {fileID: 11400000, guid: 30054980c4ab28942a48b10c3d67cac5, type: 2}
-  mText: Button
-  mFontSize: 16
-  mFontStyle: 0
-  mAlignment: 0
-  mEncoding: 1
-  mMaxLineCount: 0
-  mEffectStyle: 0
-  mEffectColor: {r: 0, g: 0, b: 0, a: 1}
-  mSymbols: 1
-  mEffectDistance: {x: 1, y: 1}
-  mOverflow: 0
-  mMaterial: {fileID: 0}
-  mApplyGradient: 0
-  mGradientTop: {r: 1, g: 1, b: 1, a: 1}
-  mGradientBottom: {r: .699999988, g: .699999988, b: .699999988, a: 1}
-  mSpacingX: 0
-  mSpacingY: 0
-  mShrinkToFit: 0
-  mMaxLineWidth: 0
-  mMaxLineHeight: 0
-  mLineWidth: 0
-  mMultiline: 1
 --- !u!114 &11400012
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1767,6 +1618,7 @@ MonoBehaviour:
   mWidth: 76
   mHeight: 98
   mDepth: 32
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -1824,71 +1676,6 @@ MonoBehaviour:
   disabledSprite: 
   pixelSnap: 0
   onClick: []
---- !u!114 &11400018
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100012}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e9d0b5f3bbe925a408bd595c79d0bf63, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  leftAnchor:
-    target: {fileID: 0}
-    relative: 0
-    absolute: 0
-  rightAnchor:
-    target: {fileID: 0}
-    relative: 1
-    absolute: 0
-  bottomAnchor:
-    target: {fileID: 0}
-    relative: 0
-    absolute: 0
-  topAnchor:
-    target: {fileID: 0}
-    relative: 1
-    absolute: 0
-  updateAnchors: 1
-  mColor: {r: 1, g: 1, b: 1, a: 1}
-  mPivot: 4
-  mWidth: 50
-  mHeight: 16
-  mDepth: 31
-  OffsetX: 0
-  OffsetY: 0
-  MeshFactor: 1
-  autoResizeBoxCollider: 0
-  hideIfOffScreen: 0
-  keepAspectRatio: 0
-  aspectRatio: 3.125
-  keepCrispWhenShrunk: 1
-  mTrueTypeFont: {fileID: 0}
-  mFont: {fileID: 11400000, guid: 30054980c4ab28942a48b10c3d67cac5, type: 2}
-  mText: Button
-  mFontSize: 16
-  mFontStyle: 0
-  mAlignment: 0
-  mEncoding: 1
-  mMaxLineCount: 0
-  mEffectStyle: 0
-  mEffectColor: {r: 0, g: 0, b: 0, a: 1}
-  mSymbols: 1
-  mEffectDistance: {x: 1, y: 1}
-  mOverflow: 0
-  mMaterial: {fileID: 0}
-  mApplyGradient: 0
-  mGradientTop: {r: 1, g: 1, b: 1, a: 1}
-  mGradientBottom: {r: .699999988, g: .699999988, b: .699999988, a: 1}
-  mSpacingX: 0
-  mSpacingY: 0
-  mShrinkToFit: 0
-  mMaxLineWidth: 0
-  mMaxLineHeight: 0
-  mLineWidth: 0
-  mMultiline: 1
 --- !u!114 &11400020
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1935,6 +1722,7 @@ MonoBehaviour:
   mWidth: 92
   mHeight: 96
   mDepth: 30
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -1988,6 +1776,7 @@ MonoBehaviour:
   mWidth: 1060
   mHeight: 560
   mDepth: 5
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -2041,6 +1830,7 @@ MonoBehaviour:
   mWidth: 275
   mHeight: 90
   mDepth: 12
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -2094,6 +1884,7 @@ MonoBehaviour:
   mWidth: 275
   mHeight: 90
   mDepth: 13
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -2147,6 +1938,7 @@ MonoBehaviour:
   mWidth: 220
   mHeight: 114
   mDepth: 14
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -2200,6 +1992,7 @@ MonoBehaviour:
   mWidth: 215
   mHeight: 44
   mDepth: 15
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -2253,6 +2046,7 @@ MonoBehaviour:
   mWidth: 215
   mHeight: 44
   mDepth: 15
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -2306,6 +2100,7 @@ MonoBehaviour:
   mWidth: 60
   mHeight: 60
   mDepth: 16
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -2359,6 +2154,7 @@ MonoBehaviour:
   mWidth: 60
   mHeight: 60
   mDepth: 16
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -2412,6 +2208,7 @@ MonoBehaviour:
   mWidth: 60
   mHeight: 60
   mDepth: 16
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -2465,6 +2262,7 @@ MonoBehaviour:
   mWidth: 425
   mHeight: 50
   mDepth: 17
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -2518,6 +2316,7 @@ MonoBehaviour:
   mWidth: 425
   mHeight: 50
   mDepth: 17
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -2571,6 +2370,7 @@ MonoBehaviour:
   mWidth: 73
   mHeight: 36
   mDepth: 18
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -2624,6 +2424,7 @@ MonoBehaviour:
   mWidth: 48
   mHeight: 38
   mDepth: 18
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -2677,6 +2478,7 @@ MonoBehaviour:
   mWidth: 38
   mHeight: 38
   mDepth: 18
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -2730,6 +2532,7 @@ MonoBehaviour:
   mWidth: 40
   mHeight: 43
   mDepth: 18
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -2783,6 +2586,7 @@ MonoBehaviour:
   mWidth: 54
   mHeight: 42
   mDepth: 18
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -2836,6 +2640,7 @@ MonoBehaviour:
   mWidth: 90
   mHeight: 40
   mDepth: 19
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -2901,6 +2706,7 @@ MonoBehaviour:
   mWidth: 90
   mHeight: 40
   mDepth: 19
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -2966,6 +2772,7 @@ MonoBehaviour:
   mWidth: 90
   mHeight: 40
   mDepth: 19
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -3031,6 +2838,7 @@ MonoBehaviour:
   mWidth: 90
   mHeight: 40
   mDepth: 19
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -3096,6 +2904,7 @@ MonoBehaviour:
   mWidth: 90
   mHeight: 40
   mDepth: 19
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -3161,6 +2970,7 @@ MonoBehaviour:
   mWidth: 150
   mHeight: 40
   mDepth: 19
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -3226,6 +3036,7 @@ MonoBehaviour:
   mWidth: 500
   mHeight: 22
   mDepth: 20
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -3279,6 +3090,7 @@ MonoBehaviour:
   mWidth: 494
   mHeight: 16
   mDepth: 21
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -3354,6 +3166,7 @@ MonoBehaviour:
   mWidth: 100
   mHeight: 100
   mDepth: 22
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -3394,6 +3207,7 @@ MonoBehaviour:
   mWidth: 750
   mHeight: 528
   mDepth: 7
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -3447,6 +3261,7 @@ MonoBehaviour:
   mWidth: 300
   mHeight: 84
   mDepth: 23
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -3500,6 +3315,7 @@ MonoBehaviour:
   mWidth: 153
   mHeight: 40
   mDepth: 24
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -3602,6 +3418,7 @@ MonoBehaviour:
   mWidth: 162
   mHeight: 40
   mDepth: 25
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -3667,6 +3484,7 @@ MonoBehaviour:
   mWidth: 48
   mHeight: 38
   mDepth: 26
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -3757,6 +3575,7 @@ MonoBehaviour:
   mWidth: 153
   mHeight: 40
   mDepth: 24
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -3822,6 +3641,7 @@ MonoBehaviour:
   mWidth: 300
   mHeight: 84
   mDepth: 23
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -3875,6 +3695,7 @@ MonoBehaviour:
   mWidth: 92
   mHeight: 96
   mDepth: 28
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -3895,71 +3716,6 @@ MonoBehaviour:
   mAtlas: {fileID: 11400000, guid: 54d52b18b79b6284eaa6f56d8050d5d6, type: 2}
   mSpriteName: equip
   mFillCenter: 1
---- !u!114 &11400100
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100094}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e9d0b5f3bbe925a408bd595c79d0bf63, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  leftAnchor:
-    target: {fileID: 0}
-    relative: 0
-    absolute: 0
-  rightAnchor:
-    target: {fileID: 0}
-    relative: 1
-    absolute: 0
-  bottomAnchor:
-    target: {fileID: 0}
-    relative: 0
-    absolute: 0
-  topAnchor:
-    target: {fileID: 0}
-    relative: 1
-    absolute: 0
-  updateAnchors: 1
-  mColor: {r: 1, g: 1, b: 1, a: 1}
-  mPivot: 4
-  mWidth: 50
-  mHeight: 16
-  mDepth: 29
-  OffsetX: 0
-  OffsetY: 0
-  MeshFactor: 1
-  autoResizeBoxCollider: 0
-  hideIfOffScreen: 0
-  keepAspectRatio: 0
-  aspectRatio: 3.125
-  keepCrispWhenShrunk: 1
-  mTrueTypeFont: {fileID: 0}
-  mFont: {fileID: 11400000, guid: 30054980c4ab28942a48b10c3d67cac5, type: 2}
-  mText: Button
-  mFontSize: 16
-  mFontStyle: 0
-  mAlignment: 0
-  mEncoding: 1
-  mMaxLineCount: 0
-  mEffectStyle: 0
-  mEffectColor: {r: 0, g: 0, b: 0, a: 1}
-  mSymbols: 1
-  mEffectDistance: {x: 1, y: 1}
-  mOverflow: 0
-  mMaterial: {fileID: 0}
-  mApplyGradient: 0
-  mGradientTop: {r: 1, g: 1, b: 1, a: 1}
-  mGradientBottom: {r: .699999988, g: .699999988, b: .699999988, a: 1}
-  mSpacingX: 0
-  mSpacingY: 0
-  mShrinkToFit: 0
-  mMaxLineWidth: 0
-  mMaxLineHeight: 0
-  mLineWidth: 0
-  mMultiline: 1
 --- !u!114 &11400102
 MonoBehaviour:
   m_ObjectHideFlags: 1

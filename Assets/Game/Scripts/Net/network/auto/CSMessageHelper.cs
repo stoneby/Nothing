@@ -45,7 +45,6 @@ namespace KXSGCodec
 			            MSG_TYPE_DICT[typeof(CSHeroMaxExtend)] = (short)MessageType.CS_HERO_MAX_EXTEND.GetHashCode();
 			            MSG_TYPE_DICT[typeof(CSHeroModifyTeam)] = (short)MessageType.CS_HERO_MODIFY_TEAM.GetHashCode();
 			            MSG_TYPE_DICT[typeof(CSHeroSell)] = (short)MessageType.CS_HERO_SELL.GetHashCode();
-			            MSG_TYPE_DICT[typeof(CSAddItemTest)] = (short)MessageType.CS_ADD_ITEM_TEST.GetHashCode();
 			            MSG_TYPE_DICT[typeof(CSBuyBackItems)] = (short)MessageType.CS_BUY_BACK_ITEMS.GetHashCode();
 			            MSG_TYPE_DICT[typeof(CSEvoluteItem)] = (short)MessageType.CS_EVOLUTE_ITEM.GetHashCode();
 			            MSG_TYPE_DICT[typeof(CSExtendItemBag)] = (short)MessageType.CS_EXTEND_ITEM_BAG.GetHashCode();

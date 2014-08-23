@@ -1,10 +1,11 @@
 /// <summary>
-/// Specific window controller.
+/// ConfirmWindow got 2 buttons and 1 label.
 /// </summary>
 public class SimpleConfirmWindow : Window
 {
     #region Private Fields
 
+    // Buttons' listener and label.
     private UIEventListener okBTN;
     private UIEventListener cancelBTN;
     private UILabel confirmLabel;
@@ -23,6 +24,12 @@ public class SimpleConfirmWindow : Window
 
     #region Public Methods
 
+    /// <summary>
+    /// Set label's text, assign buttons' listener.
+    /// </summary>
+    /// <param name="labelString"></param>
+    /// <param name="lisOK"></param>
+    /// <param name="lisCancel"></param>
     public void SetLabelAndLis(string labelString, UIEventListener.VoidDelegate lisOK, UIEventListener.VoidDelegate lisCancel)
     {
         confirmLabel.text = labelString;
@@ -48,6 +55,9 @@ public class SimpleConfirmWindow : Window
 
     #region Mono
 
+    /// <summary>
+    /// Use this for initialization.
+    /// </summary>
     void Awake()
     {
         okBTN = UIEventListener.Get(transform.Find("Buttons/Button-Ok").gameObject);

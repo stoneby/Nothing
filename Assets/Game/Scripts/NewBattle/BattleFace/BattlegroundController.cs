@@ -37,8 +37,17 @@ public class BattlegroundController : MonoBehaviour
     private const string BasePath = "Prefabs/NewBattle/Battleground";
     private const int MinimalTotalStep = 3;
 
+    private bool initialized;
+
     public void Initialize()
     {
+        if (initialized)
+        {
+            return;
+        }
+
+        initialized = true;
+
         var path = string.Format("{0}/{1}", BasePath, BattleID);
         var battle = Resources.Load<GameObject>(path);
         if (battle == null)
@@ -101,6 +110,13 @@ public class BattlegroundController : MonoBehaviour
 
     public void Cleanup()
     {
+        if (!initialized)
+        {
+            return;
+        }
+
+        initialized = false;
+
         Destroy(battlegroundLooper.gameObject);
         Resources.UnloadUnusedAssets();
     }

@@ -7,6 +7,8 @@ public class GetItemControl : MonoBehaviour
     private GameObject containerItem;
     private GameObject containerBox;
 
+    private GameObject spriteHero;
+
     private GameObject spriteNew;
 
     public RewardItem Data;
@@ -20,6 +22,8 @@ public class GetItemControl : MonoBehaviour
         containerHero = transform.FindChild("Container hero").gameObject;
         containerItem = transform.FindChild("Container item").gameObject;
         containerBox = transform.FindChild("Sprite box").gameObject;
+
+        spriteHero = transform.FindChild("Container hero/Sprite head").gameObject;
 
         spriteNew = transform.FindChild("Sprite new").gameObject;
 	    haveNotInit = false;
@@ -58,9 +62,19 @@ public class GetItemControl : MonoBehaviour
             if (Data.RewardType == 1)
             {
                 containerHero.SetActive(true);
+                containerItem.SetActive(false);
+                var sp = spriteHero.GetComponent<UISprite>();
+                var herodata = HeroModelLocator.Instance.FindHero(long.Parse(Data.Uuid));
+                int k = 0;
+                if (herodata != null)
+                {
+                    k = herodata.TemplateId % 14;
+                }
+                sp.spriteName = "head_" + k;
             }
             else
             {
+                containerHero.SetActive(false);
                 containerItem.SetActive(true);
             }
         }

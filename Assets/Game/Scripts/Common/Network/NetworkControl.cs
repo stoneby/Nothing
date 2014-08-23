@@ -8,9 +8,6 @@ public class NetworkControl : MonoBehaviour
 {
     private float realTime = -10;
 
-    public delegate void MessageReceived();
-    public static MessageReceived OnMessageReceived;
-
     private static IEnumerator MessageHandler()
     {
         while (true)
@@ -20,10 +17,6 @@ public class NetworkControl : MonoBehaviour
             {
                 while (msg != null)
                 {
-                    if (OnMessageReceived != null)
-                    {
-                        OnMessageReceived();
-                    }
                     Logger.Log(msg.GetMsgType());
                     switch (msg.GetMsgType())
                     {
@@ -184,7 +177,7 @@ public class NetworkControl : MonoBehaviour
             {
                 var errorLog = string.Format("Message Parse Error.\n StackTrace:\n{0}\nMessage:\n{1}\n", e.StackTrace,
                     e.Message);
-                PopTextManager.PopTip(errorLog);
+                //PopTextManager.PopTip(errorLog);
                 Debug.LogWarning(errorLog);
             }
             
@@ -209,7 +202,7 @@ public class NetworkControl : MonoBehaviour
             else
             {
                 realTime = Time.realtimeSinceStartup;
-                PopTextManager.PopTip("再按一次退出游戏");
+                PopTextManager.PopTip("再按一次退出游戏", false);
             }
         }
 

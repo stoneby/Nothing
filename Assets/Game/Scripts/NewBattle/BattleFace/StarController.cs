@@ -26,7 +26,7 @@ public class StarController : MonoBehaviour
         
         for (var i = RatioList.Count - 1; i >= 0; --i)
         {
-            if (ratio < RatioList[i] && CurrentStar >= i)
+            if (ratio < RatioList[i])
             {
                 CurrentStar = i;
             }

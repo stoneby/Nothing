@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public sealed class PlayerModelLocator
 {
@@ -19,6 +20,7 @@ public sealed class PlayerModelLocator
     public int ExtendItemTimes;
     public int Famous;
     public int SuperChip;
+    public Dictionary<int, int> TeamProp;
 
     private static volatile PlayerModelLocator instance;
     private static readonly object SyncRoot = new Object();

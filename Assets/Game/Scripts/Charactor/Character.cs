@@ -45,10 +45,15 @@ public class Character : MonoBehaviour
     public int Type;
 
     /// <summary>
-    /// Color index which locates undergrand of each character.
+    /// Color index which locates underground of each character.
     /// </summary>
     /// <remarks>Used for cross connect to the same kinds of characters</remarks>
     public int ColorIndex;
+
+    /// <summary>
+    /// Job index which indicates the job of the character. 
+    /// </summary>
+    public int JobIndex;
 
     /// <summary>
     /// Flag indicates if current character is leader.

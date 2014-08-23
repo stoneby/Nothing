@@ -27,6 +27,7 @@ namespace KXSGCodec
 #endif
     public partial class BattleMsgHero : TBase
     {
+        //Nums count and ClassName.
         private const int FieldCount = 5;
         private const int BasicFieldCount = 6;
         private const int ISSetCount = 9;
@@ -499,6 +500,11 @@ namespace KXSGCodec
             return sb.ToString();
         }
 
+        /// <summary>
+        /// Write this whole class to stream.
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="className"></param>
         public void WriteClass(StreamWriter writer, string className)
         {
             writer.Write(className);
@@ -526,11 +532,15 @@ namespace KXSGCodec
             PersistenceFileIOHandler.WriteDic(writer, OtherPropDictionaryName, OtherProp);
         }
 
+        /// <summary>
+        /// Read this whole class from string.
+        /// </summary>
+        /// <param name="value"></param>
         public void ReadClass(string value)
         {
             string[] splitStrings = new string[] { BasicName, ISSetName, FighterPropDictionaryName, AllSkillListName, OtherPropDictionaryName };
             string[] outStrings = value.Split(splitStrings, StringSplitOptions.RemoveEmptyEntries);
-            int outStringsCount = PersistenceFileIOHandler.CheckCount(outStrings, FieldCount-1, FieldCount);
+            int outStringsCount = PersistenceFileIOHandler.CheckCount(outStrings, FieldCount - 1, FieldCount);
 
             string[] splitedBasic = outStrings[0].Split(new char[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
             PersistenceFileIOHandler.CheckCount(splitedBasic, BasicFieldCount);
@@ -564,7 +574,7 @@ namespace KXSGCodec
             string[] splitedAllSkillList = outStrings[3].Split(new char[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
             AllSkill = PersistenceFileIOHandler.ReadList<int>(splitedAllSkillList, 0, splitedAllSkillList.Length - 1);
 
-            if (outStringsCount==5)
+            if (outStringsCount == 5)
             {
                 string[] splitedOtherProp = outStrings[4].Split(new char[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
                 if (splitedOtherProp.Length % 2 != 0)
@@ -577,7 +587,7 @@ namespace KXSGCodec
                     OtherProp = PersistenceFileIOHandler.ReadDic<int, int>(splitedOtherProp, 0, splitedOtherProp.Length - 1);
                 }
             }
-            else if(outStringsCount==4)
+            else if (outStringsCount == 4)
             {
                 Logger.LogWarning("A OtherPropDictionary is empty.");
             }

@@ -3,6 +3,7 @@ namespace com.kx.sglm.gs.battle.share.skill.enums
 
 	using BaseBattleFactoryEnum = com.kx.sglm.gs.battle.share.enums.BaseBattleFactoryEnum;
 	using IBattlePartInfo = com.kx.sglm.gs.battle.share.enums.IBattlePartInfo;
+	using AllBattlingTargetGetter = com.kx.sglm.gs.battle.share.skill.target.AllBattlingTargetGetter;
 	using AllTargetGetter = com.kx.sglm.gs.battle.share.skill.target.AllTargetGetter;
 	using ColorTargetGetter = com.kx.sglm.gs.battle.share.skill.target.ColorTargetGetter;
 	using CrossTargetGetter = com.kx.sglm.gs.battle.share.skill.target.CrossTargetGetter;
@@ -179,6 +180,21 @@ namespace com.kx.sglm.gs.battle.share.skill.enums
 			public override IBattlePartInfo createInstance()
 			{
 				return new UprightTargetGetter();
+			}
+		}
+
+		public static readonly SkillTargetEnum ALL_BATTLING_TARGET = new SkillTargetEnumAnonymousInnerClassHelper12();
+
+		private class SkillTargetEnumAnonymousInnerClassHelper12 : SkillTargetEnum
+		{
+			public SkillTargetEnumAnonymousInnerClassHelper12() : base(11)
+			{
+			}
+
+
+			public override IBattlePartInfo createInstance()
+			{
+				return new AllBattlingTargetGetter();
 			}
 		}
 

@@ -15,6 +15,7 @@ namespace com.kx.sglm.gs.battle.share.executer.impl
 	using BattleRecordConstants = com.kx.sglm.gs.battle.share.data.record.BattleRecordConstants;
 	using BattleRoundCountRecord = com.kx.sglm.gs.battle.share.data.record.BattleRoundCountRecord;
 	using BattleTeamFightRecord = com.kx.sglm.gs.battle.share.data.record.BattleTeamFightRecord;
+	using BattleStoreData = com.kx.sglm.gs.battle.share.data.store.BattleStoreData;
 	using BattleType = com.kx.sglm.gs.battle.share.enums.BattleType;
 	using FighterType = com.kx.sglm.gs.battle.share.enums.FighterType;
 	using HeroColor = com.kx.sglm.gs.battle.share.enums.HeroColor;
@@ -48,6 +49,16 @@ namespace com.kx.sglm.gs.battle.share.executer.impl
 			{
 				return monsterList[Battle.CurSceneIndex];
 			}
+		}
+
+
+
+		protected internal override void recoverDataByType(BattleStoreData storeData)
+		{
+			loadHeroSPBuff(storeData);
+			resetHeroTeamHp(storeData);
+			resetBattleSceneIndex(storeData);
+
 		}
 
 
@@ -130,10 +141,6 @@ namespace com.kx.sglm.gs.battle.share.executer.impl
 
 		}
 
-		public override void onBattleSceneFinish(BattleScene battleScene)
-		{
-
-		}
 
 		public override bool needHungUp(BattleRound round, BattleTeam attackTeam)
 		{
@@ -219,6 +226,13 @@ namespace com.kx.sglm.gs.battle.share.executer.impl
 
 		}
 
+
+		public override void onBattleSceneFinish(BattleScene battleScene)
+		{
+			Battle _battle = Battle;
+			_battle.StoreHandler.handleSceneEnd(_battle.CurSceneIndex, attackerTeam());
+		}
+
 		protected internal virtual void initSkill(BattleTeam team, BattleRoundCountRecord record)
 		{
 			foreach (BattleFighter _fighter in team.ActorList)
@@ -226,6 +240,7 @@ namespace com.kx.sglm.gs.battle.share.executer.impl
 				_fighter.SkillManager.beforeBattleStart(record);
 			}
 		}
+
 
 	}
 

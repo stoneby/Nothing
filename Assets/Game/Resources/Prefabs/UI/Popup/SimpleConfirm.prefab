@@ -147,7 +147,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400004}
-  m_RootOrder: 0
 --- !u!4 &400002
 Transform:
   m_ObjectHideFlags: 1
@@ -159,7 +158,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400006}
-  m_RootOrder: 0
 --- !u!4 &400004
 Transform:
   m_ObjectHideFlags: 1
@@ -172,7 +170,6 @@ Transform:
   m_Children:
   - {fileID: 400000}
   m_Father: {fileID: 400012}
-  m_RootOrder: 1
 --- !u!4 &400006
 Transform:
   m_ObjectHideFlags: 1
@@ -185,7 +182,6 @@ Transform:
   m_Children:
   - {fileID: 400002}
   m_Father: {fileID: 400012}
-  m_RootOrder: 0
 --- !u!4 &400008
 Transform:
   m_ObjectHideFlags: 1
@@ -197,7 +193,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400014}
-  m_RootOrder: 2
 --- !u!4 &400010
 Transform:
   m_ObjectHideFlags: 1
@@ -209,7 +204,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400014}
-  m_RootOrder: 1
 --- !u!4 &400012
 Transform:
   m_ObjectHideFlags: 1
@@ -223,7 +217,6 @@ Transform:
   - {fileID: 400006}
   - {fileID: 400004}
   m_Father: {fileID: 400014}
-  m_RootOrder: 0
 --- !u!4 &400014
 Transform:
   m_ObjectHideFlags: 1
@@ -238,7 +231,6 @@ Transform:
   - {fileID: 400010}
   - {fileID: 400008}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
 --- !u!65 &6500000
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -319,6 +311,7 @@ MonoBehaviour:
   mWidth: 2048
   mHeight: 1024
   mDepth: -1
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -346,6 +339,7 @@ MonoBehaviour:
   mMat: {fileID: 0}
   mShader: {fileID: 4800000, guid: e75727d9555d9d14ca51d91908c681bc, type: 3}
   mBorder: {x: 0, y: 0, z: 0, w: 0}
+  Clone: 0
 --- !u!114 &11400004
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -379,6 +373,7 @@ MonoBehaviour:
   mWidth: 602
   mHeight: 81
   mDepth: 9
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -444,6 +439,7 @@ MonoBehaviour:
   mWidth: 148
   mHeight: 30
   mDepth: 5
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -542,6 +538,7 @@ MonoBehaviour:
   mWidth: 150
   mHeight: 54
   mDepth: 4
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -595,6 +592,7 @@ MonoBehaviour:
   mWidth: 148
   mHeight: 30
   mDepth: 7
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -693,6 +691,7 @@ MonoBehaviour:
   mWidth: 150
   mHeight: 53
   mDepth: 6
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -746,6 +745,7 @@ MonoBehaviour:
   mWidth: 804
   mHeight: 216
   mDepth: 0
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1

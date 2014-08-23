@@ -30,7 +30,23 @@ public class ServiceManager
     public static List<AppStateVO> IosStateArray;
 
     //当前版本是否为技术测试版本
-    public static bool IsTest = false;
+    public static bool IsTest
+    {
+        get
+        {
+            return isTest;
+        }
+        set
+        {
+            isTest = value;
+            //if (UICamera.currentCamera != null)
+            //{
+            //    NGUIDebug.debugRaycast = isTest;
+            //}
+        }
+    }
+
+    private static bool isTest;
 
     //appMap
     public static AppVO AppData;

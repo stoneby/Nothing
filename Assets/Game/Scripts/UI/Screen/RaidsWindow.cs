@@ -12,6 +12,7 @@ public class RaidsWindow : Window
     private UIEventListener BtnReturnUIEventListener;
     private UIEventListener BtnStageDetailUIEventListener;
     private UIEventListener BtnStageLevelUIEventListener;
+    private UIEventListener StageBgClickUIEventListener;
 
     private GameObject ContainerMap;
     private GameObject ContainerBigMap;
@@ -35,6 +36,8 @@ public class RaidsWindow : Window
 
     private int SelectChapterId;
 
+    private GameObject TexSelectMap;
+
     //stage
     private GameObject StageContainer;
     private GameObject StageTitleLabel;
@@ -42,6 +45,8 @@ public class RaidsWindow : Window
     private GameObject StageLevelBtn;
     private GameObject StageLevelSprite;
     private GameObject StageItemsContainer;
+    private GameObject StageBgScript;
+    private GameObject ClickContainer;
 
     //private int StageLevel = 0;//难度1普通2精英3英雄
     private int StageLevelCount = 3;
@@ -51,11 +56,7 @@ public class RaidsWindow : Window
 
     public override void OnEnter()
     {
-        var cma = Camera.main.GetComponent<UICamera>();
-        if (cma != null)
-        {
-            cma.eventType = UICamera.EventType.Unity2D;
-        }
+        Set2DCamera(!IsShowStage);
         MissionModelLocator.Instance.ComputeStagecount();
         if (!HaveInitMaps)
         {
@@ -88,23 +89,38 @@ public class RaidsWindow : Window
         }
         var lb = LabelGold.GetComponent<UILabel>();
         lb.text = PlayerModelLocator.Instance.Diamond.ToString();
-        lb = LabelEnergy.GetComponent<UILabel>();
-        lb.text = PlayerModelLocator.Instance.Energy.ToString();
 
         SetRaids();
         if (IsShowStage)
         {
-            ShowStage(CurrRaidMap);
+            ShowStage(CurrRaidMap, false);
+            ClickContainer.SetActive(true);
+            //StartCoroutine(SetStageCollider());
         }
         BtnReturnUIEventListener.onClick += OnReturnButtonClick;
         BtnStageDetailUIEventListener.onClick += OnStageDetailHandler;
         BtnStageLevelUIEventListener.onClick += OnStageLevelHandler;
+        StageBgClickUIEventListener.onClick += OnStageBgClickHandler;
         ResetButton();
+        SetEnergy();
+    }
+
+    private void SetEnergy()
+    {
+        var levelTemps = LevelModelLocator.Instance.LevelUpTemplates.LevelUpTmpls;
+        if (!levelTemps.ContainsKey(PlayerModelLocator.Instance.Level))
+        {
+            //Logger.LogError(string.Format("The current player level is {0}, it is not in the level up template.", PlayerModelLocator.Instance.Level));
+            return;
+        }
+        var levelTemp = levelTemps[PlayerModelLocator.Instance.Level];
+        var lb = LabelEnergy.GetComponent<UILabel>();
+        lb.text = string.Format("{0}/{1}", PlayerModelLocator.Instance.Energy, levelTemp.MaxEnergy);
     }
 
     private void SetRaids()
     {
-        Raids = MissionModelLocator.Instance.GetCurrentRaids();
+        Raids = MissionModelLocator.Instance.RaidLoadingAll.RaidInfoNormal;//MissionModelLocator.Instance.GetCurrentRaids();
         var temp = new List<RaidInfo>(Raids.OrderBy(raidInfo => raidInfo.TemplateId));
         for (int i = 0; i < temp.Count; i++)
         {
@@ -119,7 +135,7 @@ public class RaidsWindow : Window
 
     private IEnumerator PlayScall()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.25f);
         ContainerSmallMap.SetActive(true);
 
         for (int i = 0; i < RaidObjs.Count; i++)
@@ -134,9 +150,8 @@ public class RaidsWindow : Window
                 RaidObjs[i].SetActive(false);
             }
         }
-
         ResetButton();
-
+        //StartCoroutine(SetStageCollider());
     }
 
     private float Tox;
@@ -146,14 +161,17 @@ public class RaidsWindow : Window
         var item = obj.GetComponent<RaidBigItemControl>();
         if (item.IsLock)
         {
-            PopTextManager.PopTip("The Chapter is Locked");
+            ////UIRaid.LevelLimit
+            var str = LanguageManager.Instance.GetTextValue("UIRaid.LevelLimit");
+            str = str.Replace("XX", item.RaidTemp.OpenLvl.ToString());
+            PopTextManager.PopTip(str);
             return;
         }
         //
 
         if (!IsScale)
         {
-            PlayTweenScale(ContainerMap, 0.5f, new Vector3(1, 1, 1), new Vector3(3, 3, 1));
+            PlayTweenScale(ContainerMap, 0.25f, new Vector3(1, 1, 1), new Vector3(3, 3, 1));
             Tox = -item.map.x * 3;
             if (Tox - 640 * 3 > -640)
             {
@@ -162,7 +180,7 @@ public class RaidsWindow : Window
             SelectChapterId = int.Parse(item.map.id);
             Toy = -item.map.y*3;
             ContainerSmallMap.transform.localPosition = new Vector3(Tox, Toy, 0);
-            PlayTweenPosition(ContainerMap, 0.5f, new Vector3(0, 0, 0), new Vector3(Tox, Toy, 0));
+            PlayTweenPosition(ContainerMap, 0.25f, new Vector3(0, 0, 0), new Vector3(Tox, Toy, 0));
             ContainerBigMap.SetActive(false);
             IsScale = true;
             StartCoroutine(PlayScall());
@@ -174,7 +192,10 @@ public class RaidsWindow : Window
         var item = obj.GetComponent<RaidBigItemControl>();
         if (item.IsLock)
         {
-            PopTextManager.PopTip("The Map is Locked");
+            //PopTextManager.PopTip("The Map is Locked");
+            var str = LanguageManager.Instance.GetTextValue("UIRaid.LevelLimit");
+            str = str.Replace("XX", item.RaidTemp.OpenLvl.ToString());
+            PopTextManager.PopTip(str);
         }
         else
         {
@@ -188,7 +209,7 @@ public class RaidsWindow : Window
     }
 
     private MapVO CurrRaidMap;
-    private void ShowStage(MapVO themap)
+    private void ShowStage(MapVO themap, bool playeffect = true)
     {
         var table = StageItemsContainer.GetComponent<KxVListRender>();
         var stages = GetStages(themap);
@@ -209,9 +230,18 @@ public class RaidsWindow : Window
         {
             temp = new List<RaidStageInfo>();
         }
-        table.Init(temp, "Prefabs/Component/StageItem", 540, 490, 540, 140, OnStageItemClicktHandler);
+        table.Init(temp, "Prefabs/Component/StageItem", 540, 490, 540, 140, OnStageItemClicktHandler, playeffect);
 
-        if (IsShowStage && CurrRaidMap.id == themap.id) return;
+        if (IsShowStage && CurrRaidMap.id == themap.id)
+        {
+            
+            //table.ResetCollider();
+            return;
+        }
+//        else
+//        {
+//            table.Init(temp, "Prefabs/Component/StageItem", 540, 490, 540, 140, OnStageItemClicktHandler);
+//        }
         CurrRaidMap = themap;
         StartCoroutine(PlayShowStage());
     }
@@ -220,34 +250,69 @@ public class RaidsWindow : Window
     {
         float tox = -320 - CurrRaidMap.x;
         float toy = -CurrRaidMap.y;
-        PlayTweenPosition(ContainerMap, 0.4f, ContainerMap.transform.localPosition, new Vector3(tox, toy, 0));
-        PlayTweenPosition(ContainerSmallMap, 0.4f, ContainerSmallMap.transform.localPosition, new Vector3(tox, toy, 0));
-        yield return new WaitForSeconds(0.4f);
+        PlayTweenPosition(ContainerMap, 0.2f, ContainerMap.transform.localPosition, new Vector3(tox, toy, 0));
+        PlayTweenPosition(ContainerSmallMap, 0.2f, ContainerSmallMap.transform.localPosition, new Vector3(tox, toy, 0));
+        //yield return new WaitForSeconds(0.3f);
         if (!IsShowStage)
         {
             PlayTweenPosition(StageContainer, 0.5f, new Vector3(950, -11, 0), new Vector3(310, -11, 0));
             yield return new WaitForSeconds(0.5f);
-            StageItemsContainer.SetActive(true);
+            var table = StageItemsContainer.GetComponent<KxVListRender>();
+            if (!StageItemsContainer.activeInHierarchy)
+            {
+                StageItemsContainer.SetActive(true);
+                
+                table.ShowItems();
+            }
+//            else
+//            {
+//                table.ResetCollider();
+//            }
             IsShowStage = true;
+            Set2DCamera(false);
+            ClickContainer.SetActive(true);
         }
-        ResetButton();
+        //yield return new WaitForSeconds(0.2f);
+        //StartCoroutine(SetStageCollider());
+
     }
 
     private void ResetButton()
     {
-        var cd = BtnReturn.GetComponent<BoxCollider2D>();
-        cd.isTrigger = false;
-        cd.isTrigger = true;
+        ResetCollider(BtnReturn);
     }
 
     private IEnumerator PlayHideStage()
     {
         IsShowStage = false;
+        Set2DCamera(true);
+        ClickContainer.SetActive(false);
         StageItemsContainer.SetActive(false);
-        PlayTweenPosition(StageContainer, 0.3f, new Vector3(310, -11, 0), new Vector3(950, -11, 0));
-        yield return new WaitForSeconds(0.3f);
-        PlayTweenPosition(ContainerMap, 0.2f, ContainerMap.transform.localPosition, new Vector3(Tox, Toy, 0));
-        PlayTweenPosition(ContainerSmallMap, 0.2f, ContainerSmallMap.transform.localPosition, new Vector3(Tox, Toy, 0));
+        PlayTweenPosition(StageContainer, 0.2f, new Vector3(310, -11, 0), new Vector3(950, -11, 0));
+        yield return new WaitForSeconds(0.2f);
+        PlayTweenPosition(ContainerMap, 0.1f, ContainerMap.transform.localPosition, new Vector3(Tox, Toy, 0));
+        PlayTweenPosition(ContainerSmallMap, 0.1f, ContainerSmallMap.transform.localPosition, new Vector3(Tox, Toy, 0));
+    }
+
+//    private IEnumerator SetStageCollider()
+//    {
+//        yield return new WaitForSeconds(0.1f);
+//        ResetButton();
+//        if (IsShowStage)
+//        {
+//            ResetCollider(StageBgScript);
+//            yield return new WaitForSeconds(0.1f);
+//            ResetCollider(StageDetailBtn);
+//            ResetCollider(StageLevelBtn);
+//        }
+//    }
+
+    private void ResetCollider(GameObject obj)
+    {
+        var cd = obj.GetComponent<Collider2D>();
+        if (cd == null) return;
+        cd.isTrigger = false;
+        cd.isTrigger = true;
     }
 
     private List<RaidStageInfo> GetStages(MapVO themap)
@@ -274,7 +339,7 @@ public class RaidsWindow : Window
             MissionModelLocator.Instance.RaidLoadingAll.TodayFinishTimes[control.StageTemp.Id] >= control.StageTemp.DailyLimitTimes)
         {
             var text = LanguageManager.Instance.GetTextValue("Poptip.Limit");
-            PopTextManager.PopTip(text);
+            PopTextManager.PopTip(text, false);
         }
         else
         {
@@ -291,14 +356,25 @@ public class RaidsWindow : Window
         if (BtnReturnUIEventListener != null) BtnReturnUIEventListener.onClick -= OnReturnButtonClick;
         if (BtnStageDetailUIEventListener != null) BtnStageDetailUIEventListener.onClick -= OnStageDetailHandler;
         if (BtnStageLevelUIEventListener != null) BtnStageLevelUIEventListener.onClick -= OnStageLevelHandler;
+        if (StageBgClickUIEventListener != null) StageBgClickUIEventListener.onClick -= OnStageBgClickHandler;
+        Set2DCamera(false);
+    }
+
+    private void Set2DCamera(bool is2d)
+    {
         var cma = Camera.main.GetComponent<UICamera>();
-        if (cma != null)
+        if (cma == null) return;
+        if (is2d)
+        {
+            cma.eventType = UICamera.EventType.Unity2D;
+        }
+        else
         {
             cma.eventType = UICamera.EventType.UI;
         }
     }
 
-    private void OnReturnButtonClick(GameObject obj)
+    private void OnReturnButtonClick(GameObject obj = null)
     {
         if (IsShowStage)
         {
@@ -315,7 +391,6 @@ public class RaidsWindow : Window
         else
         {
             WindowManager.Instance.Show(typeof(RaidsWindow), false);
-            //WindowManager.Instance.Show<MainMenuBarWindow>(true);
             WindowManager.Instance.Show<UIMainScreenWindow>(true);
         }
         
@@ -335,6 +410,11 @@ public class RaidsWindow : Window
         ShowStage(CurrRaidMap);
     }
 
+    private void OnStageBgClickHandler(GameObject obj)
+    {
+        OnReturnButtonClick();
+    }
+
     #endregion
 
     #region Mono
@@ -343,6 +423,7 @@ public class RaidsWindow : Window
     void Awake()
     {
         ContainerBigMap = transform.FindChild("Container map/Container map big").gameObject;
+        TexSelectMap = transform.FindChild("Container map/Texture select").gameObject;
         ContainerMap = transform.FindChild("Container map").gameObject;
         ContainerSmallMap = transform.FindChild("Container map small").gameObject;
         ContainerSmallMap.SetActive(false);
@@ -358,11 +439,14 @@ public class RaidsWindow : Window
         StageDetailBtn = transform.FindChild("Container stage/Image Button detail").gameObject;
         StageLevelBtn = transform.FindChild("Container stage/Image Button level").gameObject;
         StageLevelSprite = transform.FindChild("Container stage/Image Button level/Sprite level").gameObject;
+        StageBgScript = transform.FindChild("Container stage/Sprite bg").gameObject;
+        ClickContainer = transform.FindChild("Container click").gameObject;
         StageItemsContainer = transform.FindChild("VList").gameObject;
         StageItemsContainer.SetActive(false);
 
         BtnStageDetailUIEventListener = UIEventListener.Get(StageDetailBtn);
         BtnStageLevelUIEventListener = UIEventListener.Get(StageLevelBtn);
+        StageBgClickUIEventListener = UIEventListener.Get(ClickContainer);
     }
 
     #endregion

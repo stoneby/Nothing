@@ -33,6 +33,21 @@ public class Loom : MonoBehaviour
 
     #region Public Methods
 
+    public void RemoveDelay(string delay)
+    {
+        lock (delayed)
+        {
+            for (var i = 0; i < delayed.Count; ++i)
+            {
+                var delayItem = delayed[i];
+                if (delayItem.Name.Equals(delay))
+                {
+                    delayed.RemoveAt(i);
+                }
+            }
+        }
+    }
+
     public static void QueueOnMainThread(Action action, string name)
     {
         QueueOnMainThread(action, 0, name);

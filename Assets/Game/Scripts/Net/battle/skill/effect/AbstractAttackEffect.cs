@@ -78,7 +78,7 @@ namespace com.kx.sglm.gs.battle.share.skill.effect
 
 			costHp(_costHp, defencer, _record);
 
-			recordDamageInfo((int) _attack, _record);
+			recordDamageInfo(attacker.Battle, (int) _attack, _record);
 
 			fightRecord.finishCurDefecner();
 
@@ -132,10 +132,12 @@ namespace com.kx.sglm.gs.battle.share.skill.effect
 			return _damage;
 		}
 
-		protected internal virtual void recordDamageInfo(int damage, SingleActionRecord record)
+		protected internal virtual void recordDamageInfo(Battle battle, int damage, SingleActionRecord record)
 		{
 			record.addProp(BattleRecordConstants.BATTLE_HERO_PROP_HIT_COUNT, (int) hitCount);
 			record.addProp(BattleRecordConstants.BATTLE_HERO_PROP_HIT_SINGLE_DAMAGE, (int) damage);
+			battle.StoreHandler.handleAttack(damage);
+
 		}
 
 		protected internal virtual void updateShieldState(BattleFighter defencer, SingleActionRecord record)
@@ -179,9 +181,7 @@ namespace com.kx.sglm.gs.battle.share.skill.effect
 
 		public virtual float getAttack(BattleFighter attacker)
 		{
-			float _baseAttack = attacker.AttackVal;
-			float _attackRatil = getIndexAttackRatio(attacker);
-			return _baseAttack * (_attackRatil / BattleConstants.BATTLE_RATIO_BASE);
+			return attacker.AttackVal;
 		}
 
 		protected internal abstract int AttackType {get;}

@@ -62,6 +62,15 @@ namespace com.kx.sglm.gs.battle.share
 		public static readonly int BATTLE_BUFF_CUR_SHIELD_ORDER = BATTLE_BUFF_KEY_BASE++;
 
 
+		private static int BATTLE_STORE_KEY_BASE = 0;
+
+		public static int BATTLE_STORE_MAX_FIGHT = BATTLE_STORE_KEY_BASE++;
+		public static int BATTLE_STORE_CUR_SCENE_INDEX = BATTLE_STORE_KEY_BASE++;
+		public static int BATTLE_STORE_CUR_HERO_HP = BATTLE_STORE_KEY_BASE++;
+		public static int BATTLE_STORE_CUR_SP_INDEX_LIST = BATTLE_STORE_KEY_BASE++;
+		public static int BATTLE_STORE_CUR_HERO_MP = BATTLE_STORE_KEY_BASE++;
+
+
 	}
 
 }

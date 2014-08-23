@@ -11,6 +11,8 @@ public class EquipItem : ItemBase
     private Transform curTeamEquiped;
     private Transform otherTeamEquiped;
 
+    //public bool IsSelectEquipItem = false;
+
     private sbyte bindState;
     public sbyte BindState
     {
@@ -30,6 +32,11 @@ public class EquipItem : ItemBase
             equipStatus = value;
             curTeamEquiped.gameObject.SetActive(equipStatus == 1);
             otherTeamEquiped.gameObject.SetActive(false);
+
+//            if (IsSelectEquipItem)
+//            {
+                ShowEquipMask(equipStatus > 0);
+//            }
         }
     }
 

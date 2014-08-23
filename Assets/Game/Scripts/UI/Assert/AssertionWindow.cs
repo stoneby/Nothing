@@ -25,8 +25,8 @@ public class AssertionWindow : Window
 
     public delegate void VoidDelegate(GameObject sender);
 
-    public event VoidDelegate OkButtonClicked;
-    public event VoidDelegate CancelButtonClicked;
+    public VoidDelegate OkButtonClicked;
+    public VoidDelegate CancelButtonClicked;
 
     public Type AssertType;
     public string Message;
@@ -70,6 +70,8 @@ public class AssertionWindow : Window
         {
             OkButtonClicked(sender);
         }
+
+        OkButtonClicked = null;
     }
 
     private void OnButton2Click(GameObject sender)
@@ -80,6 +82,8 @@ public class AssertionWindow : Window
         {
             CancelButtonClicked(sender);
         }
+
+        CancelButtonClicked = null;
     }
 
     private void AdjustUI()

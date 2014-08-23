@@ -90,14 +90,15 @@ namespace com.kx.sglm.gs.battle.share.factory.creater
 			{
 				_allSkillIds.Add(_defaultSkill.SkillId);
 			}
-		    if (aiTemp.AiSkills != null)
-		    {
-                foreach (Template.Auto.Monster.MonsterSkillAIData _aiData in aiTemp.AiSkills)
-                {
-                    _allSkillIds.Add(_aiData.SkillId);
-                }   
-		    }
-	        return _allSkillIds;
+			//可能没有AISkill
+			if (aiTemp.AiSkills != null)
+			{
+				foreach (Template.Auto.Monster.MonsterSkillAIData _aiData in aiTemp.AiSkills)
+				{
+					_allSkillIds.Add(_aiData.SkillId);
+				}
+			}
+			return _allSkillIds;
 		}
 
 		public static List<int> getAllBuffIds(int spMapxId, List<int> monsterShieldIds, List<Template.Auto.Skill.HeroBattleSkillTemplate> heroSkill, List<Template.Auto.Skill.MonsterBattleSkillTemplate> monsterSkill)

@@ -53,4 +53,5 @@ public class ItemType : MonoBehaviour
     public const int InvalidBuyBackIndex = -1;
 
     public const string SellConfirmKey = "UISellItem.SellConfirm";
+    public const string ItemHeadPrefix = "Item_";
 }

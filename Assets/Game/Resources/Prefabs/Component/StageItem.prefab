@@ -104,9 +104,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 400012}
-  - 114: {fileID: 11400010}
   - 114: {fileID: 11400008}
-  - 61: {fileID: 6100000}
   m_Layer: 8
   m_Name: Image Button battle
   m_TagString: Untagged
@@ -236,6 +234,7 @@ GameObject:
   - 4: {fileID: 400030}
   - 114: {fileID: 11400034}
   - 114: {fileID: 11400036}
+  - 65: {fileID: 6500000}
   m_Layer: 8
   m_Name: StageItem
   m_TagString: Untagged
@@ -437,17 +436,18 @@ Transform:
   - {fileID: 400012}
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!61 &6100000
-BoxCollider2D:
+--- !u!65 &6500000
+BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100012}
-  m_Enabled: 1
+  m_GameObject: {fileID: 100030}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Size: {x: 114, y: 106}
-  m_Center: {x: 0, y: 0}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 540, y: 130, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -481,6 +481,7 @@ MonoBehaviour:
   mWidth: 40
   mHeight: 40
   mDepth: 38
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -534,6 +535,7 @@ MonoBehaviour:
   mWidth: 72
   mHeight: 36
   mDepth: 37
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -551,7 +553,7 @@ MonoBehaviour:
   rightType: 1
   bottomType: 1
   topType: 1
-  mAtlas: {fileID: 11400000, guid: 5e1dce6d15042bc4f8d641c2bb71e5c6, type: 2}
+  mAtlas: {fileID: 11400000, guid: 5b92cbdcb180fb042a7069f903d9f7ae, type: 2}
   mSpriteName: font_battle
   mFillCenter: 1
 --- !u!114 &11400004
@@ -587,6 +589,7 @@ MonoBehaviour:
   mWidth: 44
   mHeight: 58
   mDepth: 37
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -604,7 +607,7 @@ MonoBehaviour:
   rightType: 1
   bottomType: 1
   topType: 1
-  mAtlas: {fileID: 11400000, guid: 5e1dce6d15042bc4f8d641c2bb71e5c6, type: 2}
+  mAtlas: {fileID: 11400000, guid: 5b92cbdcb180fb042a7069f903d9f7ae, type: 2}
   mSpriteName: lock
   mFillCenter: 1
 --- !u!114 &11400006
@@ -640,6 +643,7 @@ MonoBehaviour:
   mWidth: 100
   mHeight: 100
   mDepth: 36
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -655,35 +659,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 100012}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1fdca5042b1d12a4890ec1bd4f04290d, type: 3}
+  m_Script: {fileID: 11500000, guid: bc1bf488fc3345a41bad73504e63dce1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tweenTarget: {fileID: 100010}
-  hover: {r: .882352948, g: .784313738, b: .588235319, a: 1}
-  pressed: {r: .717647076, g: .639215708, b: .482352942, a: 1}
-  disabledColor: {r: .5, g: .5, b: .5, a: 1}
-  duration: .200000003
-  dragHighlight: 0
-  hoverSprite: battle_btn_up
-  pressedSprite: battle_btn_down
-  disabledSprite: battle_btn_down
-  pixelSnap: 1
-  onClick: []
---- !u!114 &11400010
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100012}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d44bc69c2ca5f943b845318866dc1bd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  audioClip: {fileID: 0}
-  trigger: 0
-  volume: 1
-  pitch: 1
 --- !u!114 &11400012
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -717,6 +695,7 @@ MonoBehaviour:
   mWidth: 79
   mHeight: 34
   mDepth: 35
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -782,6 +761,7 @@ MonoBehaviour:
   mWidth: 114
   mHeight: 106
   mDepth: 34
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -799,8 +779,8 @@ MonoBehaviour:
   rightType: 1
   bottomType: 1
   topType: 1
-  mAtlas: {fileID: 11400000, guid: 5e1dce6d15042bc4f8d641c2bb71e5c6, type: 2}
-  mSpriteName: battle_btn_up
+  mAtlas: {fileID: 11400000, guid: 5b92cbdcb180fb042a7069f903d9f7ae, type: 2}
+  mSpriteName: battle_btn_down
   mFillCenter: 1
 --- !u!114 &11400016
 MonoBehaviour:
@@ -835,6 +815,7 @@ MonoBehaviour:
   mWidth: 540
   mHeight: 130
   mDepth: 25
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -852,7 +833,7 @@ MonoBehaviour:
   rightType: 1
   bottomType: 1
   topType: 1
-  mAtlas: {fileID: 11400000, guid: 5e1dce6d15042bc4f8d641c2bb71e5c6, type: 2}
+  mAtlas: {fileID: 11400000, guid: 5b92cbdcb180fb042a7069f903d9f7ae, type: 2}
   mSpriteName: box0
   mFillCenter: 1
 --- !u!114 &11400018
@@ -888,6 +869,7 @@ MonoBehaviour:
   mWidth: 350
   mHeight: 40
   mDepth: 39
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -953,6 +935,7 @@ MonoBehaviour:
   mWidth: 32
   mHeight: 34
   mDepth: 35
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -970,7 +953,7 @@ MonoBehaviour:
   rightType: 1
   bottomType: 1
   topType: 1
-  mAtlas: {fileID: 11400000, guid: 5e1dce6d15042bc4f8d641c2bb71e5c6, type: 2}
+  mAtlas: {fileID: 11400000, guid: 5b92cbdcb180fb042a7069f903d9f7ae, type: 2}
   mSpriteName: icon_star_b
   mFillCenter: 1
 --- !u!114 &11400024
@@ -1006,6 +989,7 @@ MonoBehaviour:
   mWidth: 32
   mHeight: 34
   mDepth: 27
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -1023,7 +1007,7 @@ MonoBehaviour:
   rightType: 1
   bottomType: 1
   topType: 1
-  mAtlas: {fileID: 11400000, guid: 5e1dce6d15042bc4f8d641c2bb71e5c6, type: 2}
+  mAtlas: {fileID: 11400000, guid: 5b92cbdcb180fb042a7069f903d9f7ae, type: 2}
   mSpriteName: icon_star_b
   mFillCenter: 1
 --- !u!114 &11400026
@@ -1059,6 +1043,7 @@ MonoBehaviour:
   mWidth: 32
   mHeight: 34
   mDepth: 33
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -1076,7 +1061,7 @@ MonoBehaviour:
   rightType: 1
   bottomType: 1
   topType: 1
-  mAtlas: {fileID: 11400000, guid: 5e1dce6d15042bc4f8d641c2bb71e5c6, type: 2}
+  mAtlas: {fileID: 11400000, guid: 5b92cbdcb180fb042a7069f903d9f7ae, type: 2}
   mSpriteName: icon_star_b
   mFillCenter: 1
 --- !u!114 &11400028
@@ -1112,6 +1097,7 @@ MonoBehaviour:
   mWidth: 100
   mHeight: 40
   mDepth: 22
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -1152,6 +1138,7 @@ MonoBehaviour:
   mWidth: 362
   mHeight: 35
   mDepth: 31
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -1217,6 +1204,7 @@ MonoBehaviour:
   mWidth: 540
   mHeight: 130
   mDepth: 20
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -1236,6 +1224,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemIndex: -1
+  EneryCountStr: 
   StageIndex: 0
   StageTemp:
     __isset:

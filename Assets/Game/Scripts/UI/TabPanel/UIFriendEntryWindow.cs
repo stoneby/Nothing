@@ -13,7 +13,7 @@ public class UIFriendEntryWindow : Window
     public GameObject ExtendBagConfirm;
 
     private ExtendBag itemExtendConfirm;
-    private UIEventListener backLis;
+    private UIEventListener closeLis;
     private UIEventListener extendLis;
     private UILabel friendCount;
 
@@ -33,7 +33,7 @@ public class UIFriendEntryWindow : Window
 
     private void Awake()
     {
-        backLis = UIEventListener.Get(transform.Find("Buttons/Button-Back").gameObject);
+        closeLis = UIEventListener.Get(Utils.FindChild(transform,"Button-Close").gameObject);
         var title = transform.Find("Title");
         friendCount = title.Find("FriendCount/FriendCountValue").GetComponent<UILabel>();
         extendLis = UIEventListener.Get(title.Find("Button-Extend").gameObject);
@@ -41,13 +41,13 @@ public class UIFriendEntryWindow : Window
 
     private void InstallHandlers()
     {
-        backLis.onClick = OnBack;
+        closeLis.onClick = OnClose;
         extendLis.onClick = OnExtend;
     }
 
     private void UnInstallHandlers()
     {
-        backLis.onClick = null;
+        closeLis.onClick = null;
         extendLis.onClick = null;
     }
 
@@ -63,7 +63,7 @@ public class UIFriendEntryWindow : Window
         itemExtendConfirm.OkClicked += OnExendBagOk;
     }
 
-    private void OnBack(GameObject go)
+    private void OnClose(GameObject go)
     {
         WindowManager.Instance.Show<UIFriendEntryWindow>(false);
     }

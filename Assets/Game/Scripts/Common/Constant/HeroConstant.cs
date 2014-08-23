@@ -6,7 +6,7 @@ public class HeroConstant
     /// <summary>
     /// The prefix of job sprite name.
     /// </summary>
-    public const string HeroJobPrefix = "job_";
+    public const string HeroJobPrefix = "icon_zhiye_";
 
     /// <summary>
     /// The pool name of hero and item prefab.
@@ -62,8 +62,7 @@ public class HeroConstant
     {
         NotInTeam,
         MainLeader,
-        SecondLeader,
-        ThirdLeader,
+        ViceLeader,
         Member,
         MemberInOtherTeam
     }

@@ -12,9 +12,7 @@ namespace Assets.Game.Scripts.Net.handler
             {
                 PlayerModelLocator.Instance.Famous = themsg.Famous;
                 PlayerModelLocator.Instance.SuperChip = themsg.SuperChip;
-                WindowManager.Instance.Show<ChooseCardWindow>(false);
-                WindowManager.Instance.Show<ChooseHeroCardWindow>(true);
-                WindowManager.Instance.GetWindow<ChooseHeroCardWindow>().Refresh(themsg);
+                WindowManager.Instance.GetWindow<ChooseCardWindow>().heroAndItemSummitHandler.Refresh(themsg);
             }
          }
 
@@ -23,16 +21,19 @@ namespace Assets.Game.Scripts.Net.handler
             var themsg = msg.GetContent() as SCLottery;
             if (themsg != null)
             {
-                if (themsg.LotteryMode == LotteryConstant.LotteryModeFree || themsg.LotteryMode == LotteryConstant.LotteryModeOnceCharge)
-                {
-                    var resultWin = WindowManager.Instance.Show<InfoShowingWindow>(true);
-                    //resultWin.Refresh(themsg);
-                }
-                else if (themsg.LotteryMode == LotteryConstant.LotteryModeTenthCharge)
-                {
-                    var resultWin = WindowManager.Instance.Show<TenLotteryResultDispWindow>(true);
-                    resultWin.Refresh(themsg);
-                }
+                var window = WindowManager.Instance.Show<ChooseCardSuccWindow>(true);
+                window.storedScLotteryMsg = msg.GetContent() as SCLottery;
+                window.Refresh();
+                //if (themsg.LotteryMode == LotteryConstant.LotteryModeFree || themsg.LotteryMode == LotteryConstant.LotteryModeOnceCharge)
+                //{
+                //    var resultWin = WindowManager.Instance.Show<InfoShowingWindow>(true);
+                //    //resultWin.Refresh(themsg);
+                //}
+                //else if (themsg.LotteryMode == LotteryConstant.LotteryModeTenthCharge)
+                //{
+                //    var resultWin = WindowManager.Instance.Show<TenLotteryResultDispWindow>(true);
+                //    resultWin.Refresh(themsg);
+                //}
                 //WindowManager.Instance.GetWindow<ChooseHeroCardWindow>().RefreshFamousAndChips();
             }
          }
@@ -42,7 +43,7 @@ namespace Assets.Game.Scripts.Net.handler
             var themsg = msg.GetContent() as SCLotteryRefreshTimes;
             if (themsg != null)
             {
-                WindowManager.Instance.GetWindow<ChooseHeroCardWindow>().RefreshTimes(themsg.LastFreeLotteryTime,
+                WindowManager.Instance.GetWindow<ChooseCardWindow>().heroAndItemSummitHandler.RefreshTimes(themsg.LastFreeLotteryTime,
                                                                                       themsg.Get4StarHeroRestTimes);
             }
          }
@@ -97,8 +98,7 @@ namespace Assets.Game.Scripts.Net.handler
             var themsg = msg.GetContent() as SCLotteryCannotFree;
             if (themsg != null)
             {
-                var chooseHeroCard = WindowManager.Instance.GetWindow<ChooseHeroCardWindow>();
-                chooseHeroCard.LotteryCannotFree();
+                WindowManager.Instance.GetWindow<ChooseCardWindow>().heroAndItemSummitHandler.LotteryCannotFree();
             }
         }
 
@@ -108,9 +108,7 @@ namespace Assets.Game.Scripts.Net.handler
             var themsg = msg.GetContent() as SCLotteryComposeList;
             if (themsg != null)
             {
-                WindowManager.Instance.Show<ChooseCardWindow>(false);
-                WindowManager.Instance.Show<FragmentListWindow>(true);
-                WindowManager.Instance.GetWindow<FragmentListWindow>().Refresh(themsg);
+                WindowManager.Instance.GetWindow<ChooseCardWindow>().fragmentCombineHandler.Refresh(themsg);
             }
         }
 
@@ -120,9 +118,7 @@ namespace Assets.Game.Scripts.Net.handler
             var themsg = msg.GetContent() as SCLotteryComposeSucc;
             if (themsg != null)
             {
-                WindowManager.Instance.Show<FragmentConfirmWindow>(false);
-                var tempWindow = WindowManager.Instance.GetWindow<FragmentListWindow>();
-                tempWindow.Refresh(themsg);
+                WindowManager.Instance.GetWindow<ChooseCardWindow>().fragmentCombineHandler.Refresh(themsg);
             }
         }
     }

@@ -27,6 +27,7 @@ namespace KXSGCodec
 #endif
     public partial class BattleMsgMonster : TBase
     {
+        //Nums count and ClassName.
         private const int BasicCount = 5;
 
         private int _index;
@@ -219,6 +220,11 @@ namespace KXSGCodec
             return sb.ToString();
         }
 
+        /// <summary>
+        /// Write this whole class to stream.
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="className"></param>
         public void WriteClass(StreamWriter writer, string className)
         {
             writer.Write(className);
@@ -230,6 +236,10 @@ namespace KXSGCodec
             PersistenceFileIOHandler.WriteDic(writer,null ,DropMap);
         }
 
+        /// <summary>
+        /// Read this whole class from string.
+        /// </summary>
+        /// <param name="value"></param>
         public void ReadClass(string value)
         {
             string[] outStrings = value.Split(new char[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);

@@ -4,6 +4,8 @@ namespace com.kx.sglm.gs.battle.share
 	using BattleArmy = com.kx.sglm.gs.battle.share.actor.impl.BattleArmy;
 	using BattleSource = com.kx.sglm.gs.battle.share.data.BattleSource;
 	using BattleRecord = com.kx.sglm.gs.battle.share.data.record.BattleRecord;
+	using BattleStoreData = com.kx.sglm.gs.battle.share.data.store.BattleStoreData;
+	using BattleStoreHandler = com.kx.sglm.gs.battle.share.data.store.BattleStoreHandler;
 	using BattleState = com.kx.sglm.gs.battle.share.enums.BattleState;
 	using BattleType = com.kx.sglm.gs.battle.share.enums.BattleType;
 	using InnerBattleEvent = com.kx.sglm.gs.battle.share.@event.InnerBattleEvent;
@@ -36,12 +38,20 @@ namespace com.kx.sglm.gs.battle.share
 		/// <summary>
 		/// 战报 </summary>
 		private BattleRecord record;
+		/// <summary>
+		/// 战斗数据存储 </summary>
+		private BattleStoreData storeData;
+		/// <summary>
+		/// 战斗数据存储入口 </summary>
+		private BattleStoreHandler storeHandler;
 
 		public Battle(BattleType battleType, BattleSource source)
 		{
 			this.battleType = battleType;
 			this.battleSource = source;
 			this.record = new BattleRecord();
+			this.storeData = new BattleStoreData();
+			this.storeHandler = new BattleStoreHandler(storeData);
 		}
 
 		/// <summary>
@@ -49,20 +59,23 @@ namespace com.kx.sglm.gs.battle.share
 		/// </summary>
 		public virtual void start()
 		{
-			startOnSceneIndex(0);
-		}
-
-		public virtual void startOnSceneIndex(int index)
-		{
 			if (!canStartBattle())
 			{
 				// TODO: loggers.error
 				return;
 			}
-			battleField = new BattleField(this);
-			battleField.LoopCountForce = index;
+			this.battleField = new BattleField(this);
+			battleExcuter.recoveryData(storeData);
 			battleField.onAction();
 		}
+
+
+		public virtual void startFromDataStore(string storeStr)
+		{
+			storeData.fromStoreStr(storeStr);
+			start();
+		}
+
 
 		/// <summary>
 		/// 战斗动作
@@ -211,6 +224,22 @@ namespace com.kx.sglm.gs.battle.share
 			get
 			{
 				return record;
+			}
+		}
+
+		public virtual BattleStoreHandler StoreHandler
+		{
+			get
+			{
+				return storeHandler;
+			}
+		}
+
+		public virtual BattleStoreData StoreData
+		{
+			get
+			{
+				return storeData;
 			}
 		}
 

@@ -17,7 +17,7 @@ namespace com.kx.sglm.gs.battle.share.buff
 		protected internal virtual void init(int defaultRound)
 		{
 			LeftRound = defaultRound;
-			state = BuffStateEnum.NEW_BORN;
+			resetState();
 		}
 
 
@@ -56,6 +56,10 @@ namespace com.kx.sglm.gs.battle.share.buff
 			this.state = state.nexState();
 		}
 
+		public virtual void resetState()
+		{
+			this.state = BuffStateEnum.NEW_BORN;
+		}
 
 		public virtual bool needActive()
 		{

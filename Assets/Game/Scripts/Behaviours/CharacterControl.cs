@@ -66,17 +66,17 @@ public class CharacterControl : MonoBehaviour
         }
     }
 
-    public void SetFootIndex(int footindex)
+    public void SetFootIndex()
     {
-        if (footindex <= 0 || footindex > Character.TotalColorCount)
+        if (FootIndex <= 0 || FootIndex > Character.TotalColorCount)
         {
-            Logger.LogError("Foot index error, should be in range (0, " + Character.TotalColorCount + "], but is: " + footindex);
+            Logger.LogError("Foot index error, should be in range (0, " + Character.TotalColorCount + "], but is: " + FootIndex);
         }
 
         var uisp = FootObj.GetComponent<UISprite>();
-        uisp.spriteName = "pck_" + footindex;
+        uisp.spriteName = "pck_" + FootIndex;
         uisp = JobObj.GetComponent<UISprite>();
-        uisp.spriteName = (FootIndex == (int)FootColorType.Pink) ? "icon_zhiye_5" : "icon_zhiye_" + JobIndex;
+        uisp.spriteName = (FootIndex == (int)FootColorType.Pink) ? "job_0" : "job_" + JobIndex;
     }
 
     public void SetCanSelect(bool flag)
@@ -106,7 +106,7 @@ public class CharacterControl : MonoBehaviour
 
         JobIndex = templateData.Job;
         var uisp = JobObj.GetComponent<UISprite>();
-        uisp.spriteName = (FootIndex == (int)FootColorType.Pink) ? "icon_zhiye_5" : "icon_zhiye_" + JobIndex;
+        uisp.spriteName = (FootIndex == (int)FootColorType.Pink) ? "job_0" : "job_" + JobIndex;
 
         var isFriend = (characterType != CharacterType.Hero);
         FriendLabelObj.SetActive(isFriend);

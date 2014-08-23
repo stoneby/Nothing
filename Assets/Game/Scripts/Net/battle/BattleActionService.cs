@@ -38,7 +38,8 @@ namespace com.kx.sglm.gs.battle.share
 		/// <summary>
 		/// 英雄普通回血 </summary>
 		private BaseHeroBattleSkillAction normalHeroRecover;
-
+		/// <summary>
+		/// 群体攻击 </summary>
 		private BaseHeroBattleSkillAction normalAOEAttack;
 		/// <summary>
 		/// 英雄所有技能集合 </summary>

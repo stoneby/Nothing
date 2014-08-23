@@ -660,6 +660,11 @@ namespace com.kx.sglm.core.util
 			return baseValue | (1 << orIndex);
 		}
 
+		public static long optionOrFlagLong(long baseValue, int orIndex)
+		{
+			return baseValue | (1 << orIndex);
+		}
+
 		public static int optionAndFlag(int baseValue, int andIndex, bool flag)
 		{
 //JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
@@ -716,6 +721,23 @@ namespace com.kx.sglm.core.util
 			return _binFlag;
 		}
 
+		public static List<int> getFlagIndexFromLong(long checkValue)
+		{
+			List<int> _indexList = new List<int>();
+			for (int _i = 0; _i < 64; _i++)
+			{
+				if ((checkValue & (1 << _i)) > 0)
+				{
+					_indexList.Add(_i);
+				}
+			}
+			return _indexList;
+		}
+
 	}
+
+
+
+
 
 }

@@ -10,14 +10,15 @@ public class CharacterColorController : MonoBehaviour
 
     private void FillColor()
     {
-        if (ColorList.Count != TeamController.CharacterList.Count)
+        var characterList = TeamController.GroupController.CharacterList;
+        if (ColorList.Count != characterList.Count)
         {
             Debug.LogError("ColorList count should be equals to CharacterList of teamcontroller.");
         }
 
         for (var i = 0; i < ColorList.Count; ++i)
         {
-            var character = TeamController.CharacterList[i];
+            var character = characterList[i];
             var color = ColorList[i];
             character.ColorIndex = color;
         }

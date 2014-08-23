@@ -1,17 +1,31 @@
 ﻿using KXSGCodec;
 using UnityEngine;
 
+/// <summary>
+/// Handle IOS/Android SDK pay function.
+/// </summary>
 public class SDKPayManager : MonoBehaviour
 {
     #region Private Fields
+
 #if UNITY_ANDROID
+
+    /// <summary>
+    /// Android necessary variable.
+    /// </summary>
     private static AndroidJavaClass jc;
+    /// <summary>
+    /// Android necessary variable.
+    /// </summary>
     private static AndroidJavaObject jo;
+
 #endif
 
     private UIEventListener payLis;
 
     private static string gameID;
+
+    public static bool IsPaying = false;
 
     #endregion
 
@@ -27,43 +41,63 @@ public class SDKPayManager : MonoBehaviour
         payLis.onClick = null;
     }
 
-    private static void PayAfterInit()
-    {
-#if UNITY_IPHONE
-        Debug.Log("Calling pay in IOS SDK after initialize.");
-        SDK_IOS.ActivatePay(gameID);
-        SDKResponse.WhichResponse = null;
-#endif
-#if UNITY_ANDROID
-        Debug.Log("Calling SDK platformPay.");
-        jo.Call("platformpay", ServiceManager.UserID.ToString(), PlayerModelLocator.Instance.RoleId.ToString(), ServiceManager.ServerData.SID, gameID, "platformpay");
-        SDKResponse.WhichResponse = null;
-#endif
-    }
-
-    #endregion
-
+    /// <summary>
+    /// Send request for RechargeID message to server.
+    /// </summary>
+    /// <param name="go"></param>
     private void OnPay(GameObject go)
     {
+        //if (IsPaying) return;
+        IsPaying = true;
         //Send message to server.
         Debug.Log("Sending message to server.");
         var msg = new CSGetRechargeIdMsg();
         NetManager.SendMessage(msg);
     }
 
-    #region Public Fields
+    /// <summary>
+    /// Pay after initialize SDK.
+    /// </summary>
+    private static void PayAfterInit()
+    {
+
+#if UNITY_IPHONE
+
+        Debug.Log("Calling pay in IOS SDK after initialize.");
+        SDK_IOS.ActivatePay(gameID);
+        SDKResponse.WhichResponse = null;
+
+#endif
+
+#if UNITY_ANDROID
+
+        Debug.Log("Calling SDK platformPay.");
+        jo.Call("platformpay", ServiceManager.UserID.ToString(), PlayerModelLocator.Instance.RoleId.ToString(), ServiceManager.ServerData.SID, gameID, "platformpay");
+        SDKResponse.WhichResponse = null;
+
+#endif
+
+    }
 
     #endregion
 
     #region Public Methods
+
+    /// <summary>
+    /// Pay SDK function.
+    /// </summary>
+    /// <param name="msg"></param>
     public static void PayInSDK(ThriftSCMessage msg)
     {
         var themsg = msg.GetContent() as SCRechargeIdMsg;
+        
 #if UNITY_IPHONE
+
         if (Application.platform != RuntimePlatform.OSXEditor)
         {
             if (SDKResponse.IsInitialized == false)
             {
+                //if initialized, pay.
                 Debug.Log("Calling ActivateInitialize.");
                 SDKResponse.WhichResponse += PayAfterInit;
                 gameID = themsg.GameOrderId.ToString();
@@ -71,16 +105,21 @@ public class SDKPayManager : MonoBehaviour
             }
             else
             {
+                //if not initialized, initialize SDK first.
                 Debug.Log("Calling pay in IOS SDK");
                 SDK_IOS.ActivatePay(themsg.GameOrderId.ToString());
             }
         }
+
 #endif
+
 #if UNITY_ANDROID
+
         if (Application.platform != RuntimePlatform.WindowsEditor)
         {
             if (SDKResponse.IsInitialized == false)
             {
+                //if initialized, pay.
                 Debug.Log("Calling SDK initialize.");
                 SDKResponse.WhichResponse += PayAfterInit;
                 gameID = themsg.GameOrderId.ToString();
@@ -88,11 +127,14 @@ public class SDKPayManager : MonoBehaviour
             }
             else
             {
+                //if not initialized, initialize SDK first.
                 Debug.Log("Calling SDK platformPay.");
                 jo.Call("platformpay",ServiceManager.UserID.ToString(),PlayerModelLocator.Instance.RoleId.ToString(),ServiceManager.ServerData.SID,themsg.GameOrderId.ToString(),"platformpay");
             }
         }
+
 #endif
+
     }
 
     #endregion
@@ -104,18 +146,17 @@ public class SDKPayManager : MonoBehaviour
     {
 	    this.gameObject.SetActive(true);
         InstallHandlers();
+
 #if UNITY_ANDROID
+
+        //Setting Android SDK paras.
         if (SystemInfo.deviceType == DeviceType.Desktop) return;
         jc = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
         jo = jc.GetStatic<AndroidJavaObject>("currentActivity");
-#endif
-	}
-	
-	// Update is called once per frame
-	void Update () 
-    {
 
-    }
+#endif
+
+	}
 
     void Awake()
     {

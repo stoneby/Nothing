@@ -7,6 +7,7 @@ namespace com.kx.sglm.gs.battle.share.executer
 	using BattleTeam = com.kx.sglm.gs.battle.share.actor.impl.BattleTeam;
 	using HeroTeam = com.kx.sglm.gs.battle.share.actor.impl.HeroTeam;
 	using BattleRoundCountRecord = com.kx.sglm.gs.battle.share.data.record.BattleRoundCountRecord;
+	using BattleStoreData = com.kx.sglm.gs.battle.share.data.store.BattleStoreData;
 	using BattleType = com.kx.sglm.gs.battle.share.enums.BattleType;
 	using HeroColor = com.kx.sglm.gs.battle.share.enums.HeroColor;
 	using BattleRound = com.kx.sglm.gs.battle.share.logic.loop.BattleRound;
@@ -29,6 +30,8 @@ namespace com.kx.sglm.gs.battle.share.executer
 		void initDefencerTeam();
 
 		void initDataOnCreate();
+
+		void recoveryData(BattleStoreData storeData);
 
 		void beforeBattleStart(BattleScene battleScene, BattleRoundCountRecord record);
 

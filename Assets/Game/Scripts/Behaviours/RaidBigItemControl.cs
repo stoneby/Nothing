@@ -58,7 +58,7 @@ public class RaidBigItemControl : KxItemRender
     public void SetLock(bool islock)
     {
         IsLock = islock;
-
+        //IsLock = false;
         
         SetContent();
        // var tt = MapImgTex.GetComponent<UITexture>();
@@ -112,11 +112,11 @@ public class RaidBigItemControl : KxItemRender
 
             var cd = gameObject.GetComponent<PolygonCollider2D>();
             cd.points = map.points;
-
+            //IsLock = false;
             if (IsLock)
             {
                 MapLockSp.SetActive(true);
-                tt.color = new Color(0.4f, 0.4f, 0.4f);
+                tt.color = new Color(0.2f, 0.2f, 0.2f);
             }
             else
             {
@@ -140,19 +140,19 @@ public class RaidBigItemControl : KxItemRender
                         {
                             case RaidType.RaidAddtionTypeDrop:
                                 sp.spriteName = "icon_box";
-                                lbname.text = "x1.5";
+                                lbname.text = "x" + (RaidAdditionData.AddtionRate / 100);
                                 break;
                             case RaidType.RaidAddtionTypeEnergy:
                                 sp.spriteName = "icon_energy";
-                                lbname.text = "x0.5";
+                                lbname.text = "x" + (RaidAdditionData.AddtionRate / 100);
                                 break;
                             case RaidType.RaidAddtionTypeGold:
                                 sp.spriteName = "icon_gold";
-                                lbname.text = "x1.5";
+                                lbname.text = "x" + (RaidAdditionData.AddtionRate / 100);
                                 break;
                             case RaidType.RaidAddtionTypeSprit:
                                 sp.spriteName = "icon_wuhun";
-                                lbname.text = "x1.5";
+                                lbname.text = "x" + (RaidAdditionData.AddtionRate / 100);
                                 break;
                         }
                     }

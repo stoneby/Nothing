@@ -10,24 +10,39 @@ using OrderType = ItemHelper.OrderType;
 /// </summary>
 public class UIItemCommonWindow : Window
 {
+    private UIEventListener closeBtnLis;
+    private StretchItem closeBtnLine;
     private UIEventListener sortBtnLis;
     private UILabel sortLabel;
     private UILabel itemNum;
-    private List<ItemInfo> infos;
-    private List<ItemInfo> cachedInfos;
-    private UIToggle[] toggles;
+    public List<ItemInfo> Infos { get; private set; }
     private UIEventListener.VoidDelegate normalClicked;
 
-    [HideInInspector]
-    public UIGrid Items;
+    public UIItemDetailHandler ItemDetailHandler;
+    public UISellItemHandler ItemSellHandler;
 
-    private UIScrollView cachedScrollView;
-    private ItemHelper.EquipType curFilter = ItemHelper.EquipType.All;
+    private bool descendSort;
+
+    public delegate void SortOrderChanged(List<ItemInfo> hInfos);
+
+    /// <summary>
+    /// The call back of the sort order changed.
+    /// </summary>
+    public SortOrderChanged OnSortOrderChangedBefore;
+    public SortOrderChanged OnSortOrderChangedAfter;
+
+    public CustomGrid Items;
+
+
+    private Transform selMask;
+    [HideInInspector]
+    public GameObject CurSel;
 
     /// <summary>
     /// The prefab of the hero.
     /// </summary>
     public GameObject ItemPrefab;
+    public int CountOfOneGroup = 4;
 
     public UIEventListener.VoidDelegate NormalClicked
     {
@@ -39,20 +54,45 @@ public class UIItemCommonWindow : Window
             for (var i = 0; i < parent.childCount; i++)
             {
                 var item = parent.GetChild(i);
-                var longPressDetecter = item.GetComponent<NGUILongPress>();
-                longPressDetecter.OnNormalPress = value;
+                for (var j = 0; j < item.childCount; j++)
+                {
+                    var hero = item.GetChild(j).gameObject;
+                    var activeCache = hero.activeSelf;
+                    NGUITools.SetActive(hero, true);
+                    var lis = UIEventListener.Get(hero);
+                    lis.onClick = value;
+                    NGUITools.SetActive(hero, activeCache);
+                }
             }
         }
     }
 
     #region Window
 
+    private void InitWrapContents(List<ItemInfo> itemInfos)
+    {
+        var orderType = HeroModelLocator.Instance.OrderType;
+        ItemModeLocator.Instance.SortItemList(orderType, Infos, descendSort);
+        var list = new List<List<ItemInfo>>();
+        var rows = Mathf.CeilToInt((float)itemInfos.Count / CountOfOneGroup);
+        for (var i = 0; i < rows; i++)
+        {
+            var infosContainer = new List<ItemInfo>();
+            for (var j = 0; j < CountOfOneGroup; j++)
+            {
+                if (i * CountOfOneGroup + j < Infos.Count)
+                {
+                    infosContainer.Add(itemInfos[i * CountOfOneGroup + j]);
+                }
+            }
+            list.Add(infosContainer);
+        }
+        Items.Init(list);
+    }
+
     public override void OnEnter()
     {
-        infos = ItemHelper.FilterItems(cachedInfos, curFilter);
-        var orderType = ItemModeLocator.Instance.OrderType;
-        ExcuteSort(orderType);
-        ShowItems();
+        InitWrapContents(Infos);
         InstallHandlers();
     }
 
@@ -68,149 +108,60 @@ public class UIItemCommonWindow : Window
     // Use this for initialization
     void Awake()
     {
-        sortBtnLis = UIEventListener.Get(Utils.FindChild(transform, "Button-Sort").gameObject);
+        var buttons = transform.Find("Buttons");
+        sortBtnLis = UIEventListener.Get(buttons.Find("Button-Sort").gameObject);
+        closeBtnLis = UIEventListener.Get(buttons.Find("Button-Close").gameObject);
+        closeBtnLine = buttons.Find("Button-CloseLine").GetComponent<StretchItem>();
         sortLabel = sortBtnLis.GetComponentInChildren<UILabel>();
         itemNum = Utils.FindChild(transform, "ItemNumValue").GetComponent<UILabel>();
-        Items = GetComponentInChildren<UIGrid>();
-        cachedScrollView = NGUITools.FindInParents<UIScrollView>(Items.gameObject);
-        toggles = transform.Find("ToggleButtons").GetComponentsInChildren<UIToggle>();
-        cachedInfos = ItemModeLocator.Instance.ScAllItemInfos.ItemInfos;
+        Infos = ItemModeLocator.Instance.ScAllItemInfos.ItemInfos;
+        NGUITools.SetActive(Items.transform.parent.gameObject, true);
+        selMask = transform.Find("SelMask");
+        selMask.transform.parent = Items.transform.parent;
+        NGUITools.SetActive(selMask.gameObject, false);
     }
 
     private void InstallHandlers()
     {
-        for (var i = 0; i < toggles.Length; i++)
-        {
-            EventDelegate.Add(toggles[i].onChange, ExcuteFilter);
-        }
         sortBtnLis.onClick = OnSortClicked;
+        closeBtnLis.onClick = OnClose;
+        closeBtnLine.DragFinish = OnClose;
     }
 
     private void UnInstallHandlers()
     {
-        for (var i = 0; i < toggles.Length; i++)
-        {
-            EventDelegate.Remove(toggles[i].onChange, ExcuteFilter);
-        }
         sortBtnLis.onClick = null;
+        closeBtnLis.onClick = null;
+        closeBtnLine.DragFinish = null;
     }
+
+    private void OnClose(GameObject go)
+    {
+        WindowManager.Instance.Show<UIItemCommonWindow>(false);
+    }
+
 
     private void OnSortClicked(GameObject go)
     {
+        if (OnSortOrderChangedBefore != null)
+        {
+            OnSortOrderChangedBefore(Infos);
+        }
         var orderType = ItemModeLocator.Instance.OrderType;
         orderType = (OrderType)(((int)orderType + 1) % (ItemHelper.SortKeys.Count - 1));
         sortLabel.text = LanguageManager.Instance.GetTextValue(ItemHelper.SortKeys[(int)orderType]);
         ItemModeLocator.Instance.OrderType = orderType;
-        ExcuteSort(orderType);
-        var index = 0;
-        for(int i = 0; i < Items.transform.childCount; i++)
+        InitWrapContents(Infos);
+        if (OnSortOrderChangedAfter != null)
         {
-            var child = Items.transform.GetChild(i);
-            if(NGUITools.GetActive(child.gameObject))
-            {
-                RefreshItem(child.GetComponent<NewEquipItem>(), infos[index]);
-                index++;
-            }
+            OnSortOrderChangedAfter(Infos);
         }
-    }
-
-    /// <summary>
-    /// Fill in the item game objects.
-    /// </summary> 
-    private void UpdateItemList(int itemCount)
-    {
-        var childCount = Items.transform.childCount;
-        if (Items.transform.childCount != itemCount)
-        {
-            var isAdd = childCount < itemCount;
-            HeroUtils.AddOrDelItems(Items.transform, ItemPrefab.transform, isAdd, Mathf.Abs(itemCount - childCount),
-                                HeroConstant.HeroPoolName,
-                                null,
-                                OnLongPress);
-        }
-        NGUITools.SetActiveChildren(Items.gameObject, true);
-    }
-
-    private void OnLongPress(GameObject go)
-    {
-        WindowManager.Instance.Show<UIItemDetailWindow>(true);
-    }
-
-    /// <summary>
-    /// Filtering items with special job. 
-    /// </summary>
-    /// <remarks>
-    /// This function can only be called in the callback of uitoggle's onChange, 
-    /// as the UIToggle.current will be null in other places.
-    /// </remarks>
-    private void ExcuteFilter()
-    {
-        var val = UIToggle.current.value;
-        if (val)
-        {
-            curFilter = UIToggle.current.GetComponent<ItemTypeFilterInfo>().Filter;
-            if (curFilter != ItemHelper.EquipType.All)
-            {
-                cachedScrollView.ResetPosition();
-                infos = ItemHelper.FilterItems(cachedInfos, curFilter);
-                if(infos == null || infos.Count == 0)
-                {
-                    NGUITools.SetActiveChildren(Items.gameObject, false);
-                    return;
-                }
-                var bags = infos.Select(t => t.BagIndex).ToList();
-                var filterObjects = new List<Transform>();
-                for (int i = 0; i < Items.transform.childCount; i++)
-                {
-                    var child = Items.transform.GetChild(i);
-                    if (bags.Contains(child.GetComponent<NewEquipItem>().BagIndex))
-                    {
-                        filterObjects.Add(child);
-                        NGUITools.SetActive(child.gameObject, true);
-                    }
-                    else
-                    {
-                        NGUITools.SetActive(child.gameObject, false);
-                    }
-                }
-                Items.Reposition();
-                ExcuteSort(ItemModeLocator.Instance.OrderType);
-                for (int i = 0; i < filterObjects.Count; i++)
-                {
-                    var filterObject = filterObjects[i];
-                    var item = filterObject.GetComponent<NewEquipItem>();
-                    RefreshItem(item, infos[i]);
-                }
-                RefreshItemCount(filterObjects.Count);
-            }
-            else
-            {
-                infos = ItemHelper.FilterItems(cachedInfos, curFilter);
-                var orderType = ItemModeLocator.Instance.OrderType;
-                ExcuteSort(orderType);
-                ShowItems();
-            }
-        }
-    }
-
-    private void ShowItems()
-    {
-        var count = infos == null ? 0 : infos.Count;
-        UpdateItemList(count);
-        Refresh(infos);
-        StartCoroutine(Reposition());
-    }
-
-    private IEnumerator Reposition()
-    {
-        yield return null;
-        Items.repositionNow = true;
     }
 
     private void ExcuteSort(OrderType orderType)
     {
         sortLabel.text = LanguageManager.Instance.GetTextValue(ItemHelper.SortKeys[(int)orderType]);
-        ItemModeLocator.Instance.SortItemList(orderType, infos);
+        ItemModeLocator.Instance.SortItemList(orderType, Infos);
     }
 
     /// <summary>
@@ -219,23 +170,8 @@ public class UIItemCommonWindow : Window
     /// <param name="newInfos">The hero info list to refresh data.</param>
     public void Refresh(List<ItemInfo> newInfos)
     {
-        if(newInfos == null)
-        {
-            RefreshItemCount(0);
-            return;
-        }
         RefreshItemCount(newInfos.Count);
-        for (var i = 0; i < newInfos.Count; i++)
-        {
-            var equipItem = Items.transform.GetChild(i).GetComponent<NewEquipItem>();
-            RefreshItem(equipItem, newInfos[i]);
-        }
-    }
-
-    private static void RefreshItem(NewEquipItem equipItem, ItemInfo info)
-    {
-        equipItem.InitItem(info);
-        ItemHelper.ShowItem(ItemModeLocator.Instance.OrderType, equipItem, info);
+        InitWrapContents(newInfos);
     }
 
     /// <summary>
@@ -246,6 +182,34 @@ public class UIItemCommonWindow : Window
     {
         var capacity = ItemModeLocator.Instance.ScAllItemInfos.Capacity;
         itemNum.text = string.Format("{0}/{1}", count, capacity);
+    }
+
+    public void ShowSelMask(Vector3 pos)
+    {
+        selMask.position = pos;
+        ShowSelMask();
+    }
+
+    public void ShowSelMask()
+    {
+        if (selMask.gameObject.activeSelf == false)
+        {
+            NGUITools.SetActive(selMask.gameObject, true);
+        }
+    }
+
+    public void HideSelMask()
+    {
+        if (selMask.gameObject.activeSelf)
+        {
+            NGUITools.SetActive(selMask.gameObject, false);
+        }
+    }
+
+    public ItemInfo GetInfo(Position pos)
+    {
+        var oneDimsionIndex = pos.X * CountOfOneGroup + pos.Y;
+        return Infos[oneDimsionIndex];
     }
 
     #endregion
