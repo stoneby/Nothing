@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using KXSGCodec;
 using Property;
+using Template.Auto.Hero;
 using UnityEngine;
 
 /// <summary>
@@ -11,7 +12,6 @@ public class UIMainScreenWindow : Window
     public float Scale = 1.8f;
 
     private UIEventListener startGameLis;
-	private UILabel gold;
 	private UILabel diamond;
     private UILabel soul;
     private UILabel nameLabel;
@@ -22,6 +22,10 @@ public class UIMainScreenWindow : Window
     private UILabel recover;
     private UILabel mp;
     private UILabel energy;
+
+    private GameObject BtnRecharge;
+
+    private readonly List<int> iconIds = new List<int>(); 
 
     private int Atk
     {
@@ -67,17 +71,16 @@ public class UIMainScreenWindow : Window
     private UISlider energySlider;
     private const int LeaderCount = 3;
     private readonly List<Transform> leaders = new List<Transform>();
-    private readonly List<int> indexs = new List<int>();
     private readonly List<Transform> characterToolkits = new List<Transform>();
 
     #region Window
 
     public override void OnEnter()
     {
-        if (ServiceManager.IsTest)
-        {
+        //if (ServiceManager.IsTest)
+        //{
             WindowManager.Instance.Show<MainMenuBarWindow>(true);
-        }
+        //}
         InstallHandlers();
 		RefreshData ();
         SpawnAndPlay();
@@ -85,10 +88,10 @@ public class UIMainScreenWindow : Window
 
     public override void OnExit()
     {
-        if (ServiceManager.IsTest)
-        {
+        //if (ServiceManager.IsTest)
+        //{
             WindowManager.Instance.Show<MainMenuBarWindow>(false);
-        }
+        //}
         UnstallHandlers();
         Despawn();
     }
@@ -109,9 +112,9 @@ public class UIMainScreenWindow : Window
             var character = leaders[i].GetChild(0).GetComponent<Character>();
             character.StopState(Character.State.Idle);
             character.transform.localScale = Vector3.one;
-            CharacterPoolManager.Instance.CharacterPoolList[indexs[i]].Return(character.gameObject);
+            CharacterPoolManager.Instance.CharacterPoolList[iconIds[i]].Return(character.gameObject);
         }
-        indexs.Clear();
+        iconIds.Clear();
         characterToolkits.Clear();
     } 
     
@@ -120,14 +123,13 @@ public class UIMainScreenWindow : Window
         for (int i = 0; i < LeaderCount; i++)
         {
             var characterPoolManager = CharacterPoolManager.Instance;
-            var character = characterPoolManager.CharacterPoolList[i].Take().GetComponent<Character>();
+            var character = characterPoolManager.CharacterPoolList[iconIds[i]].Take().GetComponent<Character>();
             character.PlayState(Character.State.Idle, true);
             var characterToolkit = character.transform.Find("CharacterToolkit");
             NGUITools.SetActive(characterToolkit.gameObject, false);
             characterToolkits.Add(characterToolkit);
             Utils.AddChild(leaders[i].gameObject, character.gameObject);
             character.transform.localScale = Scale * Vector3.one;
-            indexs.Add(i);
         }
     }
 
@@ -155,6 +157,9 @@ public class UIMainScreenWindow : Window
         leaders.Add(leadersTran.Find("SecondLeader"));
         leaders.Add(leadersTran.Find("ThirdLeader"));
         CommonHandler.PlayerPropertyChanged += OnPlayerPropertyChanged;
+
+        BtnRecharge = transform.FindChild("Buttons/Button-Play").gameObject;
+        if (ServiceManager.AppData != null) BtnRecharge.SetActive(ServiceManager.AppData.RechargeType != "0");
     }
 
     /// <summary>
@@ -186,9 +191,17 @@ public class UIMainScreenWindow : Window
         Hp = PlayerModelLocator.Instance.TeamProp[RoleProperties.ROLE_HP];
         Recover = PlayerModelLocator.Instance.TeamProp[RoleProperties.ROLE_RECOVER];
         Mp = PlayerModelLocator.Instance.TeamProp[RoleProperties.ROLE_MP];
+        iconIds.Clear();
+        var tempIds = PlayerModelLocator.Instance.TeamList;
+        foreach(var tempId in tempIds)
+        {
+            HeroTemplate template;
+            HeroModelLocator.Instance.HeroTemplates.HeroTmpls.TryGetValue(tempId, out template);
+            iconIds.Add(template.Icon - 1);
+        }
     }
 
-    private void OnPlayerPropertyChanged(SCPropertyChangedNumber scpropertychanged)
+    private void OnPlayerPropertyChanged(SCPropertyChangedNumber scpropertychanged = null)
     {
         RefreshData();
     }

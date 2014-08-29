@@ -3,9 +3,7 @@
 public class NewEquipItem : EquipItem
 {
     private Transform sortRelated;
-    private Transform stars;
-
-    private sbyte quality;
+    private Transform rarity;
     public override sbyte Quality
     {
         get
@@ -16,14 +14,14 @@ public class NewEquipItem : EquipItem
         {
             quality = value;
             var starCount = Mathf.CeilToInt((float)quality / ItemType.QualitiesPerStar);
-            var childCount = stars.transform.childCount;
+            var childCount = rarity.transform.childCount;
             for (var index = 0; index < starCount; index++)
             {
-                NGUITools.SetActive(stars.FindChild("Star" + (childCount - index - 1)).gameObject, true);
+                NGUITools.SetActive(rarity.FindChild("Star" + (childCount - index - 1)).gameObject, true);
             }
             for (var index = childCount - starCount - 1; index >= 0; index--)
             {
-                NGUITools.SetActive(stars.FindChild("Star" + index).gameObject, false);
+                NGUITools.SetActive(rarity.FindChild("Star" + index).gameObject, false);
             }
         }
     }
@@ -32,14 +30,14 @@ public class NewEquipItem : EquipItem
     {
         base.Awake();
         sortRelated = transform.Find("SortRelated");
-        stars = sortRelated.Find("Rarity");
+        rarity = sortRelated.Find("Rarity");
     }
 
     public override void ShowByQuality(int star)
     {
         Quality = (sbyte)star;
         NGUITools.SetActiveChildren(sortRelated.gameObject, false);
-        NGUITools.SetActive(stars.gameObject, true);
+        NGUITools.SetActive(rarity.gameObject, true);
     }
 
 }

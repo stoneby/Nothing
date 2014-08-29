@@ -78,14 +78,16 @@ public class SetBattleWindow : Window
         SetFriendList(MissionModelLocator.Instance.FriendsMsg);
 
         var lb = LabelTitle.GetComponent<UILabel>();
-        lb.text = MissionModelLocator.Instance.SelectRaidName + "-" + MissionModelLocator.Instance.SelectStageName;
+        lb.text = MissionModelLocator.Instance.BattleRaidTemplate.RaidName + "-" + MissionModelLocator.Instance.BattleStageTemplate.StageName;
 
         lb = LabelEnegry.GetComponent<UILabel>();
-        lb.text = MissionModelLocator.Instance.SelectStageNeedEnegry.ToString();
+        lb.text = MissionModelLocator.Instance.BattleStageTemplate.CostEnergy.ToString();
 
         lb = LabelCount.GetComponent<UILabel>();
         //UIRaid.Count
-        lb.text = LanguageManager.Instance.GetTextValue("UIRaid.Count") + ":" + MissionModelLocator.Instance.SelectStageCountStr;
+        lb.text = LanguageManager.Instance.GetTextValue("UIRaid.Count") + ":" + 
+            MissionModelLocator.Instance.GetStageFinishTimeByTemplateId(MissionModelLocator.Instance.BattleStageTemplate.Id)
+                        + "/" + MissionModelLocator.Instance.BattleStageTemplate.DailyLimitTimes;
     }
 
     private void SetSelectFriendHeros(FriendVO thedata)
@@ -209,7 +211,7 @@ public class SetBattleWindow : Window
     {
         var csMsg = new CSRaidBattleStartMsg
         {
-            RaidId = MissionModelLocator.Instance.SelectedStageId,
+            RaidId = MissionModelLocator.Instance.BattleStageTemplate.Id,
             FriendId = MissionModelLocator.Instance.FriendData.Data.FriendUuid
         };
         var hor = ContainerTeam.GetComponent<KxListRender>();
@@ -218,7 +220,7 @@ public class SetBattleWindow : Window
         MissionModelLocator.Instance.MissionStep = RaidType.StepStageList;
         MissionModelLocator.Instance.ShowAddFriendAlert = false;
         Dictionary<string, string> dict = new Dictionary<string, string>();
-        dict.Add("raid", MissionModelLocator.Instance.SelectedStageId.ToString());
+        dict.Add("raid", MissionModelLocator.Instance.BattleStageTemplate.Id.ToString());
         dict.Add("friend", MissionModelLocator.Instance.FriendData.Data.FriendUuid.ToString());
         MtaManager.TrackCustomKVEvent(MtaType.VKEventBattle, dict);
     }

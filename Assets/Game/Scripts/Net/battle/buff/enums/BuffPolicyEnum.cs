@@ -93,10 +93,10 @@ namespace com.kx.sglm.gs.battle.share.buff.enums
 		}
 
 
-		public virtual void addBuff(BattleBuffManager manager, IBuffAction buffAction)
+		public virtual void addBuff(BattleBuffManager manager, BuffInfo info)
 		{
 			IBuffAddPolicy _policy = Policy;
-			_policy.optionBuff(manager, buffAction);
+			_policy.optionBuff(manager, info);
 		}
 
 		public virtual IBuffAddPolicy Policy

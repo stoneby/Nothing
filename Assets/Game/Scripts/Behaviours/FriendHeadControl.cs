@@ -9,16 +9,19 @@ public class FriendHeadControl: KxItemRender {
     private GameObject NameLabel;
     private GameObject MqLabel;
     private GameObject FriendSprite;
+    private GameObject JobSprite;
 
     private int AtkValue;
     private int HpValue;
     private int HeroTempalteId = 0;
+    //private int HeroIcon = 1;
 	// Use this for initialization
 	void Start () {
         AttrackLabel = transform.FindChild("Container info/Label atk").gameObject;
         NameLabel = transform.FindChild("Container info/Label name").gameObject;
         MqLabel = transform.FindChild("Container info/Label mingqi").gameObject;
         FriendSprite = transform.FindChild("Container info/Sprite head").gameObject;
+        JobSprite = transform.FindChild("Container info/Sprite job").gameObject;
 
         ShowData();
 	}
@@ -67,7 +70,14 @@ public class FriendHeadControl: KxItemRender {
         lb.text = FriendData.Data.FriendFamous.ToString();
 
         var sp = FriendSprite.GetComponent<UISprite>();
-        int k = HeroTempalteId % 14;
-        sp.spriteName = "head_" + k;
+        var tem = HeroModelLocator.Instance.GetHeroByTemplateId(HeroTempalteId);
+        if (tem != null)
+        {
+            HeroConstant.SetHeadByIndex(sp, tem.Icon - 1);
+
+            var jobsp = JobSprite.GetComponent<UISprite>();
+            jobsp.spriteName = "job_" + tem.Job;
+        }
+        
     }
 }

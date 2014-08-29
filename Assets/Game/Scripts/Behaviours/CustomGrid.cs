@@ -55,6 +55,10 @@ public class CustomGrid : UIWidgetContainer
 
     void Update()
     {
+        if (m_listData == null || m_listData.Count == 0)
+        {
+            return;
+        }
         if (!Mathf.Approximately(mDrag.transform.localPosition.y, lastY))
         {
             Validate();
@@ -89,6 +93,10 @@ public class CustomGrid : UIWidgetContainer
     public void Init(IList list)
     {
         m_listData = list;
+        if (m_listData == null || m_listData.Count == 0)
+        {
+            return;
+        }
         Validate();
         UpdateBounds(m_listData.Count);
     }
@@ -136,6 +144,7 @@ public class CustomGrid : UIWidgetContainer
             child.SetActive(true);
             var item = child.GetComponent<WrapItemBase>();
             m_cellList[i] = item;
+            child.SetActive(false);
         }
     }
 

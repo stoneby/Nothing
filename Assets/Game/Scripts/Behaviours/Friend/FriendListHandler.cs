@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using KXSGCodec;
 using UnityEngine;
 
@@ -28,13 +29,22 @@ public class FriendListHandler : FriendHandlerBase
         cachedUuid = friendItem.FriendInfo.FriendUuid;
         var msg = new CSFriendGiveEnergy { FriendUuid = cachedUuid };
         NetManager.SendMessage(msg);
+
     }
 
     public void RefreshGivenSucc(long uuid)
     {
+        foreach (var item in scFriendLoadingAll.FriendList)
+        {
+            if (item.FriendUuid == uuid)
+            {
+                item.GiveEnergyTime = Utils.ConvertToJavaTimestamp(DateTime.Today);
+            }
+        }
         if (cachedUuid == uuid)
         {
             cachedGivenObject.GetComponent<UIButton>().isEnabled = false;
+            cachedGivenObject.transform.FindChild("GivenBtnSprite").GetComponent<UIButton>().isEnabled = false;
         }
     }
 

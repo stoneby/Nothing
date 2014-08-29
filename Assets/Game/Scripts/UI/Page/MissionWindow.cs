@@ -338,7 +338,7 @@ public class MissionWindow : Window
             }
             else
             {
-                MissionModelLocator.Instance.SelectedStageId = control.StageTemp.Id;
+               // MissionModelLocator.Instance.SelectedStageId = control.StageTemp.Id;
                 NetManager.SendMessage(new CSRaidQueryFriend());
             }
         }

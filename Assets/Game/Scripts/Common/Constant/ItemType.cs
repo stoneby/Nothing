@@ -54,4 +54,19 @@ public class ItemType : MonoBehaviour
 
     public const string SellConfirmKey = "UISellItem.SellConfirm";
     public const string ItemHeadPrefix = "Item_";
+    public const string ExtendContentKey = "UIItemCommon.ExtendContent";
+    public const string ExtendLimitKey = "UIItemCommon.ExtendLimit";
+
+    public const string ArmorJob = "job_6";
+
+    public static void SetHeadByTemplate(UISprite sprite, int templateId)
+    {
+        var index = ItemModeLocator.Instance.GetIconId(templateId) - 1;
+        SetHeadByIndex(sprite, index);
+    }
+
+    public static void SetHeadByIndex(UISprite sprite, int index)
+    {
+        sprite.spriteName = ItemHeadPrefix + index;
+    }
 }

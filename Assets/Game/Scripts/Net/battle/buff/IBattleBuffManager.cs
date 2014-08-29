@@ -11,7 +11,7 @@ namespace com.kx.sglm.gs.battle.share.buff
 
 		void onAttack(BattleFightRecord fightRecord);
 
-		void addBuff(int buffId);
+		void addBuff(BuffInfo buffInfo);
 
 		void onRoundFinish(BattleRoundCountRecord roundRecord);
 

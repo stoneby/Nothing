@@ -10,13 +10,13 @@ public class UIEvolveItemHandler : MonoBehaviour
 {
     private readonly List<GameObject> mats = new List<GameObject>();
     private readonly List<UILabel> matsOwnCount = new List<UILabel>(); 
-    private GameObject source;
     private Transform evolveBg;
     private Transform targetBg;
     private UIGrid evolveMats;
     private UIEventListener evolveLis;
     private const int MaterialCount = 6;
     private UIItemCommonWindow commonWindow;
+    private Transform cannotEvolveMask;
 
     /// <summary>
     /// The item which will show on the right.
@@ -30,13 +30,15 @@ public class UIEvolveItemHandler : MonoBehaviour
         Init();
         commonWindow = WindowManager.Instance.GetWindow<UIItemCommonWindow>();
         commonWindow.NormalClicked = OnNormalClicked;
-        OnNormalClicked(commonWindow.CurSel);
-        evolveLis.onClick = OnEvolve;
+        RefreshEvolve(commonWindow.GetInfo(commonWindow.CurSelPos));
+        InstallHandlers();
     }
 
     private void OnDisable()
     {
         evolveLis.onClick = null;
+        CleanUp();
+        UnInstallHandlers();
     }
 
     #endregion
@@ -55,6 +57,31 @@ public class UIEvolveItemHandler : MonoBehaviour
             matsOwnCount.Add(matBgs.Find("Mat"+i+"/Label").GetComponent<UILabel>());
         }
         evolveLis = UIEventListener.Get(transform.Find("Button-Evolve").gameObject);
+        cannotEvolveMask = transform.Find("CanNotEvolve");
+    }
+
+    private void InstallHandlers()
+    {
+        evolveLis.onClick = OnEvolve;
+        commonWindow.Items.OnUpdate += OnUpdate;
+        commonWindow.OnSortOrderChangedAfter += OnSortAfter;
+    }
+
+    private void UnInstallHandlers()
+    {
+        evolveLis.onClick = null;
+        commonWindow.Items.OnUpdate -= OnUpdate;
+        commonWindow.OnSortOrderChangedAfter -= OnSortAfter;
+    }
+
+    private void OnSortAfter(List<ItemInfo> hinfos)
+    {
+        RefreshCurScreen();
+    }
+
+    private void OnUpdate(GameObject sender, int index)
+    {
+        CheckCanEvolve(sender.GetComponent<WrapItemContent>());
     }
 
     private void Init()
@@ -79,51 +106,78 @@ public class UIEvolveItemHandler : MonoBehaviour
     {
         var msg = new CSEvoluteItem
         {
-            OperItemIndex = source.GetComponent<ItemBase>().BagIndex
+            OperItemIndex = commonWindow.GetInfo(commonWindow.CurSelPos).BagIndex
         };
         NetManager.SendMessage(msg);
     }
 
     private void OnNormalClicked(GameObject go)
     {
-        commonWindow.CurSel = go;
+        CleanUp();
+        commonWindow.CurSelPos = UISellItemHandler.GetPosition(go);
         commonWindow.ShowSelMask(go.transform.position);
-        var bagIndex = go.GetComponent<ItemBase>().BagIndex;
-        var info = ItemModeLocator.Instance.FindItem(bagIndex);
+        RefreshEvolve(commonWindow.MainInfo);
+    }
+
+    private void RefreshEvolve(ItemInfo info)
+    {
+        if(info == null)
+        {
+            NGUITools.SetActive(cannotEvolveMask.gameObject, true);
+            return;
+        }
         var mat = NGUITools.AddChild(evolveBg.gameObject, BaseItemPrefab);
         mat.GetComponent<ItemBase>().InitItem(info);
         mats[0] = mat;
-
-        var evoluteTmp = ItemModeLocator.Instance.ItemConfig.ItemEvoluteTmpls[info.TmplId];
-        mat = NGUITools.AddChild(targetBg.gameObject, BaseItemPrefab);
-        mat.GetComponent<ItemBase>().InitItem(evoluteTmp.TargetItemId);
-        mats[1] = mat;
-        var isDirty = false;
-        for (var i = 0; i < evoluteTmp.NeedMaterials.Count; i++)
+        var canEvolve = ItemModeLocator.Instance.ItemConfig.ItemEvoluteTmpls.ContainsKey(info.TmplId);
+        NGUITools.SetActive(cannotEvolveMask.gameObject, !canEvolve);
+        if (canEvolve)
         {
-            var evoluteParam = evoluteTmp.NeedMaterials[i];
-            var count = FindMaterialCount(evoluteParam.NeedMaterialId);
-            if (count > 0)
+            var evoluteTmp = ItemModeLocator.Instance.ItemConfig.ItemEvoluteTmpls[info.TmplId];
+            mat = NGUITools.AddChild(targetBg.gameObject, BaseItemPrefab);
+            mat.GetComponent<ItemBase>().InitItem(evoluteTmp.TargetItemId);
+            mats[1] = mat;
+            for(var i = 0; i < evoluteTmp.NeedMaterials.Count; i++)
             {
+                var evoluteParam = evoluteTmp.NeedMaterials[i];
+                var count = FindMaterialCount(evoluteParam.NeedMaterialId);
+
                 mat = NGUITools.AddChild(evolveMats.gameObject, BaseItemPrefab);
-                UIEventListener.Get(mat).onClick = NormalPressForMatInfo;
                 mat.GetComponent<ItemBase>().InitItem(evoluteParam.NeedMaterialId);
-                //The first two are used to store the main and target item. 
+
                 mats[2 + i] = mat;
-                matsOwnCount[0].text = string.Format("{0}/{1}", count, evoluteParam.NeedMaterialCount);
-                isDirty = true;
+                matsOwnCount[i].text = string.Format("{0}/{1}", count, evoluteParam.NeedMaterialCount);
+                evolveMats.repositionNow = true;
             }
         }
-        if (isDirty)
+    }
+
+    private void RefreshCurScreen()
+    {
+        var items = commonWindow.Items.transform;
+        var childCount = items.childCount;
+        for (var i = 0; i < childCount; i++)
         {
-            evolveMats.repositionNow = true;
+            var wrapItem = items.GetChild(i).GetComponent<WrapItemContent>();
+            CheckCanEvolve(wrapItem);
+        }
+    }
+
+    private void CheckCanEvolve(WrapItemContent wrapItem)
+    {
+        if(wrapItem != null)
+        {
+            for(var j = 0; j < wrapItem.Children.Count; j++)
+            {
+                var theItemInfo = wrapItem.Children[j].GetComponent<ItemBase>().TheItemInfo;
+                wrapItem.ShowMask(j, ItemModeLocator.Instance.IsMaterial(theItemInfo.TmplId));
+            }
         }
     }
 
     private void CleanUp()
     {
-        NGUITools.Destroy(source.transform.Find("Mask(Clone)").gameObject);
-        for(var i = 0; i < mats.Count; i++)
+        for(var i = mats.Count - 1; i >= 0; i--)
         {
             var mat = mats[i];
             if(mat != null)
@@ -137,14 +191,6 @@ public class UIEvolveItemHandler : MonoBehaviour
         {
             matsOwnCount[i].text = "";
         }
-    }
-
-    private void NormalPressForMatInfo(GameObject go)
-    {
-        var bagIndex = go.GetComponent<ItemBase>().BagIndex;
-        var item = ItemModeLocator.Instance.FindItem(bagIndex);
-        var showingWindow = WindowManager.Instance.Show<InfoShowingWindow>(true);
-        showingWindow.Refresh(item, null);
     }
 
     private int FindMaterialCount(int id)

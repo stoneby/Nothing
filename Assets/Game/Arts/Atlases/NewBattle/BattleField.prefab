@@ -1536,6 +1536,7 @@ MonoBehaviour:
   mWidth: 120
   mHeight: 30
   mDepth: 10
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -2252,11 +2253,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 977ec78a3a042d443912f7a9408bdba5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FormationController: {fileID: 11400096}
-  CharacterList: []
-  CharacterPool: {fileID: 11400094}
-  Total: 1
+  GroupController: {fileID: 0}
   EditMode: 0
+  FormationController: {fileID: 11400096}
   CurrentSelect: {fileID: 0}
 --- !u!114 &11400100
 MonoBehaviour:
@@ -2291,6 +2290,7 @@ MonoBehaviour:
   mWidth: 100
   mHeight: 100
   mDepth: 4
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -2336,11 +2336,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e40d92f6aff23a41a7ce9c96f29fea4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FormationController: {fileID: 11400108}
+  GroupController: {fileID: 0}
   AttackSimulator: {fileID: 11400116}
-  CharacterList: []
   DragBarPool: {fileID: 11400102}
-  CharacterPool: {fileID: 11400016}
   Row: 3
   Col: 3
   Total: 12
@@ -2351,6 +2349,7 @@ MonoBehaviour:
   - {fileID: 100008}
   - {fileID: 100006}
   - {fileID: 100004}
+  FormationController: {fileID: 11400108}
   ColliderFactor: 1
 --- !u!114 &11400108
 MonoBehaviour:
@@ -2424,6 +2423,7 @@ MonoBehaviour:
   mWidth: 900
   mHeight: 480
   mDepth: 2
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -2475,6 +2475,7 @@ MonoBehaviour:
   mWidth: 100
   mHeight: 100
   mDepth: 0
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1

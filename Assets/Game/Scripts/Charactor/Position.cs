@@ -21,5 +21,15 @@ public struct Position
         return string.Format("Position: ({0}, {1})", X, Y);
     }
 
+    public static bool operator ==(Position lhs, Position rhs)
+    {
+        return lhs.X == rhs.X && lhs.Y == rhs.Y;
+    }
+
+    public static bool operator !=(Position lhs, Position rhs)
+    {
+        return !(lhs == rhs);
+    }
+
     #endregion
 }

@@ -29,8 +29,6 @@ public class CharacterControl : MonoBehaviour
 
     public int AnimationIndex;
 
-    public BuffBarController BuffController;
-
     public int FootIndex
     {
         get { return CharacterData.ColorIndex; }
@@ -74,7 +72,7 @@ public class CharacterControl : MonoBehaviour
         }
 
         var uisp = FootObj.GetComponent<UISprite>();
-        uisp.spriteName = "pck_" + FootIndex;
+        uisp.spriteName = "ground_" + FootIndex;
         uisp = JobObj.GetComponent<UISprite>();
         uisp.spriteName = (FootIndex == (int)FootColorType.Pink) ? "job_0" : "job_" + JobIndex;
     }
@@ -131,7 +129,7 @@ public class CharacterControl : MonoBehaviour
         var uilb = AttrackObj.GetComponent<UILabel>();
         Attack = record.getIntProp(RoleAProperty.ATK);
         Restore = record.getIntProp(RoleAProperty.RECOVER);
-        uilb.text = (FootIndex == (int)FootColorType.Pink) ? (Restore + "-" + record.Index) : (Attack + "-" + record.Index);
+        uilb.text = "" + ((FootIndex == (int)FootColorType.Pink) ? (Restore) : (Attack));
     }
 
     public string GetNamePrefix()

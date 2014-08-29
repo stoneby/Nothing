@@ -61,7 +61,10 @@ ModelImporter:
     400052: D_gaoshun_zuoshou
     400054: D_gaoshun_zuoxiaobi
     400056: //RootNode
-    7400000: Take 001
+    7400000: Idle
+    7400002: Run
+    7400004: Attack
+    7400006: Hurt
     9500000: //RootNode
     11100000: //RootNode
   materials:
@@ -78,7 +81,343 @@ ModelImporter:
     animationScaleError: .5
     animationWrapMode: 0
     extraExposedTransformPaths: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Idle
+      takeName: Take 001
+      firstFrame: 1
+      lastFrame: 19
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: D_gaoshun_dabi
+        weight: 1
+      - path: D_gaoshun_dadao
+        weight: 1
+      - path: D_gaoshun_gaoshunbingqi1
+        weight: 1
+      - path: D_gaoshun_honglingjin
+        weight: 1
+      - path: D_gaoshun_huyao
+        weight: 1
+      - path: D_gaoshun_huyao-2
+        weight: 1
+      - path: D_gaoshun_jianjia-you
+        weight: 1
+      - path: D_gaoshun_pifeng-
+        weight: 1
+      - path: D_gaoshun_quanbai2
+        weight: 1
+      - path: D_gaoshun_shou
+        weight: 1
+      - path: D_gaoshun_shou2
+        weight: 1
+      - path: D_gaoshun_tou
+        weight: 1
+      - path: D_gaoshun_tui1
+        weight: 1
+      - path: D_gaoshun_tui3
+        weight: 1
+      - path: D_gaoshun_tui4
+        weight: 1
+      - path: D_gaoshun_tui5
+        weight: 1
+      - path: D_gaoshun_xiaob
+        weight: 1
+      - path: D_gaoshun_xiong-
+        weight: 1
+      - path: D_gaoshun_yuma1
+        weight: 1
+      - path: D_gaoshun_yumao-
+        weight: 1
+      - path: D_gaoshun_yumao1
+        weight: 1
+      - path: D_gaoshun_yumao2
+        weight: 1
+      - path: D_gaoshun_yumao3
+        weight: 1
+      - path: D_gaoshun_yumao4
+        weight: 1
+      - path: D_gaoshun_zuodabi-
+        weight: 1
+      - path: D_gaoshun_zuojianjia-
+        weight: 1
+      - path: D_gaoshun_zuoshou
+        weight: 1
+      - path: D_gaoshun_zuoxiaobi
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Run
+      takeName: Take 001
+      firstFrame: 28
+      lastFrame: 42
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: D_gaoshun_dabi
+        weight: 1
+      - path: D_gaoshun_dadao
+        weight: 1
+      - path: D_gaoshun_gaoshunbingqi1
+        weight: 1
+      - path: D_gaoshun_honglingjin
+        weight: 1
+      - path: D_gaoshun_huyao
+        weight: 1
+      - path: D_gaoshun_huyao-2
+        weight: 1
+      - path: D_gaoshun_jianjia-you
+        weight: 1
+      - path: D_gaoshun_pifeng-
+        weight: 1
+      - path: D_gaoshun_quanbai2
+        weight: 1
+      - path: D_gaoshun_shou
+        weight: 1
+      - path: D_gaoshun_shou2
+        weight: 1
+      - path: D_gaoshun_tou
+        weight: 1
+      - path: D_gaoshun_tui1
+        weight: 1
+      - path: D_gaoshun_tui3
+        weight: 1
+      - path: D_gaoshun_tui4
+        weight: 1
+      - path: D_gaoshun_tui5
+        weight: 1
+      - path: D_gaoshun_xiaob
+        weight: 1
+      - path: D_gaoshun_xiong-
+        weight: 1
+      - path: D_gaoshun_yuma1
+        weight: 1
+      - path: D_gaoshun_yumao-
+        weight: 1
+      - path: D_gaoshun_yumao1
+        weight: 1
+      - path: D_gaoshun_yumao2
+        weight: 1
+      - path: D_gaoshun_yumao3
+        weight: 1
+      - path: D_gaoshun_yumao4
+        weight: 1
+      - path: D_gaoshun_zuodabi-
+        weight: 1
+      - path: D_gaoshun_zuojianjia-
+        weight: 1
+      - path: D_gaoshun_zuoshou
+        weight: 1
+      - path: D_gaoshun_zuoxiaobi
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Attack
+      takeName: Take 001
+      firstFrame: 43
+      lastFrame: 58
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: D_gaoshun_dabi
+        weight: 1
+      - path: D_gaoshun_dadao
+        weight: 1
+      - path: D_gaoshun_gaoshunbingqi1
+        weight: 1
+      - path: D_gaoshun_honglingjin
+        weight: 1
+      - path: D_gaoshun_huyao
+        weight: 1
+      - path: D_gaoshun_huyao-2
+        weight: 1
+      - path: D_gaoshun_jianjia-you
+        weight: 1
+      - path: D_gaoshun_pifeng-
+        weight: 1
+      - path: D_gaoshun_quanbai2
+        weight: 1
+      - path: D_gaoshun_shou
+        weight: 1
+      - path: D_gaoshun_shou2
+        weight: 1
+      - path: D_gaoshun_tou
+        weight: 1
+      - path: D_gaoshun_tui1
+        weight: 1
+      - path: D_gaoshun_tui3
+        weight: 1
+      - path: D_gaoshun_tui4
+        weight: 1
+      - path: D_gaoshun_tui5
+        weight: 1
+      - path: D_gaoshun_xiaob
+        weight: 1
+      - path: D_gaoshun_xiong-
+        weight: 1
+      - path: D_gaoshun_yuma1
+        weight: 1
+      - path: D_gaoshun_yumao-
+        weight: 1
+      - path: D_gaoshun_yumao1
+        weight: 1
+      - path: D_gaoshun_yumao2
+        weight: 1
+      - path: D_gaoshun_yumao3
+        weight: 1
+      - path: D_gaoshun_yumao4
+        weight: 1
+      - path: D_gaoshun_zuodabi-
+        weight: 1
+      - path: D_gaoshun_zuojianjia-
+        weight: 1
+      - path: D_gaoshun_zuoshou
+        weight: 1
+      - path: D_gaoshun_zuoxiaobi
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Hurt
+      takeName: Take 001
+      firstFrame: 20
+      lastFrame: 27
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: D_gaoshun_dabi
+        weight: 1
+      - path: D_gaoshun_dadao
+        weight: 1
+      - path: D_gaoshun_gaoshunbingqi1
+        weight: 1
+      - path: D_gaoshun_honglingjin
+        weight: 1
+      - path: D_gaoshun_huyao
+        weight: 1
+      - path: D_gaoshun_huyao-2
+        weight: 1
+      - path: D_gaoshun_jianjia-you
+        weight: 1
+      - path: D_gaoshun_pifeng-
+        weight: 1
+      - path: D_gaoshun_quanbai2
+        weight: 1
+      - path: D_gaoshun_shou
+        weight: 1
+      - path: D_gaoshun_shou2
+        weight: 1
+      - path: D_gaoshun_tou
+        weight: 1
+      - path: D_gaoshun_tui1
+        weight: 1
+      - path: D_gaoshun_tui3
+        weight: 1
+      - path: D_gaoshun_tui4
+        weight: 1
+      - path: D_gaoshun_tui5
+        weight: 1
+      - path: D_gaoshun_xiaob
+        weight: 1
+      - path: D_gaoshun_xiong-
+        weight: 1
+      - path: D_gaoshun_yuma1
+        weight: 1
+      - path: D_gaoshun_yumao-
+        weight: 1
+      - path: D_gaoshun_yumao1
+        weight: 1
+      - path: D_gaoshun_yumao2
+        weight: 1
+      - path: D_gaoshun_yumao3
+        weight: 1
+      - path: D_gaoshun_yumao4
+        weight: 1
+      - path: D_gaoshun_zuodabi-
+        weight: 1
+      - path: D_gaoshun_zuojianjia-
+        weight: 1
+      - path: D_gaoshun_zuoshou
+        weight: 1
+      - path: D_gaoshun_zuoxiaobi
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
     isReadable: 1
   meshes:
     lODScreenPercentages: []

@@ -41,8 +41,8 @@ namespace com.kx.sglm.gs.battle.share.logic.loop
 			Battle.BattleExcuter.onBattleTeamShotStart(this);
 			TeamShotStartEvent _event = createEvent();
 			CurAttacker.onTeamShotStart(_event);
-			CurAttacker.recalcTeamProp();
-			CurDefencer.recalcTeamProp();
+			CurAttacker.recalcBuffAndTeamProp();
+			CurDefencer.recalcBuffAndTeamProp();
 			recordBattleTeamInfo();
 		}
 

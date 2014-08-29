@@ -5,10 +5,6 @@ public class CharacterGroupController : MonoBehaviour
 {
     #region Public Fields
 
-    /// <summary>
-    /// Team Formation controller.
-    /// </summary>
-    public TeamFormationController FormationController;
 
     /// <summary>
     /// Character list.
@@ -23,14 +19,10 @@ public class CharacterGroupController : MonoBehaviour
     /// <summary>
     /// Total number of characters.
     /// </summary>
-    public int Total { get; set; }
-
-    /// <summary>
-    /// Position list of all characters.
-    /// </summary>
-    public List<Vector3> PositionList
+    public int Total
     {
-        get { return FormationController.LatestPositionList; }
+        get { return Generator.Total; } 
+        set { Generator.Total = value; }
     }
 
     #endregion
@@ -62,16 +54,10 @@ public class CharacterGroupController : MonoBehaviour
             Logger.LogWarning("Dynamic binding mode, take character from pool of number: " + Total, gameObject);
 
             Generator.Generate();
+            CharacterList.AddRange(Generator.CharacterList);
         }
 
         Total = CharacterList.Count;
-
-        // get formation with position list count with total.
-        if (PositionList.Count != Total)
-        {
-            Logger.LogError("Total: " + Total + " should be equal to position list count: " + PositionList.Count +
-                            " of index: " + (Total - 1) + " from formation list.", gameObject);
-        }
     }
 
     public void Cleanup()

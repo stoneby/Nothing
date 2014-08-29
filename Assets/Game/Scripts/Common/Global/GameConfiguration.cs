@@ -82,15 +82,14 @@ public class GameConfiguration : Singleton<GameConfiguration>
 
             if (node["ServicePath"] != null)
             {
-                GameConfig.ServicePath = node["ServicePath"].InnerText;
+                var str = node["ServicePath"].InnerText;
+                GameConfig.ServicePath = "http://" + str + "/config/service.xml";//node["ServicePath"].InnerText;
+                GameConfig.BattleConfig = "http://"+ str + "/config/BattleConfig.xml";
+                var arr = str.Split(':');
+                GameConfig.ServerIpAddress = arr.Length > 0 ? arr[0] : str;
             }
 
-            GameConfig.ServerIpAddress = node["ServerIpAddress"].InnerText;
-
-            if (node["BattleConfig"] != null)
-            {
-                GameConfig.BattleConfig = node["BattleConfig"].InnerText;
-            }
+            //GameConfig.ServerIpAddress = node["ServerIpAddress"].InnerText;
 
             if (node["LocalServicePath"] != null)
             {
@@ -212,6 +211,7 @@ public class GameConfiguration : Singleton<GameConfiguration>
             ServiceManager.AutoLoginOfften = bool.Parse(global.Attribute("AutoLoginOfften").Value);
 
             //fValue
+            //if (fValue.Element)
             ServiceManager.FValue = fValue.Element(GameConfig.FName).Value;
 
             //iosStates

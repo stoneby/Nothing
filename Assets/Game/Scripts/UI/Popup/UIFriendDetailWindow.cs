@@ -14,7 +14,8 @@ public class UIFriendDetailWindow : Window
     private UILabel hpLabel;
     private UILabel recoverLabel;
     private UILabel mpLabel;
-    private UILabel leaderSkLable;
+    private UILabel leaderSkName;
+    private UILabel leaderSkDesc;
 
     private List<UISprite> leaderJobs = new List<UISprite>();
     private List<UILabel> leaderAtks = new List<UILabel>();
@@ -68,7 +69,8 @@ public class UIFriendDetailWindow : Window
                 if (skillTmp.ContainsKey(leaderSkillId))
                 {
                     var leaderSkill = skillTmp[leaderSkillId];
-                    leaderSkLable.text = leaderSkill.Desc;
+                    leaderSkName.text = leaderSkill.Name;
+                    leaderSkDesc.text = leaderSkill.Desc;
                 }
                 RefreshLeaders(value);
             }
@@ -113,13 +115,14 @@ public class UIFriendDetailWindow : Window
     // Use this for initialization
     private void Awake()
     {
-        closeLis = UIEventListener.Get(transform.Find("Button-Close").gameObject);
+        closeLis = UIEventListener.Get(transform.Find("Dimmer").gameObject);
         var property = transform.Find("Property");
         atkLabel = property.Find("Attack/Value").GetComponent<UILabel>();
         hpLabel = property.Find("Hp/Value").GetComponent<UILabel>();
         recoverLabel = property.Find("Recover/Value").GetComponent<UILabel>();
         mpLabel = property.Find("Mp/Value").GetComponent<UILabel>();
-        leaderSkLable = transform.Find("Skill/Value").GetComponent<UILabel>();
+        leaderSkName = transform.Find("Skill/Value").GetComponent<UILabel>();
+        leaderSkDesc = Utils.FindChild(transform, "Desc").GetComponent<UILabel>();
 
         leaderAtks.Add(transform.Find("Leader1/Attack/Value").GetComponent<UILabel>());
         leaderAtks.Add(transform.Find("Leader2/Attack/Value").GetComponent<UILabel>());

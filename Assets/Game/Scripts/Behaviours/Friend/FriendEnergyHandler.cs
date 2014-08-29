@@ -61,5 +61,7 @@ public class FriendEnergyHandler : FriendHandlerBase
          cachedUuid = receiveItem.FriendInfo.FriendUuid;
          var msg = new CSFriendRecieveEnergy { FriendUuid = cachedUuid };
          NetManager.SendMessage(msg);
+
+         go.transform.FindChild("ReceiveBtnSprite").GetComponent<UIButton>().isEnabled = false;
      }
 }

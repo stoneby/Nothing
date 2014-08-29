@@ -4,6 +4,7 @@ using UnityEngine;
 public abstract class CharacterGenerator : MonoBehaviour
 {
     public GameObject Parent;
+    public int Total;
 
     public List<Character> CharacterList { get; set; }
 

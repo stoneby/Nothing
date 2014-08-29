@@ -14,6 +14,7 @@ namespace com.kx.sglm.gs.battle.share.buff.enums
 	using SealSkillDebuffEffect = com.kx.sglm.gs.battle.share.buff.effect.SealSkillDebuffEffect;
 	using SleepDebuffEffect = com.kx.sglm.gs.battle.share.buff.effect.SleepDebuffEffect;
 	using SpMaxBuffEffect = com.kx.sglm.gs.battle.share.buff.effect.SpMaxBuffEffect;
+	using UseSkillBuff = com.kx.sglm.gs.battle.share.buff.effect.UseSkillBuff;
 	using BaseBattleFactoryEnum = com.kx.sglm.gs.battle.share.enums.BaseBattleFactoryEnum;
 	using IBattlePartInfo = com.kx.sglm.gs.battle.share.enums.IBattlePartInfo;
 
@@ -259,6 +260,21 @@ namespace com.kx.sglm.gs.battle.share.buff.enums
 			public override IBattlePartInfo createInstance()
 			{
 				return new DamagePropEffectDebuff();
+			}
+		}
+
+		public static readonly BuffEffectEnum SKILL_BUFF_EFFECT = new BuffEffectEnumAnonymousInnerClassHelper15();
+
+		private class BuffEffectEnumAnonymousInnerClassHelper15 : BuffEffectEnum
+		{
+			public BuffEffectEnumAnonymousInnerClassHelper15() : base(14, true)
+			{
+			}
+
+
+			public override IBattlePartInfo createInstance()
+			{
+				return new UseSkillBuff();
 			}
 		}
 

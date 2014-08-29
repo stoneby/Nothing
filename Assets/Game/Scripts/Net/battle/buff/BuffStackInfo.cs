@@ -1,6 +1,8 @@
 namespace com.kx.sglm.gs.battle.share.buff
 {
 
+	using BattleFighter = com.kx.sglm.gs.battle.share.actor.impl.BattleFighter;
+	using IBuffCondition = com.kx.sglm.gs.battle.share.buff.condition.IBuffCondition;
 	using BuffStateEnum = com.kx.sglm.gs.battle.share.buff.enums.BuffStateEnum;
 
 	public class BuffStackInfo
@@ -8,6 +10,7 @@ namespace com.kx.sglm.gs.battle.share.buff
 
 		private BuffStateEnum state;
 		private int leftRound;
+		private IBuffCondition condition;
 
 		public BuffStackInfo()
 		{
@@ -37,6 +40,26 @@ namespace com.kx.sglm.gs.battle.share.buff
 				leftRound--;
 			}
 		}
+
+		public virtual bool canOption(BattleFighter fighter)
+		{
+			bool _canOption = true;
+			if (condition != null)
+			{
+				_canOption = condition.canOptionBuff(fighter);
+			}
+			return _canOption;
+		}
+
+		public virtual IBuffCondition Condition
+		{
+			set
+			{
+				this.condition = value;
+			}
+		}
+
+
 
 		public virtual int LeftRound
 		{

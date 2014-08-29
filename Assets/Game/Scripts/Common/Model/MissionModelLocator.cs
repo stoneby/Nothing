@@ -41,6 +41,8 @@ public sealed class MissionModelLocator
     public int CurrRaidType = 1;
 
     public RaidInfo Raid;
+    public RaidTemplate RaidEliteTem;
+    public RaidTemplate RaidHeroTem;
 
     [NonSerialized]
     [XmlIgnore]
@@ -48,11 +50,17 @@ public sealed class MissionModelLocator
 
     public FriendVO FriendData;
 
-    public int SelectedStageId;
-    public string SelectRaidName;
-    public string SelectStageName;
-    public int SelectStageNeedEnegry;
-    public string SelectStageCountStr;
+    public RaidTemplate BattleRaidTemplate;
+    public RaidStageTemplate BattleStageTemplate;
+
+    public RaidTemplate NextRaidTemplate;
+    public RaidStageTemplate NextStageTemplate;
+
+//    public int SelectedStageId;
+//    public string SelectRaidName;
+//    public string SelectStageName;
+//    public int SelectStageNeedEnegry;
+//    public string SelectStageCountStr;
 
     [NonSerialized]
     [XmlIgnore]
@@ -162,6 +170,11 @@ public sealed class MissionModelLocator
         }
     }
 
+    public void CleanFinishTime()
+    {
+        RaidLoadingAll.TodayFinishTimes = null;
+    }
+
     public RaidAddtionInfo GetAdditionInfoByRaidTemplateID(int templateid)
     {
         if (RaidAddition == null || RaidAddition.AddtionInfo == null) return null;
@@ -224,7 +237,7 @@ public sealed class MissionModelLocator
         var raids = (thetype == RaidType.RaidElite) ? RaidLoadingAll.RaidInfoElite : RaidLoadingAll.RaidInfoMaster;
         foreach (KeyValuePair<int, RaidTemplate> item in raidtemplates)
         {
-            if (item.Value.RaidType == thetype && PlayerModelLocator.Instance.Level >= item.Value.OpenLvl)
+            if (item.Value.RaidType == thetype)// && PlayerModelLocator.Instance.Level >= item.Value.OpenLvl)
             {
                 RaidInfo raid = null;
                 for (int i = 0; i < raids.Count; i++)
@@ -439,22 +452,22 @@ public sealed class MissionModelLocator
 
     public void AddStar(int count)
     {
-        Logger.Log("-------------------------------" + Raid.TemplateId);
-        if (TotalStarCount.ContainsKey(Raid.TemplateId))
+        Logger.Log("-------------------------------" + BattleRaidTemplate.Id);
+        if (TotalStarCount.ContainsKey(BattleRaidTemplate.Id))
         {
             var raids = GetCurrentRaids();
             for (int i = 0; i < raids.Count; i++)
             {
-                if (raids[i].TemplateId == Raid.TemplateId)
+                if (raids[i].TemplateId == BattleRaidTemplate.Id)
                 {
                     for (int j = 0; j < raids[i].StateInfo.Count; j++)
                     {
-                        if (raids[i].StateInfo[j].TemplateId == SelectedStageId)
+                        if (raids[i].StateInfo[j].TemplateId == BattleStageTemplate.Id)
                         {
                             var v = (sbyte)count - raids[i].StateInfo[j].Star;
                             if (v > 0)
                             {
-                                TotalStarCount[Raid.TemplateId] += v;
+                                TotalStarCount[BattleRaidTemplate.Id] += v;
                                 raids[i].StateInfo[j].Star = (sbyte)count;
                             }
                             break;
@@ -467,6 +480,66 @@ public sealed class MissionModelLocator
         }
     }
 
+    public RaidStageTemplate GetNextStage()
+    {
+        var raids = MissionModelLocator.Instance.GetCurrentRaids();
+        //int raidtemplateid = MissionModelLocator.Instance.CurrRaidType * 100 + int.Parse(themap.id);
+        List<RaidStageInfo> currStages = null;
+        //List<RaidStageInfo> nextStages = null;
+        RaidInfo nextRaidInfo = null;
+        for (int i = 0; i < raids.Count; i++)
+        {
+            if (raids[i].TemplateId == BattleRaidTemplate.Id)
+            {
+                currStages = raids[i].StateInfo;
+            }
+            if (raids[i].TemplateId == BattleRaidTemplate.Id + 1)
+            {
+                //nextStages = raids[i].StateInfo;
+                nextRaidInfo = raids[i];
+            }
+        }
+
+        if (currStages != null)
+        {
+            for (int i = 0; i < currStages.Count; i++)
+            {
+                if (currStages[i].TemplateId == BattleStageTemplate.Id + 1)
+                {
+                    NextRaidTemplate = BattleRaidTemplate;
+                    NextStageTemplate = GetRaidStagrByTemplateId(currStages[i].TemplateId);
+                    
+                    return NextStageTemplate;
+                }
+            }
+        }
+
+        var k = 10000000;
+        RaidStageInfo stageinfo = null;
+        if (nextRaidInfo != null && nextRaidInfo.StateInfo != null)
+        {
+            NextRaidTemplate = GetRaidByTemplateId(nextRaidInfo.TemplateId);
+
+
+            for (int i = 0; i < nextRaidInfo.StateInfo.Count; i++)
+            {
+                if (k > nextRaidInfo.StateInfo[i].TemplateId)
+                {
+                    k = nextRaidInfo.StateInfo[i].TemplateId;
+                    stageinfo = nextRaidInfo.StateInfo[i];
+                }
+            }
+        }
+
+        if (stageinfo != null)
+        {
+            NextStageTemplate = GetRaidStagrByTemplateId(k);
+            return NextStageTemplate;
+        }
+        NextStageTemplate = null;
+        return null;
+    }
+
     /// <summary>
     /// Write this whole class to stream.
     /// </summary>
@@ -476,7 +549,7 @@ public sealed class MissionModelLocator
     {
         writer.Write(className);
         writer.Write(BasicName);
-        PersistenceFileIOHandler.WriteBasic(writer, SelectedStageId);
+        PersistenceFileIOHandler.WriteBasic(writer, BattleStageTemplate.Id);
         PersistenceFileIOHandler.WriteBasic(writer, OldExp);
         PersistenceFileIOHandler.WriteBasic(writer, OldLevel);
         PersistenceFileIOHandler.WriteBasic(writer, StarCount);
@@ -497,7 +570,8 @@ public sealed class MissionModelLocator
 
         string[] splitedBasic = outStrings[0].Split(new char[] { '\t' }, StringSplitOptions.RemoveEmptyEntries);
         PersistenceFileIOHandler.CheckCount(splitedBasic,BasicFieldCount);
-        SelectedStageId = int.Parse(splitedBasic[0]);
+        if (BattleStageTemplate == null)BattleStageTemplate = new RaidStageTemplate();
+        BattleStageTemplate.Id = int.Parse(splitedBasic[0]);
         OldExp = int.Parse(splitedBasic[1]);
         OldLevel = int.Parse(splitedBasic[2]);
         StarCount = int.Parse(splitedBasic[3]);

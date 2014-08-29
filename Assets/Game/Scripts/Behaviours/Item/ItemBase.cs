@@ -5,10 +5,13 @@ public class ItemBase : MonoBehaviour
 {
     protected Transform cachedTran;
     private UISprite icon;
+    private UILabel itemName;
+    protected Transform stars;
+    private UISprite jobIcon;
 
+    [HideInInspector]
     public ItemInfo TheItemInfo;
-
-    private sbyte quality;
+    protected sbyte quality;
     public virtual sbyte Quality
     {
         get { return quality; }
@@ -16,7 +19,6 @@ public class ItemBase : MonoBehaviour
         {
             quality = value;
             var starCount = Mathf.CeilToInt((float)quality / ItemType.QualitiesPerStar);
-            var stars = cachedTran.FindChild("Rarity");
             var childCount = stars.transform.childCount;
             for (int index = 0; index < starCount; index++)
             {
@@ -35,6 +37,17 @@ public class ItemBase : MonoBehaviour
     {
         cachedTran = transform;
         icon = transform.Find("Icon").GetComponent<UISprite>();
+        stars = cachedTran.FindChild("Rarity");
+        var nameTran = transform.Find("Name");
+        if(nameTran)
+        {
+            itemName = nameTran.GetComponent<UILabel>();
+        }
+        var jobTran = transform.Find("Job");
+        if(jobTran)
+        {
+            jobIcon = jobTran.Find("JobIcon").GetComponent<UISprite>();
+        }
     }
 
     public virtual void InitItem(ItemInfo itemInfo)
@@ -47,6 +60,23 @@ public class ItemBase : MonoBehaviour
     public virtual void InitItem(int temId)
     {
         Quality = ItemModeLocator.Instance.GetQuality(temId);
-        icon.spriteName = "Item_" + ItemModeLocator.Instance.GetIconId(temId);
+        ItemType.SetHeadByTemplate(icon, temId);
+        if(itemName)
+        {
+            itemName.text = ItemModeLocator.Instance.GetName(temId);
+        }
+        if(jobIcon)
+        {
+            var job = ItemModeLocator.Instance.GetJob(temId);
+            if(job != -1)
+            {
+                jobIcon.spriteName = HeroConstant.HeroJobPrefix + job;
+            }
+            else
+            {
+                jobIcon.spriteName = ItemType.ArmorJob;
+            }
+            jobIcon.MakePixelPerfect();
+        }
     }
 }

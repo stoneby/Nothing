@@ -111,7 +111,10 @@ public class UISellDialogWindow : Window
         csHeroSell.SellList = uUids;
         for (var index = 0; index < uUids.Count; index++)
         {
-            NGUITools.AddChild(sellGrid.gameObject, SellHeroPic);
+            var child = NGUITools.AddChild(sellGrid.gameObject, SellHeroPic);
+            var info = HeroModelLocator.Instance.FindHero(uUids[index]);
+            var baseHero = child.GetComponent<HeroItemBase>();
+            baseHero.InitItem(info);
         }
         sellGrid.Reposition();
     }

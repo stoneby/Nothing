@@ -25,6 +25,7 @@ namespace Template.Auto.Item
   {
     private int _id;
     private int _maxExp;
+    private List<int> _upCostGolds;
 
     public int Id
     {
@@ -55,6 +56,22 @@ namespace Template.Auto.Item
       }
     }
 
+    /// <summary>
+    /// 升级消耗金币
+    /// </summary>
+    public List<int> UpCostGolds
+    {
+      get
+      {
+        return _upCostGolds;
+      }
+      set
+      {
+        __isset.upCostGolds = true;
+        this._upCostGolds = value;
+      }
+    }
+
 
     public Isset __isset;
     #if !SILVERLIGHT
@@ -63,6 +80,7 @@ namespace Template.Auto.Item
     public struct Isset {
       public bool id;
       public bool maxExp;
+      public bool upCostGolds;
     }
 
     public ItemLevelTemplate() {
@@ -90,6 +108,23 @@ namespace Template.Auto.Item
           case 2:
             if (field.Type == TType.I32) {
               MaxExp = iprot.ReadI32();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 3:
+            if (field.Type == TType.List) {
+              {
+                UpCostGolds = new List<int>();
+                TList _list0 = iprot.ReadListBegin();
+                for( int _i1 = 0; _i1 < _list0.Count; ++_i1)
+                {
+                  int _elem2 = 0;
+                  _elem2 = iprot.ReadI32();
+                  UpCostGolds.Add(_elem2);
+                }
+                iprot.ReadListEnd();
+              }
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
@@ -123,6 +158,21 @@ namespace Template.Auto.Item
         oprot.WriteI32(MaxExp);
         oprot.WriteFieldEnd();
       }
+      if (UpCostGolds != null && __isset.upCostGolds) {
+        field.Name = "upCostGolds";
+        field.Type = TType.List;
+        field.ID = 3;
+        oprot.WriteFieldBegin(field);
+        {
+          oprot.WriteListBegin(new TList(TType.I32, UpCostGolds.Count));
+          foreach (int _iter3 in UpCostGolds)
+          {
+            oprot.WriteI32(_iter3);
+          }
+          oprot.WriteListEnd();
+        }
+        oprot.WriteFieldEnd();
+      }
       oprot.WriteFieldStop();
       oprot.WriteStructEnd();
     }
@@ -133,6 +183,8 @@ namespace Template.Auto.Item
       sb.Append(Id);
       sb.Append(",MaxExp: ");
       sb.Append(MaxExp);
+      sb.Append(",UpCostGolds: ");
+      sb.Append(UpCostGolds);
       sb.Append(")");
       return sb.ToString();
     }

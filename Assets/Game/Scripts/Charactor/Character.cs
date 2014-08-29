@@ -84,6 +84,11 @@ public class Character : MonoBehaviour
     public CharacterBuffController BuffController;
 
     /// <summary>
+    /// Buff bar controller.
+    /// </summary>
+    public BuffBarController BuffBarController;
+
+    /// <summary>
     /// Logic data.
     /// </summary>
     [HideInInspector]
@@ -147,16 +152,13 @@ public class Character : MonoBehaviour
     public void ShowBuff()
     {
         BuffController.ShowBuff();
+        BuffController.ShowBuffCD(BuffBarController);
     }
 
     public void ResetBuff()
     {
+        BuffBarController.gameObject.SetActive(false);
         BuffController.ResetBuff();
-    }
-
-    public void ShowBuffCD(BuffBarController buffController)
-    {
-        BuffController.ShowBuffCD(buffController);
     }
 
     public void ShowDebuff()

@@ -8,6 +8,8 @@ public class HeroItemBase : MonoBehaviour
     private string bgSpritePrifix;
     protected Transform cachedTran;
     protected sbyte quality;
+    private UISprite icon;
+    private UISprite jobIcon;
 
     public long Uuid { get; set; }
 
@@ -53,6 +55,12 @@ public class HeroItemBase : MonoBehaviour
         cachedTran = transform;
         bg = cachedTran.FindChild("BG").GetComponent<UISprite>();
         bgSpritePrifix = bg.spriteName.Substring(0, bg.spriteName.Length - 1);
+        icon = transform.Find("Icon").GetComponent<UISprite>();
+        var jobTran = transform.Find("Job");
+        if (jobTran)
+        {
+            jobIcon = jobTran.Find("JobIcon").GetComponent<UISprite>();
+        }
     }
 
     public virtual void InitItem(HeroInfo heroInfo)
@@ -60,12 +68,16 @@ public class HeroItemBase : MonoBehaviour
         var heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpls[heroInfo.TemplateId];
         Quality = heroTemplate.Star;
         Uuid = heroInfo.Uuid;
+        HeroConstant.SetHeadByIndex(icon, heroTemplate.Icon - 1);
+        if (jobIcon)
+        {
+            jobIcon.spriteName = HeroConstant.HeroJobPrefix + heroTemplate.Job;
+            jobIcon.MakePixelPerfect();
+        }
     } 
     
     public virtual void InitItem(HeroInfo heroInfo, List<long> curTeam, List<long> allTeams)
     {
-        var heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpls[heroInfo.TemplateId];
-        Quality = heroTemplate.Star;
-        Uuid = heroInfo.Uuid;
+        InitItem(heroInfo);
     }
 }

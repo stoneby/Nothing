@@ -5,16 +5,16 @@ namespace com.kx.sglm.gs.battle.share.buff.policy
 	public class BuffCoverPolicy : AbstractBuffPolicy
 	{
 
-		internal override BattleFighterBuff optionBuffByType(BattleBuffManager manager, IBuffAction buffAction)
+		internal override BattleFighterBuff optionBuffByType(BattleBuffManager manager, BuffInfo info)
 		{
-
-			BuffTypeHolder _holder = manager.getBuffTypeHolder(buffAction);
-			BattleFighterBuff _buff = _holder.getBuff(buffAction.TypeB);
+			IBuffAction _action = info.BuffAction;
+			BuffTypeHolder _holder = manager.getBuffTypeHolder(_action);
+			BattleFighterBuff _buff = _holder.getBuff(_action.TypeB);
 			BattleFighterBuff _resultBuff = null;
 			IBuffAction _hadBuffAction = _buff.BuffAction;
-			if (buffAction.priority() > _hadBuffAction.priority())
+			if (_action.priority() > _hadBuffAction.priority())
 			{
-				_resultBuff = replaceBuff(manager, _buff, buffAction);
+				_resultBuff = replaceBuff(manager, _buff, info);
 			}
 			else
 			{
@@ -29,10 +29,10 @@ namespace com.kx.sglm.gs.battle.share.buff.policy
 		/// <param name="toReplaceBuff"> </param>
 		/// <param name="addBuffAction">
 		/// @return </param>
-		protected internal virtual BattleFighterBuff replaceBuff(BattleBuffManager manager, BattleFighterBuff toReplaceBuff, IBuffAction addBuffAction)
+		protected internal virtual BattleFighterBuff replaceBuff(BattleBuffManager manager, BattleFighterBuff toReplaceBuff, BuffInfo buffInfo)
 		{
 			manager.removeSingleBuff(toReplaceBuff);
-			BattleFighterBuff _resultBuff = manager.putToBuffHolder(addBuffAction);
+			BattleFighterBuff _resultBuff = manager.putToBuffHolder(buffInfo);
 			return _resultBuff;
 		}
 

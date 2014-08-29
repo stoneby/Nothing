@@ -55,7 +55,10 @@ ModelImporter:
     400046: D_zhuran_zuotui
     400048: D_zhuran_zuoxiaobi
     400050: //RootNode
-    7400000: Take 001
+    7400000: Idle
+    7400002: Run
+    7400004: Attack
+    7400006: Hurt
     9500000: //RootNode
     11100000: //RootNode
   materials:
@@ -72,7 +75,319 @@ ModelImporter:
     animationScaleError: .5
     animationWrapMode: 0
     extraExposedTransformPaths: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Idle
+      takeName: Take 001
+      firstFrame: 1
+      lastFrame: 19
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: D_zhuran_dabi
+        weight: 1
+      - path: D_zhuran_dao
+        weight: 1
+      - path: D_zhuran_datui
+        weight: 1
+      - path: D_zhuran_dizi
+        weight: 1
+      - path: D_zhuran_dun
+        weight: 1
+      - path: D_zhuran_fa
+        weight: 1
+      - path: D_zhuran_fa 1
+        weight: 1
+      - path: D_zhuran_fa1
+        weight: 1
+      - path: D_zhuran_fa3
+        weight: 1
+      - path: D_zhuran_fa4
+        weight: 1
+      - path: D_zhuran_fa5
+        weight: 1
+      - path: D_zhuran_shou2
+        weight: 1
+      - path: D_zhuran_shoubi
+        weight: 1
+      - path: D_zhuran_touffa33
+        weight: 1
+      - path: D_zhuran_toujin
+        weight: 1
+      - path: D_zhuran_xiongjia
+        weight: 1
+      - path: D_zhuran_yaodia
+        weight: 1
+      - path: D_zhuran_youdatui
+        weight: 1
+      - path: D_zhuran_youdatui2
+        weight: 1
+      - path: D_zhuran_youjian
+        weight: 1
+      - path: D_zhuran_zuobi
+        weight: 1
+      - path: D_zhuran_zuodabi2
+        weight: 1
+      - path: D_zhuran_zuoshou3
+        weight: 1
+      - path: D_zhuran_zuotui
+        weight: 1
+      - path: D_zhuran_zuoxiaobi
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Run
+      takeName: Take 001
+      firstFrame: 28
+      lastFrame: 42
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: D_zhuran_dabi
+        weight: 1
+      - path: D_zhuran_dao
+        weight: 1
+      - path: D_zhuran_datui
+        weight: 1
+      - path: D_zhuran_dizi
+        weight: 1
+      - path: D_zhuran_dun
+        weight: 1
+      - path: D_zhuran_fa
+        weight: 1
+      - path: D_zhuran_fa 1
+        weight: 1
+      - path: D_zhuran_fa1
+        weight: 1
+      - path: D_zhuran_fa3
+        weight: 1
+      - path: D_zhuran_fa4
+        weight: 1
+      - path: D_zhuran_fa5
+        weight: 1
+      - path: D_zhuran_shou2
+        weight: 1
+      - path: D_zhuran_shoubi
+        weight: 1
+      - path: D_zhuran_touffa33
+        weight: 1
+      - path: D_zhuran_toujin
+        weight: 1
+      - path: D_zhuran_xiongjia
+        weight: 1
+      - path: D_zhuran_yaodia
+        weight: 1
+      - path: D_zhuran_youdatui
+        weight: 1
+      - path: D_zhuran_youdatui2
+        weight: 1
+      - path: D_zhuran_youjian
+        weight: 1
+      - path: D_zhuran_zuobi
+        weight: 1
+      - path: D_zhuran_zuodabi2
+        weight: 1
+      - path: D_zhuran_zuoshou3
+        weight: 1
+      - path: D_zhuran_zuotui
+        weight: 1
+      - path: D_zhuran_zuoxiaobi
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Attack
+      takeName: Take 001
+      firstFrame: 43
+      lastFrame: 58
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: D_zhuran_dabi
+        weight: 1
+      - path: D_zhuran_dao
+        weight: 1
+      - path: D_zhuran_datui
+        weight: 1
+      - path: D_zhuran_dizi
+        weight: 1
+      - path: D_zhuran_dun
+        weight: 1
+      - path: D_zhuran_fa
+        weight: 1
+      - path: D_zhuran_fa 1
+        weight: 1
+      - path: D_zhuran_fa1
+        weight: 1
+      - path: D_zhuran_fa3
+        weight: 1
+      - path: D_zhuran_fa4
+        weight: 1
+      - path: D_zhuran_fa5
+        weight: 1
+      - path: D_zhuran_shou2
+        weight: 1
+      - path: D_zhuran_shoubi
+        weight: 1
+      - path: D_zhuran_touffa33
+        weight: 1
+      - path: D_zhuran_toujin
+        weight: 1
+      - path: D_zhuran_xiongjia
+        weight: 1
+      - path: D_zhuran_yaodia
+        weight: 1
+      - path: D_zhuran_youdatui
+        weight: 1
+      - path: D_zhuran_youdatui2
+        weight: 1
+      - path: D_zhuran_youjian
+        weight: 1
+      - path: D_zhuran_zuobi
+        weight: 1
+      - path: D_zhuran_zuodabi2
+        weight: 1
+      - path: D_zhuran_zuoshou3
+        weight: 1
+      - path: D_zhuran_zuotui
+        weight: 1
+      - path: D_zhuran_zuoxiaobi
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Hurt
+      takeName: Take 001
+      firstFrame: 20
+      lastFrame: 27
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: D_zhuran_dabi
+        weight: 1
+      - path: D_zhuran_dao
+        weight: 1
+      - path: D_zhuran_datui
+        weight: 1
+      - path: D_zhuran_dizi
+        weight: 1
+      - path: D_zhuran_dun
+        weight: 1
+      - path: D_zhuran_fa
+        weight: 1
+      - path: D_zhuran_fa 1
+        weight: 1
+      - path: D_zhuran_fa1
+        weight: 1
+      - path: D_zhuran_fa3
+        weight: 1
+      - path: D_zhuran_fa4
+        weight: 1
+      - path: D_zhuran_fa5
+        weight: 1
+      - path: D_zhuran_shou2
+        weight: 1
+      - path: D_zhuran_shoubi
+        weight: 1
+      - path: D_zhuran_touffa33
+        weight: 1
+      - path: D_zhuran_toujin
+        weight: 1
+      - path: D_zhuran_xiongjia
+        weight: 1
+      - path: D_zhuran_yaodia
+        weight: 1
+      - path: D_zhuran_youdatui
+        weight: 1
+      - path: D_zhuran_youdatui2
+        weight: 1
+      - path: D_zhuran_youjian
+        weight: 1
+      - path: D_zhuran_zuobi
+        weight: 1
+      - path: D_zhuran_zuodabi2
+        weight: 1
+      - path: D_zhuran_zuoshou3
+        weight: 1
+      - path: D_zhuran_zuotui
+        weight: 1
+      - path: D_zhuran_zuoxiaobi
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
     isReadable: 1
   meshes:
     lODScreenPercentages: []

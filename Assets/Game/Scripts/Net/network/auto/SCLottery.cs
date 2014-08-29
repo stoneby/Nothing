@@ -138,13 +138,13 @@ namespace KXSGCodec
             if (field.Type == TType.List) {
               {
                 RewardItem = new List<KXSGCodec.RewardItem>();
-                TList _list4 = iprot.ReadListBegin();
-                for( int _i5 = 0; _i5 < _list4.Count; ++_i5)
+                TList _list8 = iprot.ReadListBegin();
+                for( int _i9 = 0; _i9 < _list8.Count; ++_i9)
                 {
-                  KXSGCodec.RewardItem _elem6 = new KXSGCodec.RewardItem();
-                  _elem6 = new KXSGCodec.RewardItem();
-                  _elem6.Read(iprot);
-                  RewardItem.Add(_elem6);
+                  KXSGCodec.RewardItem _elem10 = new KXSGCodec.RewardItem();
+                  _elem10 = new KXSGCodec.RewardItem();
+                  _elem10.Read(iprot);
+                  RewardItem.Add(_elem10);
                 }
                 iprot.ReadListEnd();
               }
@@ -196,9 +196,9 @@ namespace KXSGCodec
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.Struct, RewardItem.Count));
-          foreach (KXSGCodec.RewardItem _iter7 in RewardItem)
+          foreach (KXSGCodec.RewardItem _iter11 in RewardItem)
           {
-            _iter7.Write(oprot);
+            _iter11.Write(oprot);
           }
           oprot.WriteListEnd();
         }

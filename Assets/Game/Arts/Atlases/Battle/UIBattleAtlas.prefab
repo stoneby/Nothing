@@ -42,7 +42,7 @@ MonoBehaviour:
   mSprites:
   - name: blood_bar
     x: 266
-    y: 767
+    y: 1791
     width: 72
     height: 7
     borderLeft: 0
@@ -54,8 +54,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: blood_bg
-    x: 936
-    y: 725
+    x: 725
+    y: 1707
     width: 80
     height: 14
     borderLeft: 0
@@ -67,8 +67,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: box
-    x: 245
-    y: 434
+    x: 922
+    y: 1588
     width: 100
     height: 100
     borderLeft: 0
@@ -80,8 +80,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: buff_1
-    x: 206
-    y: 214
+    x: 847
+    y: 1144
     width: 34
     height: 45
     borderLeft: 0
@@ -93,8 +93,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: buff_2
-    x: 206
-    y: 260
+    x: 812
+    y: 1144
     width: 34
     height: 45
     borderLeft: 0
@@ -106,8 +106,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: buff_3
-    x: 204
-    y: 317
+    x: 777
+    y: 1144
     width: 34
     height: 45
     borderLeft: 0
@@ -119,8 +119,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: buff_4
-    x: 204
-    y: 363
+    x: 742
+    y: 1144
     width: 34
     height: 45
     borderLeft: 0
@@ -132,8 +132,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: buff_5
-    x: 207
-    y: 430
+    x: 362
+    y: 1547
     width: 34
     height: 45
     borderLeft: 0
@@ -145,8 +145,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: cancel_down
-    x: 673
-    y: 581
+    x: 922
+    y: 1547
     width: 99
     height: 40
     borderLeft: 0
@@ -158,8 +158,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: cancel_up
-    x: 473
-    y: 581
+    x: 819
+    y: 1548
     width: 99
     height: 40
     borderLeft: 0
@@ -171,8 +171,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: confirm_down
-    x: 842
-    y: 682
+    x: 829
+    y: 1462
     width: 99
     height: 40
     borderLeft: 0
@@ -184,8 +184,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: confirm_up
-    x: 573
-    y: 581
+    x: 706
+    y: 1663
     width: 99
     height: 40
     borderLeft: 0
@@ -196,9 +196,74 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
-  - name: head_0
+  - name: ground_1
+    x: 266
+    y: 1799
+    width: 249
+    height: 249
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: ground_2
+    x: 516
+    y: 1801
+    width: 248
+    height: 247
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: ground_3
+    x: 765
+    y: 1801
+    width: 247
+    height: 247
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: ground_4
     x: 0
-    y: 306
+    y: 1789
+    width: 265
+    height: 259
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: ground_5
+    x: 0
+    y: 1544
+    width: 244
+    height: 244
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: head_0
+    x: 397
+    y: 1556
     width: 100
     height: 102
     borderLeft: 0
@@ -210,8 +275,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: head_1
-    x: 245
-    y: 234
+    x: 434
+    y: 1444
     width: 100
     height: 99
     borderLeft: 0
@@ -223,8 +288,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: head_10
-    x: 245
-    y: 134
+    x: 535
+    y: 1444
     width: 99
     height: 99
     borderLeft: 0
@@ -236,8 +301,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: head_11
-    x: 245
-    y: 334
+    x: 922
+    y: 1689
     width: 101
     height: 99
     borderLeft: 0
@@ -249,8 +314,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: head_12
-    x: 245
-    y: 34
+    x: 635
+    y: 1444
     width: 97
     height: 99
     borderLeft: 0
@@ -262,10 +327,75 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: head_13
-    x: 245
-    y: 535
+    x: 103
+    y: 1444
     width: 102
     height: 99
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: head_14
+    x: 200
+    y: 1141
+    width: 95
+    height: 100
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 2
+    paddingRight: 3
+    paddingTop: 0
+    paddingBottom: 0
+  - name: head_15
+    x: 0
+    y: 1141
+    width: 99
+    height: 100
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 1
+    paddingTop: 0
+    paddingBottom: 0
+  - name: head_16
+    x: 296
+    y: 1141
+    width: 94
+    height: 100
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 6
+    paddingTop: 0
+    paddingBottom: 0
+  - name: head_17
+    x: 505
+    y: 1343
+    width: 100
+    height: 100
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: head_19
+    x: 808
+    y: 1343
+    width: 100
+    height: 100
     borderLeft: 0
     borderRight: 0
     borderTop: 0
@@ -275,10 +405,140 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: head_2
-    x: 103
-    y: 6
+    x: 0
+    y: 1444
     width: 102
     height: 99
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: head_20
+    x: 909
+    y: 1343
+    width: 100
+    height: 100
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: head_21
+    x: 100
+    y: 1141
+    width: 99
+    height: 100
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 1
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: head_22
+    x: 0
+    y: 1242
+    width: 100
+    height: 100
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: head_23
+    x: 707
+    y: 1343
+    width: 100
+    height: 100
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: head_24
+    x: 391
+    y: 1141
+    width: 93
+    height: 100
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 3
+    paddingRight: 4
+    paddingTop: 0
+    paddingBottom: 0
+  - name: head_25
+    x: 101
+    y: 1242
+    width: 100
+    height: 100
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: head_26
+    x: 202
+    y: 1242
+    width: 100
+    height: 100
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: head_27
+    x: 303
+    y: 1242
+    width: 100
+    height: 100
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: head_28
+    x: 404
+    y: 1242
+    width: 100
+    height: 100
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: head_29
+    x: 505
+    y: 1242
+    width: 100
+    height: 100
     borderLeft: 0
     borderRight: 0
     borderTop: 0
@@ -288,8 +548,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: head_3
-    x: 0
-    y: 6
+    x: 206
+    y: 1444
     width: 102
     height: 99
     borderLeft: 0
@@ -300,9 +560,139 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
-  - name: head_4
+  - name: head_30
+    x: 909
+    y: 1242
+    width: 100
+    height: 100
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: head_31
+    x: 606
+    y: 1242
+    width: 100
+    height: 100
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: head_32
+    x: 707
+    y: 1242
+    width: 100
+    height: 100
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: head_33
+    x: 808
+    y: 1242
+    width: 100
+    height: 100
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: head_34
+    x: 404
+    y: 1343
+    width: 100
+    height: 100
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: head_35
+    x: 606
+    y: 1343
+    width: 100
+    height: 100
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: head_36
     x: 0
-    y: 106
+    y: 1343
+    width: 100
+    height: 100
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: head_37
+    x: 303
+    y: 1343
+    width: 100
+    height: 100
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: head_38
+    x: 202
+    y: 1343
+    width: 100
+    height: 100
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: head_39
+    x: 101
+    y: 1343
+    width: 100
+    height: 100
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: head_4
+    x: 819
+    y: 1689
     width: 102
     height: 99
     borderLeft: 0
@@ -314,8 +704,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: head_5
-    x: 0
-    y: 206
+    x: 498
+    y: 1559
     width: 102
     height: 99
     borderLeft: 0
@@ -327,8 +717,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: head_6
-    x: 101
-    y: 309
+    x: 704
+    y: 1559
     width: 102
     height: 99
     borderLeft: 0
@@ -340,8 +730,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: head_7
-    x: 103
-    y: 206
+    x: 601
+    y: 1559
     width: 102
     height: 99
     borderLeft: 0
@@ -353,8 +743,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: head_8
-    x: 348
-    y: 453
+    x: 733
+    y: 1444
     width: 95
     height: 99
     borderLeft: 0
@@ -366,8 +756,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: head_9
-    x: 103
-    y: 106
+    x: 819
+    y: 1589
     width: 102
     height: 99
     borderLeft: 0
@@ -379,8 +769,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: headbox_light
-    x: 0
-    y: 409
+    x: 245
+    y: 1593
     width: 151
     height: 110
     borderLeft: 0
@@ -392,8 +782,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: headbox_normal
-    x: 348
-    y: 553
+    x: 309
+    y: 1462
     width: 124
     height: 81
     borderLeft: 0
@@ -405,8 +795,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: HP_1
-    x: 554
-    y: 667
+    x: 485
+    y: 1190
     width: 446
     height: 12
     borderLeft: 0
@@ -418,8 +808,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: HP_2
-    x: 554
-    y: 654
+    x: 485
+    y: 1229
     width: 446
     height: 12
     borderLeft: 0
@@ -432,7 +822,7 @@ MonoBehaviour:
     paddingBottom: 0
   - name: hpmpbg
     x: 245
-    y: 680
+    y: 1704
     width: 479
     height: 42
     borderLeft: 0
@@ -444,8 +834,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: hpmptop
-    x: 152
-    y: 476
+    x: 485
+    y: 1146
     width: 84
     height: 43
     borderLeft: 0
@@ -457,8 +847,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: icon_box
-    x: 206
-    y: 182
+    x: 989
+    y: 1464
     width: 28
     height: 23
     borderLeft: 0
@@ -470,8 +860,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: icon_energy
-    x: 206
-    y: 81
+    x: 957
+    y: 1144
     width: 25
     height: 24
     borderLeft: 0
@@ -483,8 +873,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: icon_fp
-    x: 206
-    y: 107
+    x: 992
+    y: 1141
     width: 26
     height: 22
     borderLeft: 0
@@ -496,8 +886,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: icon_gold
-    x: 245
-    y: 11
+    x: 75
+    y: 1115
     width: 26
     height: 22
     borderLeft: 0
@@ -509,8 +899,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: job_0
-    x: 207
-    y: 409
+    x: 882
+    y: 1143
     width: 24
     height: 20
     borderLeft: 0
@@ -522,8 +912,8 @@ MonoBehaviour:
     paddingTop: 6
     paddingBottom: 6
   - name: job_1
-    x: 206
-    y: 6
+    x: 0
+    y: 1113
     width: 24
     height: 24
     borderLeft: 0
@@ -535,8 +925,8 @@ MonoBehaviour:
     paddingTop: 4
     paddingBottom: 4
   - name: job_2
-    x: 206
-    y: 156
+    x: 882
+    y: 1164
     width: 25
     height: 25
     borderLeft: 0
@@ -548,8 +938,8 @@ MonoBehaviour:
     paddingTop: 3
     paddingBottom: 4
   - name: job_3
-    x: 206
-    y: 31
+    x: 25
+    y: 1113
     width: 24
     height: 24
     borderLeft: 0
@@ -561,8 +951,8 @@ MonoBehaviour:
     paddingTop: 4
     paddingBottom: 4
   - name: job_4
-    x: 206
-    y: 130
+    x: 992
+    y: 1164
     width: 24
     height: 25
     borderLeft: 0
@@ -574,8 +964,8 @@ MonoBehaviour:
     paddingTop: 3
     paddingBottom: 4
   - name: job_5
-    x: 206
-    y: 56
+    x: 50
+    y: 1113
     width: 24
     height: 24
     borderLeft: 0
@@ -586,9 +976,22 @@ MonoBehaviour:
     paddingRight: 4
     paddingTop: 4
     paddingBottom: 4
+  - name: job_6
+    x: 932
+    y: 1143
+    width: 24
+    height: 25
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
   - name: light_close
-    x: 773
-    y: 570
+    x: 932
+    y: 1190
     width: 44
     height: 51
     borderLeft: 0
@@ -600,8 +1003,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: light_open
-    x: 818
-    y: 570
+    x: 977
+    y: 1190
     width: 44
     height: 51
     borderLeft: 0
@@ -613,8 +1016,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: line
-    x: 444
-    y: 550
+    x: 0
+    y: 1138
     width: 492
     height: 2
     borderLeft: 0
@@ -626,8 +1029,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: menu
-    x: 152
-    y: 420
+    x: 946
+    y: 1488
     width: 54
     height: 55
     borderLeft: 0
@@ -639,8 +1042,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: menu_btn_down
-    x: 819
-    y: 724
+    x: 245
+    y: 1552
     width: 116
     height: 40
     borderLeft: 0
@@ -652,8 +1055,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: menu_btn_up
-    x: 725
-    y: 682
+    x: 829
+    y: 1503
     width: 116
     height: 40
     borderLeft: 0
@@ -665,8 +1068,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: meun
-    x: 942
-    y: 702
+    x: 932
+    y: 1169
     width: 59
     height: 20
     borderLeft: 0
@@ -678,8 +1081,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: MP_1
-    x: 554
-    y: 641
+    x: 485
+    y: 1216
     width: 446
     height: 12
     borderLeft: 0
@@ -691,8 +1094,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: MP_2
-    x: 473
-    y: 622
+    x: 485
+    y: 1203
     width: 446
     height: 12
     borderLeft: 0
@@ -704,8 +1107,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: next
-    x: 936
-    y: 740
+    x: 725
+    y: 1722
     width: 79
     height: 24
     borderLeft: 0
@@ -717,8 +1120,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: nextbar
-    x: 245
-    y: 635
+    x: 397
+    y: 1659
     width: 308
     height: 44
     borderLeft: 0
@@ -729,11 +1132,11 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
-  - name: pck_1
-    x: 266
-    y: 775
-    width: 249
-    height: 249
+  - name: nextfoot_1
+    x: 946
+    y: 1445
+    width: 42
+    height: 42
     borderLeft: 0
     borderRight: 0
     borderTop: 0
@@ -742,11 +1145,11 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
-  - name: pck_2
-    x: 516
-    y: 777
-    width: 248
-    height: 247
+  - name: nextfoot_2
+    x: 570
+    y: 1147
+    width: 42
+    height: 42
     borderLeft: 0
     borderRight: 0
     borderTop: 0
@@ -755,11 +1158,11 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
-  - name: pck_3
-    x: 765
-    y: 777
-    width: 247
-    height: 247
+  - name: nextfoot_3
+    x: 613
+    y: 1147
+    width: 42
+    height: 42
     borderLeft: 0
     borderRight: 0
     borderTop: 0
@@ -768,11 +1171,11 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
-  - name: pck_4
-    x: 0
-    y: 765
-    width: 265
-    height: 259
+  - name: nextfoot_4
+    x: 656
+    y: 1147
+    width: 42
+    height: 42
     borderLeft: 0
     borderRight: 0
     borderTop: 0
@@ -781,11 +1184,11 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
-  - name: pck_5
-    x: 0
-    y: 520
-    width: 244
-    height: 244
+  - name: nextfoot_5
+    x: 699
+    y: 1147
+    width: 42
+    height: 42
     borderLeft: 0
     borderRight: 0
     borderTop: 0
@@ -796,7 +1199,7 @@ MonoBehaviour:
     paddingBottom: 0
   - name: topbarbg
     x: 245
-    y: 723
+    y: 1747
     width: 573
     height: 41
     borderLeft: 0

@@ -32,11 +32,7 @@ public class EquipItem : ItemBase
             equipStatus = value;
             curTeamEquiped.gameObject.SetActive(equipStatus == 1);
             otherTeamEquiped.gameObject.SetActive(false);
-
-//            if (IsSelectEquipItem)
-//            {
-                ShowEquipMask(equipStatus > 0);
-//            }
+            ShowEquipMask(equipStatus > 0);
         }
     }
 
@@ -63,24 +59,14 @@ public class EquipItem : ItemBase
     /// <summary>
     /// Show each hero items with the job info.
     /// </summary>
-    public virtual void ShowByJob(sbyte job, int atk)
+    public virtual void ShowByJob(int atk)
     {
-        var attackTitle = Utils.FindChild(sortRelatedTran, "Attack-Title");
-        var jobSymobl = Utils.FindChild(sortRelatedTran, "JobSymbol").GetComponent<UISprite>();
-        var attackValue = Utils.FindChild(sortRelatedTran, "Attack-Value").GetComponent<UILabel>();
+        var attackTitle = sortRelatedTran.Find("Attack-Title");
+        var attack = attackTitle.Find("Attack").GetComponent<UILabel>();
+        attack.text = atk.ToString(CultureInfo.InvariantCulture);
         NGUITools.SetActiveChildren(sortRelatedTran.gameObject, false);
-        NGUITools.SetActive(attackValue.gameObject, true);
-        if (job != -1)
-        {
-            NGUITools.SetActive(jobSymobl.gameObject, true);
-            jobSymobl.spriteName = HeroConstant.HeroJobPrefix + job;
-            attackValue.text = atk != -1 ? atk.ToString(CultureInfo.InvariantCulture) : "-";
-        }
-        else
-        {
-            NGUITools.SetActive(attackTitle.gameObject, true);
-            attackValue.text = atk != -1 ? atk.ToString(CultureInfo.InvariantCulture) : "-";
-        }
+        NGUITools.SetActive(attackTitle.gameObject, true);
+        NGUITools.SetActive(attack.gameObject, true);
     }
 
     /// <summary>

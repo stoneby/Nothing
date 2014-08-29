@@ -10,7 +10,9 @@ namespace com.kx.sglm.gs.battle.share.skill.creater
 	using SkillAIHolder = com.kx.sglm.gs.battle.share.ai.SkillAIHolder;
 	using SkillRoulettePair = com.kx.sglm.gs.battle.share.ai.SkillRoulettePair;
 	using IBuffAction = com.kx.sglm.gs.battle.share.buff.IBuffAction;
+	using IBuffCondition = com.kx.sglm.gs.battle.share.buff.condition.IBuffCondition;
 	using AbstractBuffEffect = com.kx.sglm.gs.battle.share.buff.effect.AbstractBuffEffect;
+	using BuffConditionEnum = com.kx.sglm.gs.battle.share.buff.enums.BuffConditionEnum;
 	using BuffEffectEnum = com.kx.sglm.gs.battle.share.buff.enums.BuffEffectEnum;
 	using BaseBattleFactoryEnum = com.kx.sglm.gs.battle.share.enums.BaseBattleFactoryEnum;
 	using IBattlePartInfo = com.kx.sglm.gs.battle.share.enums.IBattlePartInfo;
@@ -30,6 +32,20 @@ namespace com.kx.sglm.gs.battle.share.skill.creater
 	/// </summary>
 	public class SkillActionCreater
 	{
+
+		public static IBuffCondition createBuffAction(string conditionString)
+		{
+			string[] _paramArr = conditionString.Split(",", true);
+			int _conditionKey = Convert.ToInt32(_paramArr[0]);
+			IBuffCondition _condition = null;
+			BuffConditionEnum _conditionEnum = BuffConditionEnum.Values[_conditionKey];
+			if (_conditionEnum != null)
+			{
+				_condition = (IBuffCondition)_conditionEnum.createInfo(_paramArr[1]);
+			}
+			return _condition;
+		}
+
 
 		/// <summary>
 		/// ´´½¨BUFFAction

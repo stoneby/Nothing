@@ -94,23 +94,23 @@ public class AssertionWindow : Window
                 Button1.gameObject.SetActive(true);
                 Button2.gameObject.SetActive(false);
                 Button1.transform.localPosition = positionSingleOkay;
-                label1.text = "Ok";
+                label1.text = LanguageManager.Instance.GetTextValue("Assertion.Ok");
                 break;
 
             case Type.OkCancel:
                 Button1.gameObject.SetActive(true);
                 Button2.gameObject.SetActive(true);
                 Button1.transform.localPosition = positionOkay;
-                label1.text = "Ok";
-                label2.text = "Cancel";
+                label1.text = LanguageManager.Instance.GetTextValue("Assertion.Ok");
+                label2.text = LanguageManager.Instance.GetTextValue("Assertion.Cancel");
                 break;
 
             case Type.YesNo:
                 Button1.gameObject.SetActive(true);
                 Button2.gameObject.SetActive(true);
                 Button1.transform.localPosition = positionOkay;
-                label1.text = "Yes";
-                label2.text = "No";
+                label1.text = LanguageManager.Instance.GetTextValue("Assertion.Yes");
+                label2.text = LanguageManager.Instance.GetTextValue("Assertion.No");
                 break;
         }
         TitleLabel.text = Title;

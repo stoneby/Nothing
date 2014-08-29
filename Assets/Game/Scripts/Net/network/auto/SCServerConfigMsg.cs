@@ -29,6 +29,7 @@ namespace KXSGCodec
     private sbyte _sellItemPriceRatio;
     private sbyte _buybackItemPriceRatio;
     private sbyte _sellItemSaveHours;
+    private sbyte _recoverEnergyMinutes;
 
     /// <summary>
     /// 升级经验折算系数(%)
@@ -126,6 +127,22 @@ namespace KXSGCodec
       }
     }
 
+    /// <summary>
+    /// 恢复体力时间（分钟）
+    /// </summary>
+    public sbyte RecoverEnergyMinutes
+    {
+      get
+      {
+        return _recoverEnergyMinutes;
+      }
+      set
+      {
+        __isset.recoverEnergyMinutes = true;
+        this._recoverEnergyMinutes = value;
+      }
+    }
+
 
     public Isset __isset;
     #if !SILVERLIGHT
@@ -138,6 +155,7 @@ namespace KXSGCodec
       public bool sellItemPriceRatio;
       public bool buybackItemPriceRatio;
       public bool sellItemSaveHours;
+      public bool recoverEnergyMinutes;
     }
 
     public SCServerConfigMsg() {
@@ -193,6 +211,13 @@ namespace KXSGCodec
           case 6:
             if (field.Type == TType.Byte) {
               SellItemSaveHours = iprot.ReadByte();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 7:
+            if (field.Type == TType.Byte) {
+              RecoverEnergyMinutes = iprot.ReadByte();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
@@ -258,6 +283,14 @@ namespace KXSGCodec
         oprot.WriteByte(SellItemSaveHours);
         oprot.WriteFieldEnd();
       }
+      if (__isset.recoverEnergyMinutes) {
+        field.Name = "recoverEnergyMinutes";
+        field.Type = TType.Byte;
+        field.ID = 7;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteByte(RecoverEnergyMinutes);
+        oprot.WriteFieldEnd();
+      }
       oprot.WriteFieldStop();
       oprot.WriteStructEnd();
     }
@@ -276,6 +309,8 @@ namespace KXSGCodec
       sb.Append(BuybackItemPriceRatio);
       sb.Append(",SellItemSaveHours: ");
       sb.Append(SellItemSaveHours);
+      sb.Append(",RecoverEnergyMinutes: ");
+      sb.Append(RecoverEnergyMinutes);
       sb.Append(")");
       return sb.ToString();
     }

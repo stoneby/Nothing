@@ -9,13 +9,12 @@ public class BuffDisplayer : MonoBehaviour
 
     public float Interval;
 
-    public float Duration { get; private set; }
-
     public bool IsPlaying(GameObject parent)
     {
         return isPlayingMap.ContainsKey(parent) && isPlayingMap[parent];
     }
 
+    private float introDuration;
     private float loopDuration;
 
     private Dictionary<GameObject, GameObject> buffIntroMap;
@@ -24,13 +23,22 @@ public class BuffDisplayer : MonoBehaviour
 
     public void ShowIntro(GameObject parent)
     {
-        Take(parent);
+        if (BuffIntroPool == null)
+        {
+            return;
+        }
+        introDuration = Take(parent, BuffIntroPool, buffIntroMap);
         ShowBuff(buffIntroMap[parent], parent, false);
     }
 
     public void ShowLoop(GameObject parent)
     {
-        Take(parent);
+        if (BuffLoopPool == null)
+        {
+            return;
+        }
+
+        loopDuration = Take(parent, BuffLoopPool, buffLoopMap);
         ShowBuff(buffLoopMap[parent], parent, true);
     }
 
@@ -46,7 +54,6 @@ public class BuffDisplayer : MonoBehaviour
 
         isPlayingMap[parent] = true;
 
-        Take(parent);
         StartCoroutine(DoShow(parent));
     }
 
@@ -62,22 +69,35 @@ public class BuffDisplayer : MonoBehaviour
 
         isPlayingMap[parent] = false;
 
-        var buffIntro = buffIntroMap[parent];
-        var buffLoop = buffLoopMap[parent];
-        buffIntroMap.Remove(parent);
-        buffLoopMap.Remove(parent);
-        BuffIntroPool.Return(buffIntro);
-        BuffLoopPool.Return(buffLoop);
-        StopBuff(buffIntro);
-        StopBuff(buffLoop);
+        Stop(parent, BuffIntroPool, buffIntroMap);
+        Stop(parent, BuffLoopPool, buffLoopMap);
+    }
+
+    private void Stop(GameObject parent, MyPoolManager pool, IDictionary<GameObject, GameObject> buffMap)
+    {
+        if (pool == null)
+        {
+            return;
+        }
+        var buff = buffMap[parent];
+        buffMap.Remove(parent);
+        pool.Return(buff);
+        StopBuff(buff);
     }
 
     private IEnumerator DoShow(GameObject parent)
     {
-        ShowIntro(parent);
-        yield return new WaitForSeconds(Duration + Interval);
-        ShowLoop(parent);
-        yield return new WaitForSeconds(loopDuration);
+        if (BuffIntroPool != null)
+        {
+            ShowIntro(parent);
+            yield return new WaitForSeconds(introDuration + Interval);
+        }
+
+        if (BuffLoopPool != null)
+        {
+            ShowLoop(parent);
+            yield return new WaitForSeconds(loopDuration);
+        }
     }
 
     private static void ShowBuff(GameObject buff, GameObject parent, bool loop)
@@ -111,27 +131,22 @@ public class BuffDisplayer : MonoBehaviour
         return effectConroller.Duration;
     }
 
-    private void Take(GameObject parent)
+    private float Take(GameObject parent, MyPoolManager pool, IDictionary<GameObject, GameObject> buffMap)
     {
-        if (!buffIntroMap.ContainsKey(parent))
+        if (pool == null)
         {
-            buffIntroMap[parent] = BuffIntroPool.Take();
-        }
-        if (!buffLoopMap.ContainsKey(parent))
-        {
-            buffLoopMap[parent] = BuffLoopPool.Take();
+            return 0f;
         }
 
-        var buffIntro = buffIntroMap[parent];
-        var buffLoop = buffLoopMap[parent];
-        buffIntro.SetActive(true);
-        buffLoop.SetActive(true);
+        if (!buffMap.ContainsKey(parent))
+        {
+            buffMap[parent] = pool.Take();
+        }
+        var buff = buffMap[parent];
+        buff.SetActive(true);
+        SetParent(buff, parent);
 
-        SetParent(buffIntro, parent);
-        SetParent(buffLoop, parent);
-
-        Duration = Initialize(buffIntro);
-        loopDuration = Initialize(buffLoop);
+        return Initialize(buffMap[parent]);
     }
 
     private void Awake()

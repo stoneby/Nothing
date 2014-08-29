@@ -4,8 +4,6 @@ namespace com.kx.sglm.gs.battle.share.input
 	using BattleTeam = com.kx.sglm.gs.battle.share.actor.impl.BattleTeam;
 	using BattleSideEnum = com.kx.sglm.gs.battle.share.enums.BattleSideEnum;
 	using BattleState = com.kx.sglm.gs.battle.share.enums.BattleState;
-	using BeforeAttackEvent = com.kx.sglm.gs.battle.share.@event.impl.BeforeAttackEvent;
-	using BattleLogicHelper = com.kx.sglm.gs.battle.share.helper.BattleLogicHelper;
 
 	public class ProduceFighterIndexAction : IBattleInputEvent
 	{
@@ -33,8 +31,8 @@ namespace com.kx.sglm.gs.battle.share.input
 			}
 
 			battle.updateBattleState(BattleState.RUNTIME);
-			_team.beforeAttack(new BeforeAttackEvent());
-			BattleLogicHelper.refreshState(battle.BattleArmy);
+	//		_team.beforeAttack(new BeforeAttackEvent());
+	//		BattleLogicHelper.refreshState(battle.getBattleArmy());
 			battle.StoreHandler.handleStartAttack(heroIndex.Length);
 			battle.onAction();
 		}

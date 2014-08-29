@@ -23,7 +23,11 @@ public class PropertyUpdater : MonoBehaviour
     private void Awake()
     {
         atkLabel = transform.Find("Atk/AtkValue").GetComponent<UILabel>();
-        lvlLabel = transform.Find("Lvl/LvlValue").GetComponent<UILabel>();
+        var lvlTran = transform.Find("Lvl/LvlValue");
+        if(lvlTran)
+        {
+            lvlLabel = lvlTran.GetComponent<UILabel>();
+        }
         hpLabel = transform.FindChild("Hp/HpValue").GetComponent<UILabel>();
         recoverLabel = transform.Find("Recover/RecoverValue").GetComponent<UILabel>();
         mpLabel = transform.Find("Mp/MpValue").GetComponent<UILabel>();
@@ -37,7 +41,10 @@ public class PropertyUpdater : MonoBehaviour
         hpCached = hp;
         recoverCached = recover;
         mpCached = mp;
-        lvlLabel.text = string.Format("{0}/{1}", lvl, maxLvl);
+        if(lvlLabel != null)
+        {
+            lvlLabel.text = string.Format("{0}/{1}", lvl, maxLvl);
+        }
         atkLabel.text = atk > 0 ? atk.ToString() : DefaultValue;
         hpLabel.text = hp > 0 ? hp.ToString() : DefaultValue;
         recoverLabel.text = recover > 0 ? recover.ToString() : DefaultValue;
@@ -47,10 +54,25 @@ public class PropertyUpdater : MonoBehaviour
     public void PreShowChangedProperty(int lvlChanged, int atkChanged, int hpChanged, int recoverChanged, int mpChanged)
     {
         const string colorPrefix = ChangeColor + "+";
-        lvlLabel.text = string.Format("{0}/{1}", lvlCached, maxLvlCached) + colorPrefix + lvlChanged + ColorSuffix;
+        if (lvlLabel != null)
+        {
+            lvlLabel.text = string.Format("{0}/{1}", lvlCached, maxLvlCached) + colorPrefix + lvlChanged + ColorSuffix; 
+        }
         atkLabel.text = atkCached + colorPrefix + atkChanged + ColorSuffix;
         hpLabel.text = hpCached + colorPrefix + hpChanged + ColorSuffix;
         recoverLabel.text = recoverCached + colorPrefix + recoverChanged + ColorSuffix;
         mpLabel.text = mpCached + colorPrefix + mpChanged + ColorSuffix;
+    }
+
+    public void Reset()
+    {
+        if (lvlLabel != null)
+        {
+            lvlLabel.text = "-";
+        }
+        atkLabel.text = "-";
+        hpLabel.text = "-";
+        recoverLabel.text = "-";
+        mpLabel.text = "-";
     }
 }

@@ -5,11 +5,13 @@ namespace com.kx.sglm.gs.battle.share.skill.enums
 	using IBattlePartInfo = com.kx.sglm.gs.battle.share.enums.IBattlePartInfo;
 	using AllBattlingTargetGetter = com.kx.sglm.gs.battle.share.skill.target.AllBattlingTargetGetter;
 	using AllTargetGetter = com.kx.sglm.gs.battle.share.skill.target.AllTargetGetter;
-	using ColorTargetGetter = com.kx.sglm.gs.battle.share.skill.target.ColorTargetGetter;
+	using ColorAllTargetGetter = com.kx.sglm.gs.battle.share.skill.target.ColorAllTargetGetter;
+	using ColorBattlingTargetGetter = com.kx.sglm.gs.battle.share.skill.target.ColorBattlingTargetGetter;
 	using CrossTargetGetter = com.kx.sglm.gs.battle.share.skill.target.CrossTargetGetter;
 	using DefaultTargetGetter = com.kx.sglm.gs.battle.share.skill.target.DefaultTargetGetter;
 	using IndexTargetGetter = com.kx.sglm.gs.battle.share.skill.target.IndexTargetGetter;
-	using JobTargetGetter = com.kx.sglm.gs.battle.share.skill.target.JobTargetGetter;
+	using JobAllTargetGetter = com.kx.sglm.gs.battle.share.skill.target.JobAllTargetGetter;
+	using JobBattlingTargetGetter = com.kx.sglm.gs.battle.share.skill.target.JobBattlingTargetGetter;
 	using RandomTargetGetter = com.kx.sglm.gs.battle.share.skill.target.RandomTargetGetter;
 	using SelfTargetGetter = com.kx.sglm.gs.battle.share.skill.target.SelfTargetGetter;
 	using SidewaysTargetGetter = com.kx.sglm.gs.battle.share.skill.target.SidewaysTargetGetter;
@@ -119,7 +121,7 @@ namespace com.kx.sglm.gs.battle.share.skill.enums
 
 			public override IBattlePartInfo createInstance()
 			{
-				return new ColorTargetGetter();
+				return new ColorAllTargetGetter();
 			}
 		}
 
@@ -134,7 +136,7 @@ namespace com.kx.sglm.gs.battle.share.skill.enums
 
 			public override IBattlePartInfo createInstance()
 			{
-				return new JobTargetGetter();
+				return new JobAllTargetGetter();
 			}
 		}
 
@@ -198,11 +200,41 @@ namespace com.kx.sglm.gs.battle.share.skill.enums
 			}
 		}
 
+		public static readonly SkillTargetEnum COLOR_BATTLING_TARGET = new SkillTargetEnumAnonymousInnerClassHelper13();
+
+		private class SkillTargetEnumAnonymousInnerClassHelper13 : SkillTargetEnum
+		{
+			public SkillTargetEnumAnonymousInnerClassHelper13() : base(12)
+			{
+			}
+
+
+			public override IBattlePartInfo createInstance()
+			{
+				return new ColorBattlingTargetGetter();
+			}
+		}
+
+		public static readonly SkillTargetEnum JOB_BATTLING_TARGET = new SkillTargetEnumAnonymousInnerClassHelper14();
+
+		private class SkillTargetEnumAnonymousInnerClassHelper14 : SkillTargetEnum
+		{
+			public SkillTargetEnumAnonymousInnerClassHelper14() : base(13)
+			{
+			}
+
+
+			public override IBattlePartInfo createInstance()
+			{
+				return new JobBattlingTargetGetter();
+			}
+		}
+
 		public SkillTargetEnum(int index) : base(index)
 		{
 		}
 
-		private static SkillTargetEnum[] VALUES = new SkillTargetEnum[] {NIL, DEFAULT_TARGET, INDEX_TARGET, SELF_TARGET, ALL_TARGET, RANDOM_TARGET, COLOR_TARGET, JOB_TARGET, CROSS_TARGET, SIDEWAYS_TARGET, UPRIGHT_TARGET};
+		private static SkillTargetEnum[] VALUES = new SkillTargetEnum[] {NIL, DEFAULT_TARGET, INDEX_TARGET, SELF_TARGET, ALL_TARGET, RANDOM_TARGET, COLOR_TARGET, JOB_TARGET, CROSS_TARGET, SIDEWAYS_TARGET, UPRIGHT_TARGET, ALL_BATTLING_TARGET, COLOR_BATTLING_TARGET, JOB_BATTLING_TARGET};
 
 		public static SkillTargetEnum[] values()
 		{

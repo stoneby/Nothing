@@ -81,15 +81,15 @@ namespace Template.Auto.Item
             if (field.Type == TType.Map) {
               {
                 ItemLvlTmpls = new Dictionary<int, ItemLevelTemplate>();
-                TMap _map4 = iprot.ReadMapBegin();
-                for( int _i5 = 0; _i5 < _map4.Count; ++_i5)
+                TMap _map8 = iprot.ReadMapBegin();
+                for( int _i9 = 0; _i9 < _map8.Count; ++_i9)
                 {
-                  int _key6;
-                  ItemLevelTemplate _val7;
-                  _key6 = iprot.ReadI32();
-                  _val7 = new ItemLevelTemplate();
-                  _val7.Read(iprot);
-                  ItemLvlTmpls[_key6] = _val7;
+                  int _key10;
+                  ItemLevelTemplate _val11;
+                  _key10 = iprot.ReadI32();
+                  _val11 = new ItemLevelTemplate();
+                  _val11.Read(iprot);
+                  ItemLvlTmpls[_key10] = _val11;
                 }
                 iprot.ReadMapEnd();
               }
@@ -101,15 +101,15 @@ namespace Template.Auto.Item
             if (field.Type == TType.Map) {
               {
                 ItemEvoluteTmpls = new Dictionary<int, ItemEvoluteTemplate>();
-                TMap _map8 = iprot.ReadMapBegin();
-                for( int _i9 = 0; _i9 < _map8.Count; ++_i9)
+                TMap _map12 = iprot.ReadMapBegin();
+                for( int _i13 = 0; _i13 < _map12.Count; ++_i13)
                 {
-                  int _key10;
-                  ItemEvoluteTemplate _val11;
-                  _key10 = iprot.ReadI32();
-                  _val11 = new ItemEvoluteTemplate();
-                  _val11.Read(iprot);
-                  ItemEvoluteTmpls[_key10] = _val11;
+                  int _key14;
+                  ItemEvoluteTemplate _val15;
+                  _key14 = iprot.ReadI32();
+                  _val15 = new ItemEvoluteTemplate();
+                  _val15.Read(iprot);
+                  ItemEvoluteTmpls[_key14] = _val15;
                 }
                 iprot.ReadMapEnd();
               }
@@ -137,10 +137,10 @@ namespace Template.Auto.Item
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteMapBegin(new TMap(TType.I32, TType.Struct, ItemLvlTmpls.Count));
-          foreach (int _iter12 in ItemLvlTmpls.Keys)
+          foreach (int _iter16 in ItemLvlTmpls.Keys)
           {
-            oprot.WriteI32(_iter12);
-            ItemLvlTmpls[_iter12].Write(oprot);
+            oprot.WriteI32(_iter16);
+            ItemLvlTmpls[_iter16].Write(oprot);
           }
           oprot.WriteMapEnd();
         }
@@ -153,10 +153,10 @@ namespace Template.Auto.Item
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteMapBegin(new TMap(TType.I32, TType.Struct, ItemEvoluteTmpls.Count));
-          foreach (int _iter13 in ItemEvoluteTmpls.Keys)
+          foreach (int _iter17 in ItemEvoluteTmpls.Keys)
           {
-            oprot.WriteI32(_iter13);
-            ItemEvoluteTmpls[_iter13].Write(oprot);
+            oprot.WriteI32(_iter17);
+            ItemEvoluteTmpls[_iter17].Write(oprot);
           }
           oprot.WriteMapEnd();
         }

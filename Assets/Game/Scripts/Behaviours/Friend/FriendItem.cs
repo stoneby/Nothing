@@ -21,7 +21,7 @@ public class FriendItem : MonoBehaviour
         hpLbl = transform.Find("Hp/HpValue").GetComponent<UILabel>();
         lvlLbl = transform.Find("Level/LevelValue").GetComponent<UILabel>();
         longPress = transform.Find("BG").GetComponent<NGUILongPress>();
-        var bindIconTran = transform.Find("BindIcon");
+        var bindIconTran = Utils.FindChild(transform,"BindIcon");
         if (bindIconTran)
         {
             bindIcon = bindIconTran.GetComponent<UISprite>();

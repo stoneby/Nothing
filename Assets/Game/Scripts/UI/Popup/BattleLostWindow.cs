@@ -1,3 +1,4 @@
+using KXSGCodec;
 using UnityEngine;
 
 /// <summary>
@@ -59,29 +60,43 @@ public class BattleLostWindow : Window
     private void ReturnHandler(GameObject obj)
     {
         WindowManager.Instance.Show(WindowGroupType.Popup, false);
-//        WindowManager.Instance.Show(typeof(UIMainScreenWindow), true);
-//        WindowManager.Instance.Show(typeof(MainMenuBarWindow), true);
         MissionModelLocator.Instance.ShowRaidWindow();
-        //WindowManager.Instance.Show(typeof(RaidsWindow), true);
     }
 
     private void ToEquipHandler(GameObject obj)
     {
-
+        WindowManager.Instance.Show(WindowGroupType.Popup, false);
+        if (ItemModeLocator.AlreadyMainRequest == false)
+        {
+            ItemModeLocator.Instance.GetItemPos = ItemType.GetItemInPanel;
+            var csmsg = new CSQueryAllItems { BagType = ItemType.MainItemBagType };
+            NetManager.SendMessage(csmsg);
+        }
+        else
+        {
+            WindowManager.Instance.Show<UIItemCommonWindow>(true, true);
+        }
     }
 
     private void BackToRaidHandler(GameObject obj)
     {
         WindowManager.Instance.Show(WindowGroupType.Popup, false);
-        //WindowManager.Instance.Show(typeof(UIMainScreenWindow), true);
-        //WindowManager.Instance.Show(typeof(MainMenuBarWindow), true);
-        //WindowManager.Instance.Show(typeof(RaidsWindow), true);
         MissionModelLocator.Instance.ShowRaidWindow();
     }
 
     private void ToHeroHandler(GameObject obj)
     {
-
+        WindowManager.Instance.Show(WindowGroupType.Popup, false);
+        if (HeroModelLocator.AlreadyRequest == false)
+        {
+            HeroModelLocator.Instance.GetHeroPos = RaidType.GetHeroInHeroPanel;
+            var csmsg = new CSHeroList();
+            NetManager.SendMessage(csmsg);
+        }
+        else
+        {
+            WindowManager.Instance.Show<UIHeroCommonWindow>(true, true);
+        }
     }
 
     #endregion

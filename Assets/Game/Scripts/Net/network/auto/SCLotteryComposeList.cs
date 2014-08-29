@@ -26,6 +26,7 @@ namespace KXSGCodec
     private int _superChip;
     private List<Dictionary<int, int>> _star5Chip;
     private List<Dictionary<int, int>> _star4Chip;
+    private List<Dictionary<int, int>> _star3Chip;
 
     public int SuperChip
     {
@@ -66,6 +67,19 @@ namespace KXSGCodec
       }
     }
 
+    public List<Dictionary<int, int>> Star3Chip
+    {
+      get
+      {
+        return _star3Chip;
+      }
+      set
+      {
+        __isset.star3Chip = true;
+        this._star3Chip = value;
+      }
+    }
+
 
     public Isset __isset;
     #if !SILVERLIGHT
@@ -75,6 +89,7 @@ namespace KXSGCodec
       public bool superChip;
       public bool star5Chip;
       public bool star4Chip;
+      public bool star3Chip;
     }
 
     public SCLotteryComposeList() {
@@ -103,24 +118,24 @@ namespace KXSGCodec
             if (field.Type == TType.List) {
               {
                 Star5Chip = new List<Dictionary<int, int>>();
-                TList _list8 = iprot.ReadListBegin();
-                for( int _i9 = 0; _i9 < _list8.Count; ++_i9)
+                TList _list12 = iprot.ReadListBegin();
+                for( int _i13 = 0; _i13 < _list12.Count; ++_i13)
                 {
-                  Dictionary<int, int> _elem10 = new Dictionary<int, int>();
+                  Dictionary<int, int> _elem14 = new Dictionary<int, int>();
                   {
-                    _elem10 = new Dictionary<int, int>();
-                    TMap _map11 = iprot.ReadMapBegin();
-                    for( int _i12 = 0; _i12 < _map11.Count; ++_i12)
+                    _elem14 = new Dictionary<int, int>();
+                    TMap _map15 = iprot.ReadMapBegin();
+                    for( int _i16 = 0; _i16 < _map15.Count; ++_i16)
                     {
-                      int _key13;
-                      int _val14;
-                      _key13 = iprot.ReadI32();
-                      _val14 = iprot.ReadI32();
-                      _elem10[_key13] = _val14;
+                      int _key17;
+                      int _val18;
+                      _key17 = iprot.ReadI32();
+                      _val18 = iprot.ReadI32();
+                      _elem14[_key17] = _val18;
                     }
                     iprot.ReadMapEnd();
                   }
-                  Star5Chip.Add(_elem10);
+                  Star5Chip.Add(_elem14);
                 }
                 iprot.ReadListEnd();
               }
@@ -132,24 +147,53 @@ namespace KXSGCodec
             if (field.Type == TType.List) {
               {
                 Star4Chip = new List<Dictionary<int, int>>();
-                TList _list15 = iprot.ReadListBegin();
-                for( int _i16 = 0; _i16 < _list15.Count; ++_i16)
+                TList _list19 = iprot.ReadListBegin();
+                for( int _i20 = 0; _i20 < _list19.Count; ++_i20)
                 {
-                  Dictionary<int, int> _elem17 = new Dictionary<int, int>();
+                  Dictionary<int, int> _elem21 = new Dictionary<int, int>();
                   {
-                    _elem17 = new Dictionary<int, int>();
-                    TMap _map18 = iprot.ReadMapBegin();
-                    for( int _i19 = 0; _i19 < _map18.Count; ++_i19)
+                    _elem21 = new Dictionary<int, int>();
+                    TMap _map22 = iprot.ReadMapBegin();
+                    for( int _i23 = 0; _i23 < _map22.Count; ++_i23)
                     {
-                      int _key20;
-                      int _val21;
-                      _key20 = iprot.ReadI32();
-                      _val21 = iprot.ReadI32();
-                      _elem17[_key20] = _val21;
+                      int _key24;
+                      int _val25;
+                      _key24 = iprot.ReadI32();
+                      _val25 = iprot.ReadI32();
+                      _elem21[_key24] = _val25;
                     }
                     iprot.ReadMapEnd();
                   }
-                  Star4Chip.Add(_elem17);
+                  Star4Chip.Add(_elem21);
+                }
+                iprot.ReadListEnd();
+              }
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 4:
+            if (field.Type == TType.List) {
+              {
+                Star3Chip = new List<Dictionary<int, int>>();
+                TList _list26 = iprot.ReadListBegin();
+                for( int _i27 = 0; _i27 < _list26.Count; ++_i27)
+                {
+                  Dictionary<int, int> _elem28 = new Dictionary<int, int>();
+                  {
+                    _elem28 = new Dictionary<int, int>();
+                    TMap _map29 = iprot.ReadMapBegin();
+                    for( int _i30 = 0; _i30 < _map29.Count; ++_i30)
+                    {
+                      int _key31;
+                      int _val32;
+                      _key31 = iprot.ReadI32();
+                      _val32 = iprot.ReadI32();
+                      _elem28[_key31] = _val32;
+                    }
+                    iprot.ReadMapEnd();
+                  }
+                  Star3Chip.Add(_elem28);
                 }
                 iprot.ReadListEnd();
               }
@@ -185,14 +229,14 @@ namespace KXSGCodec
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.Map, Star5Chip.Count));
-          foreach (Dictionary<int, int> _iter22 in Star5Chip)
+          foreach (Dictionary<int, int> _iter33 in Star5Chip)
           {
             {
-              oprot.WriteMapBegin(new TMap(TType.I32, TType.I32, _iter22.Count));
-              foreach (int _iter23 in _iter22.Keys)
+              oprot.WriteMapBegin(new TMap(TType.I32, TType.I32, _iter33.Count));
+              foreach (int _iter34 in _iter33.Keys)
               {
-                oprot.WriteI32(_iter23);
-                oprot.WriteI32(_iter22[_iter23]);
+                oprot.WriteI32(_iter34);
+                oprot.WriteI32(_iter33[_iter34]);
               }
               oprot.WriteMapEnd();
             }
@@ -208,14 +252,37 @@ namespace KXSGCodec
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.Map, Star4Chip.Count));
-          foreach (Dictionary<int, int> _iter24 in Star4Chip)
+          foreach (Dictionary<int, int> _iter35 in Star4Chip)
           {
             {
-              oprot.WriteMapBegin(new TMap(TType.I32, TType.I32, _iter24.Count));
-              foreach (int _iter25 in _iter24.Keys)
+              oprot.WriteMapBegin(new TMap(TType.I32, TType.I32, _iter35.Count));
+              foreach (int _iter36 in _iter35.Keys)
               {
-                oprot.WriteI32(_iter25);
-                oprot.WriteI32(_iter24[_iter25]);
+                oprot.WriteI32(_iter36);
+                oprot.WriteI32(_iter35[_iter36]);
+              }
+              oprot.WriteMapEnd();
+            }
+          }
+          oprot.WriteListEnd();
+        }
+        oprot.WriteFieldEnd();
+      }
+      if (Star3Chip != null && __isset.star3Chip) {
+        field.Name = "star3Chip";
+        field.Type = TType.List;
+        field.ID = 4;
+        oprot.WriteFieldBegin(field);
+        {
+          oprot.WriteListBegin(new TList(TType.Map, Star3Chip.Count));
+          foreach (Dictionary<int, int> _iter37 in Star3Chip)
+          {
+            {
+              oprot.WriteMapBegin(new TMap(TType.I32, TType.I32, _iter37.Count));
+              foreach (int _iter38 in _iter37.Keys)
+              {
+                oprot.WriteI32(_iter38);
+                oprot.WriteI32(_iter37[_iter38]);
               }
               oprot.WriteMapEnd();
             }
@@ -236,6 +303,8 @@ namespace KXSGCodec
       sb.Append(Star5Chip);
       sb.Append(",Star4Chip: ");
       sb.Append(Star4Chip);
+      sb.Append(",Star3Chip: ");
+      sb.Append(Star3Chip);
       sb.Append(")");
       return sb.ToString();
     }

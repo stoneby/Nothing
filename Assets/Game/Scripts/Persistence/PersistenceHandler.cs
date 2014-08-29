@@ -551,14 +551,14 @@ public class PersistenceHandler : Singleton<PersistenceHandler>
     /// </summary>
     /// <param name="msg"></param>
     /// <returns></returns>
-    public IEnumerator CheckBattleEndSucceed(CSBattlePveFinishMsg msg)
+    public IEnumerator CheckBattleEndSucceed(CSBattlePveFinishMsg msg = null)
     {
         if (isOpenPersistence)
         {
             //wait several seconds.
             yield return new WaitForSeconds(WaitingSeconds);
 
-            if (IsRaidFinish == false)
+            if (IsRaidFinish == false && msg != null)
             {
                 //Show ConfirmWindow if battle end msg sent failed.
                 tempEndBattleMsg = msg;

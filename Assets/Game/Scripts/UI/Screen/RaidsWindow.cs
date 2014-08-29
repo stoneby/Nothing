@@ -56,6 +56,7 @@ public class RaidsWindow : Window
 
     public override void OnEnter()
     {
+        StartCoroutine(PersistenceHandler.Instance.CheckBattleEndSucceed());
         Set2DCamera(!IsShowStage);
         MissionModelLocator.Instance.ComputeStagecount();
         if (!HaveInitMaps)
@@ -74,7 +75,6 @@ public class RaidsWindow : Window
                 RaidObjs.Add(obj);
             }
 
-
             for (int i = 0; i < MissionModelLocator.Instance.RaidMaps.Count; i++)
             {
                 var obj = NGUITools.AddChild(ContainerBigMap, PrefabBigItem);
@@ -83,7 +83,6 @@ public class RaidsWindow : Window
                 item.OnSelected += OnBigSelecteHandler;
                 ChapterObjs.Add(obj);
             }
-
 
             HaveInitMaps = true;
         }
@@ -162,9 +161,9 @@ public class RaidsWindow : Window
         if (item.IsLock)
         {
             ////UIRaid.LevelLimit
-            var str = LanguageManager.Instance.GetTextValue("UIRaid.LevelLimit");
-            str = str.Replace("XX", item.RaidTemp.OpenLvl.ToString());
-            PopTextManager.PopTip(str);
+            var str = LanguageManager.Instance.GetTextValue("UIRaid.ChapterLocked");
+            //str = str.Replace("XX", item.RaidTemp.OpenLvl.ToString());
+            PopTextManager.PopTip(str, false);
             return;
         }
         //
@@ -193,17 +192,22 @@ public class RaidsWindow : Window
         if (item.IsLock)
         {
             //PopTextManager.PopTip("The Map is Locked");
-            var str = LanguageManager.Instance.GetTextValue("UIRaid.LevelLimit");
-            str = str.Replace("XX", item.RaidTemp.OpenLvl.ToString());
-            PopTextManager.PopTip(str);
+            var str = LanguageManager.Instance.GetTextValue("UIRaid.StageLocked");
+            //str = str.Replace("XX", item.RaidTemp.OpenLvl.ToString());
+            PopTextManager.PopTip(str, false);
         }
         else
         {
 //            PopTextManager.PopTip(item.map.id + " Raid Clicked");
             if (IsShowStage && CurrRaidMap.id == item.map.id) return;
             MissionModelLocator.Instance.Raid = item.RaidData;
+            MissionModelLocator.Instance.BattleRaidTemplate = item.RaidTemp;
+            MissionModelLocator.Instance.RaidEliteTem =
+                MissionModelLocator.Instance.GetRaidByTemplateId(RaidType.RaidElite*100 + int.Parse(item.map.id));
+            MissionModelLocator.Instance.RaidHeroTem =
+                MissionModelLocator.Instance.GetRaidByTemplateId(RaidType.RaidHero * 100 + int.Parse(item.map.id));
             var lb = StageTitleLabel.GetComponent<UILabel>();
-            lb.text = MissionModelLocator.Instance.SelectRaidName = item.RaidTemp.RaidName;
+            lb.text = item.RaidTemp.RaidName;
             ShowStage(item.map);
         }
     }
@@ -232,6 +236,12 @@ public class RaidsWindow : Window
         }
         table.Init(temp, "Prefabs/Component/StageItem", 540, 490, 540, 140, OnStageItemClicktHandler, playeffect);
 
+        var tt = TexSelectMap.GetComponent<UITexture>();
+        tt.mainTexture = (Texture2D)Resources.Load("Textures/Mission/" + themap.id + "b", typeof(Texture2D));
+        tt.width = themap.ww;
+        tt.height = themap.hh;
+        TexSelectMap.transform.localPosition = new Vector3(themap.xx, themap.yy, 0);
+        TexSelectMap.SetActive(true);
         if (IsShowStage && CurrRaidMap.id == themap.id)
         {
             
@@ -272,6 +282,7 @@ public class RaidsWindow : Window
             Set2DCamera(false);
             ClickContainer.SetActive(true);
         }
+        
         //yield return new WaitForSeconds(0.2f);
         //StartCoroutine(SetStageCollider());
 
@@ -284,6 +295,7 @@ public class RaidsWindow : Window
 
     private IEnumerator PlayHideStage()
     {
+        TexSelectMap.SetActive(false);
         IsShowStage = false;
         Set2DCamera(true);
         ClickContainer.SetActive(false);
@@ -343,10 +355,11 @@ public class RaidsWindow : Window
         }
         else
         {
-            MissionModelLocator.Instance.SelectedStageId = control.StageTemp.Id;
-            MissionModelLocator.Instance.SelectStageName = control.StageTemp.StageName;
-            MissionModelLocator.Instance.SelectStageNeedEnegry = control.StageTemp.CostEnergy;
-            MissionModelLocator.Instance.SelectStageCountStr = control.EneryCountStr;
+            MissionModelLocator.Instance.BattleStageTemplate = control.StageTemp;
+//            MissionModelLocator.Instance.SelectedStageId = control.StageTemp.Id;
+//            MissionModelLocator.Instance.SelectStageName = control.StageTemp.StageName;
+//            MissionModelLocator.Instance.SelectStageNeedEnegry = control.StageTemp.CostEnergy;
+//            MissionModelLocator.Instance.SelectStageCountStr = control.EneryCountStr;
             NetManager.SendMessage(new CSRaidQueryFriend());
         }
     }
@@ -423,7 +436,7 @@ public class RaidsWindow : Window
     void Awake()
     {
         ContainerBigMap = transform.FindChild("Container map/Container map big").gameObject;
-        TexSelectMap = transform.FindChild("Container map/Texture select").gameObject;
+        TexSelectMap = transform.FindChild("Container map small/Texture select").gameObject;
         ContainerMap = transform.FindChild("Container map").gameObject;
         ContainerSmallMap = transform.FindChild("Container map small").gameObject;
         ContainerSmallMap.SetActive(false);

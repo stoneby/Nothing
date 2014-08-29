@@ -23,32 +23,6 @@ namespace KXSGCodec
   #endif
   public partial class CSLotteryList : TBase
   {
-    private sbyte _lotteryType;
-
-    /// <summary>
-    /// 抽奖类型-1武将抽奖 2道具抽奖
-    /// </summary>
-    public sbyte LotteryType
-    {
-      get
-      {
-        return _lotteryType;
-      }
-      set
-      {
-        __isset.lotteryType = true;
-        this._lotteryType = value;
-      }
-    }
-
-
-    public Isset __isset;
-    #if !SILVERLIGHT
-    [Serializable]
-    #endif
-    public struct Isset {
-      public bool lotteryType;
-    }
 
     public CSLotteryList() {
     }
@@ -65,13 +39,6 @@ namespace KXSGCodec
         }
         switch (field.ID)
         {
-          case 1:
-            if (field.Type == TType.Byte) {
-              LotteryType = iprot.ReadByte();
-            } else { 
-              TProtocolUtil.Skip(iprot, field.Type);
-            }
-            break;
           default: 
             TProtocolUtil.Skip(iprot, field.Type);
             break;
@@ -84,23 +51,12 @@ namespace KXSGCodec
     public void Write(TProtocol oprot) {
       TStruct struc = new TStruct("CSLotteryList");
       oprot.WriteStructBegin(struc);
-      TField field = new TField();
-      if (__isset.lotteryType) {
-        field.Name = "lotteryType";
-        field.Type = TType.Byte;
-        field.ID = 1;
-        oprot.WriteFieldBegin(field);
-        oprot.WriteByte(LotteryType);
-        oprot.WriteFieldEnd();
-      }
       oprot.WriteFieldStop();
       oprot.WriteStructEnd();
     }
 
     public override string ToString() {
       StringBuilder sb = new StringBuilder("CSLotteryList(");
-      sb.Append("LotteryType: ");
-      sb.Append(LotteryType);
       sb.Append(")");
       return sb.ToString();
     }

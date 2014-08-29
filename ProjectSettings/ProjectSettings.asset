@@ -3,7 +3,7 @@
 --- !u!129 &1
 PlayerSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 2
+  serializedVersion: 3
   AndroidProfiler: 0
   defaultScreenOrientation: 3
   targetDevice: 2
@@ -24,6 +24,7 @@ PlayerSettings:
   m_MTRendering: 1
   m_MobileMTRendering: 0
   m_UseDX11: 0
+  m_Stereoscopic3D: 0
   iosShowActivityIndicatorOnLoading: -1
   androidShowActivityIndicatorOnLoading: -1
   displayResolutionDialog: 1
@@ -56,17 +57,7 @@ PlayerSettings:
   xboxSpeechDB: 0
   xboxEnableHeadOrientation: 0
   xboxEnableGuest: 0
-  wiiHio2Usage: -1
-  wiiLoadingScreenRectPlacement: 0
-  wiiLoadingScreenBackground: {r: 1, g: 1, b: 1, a: 1}
-  wiiLoadingScreenPeriod: 1000
-  wiiLoadingScreenFileName: 
-  wiiLoadingScreenRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 0
-    height: 0
+  videoMemoryForVertexBuffers: 0
   m_SupportedAspectRatios:
     4:3: 1
     5:4: 1
@@ -97,17 +88,13 @@ PlayerSettings:
   uIStatusBarHidden: 1
   uIExitOnSuspend: 1
   uIStatusBarStyle: 0
-  iPhoneSplashScreen: {fileID: 2800000, guid: 7c30eb8832d10d84bb6a3bbfdb3f080f, type: 3}
-  iPhoneHighResSplashScreen: {fileID: 2800000, guid: 7c30eb8832d10d84bb6a3bbfdb3f080f,
-    type: 3}
-  iPhoneTallHighResSplashScreen: {fileID: 2800000, guid: 7c30eb8832d10d84bb6a3bbfdb3f080f,
-    type: 3}
+  iPhoneSplashScreen: {fileID: 2800000, guid: 941f3608b533dd343a36ecf937a95c04, type: 3}
+  iPhoneHighResSplashScreen: {fileID: 0}
+  iPhoneTallHighResSplashScreen: {fileID: 0}
   iPadPortraitSplashScreen: {fileID: 0}
   iPadHighResPortraitSplashScreen: {fileID: 0}
-  iPadLandscapeSplashScreen: {fileID: 2800000, guid: 7c30eb8832d10d84bb6a3bbfdb3f080f,
-    type: 3}
-  iPadHighResLandscapeSplashScreen: {fileID: 2800000, guid: 7c30eb8832d10d84bb6a3bbfdb3f080f,
-    type: 3}
+  iPadLandscapeSplashScreen: {fileID: 0}
+  iPadHighResLandscapeSplashScreen: {fileID: 0}
   AndroidTargetDevice: 0
   AndroidSplashScreenScale: 2
   AndroidKeystoreName: 
@@ -120,15 +107,15 @@ PlayerSettings:
       m_Size: 128
   - m_BuildTarget: Android
     m_Icons:
-    - m_Icon: {fileID: 2800000, guid: c60fe2e28e8ecc047b0698751c07a344, type: 3}
+    - m_Icon: {fileID: 2800000, guid: 172cb9fed4673804985747f84d8a3ec5, type: 3}
       m_Size: 144
-    - m_Icon: {fileID: 0}
+    - m_Icon: {fileID: 2800000, guid: 172cb9fed4673804985747f84d8a3ec5, type: 3}
       m_Size: 96
-    - m_Icon: {fileID: 0}
+    - m_Icon: {fileID: 2800000, guid: 172cb9fed4673804985747f84d8a3ec5, type: 3}
       m_Size: 72
-    - m_Icon: {fileID: 0}
+    - m_Icon: {fileID: 2800000, guid: 172cb9fed4673804985747f84d8a3ec5, type: 3}
       m_Size: 48
-    - m_Icon: {fileID: 0}
+    - m_Icon: {fileID: 2800000, guid: 172cb9fed4673804985747f84d8a3ec5, type: 3}
       m_Size: 36
   - m_BuildTarget: iPhone
     m_Icons:
@@ -155,17 +142,6 @@ PlayerSettings:
     m_DynamicBatching: 1
   webPlayerTemplate: APPLICATION:Default
   m_TemplateCustomTags: {}
-  wiiRegion: 1
-  wiiGameCode: RABA
-  wiiGameVersion: 
-  wiiCompanyCode: ZZ
-  wiiSupportsNunchuk: 0
-  wiiSupportsClassicController: 0
-  wiiSupportsBalanceBoard: 0
-  wiiSupportsMotionPlus: 0
-  wiiControllerCount: 1
-  wiiFloatingPointExceptions: 0
-  wiiScreenCrashDumps: 1
   XboxTitleId: 
   XboxImageXexPath: 
   XboxSpaPath: 
@@ -188,11 +164,29 @@ PlayerSettings:
   ps3TrophyCommSig: 
   ps3SaveGameSlots: 1
   ps3TrialMode: 0
+  psp2Splashimage: {fileID: 0}
+  psp2LiveAreaGate: {fileID: 0}
+  psp2LiveAreaBackround: {fileID: 0}
+  psp2NPTrophyPackPath: 
+  psp2NPCommsID: 
+  psp2NPCommsPassphrase: 
+  psp2NPCommsSig: 
+  psp2ParamSfxPath: 
+  psp2PackagePassword: 
+  psp2DLCConfigPath: 
+  psp2ThumbnailPath: 
+  psp2BackgroundPath: 
+  psp2SoundPath: 
+  psp2TrophyCommId: 
+  psp2TrophyPackagePath: 
+  psp2PackagedResourcesPath: 
   flashStrippingLevel: 2
   spritePackerPolicy: TightPackerPolicy
   scriptingDefineSymbols: {}
   metroPackageName: demo1
   metroPackageLogo: 
+  metroPackageLogo140: 
+  metroPackageLogo180: 
   metroPackageVersion: 
   metroCertificatePath: 
   metroCertificatePassword: 
@@ -200,15 +194,38 @@ PlayerSettings:
   metroCertificateIssuer: 
   metroCertificateNotAfter: 0000000000000000
   metroApplicationDescription: demo1
+  metroTileLogo80: 
   metroTileLogo: 
+  metroTileLogo140: 
+  metroTileLogo180: 
+  metroTileWideLogo80: 
   metroTileWideLogo: 
+  metroTileWideLogo140: 
+  metroTileWideLogo180: 
+  metroTileSmallLogo80: 
   metroTileSmallLogo: 
+  metroTileSmallLogo140: 
+  metroTileSmallLogo180: 
+  metroSmallTile80: 
+  metroSmallTile: 
+  metroSmallTile140: 
+  metroSmallTile180: 
+  metroLargeTile80: 
+  metroLargeTile: 
+  metroLargeTile140: 
+  metroLargeTile180: 
   metroTileShortName: 
   metroCommandLineArgsFile: 
   metroTileShowName: 1
+  metroMediumTileShowName: 0
+  metroLargeTileShowName: 0
+  metroWideTileShowName: 0
+  metroDefaultTileSize: 1
   metroTileForegroundText: 1
   metroTileBackgroundColor: {r: 0, g: 0, b: 0, a: 1}
   metroSplashScreenImage: 
+  metroSplashScreenImage140: 
+  metroSplashScreenImage180: 
   metroSplashScreenBackgroundColor: {r: 0, g: 0, b: 0, a: 1}
   metroSplashScreenUseBackgroundColor: 0
   metroCapabilities: {}
@@ -238,7 +255,9 @@ PlayerSettings:
   tizenProductURL: 
   tizenCertificatePath: 
   tizenCertificatePassword: 
-  tizenSaveLogPath: 
+  tizenGPSPermissions: 0
+  tizenMicrophonePermissions: 0
+  stvDeviceAddress: 
   firstStreamedLevelWithResources: 0
   unityRebuildLibraryVersion: 9
   unityForwardCompatibleVersion: 39

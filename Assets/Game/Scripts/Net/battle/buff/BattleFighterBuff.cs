@@ -42,11 +42,12 @@ namespace com.kx.sglm.gs.battle.share.buff
 			this.permanent = buffAction.CDRound <= 0;
 		}
 
-		private void addStackingRound()
+		private void addStackingRound(BuffInfo info)
 		{
-			BuffStackInfo _info = new BuffStackInfo();
-			_info.init(buffAction.CDRound);
-			stackingList.AddLast(_info);
+			BuffStackInfo _stackInfo = new BuffStackInfo();
+			_stackInfo.init(buffAction.CDRound);
+			_stackInfo.Condition = info.Condition;
+			stackingList.AddLast(_stackInfo);
 		}
 
 		private void refreshShowLeftRound()
@@ -157,7 +158,10 @@ namespace com.kx.sglm.gs.battle.share.buff
 			{
 				if (_info.Active)
 				{
-					_propEffectBuff.effectProp(Owner);
+					if (_info.canOption(Owner))
+					{
+						_propEffectBuff.effectProp(Owner);
+					}
 				}
 			}
 		}
@@ -229,30 +233,24 @@ namespace com.kx.sglm.gs.battle.share.buff
 		}
 
 		// TODO: result record
-		public virtual void stackingBuff()
+		public virtual void stackingBuff(BuffInfo info)
 		{
 			if (!canStacking())
 			{
 				removeFirstStack();
 			}
-			stackingNewBuff();
+			stackingNewBuff(info);
 		}
 
-		protected internal virtual void stackingNewBuff()
+		protected internal virtual void stackingNewBuff(BuffInfo info)
 		{
-			addStackingRound();
+			addStackingRound(info);
 			refreshShowLeftRound();
 		}
 
 		protected internal virtual void removeFirstStack()
 		{
 			this.stackingList.RemoveFirst();
-		}
-
-		public virtual void resetBuff()
-		{
-			this.stackingList.Clear();
-			stackingBuff();
 		}
 
 

@@ -34,8 +34,6 @@ public class LeaderControl : MonoBehaviour
 
     private EffectController sealEffectClone;
 
-    private const string HeadPrefix = "head_";
-
     /// <summary>
     /// Initialize.
     /// </summary>
@@ -47,7 +45,7 @@ public class LeaderControl : MonoBehaviour
             return;
         }
 
-        SpriteHead.spriteName = string.Format("{0}{1}", HeadPrefix, Character.IDIndex);
+        HeroConstant.SetHeadByIndex(SpriteHead, Character.IDIndex);
     }
 
     /// <summary>

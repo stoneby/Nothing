@@ -239,6 +239,11 @@ namespace com.kx.sglm.gs.battle.share.skill.manager
 			leftRound = monsterAI.MonsterShield.BreakShieldCd;
 		}
 
+		protected internal override ISingletonSkillAction getSkill(int skillId)
+		{
+			return SkillService.getMonsterSkillAction(skillId);
+		}
+
 	}
 
 }

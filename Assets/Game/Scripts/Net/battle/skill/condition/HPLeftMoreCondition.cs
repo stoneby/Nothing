@@ -12,7 +12,7 @@ namespace com.kx.sglm.gs.battle.share.skill.condition
 
 		public override bool canOptionSkill(BattleFighter attacker)
 		{
-			return hpRate >= attacker.FighterCurHpPercent;
+			return hpRate <= attacker.FighterCurHpPercent;
 		}
 
 		public override void build(params string[] param)

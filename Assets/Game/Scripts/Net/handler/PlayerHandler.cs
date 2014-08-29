@@ -43,9 +43,7 @@ namespace Assets.Game.Scripts.Net.handler
         public static void OnPlayerInfo(ThriftSCMessage msg)
         {
             //PopTextManager.PopTip("登录成功，返回玩家角色信息");
-            var themsg = msg.GetContent() as SCPlayerInfoMsg;
-
-
+            var themsg = msg.GetContent() as SCPlayerInfoMsg;    
             if (themsg != null)
             {
                 PlayerModelLocator.Instance.HeroId = themsg.HeroId;
@@ -62,6 +60,8 @@ namespace Assets.Game.Scripts.Net.handler
                 PlayerModelLocator.Instance.HeroMax = themsg.HeroMax;
                 PlayerModelLocator.Instance.Energy = themsg.Energy;
                 PlayerModelLocator.Instance.TeamProp = new Dictionary<int, int>(themsg.TeamProp);
+                PlayerModelLocator.Instance.TeamList = new List<int>(themsg.TeamList);
+                
                 ServiceManager.UserID = themsg.UId;
                 if (ServiceManager.IsDebugAccount == 1)
                 {
@@ -75,12 +75,6 @@ namespace Assets.Game.Scripts.Net.handler
                 }
             }
             EventManager.Instance.Post(new LoginEvent { Message = "This is login event." });
-
-          
-
-            //BattlePersistence
-            PersistenceHandler.Instance.GoToPersistenceWay();
-
             HttpResourceManager.OnLoadFinish += OnFinish;
             //WindowManager.Instance.Show<MainMenuBarWindow>(true);
             HttpResourceManager.LoadAll();
@@ -96,7 +90,17 @@ namespace Assets.Game.Scripts.Net.handler
             WindowManager.Instance.Show<LoginRegisterWindow>(false);
             WindowManager.Instance.Show<LoginServersWindow>(false);
             WindowManager.Instance.Show<LoadingWaitWindow>(false);
+            
             HttpResourceManager.OnLoadFinish -= OnFinish;
+
+            //BattlePersistence
+            PersistenceHandler.Instance.GoToPersistenceWay();
+
+            //FirstLoginGiveHero
+            if (ChooseCardHandler.IsHeroFirstLoginGive)
+            {
+                ChooseCardHandler.OnHeroFirstLoginGive();
+            }
         }
     }
 }

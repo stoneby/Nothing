@@ -6,7 +6,6 @@ namespace com.kx.sglm.gs.battle.share.buff
 
 	using BattleFighter = com.kx.sglm.gs.battle.share.actor.impl.BattleFighter;
 	using BattleFighterState = com.kx.sglm.gs.battle.share.actor.impl.BattleFighterState;
-	using BasePropEffectBuff = com.kx.sglm.gs.battle.share.buff.effect.BasePropEffectBuff;
 	using BuffPolicyEnum = com.kx.sglm.gs.battle.share.buff.enums.BuffPolicyEnum;
 	using BattleFightRecord = com.kx.sglm.gs.battle.share.data.record.BattleFightRecord;
 	using BattleRoundCountRecord = com.kx.sglm.gs.battle.share.data.record.BattleRoundCountRecord;
@@ -53,23 +52,27 @@ namespace com.kx.sglm.gs.battle.share.buff
 		/// 上个buff，先算出个数是否已满，再查看buff增加的策略
 		/// </summary>
 		/// <param name="buffId"> </param>
-		public virtual void addBuff(int buffId)
+		public virtual void addBuff(BuffInfo buffInfo)
 		{
 			// TODO: add battle report
-			IBuffAction _buffAction = getBuffAction(buffId);
+			IBuffAction _buffAction = getBuffAction(buffInfo.BuffId);
+
 			if (_buffAction == null)
 			{
 				// TODO: add error log
 				return;
 			}
+
 			if (hasMaxCountBuff(_buffAction))
 			{
 				// TODO: log max buff
 				return;
 			}
+			buffInfo.BuffAction = _buffAction;
+
 			BuffPolicyEnum _policyType = calcPolicy(_buffAction);
 
-			_policyType.addBuff(this, _buffAction);
+			_policyType.addBuff(this, buffInfo);
 		}
 
 		/// <summary>
@@ -115,10 +118,10 @@ namespace com.kx.sglm.gs.battle.share.buff
 			putHolderMap(buffAction, _holder);
 		}
 
-		public virtual BattleFighterBuff putToBuffHolder(IBuffAction buffAction)
+		public virtual BattleFighterBuff putToBuffHolder(BuffInfo buffInfo)
 		{
-			BuffTypeHolder _holder = getBuffTypeHolder(buffAction);
-			return _holder.putBuff(Owner, buffAction);
+			BuffTypeHolder _holder = getBuffTypeHolder(buffInfo.BuffAction);
+			return _holder.putBuff(Owner, buffInfo);
 		}
 
 		public virtual void putHolderMap(IBuffAction buffAction, BuffTypeHolder typeHolder)
@@ -382,7 +385,12 @@ namespace com.kx.sglm.gs.battle.share.buff
 
 		public virtual void onAttack(BattleFightRecord fightRecord)
 		{
-			//TODO :add logic
+			HashSet<int> _buffIdSet = new HashSet<int>(allBuffs.Keys);
+			foreach (int _buffId in _buffIdSet)
+			{
+				BattleFighterBuff _buff = allBuffs[_buffId];
+				_buff.BuffAction.onAttack(Owner);
+			}
 		}
 
 		public virtual void onDefence(BattleFighter attacker, BattleFightRecord fightRecord)
@@ -408,6 +416,7 @@ namespace com.kx.sglm.gs.battle.share.buff
 
 		public virtual void onTeamShotStart(TeamShotStartEvent @event)
 		{
+			activeAllBuff(BattleConstants.BUFF_ALL_FALG);
 			recalcPropEffectBuffs();
 			onTeamBeforeAttack();
 		}

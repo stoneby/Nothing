@@ -32,7 +32,7 @@ public class UISellItemHandler : MonoBehaviour
     {
         MtaManager.TrackBeginPage(MtaType.SellItemWindow);
         commonWindow = WindowManager.Instance.GetWindow<UIItemCommonWindow>();
-        commonWindow.HideSelMask();
+        commonWindow.ShowSelMask(false);
         commonWindow.NormalClicked = OnNormalClick;
         selCount.text = sellObjects.Count.ToString(CultureInfo.InvariantCulture);
         InstallHandlers();
@@ -61,7 +61,6 @@ public class UISellItemHandler : MonoBehaviour
             var child = NGUITools.AddChild(grid.gameObject, BaseItemPrefab);
             var heroBase = child.GetComponent<ItemBase>();
             var bagIndex = go.GetComponent<ItemBase>().BagIndex;
-            heroBase.BagIndex = bagIndex;
             var itemInfo = ItemModeLocator.Instance.FindItem(bagIndex);
             heroBase.InitItem(itemInfo);
             UIEventListener.Get(child.gameObject).onClick = CancelItemSell;
@@ -79,7 +78,7 @@ public class UISellItemHandler : MonoBehaviour
         grid.repositionNow = true;
     }
 
-    private Position GetPosition(GameObject go)
+    public static Position GetPosition(GameObject go)
     {
         var item = NGUITools.FindInParents<WrapItemContent>(go);
         var row = item.Row;
@@ -118,9 +117,9 @@ public class UISellItemHandler : MonoBehaviour
         sellLis.onClick = null;
         buyBackLis.onClick = null;
         cancelLis.onClick = null;
-        commonWindow.Items.OnUpdate += OnUpdate;
-        commonWindow.OnSortOrderChangedBefore += OnSortOrderChangedBefore;
-        commonWindow.OnSortOrderChangedAfter += OnSortOrderChangedAfter;
+        commonWindow.Items.OnUpdate -= OnUpdate;
+        commonWindow.OnSortOrderChangedBefore -= OnSortOrderChangedBefore;
+        commonWindow.OnSortOrderChangedAfter -= OnSortOrderChangedAfter;
     }
 
     private void OnUpdate(GameObject sender, int index)
@@ -159,12 +158,15 @@ public class UISellItemHandler : MonoBehaviour
         var childCount = items.childCount;
         for (var i = 0; i < childCount; i++)
         {
-            var wrapHero = items.GetChild(i).GetComponent<WrapHerosItem>();
-            for (var j = 0; j < wrapHero.Children.Count; j++)
+            var wrapitem = items.GetChild(i).GetComponent<WrapItemContent>();
+            if(wrapitem)
             {
-                var pos = new Position { X = wrapHero.Row, Y = j };
-                var showSellMask = sellObjects.ContainsKey(pos);
-                wrapHero.ShowSellMask(j, showSellMask);
+                for (var j = 0; j < wrapitem.Children.Count; j++)
+                {
+                    var pos = new Position { X = wrapitem.Row, Y = j };
+                    var showSellMask = sellObjects.ContainsKey(pos);
+                    wrapitem.ShowSellMask(j, showSellMask);
+                }
             }
         }
     }
@@ -175,7 +177,7 @@ public class UISellItemHandler : MonoBehaviour
         bagIndexs.AddRange(list.Select(pos => commonWindow.GetInfo(pos).BagIndex));
     }
 
-    private List<Position> GetPositionsViaBagIndex(IEnumerable<short> bags, List<ItemInfo> hInfos, int countPerGroup)
+    public static List<Position> GetPositionsViaBagIndex(IEnumerable<short> bags, List<ItemInfo> hInfos, int countPerGroup)
     {
         return bags.Select(bagIndex => hInfos.FindIndex(info => info.BagIndex == bagIndex)).Select(
             index => new Position { X = index / countPerGroup, Y = index % countPerGroup }).ToList();
@@ -256,8 +258,16 @@ public class UISellItemHandler : MonoBehaviour
 
     private void CancelItemSell(GameObject go)
     {
-        var pos = GetPosition(go);
+        var pos = new Position();
+        foreach (var teamObj in sellObjects)
+        {
+            if (teamObj.Value == go)
+            {
+                pos = teamObj.Key;
+            }
+        }
         RemoveSellObject(pos);
+        RefreshCurScreen();
         grid.repositionNow = true;
     }
 
@@ -266,6 +276,25 @@ public class UISellItemHandler : MonoBehaviour
         var clone = sellObjects[pos];
         NGUITools.Destroy(clone);
         sellObjects.Remove(pos);
+    }
+
+    private void RefreshCurScreen()
+    {
+        var items = commonWindow.Items.transform;
+        var childCount = items.childCount;
+        for (var i = 0; i < childCount; i++)
+        {
+            var wrapItem = items.GetChild(i).GetComponent<WrapItemContent>();
+            if (wrapItem)
+            {
+                for (var j = 0; j < wrapItem.Children.Count; j++)
+                {
+                    var pos = new Position { X = wrapItem.Row, Y = j };
+                    var showSellMask = sellObjects.ContainsKey(pos);
+                    wrapItem.ShowSellMask(j, showSellMask);
+                }
+            }
+        }
     }
 
     /// <summary>
@@ -284,8 +313,11 @@ public class UISellItemHandler : MonoBehaviour
         var items = commonWindow.Items.transform;
         for (var i = 0; i < items.childCount; i++)
         {
-            var item = items.GetChild(i).GetComponent<WrapItemContent>();
-            item.ShowSellMasks(false);
+            var wrapItem = items.GetChild(i).GetComponent<WrapItemContent>();
+            if (wrapItem)
+            {
+                wrapItem.ShowSellMasks(false);
+            }
         }
         var clones = sellObjects.Select(sellObj => sellObj.Value).ToList();
         for (var i = clones.Count - 1; i >= 0; i--)

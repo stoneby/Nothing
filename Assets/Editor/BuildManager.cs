@@ -12,7 +12,8 @@ public class BuildManager
 {
     public static void BuildAndroid()
     {
-        Debug.Log("转换Target");
+        Debug.Log("====================================Switch To Android Target=======================");
+        Debug.LogError("=================================Switch To Android Target=================================");
         EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTarget.Android);
         //PlayerSettings.SetIconsForTargetGroup(BuildTargetGroup.Android, );
 
@@ -23,10 +24,30 @@ public class BuildManager
         PlayerSettings.bundleIdentifier = GameConfig.BundleID;
         PlayerSettings.defaultInterfaceOrientation = UIOrientation.LandscapeLeft;
 
+        
+
         PlayerSettings.Android.keystoreName = "release/key/user.keystore";
         PlayerSettings.Android.keystorePass = "111111";
         PlayerSettings.Android.keyaliasName = "sglm";
         PlayerSettings.Android.keyaliasPass = "111111";
+
+        var iconFile = "Assets/icons/sglm/icon.png";
+        int[] sizeList = PlayerSettings.GetIconSizesForTargetGroup(BuildTargetGroup.Android);//{144,96,72,48,36};
+        Texture2D[] iconList = new Texture2D[sizeList.Length];
+        Debug.Log("============================================================Create icon count " + sizeList.Length);
+        for (int i = 0; i < sizeList.Length; i++)
+        {
+
+            int iconSize = sizeList[i];
+            Debug.Log("============================================================Create icon size " + iconSize);
+            iconList[i] = AssetDatabase.LoadMainAssetAtPath(iconFile) as Texture2D;
+            iconList[i].Resize(iconSize, iconSize, TextureFormat.ARGB32, false);
+
+        }
+        PlayerSettings.SetIconsForTargetGroup(BuildTargetGroup.Android, iconList);
+
+
+        //PlayerSettings.iOS.targetDevice = iOSTargetDevice;
 
         FileUtil.DeleteFileOrDirectory("release/AndroidBuild");
         Directory.CreateDirectory("release/AndroidBuild");
@@ -41,7 +62,7 @@ public class BuildManager
         {
             throw new Exception("BuildPlayer failure: " + res);
         }
-        Debug.Log("打包完成");
+        Debug.Log("Build Android Successful");
     }
 
     private static string GetValueName(int k)
@@ -66,6 +87,7 @@ public class BuildManager
         PlayerSettings.productName = GameConfig.GameName;
         PlayerSettings.bundleVersion = GameConfig.Version;
         PlayerSettings.bundleIdentifier = GameConfig.BundleID;
+        
 
         FileUtil.DeleteFileOrDirectory("release/ExeBuild");
         FileUtil.DeleteFileOrDirectory("release/ExeRelease");

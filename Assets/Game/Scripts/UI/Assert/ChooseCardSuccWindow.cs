@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.InteropServices;
 using KXSGCodec;
 using UnityEngine;
 
@@ -22,7 +23,9 @@ public class ChooseCardSuccWindow : Window
     private UILabel skillContent2;
 
     private GameObject heroIcon;
+    private UISprite heroIconSprite;
     private GameObject itemIcon;
+    private UISprite itemIconSprite;
     private UISprite jobIcon;
     private Transform rarity;
 
@@ -50,14 +53,26 @@ public class ChooseCardSuccWindow : Window
 
     private void ViewOKClose(GameObject go)
     {
+        //var window = WindowManager.Instance.GetWindow<ChooseCardWindow>();
+        //if (window != null)
+        //{
+        //    window.heroAndItemSummitHandler.RefreshFamousAndIngot();
+        //}
         WindowManager.Instance.Show<ChooseCardSuccWindow>(false);
     }
 
-    private void ViewOKAnother(GameObject go)
+    private void ViewOKAnotherRewardItem(GameObject go)
     {
         WindowManager.Instance.Show<ChooseCardSuccWindow>(false);
         var window = WindowManager.Instance.Show<ChooseCardSuccWindow>(true);
         window.Refresh(nowRewardItemIndex);
+    }
+
+    private void ViewOKAnotherHeroInFirstGive(GameObject go)
+    {
+        WindowManager.Instance.Show<ChooseCardSuccWindow>(false);
+        var window = WindowManager.Instance.Show<ChooseCardSuccWindow>(true);
+        window.ShowHeroFirstGive(nowRewardItemIndex);
     }
 
     /// <summary>
@@ -74,11 +89,20 @@ public class ChooseCardSuccWindow : Window
         skill2.SetActive(isHeroSucc);
     }
 
+    private void DeActiveAll()
+    {
+        foreach (Transform item in rarity)
+        {
+            item.gameObject.SetActive(false);
+        }
+    }
+
     #endregion
 
     #region Public Fields
 
-    public SCLottery storedScLotteryMsg;
+    public SCLottery StoredScLotteryMsg;
+    public SCHeroFristLoginGive StoredHeroFristLoginGiveMsg;
 
     #endregion
 
@@ -86,18 +110,20 @@ public class ChooseCardSuccWindow : Window
 
     public void Refresh(int rewardItemIndex = 0)
     {
-        var rewardItemCount = storedScLotteryMsg.RewardItem.Count;
+        var rewardItemCount = StoredScLotteryMsg.RewardItem.Count;
 
         //Set detail info in window for HeroLottery or ItemLottery.
-        if (storedScLotteryMsg.LotteryType == 1)
+        if (StoredScLotteryMsg.LotteryType == 1)
         {
             SetSuccMode(true);
 
-            long uuid = Convert.ToInt64(storedScLotteryMsg.RewardItem[rewardItemIndex].Uuid);
+            long uuid = Convert.ToInt64(StoredScLotteryMsg.RewardItem[rewardItemIndex].Uuid);
             var info = HeroModelLocator.Instance.FindHero(uuid);
             var heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpls[info.TemplateId];
 
+            HeroConstant.SetHeadByIndex(heroIconSprite, heroTemplate.Icon - 1);
             jobIcon.spriteName = HeroConstant.HeroJobPrefix + heroTemplate.Job;
+            DeActiveAll();
             for (int i = 1; i <= heroTemplate.Star; i++)
             {
                 NGUITools.SetActive(rarity.FindChild("Star" + i.ToString()).gameObject, true);
@@ -109,17 +135,27 @@ public class ChooseCardSuccWindow : Window
             mpValue.text = heroTemplate.MP.ToString();
             recoverValue.text = heroTemplate.Recover.ToString();
 
-            skillContent1.text = HeroModelLocator.Instance.SkillTemplates.HeroBattleSkillTmpls[heroTemplate.LeaderSkill].Desc;
-            skillContent2.text = HeroModelLocator.Instance.SkillTemplates.HeroBattleSkillTmpls[heroTemplate.ActiveSkill].Desc;
+            if (HeroModelLocator.Instance.SkillTemplates.HeroBattleSkillTmpls.ContainsKey(heroTemplate.LeaderSkill))
+            {
+                skillName1.text = HeroModelLocator.Instance.SkillTemplates.HeroBattleSkillTmpls[heroTemplate.LeaderSkill].Name;
+                skillContent1.text = HeroModelLocator.Instance.SkillTemplates.HeroBattleSkillTmpls[heroTemplate.LeaderSkill].Desc;
+            }
+            if (HeroModelLocator.Instance.SkillTemplates.HeroBattleSkillTmpls.ContainsKey(heroTemplate.ActiveSkill))
+            {
+                skillName2.text = HeroModelLocator.Instance.SkillTemplates.HeroBattleSkillTmpls[heroTemplate.ActiveSkill].Name;
+                skillContent2.text = HeroModelLocator.Instance.SkillTemplates.HeroBattleSkillTmpls[heroTemplate.ActiveSkill].Desc;
+            }
         }
-        else if (storedScLotteryMsg.LotteryType == 2)
+        else if (StoredScLotteryMsg.LotteryType == 2)
         {
             SetSuccMode(false);
 
-            var info = ItemModeLocator.Instance.FindItem(storedScLotteryMsg.RewardItem[rewardItemIndex].Uuid);
+            var info = ItemModeLocator.Instance.FindItem(StoredScLotteryMsg.RewardItem[rewardItemIndex].Uuid);
             var quality = ItemModeLocator.Instance.GetQuality(info.TmplId);
             quality = (sbyte)(quality / ItemType.QualitiesPerStar);
 
+            ItemType.SetHeadByTemplate(itemIconSprite, info.TmplId);
+            DeActiveAll();
             for (int index = 1; index <= quality; index++)
             {
                 NGUITools.SetActive(rarity.FindChild("Star" + index.ToString()).gameObject, true);
@@ -138,16 +174,16 @@ public class ChooseCardSuccWindow : Window
         }
 
         //Set OKLis for 1 lottery or 10 lotteries.
-        if (storedScLotteryMsg.LotteryMode == 1 || storedScLotteryMsg.LotteryMode == 2)
+        if (StoredScLotteryMsg.LotteryMode == 1 || StoredScLotteryMsg.LotteryMode == 2)
         {
             viewOKLis.onClick = ViewOKClose;
         }
-        else if (storedScLotteryMsg.LotteryMode == 3)
+        else if (StoredScLotteryMsg.LotteryMode == 3)
         {
             if (rewardItemIndex < rewardItemCount-1)
             {
                 nowRewardItemIndex = rewardItemIndex + 1;
-                viewOKLis.onClick = ViewOKAnother;
+                viewOKLis.onClick = ViewOKAnotherRewardItem;
             }
             else if(rewardItemIndex==rewardItemCount-1)
             {
@@ -162,6 +198,53 @@ public class ChooseCardSuccWindow : Window
         {
             Logger.LogError("Not correct LotteryMode.");
             return;
+        }
+    }
+
+    public void ShowHeroFirstGive(int rewardItemIndex = 0)
+    {
+        var rewardItemCount = StoredHeroFristLoginGiveMsg.HeroInfos.Count;
+        SetSuccMode(true);
+
+        var heroInfo = StoredHeroFristLoginGiveMsg.HeroInfos[rewardItemIndex];
+        Logger.Log("!!!!!!!!!!!!!!TemplateID:"+heroInfo.TemplateId);
+        var heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpls[heroInfo.TemplateId];
+
+        jobIcon.spriteName = HeroConstant.HeroJobPrefix + heroTemplate.Job;
+        for (int i = 1; i <= heroTemplate.Star; i++)
+        {
+            NGUITools.SetActive(rarity.FindChild("Star" + i.ToString()).gameObject, true);
+        }
+
+        name.text = heroTemplate.Name;
+        attackValue.text = heroTemplate.Attack.ToString();
+        hpValue.text = heroTemplate.HP.ToString();
+        mpValue.text = heroTemplate.MP.ToString();
+        recoverValue.text = heroTemplate.Recover.ToString();
+
+        if (HeroModelLocator.Instance.SkillTemplates.HeroBattleSkillTmpls.ContainsKey(heroTemplate.LeaderSkill))
+        {
+            skillName1.text = HeroModelLocator.Instance.SkillTemplates.HeroBattleSkillTmpls[heroTemplate.LeaderSkill].Name;
+            skillContent1.text = HeroModelLocator.Instance.SkillTemplates.HeroBattleSkillTmpls[heroTemplate.LeaderSkill].Desc;
+        }
+        if (HeroModelLocator.Instance.SkillTemplates.HeroBattleSkillTmpls.ContainsKey(heroTemplate.ActiveSkill))
+        {
+            skillName2.text = HeroModelLocator.Instance.SkillTemplates.HeroBattleSkillTmpls[heroTemplate.ActiveSkill].Name;
+            skillContent2.text = HeroModelLocator.Instance.SkillTemplates.HeroBattleSkillTmpls[heroTemplate.ActiveSkill].Desc;
+        }
+
+        if (rewardItemIndex < rewardItemCount - 1)
+        {
+            nowRewardItemIndex = rewardItemIndex + 1;
+            viewOKLis.onClick = ViewOKAnotherHeroInFirstGive;
+        }
+        else if (rewardItemIndex == rewardItemCount - 1)
+        {
+            viewOKLis.onClick = ViewOKClose;
+        }
+        else
+        {
+            Logger.LogError("Not correct rewardItemIndex.");
         }
     }
 
@@ -193,13 +276,15 @@ public class ChooseCardSuccWindow : Window
 
         skill1 = Utils.FindChild(transform, "Skill1").gameObject;
         skill2 = Utils.FindChild(transform, "Skill2").gameObject;
-        skillName1 = skill1.GetComponent<UILabel>();
-        skillName2 = skill2.GetComponent<UILabel>();
+        skillName1 = Utils.FindChild(transform, "Name1").GetComponent<UILabel>();
+        skillName2 = Utils.FindChild(transform, "Name2").GetComponent<UILabel>();
         skillContent1 = Utils.FindChild(transform, "Content1").GetComponent<UILabel>();
         skillContent2 = Utils.FindChild(transform, "Content2").GetComponent<UILabel>();
 
         heroIcon = Utils.FindChild(transform, "HeroIcon").gameObject;
+        heroIconSprite = heroIcon.GetComponent<UISprite>();
         itemIcon = Utils.FindChild(transform, "ItemIcon").gameObject;
+        itemIconSprite = itemIcon.GetComponent<UISprite>();
         jobIcon = Utils.FindChild(transform, "JobIcon").GetComponent<UISprite>();
         rarity = Utils.FindChild(transform, "Rarity").transform;
 

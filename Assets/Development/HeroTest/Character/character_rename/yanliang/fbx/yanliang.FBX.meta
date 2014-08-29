@@ -53,7 +53,10 @@ ModelImporter:
     400044: D_yanliang_zuodatui
     400046: D_yanliang_zuojiao
     400048: //RootNode
-    7400000: Take 001
+    7400000: Idle
+    7400002: Run
+    7400004: Attack
+    7400006: Hurt
     9500000: //RootNode
     11100000: //RootNode
   materials:
@@ -70,7 +73,311 @@ ModelImporter:
     animationScaleError: .5
     animationWrapMode: 0
     extraExposedTransformPaths: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Idle
+      takeName: Take 001
+      firstFrame: 1
+      lastFrame: 19
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: D_yanliang_dabi
+        weight: 1
+      - path: D_yanliang_fa1
+        weight: 1
+      - path: D_yanliang_fa2
+        weight: 1
+      - path: D_yanliang_fa3
+        weight: 1
+      - path: D_yanliang_fa4
+        weight: 1
+      - path: D_yanliang_fa5
+        weight: 1
+      - path: D_yanliang_fa6
+        weight: 1
+      - path: D_yanliang_fa7
+        weight: 1
+      - path: D_yanliang_houyao
+        weight: 1
+      - path: D_yanliang_jianjia
+        weight: 1
+      - path: D_yanliang_qunbai
+        weight: 1
+      - path: D_yanliang_qunbai2
+        weight: 1
+      - path: D_yanliang_shou
+        weight: 1
+      - path: D_yanliang_wuqi
+        weight: 1
+      - path: D_yanliang_xiaobi
+        weight: 1
+      - path: D_yanliang_xiong
+        weight: 1
+      - path: D_yanliang_yao
+        weight: 1
+      - path: D_yanliang_youdabi
+        weight: 1
+      - path: D_yanliang_youdatui
+        weight: 1
+      - path: D_yanliang_youjiao
+        weight: 1
+      - path: D_yanliang_youshou
+        weight: 1
+      - path: D_yanliang_youxiaobi
+        weight: 1
+      - path: D_yanliang_zuodatui
+        weight: 1
+      - path: D_yanliang_zuojiao
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Run
+      takeName: Take 001
+      firstFrame: 28
+      lastFrame: 42
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: D_yanliang_dabi
+        weight: 1
+      - path: D_yanliang_fa1
+        weight: 1
+      - path: D_yanliang_fa2
+        weight: 1
+      - path: D_yanliang_fa3
+        weight: 1
+      - path: D_yanliang_fa4
+        weight: 1
+      - path: D_yanliang_fa5
+        weight: 1
+      - path: D_yanliang_fa6
+        weight: 1
+      - path: D_yanliang_fa7
+        weight: 1
+      - path: D_yanliang_houyao
+        weight: 1
+      - path: D_yanliang_jianjia
+        weight: 1
+      - path: D_yanliang_qunbai
+        weight: 1
+      - path: D_yanliang_qunbai2
+        weight: 1
+      - path: D_yanliang_shou
+        weight: 1
+      - path: D_yanliang_wuqi
+        weight: 1
+      - path: D_yanliang_xiaobi
+        weight: 1
+      - path: D_yanliang_xiong
+        weight: 1
+      - path: D_yanliang_yao
+        weight: 1
+      - path: D_yanliang_youdabi
+        weight: 1
+      - path: D_yanliang_youdatui
+        weight: 1
+      - path: D_yanliang_youjiao
+        weight: 1
+      - path: D_yanliang_youshou
+        weight: 1
+      - path: D_yanliang_youxiaobi
+        weight: 1
+      - path: D_yanliang_zuodatui
+        weight: 1
+      - path: D_yanliang_zuojiao
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Attack
+      takeName: Take 001
+      firstFrame: 43
+      lastFrame: 58
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: D_yanliang_dabi
+        weight: 1
+      - path: D_yanliang_fa1
+        weight: 1
+      - path: D_yanliang_fa2
+        weight: 1
+      - path: D_yanliang_fa3
+        weight: 1
+      - path: D_yanliang_fa4
+        weight: 1
+      - path: D_yanliang_fa5
+        weight: 1
+      - path: D_yanliang_fa6
+        weight: 1
+      - path: D_yanliang_fa7
+        weight: 1
+      - path: D_yanliang_houyao
+        weight: 1
+      - path: D_yanliang_jianjia
+        weight: 1
+      - path: D_yanliang_qunbai
+        weight: 1
+      - path: D_yanliang_qunbai2
+        weight: 1
+      - path: D_yanliang_shou
+        weight: 1
+      - path: D_yanliang_wuqi
+        weight: 1
+      - path: D_yanliang_xiaobi
+        weight: 1
+      - path: D_yanliang_xiong
+        weight: 1
+      - path: D_yanliang_yao
+        weight: 1
+      - path: D_yanliang_youdabi
+        weight: 1
+      - path: D_yanliang_youdatui
+        weight: 1
+      - path: D_yanliang_youjiao
+        weight: 1
+      - path: D_yanliang_youshou
+        weight: 1
+      - path: D_yanliang_youxiaobi
+        weight: 1
+      - path: D_yanliang_zuodatui
+        weight: 1
+      - path: D_yanliang_zuojiao
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Hurt
+      takeName: Take 001
+      firstFrame: 20
+      lastFrame: 27
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: D_yanliang_dabi
+        weight: 1
+      - path: D_yanliang_fa1
+        weight: 1
+      - path: D_yanliang_fa2
+        weight: 1
+      - path: D_yanliang_fa3
+        weight: 1
+      - path: D_yanliang_fa4
+        weight: 1
+      - path: D_yanliang_fa5
+        weight: 1
+      - path: D_yanliang_fa6
+        weight: 1
+      - path: D_yanliang_fa7
+        weight: 1
+      - path: D_yanliang_houyao
+        weight: 1
+      - path: D_yanliang_jianjia
+        weight: 1
+      - path: D_yanliang_qunbai
+        weight: 1
+      - path: D_yanliang_qunbai2
+        weight: 1
+      - path: D_yanliang_shou
+        weight: 1
+      - path: D_yanliang_wuqi
+        weight: 1
+      - path: D_yanliang_xiaobi
+        weight: 1
+      - path: D_yanliang_xiong
+        weight: 1
+      - path: D_yanliang_yao
+        weight: 1
+      - path: D_yanliang_youdabi
+        weight: 1
+      - path: D_yanliang_youdatui
+        weight: 1
+      - path: D_yanliang_youjiao
+        weight: 1
+      - path: D_yanliang_youshou
+        weight: 1
+      - path: D_yanliang_youxiaobi
+        weight: 1
+      - path: D_yanliang_zuodatui
+        weight: 1
+      - path: D_yanliang_zuojiao
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
     isReadable: 1
   meshes:
     lODScreenPercentages: []

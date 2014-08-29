@@ -336,6 +336,11 @@ namespace com.kx.sglm.gs.battle.share.skill.manager
 			calcAttackBattleAction(record);
 		}
 
+		protected internal override ISingletonSkillAction getSkill(int skillId)
+		{
+			return SkillService.getHeroSkillAction(skillId);
+		}
+
 
 	}
 

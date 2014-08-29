@@ -16,10 +16,16 @@ public class MultipleCharacterGenerator : CharacterGenerator
             var index = character.IDIndex;
             characterPoolManager.CharacterPoolList[index].Return(character.gameObject);
         });
+        CharacterList.Clear();
     }
 
     public override void Generate()
     {
+        if (CharacterList == null)
+        {
+            CharacterList = new List<Character>();
+        }
+
         var characterPoolManager = CharacterPoolManager.Instance;
         FighterList.ForEach(data =>
         {

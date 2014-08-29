@@ -1,0 +1,448 @@
+fileFormatVersion: 2
+guid: 50f9e0d32e531354fb648162d922c25b
+ModelImporter:
+  serializedVersion: 16
+  fileIDToRecycleName:
+    100000: D_zangba_dao1
+    100002: D_zangba_dao2
+    100004: D_zangba_pifeng1
+    100006: D_zangba_pifeng21
+    100008: D_zangba_qunjia
+    100010: D_zangba_qunjia0
+    100012: D_zangba_qunjia1
+    100014: D_zangba_shenti
+    100016: D_zangba_tou
+    100018: D_zangba_toufa
+    100020: D_zangba_toufa3
+    100022: D_zangba_toufa4
+    100024: D_zangba_toufa5
+    100026: D_zangba_toufa6
+    100028: D_zangba_toufa7
+    100030: D_zangba_toyfa2
+    100032: D_zangba_yapdai
+    100034: D_zangba_youdabi
+    100036: D_zangba_youdatui
+    100038: D_zangba_youshou
+    100040: D_zangba_youshoubi
+    100042: D_zangba_youtui
+    100044: D_zangba_zuodabi
+    100046: D_zangba_zuodatui
+    100048: D_zangba_zuogebo
+    100050: D_zangba_zuoshu
+    100052: D_zangba_zuotui
+    100054: //RootNode
+    400000: D_zangba_dao1
+    400002: D_zangba_dao2
+    400004: D_zangba_pifeng1
+    400006: D_zangba_pifeng21
+    400008: D_zangba_qunjia
+    400010: D_zangba_qunjia0
+    400012: D_zangba_qunjia1
+    400014: D_zangba_shenti
+    400016: D_zangba_tou
+    400018: D_zangba_toufa
+    400020: D_zangba_toufa3
+    400022: D_zangba_toufa4
+    400024: D_zangba_toufa5
+    400026: D_zangba_toufa6
+    400028: D_zangba_toufa7
+    400030: D_zangba_toyfa2
+    400032: D_zangba_yapdai
+    400034: D_zangba_youdabi
+    400036: D_zangba_youdatui
+    400038: D_zangba_youshou
+    400040: D_zangba_youshoubi
+    400042: D_zangba_youtui
+    400044: D_zangba_zuodabi
+    400046: D_zangba_zuodatui
+    400048: D_zangba_zuogebo
+    400050: D_zangba_zuoshu
+    400052: D_zangba_zuotui
+    400054: //RootNode
+    7400000: Idle
+    7400002: Run
+    7400004: Attack
+    7400006: Hurt
+    9500000: //RootNode
+    11100000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Idle
+      takeName: Take 001
+      firstFrame: 1
+      lastFrame: 19
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: D_zangba_dao1
+        weight: 1
+      - path: D_zangba_dao2
+        weight: 1
+      - path: D_zangba_pifeng1
+        weight: 1
+      - path: D_zangba_pifeng21
+        weight: 1
+      - path: D_zangba_qunjia
+        weight: 1
+      - path: D_zangba_qunjia0
+        weight: 1
+      - path: D_zangba_qunjia1
+        weight: 1
+      - path: D_zangba_shenti
+        weight: 1
+      - path: D_zangba_tou
+        weight: 1
+      - path: D_zangba_toufa
+        weight: 1
+      - path: D_zangba_toufa3
+        weight: 1
+      - path: D_zangba_toufa4
+        weight: 1
+      - path: D_zangba_toufa5
+        weight: 1
+      - path: D_zangba_toufa6
+        weight: 1
+      - path: D_zangba_toufa7
+        weight: 1
+      - path: D_zangba_toyfa2
+        weight: 1
+      - path: D_zangba_yapdai
+        weight: 1
+      - path: D_zangba_youdabi
+        weight: 1
+      - path: D_zangba_youdatui
+        weight: 1
+      - path: D_zangba_youshou
+        weight: 1
+      - path: D_zangba_youshoubi
+        weight: 1
+      - path: D_zangba_youtui
+        weight: 1
+      - path: D_zangba_zuodabi
+        weight: 1
+      - path: D_zangba_zuodatui
+        weight: 1
+      - path: D_zangba_zuogebo
+        weight: 1
+      - path: D_zangba_zuoshu
+        weight: 1
+      - path: D_zangba_zuotui
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Run
+      takeName: Take 001
+      firstFrame: 28
+      lastFrame: 42
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: D_zangba_dao1
+        weight: 1
+      - path: D_zangba_dao2
+        weight: 1
+      - path: D_zangba_pifeng1
+        weight: 1
+      - path: D_zangba_pifeng21
+        weight: 1
+      - path: D_zangba_qunjia
+        weight: 1
+      - path: D_zangba_qunjia0
+        weight: 1
+      - path: D_zangba_qunjia1
+        weight: 1
+      - path: D_zangba_shenti
+        weight: 1
+      - path: D_zangba_tou
+        weight: 1
+      - path: D_zangba_toufa
+        weight: 1
+      - path: D_zangba_toufa3
+        weight: 1
+      - path: D_zangba_toufa4
+        weight: 1
+      - path: D_zangba_toufa5
+        weight: 1
+      - path: D_zangba_toufa6
+        weight: 1
+      - path: D_zangba_toufa7
+        weight: 1
+      - path: D_zangba_toyfa2
+        weight: 1
+      - path: D_zangba_yapdai
+        weight: 1
+      - path: D_zangba_youdabi
+        weight: 1
+      - path: D_zangba_youdatui
+        weight: 1
+      - path: D_zangba_youshou
+        weight: 1
+      - path: D_zangba_youshoubi
+        weight: 1
+      - path: D_zangba_youtui
+        weight: 1
+      - path: D_zangba_zuodabi
+        weight: 1
+      - path: D_zangba_zuodatui
+        weight: 1
+      - path: D_zangba_zuogebo
+        weight: 1
+      - path: D_zangba_zuoshu
+        weight: 1
+      - path: D_zangba_zuotui
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Attack
+      takeName: Take 001
+      firstFrame: 43
+      lastFrame: 58
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: D_zangba_dao1
+        weight: 1
+      - path: D_zangba_dao2
+        weight: 1
+      - path: D_zangba_pifeng1
+        weight: 1
+      - path: D_zangba_pifeng21
+        weight: 1
+      - path: D_zangba_qunjia
+        weight: 1
+      - path: D_zangba_qunjia0
+        weight: 1
+      - path: D_zangba_qunjia1
+        weight: 1
+      - path: D_zangba_shenti
+        weight: 1
+      - path: D_zangba_tou
+        weight: 1
+      - path: D_zangba_toufa
+        weight: 1
+      - path: D_zangba_toufa3
+        weight: 1
+      - path: D_zangba_toufa4
+        weight: 1
+      - path: D_zangba_toufa5
+        weight: 1
+      - path: D_zangba_toufa6
+        weight: 1
+      - path: D_zangba_toufa7
+        weight: 1
+      - path: D_zangba_toyfa2
+        weight: 1
+      - path: D_zangba_yapdai
+        weight: 1
+      - path: D_zangba_youdabi
+        weight: 1
+      - path: D_zangba_youdatui
+        weight: 1
+      - path: D_zangba_youshou
+        weight: 1
+      - path: D_zangba_youshoubi
+        weight: 1
+      - path: D_zangba_youtui
+        weight: 1
+      - path: D_zangba_zuodabi
+        weight: 1
+      - path: D_zangba_zuodatui
+        weight: 1
+      - path: D_zangba_zuogebo
+        weight: 1
+      - path: D_zangba_zuoshu
+        weight: 1
+      - path: D_zangba_zuotui
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Hurt
+      takeName: Take 001
+      firstFrame: 20
+      lastFrame: 27
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: D_zangba_dao1
+        weight: 1
+      - path: D_zangba_dao2
+        weight: 1
+      - path: D_zangba_pifeng1
+        weight: 1
+      - path: D_zangba_pifeng21
+        weight: 1
+      - path: D_zangba_qunjia
+        weight: 1
+      - path: D_zangba_qunjia0
+        weight: 1
+      - path: D_zangba_qunjia1
+        weight: 1
+      - path: D_zangba_shenti
+        weight: 1
+      - path: D_zangba_tou
+        weight: 1
+      - path: D_zangba_toufa
+        weight: 1
+      - path: D_zangba_toufa3
+        weight: 1
+      - path: D_zangba_toufa4
+        weight: 1
+      - path: D_zangba_toufa5
+        weight: 1
+      - path: D_zangba_toufa6
+        weight: 1
+      - path: D_zangba_toufa7
+        weight: 1
+      - path: D_zangba_toyfa2
+        weight: 1
+      - path: D_zangba_yapdai
+        weight: 1
+      - path: D_zangba_youdabi
+        weight: 1
+      - path: D_zangba_youdatui
+        weight: 1
+      - path: D_zangba_youshou
+        weight: 1
+      - path: D_zangba_youshoubi
+        weight: 1
+      - path: D_zangba_youtui
+        weight: 1
+      - path: D_zangba_zuodabi
+        weight: 1
+      - path: D_zangba_zuodatui
+        weight: 1
+      - path: D_zangba_zuogebo
+        weight: 1
+      - path: D_zangba_zuoshu
+        weight: 1
+      - path: D_zangba_zuotui
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 1
+  additionalBone: 0
+  userData: 

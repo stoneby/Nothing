@@ -3,6 +3,7 @@ using System.Collections.Generic;
 namespace com.kx.sglm.gs.battle.share.helper
 {
 
+	using MathUtils = com.kx.sglm.core.util.MathUtils;
 	using BattleArmy = com.kx.sglm.gs.battle.share.actor.impl.BattleArmy;
 	using BattleFighter = com.kx.sglm.gs.battle.share.actor.impl.BattleFighter;
 	using BattleFighterState = com.kx.sglm.gs.battle.share.actor.impl.BattleFighterState;
@@ -71,6 +72,12 @@ namespace com.kx.sglm.gs.battle.share.helper
 			float _percent = percent;
 			float _costHp = _totalHp * (_percent / BattleConstants.BATTLE_RATIO_BASE);
 			return (int) _costHp;
+		}
+
+		public static bool checkFitColor(int colorFlag, BattleFighter fighter)
+		{
+			int _colorIndex = fighter.getOwnerTeam().getFighterColor(fighter.Index);
+			return MathUtils.hasFlagIndex(colorFlag, _colorIndex);
 		}
 
 	}

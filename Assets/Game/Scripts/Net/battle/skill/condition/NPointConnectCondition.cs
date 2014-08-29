@@ -19,7 +19,7 @@ namespace com.kx.sglm.gs.battle.share.skill.condition
 			}
 			BattleTeam _team = attacker.getOwnerTeam();
 			int _curFighterCount = _team.CurTeamShotFighterCount;
-			return _curFighterCount > pointCount;
+			return _curFighterCount >= pointCount;
 		}
 
 		public override void build(params string[] param)

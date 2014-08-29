@@ -45,7 +45,11 @@ ModelImporter:
     400036: D_dianwei_zuoxiaobi1
     400038: D_dianwei_zuoxiaotui
     400040: //RootNode
-    7400000: Take 001
+    7400000: Idle
+    7400002: Run
+    7400004: Attack
+    7400006: Hurt
+    7400008: Special
     9500000: //RootNode
     11100000: //RootNode
   materials:
@@ -62,7 +66,347 @@ ModelImporter:
     animationScaleError: .5
     animationWrapMode: 0
     extraExposedTransformPaths: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Idle
+      takeName: Take 001
+      firstFrame: 1
+      lastFrame: 19
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: D_dianwei_dianweiwuqi
+        weight: 1
+      - path: D_dianwei_dianweiwuqi2
+        weight: 1
+      - path: D_dianwei_hudang
+        weight: 1
+      - path: D_dianwei_huwan
+        weight: 1
+      - path: D_dianwei_lian
+        weight: 1
+      - path: D_dianwei_quanbai2
+        weight: 1
+      - path: D_dianwei_quanbi1
+        weight: 1
+      - path: D_dianwei_xiongbu
+        weight: 1
+      - path: D_dianwei_yaojia
+        weight: 1
+      - path: D_dianwei_youbi
+        weight: 1
+      - path: D_dianwei_youdatui
+        weight: 1
+      - path: D_dianwei_youjian
+        weight: 1
+      - path: D_dianwei_youshou
+        weight: 1
+      - path: D_dianwei_youxiaotui
+        weight: 1
+      - path: D_dianwei_zuodabi
+        weight: 1
+      - path: D_dianwei_zuodatui
+        weight: 1
+      - path: D_dianwei_zuojia
+        weight: 1
+      - path: D_dianwei_zuoshou2
+        weight: 1
+      - path: D_dianwei_zuoxiaobi1
+        weight: 1
+      - path: D_dianwei_zuoxiaotui
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Run
+      takeName: Take 001
+      firstFrame: 28
+      lastFrame: 42
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: D_dianwei_dianweiwuqi
+        weight: 1
+      - path: D_dianwei_dianweiwuqi2
+        weight: 1
+      - path: D_dianwei_hudang
+        weight: 1
+      - path: D_dianwei_huwan
+        weight: 1
+      - path: D_dianwei_lian
+        weight: 1
+      - path: D_dianwei_quanbai2
+        weight: 1
+      - path: D_dianwei_quanbi1
+        weight: 1
+      - path: D_dianwei_xiongbu
+        weight: 1
+      - path: D_dianwei_yaojia
+        weight: 1
+      - path: D_dianwei_youbi
+        weight: 1
+      - path: D_dianwei_youdatui
+        weight: 1
+      - path: D_dianwei_youjian
+        weight: 1
+      - path: D_dianwei_youshou
+        weight: 1
+      - path: D_dianwei_youxiaotui
+        weight: 1
+      - path: D_dianwei_zuodabi
+        weight: 1
+      - path: D_dianwei_zuodatui
+        weight: 1
+      - path: D_dianwei_zuojia
+        weight: 1
+      - path: D_dianwei_zuoshou2
+        weight: 1
+      - path: D_dianwei_zuoxiaobi1
+        weight: 1
+      - path: D_dianwei_zuoxiaotui
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Attack
+      takeName: Take 001
+      firstFrame: 43
+      lastFrame: 58
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: D_dianwei_dianweiwuqi
+        weight: 1
+      - path: D_dianwei_dianweiwuqi2
+        weight: 1
+      - path: D_dianwei_hudang
+        weight: 1
+      - path: D_dianwei_huwan
+        weight: 1
+      - path: D_dianwei_lian
+        weight: 1
+      - path: D_dianwei_quanbai2
+        weight: 1
+      - path: D_dianwei_quanbi1
+        weight: 1
+      - path: D_dianwei_xiongbu
+        weight: 1
+      - path: D_dianwei_yaojia
+        weight: 1
+      - path: D_dianwei_youbi
+        weight: 1
+      - path: D_dianwei_youdatui
+        weight: 1
+      - path: D_dianwei_youjian
+        weight: 1
+      - path: D_dianwei_youshou
+        weight: 1
+      - path: D_dianwei_youxiaotui
+        weight: 1
+      - path: D_dianwei_zuodabi
+        weight: 1
+      - path: D_dianwei_zuodatui
+        weight: 1
+      - path: D_dianwei_zuojia
+        weight: 1
+      - path: D_dianwei_zuoshou2
+        weight: 1
+      - path: D_dianwei_zuoxiaobi1
+        weight: 1
+      - path: D_dianwei_zuoxiaotui
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Hurt
+      takeName: Take 001
+      firstFrame: 20
+      lastFrame: 27
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: D_dianwei_dianweiwuqi
+        weight: 1
+      - path: D_dianwei_dianweiwuqi2
+        weight: 1
+      - path: D_dianwei_hudang
+        weight: 1
+      - path: D_dianwei_huwan
+        weight: 1
+      - path: D_dianwei_lian
+        weight: 1
+      - path: D_dianwei_quanbai2
+        weight: 1
+      - path: D_dianwei_quanbi1
+        weight: 1
+      - path: D_dianwei_xiongbu
+        weight: 1
+      - path: D_dianwei_yaojia
+        weight: 1
+      - path: D_dianwei_youbi
+        weight: 1
+      - path: D_dianwei_youdatui
+        weight: 1
+      - path: D_dianwei_youjian
+        weight: 1
+      - path: D_dianwei_youshou
+        weight: 1
+      - path: D_dianwei_youxiaotui
+        weight: 1
+      - path: D_dianwei_zuodabi
+        weight: 1
+      - path: D_dianwei_zuodatui
+        weight: 1
+      - path: D_dianwei_zuojia
+        weight: 1
+      - path: D_dianwei_zuoshou2
+        weight: 1
+      - path: D_dianwei_zuoxiaobi1
+        weight: 1
+      - path: D_dianwei_zuoxiaotui
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Special
+      takeName: Take 001
+      firstFrame: 59
+      lastFrame: 156
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: D_dianwei_dianweiwuqi
+        weight: 1
+      - path: D_dianwei_dianweiwuqi2
+        weight: 1
+      - path: D_dianwei_hudang
+        weight: 1
+      - path: D_dianwei_huwan
+        weight: 1
+      - path: D_dianwei_lian
+        weight: 1
+      - path: D_dianwei_quanbai2
+        weight: 1
+      - path: D_dianwei_quanbi1
+        weight: 1
+      - path: D_dianwei_xiongbu
+        weight: 1
+      - path: D_dianwei_yaojia
+        weight: 1
+      - path: D_dianwei_youbi
+        weight: 1
+      - path: D_dianwei_youdatui
+        weight: 1
+      - path: D_dianwei_youjian
+        weight: 1
+      - path: D_dianwei_youshou
+        weight: 1
+      - path: D_dianwei_youxiaotui
+        weight: 1
+      - path: D_dianwei_zuodabi
+        weight: 1
+      - path: D_dianwei_zuodatui
+        weight: 1
+      - path: D_dianwei_zuojia
+        weight: 1
+      - path: D_dianwei_zuoshou2
+        weight: 1
+      - path: D_dianwei_zuoxiaobi1
+        weight: 1
+      - path: D_dianwei_zuoxiaotui
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
     isReadable: 1
   meshes:
     lODScreenPercentages: []

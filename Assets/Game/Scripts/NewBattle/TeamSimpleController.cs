@@ -9,6 +9,11 @@ public class TeamSimpleController : MonoBehaviour
 
     public bool EditMode;
 
+    /// <summary>
+    /// Team Formation controller.
+    /// </summary>
+    public TeamFormationController FormationController;
+
     public delegate void SelectedChanged(GameObject currentObject, GameObject lastObject);
 
     [HideInInspector]
@@ -25,20 +30,11 @@ public class TeamSimpleController : MonoBehaviour
         get { return GroupController.CharacterList; }
     }
 
-    /// <summary>
-    /// Team Formation controller.
-    /// </summary>
-    public TeamFormationController FormationController
-    {
-        get { return GroupController.FormationController; }
-    }
-
     public int Total
     {
         get { return GroupController.Total; }
         set { GroupController.Total = value; }
     }
-
 
     #endregion
 
@@ -175,7 +171,15 @@ public class TeamSimpleController : MonoBehaviour
 
     private void InitOnStagePosition()
     {
-        var positionList = GroupController.PositionList;
+        // get formation with position list count with total.
+        var positionList = FormationController.FormationList[Total - 1].PositionList;
+        if (positionList.Count != Total)
+        {
+            Logger.LogError("Total: " + Total + " should be equal to position list count: " + positionList.Count +
+                            " of index: " + (Total - 1) + " from formation list.", gameObject);
+            return;
+        } 
+        
         for (var i = 0; i < CharacterList.Count; ++i)
         {
             var character = CharacterList[i];

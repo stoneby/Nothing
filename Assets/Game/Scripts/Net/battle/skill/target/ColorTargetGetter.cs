@@ -1,13 +1,11 @@
 using System;
-using System.Collections.Generic;
 
 namespace com.kx.sglm.gs.battle.share.skill.target
 {
 
-
 	using MathUtils = com.kx.sglm.core.util.MathUtils;
 	using BattleFighter = com.kx.sglm.gs.battle.share.actor.impl.BattleFighter;
-	using BattleTeam = com.kx.sglm.gs.battle.share.actor.impl.BattleTeam;
+	using BattleLogicHelper = com.kx.sglm.gs.battle.share.helper.BattleLogicHelper;
 
 	/// <summary>
 	/// 通过颜色选择目标
@@ -15,35 +13,22 @@ namespace com.kx.sglm.gs.battle.share.skill.target
 	/// @author liyuan2
 	/// 
 	/// </summary>
-	public class ColorTargetGetter : AbstractHeroTeamGetter
+	public abstract class ColorTargetGetter : AbstractTeamTargetGetter
 	{
 
 		private int colorFlag;
 
-		public override List<BattleFighter> getTarget(BattleFighter attacker, BattleTeam targetTeam)
+		public override bool isFitFlag(BattleFighter fighter)
 		{
-			List<BattleFighter> _fighterList = new List<BattleFighter>();
-			foreach (BattleFighter _fighter in targetTeam.AllAliveFighter)
-			{
-				if (isFitColor(_fighter, targetTeam))
-				{
-					_fighterList.Add(_fighter);
-				}
-			}
-			return _fighterList;
+			return BattleLogicHelper.checkFitColor(colorFlag, fighter);
 		}
 
-		protected internal virtual bool isFitColor(BattleFighter fighter, BattleTeam targetTeam)
-		{
-			int _colorIndex = targetTeam.getFighterColor(fighter.Index);
-			return MathUtils.hasFlagIndex(colorFlag, _colorIndex);
-		}
-
-		public override void build(params string[] param)
+		public override void buildByType(params string[] param)
 		{
 			colorFlag = MathUtils.changeDecToBinFlag(Convert.ToInt32(param[0]), true);
-
 		}
+
+
 
 	}
 

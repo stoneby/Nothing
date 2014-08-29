@@ -65,7 +65,10 @@ ModelImporter:
     400056: D_sunshangxiang_zuoxiaotui
     400058: D_sunshangxiang_zuoyaopian
     400060: //RootNode
-    7400000: Take 001
+    7400000: Idle
+    7400002: Run
+    7400004: Attack
+    7400006: Hurt
     9500000: //RootNode
     11100000: //RootNode
   materials:
@@ -82,7 +85,359 @@ ModelImporter:
     animationScaleError: .5
     animationWrapMode: 0
     extraExposedTransformPaths: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Idle
+      takeName: Take 001
+      firstFrame: 1
+      lastFrame: 19
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: D_sunshangxiang_gongshang
+        weight: 1
+      - path: D_sunshangxiang_gongxia
+        weight: 1
+      - path: D_sunshangxiang_gongzhong
+        weight: 1
+      - path: D_sunshangxiang_gupen
+        weight: 1
+      - path: D_sunshangxiang_jianba
+        weight: 1
+      - path: D_sunshangxiang_lian
+        weight: 1
+      - path: D_sunshangxiang_lianbiaoqing01
+        weight: 1
+      - path: D_sunshangxiang_toufa1
+        weight: 1
+      - path: D_sunshangxiang_toufa2
+        weight: 1
+      - path: D_sunshangxiang_toufa3
+        weight: 1
+      - path: D_sunshangxiang_toufa4
+        weight: 1
+      - path: D_sunshangxiang_toufa5
+        weight: 1
+      - path: D_sunshangxiang_xiong
+        weight: 1
+      - path: D_sunshangxiang_yao
+        weight: 1
+      - path: D_sunshangxiang_yaopian
+        weight: 1
+      - path: D_sunshangxiang_youdabi
+        weight: 1
+      - path: D_sunshangxiang_youdatui
+        weight: 1
+      - path: D_sunshangxiang_youjiao
+        weight: 1
+      - path: D_sunshangxiang_youshou
+        weight: 1
+      - path: D_sunshangxiang_youxiaobi
+        weight: 1
+      - path: D_sunshangxiang_youxiaobili
+        weight: 1
+      - path: D_sunshangxiang_youxiaotui
+        weight: 1
+      - path: D_sunshangxiang_youyaopian
+        weight: 1
+      - path: D_sunshangxiang_zuodabi
+        weight: 1
+      - path: D_sunshangxiang_zuodatui
+        weight: 1
+      - path: D_sunshangxiang_zuojiao
+        weight: 1
+      - path: D_sunshangxiang_zuoshou
+        weight: 1
+      - path: D_sunshangxiang_zuoxiaobi
+        weight: 1
+      - path: D_sunshangxiang_zuoxiaotui
+        weight: 1
+      - path: D_sunshangxiang_zuoyaopian
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Run
+      takeName: Take 001
+      firstFrame: 28
+      lastFrame: 42
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: D_sunshangxiang_gongshang
+        weight: 1
+      - path: D_sunshangxiang_gongxia
+        weight: 1
+      - path: D_sunshangxiang_gongzhong
+        weight: 1
+      - path: D_sunshangxiang_gupen
+        weight: 1
+      - path: D_sunshangxiang_jianba
+        weight: 1
+      - path: D_sunshangxiang_lian
+        weight: 1
+      - path: D_sunshangxiang_lianbiaoqing01
+        weight: 1
+      - path: D_sunshangxiang_toufa1
+        weight: 1
+      - path: D_sunshangxiang_toufa2
+        weight: 1
+      - path: D_sunshangxiang_toufa3
+        weight: 1
+      - path: D_sunshangxiang_toufa4
+        weight: 1
+      - path: D_sunshangxiang_toufa5
+        weight: 1
+      - path: D_sunshangxiang_xiong
+        weight: 1
+      - path: D_sunshangxiang_yao
+        weight: 1
+      - path: D_sunshangxiang_yaopian
+        weight: 1
+      - path: D_sunshangxiang_youdabi
+        weight: 1
+      - path: D_sunshangxiang_youdatui
+        weight: 1
+      - path: D_sunshangxiang_youjiao
+        weight: 1
+      - path: D_sunshangxiang_youshou
+        weight: 1
+      - path: D_sunshangxiang_youxiaobi
+        weight: 1
+      - path: D_sunshangxiang_youxiaobili
+        weight: 1
+      - path: D_sunshangxiang_youxiaotui
+        weight: 1
+      - path: D_sunshangxiang_youyaopian
+        weight: 1
+      - path: D_sunshangxiang_zuodabi
+        weight: 1
+      - path: D_sunshangxiang_zuodatui
+        weight: 1
+      - path: D_sunshangxiang_zuojiao
+        weight: 1
+      - path: D_sunshangxiang_zuoshou
+        weight: 1
+      - path: D_sunshangxiang_zuoxiaobi
+        weight: 1
+      - path: D_sunshangxiang_zuoxiaotui
+        weight: 1
+      - path: D_sunshangxiang_zuoyaopian
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Attack
+      takeName: Take 001
+      firstFrame: 43
+      lastFrame: 58
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: D_sunshangxiang_gongshang
+        weight: 1
+      - path: D_sunshangxiang_gongxia
+        weight: 1
+      - path: D_sunshangxiang_gongzhong
+        weight: 1
+      - path: D_sunshangxiang_gupen
+        weight: 1
+      - path: D_sunshangxiang_jianba
+        weight: 1
+      - path: D_sunshangxiang_lian
+        weight: 1
+      - path: D_sunshangxiang_lianbiaoqing01
+        weight: 1
+      - path: D_sunshangxiang_toufa1
+        weight: 1
+      - path: D_sunshangxiang_toufa2
+        weight: 1
+      - path: D_sunshangxiang_toufa3
+        weight: 1
+      - path: D_sunshangxiang_toufa4
+        weight: 1
+      - path: D_sunshangxiang_toufa5
+        weight: 1
+      - path: D_sunshangxiang_xiong
+        weight: 1
+      - path: D_sunshangxiang_yao
+        weight: 1
+      - path: D_sunshangxiang_yaopian
+        weight: 1
+      - path: D_sunshangxiang_youdabi
+        weight: 1
+      - path: D_sunshangxiang_youdatui
+        weight: 1
+      - path: D_sunshangxiang_youjiao
+        weight: 1
+      - path: D_sunshangxiang_youshou
+        weight: 1
+      - path: D_sunshangxiang_youxiaobi
+        weight: 1
+      - path: D_sunshangxiang_youxiaobili
+        weight: 1
+      - path: D_sunshangxiang_youxiaotui
+        weight: 1
+      - path: D_sunshangxiang_youyaopian
+        weight: 1
+      - path: D_sunshangxiang_zuodabi
+        weight: 1
+      - path: D_sunshangxiang_zuodatui
+        weight: 1
+      - path: D_sunshangxiang_zuojiao
+        weight: 1
+      - path: D_sunshangxiang_zuoshou
+        weight: 1
+      - path: D_sunshangxiang_zuoxiaobi
+        weight: 1
+      - path: D_sunshangxiang_zuoxiaotui
+        weight: 1
+      - path: D_sunshangxiang_zuoyaopian
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Hurt
+      takeName: Take 001
+      firstFrame: 20
+      lastFrame: 27
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: D_sunshangxiang_gongshang
+        weight: 1
+      - path: D_sunshangxiang_gongxia
+        weight: 1
+      - path: D_sunshangxiang_gongzhong
+        weight: 1
+      - path: D_sunshangxiang_gupen
+        weight: 1
+      - path: D_sunshangxiang_jianba
+        weight: 1
+      - path: D_sunshangxiang_lian
+        weight: 1
+      - path: D_sunshangxiang_lianbiaoqing01
+        weight: 1
+      - path: D_sunshangxiang_toufa1
+        weight: 1
+      - path: D_sunshangxiang_toufa2
+        weight: 1
+      - path: D_sunshangxiang_toufa3
+        weight: 1
+      - path: D_sunshangxiang_toufa4
+        weight: 1
+      - path: D_sunshangxiang_toufa5
+        weight: 1
+      - path: D_sunshangxiang_xiong
+        weight: 1
+      - path: D_sunshangxiang_yao
+        weight: 1
+      - path: D_sunshangxiang_yaopian
+        weight: 1
+      - path: D_sunshangxiang_youdabi
+        weight: 1
+      - path: D_sunshangxiang_youdatui
+        weight: 1
+      - path: D_sunshangxiang_youjiao
+        weight: 1
+      - path: D_sunshangxiang_youshou
+        weight: 1
+      - path: D_sunshangxiang_youxiaobi
+        weight: 1
+      - path: D_sunshangxiang_youxiaobili
+        weight: 1
+      - path: D_sunshangxiang_youxiaotui
+        weight: 1
+      - path: D_sunshangxiang_youyaopian
+        weight: 1
+      - path: D_sunshangxiang_zuodabi
+        weight: 1
+      - path: D_sunshangxiang_zuodatui
+        weight: 1
+      - path: D_sunshangxiang_zuojiao
+        weight: 1
+      - path: D_sunshangxiang_zuoshou
+        weight: 1
+      - path: D_sunshangxiang_zuoxiaobi
+        weight: 1
+      - path: D_sunshangxiang_zuoxiaotui
+        weight: 1
+      - path: D_sunshangxiang_zuoyaopian
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
     isReadable: 1
   meshes:
     lODScreenPercentages: []

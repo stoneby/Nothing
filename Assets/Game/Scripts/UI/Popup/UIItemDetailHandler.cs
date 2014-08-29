@@ -7,6 +7,7 @@ using UnityEngine;
 public class UIItemDetailHandler : MonoBehaviour
 {
     public PropertyUpdater PropertyUpdater;
+    public ItemBase ItemBase;
     public static bool IsLongPressEnter;
     private ItemInfo itemInfo;
 
@@ -25,22 +26,32 @@ public class UIItemDetailHandler : MonoBehaviour
     {
         MtaManager.TrackBeginPage(MtaType.ItemDetailWindow);
         commonWindow.NormalClicked = OnDetail;
-        commonWindow.ShowSelMask();
+        var selected = commonWindow.MainInfo != null;
+        NGUITools.SetActive(ItemBase.gameObject, selected);
+        if(commonWindow.MainInfo == null)
+        {
+            return;
+        }
+        commonWindow.ShowSelMask(true);
         Refresh();
+        //var csmsg = new CSQueryItemDetail { BagIndex = commonWindow.GetInfo(commonWindow.CurSelPos).BagIndex };
+        //NetManager.SendMessage(csmsg);
     }
 
     public void OnDisable()
     {
         MtaManager.TrackEndPage(MtaType.ItemDetailWindow);
+        PropertyUpdater.Reset();
     }
 
     private void OnDetail(GameObject go)
     {
-        commonWindow.CurSel = go;
+        commonWindow.CurSelPos = UISellItemHandler.GetPosition(go);
         commonWindow.ShowSelMask(go.transform.position);
-        var bagIndex = go.GetComponent<NewEquipItem>().BagIndex;
-        var csmsg = new CSQueryItemDetail { BagIndex = bagIndex };
-        NetManager.SendMessage(csmsg);
+        //var bagIndex = go.GetComponent<NewEquipItem>().BagIndex;
+        //var csmsg = new CSQueryItemDetail { BagIndex = bagIndex };
+        //NetManager.SendMessage(csmsg);
+        Refresh();
     }
 
     #endregion
@@ -51,6 +62,7 @@ public class UIItemDetailHandler : MonoBehaviour
     private void Awake()
     {
         NGUITools.SetActive(PropertyUpdater.gameObject, true);
+        NGUITools.SetActive(ItemBase.gameObject, true);
         var initSkill = transform.Find("Skill/InitSkill");
         skillInitTitle = initSkill.Find("Title").GetComponent<UILabel>();
         skillInitDesc = initSkill.Find("Desc").GetComponent<UILabel>();
@@ -63,41 +75,42 @@ public class UIItemDetailHandler : MonoBehaviour
         matchTitle = matchInfo.Find("Title").GetComponent<UILabel>();
         matchDesc = matchInfo.Find("Desc").GetComponent<UILabel>();
         commonWindow = WindowManager.Instance.GetWindow<UIItemCommonWindow>();
-        var go = commonWindow.Items.transform.GetChild(0).GetComponent<WrapItemContent>().Children[0].gameObject;
-        OnDetail(go);
     }
 
     public void Refresh()
     {
-        var detail = ItemModeLocator.Instance.ItemDetail;
-        if(detail == null)
-        {
-            return;
-        }
-        var skillTmp = HeroModelLocator.Instance.SkillTemplates.HeroBattleSkillTmpls;
+        //var detail = ItemModeLocator.Instance.ItemDetail;
+        //if(detail == null)
+        //{
+        //    return;
+        //}
+        //var skillTmp = HeroModelLocator.Instance.SkillTemplates.HeroBattleSkillTmpls;
 
-        var initSkillId = detail.InitSkillId;
-        if (skillTmp.ContainsKey(initSkillId))
-        {
-            var initTmp = skillTmp[initSkillId];
-            skillInitTitle.text = initTmp.Name;
-            skillInitDesc.text = initTmp.Desc;
-        }
-        var randSkillId = detail.RandSkillId;
-        if (skillTmp.ContainsKey(randSkillId))
-        {
-            var randTmp = skillTmp[randSkillId];
-            skillRandTitle.text = randTmp.Name;
-            skillRandDesc.text = randTmp.Desc;
-        }
-        matchDesc.text = detail.MatchInfo;
-        var info = ItemModeLocator.Instance.FindItem(detail.BagIndex);
+        //var initSkillId = detail.InitSkillId;
+        //if (skillTmp.ContainsKey(initSkillId))
+        //{
+        //    var initTmp = skillTmp[initSkillId];
+        //    skillInitTitle.text = initTmp.Name;
+        //    skillInitDesc.text = initTmp.Desc;
+        //}
+        //var randSkillId = detail.RandSkillId;
+        //if (skillTmp.ContainsKey(randSkillId))
+        //{
+        //    var randTmp = skillTmp[randSkillId];
+        //    skillRandTitle.text = randTmp.Name;
+        //    skillRandDesc.text = randTmp.Desc;
+        //}
+        //matchDesc.text = detail.MatchInfo;
+        //var info = ItemModeLocator.Instance.FindItem(detail.BagIndex);
+        var info = commonWindow.MainInfo;
         var level = info.Level;
-        var atk = ItemModeLocator.Instance.GetAttack(info.TmplId, level);
-        var hp = ItemModeLocator.Instance.GetHp(info.TmplId, level);
-        var recover = ItemModeLocator.Instance.GetRecover(info.TmplId, level);
-        var mp = ItemModeLocator.Instance.GetMp(info.TmplId);
+        var temId = info.TmplId;
+        var atk = ItemModeLocator.Instance.GetAttack(temId, level);
+        var hp = ItemModeLocator.Instance.GetHp(temId, level);
+        var recover = ItemModeLocator.Instance.GetRecover(temId, level);
+        var mp = ItemModeLocator.Instance.GetMp(temId);
         PropertyUpdater.UpdateProperty(level, info.MaxLvl, atk, hp, recover, mp);
+        ItemBase.InitItem(temId);
     }
 
     #endregion

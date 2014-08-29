@@ -68,10 +68,7 @@ public class WrapHerosItem : WrapItemBase
             NGUITools.SetActive(child.gameObject, true);
             var heroItem = child.GetComponentInChildren<NewHeroItem>();
             var heroInfo = HeroModelLocator.Instance.FindHero(myData[i]);
-            List<long> curTeamUuids;
-            List<long> allTeamUuids;
-            HeroModelLocator.Instance.GetTeamUuids(out curTeamUuids, out allTeamUuids, 1);
-            heroItem.InitItem(heroInfo, curTeamUuids, allTeamUuids);
+            heroItem.InitItem(heroInfo, TeamMemberManager.Instance.CurTeam, TeamMemberManager.Instance.Teams);
             HeroUtils.ShowHero(HeroModelLocator.Instance.OrderType, heroItem, heroInfo);
         }
         for (int i = myData.Count; i < Children.Count; i++)

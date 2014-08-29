@@ -21,7 +21,6 @@ public class BattleFaceController : MonoBehaviour
         MPController.Reset();
         FootManager.Reset();
         TopController.Reset();
-        PopController.Reset();
         LeaderController.Reset();
         StepRecord.Reset();
         StarController.Reset();

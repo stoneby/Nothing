@@ -1,44 +1,58 @@
 using System.Collections.Generic;
+using System.Linq;
 using KXSGCodec;
 using Template.Auto.Hero;
 using UnityEngine;
 
-public class UIHeroCommonWindow : Window 
+public class UIHeroCommonWindow : Window
 {
+    private ExtendBag itemExtendConfirm;
+    private UIEventListener extendLis;
     private UIEventListener sortBtnLis;
     private UIEventListener closeBtnLis;
     private StretchItem closeBtnLine;
-
     private UILabel sortLabel;
     private UILabel herosNum;
-
-    public List<HeroInfo> Infos { get; private set; }
-
     private SCHeroList scHeroList;
     private UIEventListener.VoidDelegate normalClicked;
-
-    private GameObject ScrollViewObj;
-    public CustomGrid Heros;
-    public UIToggle DescendToggle;
-
     private bool descendSort;
-
     private bool isEntered;
-
     private Transform selMask;
-    public GameObject CurSel;
-
+    private readonly Position defaultPos = new Position { X = 0, Y = 0 };
+    private HeroInfo heroInfo;
+    private HeroTemplate heroTemplate;
+    private const int HeroCellLength = 120;
+    private long uuidCached;
+    private bool triggeredByStart = true;
     public UIHeroDetailHandler HeroDetailHandler;
     public UILevelUpHeroHandler LevelUpHeroHandler;
     public UISellHeroHandler SellHeroHandler;
-
-    private HeroInfo heroInfo;
-    private HeroTemplate heroTemplate;
-
     public HeroTemplate HeroTemplate
     {
         get { return heroTemplate; }
     }
+
+    private Position curSelPos = new Position{X = -1, Y = -1};
+    public Position CurSelPos
+    {
+        get { return curSelPos; }
+        set
+        {
+            if (curSelPos != value)
+            {
+                curSelPos = value;
+                var oneDim = value.X * CountOfOneGroup + value.Y;
+                if (Infos != null && Infos.Count > oneDim)
+                {
+                    HeroInfo = Infos[oneDim];
+                }
+            }
+        }
+    }
+
+    public List<long> LockedMemberUuid = new List<long>();
+
+    public List<HeroInfo> Infos { get; private set; }
 
     /// <summary>
     /// The current hero info.
@@ -56,13 +70,14 @@ public class UIHeroCommonWindow : Window
         }
     }
 
+    public CustomGrid Heros;
+    public UIToggle DescendToggle;
+    public GameObject ExtendBagConfirm;
     /// <summary>
     /// The prefab of the hero.
     /// </summary>
     public GameObject HeroPrefab;
-
     public int CountOfOneGroup = 4;
-
     public delegate void SortOrderChanged(List<HeroInfo> hInfos);
 
     /// <summary>
@@ -81,34 +96,78 @@ public class UIHeroCommonWindow : Window
             for (var i = 0; i < parent.childCount; i++)
             {
                 var item = parent.GetChild(i);
-                for (var j = 0; j < item.childCount; j++)
+                if (item.name != "ZZZForSort_AddItem")
                 {
-                    var hero = item.GetChild(j).gameObject;
-                    var activeCache = hero.activeSelf;
-                    NGUITools.SetActive(hero, true);
-                    var lis = UIEventListener.Get(hero);
-                    lis.onClick = value;
-                    NGUITools.SetActive(hero, activeCache);
+                    for (var j = 0; j < item.childCount; j++)
+                    {
+                        var hero = item.GetChild(j).gameObject;
+                        var activeCache = hero.activeSelf;
+                        NGUITools.SetActive(hero, true);
+                        var lis = UIEventListener.Get(hero);
+                        lis.onClick = value;
+                        NGUITools.SetActive(hero, activeCache);
+                    }
                 }
             }
         }
     }
- 
+
     #region Window
 
     public override void OnEnter()
     {
+        Infos = scHeroList.HeroList;
         isEntered = true;
         var orderType = HeroModelLocator.Instance.OrderType;
         sortLabel.text = LanguageManager.Instance.GetTextValue(ItemHelper.SortKeys[(int)orderType]);
         NGUITools.SetActive(Heros.gameObject, true);
-        herosNum.text = string.Format("{0}/{1}", Infos.Count, PlayerModelLocator.Instance.HeroMax);
         InitWrapContents(Infos);
+        if (Infos != null && Infos.Count > 0)
+        {
+            ShowSelMask(Infos != null && Infos.Count > 0);
+            RefreshSelMask(defaultPos);
+            RefreshLockMemberList();
+        }
         InstallHandlers();
+    }
+
+    public void RefreshSelMask(Position position)
+    {
+        CurSelPos = defaultPos;
+        var heros = Heros.transform;
+        var childCount = heros.childCount;
+        for (var i = 0; i < childCount; i++)
+        {
+            var wrapHerosItem = heros.GetChild(i).GetComponent<WrapHerosItem>();
+            var found = false;
+            if (wrapHerosItem != null && wrapHerosItem.gameObject.activeSelf)
+            {
+                for (var j = 0; j < wrapHerosItem.Children.Count; j++)
+                {
+                    var pos = new Position { X = wrapHerosItem.Row, Y = j };
+                    found = pos == position;
+                    if (found)
+                    {
+                        var selObj = wrapHerosItem.Children[pos.Y].gameObject;
+                        ShowSelMask(selObj.transform.position);
+                        break;
+                    }
+                }
+            }
+            if(found)
+            {
+                break;
+            }
+        }
     }
 
     private void InitWrapContents(List<HeroInfo> heroInfos)
     {
+        RefreshHeroMaxNum();
+        if (heroInfos == null || heroInfos.Count == 0)
+        {
+            return;
+        }
         var orderType = HeroModelLocator.Instance.OrderType;
         HeroModelLocator.Instance.SortHeroList(orderType, Infos, descendSort);
         var data = new List<List<long>>();
@@ -120,12 +179,13 @@ public class UIHeroCommonWindow : Window
             {
                 if (i * CountOfOneGroup + j < Infos.Count)
                 {
-                     list.Add(Infos[i * CountOfOneGroup + j].Uuid);
+                    list.Add(Infos[i * CountOfOneGroup + j].Uuid);
                 }
             }
             data.Add(list);
         }
         Heros.Init(data);
+        RepositionMaxExtendBtn();
     }
 
     public override void OnExit()
@@ -141,48 +201,123 @@ public class UIHeroCommonWindow : Window
     // Use this for initialization
     void Awake()
     {
-        ScrollViewObj = transform.FindChild("Scroll View").gameObject;
         var buttons = transform.Find("Buttons");
+        extendLis = UIEventListener.Get(Utils.FindChild(transform, "AddItem").gameObject);
         sortBtnLis = UIEventListener.Get(buttons.Find("Button-Sort").gameObject);
         closeBtnLis = UIEventListener.Get(buttons.Find("Button-Close").gameObject);
         closeBtnLine = buttons.Find("Button-CloseLine").GetComponent<StretchItem>();
         sortLabel = sortBtnLis.GetComponentInChildren<UILabel>();
         herosNum = Utils.FindChild(transform, "HeroNumValue").GetComponent<UILabel>();
         scHeroList = HeroModelLocator.Instance.SCHeroList;
-        Infos = scHeroList.HeroList ?? new List<HeroInfo>();
         NGUITools.SetActive(Heros.transform.parent.gameObject, true);
         selMask = transform.Find("SelMask");
         selMask.transform.parent = Heros.transform.parent;
         NGUITools.SetActive(selMask.gameObject, false);
-        HeroDetailHandler.SetParentBoolDelegate = DetailSetHandler;
+    }
 
-        if (ItemModeLocator.Instance.ScAllItemInfos == null)
+    /// <summary>
+    /// Refresh LockMemberUuid in OnEnter.
+    /// </summary>
+    private void RefreshLockMemberList()
+    {
+        LockedMemberUuid.Clear();
+        if(Infos == null)
         {
-            ItemModeLocator.Instance.GetItemPos = ItemType.GetItemInHeroInfo;
-            var csmsg = new CSQueryAllItems { BagType = ItemType.MainItemBagType };
-            NetManager.SendMessage(csmsg);
+            return;
+        }
+        foreach (var item in Infos)
+        {
+            if (item.Bind)
+            {
+                LockedMemberUuid.Add(item.Uuid);
+            }
         }
     }
 
-    private void DetailSetHandler(GameObject obj, bool state)
+    private void OnExtend(GameObject go)
     {
-        if (ScrollViewObj != null) ScrollViewObj.SetActive(state);
+        if (ItemModeLocator.Instance.Bag.HeroExtTmpls.Count - PlayerModelLocator.Instance.ExtendHeroTimes != 0)
+        {
+            itemExtendConfirm = NGUITools.AddChild(transform.gameObject, ExtendBagConfirm).GetComponent<ExtendBag>();
+            itemExtendConfirm.ExtendContentKey = HeroConstant.ExtendContentKey;
+            itemExtendConfirm.ExtendLimitKey = HeroConstant.ExtendLimitKey;
+            var bases = ItemModeLocator.Instance.Bag;
+            var costDict = bases.HeroExtTmpls.ToDictionary(item => item.Value.Id, item => item.Value.ExtendCost);
+            itemExtendConfirm.Init(PlayerModelLocator.Instance.ExtendHeroTimes, bases.BagBaseTmpls[1].ExtendHeroCount,
+                                   costDict);
+            itemExtendConfirm.OkClicked += OnExtendBagOk;
+        }
+        else
+        {
+            PopTextManager.PopTip("可拥有武将数已达上限", false);
+        }
+    }
+
+    private void OnExtendBagOk(GameObject go)
+    {
+        var msg = new CSHeroMaxExtend() { ExtendTimes = (sbyte)itemExtendConfirm.ExtendSize };
+        NetManager.SendMessage(msg);
+    }
+
+    private void RepositionMaxExtendBtn()
+    {
+        Utils.FindChild(transform, "Grid").GetComponent<UIGrid>().Reposition();
+        var addItemBtn = Utils.FindChild(transform, "ZZZForSort_AddItem");
+        switch (Infos.Count % CountOfOneGroup)
+        {
+            case 0:
+                break;
+            case 1:
+                addItemBtn.localPosition += new Vector3(HeroCellLength * 1, HeroCellLength, 0);
+                break;
+            case 2:
+                addItemBtn.localPosition += new Vector3(HeroCellLength * 2, HeroCellLength, 0);
+                break;
+            case 3:
+                addItemBtn.localPosition += new Vector3(HeroCellLength * 3, HeroCellLength, 0);
+                break;
+        }
+    }
+
+    public void RefreshHeroMaxNum()
+    {
+        var count = Infos == null ? 0 : Infos.Count;
+        herosNum.text = string.Format("{0}/{1}", count, PlayerModelLocator.Instance.HeroMax);
     }
 
     private void InstallHandlers()
     {
         EventDelegate.Add(DescendToggle.onChange, SortTypeChanged);
+        extendLis.onClick = OnExtend;
         sortBtnLis.onClick = OnSort;
         closeBtnLis.onClick = OnClose;
         closeBtnLine.DragFinish = OnClose;
+        Heros.OnUpdate += OnUpdate;
     }
 
     private void UnInstallHandlers()
     {
+        extendLis.onClick = null;
         sortBtnLis.onClick = null;
         closeBtnLis.onClick = null;
         closeBtnLine.DragFinish = null;
         EventDelegate.Remove(DescendToggle.onChange, SortTypeChanged);
+        Heros.OnUpdate -= OnUpdate;
+    }
+
+    private void OnUpdate(GameObject sender, int index)
+    {
+        var wrapHero = sender.GetComponent<WrapHerosItem>();
+        var col = wrapHero.Children.Count;
+        for (var i = 0; i < col; i++)
+        {
+            var pos = new Position { X = index, Y = i };
+            var show = pos == CurSelPos;
+            if(show)
+            {
+                ShowSelMask(wrapHero.Children[pos.Y].position);
+            }
+        }
     }
 
     private void SortTypeChanged()
@@ -190,27 +325,52 @@ public class UIHeroCommonWindow : Window
         descendSort = DescendToggle.value;
         if (isEntered)
         {
+            if(triggeredByStart)
+            {
+                triggeredByStart = false;
+                InitWrapContents(Infos);
+                return;
+            }
+            SortBefore();
             InitWrapContents(Infos);
+            SortAfter();
         }
     }
 
-    private void OnSort(GameObject go)
+    private void SortBefore()
     {
         if (OnSortOrderChangedBefore != null)
         {
             OnSortOrderChangedBefore(Infos);
         }
+        uuidCached = GetInfo(curSelPos).Uuid;
+    }
+
+    private void SortAfter()
+    {
+        if (OnSortOrderChangedAfter != null)
+        {
+            OnSortOrderChangedAfter(Infos);
+        }
+        if (CurSelPos.X >= 0 && CurSelPos.Y >= 0 && Infos != null)
+        {
+            var newIndex = Infos.FindIndex(info => info.Uuid == uuidCached);
+            CurSelPos = new Position {X = newIndex / CountOfOneGroup, Y = newIndex % CountOfOneGroup};
+            RefreshSelMask(CurSelPos);
+        }
+    }
+
+    private void OnSort(GameObject go)
+    {
+        SortBefore();
         var orderType = HeroModelLocator.Instance.OrderType;
         orderType = (ItemHelper.OrderType)(((int)orderType + 1) % ItemHelper.SortKeys.Count);
         sortLabel.text = LanguageManager.Instance.GetTextValue(ItemHelper.SortKeys[(int)orderType]);
         HeroModelLocator.Instance.OrderType = orderType;
         InitWrapContents(Infos);
-        if (OnSortOrderChangedAfter != null)
-        {
-            OnSortOrderChangedAfter(Infos);
-        }
-    } 
-    
+        SortAfter();
+    }
+
     private void OnClose(GameObject go)
     {
         WindowManager.Instance.Show<UIHeroCommonWindow>(false);
@@ -223,7 +383,7 @@ public class UIHeroCommonWindow : Window
     /// <param name="teamIndex"> </param>
     public void Refresh(List<HeroInfo> newInfos, int teamIndex)
     {
-       
+
     }
 
     /// <summary>
@@ -232,8 +392,17 @@ public class UIHeroCommonWindow : Window
     /// <param name="newInfos">The hero info list to refresh data.</param>
     public void Refresh(List<HeroInfo> newInfos)
     {
-        herosNum.text = string.Format("{0}/{1}", newInfos.Count, PlayerModelLocator.Instance.HeroMax);
+        var count = newInfos == null ? 0 : newInfos.Count;
+        herosNum.text = string.Format("{0}/{1}", count, PlayerModelLocator.Instance.HeroMax);
         InitWrapContents(newInfos);
+    }
+
+    /// <summary>
+    /// Refresh the heros page window with the special hero info list.
+    /// </summary>
+    public void Refresh()
+    {
+        Refresh(Infos);
     }
 
     public void Refresh(int teamIndex)
@@ -244,29 +413,46 @@ public class UIHeroCommonWindow : Window
     public void ShowSelMask(Vector3 pos)
     {
         selMask.position = pos;
-        ShowSelMask();
+        ShowSelMask(true);
     }
 
-    public void ShowSelMask()
+    public void ShowSelMask(bool show)
     {
-        if (selMask.gameObject.activeSelf == false)
-        {
-            NGUITools.SetActive(selMask.gameObject, true);
-        }
-    }
-
-    public void HideSelMask()
-    {
-        if(selMask.gameObject.activeSelf)
-        {
-            NGUITools.SetActive(selMask.gameObject, false);
-        }
+        NGUITools.SetActive(selMask.gameObject, show);
     }
 
     public HeroInfo GetInfo(Position pos)
     {
         var oneDimsionIndex = pos.X * CountOfOneGroup + pos.Y;
         return Infos[oneDimsionIndex];
+    }
+
+    public void ShowLockState(UISprite lockSprite)
+    {
+        if (LockedMemberUuid.Contains(heroInfo.Uuid))
+        {
+            lockSprite.spriteName = "HeroLock_close";
+        }
+        else
+        {
+            lockSprite.spriteName = "HeroLock_open";
+        }
+    }
+
+    public void ReverseLockState()
+    {
+        if (LockedMemberUuid.Contains(heroInfo.Uuid))
+        {
+            LockedMemberUuid.Remove(heroInfo.Uuid);
+            Logger.Log("!!!!!!!!!!!UnLocked hero.");
+        }
+        else
+        {
+            LockedMemberUuid.Add(heroInfo.Uuid);
+            Logger.Log("!!!!!!!!!!!Locked hero.");
+        }
+        var csHeroBindMsg = new CSHeroBind { HeroUuid = new List<long> { heroInfo.Uuid } };
+        NetManager.SendMessage(csHeroBindMsg);
     }
 
     #endregion

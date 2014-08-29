@@ -6,7 +6,7 @@ public class GetItemControl : MonoBehaviour
     private GameObject containerHero;
     private GameObject containerItem;
     private GameObject containerBox;
-
+    private GameObject spriteItem;
     private GameObject spriteHero;
 
     private GameObject spriteNew;
@@ -24,7 +24,7 @@ public class GetItemControl : MonoBehaviour
         containerBox = transform.FindChild("Sprite box").gameObject;
 
         spriteHero = transform.FindChild("Container hero/Sprite head").gameObject;
-
+        spriteItem = transform.FindChild("Container item/Sprite head").gameObject;
         spriteNew = transform.FindChild("Sprite new").gameObject;
 	    haveNotInit = false;
 	    Reset();
@@ -65,17 +65,17 @@ public class GetItemControl : MonoBehaviour
                 containerItem.SetActive(false);
                 var sp = spriteHero.GetComponent<UISprite>();
                 var herodata = HeroModelLocator.Instance.FindHero(long.Parse(Data.Uuid));
-                int k = 0;
-                if (herodata != null)
-                {
-                    k = herodata.TemplateId % 14;
-                }
-                sp.spriteName = "head_" + k;
+                var tem = HeroModelLocator.Instance.GetHeroByTemplateId(herodata.TemplateId);
+                HeroConstant.SetHeadByIndex(sp, tem.Icon - 1);
             }
             else
             {
                 containerHero.SetActive(false);
                 containerItem.SetActive(true);
+                var sp = spriteItem.GetComponent<UISprite>();
+                var item = ItemModeLocator.Instance.FindItem(Data.Uuid);
+                var tem = ItemModeLocator.Instance.GetIconId(item.TmplId);
+                sp.spriteName = (tem != 0) ? ItemType.ItemHeadPrefix + tem : "item_111002";
             }
         }
         else

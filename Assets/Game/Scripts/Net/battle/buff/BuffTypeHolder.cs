@@ -27,11 +27,12 @@ namespace com.kx.sglm.gs.battle.share.buff
 		}
 
 
-		public virtual BattleFighterBuff putBuff(BattleFighter owner, IBuffAction buffAction)
+		public virtual BattleFighterBuff putBuff(BattleFighter owner, BuffInfo info)
 		{
-			BattleFighterBuff _buff = createBattleFighterBuff(owner, buffAction);
-			buffMap[buffAction.TypeB] = _buff;
-			_buff.stackingBuff();
+			IBuffAction _buffAction = info.BuffAction;
+			BattleFighterBuff _buff = createBattleFighterBuff(owner, _buffAction);
+			buffMap[_buffAction.TypeB] = _buff;
+			_buff.stackingBuff(info);
 			return _buff;
 		}
 

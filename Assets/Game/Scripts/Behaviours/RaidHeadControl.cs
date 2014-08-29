@@ -146,11 +146,9 @@ public class RaidHeadControl : MonoBehaviour
         }
 
         var headsp = SpriteHead.GetComponent<UISprite>();
-        int k = 0;
         if (HeroTemp != null)
         {
-            k = HeroTemp.Id%14;
-            headsp.spriteName = "head_" + k;
+            HeroConstant.SetHeadByIndex(headsp, HeroTemp.Icon - 1);
             //HeadTex
             var jobsp = JobSprite.GetComponent<UISprite>();
             jobsp.spriteName = "job_" + HeroTemp.Job;

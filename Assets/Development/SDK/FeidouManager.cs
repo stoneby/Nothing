@@ -9,9 +9,25 @@ public class FeidouManager
 #endif
 
     private static bool HaveInit = false;
+    private static float LastLoginTime = -10;
+
+    private static bool CanLogin()
+    {
+        var t = Time.realtimeSinceStartup;
+        if (t - LastLoginTime > 1)
+        {
+            LastLoginTime = t;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 
     public static void DoLogin()
     {
+        if (!CanLogin()) return;
         Init();
 #if UNITY_ANDROID
         ServiceManager.IsDebugAccount = 0;

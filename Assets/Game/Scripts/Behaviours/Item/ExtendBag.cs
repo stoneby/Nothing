@@ -89,8 +89,17 @@ public class ExtendBag : MonoBehaviour
 
     private void Reset()
     {
-        ExtendSize = 1;
-        decreaseLis.GetComponent<UIButton>().isEnabled = false;
+        if (maxExtendSize != 0)
+        {
+            ExtendSize = 1;
+            decreaseLis.GetComponent<UIButton>().isEnabled = false;
+        }
+        else
+        {
+            ExtendSize = 0;
+            increaseLis.GetComponent<UIButton>().isEnabled = false;
+            decreaseLis.GetComponent<UIButton>().isEnabled = false;
+        }
     }
 
     private void Awake()

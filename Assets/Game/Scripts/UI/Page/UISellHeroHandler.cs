@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using KXSGCodec;
-using Template;
 using Template.Auto.Hero;
 using UnityEngine;
 
@@ -37,7 +36,7 @@ public class UISellHeroHandler : MonoBehaviour
     {
         MtaManager.TrackBeginPage(MtaType.SellHeroWindow);
         commonWindow = WindowManager.Instance.GetWindow<UIHeroCommonWindow>();
-        commonWindow.HideSelMask();
+        commonWindow.ShowSelMask(false);
         commonWindow.NormalClicked = OnNormalClick;
         RefreshSelAndSoul();
         GetTeamMembers();
@@ -93,11 +92,10 @@ public class UISellHeroHandler : MonoBehaviour
             sellObjects.Add(posList[i], values[i]);
         }
         cannotSellPosList = GetPositionsViaUuids(cachedCanNotSellUuids, hInfos, countPerGroup);
-
         UpdateSelAndCanNotSellMasks();
     }
 
-    private List<Position> GetPositionsViaUuids(IEnumerable<long> uuids, List<HeroInfo> hInfos, int countPerGroup)
+    public static List<Position> GetPositionsViaUuids(IEnumerable<long> uuids, List<HeroInfo> hInfos, int countPerGroup)
     {
         return uuids.Select(uuid => hInfos.FindIndex(info => info.Uuid == uuid)).Select(
             index => new Position {X = index / countPerGroup, Y = index % countPerGroup}).ToList();
@@ -105,17 +103,14 @@ public class UISellHeroHandler : MonoBehaviour
 
     private void OnSortOrderChangedBefore(List<HeroInfo> hInfos)
     {
-        CacheUuidsFromPos(sellObjects.Keys, cachedSelUuids);
+        CacheUuidsFromPos(sellObjects.Keys.ToList(), cachedSelUuids);
         CacheUuidsFromPos(cannotSellPosList, cachedCanNotSellUuids);
     }
 
     private void CacheUuidsFromPos(IEnumerable<Position> list, List<long> uuids)
     {
         uuids.Clear();
-        foreach (var pos in list)
-        {
-            cachedSelUuids.Add(commonWindow.GetInfo(pos).Uuid);
-        }
+        uuids.AddRange(list.Select(pos => commonWindow.GetInfo(pos).Uuid));
     }
 
     private void UpdateSelAndCanNotSellMasks()
@@ -124,13 +119,16 @@ public class UISellHeroHandler : MonoBehaviour
         for (var i = 0; i < childCount; i++)
         {
             var wrapHero = commonWindow.Heros.transform.GetChild(i).GetComponent<WrapHerosItem>();
-            for (var j = 0; j < wrapHero.Children.Count; j++)
+            if(wrapHero != null)
             {
-                var pos = new Position { X = wrapHero.Row, Y = j };
-                var showSellMask = sellObjects.ContainsKey(pos);
-                wrapHero.ShowSellMask(j, showSellMask);
-                var showCanNotSellMask = cannotSellPosList.Contains(pos);
-                wrapHero.ShowCanNotSellMask(j, showCanNotSellMask);
+                for (var j = 0; j < wrapHero.Children.Count; j++)
+                {
+                    var pos = new Position { X = wrapHero.Row, Y = j };
+                    var showSellMask = sellObjects.ContainsKey(pos);
+                    wrapHero.ShowSellMask(j, showSellMask);
+                    var showCanNotSellMask = cannotSellPosList.Contains(pos);
+                    wrapHero.ShowCanNotSellMask(j, showCanNotSellMask);
+                }
             }
         }
     }
@@ -196,7 +194,7 @@ public class UISellHeroHandler : MonoBehaviour
         for(var i = 0; i < count; i++)
         {
             var info = infos[i];
-            if(teamMembers.Contains(info.Uuid))
+            if(teamMembers.Contains(info.Uuid)||commonWindow.LockedMemberUuid.Contains(info.Uuid))
             {
                 var pos = new Position {X = i / countPerGroup, Y = i % countPerGroup};
                 cannotSellPosList.Add(pos);
@@ -211,7 +209,7 @@ public class UISellHeroHandler : MonoBehaviour
         sellObjects.Remove(pos);
     }
 
-    private Position GetPosition(GameObject go)
+    public static Position GetPosition(GameObject go)
     {
         var item = NGUITools.FindInParents<WrapHerosItem>(go);
         var row = item.Row;
@@ -314,12 +312,16 @@ public class UISellHeroHandler : MonoBehaviour
         var heros = commonWindow.Heros.transform;
         for (var i = 0; i < heros.childCount; i++)
         {
-            var hero = heros.GetChild(i).GetComponent<WrapHerosItem>();
-            hero.ShowSellMasks(false);
-            if (includeCanNotSellMask)
+            var wrapHerosItem = heros.GetChild(i).GetComponent<WrapHerosItem>();
+            if (wrapHerosItem != null)
             {
-                hero.ShowCanNotSellMasks(false);
+                wrapHerosItem.ShowSellMasks(false);
+                if (includeCanNotSellMask)
+                {
+                    wrapHerosItem.ShowCanNotSellMasks(false);
+                }
             }
+
         }
         var clones = sellObjects.Select(sellObj => sellObj.Value).ToList();
         for (var i = clones.Count - 1; i >= 0; i--)

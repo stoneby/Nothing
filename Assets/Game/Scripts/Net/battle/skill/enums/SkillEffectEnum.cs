@@ -9,7 +9,7 @@ namespace com.kx.sglm.gs.battle.share.skill.enums
 	using MutiHitEffect = com.kx.sglm.gs.battle.share.skill.effect.MutiHitEffect;
 	using NormalAttackEffect = com.kx.sglm.gs.battle.share.skill.effect.NormalAttackEffect;
 	using NormalRecoverEffect = com.kx.sglm.gs.battle.share.skill.effect.NormalRecoverEffect;
-	using RecoverPercentEffect = com.kx.sglm.gs.battle.share.skill.effect.RecoverPercentEffect;
+	using RecoverSkillEffect = com.kx.sglm.gs.battle.share.skill.effect.RecoverSkillEffect;
 
 	public abstract class SkillEffectEnum : BaseBattleFactoryEnum
 	{
@@ -104,7 +104,7 @@ namespace com.kx.sglm.gs.battle.share.skill.enums
 			}
 		}
 
-		public static readonly SkillEffectEnum RECOVER_PERCENT = new SkillEffectEnumAnonymousInnerClassHelper7();
+		public static readonly SkillEffectEnum RECOVER_BY_SKILL = new SkillEffectEnumAnonymousInnerClassHelper7();
 
 		private class SkillEffectEnumAnonymousInnerClassHelper7 : SkillEffectEnum
 		{
@@ -115,7 +115,7 @@ namespace com.kx.sglm.gs.battle.share.skill.enums
 
 			public override IBattlePartInfo createInstance()
 			{
-				return new RecoverPercentEffect();
+				return new RecoverSkillEffect();
 			}
 		}
 
@@ -149,11 +149,26 @@ namespace com.kx.sglm.gs.battle.share.skill.enums
 			}
 		}
 
+		public static readonly SkillEffectEnum RECOVER_VALUE = new SkillEffectEnumAnonymousInnerClassHelper10();
+
+		private class SkillEffectEnumAnonymousInnerClassHelper10 : SkillEffectEnum
+		{
+			public SkillEffectEnumAnonymousInnerClassHelper10() : base(9)
+			{
+			}
+
+
+			public override IBattlePartInfo createInstance()
+			{
+				return new RecoverSkillEffect();
+			}
+		}
+
 		public SkillEffectEnum(int index) : base(index)
 		{
 		}
 
-		private static readonly SkillEffectEnum[] VALUES = new SkillEffectEnum[] {NIL, NORMAL_HERO_HIT, NORMAL_HERO_RECOVER, MUTI_HERO_HIT, NORMAL_MONSTER_HIT, COLOR_CHANGE, RECOVER_PERCENT, BUFF_ADD, DEBUFF_ADD};
+		private static readonly SkillEffectEnum[] VALUES = new SkillEffectEnum[] {NIL, NORMAL_HERO_HIT, NORMAL_HERO_RECOVER, MUTI_HERO_HIT, NORMAL_MONSTER_HIT, COLOR_CHANGE, RECOVER_BY_SKILL, BUFF_ADD, DEBUFF_ADD};
 
 		public static SkillEffectEnum[] values()
 		{

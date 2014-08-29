@@ -84,6 +84,10 @@ namespace KXSGCodec
             {
                 return new SCHeroCreateOne();
             }
+			            if (type == MessageType.SC_HERO_FRIST_LOGIN_GIVE.GetHashCode())
+            {
+                return new SCHeroFristLoginGive();
+            }
 			            if (type == MessageType.SC_HERO_LIST.GetHashCode())
             {
                 return new SCHeroList();

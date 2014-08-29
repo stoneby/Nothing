@@ -1,5 +1,4 @@
-﻿using Assets.Game.Scripts.Net.network;
-using KXSGCodec;
+﻿using KXSGCodec;
 using System;
 using System.Collections;
 using System.IO;
@@ -168,13 +167,17 @@ public class NetManager
             }
             catch (Exception e)
             {
-                Logger.Log("An error occurred: " + e.Message);
-                ThriftSCMessage globalmessage = new ClientSCMessage((short)MessageType.SC_SYSTEM_INFO_MSG, e.Message);
-                lock (SCMsgQueue.SyncRoot)
+                if (OnMessageReceived != null)
                 {
-                    SCMsgQueue.Enqueue(globalmessage);
+                    OnMessageReceived();
                 }
-                
+                Logger.Log("An error occurred: " + e.Message);
+                MtaManager.ReportError("An error occurred: " + e.Message);
+//                ThriftSCMessage globalmessage = new ClientSCMessage((short)MessageType.SC_SYSTEM_INFO_MSG, e.Message);
+//                lock (SCMsgQueue.SyncRoot)
+//                {
+//                    SCMsgQueue.Enqueue(globalmessage);
+//                }                
             }
             finally
             {
@@ -187,6 +190,7 @@ public class NetManager
                     catch (Exception e)
                     {
                         Logger.Log("An error occurred close postStream: " + e.Message);
+                        MtaManager.ReportError("An error occurred close postStream: " + e.Message);
                     }
 
                 }
@@ -200,6 +204,7 @@ public class NetManager
                     {
 
                         Logger.Log("An error occurred close responseStream: " + e.Message);
+                        MtaManager.ReportError("An error occurred close postStream: " + e.Message);
                     }
 
                 }
@@ -212,6 +217,7 @@ public class NetManager
                     catch (Exception e)
                     {
                         Logger.Log("An error occurred close hwresponse: " + e.Message);
+                        MtaManager.ReportError("An error occurred close postStream: " + e.Message);
                     }
                 }
             }

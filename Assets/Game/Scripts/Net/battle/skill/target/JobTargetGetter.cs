@@ -1,13 +1,10 @@
 using System;
-using System.Collections.Generic;
 
 namespace com.kx.sglm.gs.battle.share.skill.target
 {
 
-
 	using MathUtils = com.kx.sglm.core.util.MathUtils;
 	using BattleFighter = com.kx.sglm.gs.battle.share.actor.impl.BattleFighter;
-	using BattleTeam = com.kx.sglm.gs.battle.share.actor.impl.BattleTeam;
 
 	/// <summary>
 	/// 通过职业选择目标
@@ -15,26 +12,17 @@ namespace com.kx.sglm.gs.battle.share.skill.target
 	/// @author liyuan2
 	/// 
 	/// </summary>
-	public class JobTargetGetter : AbstractHeroTeamGetter
+	public abstract class JobTargetGetter : AbstractTeamTargetGetter
 	{
 
 		private int jobFlag;
 
-		public override List<BattleFighter> getTarget(BattleFighter attacker, BattleTeam targetTeam)
+		public override bool isFitFlag(BattleFighter fighter)
 		{
-			List<BattleFighter> _resultFighter = new List<BattleFighter>();
-			List<BattleFighter> _allActiveFighter = targetTeam.AllBattingFighter;
-			foreach (BattleFighter _fighter in _allActiveFighter)
-			{
-				if (MathUtils.hasFlagIndex(jobFlag, _fighter.Job))
-				{
-					_resultFighter.Add(_fighter);
-				}
-			}
-			return _resultFighter;
+			return MathUtils.hasFlagIndex(jobFlag, fighter.Job);
 		}
 
-		public override void build(params string[] param)
+		public override void buildByType(params string[] param)
 		{
 			jobFlag = MathUtils.changeDecToBinFlag(Convert.ToInt32(param[0]), true);
 		}

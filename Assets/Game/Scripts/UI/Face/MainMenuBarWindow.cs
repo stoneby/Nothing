@@ -10,7 +10,7 @@ public class MainMenuBarWindow : Window
     private UIEventListener teamLis;
     private UIEventListener equipLis;
     private UIEventListener summonLis;
-    //private UIEventListener friendLis;
+    private UIEventListener friendLis;
     private UIEventListener battleLis;
     //private UIEventListener menuLis;
     private UIEventListener logLis;
@@ -44,7 +44,7 @@ public class MainMenuBarWindow : Window
         teamLis = UIEventListener.Get(Utils.FindChild(transform, "Button team").gameObject);
         equipLis = UIEventListener.Get(Utils.FindChild(transform, "Button equip").gameObject);
         summonLis = UIEventListener.Get(Utils.FindChild(transform, "Button summon").gameObject);
-        //friendLis = UIEventListener.Get(Utils.FindChild(transform, "Button-Friend").gameObject);
+        friendLis = UIEventListener.Get(Utils.FindChild(transform, "Button friend").gameObject);
         //menuLis = UIEventListener.Get(Utils.FindChild(transform, "Button-Menu").gameObject);
         battleLis = UIEventListener.Get(Utils.FindChild(transform, "Button battle").gameObject);
         logLis = UIEventListener.Get(Utils.FindChild(transform, "Button chat").gameObject);
@@ -63,7 +63,7 @@ public class MainMenuBarWindow : Window
         equipLis.onClick = OnEquipClicked;
         summonLis.onClick = OnSummonClicked;
         battleLis.onClick = OnBattleClicked;
-        //friendLis.onClick = OnFriendClicked;
+        friendLis.onClick = OnFriendClicked;
        // menuLis.onClick = OnMenuClicked;
         logLis.onClick = OnLogClicked;
     }
@@ -79,7 +79,7 @@ public class MainMenuBarWindow : Window
         equipLis.onClick = null;
         summonLis.onClick = null;
         battleLis.onClick = null;
-        //friendLis.onClick = null;
+        friendLis.onClick = null;
         //menuLis.onClick = null;
         logLis.onClick = null;
     }
@@ -123,10 +123,11 @@ public class MainMenuBarWindow : Window
     /// </summary>
     private void OnEquipClicked(GameObject go)
     {
+        //PopTextManager.PopTip("暂未开放该功能！", false);
         if (ItemModeLocator.AlreadyMainRequest == false)
         {
             ItemModeLocator.Instance.GetItemPos = ItemType.GetItemInPanel;
-            var csmsg = new CSQueryAllItems{BagType = ItemType.MainItemBagType};
+            var csmsg = new CSQueryAllItems { BagType = ItemType.MainItemBagType };
             NetManager.SendMessage(csmsg);
         }
         else
@@ -139,7 +140,18 @@ public class MainMenuBarWindow : Window
     /// The callback of clicking team button.
     /// </summary>
     private void OnTeamClicked(GameObject go)
-    { 
+    {
+        if (HeroModelLocator.AlreadyRequest == false)
+        {
+            HeroModelLocator.Instance.GetHeroPos = RaidType.GetHeroInHeroCreateTeam;
+            var csmsg = new CSHeroList();
+            NetManager.SendMessage(csmsg);
+        }
+        else
+        {
+            WindowManager.Instance.Show<UIBuildingTeamWindow>(true, true);
+        }
+        //PopTextManager.PopTip("暂未开放该功能！", false);
     }
 
     /// <summary>
@@ -147,6 +159,7 @@ public class MainMenuBarWindow : Window
     /// </summary>
     private void OnHeroClicked(GameObject go)
     {
+        //PopTextManager.PopTip("暂未开放该功能！", false);
         //WindowManager.Instance.Show<HeroMenuBarWindow>(true);
         if (HeroModelLocator.AlreadyRequest == false)
         {

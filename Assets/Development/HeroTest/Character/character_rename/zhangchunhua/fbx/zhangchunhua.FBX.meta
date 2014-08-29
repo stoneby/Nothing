@@ -55,7 +55,10 @@ ModelImporter:
     400046: D_zhangchunhua_xiong
     400048: D_zhangchunhua_yao
     400050: //RootNode
-    7400000: Take 001
+    7400000: Idle
+    7400002: Run
+    7400004: Attack
+    7400006: Hurt
     9500000: //RootNode
     11100000: //RootNode
   materials:
@@ -72,7 +75,319 @@ ModelImporter:
     animationScaleError: .5
     animationWrapMode: 0
     extraExposedTransformPaths: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Idle
+      takeName: Take 001
+      firstFrame: 1
+      lastFrame: 19
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: D_zhangchunhua_dabi
+        weight: 1
+      - path: D_zhangchunhua_dabi1
+        weight: 1
+      - path: D_zhangchunhua_dabi2
+        weight: 1
+      - path: D_zhangchunhua_dabi3
+        weight: 1
+      - path: D_zhangchunhua_dao
+        weight: 1
+      - path: D_zhangchunhua_dao001
+        weight: 1
+      - path: D_zhangchunhua_datui
+        weight: 1
+      - path: D_zhangchunhua_datui1
+        weight: 1
+      - path: D_zhangchunhua_fa
+        weight: 1
+      - path: D_zhangchunhua_fa1
+        weight: 1
+      - path: D_zhangchunhua_fa2
+        weight: 1
+      - path: D_zhangchunhua_fa3
+        weight: 1
+      - path: D_zhangchunhua_jiao
+        weight: 1
+      - path: D_zhangchunhua_jiao1
+        weight: 1
+      - path: D_zhangchunhua_qubai1
+        weight: 1
+      - path: D_zhangchunhua_qubai2
+        weight: 1
+      - path: D_zhangchunhua_qunbai3
+        weight: 1
+      - path: D_zhangchunhua_shou
+        weight: 1
+      - path: D_zhangchunhua_shou1
+        weight: 1
+      - path: D_zhangchunhua_tou
+        weight: 1
+      - path: D_zhangchunhua_toushiqian
+        weight: 1
+      - path: D_zhangchunhua_xiaobi
+        weight: 1
+      - path: D_zhangchunhua_xiaobi1
+        weight: 1
+      - path: D_zhangchunhua_xiong
+        weight: 1
+      - path: D_zhangchunhua_yao
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Run
+      takeName: Take 001
+      firstFrame: 28
+      lastFrame: 42
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: D_zhangchunhua_dabi
+        weight: 1
+      - path: D_zhangchunhua_dabi1
+        weight: 1
+      - path: D_zhangchunhua_dabi2
+        weight: 1
+      - path: D_zhangchunhua_dabi3
+        weight: 1
+      - path: D_zhangchunhua_dao
+        weight: 1
+      - path: D_zhangchunhua_dao001
+        weight: 1
+      - path: D_zhangchunhua_datui
+        weight: 1
+      - path: D_zhangchunhua_datui1
+        weight: 1
+      - path: D_zhangchunhua_fa
+        weight: 1
+      - path: D_zhangchunhua_fa1
+        weight: 1
+      - path: D_zhangchunhua_fa2
+        weight: 1
+      - path: D_zhangchunhua_fa3
+        weight: 1
+      - path: D_zhangchunhua_jiao
+        weight: 1
+      - path: D_zhangchunhua_jiao1
+        weight: 1
+      - path: D_zhangchunhua_qubai1
+        weight: 1
+      - path: D_zhangchunhua_qubai2
+        weight: 1
+      - path: D_zhangchunhua_qunbai3
+        weight: 1
+      - path: D_zhangchunhua_shou
+        weight: 1
+      - path: D_zhangchunhua_shou1
+        weight: 1
+      - path: D_zhangchunhua_tou
+        weight: 1
+      - path: D_zhangchunhua_toushiqian
+        weight: 1
+      - path: D_zhangchunhua_xiaobi
+        weight: 1
+      - path: D_zhangchunhua_xiaobi1
+        weight: 1
+      - path: D_zhangchunhua_xiong
+        weight: 1
+      - path: D_zhangchunhua_yao
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Attack
+      takeName: Take 001
+      firstFrame: 43
+      lastFrame: 58
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: D_zhangchunhua_dabi
+        weight: 1
+      - path: D_zhangchunhua_dabi1
+        weight: 1
+      - path: D_zhangchunhua_dabi2
+        weight: 1
+      - path: D_zhangchunhua_dabi3
+        weight: 1
+      - path: D_zhangchunhua_dao
+        weight: 1
+      - path: D_zhangchunhua_dao001
+        weight: 1
+      - path: D_zhangchunhua_datui
+        weight: 1
+      - path: D_zhangchunhua_datui1
+        weight: 1
+      - path: D_zhangchunhua_fa
+        weight: 1
+      - path: D_zhangchunhua_fa1
+        weight: 1
+      - path: D_zhangchunhua_fa2
+        weight: 1
+      - path: D_zhangchunhua_fa3
+        weight: 1
+      - path: D_zhangchunhua_jiao
+        weight: 1
+      - path: D_zhangchunhua_jiao1
+        weight: 1
+      - path: D_zhangchunhua_qubai1
+        weight: 1
+      - path: D_zhangchunhua_qubai2
+        weight: 1
+      - path: D_zhangchunhua_qunbai3
+        weight: 1
+      - path: D_zhangchunhua_shou
+        weight: 1
+      - path: D_zhangchunhua_shou1
+        weight: 1
+      - path: D_zhangchunhua_tou
+        weight: 1
+      - path: D_zhangchunhua_toushiqian
+        weight: 1
+      - path: D_zhangchunhua_xiaobi
+        weight: 1
+      - path: D_zhangchunhua_xiaobi1
+        weight: 1
+      - path: D_zhangchunhua_xiong
+        weight: 1
+      - path: D_zhangchunhua_yao
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Hurt
+      takeName: Take 001
+      firstFrame: 20
+      lastFrame: 27
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: D_zhangchunhua_dabi
+        weight: 1
+      - path: D_zhangchunhua_dabi1
+        weight: 1
+      - path: D_zhangchunhua_dabi2
+        weight: 1
+      - path: D_zhangchunhua_dabi3
+        weight: 1
+      - path: D_zhangchunhua_dao
+        weight: 1
+      - path: D_zhangchunhua_dao001
+        weight: 1
+      - path: D_zhangchunhua_datui
+        weight: 1
+      - path: D_zhangchunhua_datui1
+        weight: 1
+      - path: D_zhangchunhua_fa
+        weight: 1
+      - path: D_zhangchunhua_fa1
+        weight: 1
+      - path: D_zhangchunhua_fa2
+        weight: 1
+      - path: D_zhangchunhua_fa3
+        weight: 1
+      - path: D_zhangchunhua_jiao
+        weight: 1
+      - path: D_zhangchunhua_jiao1
+        weight: 1
+      - path: D_zhangchunhua_qubai1
+        weight: 1
+      - path: D_zhangchunhua_qubai2
+        weight: 1
+      - path: D_zhangchunhua_qunbai3
+        weight: 1
+      - path: D_zhangchunhua_shou
+        weight: 1
+      - path: D_zhangchunhua_shou1
+        weight: 1
+      - path: D_zhangchunhua_tou
+        weight: 1
+      - path: D_zhangchunhua_toushiqian
+        weight: 1
+      - path: D_zhangchunhua_xiaobi
+        weight: 1
+      - path: D_zhangchunhua_xiaobi1
+        weight: 1
+      - path: D_zhangchunhua_xiong
+        weight: 1
+      - path: D_zhangchunhua_yao
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
     isReadable: 1
   meshes:
     lODScreenPercentages: []

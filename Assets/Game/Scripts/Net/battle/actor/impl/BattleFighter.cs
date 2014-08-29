@@ -6,6 +6,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 
 	using MathUtils = com.kx.sglm.core.util.MathUtils;
 	using BattleBuffManager = com.kx.sglm.gs.battle.share.buff.BattleBuffManager;
+	using BuffInfo = com.kx.sglm.gs.battle.share.buff.BuffInfo;
 	using FighterInfo = com.kx.sglm.gs.battle.share.data.FighterInfo;
 	using BattleFightRecord = com.kx.sglm.gs.battle.share.data.record.BattleFightRecord;
 	using BattleRoundCountRecord = com.kx.sglm.gs.battle.share.data.record.BattleRoundCountRecord;
@@ -254,11 +255,18 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 
 		public virtual void addBuff(int buffId)
 		{
+			BuffInfo _info = new BuffInfo(buffId, null);
+			addBuff(_info);
+
+		}
+
+		public virtual void addBuff(BuffInfo buffInfo)
+		{
 			if (!hasHp())
 			{
 				return;
 			}
-			buffManager.addBuff(buffId);
+			buffManager.addBuff(buffInfo);
 		}
 
 		public virtual BattleBuffManager BuffManager
@@ -313,7 +321,6 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 		public virtual void onTeamShotStart(TeamShotStartEvent @event)
 		{
 			skillManager.onTeamShotStart(@event);
-			buffManager.onTeamShotStart(@event);
 		}
 
 		public virtual void recalcProp()
@@ -597,8 +604,6 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 		public virtual void beforeAttack(BeforeAttackEvent @event)
 		{
 			skillManager.beforeAttack(@event);
-			buffManager.activeAllBuff(BattleConstants.BUFF_FLAG);
-
 		}
 
 		public virtual void effectAllBuff()

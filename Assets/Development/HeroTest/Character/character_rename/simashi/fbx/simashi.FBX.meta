@@ -57,7 +57,10 @@ ModelImporter:
     400048: D_simashi_zuotui
     400050: D_simashi_zuoxiaobi
     400052: //RootNode
-    7400000: Take 001
+    7400000: Idle
+    7400002: Run
+    7400004: Attack
+    7400006: Hurt
     9500000: //RootNode
     11100000: //RootNode
   materials:
@@ -74,7 +77,327 @@ ModelImporter:
     animationScaleError: .5
     animationWrapMode: 0
     extraExposedTransformPaths: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Idle
+      takeName: Take 001
+      firstFrame: 1
+      lastFrame: 19
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: D_D_simashi
+        weight: 1
+      - path: D_simashi_fashi
+        weight: 1
+      - path: D_simashi_qun1
+        weight: 1
+      - path: D_simashi_qun2
+        weight: 1
+      - path: D_simashi_qun3
+        weight: 1
+      - path: D_simashi_shangshen-
+        weight: 1
+      - path: D_simashi_shou
+        weight: 1
+      - path: D_simashi_tou-
+        weight: 1
+      - path: D_simashi_toufa
+        weight: 1
+      - path: D_simashi_toufa1
+        weight: 1
+      - path: D_simashi_toufa2
+        weight: 1
+      - path: D_simashi_toufa3
+        weight: 1
+      - path: D_simashi_toufa4
+        weight: 1
+      - path: D_simashi_toufa5
+        weight: 1
+      - path: D_simashi_toufa6
+        weight: 1
+      - path: D_simashi_toufa7
+        weight: 1
+      - path: D_simashi_yao
+        weight: 1
+      - path: D_simashi_youdabi
+        weight: 1
+      - path: D_simashi_youjiao
+        weight: 1
+      - path: D_simashi_youtui
+        weight: 1
+      - path: D_simashi_youxiaobi
+        weight: 1
+      - path: D_simashi_zuodabi
+        weight: 1
+      - path: D_simashi_zuojiao
+        weight: 1
+      - path: D_simashi_zuoshou
+        weight: 1
+      - path: D_simashi_zuotui
+        weight: 1
+      - path: D_simashi_zuoxiaobi
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Run
+      takeName: Take 001
+      firstFrame: 28
+      lastFrame: 42
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: D_D_simashi
+        weight: 1
+      - path: D_simashi_fashi
+        weight: 1
+      - path: D_simashi_qun1
+        weight: 1
+      - path: D_simashi_qun2
+        weight: 1
+      - path: D_simashi_qun3
+        weight: 1
+      - path: D_simashi_shangshen-
+        weight: 1
+      - path: D_simashi_shou
+        weight: 1
+      - path: D_simashi_tou-
+        weight: 1
+      - path: D_simashi_toufa
+        weight: 1
+      - path: D_simashi_toufa1
+        weight: 1
+      - path: D_simashi_toufa2
+        weight: 1
+      - path: D_simashi_toufa3
+        weight: 1
+      - path: D_simashi_toufa4
+        weight: 1
+      - path: D_simashi_toufa5
+        weight: 1
+      - path: D_simashi_toufa6
+        weight: 1
+      - path: D_simashi_toufa7
+        weight: 1
+      - path: D_simashi_yao
+        weight: 1
+      - path: D_simashi_youdabi
+        weight: 1
+      - path: D_simashi_youjiao
+        weight: 1
+      - path: D_simashi_youtui
+        weight: 1
+      - path: D_simashi_youxiaobi
+        weight: 1
+      - path: D_simashi_zuodabi
+        weight: 1
+      - path: D_simashi_zuojiao
+        weight: 1
+      - path: D_simashi_zuoshou
+        weight: 1
+      - path: D_simashi_zuotui
+        weight: 1
+      - path: D_simashi_zuoxiaobi
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Attack
+      takeName: Take 001
+      firstFrame: 43
+      lastFrame: 58
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: D_D_simashi
+        weight: 1
+      - path: D_simashi_fashi
+        weight: 1
+      - path: D_simashi_qun1
+        weight: 1
+      - path: D_simashi_qun2
+        weight: 1
+      - path: D_simashi_qun3
+        weight: 1
+      - path: D_simashi_shangshen-
+        weight: 1
+      - path: D_simashi_shou
+        weight: 1
+      - path: D_simashi_tou-
+        weight: 1
+      - path: D_simashi_toufa
+        weight: 1
+      - path: D_simashi_toufa1
+        weight: 1
+      - path: D_simashi_toufa2
+        weight: 1
+      - path: D_simashi_toufa3
+        weight: 1
+      - path: D_simashi_toufa4
+        weight: 1
+      - path: D_simashi_toufa5
+        weight: 1
+      - path: D_simashi_toufa6
+        weight: 1
+      - path: D_simashi_toufa7
+        weight: 1
+      - path: D_simashi_yao
+        weight: 1
+      - path: D_simashi_youdabi
+        weight: 1
+      - path: D_simashi_youjiao
+        weight: 1
+      - path: D_simashi_youtui
+        weight: 1
+      - path: D_simashi_youxiaobi
+        weight: 1
+      - path: D_simashi_zuodabi
+        weight: 1
+      - path: D_simashi_zuojiao
+        weight: 1
+      - path: D_simashi_zuoshou
+        weight: 1
+      - path: D_simashi_zuotui
+        weight: 1
+      - path: D_simashi_zuoxiaobi
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Hurt
+      takeName: Take 001
+      firstFrame: 20
+      lastFrame: 27
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: D_D_simashi
+        weight: 1
+      - path: D_simashi_fashi
+        weight: 1
+      - path: D_simashi_qun1
+        weight: 1
+      - path: D_simashi_qun2
+        weight: 1
+      - path: D_simashi_qun3
+        weight: 1
+      - path: D_simashi_shangshen-
+        weight: 1
+      - path: D_simashi_shou
+        weight: 1
+      - path: D_simashi_tou-
+        weight: 1
+      - path: D_simashi_toufa
+        weight: 1
+      - path: D_simashi_toufa1
+        weight: 1
+      - path: D_simashi_toufa2
+        weight: 1
+      - path: D_simashi_toufa3
+        weight: 1
+      - path: D_simashi_toufa4
+        weight: 1
+      - path: D_simashi_toufa5
+        weight: 1
+      - path: D_simashi_toufa6
+        weight: 1
+      - path: D_simashi_toufa7
+        weight: 1
+      - path: D_simashi_yao
+        weight: 1
+      - path: D_simashi_youdabi
+        weight: 1
+      - path: D_simashi_youjiao
+        weight: 1
+      - path: D_simashi_youtui
+        weight: 1
+      - path: D_simashi_youxiaobi
+        weight: 1
+      - path: D_simashi_zuodabi
+        weight: 1
+      - path: D_simashi_zuojiao
+        weight: 1
+      - path: D_simashi_zuoshou
+        weight: 1
+      - path: D_simashi_zuotui
+        weight: 1
+      - path: D_simashi_zuoxiaobi
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
     isReadable: 1
   meshes:
     lODScreenPercentages: []

@@ -20,9 +20,12 @@ public class StageItemControl : KxItemRender
     private GameObject lockSprite;
     private GameObject energyLabel;
 
+    private bool IsLocked = false;
+    private int OpenLevel = 0;
+
     public string EneryCountStr;
 
-    private UIEventListener OnBattleUIEventListener;
+    //private UIEventListener OnBattleUIEventListener;
 
 	// Use this for initialization
 	void Start () 
@@ -38,13 +41,21 @@ public class StageItemControl : KxItemRender
         lockSprite = transform.FindChild("Image Button battle/Sprite lock").gameObject;
         energyLabel = transform.FindChild("Image Button battle/Container active/Label").gameObject;
 
-	    OnBattleUIEventListener = UIEventListener.Get(gameObject);
-	    OnBattleUIEventListener.onClick += OnBattleHandler;
+//	    OnBattleUIEventListener = UIEventListener.Get(gameObject);
+//	    OnBattleUIEventListener.onClick += OnBattleHandler;
 	    SetContent();
     }
 
-    private void OnBattleHandler(GameObject obj)
+    protected override void OnItemClick(GameObject obj)
     {
+        if (IsLocked)
+        {
+            var str = LanguageManager.Instance.GetTextValue("UIRaid.LevelLimit");
+            str = str.Replace("XX", OpenLevel.ToString());
+            PopTextManager.PopTip(str, false);
+            return;
+        }
+
         if (OnSelected != null)
         {
             OnSelected(gameObject);
@@ -60,7 +71,21 @@ public class StageItemControl : KxItemRender
         StageData = data as RaidStageInfo;
         StageIndex = ItemIndex;
         StageTemp = MissionModelLocator.Instance.GetRaidStagrByTemplateId(StageData.TemplateId);
-
+        if (MissionModelLocator.Instance.CurrRaidType > 2)
+        {
+            IsLocked = MissionModelLocator.Instance.RaidHeroTem.OpenLvl > PlayerModelLocator.Instance.Level;
+            OpenLevel = MissionModelLocator.Instance.RaidHeroTem.OpenLvl;
+        }
+        else if (MissionModelLocator.Instance.CurrRaidType > 1)
+        {
+            IsLocked = MissionModelLocator.Instance.RaidEliteTem.OpenLvl > PlayerModelLocator.Instance.Level;
+            OpenLevel = MissionModelLocator.Instance.RaidEliteTem.OpenLvl;
+        }
+        else
+        {
+            IsLocked = false;
+        }
+        
         SetContent();
     }
 
@@ -108,5 +133,15 @@ public class StageItemControl : KxItemRender
                 star = star1.GetComponent<UISprite>();
                 star.spriteName = "icon_star_g";
             }
+        if (IsLocked)
+        {
+            lockSprite.SetActive(true);
+            btnActiveContainer.SetActive(false);
+        }
+        else
+        {
+            lockSprite.SetActive(false);
+            btnActiveContainer.SetActive(true);
+        }
     }
 }

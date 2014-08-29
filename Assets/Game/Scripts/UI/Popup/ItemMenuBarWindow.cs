@@ -46,7 +46,7 @@ public class ItemMenuBarWindow : Window
             case BarItemType.ItemLevelUp:
                 {
                     WindowManager.Instance.Show<UIItemCommonWindow>(true, true);
-                    WindowManager.Instance.Show<UILevelUpItemWindow>(true, true);
+                    //WindowManager.Instance.Show<UILevelUpItemWindow>(true, true);
                     break;
                 }
             case BarItemType.ItemEvolve:
@@ -110,7 +110,7 @@ public class ItemMenuBarWindow : Window
         else
         {
             WindowManager.Instance.Show<UIItemCommonWindow>(true, true);
-            WindowManager.Instance.Show<UILevelUpItemWindow>(true, true);
+            //WindowManager.Instance.Show<UILevelUpItemWindow>(true, true);
         }
     }
 

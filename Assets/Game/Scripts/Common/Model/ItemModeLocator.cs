@@ -126,7 +126,7 @@ public class ItemModeLocator
         }
     }
 
-    #endregion
+#endregion
 
     #region Private Methods
 
@@ -588,6 +588,30 @@ public class ItemModeLocator
             return null;
         }
         return BuyBackItems.ItemInfos.Find(info => info.BagIndex == bagIndex);
+    }
+
+    public int GetLevelCost(int curExp, short level, short preshowLvl, int preshowCurExp, sbyte quality)
+    {
+        var lvlTempls = ItemConfig.ItemLvlTmpls;
+        var levelCost = 0;
+        if (level < preshowLvl)
+        {
+            for (var i = level; i < preshowLvl; i++)
+            {
+                levelCost += lvlTempls[level].UpCostGolds[quality - 1];
+            }
+            var curLevelTemp = lvlTempls[level];
+            var preshowLevelTemp = lvlTempls[preshowLvl];
+            var valueToSub = (int)((float)curExp / curLevelTemp.MaxExp * preshowLevelTemp.UpCostGolds[quality - 1]);
+            var valueToAdd = (int)((float)preshowCurExp / preshowLevelTemp.MaxExp * preshowLevelTemp.UpCostGolds[quality - 1]);
+            levelCost += (valueToAdd - valueToSub);
+        }
+        return levelCost;
+    }
+
+    public bool IsMaterial(int tempId)
+    {
+        return GetItemType(tempId) == EquipType.Material;
     }
 
     #endregion

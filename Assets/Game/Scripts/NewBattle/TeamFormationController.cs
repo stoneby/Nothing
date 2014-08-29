@@ -30,7 +30,6 @@ public class TeamFormationController : MonoBehaviour
     }
 
     private const string RelatedPath = "Game/Resources/TeamFormation";
-    private string persistentPath;
 
 #if UNITY_EDITOR
     private int counter;

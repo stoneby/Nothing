@@ -10,10 +10,10 @@ namespace com.kx.sglm.gs.battle.share.buff.policy
 	public class BuffCoexistPolicy : AbstractBuffPolicy
 	{
 
-		internal override BattleFighterBuff optionBuffByType(BattleBuffManager manager, IBuffAction buffAction)
+		internal override BattleFighterBuff optionBuffByType(BattleBuffManager manager, BuffInfo info)
 		{
-			manager.createBuffHolder(buffAction);
-			return manager.putToBuffHolder(buffAction);
+			manager.createBuffHolder(info.BuffAction);
+			return manager.putToBuffHolder(info);
 		}
 
 

@@ -6,7 +6,7 @@ public class HeroConstant
     /// <summary>
     /// The prefix of job sprite name.
     /// </summary>
-    public const string HeroJobPrefix = "icon_zhiye_";
+    public const string HeroJobPrefix = "job_";
 
     /// <summary>
     /// The pool name of hero and item prefab.
@@ -58,6 +58,13 @@ public class HeroConstant
     /// </summary>
     public const int ThirdLeaderPosInTeam = 2;
 
+    /// <summary>
+    /// The prefix of the hero icon id.
+    /// </summary>
+    public const string IconIdPrefix = "head_";
+
+    public const int ResourceReadyCount = 39;
+
     public enum LeaderState
     {
         NotInTeam,
@@ -80,4 +87,19 @@ public class HeroConstant
     }
 
     public static HeroDetailEnterType EnterType = HeroDetailEnterType.InValid;
+
+    public const string ExtendContentKey = "UIHeroCommon.ExtendContent";
+    public const string ExtendLimitKey = "UIHeroCommon.ExtendLimit";
+    public const string TeamPrefixKey = "UIBuildingTeam.team";
+
+    public static void SetHeadByTemplate(UISprite sprite, int templateID)
+    {
+        var index = HeroModelLocator.Instance.HeroTemplates.HeroTmpls[templateID].Icon - 1;
+        SetHeadByIndex(sprite, index);
+    }
+
+    public static void SetHeadByIndex(UISprite sprite, int index)
+    {
+        sprite.spriteName = IconIdPrefix + ((index > ResourceReadyCount) ? 0 : index);
+    }
 }

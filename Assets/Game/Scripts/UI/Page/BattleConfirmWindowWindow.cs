@@ -101,7 +101,7 @@ public class BattleConfirmWindowWindow : Window
     {
         var csMsg = new CSRaidBattleStartMsg
         {
-            RaidId = MissionModelLocator.Instance.SelectedStageId,
+            RaidId = MissionModelLocator.Instance.BattleStageTemplate.Id,
             FriendId = MissionModelLocator.Instance.FriendData.Data.FriendUuid
         };
         var hor = HorContainer.GetComponent<KxListRender>();
@@ -110,7 +110,7 @@ public class BattleConfirmWindowWindow : Window
         MissionModelLocator.Instance.MissionStep = RaidType.StepStageList;
         MissionModelLocator.Instance.ShowAddFriendAlert = false;
         Dictionary<string, string> dict = new Dictionary<string, string>();
-        dict.Add("raid", MissionModelLocator.Instance.SelectedStageId.ToString());
+        dict.Add("raid", MissionModelLocator.Instance.BattleStageTemplate.Id.ToString());
         dict.Add("friend", MissionModelLocator.Instance.FriendData.Data.FriendUuid.ToString());
         MtaManager.TrackCustomKVEvent(MtaType.VKEventBattle, dict);
     }

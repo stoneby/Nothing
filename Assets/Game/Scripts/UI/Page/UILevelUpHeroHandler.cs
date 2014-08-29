@@ -26,6 +26,9 @@ public class UILevelUpHeroHandler : MonoBehaviour
 
     #region Private Fields
 
+    private UIEventListener lockLis;
+    private UISprite lockSprite;
+
     private UIHeroCommonWindow commonWindow;
     private short curLvl = -1;
     private UIEventListener addLis;
@@ -92,7 +95,7 @@ public class UILevelUpHeroHandler : MonoBehaviour
         if (HeroInfo != null)
         {
             commonWindow.NormalClicked = OnNormalClick;
-            commonWindow.ShowSelMask();
+            commonWindow.ShowSelMask(true);
             InstallHandlers();
             ResetData();
             curLvl = HeroInfo.Lvl;
@@ -110,6 +113,8 @@ public class UILevelUpHeroHandler : MonoBehaviour
     // Use this for initialization
     private void Awake()
     {
+        lockLis = UIEventListener.Get(Utils.FindChild(transform, "Lock").gameObject);
+        lockSprite = Utils.FindChild(transform, "Lock").GetComponent<UISprite>();
         addLis = UIEventListener.Get(transform.Find("Buttons/Button-Add").gameObject);
         subLis = UIEventListener.Get(transform.Find("Buttons/Button-Sub").gameObject);
         levelUpLis = UIEventListener.Get(transform.Find("Buttons/Button-LvlUp").gameObject);
@@ -132,6 +137,7 @@ public class UILevelUpHeroHandler : MonoBehaviour
         addLis.onClick = OnAddBtnClicked;
         subLis.onClick = OnSubLisClicked;
         levelUpLis.onClick = OnOkBtnClicked;
+        lockLis.onClick = OnLockClicked;
         CommonHandler.HeroPropertyChanged += OnHeroPeopertyChanged;
         CommonHandler.PlayerPropertyChanged += OnPlayerPropertyChanged;
     }
@@ -144,8 +150,15 @@ public class UILevelUpHeroHandler : MonoBehaviour
         addLis.onClick = null;
         subLis.onClick = null;
         levelUpLis.onClick = null;
+        lockLis.onClick = null;
         CommonHandler.HeroPropertyChanged -= OnHeroPeopertyChanged;
         CommonHandler.PlayerPropertyChanged -= OnPlayerPropertyChanged;
+    }
+
+    private void OnLockClicked(GameObject go)
+    {
+        commonWindow.ReverseLockState();
+        commonWindow.ShowLockState(lockSprite);
     }
 
     private void OnHeroPeopertyChanged(SCPropertyChangedNumber scpropertychanged)
@@ -161,18 +174,11 @@ public class UILevelUpHeroHandler : MonoBehaviour
         var mpProp = scpropertychanged.PropertyChanged[RoleProperties.ROLE_MP];
         HeroInfo.Prop[RoleProperties.ROLE_MP] = mpProp;
         PropertyUpdater.UpdateProperty(level, HeroTemplate.LvlLimit, atkProp, hpProp, recoverProp, mpProp);
-
         CheckButtonEnabled();
-
-        List<long> curTeamUuids;
-        List<long> allTeamUuids;
-        HeroModelLocator.Instance.GetTeamUuids(out curTeamUuids, out allTeamUuids, 1);
-        var heroItem = commonWindow.CurSel.GetComponent<NewHeroItem>();
-        heroItem.InitItem(HeroInfo, curTeamUuids, allTeamUuids);
-        HeroUtils.ShowHero(HeroModelLocator.Instance.OrderType, heroItem, HeroInfo);
+        commonWindow.Refresh();
     }
 
-    private void OnPlayerPropertyChanged(SCPropertyChangedNumber scpropertychanged)
+    private void OnPlayerPropertyChanged(SCPropertyChangedNumber scpropertychanged = null)
     {
         ownedSoulValue.text = PlayerModelLocator.Instance.Sprit.ToString(CultureInfo.InvariantCulture);
     }
@@ -192,9 +198,8 @@ public class UILevelUpHeroHandler : MonoBehaviour
     {
         ResetData();
         commonWindow.ShowSelMask(go.transform.position);
-        commonWindow.CurSel = go;
-        var uuid = go.GetComponent<NewHeroItem>().Uuid;
-        commonWindow.HeroInfo = HeroModelLocator.Instance.FindHero(uuid);
+        commonWindow.CurSelPos = UISellHeroHandler.GetPosition(go);
+        commonWindow.ShowLockState(lockSprite);
         curLvl = HeroInfo.Lvl;
         CheckButtonEnabled();
         RefreshData();

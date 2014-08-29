@@ -62,25 +62,55 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 		}
 
 		//TODO: addTeamShortStartAction
+//JAVA TO C# CONVERTER WARNING: 'final' parameters are not allowed in .NET:
+//ORIGINAL LINE: public void onTeamShotStart(final com.kx.sglm.gs.battle.share.event.impl.TeamShotStartEvent event)
 		public virtual void onTeamShotStart(TeamShotStartEvent @event)
 		{
 			foreach (BattleFighter _fighter in ActorList)
 			{
 				_fighter.onTeamShotStart(@event);
 			}
-		}
-
-		public virtual void recalcTeamProp()
-		{
-			new IteratorActorOptionAnonymousInnerClassHelper(this)
+			new IteratorActorOptionAnonymousInnerClassHelper(this, @event)
 			.itratorAction();
+
+			recalcBuffAndTeamProp();
 		}
 
 		private class IteratorActorOptionAnonymousInnerClassHelper : IteratorActorOption
 		{
 			private readonly BattleTeam outerInstance;
 
-			public IteratorActorOptionAnonymousInnerClassHelper(BattleTeam outerInstance) : base(outerInstance)
+			private TeamShotStartEvent @event;
+
+			public IteratorActorOptionAnonymousInnerClassHelper(BattleTeam outerInstance, TeamShotStartEvent @event) : base(outerInstance)
+			{
+				this.outerInstance = outerInstance;
+				this.@event = @event;
+			}
+
+			public override void option(BattleFighter actor)
+			{
+				actor.BuffManager.onTeamShotStart(@event);
+			}
+		}
+
+		public virtual void recalcBuffAndTeamProp()
+		{
+			recalcPropEffectBuffs();
+			recalcTeamProp();
+		}
+
+		public virtual void recalcTeamProp()
+		{
+			new IteratorActorOptionAnonymousInnerClassHelper2(this)
+			.itratorAction();
+		}
+
+		private class IteratorActorOptionAnonymousInnerClassHelper2 : IteratorActorOption
+		{
+			private readonly BattleTeam outerInstance;
+
+			public IteratorActorOptionAnonymousInnerClassHelper2(BattleTeam outerInstance) : base(outerInstance)
 			{
 				this.outerInstance = outerInstance;
 			}
@@ -98,17 +128,21 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 //ORIGINAL LINE: public void beforeAttack(final com.kx.sglm.gs.battle.share.event.impl.BeforeAttackEvent event)
 		public virtual void beforeAttack(BeforeAttackEvent @event)
 		{
-			new IteratorActorOptionAnonymousInnerClassHelper2(this, @event)
+			new IteratorActorOptionAnonymousInnerClassHelper3(this, @event)
 			.itratorAction();
+
+			activeAllBuff(BattleConstants.BUFF_FLAG);
+			recalcBuffAndTeamProp();
+
 		}
 
-		private class IteratorActorOptionAnonymousInnerClassHelper2 : IteratorActorOption
+		private class IteratorActorOptionAnonymousInnerClassHelper3 : IteratorActorOption
 		{
 			private readonly BattleTeam outerInstance;
 
 			private BeforeAttackEvent @event;
 
-			public IteratorActorOptionAnonymousInnerClassHelper2(BattleTeam outerInstance, BeforeAttackEvent @event) : base(outerInstance)
+			public IteratorActorOptionAnonymousInnerClassHelper3(BattleTeam outerInstance, BeforeAttackEvent @event) : base(outerInstance)
 			{
 				this.outerInstance = outerInstance;
 				this.@event = @event;
@@ -148,6 +182,28 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 					continue;
 				}
 				_actor.activeBuff(buffFlag);
+			}
+		}
+
+		public virtual void recalcPropEffectBuffs()
+		{
+			new IteratorActorOptionAnonymousInnerClassHelper4(this)
+			.itratorAction();
+		}
+
+		private class IteratorActorOptionAnonymousInnerClassHelper4 : IteratorActorOption
+		{
+			private readonly BattleTeam outerInstance;
+
+			public IteratorActorOptionAnonymousInnerClassHelper4(BattleTeam outerInstance) : base(outerInstance)
+			{
+				this.outerInstance = outerInstance;
+			}
+
+
+			public override void option(BattleFighter actor)
+			{
+				actor.effectAllBuff();
 			}
 		}
 

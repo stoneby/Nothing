@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using KXSGCodec;
 using Property;
 using UnityEngine;
@@ -8,80 +9,25 @@ using UnityEngine;
 /// </summary>
 public class UIHeroDetailHandler : MonoBehaviour
 {
+    private UIEventListener lockLis;
+    private UISprite lockSprite;
+
     public PropertyUpdater PropertyUpdater;
     private UILabel activeSkillName;
     private UILabel activeSkillDesc; 
     private UILabel leaderSkillName;
     private UILabel leaderSkillDesc;
-    private readonly List<UIEventListener> heroSelItemLis = new List<UIEventListener>();
-    private sbyte curEquipIndex = -1;
+    private UILabel nameLabel;
+    private UISprite icon;
     private Transform baseInfos;
-    private GameObject heroSelItemIns;
+    private HeroSelItem heroSelItem;
     private UIHeroCommonWindow commonWindow;
-
-    public CustomGrid Items;
-
-    private UIEventListener selectEquipConfirmListener;
-    private UIEventListener selectEquipCancelListener;
-    private GameObject SelectEquipContainer;
-    private GameObject[] EquipItems;
-    private UIEventListener.BoolDelegate setParentFunc;
-
+    private GameObject[] equipItems;
     public List<ItemInfo> Infos { get; private set; }
-    private bool descendSort = true;
     public int CountOfOneGroup = 4;
-
+    private const int MaxEquipCount = 4;
     public static bool IsLongPressEnter;
-
-    public UIEventListener.BoolDelegate SetParentBoolDelegate
-    {
-        get { return setParentFunc; }
-        set
-        {
-            setParentFunc = value;
-        }
-    }
-
-    private void InitWrapContents()
-    {
-        if (Infos != null) return;
-        Infos = ItemModeLocator.Instance.ScAllItemInfos.ItemInfos;
-        //var orderType = HeroModelLocator.Instance.OrderType;
-        //ItemModeLocator.Instance.SortItemList(orderType, Infos, descendSort);
-        var list = new List<List<ItemInfo>>();
-        var rows = Mathf.CeilToInt((float)Infos.Count / CountOfOneGroup);
-        for (var i = 0; i < rows; i++)
-        {
-            var infosContainer = new List<ItemInfo>();
-            for (var j = 0; j < CountOfOneGroup; j++)
-            {
-                if (i * CountOfOneGroup + j < Infos.Count)
-                {
-                    infosContainer.Add(Infos[i * CountOfOneGroup + j]);
-                }
-            }
-            list.Add(infosContainer);
-        }
-        Items.Init(list);
-
-        var parent = Items.transform;
-        for (var i = 0; i < parent.childCount; i++)
-        {
-            var item = parent.GetChild(i);
-            for (var j = 0; j < item.childCount; j++)
-            {
-                var hero = item.GetChild(j).gameObject;
-                var lis = UIEventListener.Get(hero);
-                lis.onClick = ClickEquipHandler;
-            }
-        }
-    }
-
-    public sbyte CurEquipIndex
-    {
-        get { return curEquipIndex; }
-        private set { curEquipIndex = value; }
-    }
+    private bool isEnterSelItem;
 
     public GameObject HeroSelItemPrefab;
 
@@ -91,13 +37,13 @@ public class UIHeroDetailHandler : MonoBehaviour
     {
         MtaManager.TrackBeginPage(MtaType.HeroDetailWindow);
         InstallHandlers();
-        if (heroSelItemIns != null)
+        if (heroSelItem != null)
         {
-            NGUITools.Destroy(heroSelItemIns);
-            heroSelItemIns = null;
+            NGUITools.Destroy(heroSelItem);
+            heroSelItem = null;
         }
         commonWindow.NormalClicked = OnDetail;
-        commonWindow.ShowSelMask();
+        commonWindow.ShowSelMask(true);
         RefreshData();
     }
 
@@ -119,34 +65,19 @@ public class UIHeroDetailHandler : MonoBehaviour
         leaderSkillName = leaderSkill.Find("Name").GetComponent<UILabel>();
         leaderSkillDesc = leaderSkill.Find("Desc").GetComponent<UILabel>();
         baseInfos = transform.Find("BaseInfo");
+        lockLis = UIEventListener.Get(baseInfos.Find("Lock").gameObject);
+        lockSprite = lockLis.GetComponent<UISprite>();
+        nameLabel = baseInfos.Find("Name").GetComponent<UILabel>();
+        icon = baseInfos.Find("Icon").GetComponent<UISprite>();
         commonWindow = WindowManager.Instance.GetWindow<UIHeroCommonWindow>();
-        var go = commonWindow.Heros.transform.GetChild(0).GetComponent<WrapHerosItem>().Children[0].gameObject;
-        OnDetail(go);
-
-        selectEquipConfirmListener = UIEventListener.Get(transform.FindChild("Container add equip/Image Button confirm").gameObject);
-        selectEquipCancelListener = UIEventListener.Get(transform.FindChild("Container add equip/Image Button cancel").gameObject);
-        selectEquipConfirmListener.onClick += SelectEquipHandler;
-        selectEquipCancelListener.onClick += CancelEquipHandler;
-        SelectEquipContainer = transform.FindChild("Container add equip").gameObject;
-        SelectEquipContainer.SetActive(false);
-        EquipItems = new GameObject[4];
-        EquipItems[0] = transform.FindChild("Container items/HeroEquip1").gameObject;
-        EquipItems[1] = transform.FindChild("Container items/HeroEquip2").gameObject;
-        EquipItems[2] = transform.FindChild("Container items/HeroEquip3").gameObject;
-        EquipItems[3] = transform.FindChild("Container items/HeroEquip4").gameObject;
-        var col = EquipItems[0].GetComponent<HeroEquipControl>();
-        col.PosIndex = 0;
-        col = EquipItems[1].GetComponent<HeroEquipControl>();
-        col.PosIndex = 1;
-        col = EquipItems[2].GetComponent<HeroEquipControl>();
-        col.IsLocked = true;
-        col.PosIndex = 2;
-        col = EquipItems[3].GetComponent<HeroEquipControl>();
-        col.IsLocked = true;
-        col.PosIndex = 3;
-        for (int i = 0; i < EquipItems.Length; i++)
+        equipItems = new GameObject[MaxEquipCount];
+        const string equipPrefix = "Container items/HeroEquip";
+        for (var i = 0; i < MaxEquipCount; i++)
         {
-            var item = EquipItems[i].GetComponent<HeroEquipControl>();
+            equipItems[i] = transform.FindChild(equipPrefix + i).gameObject;
+        }
+        foreach(var item in equipItems.Select(equipItem => equipItem.GetComponent<HeroEquipControl>()))
+        {
             item.ClickedHandler = OpenSelectHandler;
         }
     }
@@ -155,90 +86,6 @@ public class UIHeroDetailHandler : MonoBehaviour
     private void OpenSelectHandler(GameObject obj)
     {
         selectPosEquipObj = obj;
-        SelectEquipContainer.SetActive(true);
-        if (setParentFunc != null)
-        {
-            setParentFunc(obj, false);
-        }
-        InitWrapContents();
-        Items.gameObject.SetActive(true);
-    }
-
-    private void ClickEquipHandler(GameObject obj)
-    {
-        var item = obj.GetComponent<NewEquipItem>();
-        var select = selectPosEquipObj.GetComponent<HeroEquipControl>();
-        select.SetSelectData(item.TheItemInfo.Id, item.TheItemInfo.TmplId);
-    }
-
-    private void SelectEquipHandler(GameObject obj)
-    {
-        //var select = selectPosEquipObj.GetComponent<HeroEquipControl>();
-        for (int i = 0; i < EquipItems.Length; i++)
-        {
-            var item = EquipItems[i].GetComponent<HeroEquipControl>();
-            if (item.SelectTemplateId > 0)
-            {
-                var msg = new CSHeroChangeEquip();
-                msg.HeroUuid = commonWindow.HeroInfo.Uuid;
-                msg.Index = sbyte.Parse(item.PosIndex.ToString());
-                msg.EquipUuid = item.Selectuuid;
-                NetManager.SendMessage(msg);
-                item.SetData(item.Selectuuid, item.SelectTemplateId);
-            }
-        }
-        SelectEquipContainer.SetActive(false);
-        if (setParentFunc != null)
-        {
-            setParentFunc(obj, true);
-        }
-    }
-
-    private void CancelEquipHandler(GameObject obj)
-    {
-        SelectEquipContainer.SetActive(false);
-        if (setParentFunc != null)
-        {
-            setParentFunc(obj, true);
-        }
-        for (int i = 0; i < EquipItems.Length; i++)
-        {
-            var item = EquipItems[i].GetComponent<HeroEquipControl>();
-            item.SetData(item.Uuid, item.TemplateId);
-        }
-    }
-
-    private void InstallHandlers()
-    {
-        //for (var i = 0; i < heroSelItemLis.Count; i++)
-        //{
-        //    var selItemLis = heroSelItemLis[i];
-        //    selItemLis.onClick = OnHeroSelItem;
-        //}
-    }
-
-    private void UnInstallHandlers()
-    {
-        //for (var i = 0; i < heroSelItemLis.Count; i++)
-        //{
-        //    var selItemLis = heroSelItemLis[i];
-        //    selItemLis.onClick = null;
-        //}
-    }
-
-    private void OnDetail(GameObject go)
-    {
-        commonWindow.CurSel = go;
-        commonWindow.ShowSelMask(go.transform.position);
-        var uuid = go.GetComponent<NewHeroItem>().Uuid;
-        commonWindow.HeroInfo = HeroModelLocator.Instance.FindHero(uuid);
-        RefreshData();
-    }
-
-    private void OnHeroSelItem(GameObject go)
-    {
-        var eventLis = go.GetComponent<UIEventListener>();
-        CurEquipIndex = (sbyte) heroSelItemLis.IndexOf(eventLis);
         if (ItemModeLocator.Instance.ScAllItemInfos == null)
         {
             ItemModeLocator.Instance.GetItemPos = ItemType.GetItemInHeroInfo;
@@ -249,6 +96,68 @@ public class UIHeroDetailHandler : MonoBehaviour
         {
             RefreshCanEquipItems();
         }
+    }
+
+    private void ConfirmEquipHandler(GameObject obj)
+    {
+        ResetAfterSelItem();
+        for (var i = 0; i < equipItems.Length; i++)
+        {
+            var item = equipItems[i].GetComponent<HeroEquipControl>();
+            if (item.TemplateId > 0)
+            {
+                var msg = new CSHeroChangeEquip
+                              {
+                                  HeroUuid = commonWindow.HeroInfo.Uuid,
+                                  Index = sbyte.Parse(item.PosIndex.ToString()),
+                                  EquipUuid = item.Uuid
+                              };
+                NetManager.SendMessage(msg);
+                item.SetData(item.Uuid, item.TemplateId);
+            }
+        }
+    }
+
+    private void CancelEquipHandler(GameObject obj)
+    {
+        ResetAfterSelItem();
+        InitEquipedItems();
+        for (var i = 0; i < equipItems.Length; i++)
+        {
+            var item = equipItems[i].GetComponent<HeroEquipControl>();
+            item.SetData(item.Uuid, item.TemplateId);
+        }
+    }
+
+    private void ResetAfterSelItem()
+    {
+        NGUITools.SetActive(commonWindow.Heros.gameObject, true);
+        commonWindow.ShowSelMask(true);
+        isEnterSelItem = false;
+    }
+
+    private void InstallHandlers()
+    {
+        lockLis.onClick = OnLockClicked;
+    }
+
+    private void UnInstallHandlers()
+    {
+        lockLis.onClick = null;
+    }
+
+    private void OnLockClicked(GameObject go)
+    {
+        commonWindow.ReverseLockState();
+        commonWindow.ShowLockState(lockSprite);
+    }
+
+    private void OnDetail(GameObject go)
+    {
+        commonWindow.CurSelPos = UISellHeroHandler.GetPosition(go);
+        commonWindow.ShowSelMask(go.transform.position);
+        commonWindow.ShowLockState(lockSprite);
+        RefreshData();
     }
 
     #endregion
@@ -262,10 +171,10 @@ public class UIHeroDetailHandler : MonoBehaviour
     public void EquipOver(HeroInfo info)
     {
         RefreshData(info);
-        if (heroSelItemIns != null)
+        if (heroSelItem != null)
         {
-            NGUITools.Destroy(heroSelItemIns);
-            heroSelItemIns = null;
+            NGUITools.Destroy(heroSelItem);
+            heroSelItem = null;
             NGUITools.SetActiveChildren(baseInfos.gameObject, true);
         }
     }
@@ -277,7 +186,7 @@ public class UIHeroDetailHandler : MonoBehaviour
     {
         var heroTemplate = commonWindow.HeroTemplate;
         var heroInfo = commonWindow.HeroInfo;
-        baseInfos.FindChild("Name").GetComponent<UILabel>().text = heroTemplate.Name;
+        nameLabel.text = heroTemplate.Name;
         var stars = baseInfos.Find("Stars");
         for (int index = stars.childCount - 1; index >= stars.childCount - heroTemplate.Star; index--)
         {
@@ -287,7 +196,7 @@ public class UIHeroDetailHandler : MonoBehaviour
         {
             NGUITools.SetActive(stars.GetChild(index).gameObject, false);
         }
-
+        HeroConstant.SetHeadByIndex(icon, heroTemplate.Icon - 1);
         var level = heroInfo.Lvl;
         var maxLevel = heroTemplate.LvlLimit;
         var atkTemp = heroInfo.Prop[RoleProperties.ROLE_ATK];
@@ -310,37 +219,60 @@ public class UIHeroDetailHandler : MonoBehaviour
             leaderSkillName.text = leaderSkillTemp.Name;
             leaderSkillDesc.text = leaderSkillTemp.Desc;
         }
-
-        for (int i = 0; i < heroInfo.EquipTemplateId.Count; i++)
-        {
-            if (EquipItems != null && EquipItems[i] != null)
-            {
-                var item = EquipItems[i].GetComponent<HeroEquipControl>();
-                item.SetData(heroInfo.EquipUuid[i], heroInfo.EquipTemplateId[i]);
-            }           
-        }
-        //InitEquipedItems();
+        InitEquipedItems();
     }
 
     private void InitEquipedItems()
     {
-        //var equips = heroInfo.EquipUuid;
-        //for (var i = 0; i < equips.Count; i++)
-        //{
-        //    var itemIcon = heroSelItemLis[i].transform.GetChild(0).GetComponent<UISprite>();
-        //    itemIcon.enabled = equips[i] != "";
-        //}
-        //for (var i = equips.Count; i < heroSelItemLis.Count; i++)
-        //{
-        //    var itemIcon = heroSelItemLis[i].transform.GetChild(0).GetComponent<UISprite>();
-        //    itemIcon.enabled = false;
-        //}
+        var heroInfo = commonWindow.HeroInfo;
+        for (int i = 0; i < heroInfo.EquipTemplateId.Count; i++)
+        {
+            if (equipItems != null && equipItems[i] != null)
+            {
+                var item = equipItems[i].GetComponent<HeroEquipControl>();
+                item.SetData(heroInfo.EquipUuid[i], heroInfo.EquipTemplateId[i]);
+            }
+        }
     }
 
     public void RefreshCanEquipItems()
     {
-        NGUITools.SetActiveChildren(baseInfos.gameObject, false);
-        heroSelItemIns = NGUITools.AddChild(gameObject, HeroSelItemPrefab);
-        heroSelItemIns.GetComponent<HeroSelItem>().Refresh();
-    } 
+        if (isEnterSelItem == false)
+        {
+            heroSelItem = NGUITools.AddChild(gameObject, HeroSelItemPrefab).GetComponent<HeroSelItem>();
+            heroSelItem.Refresh();
+            heroSelItem.EquipItemClicked = OnEquipItemClicked;
+            heroSelItem.CancelClicked = CancelEquipHandler;
+            heroSelItem.ConfirmClicked = ConfirmEquipHandler;
+            NGUITools.SetActive(commonWindow.Heros.gameObject, false);
+            commonWindow.ShowSelMask(false);
+            isEnterSelItem = true;
+        }
+        ShowDefaultMask();
+    }
+
+    private void ShowDefaultMask()
+    {
+        var item = selectPosEquipObj.GetComponent<HeroEquipControl>();
+        var heroSelItems = heroSelItem.Items.transform;
+        for (var i = 0; i < heroSelItems.childCount; i++)
+        {
+            var itemContent = heroSelItems.GetChild(i).GetComponent<WrapItemContent>();
+            foreach (var child in itemContent.Children)
+            {
+                var equipItem = child.GetComponent<NewEquipItem>();
+                if(equipItem.TheItemInfo.Id == item.Uuid)
+                {
+                    itemContent.ShowSellMask(itemContent.Children.IndexOf(child), true);
+                }
+            }    
+        }
+    }
+
+    private void OnEquipItemClicked(GameObject go)
+    {
+        var item = go.GetComponent<NewEquipItem>();
+        var select = selectPosEquipObj.GetComponent<HeroEquipControl>();
+        select.SetData(item.TheItemInfo.Id, item.TheItemInfo.TmplId);
+    }
 }

@@ -28,6 +28,8 @@ namespace com.kx.sglm.gs.battle.share.skill.manager
 
 		public abstract void init();
 
+		protected internal abstract ISingletonSkillAction getSkill(int skillId);
+
 		/* java to c#语法需要
 		 * @see com.kx.sglm.gs.battle.skill.IBattleSkillManager#canAttack()
 		 */
@@ -78,6 +80,22 @@ namespace com.kx.sglm.gs.battle.share.skill.manager
 
 		}
 
+		/* java to c#语法需要
+		 * @see com.kx.sglm.gs.battle.IRoundCounter#beforeBattleStart(com.kx.sglm.gs.battle.data.record.BattleRoundCountRecord)
+		 */
+		public virtual void useSkill(int skillId, BattleFightRecord record)
+		{
+			ISingletonSkillAction _action = getSkill(skillId);
+			if (_action == null)
+			{
+				return;
+			}
+			if (_action.canOption(Owner))
+			{
+				_action.onAction(Owner, record);
+			}
+		}
+
 		/* 没有Override——java to c#语法需要
 		 * @see com.kx.sglm.gs.battle.IBattle#getBattle()
 		 */
@@ -89,6 +107,8 @@ namespace com.kx.sglm.gs.battle.share.skill.manager
 			}
 		}
 
+
+
 		public virtual BattleActionService SkillService
 		{
 			get
@@ -96,6 +116,8 @@ namespace com.kx.sglm.gs.battle.share.skill.manager
 				return BattleActionService.Service;
 			}
 		}
+
+
 
 
 		public virtual BattleFighter Owner

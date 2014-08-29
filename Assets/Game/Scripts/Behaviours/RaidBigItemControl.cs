@@ -102,7 +102,7 @@ public class RaidBigItemControl : KxItemRender
                 tt.mainTexture = (Texture2D)Resources.Load("Textures/Mission/" + map.id, typeof(Texture2D));
                 MapTitleLb.SetActive(true);
                 var lb = MapTitleLb.GetComponent<UILabel>();
-                lb.text = map.id + "." + RaidTemp.RaidName;
+                lb.text = RaidTemp.RaidName;
             }
             tt.width = map.w;
             tt.height = map.h;
@@ -116,7 +116,7 @@ public class RaidBigItemControl : KxItemRender
             if (IsLock)
             {
                 MapLockSp.SetActive(true);
-                tt.color = new Color(0.2f, 0.2f, 0.2f);
+                tt.color = new Color(0.3f, 0.3f, 0.3f);
             }
             else
             {

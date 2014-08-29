@@ -125,9 +125,11 @@ namespace com.kx.sglm.gs.battle.share.factory.creater
 			{
 				if (_effect.BattleEffectType == SkillEffectEnum.BUFF_ADD.Index || _effect.BattleEffectType == SkillEffectEnum.DEBUFF_ADD.Index)
 				{
-					addToBuffIds(_effect.BattleEffectParam1, _skillBuff);
-					addToBuffIds(_effect.BattleEffectParam2, _skillBuff);
-					addToBuffIds(_effect.BattleEffectParam3, _skillBuff);
+					string[] _buffIds = _effect.BattleEffectParam1.Split(',');
+					foreach (string _buffId in _buffIds)
+					{
+						addToBuffIds(_buffId, _skillBuff);
+					}
 				}
 			}
 			return _skillBuff;

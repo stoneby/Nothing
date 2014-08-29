@@ -10,9 +10,9 @@ namespace com.kx.sglm.gs.battle.share.buff.policy
 	public class BuffOverlayPolicy : AbstractBuffPolicy
 	{
 
-		internal override BattleFighterBuff optionBuffByType(BattleBuffManager manager, IBuffAction buffAction)
+		internal override BattleFighterBuff optionBuffByType(BattleBuffManager manager, BuffInfo info)
 		{
-			return manager.putToBuffHolder(buffAction);
+			return manager.putToBuffHolder(info);
 		}
 
 	}

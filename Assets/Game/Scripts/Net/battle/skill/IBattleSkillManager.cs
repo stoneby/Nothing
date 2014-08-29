@@ -29,6 +29,8 @@ namespace com.kx.sglm.gs.battle.share.skill
 
 		void onHandleInputAction(BattleTeamFightRecord record);
 
+		void useSkill(int skillId, BattleFightRecord record);
+
 	}
 
 }

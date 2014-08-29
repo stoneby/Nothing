@@ -51,6 +51,11 @@ public class TeamSelectController : MonoBehaviour
     public List<GameObject> WaitingStackList;
 
     /// <summary>
+    /// Team Formation controller.
+    /// </summary>
+    public TeamFormationController FormationController;
+
+    /// <summary>
     /// Collider factor that make drag more comfortable and better user experience.
     /// </summary>
     [Range(0f, 1f)]
@@ -81,14 +86,6 @@ public class TeamSelectController : MonoBehaviour
     public List<Character> CharacterList
     {
         get { return GroupController.CharacterList; }
-    }
-
-    /// <summary>
-    /// Team Formation controller.
-    /// </summary>
-    public TeamFormationController FormationController
-    {
-        get { return GroupController.FormationController; }
     }
 
     #endregion
@@ -155,12 +152,11 @@ public class TeamSelectController : MonoBehaviour
 
         initialized = false;
 
-        GroupController.Cleanup();
-
+        // call this line before character list got clear in group controller.
         // unregister events to all characters.
         UnregisterEventHandlers();
 
-        CharacterList.Clear();
+        GroupController.Cleanup();
     }
 
     public void Initialize()
@@ -491,7 +487,7 @@ public class TeamSelectController : MonoBehaviour
     private void InitOnStagePosition()
     {
         // get latest formation list as default.
-        var positionList = GroupController.PositionList;
+        var positionList = FormationController.LatestPositionList;
         for (var i = 0; i < CharacterList.Count; ++i)
         {
             var character = CharacterList[i];

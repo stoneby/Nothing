@@ -1,10 +1,8 @@
-﻿
+﻿using com.kx.sglm.gs.battle.share.data.record;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using com.kx.sglm.gs.battle.share;
-using com.kx.sglm.gs.battle.share.data.record;
 using UnityEngine;
 
 /// <summary>
@@ -69,11 +67,11 @@ public class CharacterBuffController : MonoBehaviour
     /// <param name="recordList">Record list per character.</param>
     public void Set(List<FighterStateRecord> recordList)
     {
+        // update buff manager count.
+        BuffCountManager.Clear();
+
         recordList.ForEach(item =>
         {
-            // update buff manager count.
-            BuffCountManager.Clear();
-
             var buffIndex = item.ShowId - 1;
             var buffSize = Enum.GetNames(typeof(BuffManager.BuffType)).Count();
             if (buffIndex < 0 || buffIndex > buffSize)
@@ -86,7 +84,8 @@ public class CharacterBuffController : MonoBehaviour
         });
 
         // set zero attack flag.
-        ZeroAttack = BuffCountManager.ContainsKey(BuffManager.BuffType.Palsy) && (BuffCountManager[BuffManager.BuffType.Palsy] > 0);
+        ZeroAttack = (BuffCountManager.ContainsKey(BuffManager.BuffType.Palsy) && (BuffCountManager[BuffManager.BuffType.Palsy] > 0)) ||
+            (BuffCountManager.ContainsKey(BuffManager.BuffType.Sleep) && (BuffCountManager[BuffManager.BuffType.Sleep] > 0));
 
         var hasSealed = BuffCountManager.ContainsKey(BuffManager.BuffType.Seal);
         if (hasSealed)

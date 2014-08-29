@@ -107,6 +107,7 @@ namespace Assets.Game.Scripts.Net.handler
             var themsg = msg.GetContent() as SCRaidNewStage;
             if (themsg != null)
             {
+                //PopTextManager.PopTip("返回下一关卡数据");
                 MissionModelLocator.Instance.AddNewStage(themsg);
             }
             else

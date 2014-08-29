@@ -13,7 +13,9 @@ namespace Assets.Game.Scripts.Net.handler
             switch (msg.GetMsgType())
             {
                 case (short) MessageType.SC_HERO_LIST:
-                    HeroModelLocator.Instance.SCHeroList = msg.GetContent() as SCHeroList;
+                    var heroModelLocator = HeroModelLocator.Instance;
+                    heroModelLocator.SCHeroList = msg.GetContent() as SCHeroList;
+                    TeamMemberManager.Instance.SetValue(heroModelLocator.SCHeroList.CurrentTeamIndex);
                     HeroModelLocator.AlreadyRequest = true;
                     if(HeroModelLocator.Instance.GetHeroPos == RaidType.GetHeroInBattle)
                     {
@@ -30,30 +32,30 @@ namespace Assets.Game.Scripts.Net.handler
                     }
                     else if(HeroModelLocator.Instance.GetHeroPos == RaidType.GetHeroInHeroCreateTeam)
                     {
-                        //WindowManager.Instance.Show<UITeamShowingWindow>(true);
+                        WindowManager.Instance.Show<UIBuildingTeamWindow>(true);
                     }
                     break;
 
                 case (short) MessageType.SC_HERO_CREATE_ONE:
                     var createOneMsg = msg.GetContent() as SCHeroCreateOne;
-                    if(createOneMsg != null)
+                    if (createOneMsg != null)
                     {
-                        if (HeroModelLocator.Instance.SCHeroList.HeroList == null)
+                        ChooseCardHandler.AddToCacheHeroList(new List<HeroInfo> {createOneMsg.NewHero});
+                        var herosWindow = WindowManager.Instance.GetWindow<UIHeroCommonWindow>();
+                        if(NGUITools.GetActive(herosWindow))
                         {
-                            HeroModelLocator.Instance.SCHeroList.HeroList = new List<HeroInfo>();
-                        }
-                        var infos = HeroModelLocator.Instance.SCHeroList.HeroList;
-                        infos.Add(createOneMsg.NewHero);
-                        //var herosWindow = WindowManager.Instance.GetWindow<UIHeroCommonWindow>();
-                        //herosWindow.Refresh(infos);
+                            herosWindow.Refresh(HeroModelLocator.Instance.SCHeroList.HeroList);
+                        }  
                     }
                     break;
                 case (short) MessageType.SC_HERO_MODIFY_TEAM:
                     var md5Msg = msg.GetContent() as SCHeroModifyTeam;
-                    if(md5Msg != null)
+                    if (md5Msg != null)
                     {
                         HeroModelLocator.Instance.SCHeroList.TeamList[md5Msg.TeamIndex].ListHeroUuid =
                             md5Msg.NewTeamInfo;
+                        WindowManager.Instance.GetWindow<UIBuildingTeamWindow>().ChangeToTab();
+                        TeamMemberManager.Instance.SetValue(md5Msg.TeamIndex);
                     }
                     break;
 
@@ -74,7 +76,8 @@ namespace Assets.Game.Scripts.Net.handler
                         WindowManager.Instance.Show<UISellDialogWindow>(false);
                         var sellhero = WindowManager.Instance.GetWindow<UIHeroCommonWindow>().SellHeroHandler;
                         sellhero.CleanUp();
-                        WindowManager.Instance.GetWindow<UIHeroCommonWindow>().Refresh(heroList);
+                        var window=WindowManager.Instance.GetWindow<UIHeroCommonWindow>();
+                        window.Refresh(heroList);
                     }
                     break;
 
@@ -86,6 +89,7 @@ namespace Assets.Game.Scripts.Net.handler
                     if(themsg != null)
                     {
                         PlayerModelLocator.Instance.HeroMax = themsg.RefreshHeroCountLimit;
+                        WindowManager.Instance.GetWindow<UIHeroCommonWindow>().RefreshHeroMaxNum();
                     }
                     break;
                 case (short) MessageType.SC_HERO_CHANGE_EQUIP:

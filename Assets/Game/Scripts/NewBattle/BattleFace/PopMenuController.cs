@@ -1,13 +1,9 @@
-﻿using UnityEngine;
+﻿using Assets.Game.Scripts.Common.Model;
+using KXSGCodec;
+using UnityEngine;
 
 public class PopMenuController : MonoBehaviour
 {
-    public UILabel EnergyLabel;
-    public UILabel FPLabel;
-
-    public float EnergyCount;
-    public float FPCount;
-
     public bool IsVisible
     {
         get { return gameObject.activeSelf; }
@@ -16,22 +12,36 @@ public class PopMenuController : MonoBehaviour
     public void Show(bool visible)
     {
         gameObject.SetActive(visible);
+    }
 
-        if (visible)
+    public void OnButtonCancel()
+    {
+        gameObject.SetActive(false);
+    }
+
+    public void OnButtonExit()
+    {
+        // clean up all battle fields.
+        BattleResultHelper.Cleanup();
+
+        var msg = new CSBattlePveFinishMsg
         {
-            ShowData();
-        }
-    }
+            Uuid = BattleModelLocator.Instance.Uuid,
+            BattleResult = 0,
+            Star = 0
+        };
 
-    private void ShowData()
-    {
-        EnergyLabel.text = "" + EnergyCount;
-        FPLabel.text = "" + FPCount;
-    }
+        PersistenceHandler.IsRaidFinish = true;
+        
+        //Battle persistence
+        PersistenceHandler.Instance.StoreBattleEndMessage(msg);
 
-    public void Reset()
-    {
-        EnergyCount = 0;
-        FPCount = 0;
+        NetManager.SendMessage(msg);
+        MtaManager.TrackEndPage(MtaType.BattleScreen);
+
+        //Battle persistence:Check battle end succeed.
+        
+        gameObject.SetActive(false);
+        MissionModelLocator.Instance.ShowRaidWindow();
     }
 }

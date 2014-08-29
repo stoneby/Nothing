@@ -172,6 +172,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400008}
+  m_RootOrder: 1
 --- !u!4 &400002
 Transform:
   m_ObjectHideFlags: 1
@@ -183,6 +184,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400012}
+  m_RootOrder: 0
 --- !u!4 &400004
 Transform:
   m_ObjectHideFlags: 1
@@ -194,6 +196,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400012}
+  m_RootOrder: 2
 --- !u!4 &400006
 Transform:
   m_ObjectHideFlags: 1
@@ -205,6 +208,7 @@ Transform:
   m_LocalScale: {x: 1.00004947, y: 1.00004947, z: 1.00004947}
   m_Children: []
   m_Father: {fileID: 400008}
+  m_RootOrder: 0
 --- !u!4 &400008
 Transform:
   m_ObjectHideFlags: 1
@@ -218,6 +222,7 @@ Transform:
   - {fileID: 400006}
   - {fileID: 400000}
   m_Father: {fileID: 400014}
+  m_RootOrder: 1
 --- !u!4 &400010
 Transform:
   m_ObjectHideFlags: 1
@@ -229,6 +234,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400014}
+  m_RootOrder: 3
 --- !u!4 &400012
 Transform:
   m_ObjectHideFlags: 1
@@ -243,6 +249,7 @@ Transform:
   - {fileID: 400018}
   - {fileID: 400004}
   m_Father: {fileID: 400014}
+  m_RootOrder: 0
 --- !u!4 &400014
 Transform:
   m_ObjectHideFlags: 1
@@ -258,6 +265,7 @@ Transform:
   - {fileID: 400016}
   - {fileID: 400010}
   m_Father: {fileID: 0}
+  m_RootOrder: 0
 --- !u!4 &400016
 Transform:
   m_ObjectHideFlags: 1
@@ -269,6 +277,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400014}
+  m_RootOrder: 2
 --- !u!4 &400018
 Transform:
   m_ObjectHideFlags: 1
@@ -280,6 +289,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400012}
+  m_RootOrder: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -313,6 +323,7 @@ MonoBehaviour:
   mWidth: 70
   mHeight: 22
   mDepth: 30
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -344,6 +355,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 029d5435e72368248886d54bd297879a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Data:
+    __isset:
+      rewardType: 0
+      uuid: 0
+      isNew: 0
 --- !u!114 &11400004
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -377,6 +393,7 @@ MonoBehaviour:
   mWidth: 100
   mHeight: 100
   mDepth: 16
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -394,8 +411,8 @@ MonoBehaviour:
   rightType: 1
   bottomType: 1
   topType: 1
-  mAtlas: {fileID: 11400000, guid: 0c2b699a1bdac544f99f73234093b618, type: 2}
-  mSpriteName: "\u5F13"
+  mAtlas: {fileID: 11400000, guid: 5b92cbdcb180fb042a7069f903d9f7ae, type: 2}
+  mSpriteName: Item_111002
   mFillCenter: 1
 --- !u!114 &11400006
 MonoBehaviour:
@@ -430,6 +447,7 @@ MonoBehaviour:
   mWidth: 50
   mHeight: 25
   mDepth: 15
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -495,6 +513,7 @@ MonoBehaviour:
   mWidth: 100
   mHeight: 100
   mDepth: 16
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -548,6 +567,7 @@ MonoBehaviour:
   mWidth: 110
   mHeight: 110
   mDepth: 13
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -601,6 +621,7 @@ MonoBehaviour:
   mWidth: 100
   mHeight: 100
   mDepth: 14
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -641,6 +662,7 @@ MonoBehaviour:
   mWidth: 108
   mHeight: 110
   mDepth: 13
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -694,6 +716,7 @@ MonoBehaviour:
   mWidth: 100
   mHeight: 100
   mDepth: 12
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -734,6 +757,7 @@ MonoBehaviour:
   mWidth: 100
   mHeight: 100
   mDepth: 11
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
@@ -774,6 +798,7 @@ MonoBehaviour:
   mWidth: 110
   mHeight: 110
   mDepth: 13
+  HighLight: 0
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1

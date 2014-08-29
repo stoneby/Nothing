@@ -10,10 +10,10 @@ namespace com.kx.sglm.gs.battle.share.buff.policy
 	public class BuffStackingPolicy : AbstractBuffPolicy
 	{
 
-		internal override BattleFighterBuff optionBuffByType(BattleBuffManager manager, IBuffAction buffAction)
+		internal override BattleFighterBuff optionBuffByType(BattleBuffManager manager, BuffInfo info)
 		{
-			BattleFighterBuff _buff = manager.getBattleBuff(buffAction);
-			_buff.stackingBuff();
+			BattleFighterBuff _buff = manager.getBattleBuff(info.BuffAction);
+			_buff.stackingBuff(info);
 			return _buff;
 		}
 

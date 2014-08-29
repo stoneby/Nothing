@@ -209,7 +209,7 @@ public class NextFootManager : MonoBehaviour
     private void SetSprite(GameObject fromObject, float color)
     {
         var sprite = fromObject.GetComponent<UISprite>();
-        sprite.spriteName = "pck_" + color;
+        sprite.spriteName = "nextfoot_" + color;
     }
 
     /// <summary>

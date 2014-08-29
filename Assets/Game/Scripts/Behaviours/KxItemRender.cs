@@ -43,7 +43,7 @@ public abstract class KxItemRender : MonoBehaviour
 
     public abstract void SetData<T>(T data);
 
-    private void OnItemClick(GameObject game)
+    protected virtual void OnItemClick(GameObject game)
     {
         if (OnSelected != null)
         {

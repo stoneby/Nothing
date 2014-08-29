@@ -65,6 +65,9 @@ public class BattleWinWindow : Window
     private GameObject BtnAddFriend;
     private GameObject BtnCancelFriend;
 
+    private GameObject LabelAgainEnergy;
+    private GameObject LabelNextEnergy;
+
     private GameObject FriendNameLanel;
     private GameObject FriendHeadSprite;
 
@@ -184,6 +187,9 @@ public class BattleWinWindow : Window
 
         yield return new WaitForSeconds(0.1f);
 
+        lb = LabelAgainEnergy.GetComponent<UILabel>();
+        lb.text = MissionModelLocator.Instance.BattleStageTemplate.CostEnergy.ToString();
+
         var bar = ExpBar.GetComponent<UIProgressBar>();
         var temp = LevelModelLocator.Instance.GetLevelByTemplateId(MissionModelLocator.Instance.OldLevel + 1);
         var v = (float)(MissionModelLocator.Instance.OldExp + MissionModelLocator.Instance.BattleReward.Exp) / temp.MaxExp;
@@ -221,7 +227,7 @@ public class BattleWinWindow : Window
         values[0] = MissionModelLocator.Instance.BattleReward.Exp;
         values[1] = GetValueByKey(RoleProperties.ROLEBASE_DIAMOND);
         values[2] = GetValueByKey(RoleProperties.ROLEBASE_GOLD);
-        values[3] = GetValueByKey(RoleProperties.ROLEBASE_ENERGY);
+        values[3] = GetValueByKey(RoleProperties.ROLEBASE_HERO_SPIRIT);
         values[4] = GetValueByKey(RoleProperties.ROLEBASE_FAMOUS);
 
         int m = 0;
@@ -312,13 +318,9 @@ public class BattleWinWindow : Window
             var lb = FriendNameLanel.GetComponent<UILabel>();
             lb.text = MissionModelLocator.Instance.FriendData.Data.FriendName;
             var sp = FriendHeadSprite.GetComponent<UISprite>();
-            int k = 0;
-            if (MissionModelLocator.Instance.FriendData.Data.HeroProp.Count > 0)
-            {
-                k = MissionModelLocator.Instance.FriendData.Data.HeroProp[0].HeroTemplateId % 14;
-            }
             
-            sp.spriteName = "head_" + k;
+            var tem = HeroModelLocator.Instance.GetHeroByTemplateId(MissionModelLocator.Instance.FriendData.Data.HeroProp[0].HeroTemplateId);
+            HeroConstant.SetHeadByIndex(sp, tem.Icon - 1);
             CanClick = false;
             //Alert.Show(AssertionWindow.Type.OkCancel, "系统提示", "你要添加“" + MissionModelLocator.Instance.FriendData.Data.FriendName + "”为好友吗？", AddFriendHandler);
         }
@@ -330,6 +332,12 @@ public class BattleWinWindow : Window
 
     private void ShowEndView()
     {
+        var tmp = MissionModelLocator.Instance.GetNextStage();
+        PopTextManager.PopTip(MissionModelLocator.Instance.NextRaidTemplate.RaidName + "---------raid");
+        PopTextManager.PopTip(MissionModelLocator.Instance.NextStageTemplate.StageName + "---------stage");
+        var lb = LabelNextEnergy.GetComponent<UILabel>();
+        lb.text = (tmp == null) ? "" : MissionModelLocator.Instance.NextStageTemplate.CostEnergy.ToString();
+
         GetContainer.SetActive(false);
         LevelupContainer.SetActive(false);
         PopupAddFriend.SetActive(false);
@@ -502,6 +510,9 @@ public class BattleWinWindow : Window
         BtnAddFriend = transform.FindChild("Container add friend/Button add").gameObject;
         BtnCancelFriend = transform.FindChild("Container add friend/Button cancel").gameObject;
 
+        LabelAgainEnergy = transform.FindChild("Container normal/Button again/Label energy").gameObject;
+        LabelNextEnergy = transform.FindChild("Container normal/Button next/Label energy").gameObject;
+
         FriendNameLanel = transform.FindChild("Container add friend/Label name").gameObject;
         FriendHeadSprite = transform.FindChild("Container add friend/Sprite head").gameObject;
 
@@ -528,7 +539,12 @@ public class BattleWinWindow : Window
 
     private void NextRaidHandler(GameObject obj)
     {
+        //ShowEnd();
+        MissionModelLocator.Instance.BattleStageTemplate = MissionModelLocator.Instance.NextStageTemplate;
+        MissionModelLocator.Instance.BattleRaidTemplate = MissionModelLocator.Instance.NextRaidTemplate;
         ShowEnd();
+        NetManager.SendMessage(new CSRaidQueryFriend());
+        
     }
 
     private void BackToRaidHandler(GameObject obj)

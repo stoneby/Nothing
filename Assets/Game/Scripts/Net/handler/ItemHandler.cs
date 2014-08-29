@@ -37,7 +37,7 @@ namespace Assets.Game.Scripts.Net.handler
                     if (themsg.BagType == ItemType.MainItemBagType)
                     {
                         ItemModeLocator.Instance.ScAllItemInfos = themsg;
-                        //WindowManager.Instance.GetWindow<UIHeroDetailHandler>().RefreshCanEquipItems();
+                        WindowManager.Instance.GetWindow<UIHeroCommonWindow>().HeroDetailHandler.RefreshCanEquipItems();
                         ItemModeLocator.AlreadyMainRequest = true;
                     }
                 }
@@ -50,6 +50,7 @@ namespace Assets.Game.Scripts.Net.handler
             if (themsg != null)
             {
                 ItemModeLocator.Instance.ServerConfigMsg = themsg;
+                HeartController.SetEneryTimer(themsg.RecoverEnergyMinutes);
             }
         }
 
@@ -58,14 +59,12 @@ namespace Assets.Game.Scripts.Net.handler
             var themsg = msg.GetContent() as SCAddItem;
             if (themsg != null)
             {
-                if(ItemModeLocator.Instance.ScAllItemInfos.ItemInfos == null)
+                ChooseCardHandler.AddToCacheItemList(new List<ItemInfo> {themsg.Info});
+                var itemWindow = WindowManager.Instance.GetWindow<UIItemCommonWindow>();
+                if(NGUITools.GetActive(itemWindow))
                 {
-                    ItemModeLocator.Instance.ScAllItemInfos.ItemInfos = new List<ItemInfo>();
+                    itemWindow.Refresh(ItemModeLocator.Instance.ScAllItemInfos.ItemInfos);
                 }
-                var infos = ItemModeLocator.Instance.ScAllItemInfos.ItemInfos;
-                infos.Add(themsg.Info);
-                var itemsWindow = WindowManager.Instance.GetWindow<UIItemCommonWindow>();
-                itemsWindow.Refresh(infos);
             }
         }
 
@@ -89,7 +88,7 @@ namespace Assets.Game.Scripts.Net.handler
                 var deleteIndexs = themsg.DelteItems.DeleteIndexes;
                 var infos = ItemModeLocator.Instance.ScAllItemInfos.ItemInfos;
                 infos.RemoveAll(item => deleteIndexs.Contains(item.BagIndex));
-                WindowManager.Instance.GetWindow<UILevelUpItemWindow>().ShowLevelOver();
+                WindowManager.Instance.GetWindow<UIItemCommonWindow>().LevelUpItemHandler.ShowLevelOver();
             }
         }
 
@@ -184,7 +183,7 @@ namespace Assets.Game.Scripts.Net.handler
             if (themsg != null)
             {
                 ItemModeLocator.Instance.ScAllItemInfos.Capacity = themsg.Capacity;
-                //WindowManager.Instance.GetWindow<UIEquipDispTabWindow>().ItemViewHandler.Refresh();
+                WindowManager.Instance.GetWindow<UIItemCommonWindow>().RefreshItemMaxNum();
             }
         }
     }

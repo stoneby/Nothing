@@ -51,7 +51,10 @@ ModelImporter:
     400042: D_machao_zuotui
     400044: D_machao_zuoxiaobi
     400046: //RootNode
-    7400000: Take 001
+    7400000: Idle
+    7400002: Run
+    7400004: Attack
+    7400006: Hurt
     9500000: //RootNode
     11100000: //RootNode
   materials:
@@ -68,7 +71,303 @@ ModelImporter:
     animationScaleError: .5
     animationWrapMode: 0
     extraExposedTransformPaths: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Idle
+      takeName: Take 001
+      firstFrame: 1
+      lastFrame: 19
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 1
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: D_machao_lian
+        weight: 1
+      - path: D_machao_pifenghou
+        weight: 1
+      - path: D_machao_pifengqian
+        weight: 1
+      - path: D_machao_touface
+        weight: 1
+      - path: D_machao_toufahou
+        weight: 1
+      - path: D_machao_toufaqianshang
+        weight: 1
+      - path: D_machao_toukui
+        weight: 1
+      - path: D_machao_toukuili
+        weight: 1
+      - path: D_machao_toukuiwai
+        weight: 1
+      - path: D_machao_wuqichangbing
+        weight: 1
+      - path: D_machao_xiong
+        weight: 1
+      - path: D_machao_yao
+        weight: 1
+      - path: D_machao_youdabi
+        weight: 1
+      - path: D_machao_youjiao
+        weight: 1
+      - path: D_machao_youshou
+        weight: 1
+      - path: D_machao_youtui
+        weight: 1
+      - path: D_machao_youxiaobi
+        weight: 1
+      - path: D_machao_youxiaobinei
+        weight: 1
+      - path: D_machao_zuojiao
+        weight: 1
+      - path: D_machao_zuoshangbi
+        weight: 1
+      - path: D_machao_zuoshou
+        weight: 1
+      - path: D_machao_zuotui
+        weight: 1
+      - path: D_machao_zuoxiaobi
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Run
+      takeName: Take 001
+      firstFrame: 28
+      lastFrame: 42
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: D_machao_lian
+        weight: 1
+      - path: D_machao_pifenghou
+        weight: 1
+      - path: D_machao_pifengqian
+        weight: 1
+      - path: D_machao_touface
+        weight: 1
+      - path: D_machao_toufahou
+        weight: 1
+      - path: D_machao_toufaqianshang
+        weight: 1
+      - path: D_machao_toukui
+        weight: 1
+      - path: D_machao_toukuili
+        weight: 1
+      - path: D_machao_toukuiwai
+        weight: 1
+      - path: D_machao_wuqichangbing
+        weight: 1
+      - path: D_machao_xiong
+        weight: 1
+      - path: D_machao_yao
+        weight: 1
+      - path: D_machao_youdabi
+        weight: 1
+      - path: D_machao_youjiao
+        weight: 1
+      - path: D_machao_youshou
+        weight: 1
+      - path: D_machao_youtui
+        weight: 1
+      - path: D_machao_youxiaobi
+        weight: 1
+      - path: D_machao_youxiaobinei
+        weight: 1
+      - path: D_machao_zuojiao
+        weight: 1
+      - path: D_machao_zuoshangbi
+        weight: 1
+      - path: D_machao_zuoshou
+        weight: 1
+      - path: D_machao_zuotui
+        weight: 1
+      - path: D_machao_zuoxiaobi
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Attack
+      takeName: Take 001
+      firstFrame: 43
+      lastFrame: 58
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: D_machao_lian
+        weight: 1
+      - path: D_machao_pifenghou
+        weight: 1
+      - path: D_machao_pifengqian
+        weight: 1
+      - path: D_machao_touface
+        weight: 1
+      - path: D_machao_toufahou
+        weight: 1
+      - path: D_machao_toufaqianshang
+        weight: 1
+      - path: D_machao_toukui
+        weight: 1
+      - path: D_machao_toukuili
+        weight: 1
+      - path: D_machao_toukuiwai
+        weight: 1
+      - path: D_machao_wuqichangbing
+        weight: 1
+      - path: D_machao_xiong
+        weight: 1
+      - path: D_machao_yao
+        weight: 1
+      - path: D_machao_youdabi
+        weight: 1
+      - path: D_machao_youjiao
+        weight: 1
+      - path: D_machao_youshou
+        weight: 1
+      - path: D_machao_youtui
+        weight: 1
+      - path: D_machao_youxiaobi
+        weight: 1
+      - path: D_machao_youxiaobinei
+        weight: 1
+      - path: D_machao_zuojiao
+        weight: 1
+      - path: D_machao_zuoshangbi
+        weight: 1
+      - path: D_machao_zuoshou
+        weight: 1
+      - path: D_machao_zuotui
+        weight: 1
+      - path: D_machao_zuoxiaobi
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Hurt
+      takeName: Take 001
+      firstFrame: 20
+      lastFrame: 27
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: D_machao_lian
+        weight: 1
+      - path: D_machao_pifenghou
+        weight: 1
+      - path: D_machao_pifengqian
+        weight: 1
+      - path: D_machao_touface
+        weight: 1
+      - path: D_machao_toufahou
+        weight: 1
+      - path: D_machao_toufaqianshang
+        weight: 1
+      - path: D_machao_toukui
+        weight: 1
+      - path: D_machao_toukuili
+        weight: 1
+      - path: D_machao_toukuiwai
+        weight: 1
+      - path: D_machao_wuqichangbing
+        weight: 1
+      - path: D_machao_xiong
+        weight: 1
+      - path: D_machao_yao
+        weight: 1
+      - path: D_machao_youdabi
+        weight: 1
+      - path: D_machao_youjiao
+        weight: 1
+      - path: D_machao_youshou
+        weight: 1
+      - path: D_machao_youtui
+        weight: 1
+      - path: D_machao_youxiaobi
+        weight: 1
+      - path: D_machao_youxiaobinei
+        weight: 1
+      - path: D_machao_zuojiao
+        weight: 1
+      - path: D_machao_zuoshangbi
+        weight: 1
+      - path: D_machao_zuoshou
+        weight: 1
+      - path: D_machao_zuotui
+        weight: 1
+      - path: D_machao_zuoxiaobi
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
     isReadable: 1
   meshes:
     lODScreenPercentages: []

@@ -169,6 +169,10 @@ public class NetworkControl : MonoBehaviour
                         case(short)MessageType.SC_RANDOM_CHAR_NAME_MSG:
                             PlayerHandler.OnRandomCharName(msg);
                             break;
+                        case (short)MessageType.SC_HERO_FRIST_LOGIN_GIVE:
+                            ChooseCardHandler.IsHeroFirstLoginGive=true;
+                            ChooseCardHandler.HeroFirstLoginGiveMsg = msg;
+                            break;
                     }
                     msg = NetManager.GetMessage();
                 }

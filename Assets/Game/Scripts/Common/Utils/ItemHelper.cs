@@ -62,7 +62,7 @@ public class ItemHelper
                 break;
 
             case OrderType.Job:
-                equipItem.ShowByJob(job, atk);
+                equipItem.ShowByJob(atk);
                 break;
 
             case OrderType.Rarity:
@@ -74,7 +74,7 @@ public class ItemHelper
                 break;
 
             case OrderType.Attack:
-                equipItem.ShowByJob(job, atk);
+                equipItem.ShowByJob(atk);
                 break;
 
             case OrderType.Health:

@@ -12,6 +12,7 @@ public class LoginMainWindow : Window
     private GameObject BtnPlay;
     private GameObject ServerLabel;
     private GameObject AccountLabel;
+    private GameObject VersionLabel;
 
     private GameObject TexLogo;
     private GameObject ContainerBox;
@@ -40,6 +41,9 @@ public class LoginMainWindow : Window
         {
             StartCoroutine(PlayLogo());
         }
+
+        var lb = VersionLabel.GetComponent<UILabel>();
+        lb.text = "Version:" + GameConfig.Version;
     }
 
     IEnumerator PlayLogo()
@@ -133,6 +137,7 @@ public class LoginMainWindow : Window
     {
         AccountLabel = transform.FindChild("Panel - box/Container - control/Sprite - account/Label - account").gameObject;
         SpriteAccount = transform.FindChild("Panel - box/Container - control/Sprite - account").gameObject;
+        VersionLabel = transform.FindChild("Label").gameObject;
         SpriteServers = transform.FindChild("Panel - box/Container - control/Sprite - server").gameObject;
         BtnPlay = transform.FindChild("Panel - box/Container - control/Image Button - play").gameObject;
         ServerLabel = transform.FindChild("Panel - box/Container - control/Sprite - server/Label - server").gameObject;

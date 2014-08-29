@@ -5,120 +5,145 @@ namespace Assets.Game.Scripts.Net.handler
 {
     public class ChooseCardHandler
     {
-         public static void OnLotteryList(ThriftSCMessage msg)
-         {
+        public static bool IsHeroFirstLoginGive = false;
+        public static ThriftSCMessage HeroFirstLoginGiveMsg;
+
+        public static void OnLotteryList(ThriftSCMessage msg)
+        {
             var themsg = msg.GetContent() as SCLotteryList;
             if (themsg != null)
             {
                 PlayerModelLocator.Instance.Famous = themsg.Famous;
                 PlayerModelLocator.Instance.SuperChip = themsg.SuperChip;
-                WindowManager.Instance.GetWindow<ChooseCardWindow>().heroAndItemSummitHandler.Refresh(themsg);
+                var window=WindowManager.Instance.GetWindow<ChooseCardWindow>();
+                window.ScLotteryList = themsg;
+                window.InitializeToggleButtons();
             }
-         }
+        }
 
-         public static void OnLottery(ThriftSCMessage msg)
-         {
+        public static void OnLottery(ThriftSCMessage msg)
+        {
             var themsg = msg.GetContent() as SCLottery;
             if (themsg != null)
             {
                 var window = WindowManager.Instance.Show<ChooseCardSuccWindow>(true);
-                window.storedScLotteryMsg = msg.GetContent() as SCLottery;
+                window.StoredScLotteryMsg = msg.GetContent() as SCLottery;
                 window.Refresh();
-                //if (themsg.LotteryMode == LotteryConstant.LotteryModeFree || themsg.LotteryMode == LotteryConstant.LotteryModeOnceCharge)
-                //{
-                //    var resultWin = WindowManager.Instance.Show<InfoShowingWindow>(true);
-                //    //resultWin.Refresh(themsg);
-                //}
-                //else if (themsg.LotteryMode == LotteryConstant.LotteryModeTenthCharge)
-                //{
-                //    var resultWin = WindowManager.Instance.Show<TenLotteryResultDispWindow>(true);
-                //    resultWin.Refresh(themsg);
-                //}
-                //WindowManager.Instance.GetWindow<ChooseHeroCardWindow>().RefreshFamousAndChips();
             }
-         }
+        }
 
-         public static void OnLotteryRefreshTimes(ThriftSCMessage msg)
-         {
-            var themsg = msg.GetContent() as SCLotteryRefreshTimes;
+        public static void OnHeroFirstLoginGive()
+        {
+            PopTextManager.PopTip("Get hero in first login today!");
+            var themsg = HeroFirstLoginGiveMsg.GetContent() as SCHeroFristLoginGive;
             if (themsg != null)
             {
-                WindowManager.Instance.GetWindow<ChooseCardWindow>().heroAndItemSummitHandler.RefreshTimes(themsg.LastFreeLotteryTime,
-                                                                                      themsg.Get4StarHeroRestTimes);
+                var window = WindowManager.Instance.Show<ChooseCardSuccWindow>(true);
+                window.StoredHeroFristLoginGiveMsg = themsg;
+                window.ShowHeroFirstGive();
+                if (HeroModelLocator.AlreadyRequest)
+                {
+                    AddToCacheHeroList(themsg.HeroInfos);
+                }
             }
-         }
+        }
 
-         public static void OnAddItemsAndHeros(ThriftSCMessage msg)
-         {
+        public static void OnLotteryRefreshTimes(ThriftSCMessage msg)
+        {
+            var themsg = msg.GetContent() as SCLotteryRefreshTimes;
+            var window = WindowManager.Instance.GetWindow<ChooseCardWindow>();
+            window.HeroAndItemSummitHandler.RefreshTimes(themsg.LastFreeLotteryTime, themsg.Get4StarHeroRestTimes);
+        }
+
+        public static void OnAddItemsAndHeros(ThriftSCMessage msg)
+        {
             var themsg = msg.GetContent() as SCAddItemsAndHeros;
             if (themsg != null)
             {
                 var heroInfos = themsg.HeroInfos;
-                if(heroInfos != null && heroInfos.Count > 0)
-                {
-                    if(HeroModelLocator.Instance.SCHeroList == null)
-                    {
-                        HeroModelLocator.Instance.SCHeroList = new SCHeroList();
-                    }
-                    var cachedInfos = HeroModelLocator.Instance.SCHeroList.HeroList;
-                    if(cachedInfos == null)
-                    {
-                        HeroModelLocator.Instance.SCHeroList.HeroList = new List<HeroInfo>();
-                        cachedInfos = HeroModelLocator.Instance.SCHeroList.HeroList;
-                    }
-                    for (var i = 0; i < heroInfos.Count; i++)
-                    {
-                        cachedInfos.Add(heroInfos[i]);
-                    }
-                }
+                AddToCacheHeroList(heroInfos);
 
                 var itemInfos = themsg.ItemInfos;
-                if(itemInfos != null && itemInfos.Count > 0)
+                AddToCacheItemList(itemInfos);
+            }
+        }
+
+        public static void AddToCacheItemList(List<ItemInfo> itemInfos)
+        {
+            if(itemInfos != null && itemInfos.Count > 0)
+            {
+                if(ItemModeLocator.Instance.ScAllItemInfos == null)
                 {
-                    if (ItemModeLocator.Instance.ScAllItemInfos == null)
-                    {
-                        ItemModeLocator.Instance.ScAllItemInfos = new SCAllItemInfos();
-                    }
-                    var cachedInfos = ItemModeLocator.Instance.ScAllItemInfos.ItemInfos;
-                    if (cachedInfos == null)
-                    {
-                        ItemModeLocator.Instance.ScAllItemInfos.ItemInfos = new List<ItemInfo>();
-                        cachedInfos = ItemModeLocator.Instance.ScAllItemInfos.ItemInfos;
-                    }
-                    for (var i = 0; i < itemInfos.Count; i++)
-                    {
-                        cachedInfos.Add(itemInfos[i]);
-                    }
+                    ItemModeLocator.Instance.ScAllItemInfos = new SCAllItemInfos();
+                }
+                var cachedInfos = ItemModeLocator.Instance.ScAllItemInfos.ItemInfos;
+                if(cachedInfos == null)
+                {
+                    ItemModeLocator.Instance.ScAllItemInfos.ItemInfos = new List<ItemInfo>();
+                    cachedInfos = ItemModeLocator.Instance.ScAllItemInfos.ItemInfos;
+                }
+                for(var i = 0; i < itemInfos.Count; i++)
+                {
+                    cachedInfos.Add(itemInfos[i]);
                 }
             }
-         }
-   
+        }
+
+        public static void AddToCacheHeroList(List<HeroInfo> heroInfos)
+        {
+            if(heroInfos != null && heroInfos.Count > 0)
+            {
+                if(HeroModelLocator.Instance.SCHeroList == null)
+                {
+                    HeroModelLocator.Instance.SCHeroList = new SCHeroList();
+                }
+                var cachedInfos = HeroModelLocator.Instance.SCHeroList.HeroList;
+                if(cachedInfos == null)
+                {
+                    HeroModelLocator.Instance.SCHeroList.HeroList = new List<HeroInfo>();
+                    cachedInfos = HeroModelLocator.Instance.SCHeroList.HeroList;
+                }
+                for(var i = 0; i < heroInfos.Count; i++)
+                {
+                    cachedInfos.Add(heroInfos[i]);
+                }
+            }
+        }
+
         public static void OnLotteryNotFree(ThriftSCMessage msg)
         {
             var themsg = msg.GetContent() as SCLotteryCannotFree;
             if (themsg != null)
             {
-                WindowManager.Instance.GetWindow<ChooseCardWindow>().heroAndItemSummitHandler.LotteryCannotFree();
+                WindowManager.Instance.GetWindow<ChooseCardWindow>().HeroAndItemSummitHandler.LotteryCannotFree();
             }
         }
 
-        //Response event of SCLotteryComposeList message.
+        /// <summary>
+        /// Response event of SCLotteryComposeList message.
+        /// </summary>
+        /// <param name="msg"></param>
         public static void OnLotteryComposeList(ThriftSCMessage msg)
         {
             var themsg = msg.GetContent() as SCLotteryComposeList;
             if (themsg != null)
             {
-                WindowManager.Instance.GetWindow<ChooseCardWindow>().fragmentCombineHandler.Refresh(themsg);
+                var window=WindowManager.Instance.GetWindow<ChooseCardWindow>();
+                window.ScLotteryComposeList = themsg;
+                window.FragmentCombineHandler.Refresh(themsg);
             }
         }
 
-        //Response event of SCLotteryComposeSucc message.
+        /// <summary>
+        /// Response event of SCLotteryComposeSucc message.
+        /// </summary>
+        /// <param name="msg"></param>
         public static void OnLotteryComposeSucc(ThriftSCMessage msg)
         {
             var themsg = msg.GetContent() as SCLotteryComposeSucc;
             if (themsg != null)
             {
-                WindowManager.Instance.GetWindow<ChooseCardWindow>().fragmentCombineHandler.Refresh(themsg);
+                WindowManager.Instance.GetWindow<ChooseCardWindow>().FragmentCombineHandler.Refresh(themsg);
             }
         }
     }

@@ -29,13 +29,12 @@ public class BattlegroundController : MonoBehaviour
     /// <remarks>
     /// Just for testing purpose, used random choose one, will remove in future with designer define.
     /// </remarks>
-    public int TotalBattleNum = 2;
+    public int TotalBattleNum;
 
     private AbstractBattlegroundLooper battlegroundLooper;
     private int currentStep;
 
     private const string BasePath = "Prefabs/NewBattle/Battleground";
-    private const int MinimalTotalStep = 3;
 
     private bool initialized;
 
@@ -53,12 +52,6 @@ public class BattlegroundController : MonoBehaviour
         if (battle == null)
         {
             Logger.LogError("Could not find path: " + path + " to generator battleground.");
-            return;
-        }
-
-        if (TotalStep < MinimalTotalStep)
-        {
-            Logger.LogError("Total step should be greater or equals to " + MinimalTotalStep);
             return;
         }
 

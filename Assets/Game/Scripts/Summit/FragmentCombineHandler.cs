@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using KXSGCodec;
+﻿using KXSGCodec;
+using System.Collections.Generic;
 using UnityEngine;
-using System.Collections;
 
 public class FragmentCombineHandler : MonoBehaviour 
 {

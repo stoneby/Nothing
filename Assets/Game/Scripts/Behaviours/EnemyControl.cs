@@ -23,8 +23,6 @@ public class EnemyControl : MonoBehaviour
 	/// </summary>
     public BloodBarController BloodController;
 
-    public BuffBarController BuffController;
-
     /// <summary>
     /// Base widget of moving standard.
     /// </summary>
