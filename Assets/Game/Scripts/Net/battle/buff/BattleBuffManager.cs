@@ -37,7 +37,6 @@ namespace com.kx.sglm.gs.battle.share.buff
 		/// owner of buff manager, it's a final owner </summary>
 		private BattleFighter owner;
 
-
 		public BattleBuffManager(BattleFighter owner)
 		{
 			this.owner = owner;

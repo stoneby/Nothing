@@ -1,6 +1,7 @@
 ﻿
 public class ResourcePath
 {
+    public const string TemplatePath = "Templates/Templates.zip";
 
     public const string FileBag = "Templates/Bag";
     public const string FileHero = "Templates/Hero";
@@ -12,5 +13,5 @@ public class ResourcePath
     public const string FileMonsterConfig = "Templates/Monster";
     public const string FileBuffConfig = "Templates/Buff";
 
-    public static string[] ByteFiles = { FileBag ,FileHero, FileItem, FileItemConfig, FileLevelUp, FileRaid, FileSkill, FileMonsterConfig, FileBuffConfig};
+    public static string[] ByteFiles = { FileBag, FileHero, FileItem, FileItemConfig, FileLevelUp, FileRaid, FileSkill, FileMonsterConfig, FileBuffConfig };
 }

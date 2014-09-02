@@ -86,7 +86,6 @@ public sealed class MissionModelLocator
     private Raid raidTemplates;
     private List<RaidInfo> raidInfoElite;
     private List<RaidInfo> raidInfoMaster;
-    private const string RaidTemlatePath = "Templates/Raid";
     public List<MapVO> RaidMaps;
     public List<MapVO> StageMaps;
 
@@ -112,7 +111,7 @@ public sealed class MissionModelLocator
     [XmlIgnore]
     public Raid RaidTemplates
     {
-        get { return raidTemplates ?? (raidTemplates = Utils.Decode<Raid>(RaidTemlatePath)); }
+        get { return raidTemplates ?? (raidTemplates = Utils.Decode<Raid>(ResourcePath.FileRaid)); }
     }
 
     public RaidTemplate GetRaidByTemplateId(int templateid)

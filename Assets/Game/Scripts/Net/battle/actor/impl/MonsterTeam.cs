@@ -98,7 +98,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 
 		public override void changeHp(int costHp, BattleFighter defencer)
 		{
-			// DO Nothing
+			defencer.changeCurHp(costHp);
 		}
 
 		public override BattleFighter getFighterByIndex(int fighterIndex)

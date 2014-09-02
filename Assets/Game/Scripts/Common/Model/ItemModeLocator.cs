@@ -1,11 +1,10 @@
-﻿using System.Collections.Generic;
-using KXSGCodec;
-using Template;
+﻿using KXSGCodec;
+using System.Collections.Generic;
 using Template.Auto.Bag;
 using Template.Auto.Item;
 using UnityEngine;
-using OrderType = ItemHelper.OrderType;
 using EquipType = ItemHelper.EquipType;
+using OrderType = ItemHelper.OrderType;
 
 public class ItemModeLocator 
 {
@@ -13,14 +12,12 @@ public class ItemModeLocator
 
     private static volatile ItemModeLocator instance;
     private static readonly object SyncRoot = new Object();
-    private const string ItemTemlatePath = "Templates/Item";
-    private const string BagTemlatePath = "Templates/Bag";
-    private const string ItemConfigPath = "Templates/ItemConfig";
 
     private Bag bag;
     private Item itemTemplates;
     private ItemConfig itemConfig;
     private OrderType orderType = OrderType.Job;
+    private const float ConversionRate = 100;
 
     #endregion
 
@@ -36,17 +33,17 @@ public class ItemModeLocator
 
     public Bag Bag
     {
-        get { return bag ?? (bag = Utils.Decode<Bag>(BagTemlatePath)); }
+        get { return bag ?? (bag = Utils.Decode<Bag>(ResourcePath.FileBag)); }
     }
 
     public Item ItemTemplates
     {
-        get { return itemTemplates ?? (itemTemplates = Utils.Decode<Item>(ItemTemlatePath)); }
+        get { return itemTemplates ?? (itemTemplates = Utils.Decode<Item>(ResourcePath.FileItem)); }
     }
 
     public ItemConfig ItemConfig
     {
-        get { return itemConfig ?? (itemConfig = Utils.Decode<ItemConfig>(ItemConfigPath)); }
+        get { return itemConfig ?? (itemConfig = Utils.Decode<ItemConfig>(ResourcePath.FileItemConfig)); }
     }
 
     public OrderType OrderType
@@ -352,11 +349,11 @@ public class ItemModeLocator
         var armorTmpl = ItemTemplates.ArmorTmpls;
         if (equipTmpl.ContainsKey(tempId))
         {
-            return equipTmpl[tempId].Attack + additonLevel * equipTmpl[tempId].AttackLvlParam;
+            return equipTmpl[tempId].Attack + Mathf.RoundToInt(additonLevel * equipTmpl[tempId].AttackLvlParam / ConversionRate);
         }
         if (armorTmpl.ContainsKey(tempId))
         {
-            return armorTmpl[tempId].Attack + additonLevel * armorTmpl[tempId].AttackLvlParam;
+            return armorTmpl[tempId].Attack + Mathf.RoundToInt(additonLevel * armorTmpl[tempId].AttackLvlParam / ConversionRate);
         }
         return -1;
     }
@@ -374,11 +371,11 @@ public class ItemModeLocator
         var armorTmpl = ItemTemplates.ArmorTmpls;
         if (equipTmpl.ContainsKey(tempId))
         {
-            return equipTmpl[tempId].Recover + additonLevel * equipTmpl[tempId].RecoverLvlParam;
+            return equipTmpl[tempId].Recover + Mathf.RoundToInt(additonLevel * equipTmpl[tempId].RecoverLvlParam / ConversionRate);
         }
         if (armorTmpl.ContainsKey(tempId))
         {
-            return armorTmpl[tempId].Recover + additonLevel * armorTmpl[tempId].RecoverLvlParam;
+            return armorTmpl[tempId].Recover + Mathf.RoundToInt(additonLevel * armorTmpl[tempId].RecoverLvlParam / ConversionRate);
         }
         return -1;
     }
@@ -396,11 +393,11 @@ public class ItemModeLocator
         var armorTmpl = ItemTemplates.ArmorTmpls;
         if (equipTmpl.ContainsKey(tempId))
         {
-            return equipTmpl[tempId].Hp + additonLevel * equipTmpl[tempId].HpLvlParam;
+            return equipTmpl[tempId].Hp + Mathf.RoundToInt(additonLevel * equipTmpl[tempId].HpLvlParam / ConversionRate);
         }
         if (armorTmpl.ContainsKey(tempId))
         {
-            return armorTmpl[tempId].Hp + additonLevel * armorTmpl[tempId].HpLvlParam;
+            return armorTmpl[tempId].Hp + Mathf.RoundToInt(additonLevel * armorTmpl[tempId].HpLvlParam / ConversionRate);
         }
         return -1;
     }
@@ -598,7 +595,7 @@ public class ItemModeLocator
         {
             for (var i = level; i < preshowLvl; i++)
             {
-                levelCost += lvlTempls[level].UpCostGolds[quality - 1];
+                levelCost += lvlTempls[i].UpCostGolds[quality - 1];
             }
             var curLevelTemp = lvlTempls[level];
             var preshowLevelTemp = lvlTempls[preshowLvl];
@@ -607,6 +604,20 @@ public class ItemModeLocator
             levelCost += (valueToAdd - valueToSub);
         }
         return levelCost;
+    }
+
+    public int GetSellCost(int tempId, int curExp, short lvl, sbyte quality)
+    {
+        var lvlTempls = ItemConfig.ItemLvlTmpls;
+        var sellCost = GetSalePrice(tempId);
+        for(var i = 1; i < lvl; i++)
+        {
+            sellCost += lvlTempls[i].UpCostGolds[quality - 1];
+        }
+        var curLevelTemp = lvlTempls[lvl];
+        var valueToAdd = (int) ((float) curExp / curLevelTemp.MaxExp * curLevelTemp.UpCostGolds[quality - 1]);
+        sellCost += valueToAdd;
+        return sellCost;
     }
 
     public bool IsMaterial(int tempId)

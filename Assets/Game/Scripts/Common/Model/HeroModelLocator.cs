@@ -15,16 +15,6 @@ public sealed class HeroModelLocator
 
     private static volatile HeroModelLocator instance;
     private static readonly object SyncRoot = new Object();
-    private const string HeroTemlatePath = "Templates/Hero";
-    private const string SkillTemlatePath = "Templates/Skill";
-
-    #endregion
-
-    #region Constructs
-
-    private HeroModelLocator()
-    {
-    }
 
     #endregion
 
@@ -59,13 +49,13 @@ public sealed class HeroModelLocator
     private Hero heroTemplates;
     public Hero HeroTemplates
     {
-        get { return heroTemplates ?? (heroTemplates = Utils.Decode<Hero>(HeroTemlatePath)); }
+        get { return heroTemplates ?? (heroTemplates = Utils.Decode<Hero>(ResourcePath.FileHero)); }
     }
 
     private Skill skillTemplates;
     public Skill SkillTemplates
     {
-        get { return skillTemplates ?? (skillTemplates = Utils.Decode<Skill>(SkillTemlatePath)); }
+        get { return skillTemplates ?? (skillTemplates = Utils.Decode<Skill>(ResourcePath.FileSkill)); }
     }
 
     public static bool AlreadyRequest;

@@ -630,7 +630,8 @@ public sealed class MtaService : MonoBehaviour {
 
 	static AndroidJavaObject Context
 	{
-		get{
+		get
+        {
 			return MtaServiceJava.contextInstance;
 		}
 	}

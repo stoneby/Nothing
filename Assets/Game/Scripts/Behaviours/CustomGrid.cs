@@ -15,6 +15,19 @@ public class CustomGrid : UIWidgetContainer
 
     public int CellWidth = 700;
 
+    public int CurIndex
+    {
+        get
+        {
+            return curIndex;
+        }
+    }
+
+    public int MaxPerLine
+    {
+        get { return m_maxLine; }
+    }
+
     #endregion
 
     #region Private Fields
@@ -32,6 +45,8 @@ public class CustomGrid : UIWidgetContainer
     private IList m_listData;
 
     private Vector3 defaultVec;
+
+    private int curIndex;
 
     #endregion
 
@@ -107,11 +122,11 @@ public class CustomGrid : UIWidgetContainer
 
         float _ver = Mathf.Max(position.y, 0);
 
-        int startIndex = Mathf.FloorToInt(_ver / CellHeight);
-        int endIndex = Mathf.Min(m_listData.Count, startIndex + m_maxLine);
+        curIndex = Mathf.FloorToInt(_ver / CellHeight);
+        int endIndex = Mathf.Min(m_listData.Count, curIndex + m_maxLine);
 
         int index = 0;
-        for (int i = startIndex; i < startIndex + m_maxLine; i++)
+        for (int i = curIndex; i < curIndex + m_maxLine; i++)
         {
             var cell = m_cellList[index];
 

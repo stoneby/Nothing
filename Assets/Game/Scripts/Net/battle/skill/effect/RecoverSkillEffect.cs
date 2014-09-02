@@ -16,18 +16,18 @@ namespace com.kx.sglm.gs.battle.share.skill.effect
 
 		protected internal override float recoverOption(BattleFighter attacker, BattleFighter defencer)
 		{
-			float _totalHp = attacker.getOwnerTeam().TotalHp;
+			float _totalHp = attacker.BattleTotalHp;
 			float _ratio = percent / BattleConstants.BATTLE_RATIO_BASE;
 			float _recover = _totalHp * _ratio + baseValue;
 			_recover = BattleLogicHelper.calcAttackerState(attacker, _recover);
-			attacker.getOwnerTeam().changeHp((int)_recover, attacker);
+			attacker.changeFighterHp((int)_recover);
 			return _totalHp * _ratio;
 		}
 
 		protected internal override void recoverRecord(BattleFighter attacker, BattleFighter defencer, SkillDataHolder resultData)
 		{
 			SingleActionRecord _singleRecord = resultData.Record.OrCreateAttack;
-			_singleRecord.ResultHp = defencer.getOwnerTeam().CurHp;
+			_singleRecord.ResultHp = defencer.FighterCurHp;
 		}
 
 		public override void build(params string[] param)

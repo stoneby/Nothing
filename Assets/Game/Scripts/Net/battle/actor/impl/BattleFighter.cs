@@ -156,6 +156,11 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 			}
 		}
 
+		public virtual void changeFighterHp(int changeHp)
+		{
+			getOwnerTeam().changeHp(changeHp, this);
+		}
+
 		public virtual int FighterCurHpPercent
 		{
 			get
@@ -366,7 +371,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 			}
 		}
 
-		public virtual void changeCurHp(int addHp)
+		internal virtual void changeCurHp(int addHp)
 		{
 			int _totalHp = addHp + CurHp;
 			if (_totalHp >= TotalHp)

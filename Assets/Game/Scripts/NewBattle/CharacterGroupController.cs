@@ -5,7 +5,6 @@ public class CharacterGroupController : MonoBehaviour
 {
     #region Public Fields
 
-
     /// <summary>
     /// Character list.
     /// </summary>
@@ -14,7 +13,7 @@ public class CharacterGroupController : MonoBehaviour
     /// <summary>
     /// Character generator.
     /// </summary>
-    public CharacterGenerator Generator;
+    public MultipleCharacterGenerator Generator;
 
     /// <summary>
     /// Total number of characters.

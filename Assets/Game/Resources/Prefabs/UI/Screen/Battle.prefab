@@ -2038,7 +2038,7 @@ GameObject:
   - 4: {fileID: 400246}
   - 114: {fileID: 11400344}
   m_Layer: 8
-  m_Name: Multiple
+  m_Name: Monster
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2069,7 +2069,7 @@ GameObject:
   - 4: {fileID: 400250}
   - 114: {fileID: 11400336}
   m_Layer: 8
-  m_Name: Single
+  m_Name: Hero
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2335,6 +2335,53 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &100284
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 400284}
+  - 114: {fileID: 11400368}
+  m_Layer: 8
+  m_Name: Monster
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &100286
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 400286}
+  m_Layer: 8
+  m_Name: CharacterInitializer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &100288
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 400288}
+  - 114: {fileID: 11400370}
+  m_Layer: 8
+  m_Name: Hero
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!4 &400000
 Transform:
   m_ObjectHideFlags: 1
@@ -2427,6 +2474,7 @@ Transform:
   - {fileID: 400048}
   - {fileID: 400044}
   - {fileID: 400248}
+  - {fileID: 400286}
   - {fileID: 400070}
   - {fileID: 400134}
   - {fileID: 400272}
@@ -3823,7 +3871,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100246}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -.000123798847, y: -.000107914209, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 400248}
@@ -4038,6 +4086,41 @@ Transform:
   m_Children:
   - {fileID: 400280}
   m_Father: {fileID: 400016}
+--- !u!4 &400284
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100284}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 400286}
+--- !u!4 &400286
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100286}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 400288}
+  - {fileID: 400284}
+  m_Father: {fileID: 400014}
+--- !u!4 &400288
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100288}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 400286}
 --- !u!54 &5400000
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -4754,11 +4837,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50801419b7e2b4ea9b72ce8c6e7d3c0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CharacterPrefab: {fileID: 100004, guid: 8aab2afd9d3704df3895cd9ba3412eea, type: 2}
-  EnemyPrefab: {fileID: 100010, guid: db6659851303a4664ada119c73b65757, type: 2}
-  DragBarPrefab: {fileID: 100000, guid: 9f713e2373b1b8240baa37b0707affdf, type: 2}
-  LeaderPrefab: {fileID: 100002, guid: 63f8b982472ed2a4cb7045edf83bdfd9, type: 2}
-  SpriteStartPrefab: {fileID: 100000, guid: 05099706dbe901941a2082950b840284, type: 2}
   SpritePrefab: {fileID: 100000, guid: 9bb4b992f698fcc47ad9ce8507144833, type: 2}
   EffectBg: {fileID: 100024}
   EffectObject: {fileID: 100030}
@@ -10389,12 +10467,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 100250}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d09e52f66f552934aaa424b040e9b793, type: 3}
+  m_Script: {fileID: 11500000, guid: 370044433463c2248959ab52b34db265, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Parent: {fileID: 100044}
+  Parent: {fileID: 100048}
   Total: 0
-  CharacterPool: {fileID: 11400132}
+  Initializer: {fileID: 11400370}
 --- !u!114 &11400338
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -10449,6 +10527,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Parent: {fileID: 100048}
   Total: 0
+  Initializer: {fileID: 11400368}
 --- !u!114 &11400346
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -10461,7 +10540,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CharacterList: []
-  Generator: {fileID: 11400336}
+  Generator: {fileID: 11400344}
 --- !u!114 &11400348
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -10474,7 +10553,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CharacterList: []
-  Generator: {fileID: 11400344}
+  Generator: {fileID: 11400336}
 --- !u!114 &11400350
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -10850,6 +10929,30 @@ MonoBehaviour:
   onDoubleClick: []
   onDragOver: []
   onDragOut: []
+--- !u!114 &11400368
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 735bcff12e1b98747a9c5658d2841051, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Face: {fileID: 100018, guid: da26215c5c1a0fd4e9ce321d9d241d30, type: 2}
+--- !u!114 &11400370
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8867ad0e55221c94882212df5843094f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Face: {fileID: 100000, guid: d1e6c05c6fdbfc54ca968edd4ed81a0c, type: 2}
 --- !u!114 &11400374
 MonoBehaviour:
   m_ObjectHideFlags: 1

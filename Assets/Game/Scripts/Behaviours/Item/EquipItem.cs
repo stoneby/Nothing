@@ -6,7 +6,6 @@ public class EquipItem : ItemBase
 {
     private Transform sortRelatedTran;
     private Transform lockMaskTran;
-    private Transform equipMaskTran;
     private Transform lockedIcon;
     private Transform curTeamEquiped;
     private Transform otherTeamEquiped;
@@ -32,7 +31,6 @@ public class EquipItem : ItemBase
             equipStatus = value;
             curTeamEquiped.gameObject.SetActive(equipStatus == 1);
             otherTeamEquiped.gameObject.SetActive(false);
-            ShowEquipMask(equipStatus > 0);
         }
     }
 
@@ -41,9 +39,7 @@ public class EquipItem : ItemBase
         base.Awake();
         sortRelatedTran = cachedTran.FindChild("SortRelated");
         lockMaskTran = cachedTran.FindChild("BindMask");
-        equipMaskTran = cachedTran.FindChild("EquipMask");
         ShowLockMask(false);
-        ShowEquipMask(false);
         lockedIcon = cachedTran.FindChild("BindIcon");
         curTeamEquiped = cachedTran.FindChild("CurEquiped");
         otherTeamEquiped = cachedTran.FindChild("OtherEquiped");
@@ -63,7 +59,7 @@ public class EquipItem : ItemBase
     {
         var attackTitle = sortRelatedTran.Find("Attack-Title");
         var attack = attackTitle.Find("Attack").GetComponent<UILabel>();
-        attack.text = atk.ToString(CultureInfo.InvariantCulture);
+        SetTextValue(attack, atk);
         NGUITools.SetActiveChildren(sortRelatedTran.gameObject, false);
         NGUITools.SetActive(attackTitle.gameObject, true);
         NGUITools.SetActive(attack.gameObject, true);
@@ -79,7 +75,7 @@ public class EquipItem : ItemBase
         NGUITools.SetActiveChildren(sortRelatedTran.gameObject, false);
         NGUITools.SetActive(hpTitle.gameObject, true);
         NGUITools.SetActive(hpValue.gameObject, true);
-        hpValue.text = hp != -1 ? hp.ToString(CultureInfo.InvariantCulture) : "-";
+        SetTextValue(hpValue, hp);
     }
 
     /// <summary>
@@ -92,7 +88,7 @@ public class EquipItem : ItemBase
         NGUITools.SetActiveChildren(sortRelatedTran.gameObject, false);
         NGUITools.SetActive(recoverTitle.gameObject, true);
         NGUITools.SetActive(recoverValue.gameObject, true);
-        recoverValue.text = recover != -1 ? recover.ToString(CultureInfo.InvariantCulture) : "-";
+        SetTextValue(recoverValue, recover);
     }
 
     /// <summary>
@@ -115,14 +111,13 @@ public class EquipItem : ItemBase
     {
     }
 
+    private void SetTextValue(UILabel label, int hpValue)
+    {
+        label.text = hpValue != -1 ? hpValue.ToString(CultureInfo.InvariantCulture) : "-";
+    }
+
     public void ShowLockMask(bool show)
     {
         lockMaskTran.gameObject.SetActive(show);
     }
-
-    public void ShowEquipMask(bool show)
-    {
-        equipMaskTran.gameObject.SetActive(show);
-    }
-
 }

@@ -215,7 +215,7 @@ public class ServiceManager
                     temp.Add(server);
                     if (server.ServerState == 1) suggestcount++;
                 }
-                else if (!server.IsTest && GameConfig.VersionValue >= server.RequestClientVersion)
+                else if (!server.IsTest && GameConfig.VersionValue >= server.RequestClientVersion && CanNotInCheckList(server.Url))
                 {
                     temp.Add(server);
                     if (server.ServerState == 1) suggestcount++;
@@ -242,6 +242,18 @@ public class ServiceManager
         {
             ServerData = AllServerArray[0];
         }
+    }
+
+    private static bool CanNotInCheckList(string theurl)
+    {
+        for (int i = 0; i < IosStateArray.Count; i++)
+        {
+            if (IosStateArray[i].CheckServerUrl == theurl)
+            {
+                return false;
+            }
+        }
+        return true;
     }
 
     private static List<ServerVO> GetUsedServers()

@@ -31,7 +31,8 @@ public class BuildManager
         PlayerSettings.Android.keyaliasName = "sglm";
         PlayerSettings.Android.keyaliasPass = "111111";
 
-        var iconFile = "Assets/icons/sglm/icon.png";
+        var iconFile = "Assets/icons/" + GameConfig.GameIcon + ".png";
+        Debug.Log("============================================================" + iconFile);
         int[] sizeList = PlayerSettings.GetIconSizesForTargetGroup(BuildTargetGroup.Android);//{144,96,72,48,36};
         Texture2D[] iconList = new Texture2D[sizeList.Length];
         Debug.Log("============================================================Create icon count " + sizeList.Length);
@@ -46,6 +47,7 @@ public class BuildManager
         }
         PlayerSettings.SetIconsForTargetGroup(BuildTargetGroup.Android, iconList);
 
+        
 
         //PlayerSettings.iOS.targetDevice = iOSTargetDevice;
 
@@ -57,7 +59,16 @@ public class BuildManager
         var str = "";
         str += d.Year + GetValueName(d.Month) + GetValueName(d.Day) + "-" + GetValueName(d.Hour) + GetValueName(d.Minute);
         Debug.Log("开始打包Android");
-        var res = BuildPipeline.BuildPlayer(scenes, "release/AndroidBuild/kxsg-"+str+".apk", BuildTarget.Android, BuildOptions.None);
+        string res;
+        if (GameConfig.Build == "true" || GameConfig.Build == "development")
+        {
+            res = BuildPipeline.BuildPlayer(scenes, "release/AndroidBuild/kxsg-" + str + ".apk", BuildTarget.Android, BuildOptions.ConnectWithProfiler | BuildOptions.Development);
+        }
+        else
+        {
+            res = BuildPipeline.BuildPlayer(scenes, "release/AndroidBuild/kxsg-" + str + ".apk", BuildTarget.Android, BuildOptions.None);
+        } 
+
         if (res.Length > 0)
         {
             throw new Exception("BuildPlayer failure: " + res);
@@ -129,7 +140,7 @@ public class BuildManager
         PlayerSettings.defaultInterfaceOrientation = UIOrientation.LandscapeLeft;
         PlayerSettings.iOS.exitOnSuspend = true;
         PlayerSettings.iOS.sdkVersion = iOSSdkVersion.DeviceSDK;
-        var iconFile = "Assets/icons/sglm/icon.png";
+        var iconFile = "Assets/icons/"+GameConfig.GameIcon+".png";
         int[] sizeList = PlayerSettings.GetIconSizesForTargetGroup(BuildTargetGroup.iPhone);
         Texture2D[] iconList = new Texture2D[sizeList.Length];
         for (int i = 0; i < sizeList.Length; i++)
@@ -186,6 +197,16 @@ public class BuildManager
             if (node["GameName"] != null)
             {
                 GameConfig.GameName = node["GameName"].InnerText;
+            }
+
+            if (node["IconPath"] != null)
+            {
+                GameConfig.GameIcon = node["IconPath"].InnerText;
+            }
+
+            if (node["Build"] != null)
+            {
+                GameConfig.Build = node["Build"].InnerText;
             }
         }
     }

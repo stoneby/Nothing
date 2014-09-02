@@ -10,7 +10,7 @@ GameObject:
   - 4: {fileID: 400000}
   - 198: {fileID: 19800000}
   - 199: {fileID: 19900000}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: fashanguang
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,7 +27,7 @@ GameObject:
   - 4: {fileID: 400002}
   - 198: {fileID: 19800002}
   - 199: {fileID: 19900002}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: liziyun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44,7 +44,7 @@ GameObject:
   - 4: {fileID: 400004}
   - 198: {fileID: 19800004}
   - 199: {fileID: 19900004}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: glow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -61,7 +61,7 @@ GameObject:
   - 4: {fileID: 400006}
   - 198: {fileID: 19800006}
   - 199: {fileID: 19900006}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: guang001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -78,7 +78,7 @@ GameObject:
   - 4: {fileID: 400008}
   - 198: {fileID: 19800008}
   - 199: {fileID: 19900008}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: effect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 400010}
   - 114: {fileID: 11400000}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: 031_shengji002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -167,7 +167,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100010}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.36950946, y: -.763841748, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400008}
@@ -477,13 +477,13 @@ ParticleSystem:
         m_Curve:
         - time: 0
           value: 1
-          inSlope: -.748043776
-          outSlope: -.748043776
+          inSlope: -.321513176
+          outSlope: -.321513176
           tangentMode: 10
         - time: 1
-          value: .251956224
-          inSlope: -.748043776
-          outSlope: -.748043776
+          value: .678486824
+          inSlope: -.321513176
+          outSlope: -.321513176
           tangentMode: 10
         m_PreInfinity: 2
         m_PostInfinity: 2
@@ -550,7 +550,7 @@ ParticleSystem:
           rgba: 4294967295
         key2:
           serializedVersion: 2
-          rgba: 0
+          rgba: 2516582400
         key3:
           serializedVersion: 2
           rgba: 0
@@ -575,15 +575,15 @@ ParticleSystem:
         ctime6: 0
         ctime7: 0
         atime0: 0
-        atime1: 12529
-        atime2: 65535
-        atime3: 0
+        atime1: 16191
+        atime2: 44333
+        atime3: 65535
         atime4: 0
         atime5: 0
         atime6: 0
         atime7: 0
         m_NumColorKeys: 2
-        m_NumAlphaKeys: 3
+        m_NumAlphaKeys: 4
       minGradient:
         key0:
           serializedVersion: 2

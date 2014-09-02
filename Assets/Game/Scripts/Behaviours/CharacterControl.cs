@@ -8,13 +8,10 @@ using UnityEngine;
 
 public class CharacterControl : MonoBehaviour
 {
-    public GameObject BaseObj;
     public GameObject FootObj;
     public GameObject JobObj;
-    public GameObject AttrackObj;
+    public GameObject AttackObj;
     public GameObject TopTimesObj;
-    public GameObject SpritePrefab;
-    public GameObject SpriteObj;
     public GameObject FriendLabelObj;
 
     public Character CharacterData;
@@ -39,30 +36,6 @@ public class CharacterControl : MonoBehaviour
     private bool isSelected;
 
     private float afterTime;
-
-    public void ShowSpEffect(bool isshow)
-    {
-        HaveSp = isshow;
-        if (isshow)
-        {
-            if (SpriteObj == null)
-            {
-                SpriteObj = NGUITools.AddChild(BaseObj, SpritePrefab);
-                SpriteObj.transform.localPosition = new Vector3(-25, 0, 0);
-                var sp = SpriteObj.GetComponent<UISprite>();
-                sp.alpha = 0.8f;
-                sp.depth = 7;
-            }
-        }
-        else
-        {
-            if (SpriteObj != null)
-            {
-                Destroy(SpriteObj);
-                SpriteObj = null;
-            }
-        }
-    }
 
     public void SetFootIndex()
     {
@@ -126,7 +99,7 @@ public class CharacterControl : MonoBehaviour
 
     public void SetAttackLabel(SingleFighterRecord record)
     {
-        var uilb = AttrackObj.GetComponent<UILabel>();
+        var uilb = AttackObj.GetComponent<UILabel>();
         Attack = record.getIntProp(RoleAProperty.ATK);
         Restore = record.getIntProp(RoleAProperty.RECOVER);
         uilb.text = "" + ((FootIndex == (int)FootColorType.Pink) ? (Restore) : (Attack));

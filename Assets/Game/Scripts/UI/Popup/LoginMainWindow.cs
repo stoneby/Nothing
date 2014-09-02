@@ -9,6 +9,7 @@ public class LoginMainWindow : Window
 {
     private GameObject SpriteAccount;
     private GameObject SpriteServers;
+    private GameObject labelSwitchAccount;
     private GameObject BtnPlay;
     private GameObject ServerLabel;
     private GameObject AccountLabel;
@@ -20,6 +21,7 @@ public class LoginMainWindow : Window
     private UIEventListener AccountUIEventListener;
     private UIEventListener ServiceUIEventListener;
     private UIEventListener BtnLoginUIEventListener;
+    private UIEventListener switchAccountUiEventListener;
 
     #region Window
 
@@ -31,11 +33,12 @@ public class LoginMainWindow : Window
         BtnLoginUIEventListener.onClick += OnLoginButtonClick;
         AccountUIEventListener.onClick += OnAccountClick;
         ServiceUIEventListener.onClick += OnServerClick;
+        switchAccountUiEventListener.onClick = OnSwitchAccountClick;
 
         //EventManager.Instance.AddListener<LoginEvent>(OnSCPlayerInfoHandler);
         if (ServiceManager.IsCheck)
         {
-            FeidouManager.DoLogin();
+            //FeidouManager.DoLogin();
         }
         else
         {
@@ -44,23 +47,27 @@ public class LoginMainWindow : Window
 
         var lb = VersionLabel.GetComponent<UILabel>();
         lb.text = "Version:" + GameConfig.Version;
+
+#if UNITY_ANDROID
+        labelSwitchAccount.gameObject.SetActive(true);
+#endif
     }
 
     IEnumerator PlayLogo()
     {
         TexLogo.transform.localPosition = new Vector3(0, 0, 0);
-        TexLogo.transform.localScale = new Vector3(0.01f,0.01f,1);
+        TexLogo.transform.localScale = new Vector3(0.01f, 0.01f, 1);
         ContainerBox.transform.localPosition = new Vector3(0, 420, 0);
         yield return new WaitForSeconds(0.1f);
-        PlayTweenScale(TexLogo, 0.3f, new Vector3(0.01f, 0.01f, 1), new Vector3(1.3f,1.3f,1));
+        PlayTweenScale(TexLogo, 0.3f, new Vector3(0.01f, 0.01f, 1), new Vector3(1.3f, 1.3f, 1));
         yield return new WaitForSeconds(0.3f);
         PlayTweenScale(TexLogo, 0.1f, new Vector3(1.3f, 1.3f, 1), new Vector3(1, 1, 1));
-//        yield return new WaitForSeconds(0.1f);
-//        PlayTweenScale(TexLogo, 0.05f, new Vector3(1, 1, 1), new Vector3(1.2f, 1.2f, 1));
-//        yield return new WaitForSeconds(0.05f);
-//        PlayTweenScale(TexLogo, 0.05f, new Vector3(1.2f, 1.2f, 1), new Vector3(1, 1, 1));
+        //        yield return new WaitForSeconds(0.1f);
+        //        PlayTweenScale(TexLogo, 0.05f, new Vector3(1, 1, 1), new Vector3(1.2f, 1.2f, 1));
+        //        yield return new WaitForSeconds(0.05f);
+        //        PlayTweenScale(TexLogo, 0.05f, new Vector3(1.2f, 1.2f, 1), new Vector3(1, 1, 1));
         yield return new WaitForSeconds(0.2f);
-        PlayTweenPosition(TexLogo, 0.4f, new Vector3(0,0,0), new Vector3(0,180,0));
+        PlayTweenPosition(TexLogo, 0.4f, new Vector3(0, 0, 0), new Vector3(0, 180, 0));
         yield return new WaitForSeconds(0.3f);
         PlayTweenPosition(ContainerBox, 0.4f, new Vector3(0, 420, 0), new Vector3(0, 0, 0));
     }
@@ -87,7 +94,7 @@ public class LoginMainWindow : Window
 
     private void ResetAccountList()
     {
-         var aclabel = AccountLabel.GetComponent<UILabel>();
+        var aclabel = AccountLabel.GetComponent<UILabel>();
         if (ServiceManager.DebugUserName == "" && ServiceManager.UserName == "")
         {
             aclabel.text = "";
@@ -97,7 +104,7 @@ public class LoginMainWindow : Window
             var str = (ServiceManager.IsDebugAccount == 1) ? ServiceManager.DebugUserName : ServiceManager.UserName;
             aclabel.text = "" + str;
         }
-        
+
         aclabel.GetComponent<LocalizeWidget>().enabled = false;
 
         var lb = ServerLabel.GetComponent<UILabel>();
@@ -108,23 +115,24 @@ public class LoginMainWindow : Window
         }
     }
 
-//    private bool CheckDeleteAccount(Transform obj)
-//    {
-//        //throw new System.NotImplementedException();
-//        //var item = obj.gameObject.GetComponent<AccountItemControl>();
-//        //item
-//        return true;
-//    }
+    //    private bool CheckDeleteAccount(Transform obj)
+    //    {
+    //        //throw new System.NotImplementedException();
+    //        //var item = obj.gameObject.GetComponent<AccountItemControl>();
+    //        //item
+    //        return true;
+    //    }
 
-    
+
 
     public override void OnExit()
     {
         if (BtnLoginUIEventListener != null) BtnLoginUIEventListener.onClick -= OnLoginButtonClick;
         if (AccountUIEventListener != null) AccountUIEventListener.onClick -= OnAccountClick;
         if (ServiceUIEventListener != null) ServiceUIEventListener.onClick -= OnServerClick;
+        if (switchAccountUiEventListener) switchAccountUiEventListener.onClick = null;
 
-//        EventManager.Instance.RemoveListener<LoginEvent>(OnSCPlayerInfoHandler);
+        //        EventManager.Instance.RemoveListener<LoginEvent>(OnSCPlayerInfoHandler);
         MtaManager.TrackEndPage(MtaType.LoginMainWindow);
     }
 
@@ -139,17 +147,19 @@ public class LoginMainWindow : Window
         SpriteAccount = transform.FindChild("Panel - box/Container - control/Sprite - account").gameObject;
         VersionLabel = transform.FindChild("Label").gameObject;
         SpriteServers = transform.FindChild("Panel - box/Container - control/Sprite - server").gameObject;
+        labelSwitchAccount = Utils.FindChild(transform, "Label - switchAccount").gameObject;
         BtnPlay = transform.FindChild("Panel - box/Container - control/Image Button - play").gameObject;
         ServerLabel = transform.FindChild("Panel - box/Container - control/Sprite - server/Label - server").gameObject;
 
         TexLogo = transform.FindChild("Texture - logo").gameObject;
         ContainerBox = transform.FindChild("Panel - box/Container - control").gameObject;
 
-        
+
 
         BtnLoginUIEventListener = UIEventListener.Get(BtnPlay);
         AccountUIEventListener = UIEventListener.Get(SpriteAccount);
         ServiceUIEventListener = UIEventListener.Get(SpriteServers);
+        switchAccountUiEventListener = UIEventListener.Get(labelSwitchAccount);
     }
 
     #endregion
@@ -191,7 +201,7 @@ public class LoginMainWindow : Window
         }
         else
         {
-            FeidouManager.DoLogin();  
+            //FeidouManager.DoLogin();
         }
     }
 
@@ -200,8 +210,14 @@ public class LoginMainWindow : Window
         WindowManager.Instance.Show(typeof(LoginServersWindow), true);
     }
 
-//    private void OnSCPlayerInfoHandler(LoginEvent e)
-//    {
-//        //ServiceManager.SaveAccount();
-//    }
+    private void OnSwitchAccountClick(GameObject go)
+    {
+        Logger.Log("!!!!!!!!Switch account click succeed.");
+        FeidouManager.DoSwitchAccount();
+    }
+
+    //    private void OnSCPlayerInfoHandler(LoginEvent e)
+    //    {
+    //        //ServiceManager.SaveAccount();
+    //    }
 }

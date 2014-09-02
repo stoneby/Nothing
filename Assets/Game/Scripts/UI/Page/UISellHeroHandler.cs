@@ -181,7 +181,7 @@ public class UISellHeroHandler : MonoBehaviour
         }
         var item = NGUITools.FindInParents<WrapHerosItem>(go);
         item.ShowSellMask(pos.Y, isToSell);
-        RefreshSellList(commonWindow.GetInfo(pos).Uuid, true);
+        RefreshSellList(commonWindow.GetInfo(pos).Uuid, isToSell);
         grid.repositionNow = true;
     }
 

@@ -9,10 +9,19 @@ using UnityEngine;
 /// </summary>
 public class UIHeroDetailHandler : MonoBehaviour
 {
+    #region Public Fields
+
+    public int CountOfOneGroup = 4;
+    public GameObject HeroSelItemPrefab;
+    public PropertyUpdater PropertyUpdater;
+    public List<ItemInfo> Infos { get; private set; }
+
+    #endregion
+
+    #region Private Fileds
+
     private UIEventListener lockLis;
     private UISprite lockSprite;
-
-    public PropertyUpdater PropertyUpdater;
     private UILabel activeSkillName;
     private UILabel activeSkillDesc; 
     private UILabel leaderSkillName;
@@ -23,13 +32,10 @@ public class UIHeroDetailHandler : MonoBehaviour
     private HeroSelItem heroSelItem;
     private UIHeroCommonWindow commonWindow;
     private GameObject[] equipItems;
-    public List<ItemInfo> Infos { get; private set; }
-    public int CountOfOneGroup = 4;
     private const int MaxEquipCount = 4;
-    public static bool IsLongPressEnter;
     private bool isEnterSelItem;
 
-    public GameObject HeroSelItemPrefab;
+    #endregion
 
     #region Private Methods
 
@@ -86,7 +92,7 @@ public class UIHeroDetailHandler : MonoBehaviour
     private void OpenSelectHandler(GameObject obj)
     {
         selectPosEquipObj = obj;
-        if (ItemModeLocator.Instance.ScAllItemInfos == null)
+        if (!ItemModeLocator.AlreadyMainRequest)
         {
             ItemModeLocator.Instance.GetItemPos = ItemType.GetItemInHeroInfo;
             var csmsg = new CSQueryAllItems { BagType = ItemType.MainItemBagType };
@@ -104,7 +110,7 @@ public class UIHeroDetailHandler : MonoBehaviour
         for (var i = 0; i < equipItems.Length; i++)
         {
             var item = equipItems[i].GetComponent<HeroEquipControl>();
-            if (item.TemplateId > 0)
+            if (item.TemplateId >= 1)
             {
                 var msg = new CSHeroChangeEquip
                               {
@@ -139,11 +145,28 @@ public class UIHeroDetailHandler : MonoBehaviour
     private void InstallHandlers()
     {
         lockLis.onClick = OnLockClicked;
+        CommonHandler.HeroPropertyChanged += OnHeroPropertyChanged;
     }
 
     private void UnInstallHandlers()
     {
         lockLis.onClick = null;
+        CommonHandler.HeroPropertyChanged -= OnHeroPropertyChanged;
+    }
+
+    private void OnHeroPropertyChanged(SCPropertyChangedNumber scpropertychanged)
+    {
+        var heroInfo = commonWindow.HeroInfo;
+        var atkProp = scpropertychanged.PropertyChanged[RoleProperties.ROLE_ATK];
+        heroInfo.Prop[RoleProperties.ROLE_ATK] = atkProp;
+        var hpProp = scpropertychanged.PropertyChanged[RoleProperties.ROLE_HP];
+        heroInfo.Prop[RoleProperties.ROLE_HP] = hpProp;
+        var recoverProp = scpropertychanged.PropertyChanged[RoleProperties.ROLE_RECOVER];
+        heroInfo.Prop[RoleProperties.ROLE_RECOVER] = recoverProp;
+        var mpProp = scpropertychanged.PropertyChanged[RoleProperties.ROLE_MP];
+        heroInfo.Prop[RoleProperties.ROLE_MP] = mpProp;
+        PropertyUpdater.UpdateProperty(heroInfo.Lvl, commonWindow.HeroTemplate.LvlLimit, atkProp, hpProp, recoverProp, mpProp);
+        commonWindow.Refresh();
     }
 
     private void OnLockClicked(GameObject go)
@@ -158,25 +181,6 @@ public class UIHeroDetailHandler : MonoBehaviour
         commonWindow.ShowSelMask(go.transform.position);
         commonWindow.ShowLockState(lockSprite);
         RefreshData();
-    }
-
-    #endregion
-
-    public void RefreshData(HeroInfo info)
-    {
-        commonWindow.HeroInfo = info;
-        RefreshData();
-    }
-
-    public void EquipOver(HeroInfo info)
-    {
-        RefreshData(info);
-        if (heroSelItem != null)
-        {
-            NGUITools.Destroy(heroSelItem);
-            heroSelItem = null;
-            NGUITools.SetActiveChildren(baseInfos.gameObject, true);
-        }
     }
 
     /// <summary>
@@ -212,12 +216,22 @@ public class UIHeroDetailHandler : MonoBehaviour
             activeSkillName.text = activeSkillTemp.Name;
             activeSkillDesc.text = activeSkillTemp.Desc;
         }
+        else
+        {
+            activeSkillName.text = "-";
+            activeSkillDesc.text = "-";
+        }
 
         if (skillTmp.ContainsKey(heroTemplate.LeaderSkill))
         {
             var leaderSkillTemp = skillTmp[heroTemplate.LeaderSkill];
             leaderSkillName.text = leaderSkillTemp.Name;
             leaderSkillDesc.text = leaderSkillTemp.Desc;
+        }
+        else
+        {
+            leaderSkillName.text = "-";
+            leaderSkillDesc.text = "-";
         }
         InitEquipedItems();
     }
@@ -240,7 +254,6 @@ public class UIHeroDetailHandler : MonoBehaviour
         if (isEnterSelItem == false)
         {
             heroSelItem = NGUITools.AddChild(gameObject, HeroSelItemPrefab).GetComponent<HeroSelItem>();
-            heroSelItem.Refresh();
             heroSelItem.EquipItemClicked = OnEquipItemClicked;
             heroSelItem.CancelClicked = CancelEquipHandler;
             heroSelItem.ConfirmClicked = ConfirmEquipHandler;
@@ -248,31 +261,58 @@ public class UIHeroDetailHandler : MonoBehaviour
             commonWindow.ShowSelMask(false);
             isEnterSelItem = true;
         }
-        ShowDefaultMask();
-    }
-
-    private void ShowDefaultMask()
-    {
-        var item = selectPosEquipObj.GetComponent<HeroEquipControl>();
-        var heroSelItems = heroSelItem.Items.transform;
-        for (var i = 0; i < heroSelItems.childCount; i++)
-        {
-            var itemContent = heroSelItems.GetChild(i).GetComponent<WrapItemContent>();
-            foreach (var child in itemContent.Children)
-            {
-                var equipItem = child.GetComponent<NewEquipItem>();
-                if(equipItem.TheItemInfo.Id == item.Uuid)
-                {
-                    itemContent.ShowSellMask(itemContent.Children.IndexOf(child), true);
-                }
-            }    
-        }
+        var curUuid = selectPosEquipObj.GetComponent<HeroEquipControl>().Uuid;
+        heroSelItem.Refresh(curUuid, commonWindow.HeroInfo.EquipUuid.Except(new List<string> { curUuid }).ToList());
     }
 
     private void OnEquipItemClicked(GameObject go)
     {
-        var item = go.GetComponent<NewEquipItem>();
+        var newInfo = (go != null) ? go.GetComponent<NewEquipItem>().TheItemInfo : null;
+        var oldUuid = selectPosEquipObj.GetComponent<HeroEquipControl>().Uuid;
+        var oldInfo = ItemModeLocator.Instance.FindItem(oldUuid);
+        var oldAtk = 0;
+        var oldHp = 0;
+        var oldRecover = 0;
+        var oldMp = 0;
+        var newAtk = 0;
+        var newHp = 0;
+        var newRecover = 0;
+        var newMp = 0;
+        if (oldInfo != null)
+        {
+            ItemHelper.GetProproties(oldInfo, out oldAtk, out oldHp, out oldRecover, out oldMp);
+        }
+        if (newInfo != null)
+        {
+            ItemHelper.GetProproties(newInfo, out newAtk, out newHp, out newRecover, out newMp);
+        }
+        PropertyUpdater.PreShowChangedProperty(0, newAtk - oldAtk, newHp - oldHp, newRecover - oldRecover, newMp - oldMp);
         var select = selectPosEquipObj.GetComponent<HeroEquipControl>();
-        select.SetData(item.TheItemInfo.Id, item.TheItemInfo.TmplId);
+        var id = newInfo != null ? newInfo.Id : "";
+        var tempId = newInfo != null ? newInfo.TmplId : 1;
+        select.SetData(id, tempId);
     }
+
+    #endregion
+
+    #region Public Methods
+
+    public void RefreshData(HeroInfo info)
+    {
+        commonWindow.HeroInfo = info;
+        RefreshData();
+    }
+
+    public void EquipOver(HeroInfo info)
+    {
+        RefreshData(info);
+        if (heroSelItem != null)
+        {
+            NGUITools.Destroy(heroSelItem);
+            heroSelItem = null;
+            NGUITools.SetActiveChildren(baseInfos.gameObject, true);
+        }
+    }
+
+    #endregion
 }

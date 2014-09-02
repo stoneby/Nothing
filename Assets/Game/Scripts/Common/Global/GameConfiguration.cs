@@ -80,11 +80,20 @@ public class GameConfiguration : Singleton<GameConfiguration>
                 GameConfig.Language = node["Language"].InnerText;
             }
 
+            if (node["IconPath"] != null)
+            {
+                GameConfig.GameIcon = node["IconPath"].InnerText;
+            }
+
             if (node["ServicePath"] != null)
             {
                 var str = node["ServicePath"].InnerText;
-                GameConfig.ServicePath = "http://" + str + "/config/service.xml";//node["ServicePath"].InnerText;
-                GameConfig.BattleConfig = "http://"+ str + "/config/BattleConfig.xml";
+                GameConfig.ServicePath = str;//"http://27.131.223.229/config/service.xml";//node["ServicePath"].InnerText;
+                var k = str.IndexOf("config", System.StringComparison.Ordinal);
+                var str2 = str.Substring(k);   
+                var str3 = str.Replace(str2, "config/BattleConfig.xml");
+                //Debug.Log("++++++++++++++++++++++++++++" + str3);
+                GameConfig.BattleConfig = str3;
                 var arr = str.Split(':');
                 GameConfig.ServerIpAddress = arr.Length > 0 ? arr[0] : str;
             }
@@ -359,8 +368,8 @@ public class GameConfiguration : Singleton<GameConfiguration>
 
     private IEnumerator DoAsyncOperation()
     {
-        yield return StartCoroutine(PingTest.Instance.TestConnection(GameConfig.ServerIpAddress));
-        if (PingTest.Instance.HasConnection)
+        yield return new WaitForSeconds(0.1f);
+        if (PingTest.Instance.IsWebResourceAvailable(GameConfig.ServicePath))
         {
             StartCoroutine(DoReadConfigXml());
         }

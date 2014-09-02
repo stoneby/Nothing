@@ -57,10 +57,6 @@ public class EnemyControlTest : MonoBehaviour
         highlight = (GUILayout.TextField(highlight, 40));
         if (GUILayout.Button("Set highlight"))
         {
-            var enemySprite = EnemyController.EnemySprite.GetComponent<UISprite>();
-            enemySprite.HighLight = float.Parse(highlight);
-            enemySprite.Invalidate(true);
-            enemySprite.panel.Refresh();
         }
     }
 #endif

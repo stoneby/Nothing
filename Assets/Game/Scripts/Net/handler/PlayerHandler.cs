@@ -75,9 +75,9 @@ namespace Assets.Game.Scripts.Net.handler
                 }
             }
             EventManager.Instance.Post(new LoginEvent { Message = "This is login event." });
-            HttpResourceManager.OnLoadFinish += OnFinish;
+            HttpResourceManager.Instance.OnLoadFinish += OnFinish;
             //WindowManager.Instance.Show<MainMenuBarWindow>(true);
-            HttpResourceManager.LoadAll();
+            HttpResourceManager.Instance.LoadTemplate();
             WindowManager.Instance.Show<LoadingWaitWindow>(true);
         }
 
@@ -90,8 +90,8 @@ namespace Assets.Game.Scripts.Net.handler
             WindowManager.Instance.Show<LoginRegisterWindow>(false);
             WindowManager.Instance.Show<LoginServersWindow>(false);
             WindowManager.Instance.Show<LoadingWaitWindow>(false);
-            
-            HttpResourceManager.OnLoadFinish -= OnFinish;
+
+            HttpResourceManager.Instance.OnLoadFinish -= OnFinish;
 
             //BattlePersistence
             PersistenceHandler.Instance.GoToPersistenceWay();

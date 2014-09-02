@@ -97,7 +97,10 @@ namespace com.kx.sglm.gs.battle.share.buff.effect
 		public override void build(params string[] param)
 		{
 			reducePercent = Convert.ToInt32(param[0]);
-			reduceValue = Convert.ToInt32(param[1]);
+			if (param.Length > 1)
+			{
+				reduceValue = Convert.ToInt32(param[1]);
+			}
 		}
 
 	}

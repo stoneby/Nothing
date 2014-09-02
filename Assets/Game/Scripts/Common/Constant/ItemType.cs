@@ -61,7 +61,7 @@ public class ItemType : MonoBehaviour
 
     public static void SetHeadByTemplate(UISprite sprite, int templateId)
     {
-        var index = ItemModeLocator.Instance.GetIconId(templateId) - 1;
+        var index = ItemModeLocator.Instance.GetIconId(templateId);
         SetHeadByIndex(sprite, index);
     }
 

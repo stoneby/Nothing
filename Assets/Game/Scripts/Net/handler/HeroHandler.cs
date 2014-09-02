@@ -8,6 +8,9 @@ namespace Assets.Game.Scripts.Net.handler
         public delegate void MessageReceived();
         public static MessageReceived HeroListInHeroPanel;
 
+        public delegate void HeroModifyTeam(sbyte teamIndex, List<long> uuids);
+        public static HeroModifyTeam OnHeroModifyTeam;
+
         public static void OnHeroMessage(ThriftSCMessage msg)
         {
             switch (msg.GetMsgType())
@@ -52,10 +55,15 @@ namespace Assets.Game.Scripts.Net.handler
                     var md5Msg = msg.GetContent() as SCHeroModifyTeam;
                     if (md5Msg != null)
                     {
-                        HeroModelLocator.Instance.SCHeroList.TeamList[md5Msg.TeamIndex].ListHeroUuid =
-                            md5Msg.NewTeamInfo;
-                        WindowManager.Instance.GetWindow<UIBuildingTeamWindow>().ChangeToTab();
+                        var teamIndex = md5Msg.TeamIndex;
+                        var uuids = md5Msg.NewTeamInfo;
+                        HeroModelLocator.Instance.SCHeroList.TeamList[teamIndex].ListHeroUuid = uuids;
                         TeamMemberManager.Instance.SetValue(md5Msg.TeamIndex);
+                        PlayerModelLocator.UpdateTeamInfos(md5Msg.NewTeamInfo);
+                        if (OnHeroModifyTeam != null)
+                        {
+                            OnHeroModifyTeam(teamIndex, uuids);
+                        }
                     }
                     break;
 

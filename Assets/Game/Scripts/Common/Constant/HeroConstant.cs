@@ -1,4 +1,7 @@
-﻿/// <summary>
+﻿using System.Collections.Generic;
+using Property;
+
+/// <summary>
 /// The constant varibles related to heros.
 /// </summary>
 public class HeroConstant 
@@ -65,6 +68,9 @@ public class HeroConstant
 
     public const int ResourceReadyCount = 39;
 
+    public static readonly Position InvalidPos = new Position { X = -1, Y = -1 };
+    public static readonly Position FirstPos = new Position { X = 0, Y = 0 };
+
     public enum LeaderState
     {
         NotInTeam,
@@ -85,6 +91,13 @@ public class HeroConstant
         LvlUp,
         SellHero,
     }
+    public static List<int> PropKeys = new List<int>
+                           {
+                               RoleProperties.ROLE_ATK,
+                               RoleProperties.ROLE_HP,
+                               RoleProperties.ROLE_RECOVER,
+                               RoleProperties.ROLE_MP
+                           };
 
     public static HeroDetailEnterType EnterType = HeroDetailEnterType.InValid;
 

@@ -13,11 +13,6 @@ using Random = UnityEngine.Random;
 
 public class InitBattleField : MonoBehaviour, IBattleView
 {
-    public GameObject CharacterPrefab;
-    public GameObject EnemyPrefab;
-    public GameObject DragBarPrefab;
-    public GameObject LeaderPrefab;
-    public GameObject SpriteStartPrefab;
     public GameObject SpritePrefab;
     public GameObject EffectBg;
     public GameObject EffectObject;
@@ -164,11 +159,8 @@ public class InitBattleField : MonoBehaviour, IBattleView
     private void InitTeamController()
     {
         // Initialize fighter list to multiple character generator before team controller initialization.
-        var generator = TeamController.GroupController.Generator as MultipleCharacterGenerator;
-        if (generator)
-        {
-            generator.FighterList = BattleModelLocator.Instance.HeroList;
-        }
+        var generator = TeamController.GroupController.Generator;
+        generator.FighterList = BattleModelLocator.Instance.HeroList;
 
         TeamController.Total = BattleModelLocator.Instance.HeroList.Count;
         TeamController.Row = 3;
@@ -248,6 +240,10 @@ public class InitBattleField : MonoBehaviour, IBattleView
     {
         var enemyGroup = BattleModelLocator.Instance.EnemyGroup;
         var enemyList = BattleModelLocator.Instance.EnemyList;
+
+        // Initialize fighter list to multiple character generator before team controller initialization.
+        var generator = EnemyController.GroupController.Generator;
+        generator.FighterList = enemyList;
 
         Logger.Log("Enemy group count: " + enemyGroup.Count + ", current emeny group index: " + currentEnemyGroupIndex +
                    ", total enemy count: " + enemyList.Count);
@@ -731,7 +727,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
     {
         if (battleTeamRecord.SkillFighter != null && battleTeamRecord.SkillFighter.Count > 0)
         {
-            PlaySpEffect(battleTeamRecord.SkillFighter);
             yield return new WaitForSeconds(0.3f * battleTeamRecord.SkillFighter.Count + 0.5f);
         }
 
@@ -884,6 +879,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
                         yield return StartCoroutine(PlayCharacterBeenAttrack(record.ActionList));
                         break;
                     case BattleRecordConstants.SINGLE_ACTION_TYPE_RECOVER:
+                        ec.SetHealth(record.getAttackAction().getIntProp(BattleRecordConstants.SINGLE_ACTION_PROP_HP));
                         break;
                     case BattleRecordConstants.SINGLE_ACTION_TYPE_RECOVERED:
                         break;
@@ -1168,32 +1164,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
         recordIndex++;
         DealWithRecord();
         yield return null;
-    }
-
-    //播放sp技能特效
-    private ArrayList spStartList;
-    private void PlaySpEffect(List<int> theList)
-    {
-        var thecount = (theList.Count > 4) ? 4 : theList.Count;
-
-        if (spStartList == null)
-        {
-            spStartList = new ArrayList();
-        }
-
-        var cantiner = GameObject.Find("Anchor-left");
-
-        var basey = thecount * 160 / 2 - 300;
-        const int offsety = -160;
-        float delay = 0;
-        for (var i = 0; i < thecount; i++)
-        {
-            GameObject obj = NGUITools.AddChild(cantiner, SpriteStartPrefab);
-            obj.transform.localPosition = new Vector3(180, basey + i * offsety + 224, 0);
-            SpStartControl sc = obj.GetComponent<SpStartControl>();
-            sc.Play(delay);
-            delay += 0.5f;
-        }
     }
 
     //播放sp攻击残影拖尾效果
@@ -1584,7 +1554,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
                     MissionModelLocator.Instance.OldExp = PlayerModelLocator.Instance.Exp;
                     MissionModelLocator.Instance.OldLevel = PlayerModelLocator.Instance.Level;
                     MissionModelLocator.Instance.StarCount = starController.CurrentStar;
-                    
+
                     msg.Star = (sbyte)starController.CurrentStar;
 
                     //Battle persistence

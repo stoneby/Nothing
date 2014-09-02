@@ -28,8 +28,8 @@ public class FeidouManager
     public static void DoLogin()
     {
         if (!CanLogin()) return;
-        Init();
 #if UNITY_ANDROID
+        Init();
         ServiceManager.IsDebugAccount = 0;
         if (Application.platform != RuntimePlatform.WindowsEditor)
         {
@@ -89,6 +89,38 @@ public class FeidouManager
 #if UNITY_ANDROID
         jc = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
         jo = jc.GetStatic<AndroidJavaObject>("currentActivity");
+#endif
+    }
+
+    public static void DoSwitchAccount()
+    {
+        //if (!CanLogin()) return;
+#if UNITY_ANDROID
+        Init();
+        ServiceManager.IsDebugAccount = 0;
+        if (Application.platform != RuntimePlatform.WindowsEditor)
+        {
+            if (SDKResponse.IsInitialized == false)
+            {
+                Debug.Log("Calling SDK initialize.");
+                SDKResponse.WhichResponse += SwitchAccountAfterInit;
+                jo.Call("initialize", ServiceManager.GameID, GameConfig.Version, ServiceManager.FValue, "initialize");
+            }
+            else
+            {
+                Debug.Log("Calling SDK switch account.");
+                jo.Call("accountManager");
+            }
+        }
+#endif
+    }
+
+    private static void SwitchAccountAfterInit()
+    {
+#if UNITY_ANDROID
+        Debug.Log("Calling SDK switch account.");
+        jo.Call("accountManager");
+        SDKResponse.WhichResponse = null;
 #endif
     }
 }

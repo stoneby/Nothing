@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Net;
+using UnityEngine;
 using System.Collections;
 
 /// <summary>
@@ -50,6 +52,23 @@ public class PingTest : Singleton<PingTest>
         if (timeTaken <= MaxTime)
         {
             HasConnection = true;
+        }
+    }
+
+    public bool IsWebResourceAvailable(string webResourceAddress)
+    {
+        try
+        {
+            var req = (HttpWebRequest)WebRequest.CreateDefault(new Uri(webResourceAddress));
+            req.Method = "HEAD";
+            req.Timeout = 1000;
+            var res = (HttpWebResponse)req.GetResponse();
+            return (res.StatusCode == HttpStatusCode.OK);
+        }
+        catch (WebException wex)
+        {
+            //System.Diagnostics.Trace.Write(wex.Message);
+            return false;
         }
     }
 

@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
+using Assets.Game.Scripts.Net.handler;
 using KXSGCodec;
 using Property;
+using Template.Auto.Skill;
 using UnityEngine;
 
 /// <summary>
@@ -24,11 +26,11 @@ public class UIBuildingTeamWindow : Window
     private StretchItem closeBtnLine;
     private bool descendSort;
     private bool isEntered;
+    private bool isToClose;
+    private int activeTab;
     private List<HeroInfo> infos;
     private UIGrid teamGrid;
     private UILabel sortLabel;
-    private GameObject cachedCurToggle;
-    private sbyte cachedCurTabIndex;
     private UILabel leaderSkillName;
     private UILabel leaderSkillDesc;
     private const string TeamSpriteN = "Team{0}N";
@@ -62,6 +64,7 @@ public class UIBuildingTeamWindow : Window
     {
         MtaManager.TrackBeginPage(MtaType.HeroBuildingTeamWindow);
         isEntered = true;
+        isToClose = false;
         var orderType = HeroModelLocator.Instance.OrderType;
         sortLabel.text = LanguageManager.Instance.GetTextValue(ItemHelper.SortKeys[(int)orderType]);
         NGUITools.SetActive(Heros.gameObject, true);
@@ -74,13 +77,6 @@ public class UIBuildingTeamWindow : Window
     {
         MtaManager.TrackEndPage(MtaType.HeroBuildingTeamWindow);
         UnInstallHandlers();
-        if(curTeamIndex != scHeroList.CurrentTeamIndex)
-        {
-            scHeroList.CurrentTeamIndex = curTeamIndex;
-            var msg = new CSHeroChangeTeam { TeamIndex = curTeamIndex };
-            NetManager.SendMessage(msg, false);
-            TeamMemberManager.Instance.SetValue(curTeamIndex);
-        }
         Clean();
     }
 
@@ -191,6 +187,7 @@ public class UIBuildingTeamWindow : Window
     /// </summary>
     private void InstallHandlers()
     {
+        HeroHandler.OnHeroModifyTeam += OnHeroModifyTeam;
         EventDelegate.Add(DescendToggle.onChange, SortTypeChanged);
         closeBtnLis.onClick = OnClose;
         closeBtnLine.DragFinish = OnClose;
@@ -203,11 +200,25 @@ public class UIBuildingTeamWindow : Window
     /// </summary>
     private void UnInstallHandlers()
     {
+        HeroHandler.OnHeroModifyTeam -= OnHeroModifyTeam;
         EventDelegate.Remove(DescendToggle.onChange, SortTypeChanged);
         closeBtnLis.onClick = null;
         closeBtnLine.DragFinish = null;
         sortBtnLis.onClick = null;
         Heros.OnUpdate = null;
+    }
+    
+    private void OnHeroModifyTeam(sbyte teamIndex, List<long> uuids)
+    {
+        if(isToClose)
+        {
+            WindowManager.Instance.Show<UIMainScreenWindow>(true);
+        }
+        else
+        {
+            teams[curTeamIndex] = new List<long>(curTeam);
+            ChangeToTab(activeTab);
+        }
     }
 
     private void OnSort(GameObject go)
@@ -228,8 +239,20 @@ public class UIBuildingTeamWindow : Window
             ShowEditAssert();
             return;
         }
-        SendModifyTeamMsg();
-        WindowManager.Instance.Show<UIBuildingTeamWindow>(false);
+        isToClose = true;
+        var isDirty = SendModifyTeamMsg();
+        if (curTeamIndex != scHeroList.CurrentTeamIndex)
+        {
+            scHeroList.CurrentTeamIndex = curTeamIndex;
+            var msg = new CSHeroChangeTeam { TeamIndex = curTeamIndex };
+            NetManager.SendMessage(msg, false);
+            TeamMemberManager.Instance.SetValue(curTeamIndex);
+            PlayerModelLocator.UpdateTeamInfos(teams[curTeamIndex]);
+        }
+        if(!isDirty)
+        {
+            WindowManager.Instance.Show<UIMainScreenWindow>(true);
+        }
     }
 
     private void OnUpdate(GameObject sender, int index)
@@ -319,8 +342,7 @@ public class UIBuildingTeamWindow : Window
             toggles.Add(child);
         }
         var toggle = toggles[curTeamIndex];
-        toggle.GetComponent<UISprite>().spriteName = "TableD";
-        toggle.transform.GetChild(0).GetComponent<UISprite>().spriteName = string.Format(TeamSpriteD, curTeamIndex + 1);
+        SetToggleSprite(toggle, "TableD", string.Format(TeamSpriteD, curTeamIndex + 1));
     }
 
     private void OnTabClicked(GameObject go)
@@ -335,12 +357,11 @@ public class UIBuildingTeamWindow : Window
             ShowEditAssert();
             return;
         }
-        cachedCurToggle = go;
-        cachedCurTabIndex = (sbyte) index;
+        activeTab = index;
         var isDirty = SendModifyTeamMsg();
         if(!isDirty)
         {
-            ChangeToTab(false);
+            ChangeToTab(index);
         }
     }
 
@@ -355,8 +376,7 @@ public class UIBuildingTeamWindow : Window
         var clones = teamObjects.Values.ToList();
         for(var i = clones.Count - 1; i >= 0; i--)
         {
-            var clone = clones[i];
-            NGUITools.Destroy(clone);
+            NGUITools.Destroy(clones[i]);
         }
     }
 
@@ -447,7 +467,7 @@ public class UIBuildingTeamWindow : Window
                 var heroInfo = HeroModelLocator.Instance.FindHero(uuid);
                 baseHero.InitItem(heroInfo);
                 var index = infos.IndexOf(heroInfo);
-                teamObjects.Add(new Position{X = index / CountOfOneGroup, Y = index % CountOfOneGroup}, child);
+                teamObjects.Add(Utils.OneDimToTwo(index, CountOfOneGroup), child);
                 if(i == 0)
                 {
                     leaderInfo = heroInfo;
@@ -461,9 +481,11 @@ public class UIBuildingTeamWindow : Window
                                        leaderInfo.Prop[RoleProperties.ROLE_RECOVER],
                                        leaderInfo.Prop[RoleProperties.ROLE_MP]);
         var leaderTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpls[leaderInfo.TemplateId];
-        var leaderSkill = HeroModelLocator.Instance.SkillTemplates.HeroBattleSkillTmpls[leaderTemplate.LeaderSkill];
-        leaderSkillName.text = leaderSkill.Name;
-        leaderSkillDesc.text = leaderSkill.Desc;
+        var skillTempls = HeroModelLocator.Instance.SkillTemplates.HeroBattleSkillTmpls;
+        HeroBattleSkillTemplate leaderSkill;
+        skillTempls.TryGetValue(leaderTemplate.LeaderSkill, out leaderSkill);
+        leaderSkillName.text = leaderSkill != null ? leaderSkill.Name : "-";
+        leaderSkillDesc.text = leaderSkill != null ? leaderSkill.Desc : "-";
     }
 
     private void RefreshCurScreen()
@@ -488,7 +510,7 @@ public class UIBuildingTeamWindow : Window
     private void InitWrapContents(List<HeroInfo> heroInfos)
     {
         var orderType = HeroModelLocator.Instance.OrderType;
-        HeroModelLocator.Instance.SortHeroList(orderType, infos, descendSort);
+        HeroModelLocator.Instance.SortHeroList(orderType, heroInfos, descendSort);
         var data = new List<List<long>>();
         var rows = Mathf.CeilToInt((float)heroInfos.Count / CountOfOneGroup);
         for (var i = 0; i < rows; i++)
@@ -496,9 +518,9 @@ public class UIBuildingTeamWindow : Window
             var list = new List<long>();
             for (var j = 0; j < CountOfOneGroup; j++)
             {
-                if (i * CountOfOneGroup + j < infos.Count)
+                if (i * CountOfOneGroup + j < heroInfos.Count)
                 {
-                    list.Add(infos[i * CountOfOneGroup + j].Uuid);
+                    list.Add(heroInfos[i * CountOfOneGroup + j].Uuid);
                 }
             }
             data.Add(list);
@@ -510,22 +532,27 @@ public class UIBuildingTeamWindow : Window
 
     #region Public Methods
 
-    public void ChangeToTab(bool isFromServer = true)
+    public void ChangeToTab(int tabIndex)
     {
-        if (isFromServer)
-        {
-            teams[curTeamIndex] = new List<long>(curTeam);
-        }
+        TeamMemberManager.Instance.SetValue((sbyte)tabIndex);
         var curToggle = toggles[curTeamIndex];
-        curToggle.GetComponent<UISprite>().spriteName = "TabN";
-        curToggle.transform.GetChild(0).GetComponent<UISprite>().spriteName = string.Format(TeamSpriteN, curTeamIndex + 1);
-        cachedCurToggle.GetComponent<UISprite>().spriteName = "TableD";
-        cachedCurToggle.transform.GetChild(0).GetComponent<UISprite>().spriteName = string.Format(TeamSpriteD, cachedCurTabIndex + 1);
-        curTeamIndex = cachedCurTabIndex;
+        var aimToggle = toggles[tabIndex];
+        SetToggleSprite(curToggle, "TabN", string.Format(TeamSpriteN, curTeamIndex + 1));
+        SetToggleSprite(aimToggle, "TableD", string.Format(TeamSpriteD, (tabIndex + 1)));
+        curTeamIndex = (sbyte)tabIndex;
         curTeam = new List<long>(teams[curTeamIndex]);
         curTeamCached = new List<long>(curTeam);
         CleanObjectsInTeam();
         RefreshTeam();
+    }
+
+    private void SetToggleSprite(GameObject toggle, string bgSprite, string contentSprite)
+    {
+        if(toggle)
+        {
+            toggle.GetComponent<UISprite>().spriteName = bgSprite;
+            toggle.transform.GetChild(0).GetComponent<UISprite>().spriteName = contentSprite;
+        }
     }
 
     #endregion

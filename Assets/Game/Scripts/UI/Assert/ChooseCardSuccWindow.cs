@@ -151,7 +151,8 @@ public class ChooseCardSuccWindow : Window
             SetSuccMode(false);
 
             var info = ItemModeLocator.Instance.FindItem(StoredScLotteryMsg.RewardItem[rewardItemIndex].Uuid);
-            var quality = ItemModeLocator.Instance.GetQuality(info.TmplId);
+            var tempId = info.TmplId;
+            var quality = ItemModeLocator.Instance.GetQuality(tempId);
             quality = (sbyte)(quality / ItemType.QualitiesPerStar);
 
             ItemType.SetHeadByTemplate(itemIconSprite, info.TmplId);
@@ -160,12 +161,11 @@ public class ChooseCardSuccWindow : Window
             {
                 NGUITools.SetActive(rarity.FindChild("Star" + index.ToString()).gameObject, true);
             }
-
-            name.text = ItemModeLocator.Instance.GetName(info.TmplId);
-            attackValue.text = ItemModeLocator.Instance.GetAttack(info.TmplId,info.Level).ToString();
-            hpValue.text = ItemModeLocator.Instance.GetHp(info.TmplId, info.Level).ToString();
-            mpValue.text = ItemModeLocator.Instance.GetMp(info.TmplId).ToString();
-            recoverValue.text = ItemModeLocator.Instance.GetRecover(info.TmplId, info.Level).ToString();
+            name.text = ItemModeLocator.Instance.GetName(tempId);
+            SetTextValue(attackValue, ItemModeLocator.Instance.GetAttack(tempId, info.Level));
+            SetTextValue(hpValue, ItemModeLocator.Instance.GetHp(tempId, info.Level));
+            SetTextValue(mpValue, ItemModeLocator.Instance.GetMp(tempId));
+            SetTextValue(recoverValue, ItemModeLocator.Instance.GetRecover(tempId, info.Level)); 
         }
         else
         {
@@ -197,8 +197,12 @@ public class ChooseCardSuccWindow : Window
         else
         {
             Logger.LogError("Not correct LotteryMode.");
-            return;
         }
+    }
+
+    private static void SetTextValue(UILabel lable, int atkValue)
+    {
+         lable.text = atkValue >= 0 ? atkValue.ToString() : "-";
     }
 
     public void ShowHeroFirstGive(int rewardItemIndex = 0)

@@ -861,7 +861,6 @@ GameObject:
   - 114: {fileID: 11400112}
   - 65: {fileID: 6500000}
   - 114: {fileID: 11400114}
-  - 114: {fileID: 11400116}
   - 114: {fileID: 11400118}
   m_Layer: 8
   m_Name: 006
@@ -1687,8 +1686,8 @@ Transform:
   m_LocalPosition: {x: 30, y: 281, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 400106}
   - {fileID: 400000}
+  - {fileID: 400106}
   m_Father: {fileID: 0}
 --- !u!4 &400110
 Transform:
@@ -4013,34 +4012,7 @@ MonoBehaviour:
   Animator: {fileID: 0}
   Animation: {fileID: 0}
   BuffController: {fileID: 0}
-  BuffBarController: {fileID: 11400110}
---- !u!114 &11400116
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100108}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3fe2cbd15179441ccbfa22b9b70140f0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  BaseObj: {fileID: 100108}
-  FootObj: {fileID: 100094}
-  JobObj: {fileID: 100088}
-  AttrackObj: {fileID: 100092}
-  TopTimesObj: {fileID: 100086}
-  SpritePrefab: {fileID: 100000, guid: 79885eef932fd1544ad117e6b0429314, type: 2}
-  SpriteObj: {fileID: 0}
-  FriendLabelObj: {fileID: 100090}
-  CharacterData: {fileID: 11400114}
-  JobIndex: 0
-  Attack: 0
-  Restore: 0
-  IsActive: 0
-  AttackValue: 0
-  HaveSp: 0
-  AnimationIndex: 0
+  BuffBarController: {fileID: 0}
 --- !u!114 &11400118
 MonoBehaviour:
   m_ObjectHideFlags: 1

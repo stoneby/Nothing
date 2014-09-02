@@ -88,6 +88,8 @@ namespace Assets.Game.Scripts.Net.handler
                 var deleteIndexs = themsg.DelteItems.DeleteIndexes;
                 var infos = ItemModeLocator.Instance.ScAllItemInfos.ItemInfos;
                 infos.RemoveAll(item => deleteIndexs.Contains(item.BagIndex));
+                var operationInfo = ItemModeLocator.Instance.FindItem(themsg.OperItemIndex);
+                operationInfo.ContribExp = themsg.UpdateContribExp;
                 WindowManager.Instance.GetWindow<UIItemCommonWindow>().LevelUpItemHandler.ShowLevelOver();
             }
         }

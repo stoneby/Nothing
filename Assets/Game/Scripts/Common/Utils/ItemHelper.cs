@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using KXSGCodec;
+using UnityEngine;
 
 public class ItemHelper
 {
@@ -220,5 +221,28 @@ public class ItemHelper
                 return null;
         }
         return null;
+    }
+
+    public static void GetProproties(ItemInfo itemInfo, out int atk, out int hp, out int recover, out int mp)
+    {
+        atk = ItemModeLocator.Instance.GetAttack(itemInfo.TmplId, itemInfo.Level);
+        hp = ItemModeLocator.Instance.GetHp(itemInfo.TmplId, itemInfo.Level);
+        recover = ItemModeLocator.Instance.GetRecover(itemInfo.TmplId, itemInfo.Level);
+        mp = ItemModeLocator.Instance.GetMp(itemInfo.TmplId);
+    }
+
+    public static void HideItems(Transform items)
+    {
+        for (var i = 0; i < items.childCount; i++)
+        {
+            var item = items.GetChild(i);
+            if (item.name != "ExtendButton")
+            {
+                for (var j = 0; j < item.childCount; j++)
+                {
+                    NGUITools.SetActive(item.gameObject, false);
+                }
+            }
+        }
     }
 }

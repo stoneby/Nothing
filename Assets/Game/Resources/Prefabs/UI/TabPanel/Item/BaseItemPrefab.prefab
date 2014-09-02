@@ -168,8 +168,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 400020}
   - 65: {fileID: 6500000}
-  - 114: {fileID: 11400022}
-  - 114: {fileID: 11400020}
   - 114: {fileID: 11400000}
   m_Layer: 8
   m_Name: BaseItemPrefab
@@ -874,32 +872,6 @@ MonoBehaviour:
   mAtlas: {fileID: 11400000, guid: 5b92cbdcb180fb042a7069f903d9f7ae, type: 2}
   mSpriteName: HeadF
   mFillCenter: 1
---- !u!114 &11400020
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100020}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 24523be266b209741bfdc72e3c995c9f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  LongClickDuration: 1
---- !u!114 &11400022
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100020}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d9ee9adcf574fc42857acfaad9fb89e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  restriction: 1
-  cloneOnDrag: 0
-  pressAndHoldDelay: 1
 --- !u!114 &11400024
 MonoBehaviour:
   m_ObjectHideFlags: 1

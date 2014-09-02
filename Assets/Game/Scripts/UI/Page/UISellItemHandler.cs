@@ -17,7 +17,6 @@ public class UISellItemHandler : MonoBehaviour
     private long totalMoney;
     private UIEventListener sellLis;
     private UIEventListener buyBackLis;
-    private UIEventListener cancelLis;
     private UIGrid grid;
 
     public GameObject BaseItemPrefab;
@@ -25,6 +24,16 @@ public class UISellItemHandler : MonoBehaviour
     private readonly List<short> cachedSelBagIndexs = new List<short>();
 
     private readonly Dictionary<Position, GameObject> sellObjects = new Dictionary<Position, GameObject>();
+
+    private long TotalMoney
+    {
+        get { return totalMoney; }
+        set
+        {
+            totalMoney = value;
+            moneyCount.text = totalMoney.ToString();
+        }
+    }
 
     #region Window
 
@@ -34,10 +43,9 @@ public class UISellItemHandler : MonoBehaviour
         commonWindow = WindowManager.Instance.GetWindow<UIItemCommonWindow>();
         commonWindow.ShowSelMask(false);
         commonWindow.NormalClicked = OnNormalClick;
-        selCount.text = sellObjects.Count.ToString(CultureInfo.InvariantCulture);
+        RefreshSelAndCoins();
         InstallHandlers();
         sellLis.GetComponent<UIButton>().isEnabled = false;
-        cancelLis.GetComponent<UIButton>().isEnabled = false;
     }
 
     private void OnDisable()
@@ -55,13 +63,12 @@ public class UISellItemHandler : MonoBehaviour
         {
             return;
         }
- 
+        var bagIndex = go.GetComponent<ItemBase>().BagIndex;
+        var itemInfo = ItemModeLocator.Instance.FindItem(bagIndex);
         if (isToSell)
         {
             var child = NGUITools.AddChild(grid.gameObject, BaseItemPrefab);
             var heroBase = child.GetComponent<ItemBase>();
-            var bagIndex = go.GetComponent<ItemBase>().BagIndex;
-            var itemInfo = ItemModeLocator.Instance.FindItem(bagIndex);
             heroBase.InitItem(itemInfo);
             UIEventListener.Get(child.gameObject).onClick = CancelItemSell;
             sellObjects.Add(pos, child);
@@ -70,11 +77,16 @@ public class UISellItemHandler : MonoBehaviour
         {
             RemoveSellObject(pos);
         }
+        var flag = isToSell ? 1 : -1;
+        var tempId = itemInfo.TmplId;
+        var sellCost = ItemModeLocator.Instance.GetSellCost(tempId, itemInfo.CurExp, itemInfo.Level,
+                                                            ItemModeLocator.Instance.GetQuality(tempId));
+        TotalMoney += flag * sellCost;
+        RefreshSelAndCoins();
         var item = NGUITools.FindInParents<WrapItemContent>(go);
         item.ShowSellMask(pos.Y, isToSell);
         var exitsToSell = sellObjects.Count != 0;
         sellLis.GetComponent<UIButton>().isEnabled = exitsToSell;
-        cancelLis.GetComponent<UIButton>().isEnabled = exitsToSell;
         grid.repositionNow = true;
     }
 
@@ -97,7 +109,6 @@ public class UISellItemHandler : MonoBehaviour
         selCount = transform.Find("SelCount/SelValue").GetComponent<UILabel>();
         moneyCount = transform.Find("CoinsCount/CoinsValue").GetComponent<UILabel>();
         var buttons = transform.Find("Buttons");
-        cancelLis = UIEventListener.Get(buttons.Find("Button-Cancel").gameObject);
         sellLis = UIEventListener.Get(buttons.Find("Button-Sell").gameObject);
         buyBackLis = UIEventListener.Get(buttons.Find("Button-BuyBack").gameObject);
     }
@@ -106,7 +117,6 @@ public class UISellItemHandler : MonoBehaviour
     {
         sellLis.onClick = OnSell;
         buyBackLis.onClick = OnBuyBack;
-        cancelLis.onClick = OnCancel;
         commonWindow.Items.OnUpdate += OnUpdate;
         commonWindow.OnSortOrderChangedBefore += OnSortOrderChangedBefore;
         commonWindow.OnSortOrderChangedAfter += OnSortOrderChangedAfter;
@@ -116,7 +126,6 @@ public class UISellItemHandler : MonoBehaviour
     {
         sellLis.onClick = null;
         buyBackLis.onClick = null;
-        cancelLis.onClick = null;
         commonWindow.Items.OnUpdate -= OnUpdate;
         commonWindow.OnSortOrderChangedBefore -= OnSortOrderChangedBefore;
         commonWindow.OnSortOrderChangedAfter -= OnSortOrderChangedAfter;
@@ -186,11 +195,6 @@ public class UISellItemHandler : MonoBehaviour
     private void OnBuyBack(GameObject go)
     {
         
-    }
-
-    private void OnCancel(GameObject go)
-    {
-        CleanUp();
     }
 
     private void OnSell(GameObject go)
@@ -300,7 +304,7 @@ public class UISellItemHandler : MonoBehaviour
     /// <summary>
     /// Refresh some ui items when we needed.
     /// </summary>
-    private void RefreshSelAndSoul()
+    private void RefreshSelAndCoins()
     {
         selCount.text = sellObjects.Count.ToString(CultureInfo.InvariantCulture);
     }
@@ -330,8 +334,8 @@ public class UISellItemHandler : MonoBehaviour
     public void CleanUp()
     {
         CleanMasks();
-        totalMoney = 0;
-        RefreshSelAndSoul();
+        TotalMoney = 0;
+        RefreshSelAndCoins();
     }
 
     #endregion

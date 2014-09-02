@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System.Linq;
 using com.kx.sglm.gs.battle.share.data;
 using com.kx.sglm.gs.battle.share.factory.creater;
+using System.Collections.Generic;
 using Template.Auto.Buff;
 using Template.Auto.Monster;
 using Template.Auto.Raid;
@@ -15,31 +16,11 @@ namespace Assets.Game.Scripts.Common.Model
         #region Private Fields
 
         private static BattleTemplateModelLocator instance;
-
         private static readonly object SyncRoot = new Object();
 
-        //技能模板
         private Skill skillTemplate;
-        //怪物模板
         private Monster monsterTemplate;
-        //持续回合状态模板
         private Buff buffTemplate;
-
-
-
-
-        private const string BaseTemplatePath = "Templates/";
-
-
-
-        #endregion
-
-        #region Public Fields
-
-       // public const string SkillTemlatePath = BaseTemplatePath + "Skill";
-        public const string SkillTemolatePath = "Templates/Skill";
-        public const string MonsterTemlatePath = "Templates/Monster";
-        public const string BuffTemlatePath = "Templates/Buff";
 
         #endregion
 
@@ -65,20 +46,8 @@ namespace Assets.Game.Scripts.Common.Model
 
         public List<MonsterTemplate> CreatemMonsterTemplates(List<int> monsterIdList)
         {
-
-            var resultList = new List<MonsterTemplate>();
-            foreach (int id in monsterIdList)
-            {
-                MonsterTemplate monsterTemp = GetMonsterTemplate(id);
-                if (monsterTemp != null)
-                {
-                    resultList.Add(monsterTemp);
-                }
-            }
-            return resultList;
+            return monsterIdList.Select(item => GetMonsterTemplate(item)).Where(monsterTemp => monsterTemp != null).ToList();
         }
-
-
 
 
         public HeroBattleSkillTemplate GetHeroBattleSkillTemplate(int skillId)
@@ -107,30 +76,20 @@ namespace Assets.Game.Scripts.Common.Model
             return BuffTemplate == null ? null : GetInst(buffId, buffTemplate.BattleBuffTmpls);
         }
 
-
-
-
         public Skill SkillTemplate
         {
-            get { return skillTemplate ?? (skillTemplate = Utils.Decode<Skill>(SkillTemolatePath)); }
+            get { return skillTemplate ?? (skillTemplate = Utils.Decode<Skill>(ResourcePath.FileSkill)); }
         }
 
         public Monster MonsterTemplate
         {
-            // get { return raidTemplates ?? (raidTemplates = Utils.Decode<Raid>(RaidTemlatePath)); }
-            get { return monsterTemplate??(monsterTemplate = Utils.Decode<Monster>(MonsterTemlatePath)); }
+            get { return monsterTemplate ?? (monsterTemplate = Utils.Decode<Monster>(ResourcePath.FileMonsterConfig)); }
         }
 
         public Buff BuffTemplate
         {
-            get { return buffTemplate ?? (buffTemplate = Utils.Decode<Buff>(BuffTemlatePath)); }
+            get { return buffTemplate ?? (buffTemplate = Utils.Decode<Buff>(ResourcePath.FileBuffConfig)); }
         }
-
-
-        #endregion
-
-        #region Private Methods
-
 
         #endregion
 
@@ -139,21 +98,16 @@ namespace Assets.Game.Scripts.Common.Model
         public static FighterInfo CreateMonsterFighterInfo(MonsterTemplate template)
         {
             var info = new FighterInfo();
-
             return info;
         }
 
-        
-
         public static T GetTemplate<T>(T template, string path) where T : TBase, new()
         {
-
             if (template == null)
             {
                 template = Utils.Decode<T>(path);
             }
             return template;
-
         }
 
         public static T GetInst<T>(int key, Dictionary<int, T> dictionary)
@@ -178,16 +132,44 @@ namespace Assets.Game.Scripts.Common.Model
             return MissionModelLocator.Instance.GetRaidMonsterGroupTemplateId(monsterGroupId);
         }
 
-        public Dictionary<int, MonsterTemplate> AllMonsterMap { get { return MonsterTemplate.MonsterTmpls; } }
-        public Dictionary<int, MonsterBattleAITemplate> AllMonsterAIMap { get { return MonsterTemplate.MonsterAITmpls; }}
-        public Dictionary<int, HeroBattleSkillTemplate> AllHeroSkillMap { get
+        public Dictionary<int, MonsterTemplate> AllMonsterMap
         {
-            return SkillTemplate.HeroBattleSkillTmpls;
-        } }
-        public Dictionary<int, MonsterBattleSkillTemplate> AllMonsterSkillMap { get
+            get
+            {
+                return MonsterTemplate.MonsterTmpls;
+            }
+        }
+
+        public Dictionary<int, MonsterBattleAITemplate> AllMonsterAIMap
         {
-            return SkillTemplate.MonsterBattleSkillTmpls;
-        }}
-        public Dictionary<int, BattleBuffTemplate> AllBuffMap { get {return BuffTemplate.BattleBuffTmpls; } }
+            get
+            {
+                return MonsterTemplate.MonsterAITmpls;
+            }
+        }
+
+        public Dictionary<int, HeroBattleSkillTemplate> AllHeroSkillMap
+        {
+            get
+            {
+                return SkillTemplate.HeroBattleSkillTmpls;
+            }
+        }
+
+        public Dictionary<int, MonsterBattleSkillTemplate> AllMonsterSkillMap
+        {
+            get
+            {
+                return SkillTemplate.MonsterBattleSkillTmpls;
+            }
+        }
+
+        public Dictionary<int, BattleBuffTemplate> AllBuffMap
+        {
+            get
+            {
+                return BuffTemplate.BattleBuffTmpls;
+            }
+        }
     }
 }

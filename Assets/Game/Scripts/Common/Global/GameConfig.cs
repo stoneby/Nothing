@@ -15,6 +15,8 @@ public class GameConfig
     public static string LocalServicePath;
     //public static string CookieAddress;
     public static string BattleConfig;
+    public static string GameIcon;
+    public static string Build;
 
     //battle中的节奏
     public static float HeroRunReturnTime = 0.5f;        //武将出手后跑回的时间长度

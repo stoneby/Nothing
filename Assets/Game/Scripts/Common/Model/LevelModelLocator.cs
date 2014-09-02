@@ -1,5 +1,4 @@
-﻿using Template;
-using Template.Auto.Level;
+﻿using Template.Auto.Level;
 using UnityEngine;
 
 public sealed class LevelModelLocator
@@ -8,8 +7,6 @@ public sealed class LevelModelLocator
     private static readonly object SyncRoot = new Object();
 
     private LevelUp levelUpTemplates;
-
-    private const string LevelUpTemlatePath = "Templates/LevelUp";
 
     private LevelModelLocator()
     {
@@ -33,7 +30,7 @@ public sealed class LevelModelLocator
 
     public LevelUp LevelUpTemplates
     {
-        get { return levelUpTemplates ?? (levelUpTemplates = Utils.Decode<LevelUp>(LevelUpTemlatePath)); }
+        get { return levelUpTemplates ?? (levelUpTemplates = Utils.Decode<LevelUp>(ResourcePath.FileLevelUp)); }
     }
 
     public LevelUpTemplate GetLevelByTemplateId(int templateid)

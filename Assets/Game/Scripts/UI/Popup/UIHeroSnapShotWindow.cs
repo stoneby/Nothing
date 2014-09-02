@@ -104,7 +104,7 @@ public class UIHeroSnapShotWindow : Window
 
     private void OnViewDetail(GameObject go)
     {
-        UIHeroDetailHandler.IsLongPressEnter = false;
+        //UIHeroDetailHandler.IsLongPressEnter = false;
         //var heroDetail = WindowManager.Instance.Show<UIHeroDetailHandler>(true, true);
         //heroDetail.RefreshData(heroInfo);
     }

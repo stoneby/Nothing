@@ -28,7 +28,7 @@ public class UILevelUpHeroHandler : MonoBehaviour
 
     private UIEventListener lockLis;
     private UISprite lockSprite;
-
+    private UISprite icon;
     private UIHeroCommonWindow commonWindow;
     private short curLvl = -1;
     private UIEventListener addLis;
@@ -125,6 +125,7 @@ public class UILevelUpHeroHandler : MonoBehaviour
         ownedSoulValue = Utils.FindChild(transform, "OwnedSoulValue").GetComponent<UILabel>();
         commonWindow = WindowManager.Instance.GetWindow<UIHeroCommonWindow>();
         baseInfos = transform.Find("BaseInfo");
+        icon = baseInfos.Find("Icon").GetComponent<UISprite>();
         //As the property updater's Awake has the dependency with the window's OnEnter, we make it be called first.
         NGUITools.SetActive(PropertyUpdater.gameObject, true);
     }
@@ -319,6 +320,7 @@ public class UILevelUpHeroHandler : MonoBehaviour
             ownedSoulValue.text = PlayerModelLocator.Instance.Sprit.ToString(CultureInfo.InvariantCulture);
         }
         baseInfos.FindChild("Name").GetComponent<UILabel>().text = HeroTemplate.Name;
+        HeroConstant.SetHeadByIndex(icon, HeroTemplate.Icon - 1);
         var stars = baseInfos.Find("Stars");
         for (int index = stars.childCount - 1; index >= stars.childCount - HeroTemplate.Star; index--)
         {

@@ -1,6 +1,4 @@
-﻿using com.kx.sglm.gs.battle.share;
-using com.kx.sglm.gs.battle.share.data;
-using System;
+﻿using com.kx.sglm.gs.battle.share.data;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,8 +6,15 @@ public class MultipleCharacterGenerator : CharacterGenerator
 {
     public List<FighterInfo> FighterList { get; set; }
 
+    /// <summary>
+    /// Character initializer.
+    /// </summary>
+    public CharacterInitializer Initializer;
+
     public override void Cleanup()
     {
+        Initializer.Cleanup();
+
         var characterPoolManager = CharacterPoolManager.Instance;
         CharacterList.ForEach(character =>
         {
@@ -26,25 +31,12 @@ public class MultipleCharacterGenerator : CharacterGenerator
             CharacterList = new List<Character>();
         }
 
-        var characterPoolManager = CharacterPoolManager.Instance;
-        FighterList.ForEach(data =>
-        {
-            var tempid = Int32.Parse(data.getProp(BattleKeyConstants.BATTLE_KEY_HERO_TEMPLATE));
-            var heroTemplate = HeroModelLocator.Instance.GetHeroByTemplateId(tempid);
-            // convert from 1 based template id to 0 based programe id.
-            var index = heroTemplate.Icon - 1;
-            if (index < 0 || index >= characterPoolManager.CharacterPoolList.Count)
-            {
-                Logger.LogError("Hero index should be in range [0, " + characterPoolManager.CharacterPoolList.Count + ").");
-                return;
-            }
-            var character = characterPoolManager.CharacterPoolList[index].Take().GetComponent<Character>();
-            Utils.AddChild(Parent, character.gameObject);
-            character.Data = data;
-            character.IDIndex = index;
-            character.JobIndex = heroTemplate.Job;
-            CharacterList.Add(character);
-        });
+        Initializer.Initialize(FighterList);
+        CharacterList.Clear();
+        CharacterList.AddRange(Initializer.CharacterList);
+
+        // transform character to parent game object.
+        CharacterList.ForEach(character => Utils.AddChild(Parent, character.gameObject));
     }
 
     public override void Return(GameObject go)

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using KXSGCodec;
+using Template.Auto.Item;
 using UnityEngine;
 using System.Linq;
 
@@ -14,9 +15,13 @@ public class UIEvolveItemHandler : MonoBehaviour
     private Transform targetBg;
     private UIGrid evolveMats;
     private UIEventListener evolveLis;
-    private const int MaterialCount = 6;
     private UIItemCommonWindow commonWindow;
     private Transform cannotEvolveMask;
+    private UILabel evolveCost;
+    private const int MaterialCount = 6;
+    private const int MainItemIndex = 0;
+    private const int TargetItemIndex = 1;
+    private const int CountOfMainAndTarget = 2;
 
     /// <summary>
     /// The item which will show on the right.
@@ -58,6 +63,7 @@ public class UIEvolveItemHandler : MonoBehaviour
         }
         evolveLis = UIEventListener.Get(transform.Find("Button-Evolve").gameObject);
         cannotEvolveMask = transform.Find("CanNotEvolve");
+        evolveCost = transform.Find("CostCoins/CostCoinsValue").GetComponent<UILabel>();
     }
 
     private void InstallHandlers()
@@ -128,27 +134,27 @@ public class UIEvolveItemHandler : MonoBehaviour
         }
         var mat = NGUITools.AddChild(evolveBg.gameObject, BaseItemPrefab);
         mat.GetComponent<ItemBase>().InitItem(info);
-        mats[0] = mat;
-        var canEvolve = ItemModeLocator.Instance.ItemConfig.ItemEvoluteTmpls.ContainsKey(info.TmplId);
-        NGUITools.SetActive(cannotEvolveMask.gameObject, !canEvolve);
-        if (canEvolve)
+        mats[MainItemIndex] = mat;
+        var tempId = info.TmplId;
+        ItemEvoluteTemplate evoluteTmp;
+        ItemModeLocator.Instance.ItemConfig.ItemEvoluteTmpls.TryGetValue(tempId, out evoluteTmp);
+        NGUITools.SetActive(cannotEvolveMask.gameObject, evoluteTmp == null);
+        if (evoluteTmp != null)
         {
-            var evoluteTmp = ItemModeLocator.Instance.ItemConfig.ItemEvoluteTmpls[info.TmplId];
             mat = NGUITools.AddChild(targetBg.gameObject, BaseItemPrefab);
             mat.GetComponent<ItemBase>().InitItem(evoluteTmp.TargetItemId);
-            mats[1] = mat;
+            mats[TargetItemIndex] = mat;
             for(var i = 0; i < evoluteTmp.NeedMaterials.Count; i++)
             {
                 var evoluteParam = evoluteTmp.NeedMaterials[i];
                 var count = FindMaterialCount(evoluteParam.NeedMaterialId);
-
                 mat = NGUITools.AddChild(evolveMats.gameObject, BaseItemPrefab);
                 mat.GetComponent<ItemBase>().InitItem(evoluteParam.NeedMaterialId);
-
-                mats[2 + i] = mat;
+                mats[CountOfMainAndTarget + i] = mat;
                 matsOwnCount[i].text = string.Format("{0}/{1}", count, evoluteParam.NeedMaterialCount);
                 evolveMats.repositionNow = true;
             }
+            evolveCost.text = evoluteTmp.CostGold.ToString();
         }
     }
 

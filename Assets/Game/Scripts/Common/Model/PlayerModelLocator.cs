@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public sealed class PlayerModelLocator
@@ -43,6 +44,17 @@ public sealed class PlayerModelLocator
                 }
             }
             return instance;
+        }
+    }
+
+    public static void UpdateTeamInfos(List<long> uuids)
+    {
+        var mainingUuids = uuids.Where(uuid => uuid != HeroConstant.NoneInitHeroUuid).ToList();
+        var heros = mainingUuids.Select(uuid => HeroModelLocator.Instance.FindHero(uuid)).ToList();
+        Instance.TeamList = heros.Select(hero => hero.TemplateId).ToList();
+        foreach (var key in HeroConstant.PropKeys)
+        {
+            Instance.TeamProp[key] = heros.Sum(hero => hero.Prop[key]);
         }
     }
 }

@@ -150,13 +150,16 @@ namespace com.kx.sglm.gs.battle.share.skill.effect
 
 		protected internal virtual float calcJobWeakValue(BattleFighter attacker, BattleFighter defencer)
 		{
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final int _jobWeak = defencer.getFighterOtherProp(com.kx.sglm.gs.battle.share.BattleKeyConstants.BATTLE_KEY_MONSTER_WEEK_JOB);
-			int _jobWeak = defencer.getFighterOtherProp(BattleKeyConstants.BATTLE_KEY_MONSTER_WEEK_JOB);
 			float _weakRatio = BattleConstants.FIGHTER_FIGHT_DEFAULT_RATIO / BattleConstants.BATTLE_RATIO_BASE;
-			if (_jobWeak == attacker.Job)
+			if (!attacker.Hero)
 			{
-				_weakRatio = BattleConstants.MONSTER_WEAK_RATIO;
+//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
+//ORIGINAL LINE: final int _jobWeak = attacker.getFighterOtherProp(com.kx.sglm.gs.battle.share.BattleKeyConstants.BATTLE_KEY_MONSTER_WEEK_JOB);
+				int _jobWeak = attacker.getFighterOtherProp(BattleKeyConstants.BATTLE_KEY_MONSTER_WEEK_JOB);
+				if (_jobWeak == defencer.Job)
+				{
+					_weakRatio = BattleConstants.MONSTER_WEAK_RATIO_INT * _weakRatio;
+				}
 			}
 			return _weakRatio;
 		}

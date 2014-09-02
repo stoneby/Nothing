@@ -170,7 +170,7 @@ public class Utils
     {
         var membuffer = (string.IsNullOrEmpty(ServiceManager.ServerData.DataUrl)) ? 
             new TMemoryBuffer(Resources.Load<TextAsset>(path).bytes) :
-            new TMemoryBuffer(HttpResourceManager.LoadData(path));
+            new TMemoryBuffer(HttpResourceManager.Instance.GetTemplateData(path));
         TProtocol protocol = (new TCompactProtocol(membuffer));
         var temp = new T();
         temp.Read(protocol);
@@ -261,5 +261,15 @@ public class Utils
         {
             widget.depth += depthAdjust;
         }
+    }
+
+    public static Position OneDimToTwo(int newIndex, int column)
+    {
+        return new Position { X = newIndex / column, Y = newIndex % column };
+    }
+
+    public static int TwoDimToOne(Position position, int column)
+    {
+        return position.X * column + position.Y;
     }
 }

@@ -1,13 +1,10 @@
-﻿using com.kx.sglm.gs.battle.share.ai;
-using Template.Auto.Monster;
-using Template.Auto.Raid;
-using Template.Auto.Skill;
-using com.kx.sglm.gs.battle.share;
+﻿using com.kx.sglm.gs.battle.share;
 using com.kx.sglm.gs.battle.share.data;
 using com.kx.sglm.gs.battle.share.data.record;
 using System.Collections.Generic;
 using System.Text;
-using Template;
+using Template.Auto.Raid;
+using Template.Auto.Skill;
 using UnityEngine;
 
 namespace Assets.Game.Scripts.Common.Model
@@ -33,16 +30,11 @@ namespace Assets.Game.Scripts.Common.Model
         public bool CanSelectHero = true;
 
         private readonly BattleTemplateModelLocator templateModel;
-        
 
         /// <summary>
         /// Minimun count of all heros.
         /// </summary>
         public const int MinHerosCount = 12;
-
-        //TODO: 转到专门的常量文件？
-        private const string SkillTemlatePath = "Templates/Skill";
-        private const string MonsterTemlatePath = "Templates/Monster";
 
         public static BattleModelLocator Instance
         {
@@ -63,7 +55,6 @@ namespace Assets.Game.Scripts.Common.Model
         }
 
         #endregion
-
 
         #region Private Fields
 
@@ -120,13 +111,7 @@ namespace Assets.Game.Scripts.Common.Model
                 _allMonsterIdList.AddRange(_groupList);
                 _monsterGroupList.Add(_groupList.Count);
             }
-
-            List<MonsterTemplate> monsterList = templateModel.CreatemMonsterTemplates(_allMonsterIdList);
-
         }
-
-
-
 
         public List<int> getSingleMonsterGroupIdList(MonsterGroup monsterGroup)
         {

@@ -73,7 +73,10 @@ public class SetBattleWindow : Window
         if (!HaveInit) return;
 
         var hor = ContainerTeam.GetComponent<KxListRender>();
-        hor.Init(HeroModelLocator.Instance.SCHeroList.TeamList, "Prefabs/Component/AtkHeroGroup", 0, 750, 260, OnSelectedhandler);
+        hor.Init(HeroModelLocator.Instance.SCHeroList.TeamList, "Prefabs/Component/AtkHeroGroup",
+            TeamMemberManager.Instance.CurTeamIndex, 750, 260, OnSelectedhandler);
+        //hor.CurrentIndex = 3;
+        //
 
         SetFriendList(MissionModelLocator.Instance.FriendsMsg);
 

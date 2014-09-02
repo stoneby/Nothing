@@ -23,27 +23,26 @@ namespace KXSGCodec
   #endif
   public partial class SCServerConfigMsg : TBase
   {
-    private sbyte _expConvertRaito;
+    private sbyte _recoverEnergyMinutes;
     private sbyte _sameTypeExpTimes;
     private short _bindItemLimit;
     private sbyte _sellItemPriceRatio;
     private sbyte _buybackItemPriceRatio;
     private sbyte _sellItemSaveHours;
-    private sbyte _recoverEnergyMinutes;
 
     /// <summary>
-    /// 升级经验折算系数(%)
+    /// 恢复体力时间（分钟）
     /// </summary>
-    public sbyte ExpConvertRaito
+    public sbyte RecoverEnergyMinutes
     {
       get
       {
-        return _expConvertRaito;
+        return _recoverEnergyMinutes;
       }
       set
       {
-        __isset.expConvertRaito = true;
-        this._expConvertRaito = value;
+        __isset.recoverEnergyMinutes = true;
+        this._recoverEnergyMinutes = value;
       }
     }
 
@@ -127,35 +126,18 @@ namespace KXSGCodec
       }
     }
 
-    /// <summary>
-    /// 恢复体力时间（分钟）
-    /// </summary>
-    public sbyte RecoverEnergyMinutes
-    {
-      get
-      {
-        return _recoverEnergyMinutes;
-      }
-      set
-      {
-        __isset.recoverEnergyMinutes = true;
-        this._recoverEnergyMinutes = value;
-      }
-    }
-
 
     public Isset __isset;
     #if !SILVERLIGHT
     [Serializable]
     #endif
     public struct Isset {
-      public bool expConvertRaito;
+      public bool recoverEnergyMinutes;
       public bool sameTypeExpTimes;
       public bool bindItemLimit;
       public bool sellItemPriceRatio;
       public bool buybackItemPriceRatio;
       public bool sellItemSaveHours;
-      public bool recoverEnergyMinutes;
     }
 
     public SCServerConfigMsg() {
@@ -175,7 +157,7 @@ namespace KXSGCodec
         {
           case 1:
             if (field.Type == TType.Byte) {
-              ExpConvertRaito = iprot.ReadByte();
+              RecoverEnergyMinutes = iprot.ReadByte();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
@@ -215,13 +197,6 @@ namespace KXSGCodec
               TProtocolUtil.Skip(iprot, field.Type);
             }
             break;
-          case 7:
-            if (field.Type == TType.Byte) {
-              RecoverEnergyMinutes = iprot.ReadByte();
-            } else { 
-              TProtocolUtil.Skip(iprot, field.Type);
-            }
-            break;
           default: 
             TProtocolUtil.Skip(iprot, field.Type);
             break;
@@ -235,12 +210,12 @@ namespace KXSGCodec
       TStruct struc = new TStruct("SCServerConfigMsg");
       oprot.WriteStructBegin(struc);
       TField field = new TField();
-      if (__isset.expConvertRaito) {
-        field.Name = "expConvertRaito";
+      if (__isset.recoverEnergyMinutes) {
+        field.Name = "recoverEnergyMinutes";
         field.Type = TType.Byte;
         field.ID = 1;
         oprot.WriteFieldBegin(field);
-        oprot.WriteByte(ExpConvertRaito);
+        oprot.WriteByte(RecoverEnergyMinutes);
         oprot.WriteFieldEnd();
       }
       if (__isset.sameTypeExpTimes) {
@@ -283,22 +258,14 @@ namespace KXSGCodec
         oprot.WriteByte(SellItemSaveHours);
         oprot.WriteFieldEnd();
       }
-      if (__isset.recoverEnergyMinutes) {
-        field.Name = "recoverEnergyMinutes";
-        field.Type = TType.Byte;
-        field.ID = 7;
-        oprot.WriteFieldBegin(field);
-        oprot.WriteByte(RecoverEnergyMinutes);
-        oprot.WriteFieldEnd();
-      }
       oprot.WriteFieldStop();
       oprot.WriteStructEnd();
     }
 
     public override string ToString() {
       StringBuilder sb = new StringBuilder("SCServerConfigMsg(");
-      sb.Append("ExpConvertRaito: ");
-      sb.Append(ExpConvertRaito);
+      sb.Append("RecoverEnergyMinutes: ");
+      sb.Append(RecoverEnergyMinutes);
       sb.Append(",SameTypeExpTimes: ");
       sb.Append(SameTypeExpTimes);
       sb.Append(",BindItemLimit: ");
@@ -309,8 +276,6 @@ namespace KXSGCodec
       sb.Append(BuybackItemPriceRatio);
       sb.Append(",SellItemSaveHours: ");
       sb.Append(SellItemSaveHours);
-      sb.Append(",RecoverEnergyMinutes: ");
-      sb.Append(RecoverEnergyMinutes);
       sb.Append(")");
       return sb.ToString();
     }

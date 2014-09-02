@@ -20,6 +20,8 @@
 		<replace file ="../Assets/Game/Resources/Config/GameConfiguration.xml" token="1.0.0" value="${GameVersion}" encoding="UTF-8"/>
 		<replace file ="../Assets/Game/Resources/Config/GameConfiguration.xml" token="cn.kx.sglm" value="${BundleID}" encoding="UTF-8"/>
 		<replace file ="../Assets/Game/Resources/Config/GameConfiguration.xml" token="SanGuoLianMeng" value="${GameName}" encoding="UTF-8"/>
-		<replace file ="../Assets/Game/Resources/Config/GameConfiguration.xml" token="27.131.223.229" value="${ServicePath}" encoding="UTF-8"/>
+		<replace file ="../Assets/Game/Resources/Config/GameConfiguration.xml" token="gameicon" value="${GameIcon}" encoding="UTF-8"/>
+		<replace file ="../Assets/Game/Resources/Config/GameConfiguration.xml" token="http://27.131.223.229/config/service.xml" value="${ServicePath}" encoding="UTF-8"/>
+		<replace file ="../Assets/Game/Resources/Config/GameConfiguration.xml" token="development" value="${DevelopmentBuild}" encoding="UTF-8"/>
 	</target>
 </project>

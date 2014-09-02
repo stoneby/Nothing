@@ -1,24 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="cn.kx.wg.kxsginhouse"
+    package="com.feidou.jinshansdk"
     android:versionCode="1"
     android:versionName="1.0" >
 
     <uses-sdk
         android:minSdkVersion="8"
-        android:targetSdkVersion="18" />
-
-    
-   <!--  <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS_FULL"/> -->
+        android:targetSdkVersion="19" />
     <application
         android:allowBackup="true"
         android:icon="@drawable/app_icon"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" 
-        >
+        android:theme="@android:style/Theme.Holo.Light" >
         
         <activity
-            android:name="cn.kx.wg.kxsginhouse.MainActivity"
+            android:name="com.feidou.jinshansdk.SDKActivity"
             android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen"
             android:label="@string/app_name"
             android:screenOrientation="landscape">
@@ -28,45 +24,83 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!-- CP信息 -->
+        <meta-data
+            android:name="KS_SUPPLY_ID"
+            android:value="200001" >
+        </meta-data>
+        <meta-data
+            android:name="KS_SUPPLY_KEY"
+            android:value="cT3xxW8phADDzD" >
+        </meta-data>
+        <meta-data
+            android:name="KS_GAME_ID"
+            android:value="1" >
+        </meta-data>
+        <meta-data
+            android:name="KS_GAME_TYPE"
+            android:value="0" >
+        </meta-data>
+         <!-- 以下是金山SDK的 -->
         <activity
-            android:name="com.feidou.androidsdk.ui.LoginAgainActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:theme="@style/Theme.Dialog"
-            android:screenOrientation="landscape" >
+            android:name="com.ijinshan.ksmglogin.ui.pay.PayActivity"
+            android:configChanges="fontScale|orientation|keyboardHidden|locale|navigation|screenSize|uiMode"
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="adjustResize" >
         </activity>
         <activity
-            android:name="com.feidou.androidsdk.ui.LoginActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:theme="@style/Theme.Dialog"
-            android:screenOrientation="landscape" >
+            android:name="com.ijinshan.ksmglogin.ui.account.RegisterActivity"
+            android:configChanges="fontScale|orientation|keyboardHidden|locale|navigation|screenSize|uiMode"
+            android:theme="@android:style/Theme.Dialog"
+            android:windowSoftInputMode="adjustResize" >
         </activity>
         <activity
-            android:name="com.feidou.androidsdk.ui.RegisterActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:theme="@style/Theme.Dialog"
-            android:screenOrientation="landscape" >
+            android:name="com.ijinshan.ksmglogin.AccountManagerActivity"
+            android:configChanges="fontScale|orientation|keyboardHidden|locale|navigation|screenSize|uiMode"
+            android:theme="@android:style/Theme.Dialog"
+            android:windowSoftInputMode="adjustResize" >
+        </activity>
+        <activity
+            android:name="com.ijinshan.ksmglogin.ui.account.LoginActivity"
+            android:configChanges="fontScale|orientation|keyboardHidden|locale|navigation|screenSize|uiMode"
+            android:theme="@android:style/Theme.Dialog"
+            android:windowSoftInputMode="adjustResize" >
+        </activity>
+        <activity
+            android:name="com.ijinshan.ksmglogin.ui.account.LogoutActivity"
+            android:configChanges="fontScale|orientation|keyboardHidden|locale|navigation|screenSize|uiMode"
+            android:theme="@android:style/Theme.Dialog"
+            android:windowSoftInputMode="adjustResize" >
+        </activity>
+        <activity
+            android:name="com.ijinshan.ksmglogin.ui.account.KSCustInputActivity"
+            android:configChanges="fontScale|orientation|keyboardHidden|locale|navigation|screenSize|uiMode"
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="adjustResize" >
+        </activity>
+        <activity android:name="com.ijinshan.ksmglogin.ui.account.ForumActivity" >
+        </activity>
+        <activity
+            android:name="com.ijinshan.ksmglogin.ui.account.BindingWebAcitivity"
+            android:configChanges="fontScale|orientation|keyboardHidden|locale|navigation|screenSize|uiMode"
+            android:theme="@android:style/Theme.Dialog"
+            android:windowSoftInputMode="adjustResize" >
+        </activity>
+        <activity
+            android:name="com.ijinshan.ksmglogin.ui.account.SwitchActivity"
+            android:configChanges="fontScale|orientation|keyboardHidden|locale|navigation|screenSize|uiMode"
+            android:theme="@android:style/Theme.Dialog"
+            android:windowSoftInputMode="adjustResize" >
         </activity>
          <activity
-            android:name="com.feidou.androidsdk.ui.ForgotPasswordActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:theme="@style/Theme.Dialog"
-            android:screenOrientation="landscape" >
-        </activity>
-         <activity
-            android:name="com.feidou.androidsdk.ui.UrlShowActivity"
+            android:name="com.feidou.jinshansdk.util.UrlShowActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="landscape" >
         </activity>
-          <activity
-            android:name="com.feidou.androidsdk.pay.PayActivity"
+        <activity
+            android:name="com.feidou.jinshansdk.util.PayActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:theme="@style/Theme.Dialog"
-            android:screenOrientation="landscape">
-        </activity>
-	<activity
-            android:name="com.feidou.androidsdk.platform.pay.PlatformPayActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:theme="@style/Theme.Dialog"
+            android:theme="@android:style/Theme.Dialog"
             android:screenOrientation="landscape">
         </activity>
         <!-- 请将value改为MTA分配的appkey < -->
@@ -77,7 +111,15 @@
             android:name="InstallChannel"
             android:value="feidou" />
     </application>
-
+    <!--  <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS_FULL"/> -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.RECEIVE_MMS" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.WRITE_SMS" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />

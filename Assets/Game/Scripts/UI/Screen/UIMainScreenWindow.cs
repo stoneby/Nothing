@@ -71,7 +71,6 @@ public class UIMainScreenWindow : Window
     private UISlider energySlider;
     private const int LeaderCount = 3;
     private readonly List<Transform> leaders = new List<Transform>();
-    private readonly List<Transform> characterToolkits = new List<Transform>();
 
     #region Window
 
@@ -102,10 +101,6 @@ public class UIMainScreenWindow : Window
 
     private void Despawn()
     {
-        foreach (var ch in characterToolkits)
-        {
-            NGUITools.SetActive(ch.gameObject, true);
-        }
         var count = leaders.Count;
         for(var i = count - 1; i >= 0 ; i--)
         {
@@ -115,7 +110,6 @@ public class UIMainScreenWindow : Window
             CharacterPoolManager.Instance.CharacterPoolList[iconIds[i]].Return(character.gameObject);
         }
         iconIds.Clear();
-        characterToolkits.Clear();
     } 
     
     private void SpawnAndPlay()
@@ -125,9 +119,6 @@ public class UIMainScreenWindow : Window
             var characterPoolManager = CharacterPoolManager.Instance;
             var character = characterPoolManager.CharacterPoolList[iconIds[i]].Take().GetComponent<Character>();
             character.PlayState(Character.State.Idle, true);
-            var characterToolkit = character.transform.Find("CharacterToolkit");
-            NGUITools.SetActive(characterToolkit.gameObject, false);
-            characterToolkits.Add(characterToolkit);
             Utils.AddChild(leaders[i].gameObject, character.gameObject);
             character.transform.localScale = Scale * Vector3.one;
         }

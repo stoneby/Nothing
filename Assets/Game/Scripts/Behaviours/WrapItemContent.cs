@@ -8,6 +8,7 @@ public class WrapItemContent : WrapItemBase
 
     private readonly List<Transform> sellMasks = new List<Transform>();
     private readonly List<Transform> masks = new List<Transform>();
+    private readonly List<Transform> equipMasks = new List<Transform>();
 
     public int Row;
     
@@ -18,7 +19,10 @@ public class WrapItemContent : WrapItemBase
             var sellMask = child.Find("SellMask");
             sellMasks.Add(sellMask);
             var mask = child.Find("Mask");
-            masks.Add(mask);
+            masks.Add(mask);     
+            var equipMask = child.Find("EquipMask");
+            equipMasks.Add(equipMask);
+            NGUITools.SetActive(equipMask.gameObject, false);
             NGUITools.SetActive(sellMask.gameObject, false);
             NGUITools.SetActive(mask.gameObject, false);
         }
@@ -60,6 +64,25 @@ public class WrapItemContent : WrapItemBase
         foreach (var mask in masks)
         {
             mask.parent.GetComponent<BoxCollider>().enabled = !show;
+            NGUITools.SetActive(mask.gameObject, show);
+        }
+    }  
+    
+    public GameObject ShowEquipMask(int col, bool show)
+    {
+        if (col < 0 || col >= equipMasks.Count)
+        {
+            Logger.LogError("The column index is out of range.");
+            return null;
+        }
+        NGUITools.SetActive(equipMasks[col].gameObject, show);
+        return equipMasks[col].gameObject;
+    }
+
+    public void ShowEquipMasks(bool show)
+    {
+        foreach (var mask in equipMasks)
+        {
             NGUITools.SetActive(mask.gameObject, show);
         }
     }

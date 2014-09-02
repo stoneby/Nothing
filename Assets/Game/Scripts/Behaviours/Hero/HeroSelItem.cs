@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using KXSGCodec;
 using UnityEngine;
 
@@ -7,25 +8,37 @@ public class HeroSelItem : MonoBehaviour
     private List<ItemInfo> canEquipItems;
     private UIEventListener confirmLis;
     private UIEventListener cancelLis;
-    private Position maskPos = new Position{X = -1, Y = -1};
     private const int CountOfOneGroup = 4;
     private bool descendSort;
     public UIToggle DescendToggle;
-    private bool isEntered;
     private UIEventListener sortBtnLis;
     private UILabel sortLabel;
     private short maskBagIndexCached;
     private GameObject lastMask;
-
     public CustomGrid Items;
     public UIEventListener.VoidDelegate ConfirmClicked;
     public UIEventListener.VoidDelegate CancelClicked;
     public UIEventListener.VoidDelegate EquipItemClicked;
+    private Position curPos = HeroConstant.InvalidPos;
+    private readonly List<short> otherBagIndexsCached = new List<short>(); 
+    private readonly List<Position> otherPosList = new List<Position>(); 
 
-    public void Refresh()
+    public void Refresh(string uuid, List<string> uuids)
     {
         canEquipItems = FilterItems();
         InitWrapContents(canEquipItems);
+        var uuidList = canEquipItems.Select(item => item.Id).ToList();
+        if(uuid !=  "")
+        {
+            curPos = Utils.OneDimToTwo(uuidList.IndexOf(uuid), CountOfOneGroup);
+        }
+        foreach (var uid in uuids)
+        {
+            if(uid != "")
+            {
+                otherPosList.Add(Utils.OneDimToTwo(uuidList.IndexOf(uid), CountOfOneGroup));
+            }
+        }
         var parent = Items.transform;
         for (var i = 0; i < parent.childCount; i++)
         {
@@ -52,7 +65,6 @@ public class HeroSelItem : MonoBehaviour
 
     private void OnEnable()
     {
-        isEntered = true;
         InstallHandlers();
     }
 
@@ -113,34 +125,52 @@ public class HeroSelItem : MonoBehaviour
         for (var i = 0; i < col; i++)
         {
             var pos = new Position { X = index, Y = i };
-            var show = maskPos == pos;
-            wrapItem.ShowSellMask(i, show);
+            var showEquip = curPos == pos;
+            if(showEquip)
+            {
+                lastMask = wrapItem.ShowEquipMask(i, true);
+            }
+            else
+            {
+                wrapItem.ShowEquipMask(i, false);
+            }
+            var showMask = otherPosList.Contains(pos);
+            wrapItem.ShowMask(i, showMask);
         }
     }
 
     private void SortTypeChanged()
     {
         descendSort = DescendToggle.value;
-        if (isEntered)
-        {
-            InitWrapAndRecalculate();
-        }
+        InitWrapAndRecalculate();
     }
 
     private void InitWrapAndRecalculate()
     {
-        var needCaculate = maskPos.X >= 0;
+        var needCaculate = curPos != HeroConstant.InvalidPos;
         if (needCaculate)
         {
-            maskBagIndexCached = GetInfo(maskPos).BagIndex;
+            maskBagIndexCached = GetInfo(curPos).BagIndex;
+        }
+        otherBagIndexsCached.Clear();
+        foreach(var pos in otherPosList)
+        {
+            otherBagIndexsCached.Add(GetInfo(pos).BagIndex);
         }
         InitWrapContents(canEquipItems);
         if (needCaculate)
         {
             var index = canEquipItems.FindIndex(info => info.BagIndex == maskBagIndexCached);
-            maskPos = new Position { X = index / CountOfOneGroup, Y = index % CountOfOneGroup };
-            RefreshMask();
+            curPos = Utils.OneDimToTwo(index, CountOfOneGroup);
         }
+        otherPosList.Clear();
+        foreach (var bag in otherBagIndexsCached)
+        {
+            var index = canEquipItems.FindIndex(info => info.BagIndex == bag);
+            var pos = Utils.OneDimToTwo(index, CountOfOneGroup);
+            otherPosList.Add(pos);
+        }
+        RefreshMask();
     }
 
     private void RefreshMask()
@@ -152,8 +182,10 @@ public class HeroSelItem : MonoBehaviour
             for (var j = 0; j < wrapItem.Children.Count; j++)
             {
                 var pos = new Position { X = wrapItem.Row, Y = j };
-                var showMask = maskPos == pos;
-                wrapItem.ShowSellMask(j, showMask);
+                var showMask = curPos == pos;
+                wrapItem.ShowEquipMask(j, showMask);
+                showMask = otherPosList.Contains(pos);
+                wrapItem.ShowMask(j, showMask);
             }
         }
     }
@@ -168,11 +200,20 @@ public class HeroSelItem : MonoBehaviour
     {
         NGUITools.SetActive(lastMask, false);
         var itemContent = go.transform.parent.GetComponent<WrapItemContent>();
-        maskPos = new Position {X = itemContent.Row, Y = itemContent.Children.IndexOf(go.transform)};
-        lastMask = itemContent.ShowSellMask(maskPos.Y, true);
+        var pos = new Position { X = itemContent.Row, Y = itemContent.Children.IndexOf(go.transform) };
+        var isToCancelEquip = curPos == pos;
+        if (!isToCancelEquip)
+        {
+            lastMask = itemContent.ShowEquipMask(pos.Y, true);
+            curPos = pos;
+        }
+        else
+        {
+            curPos = HeroConstant.InvalidPos;
+        }
         if(EquipItemClicked != null)
         {
-            EquipItemClicked(go);
+            EquipItemClicked(isToCancelEquip ? null : go);
         }
     }
 
@@ -198,7 +239,7 @@ public class HeroSelItem : MonoBehaviour
         ItemModeLocator.Instance.SortItemList(orderType, itemInfos, descendSort);
         var list = new List<List<ItemInfo>>();
         var totalCount = itemInfos.Count;
-        var rows = Mathf.CeilToInt((float)totalCount / 4);
+        var rows = Mathf.CeilToInt((float)totalCount / CountOfOneGroup);
         for (var i = 0; i < rows; i++)
         {
             var infosContainer = new List<ItemInfo>();

@@ -60,7 +60,12 @@
 #define PAYBEFORE_ARRAY                  (@"paybefore_Array")
 #define PAYBEFORE_ARRAYBIG               (@"paybefore_ArrayBig")
 #define DEVICEIDFA                       (@"deviceidfa")
+#define TRANSACTIONRECEIPT               (@"transactionReceipt")
+#define GOLDS                            (@"golds")
 
+//平台充值字段
+#define CURRENCY                         (@"currency")
+#define PRODUCTIDSPLATFORM               (@"productsPlatform")
 
 
 
@@ -157,6 +162,14 @@
 
 //设置是否debug状态， 默认为NO;
 +(void)isDebug:(BOOL)Debug;
+
+//是否预加载和处理ios支付(本sdk支付接口)掉单信息;
++(void)prepareLoad:(BOOL)loadstate;
+
+//平台支付
++(void)platformPayWithViewcontroller:(UIViewController *)viewC remark:(NSString *)remark  userid:(int)userid serverid:(int)serverid roleid:(NSString *)roleid extradata:(NSString *)extradata url:(NSString *)url;
+
+
 
 
 

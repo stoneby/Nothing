@@ -144,6 +144,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 				if (getHeroPoint(_i).Empty)
 				{
 					HeroPoint _point = pollWatingHero();
+					randomCreateSpMax(_point);
 					_fighterArr.Add(_point.Fighter);
 					setBattlingHeroPoint(_i, _point);
 				}
@@ -187,7 +188,6 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 		public virtual HeroPoint createHeroPoint(BattleFighter battleFighter, HeroColor color)
 		{
 			HeroPoint _newPoint = new HeroPoint(battleFighter, color);
-			randomCreateSpMax(_newPoint);
 			indexedHeroPoint[battleFighter.Index] = _newPoint;
 			return _newPoint;
 		}

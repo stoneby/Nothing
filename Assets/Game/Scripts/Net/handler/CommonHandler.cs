@@ -14,6 +14,17 @@ public class CommonHandler
         {
             if (propertyChangedMsg.RoleType == 2)
             {
+                var playerModel = PlayerModelLocator.Instance;
+                var uuid = propertyChangedMsg.Uuid;
+                var isInTeam = TeamMemberManager.Instance.CurTeam.Contains(uuid);
+                if(isInTeam)
+                {
+                    var heroInfo = HeroModelLocator.Instance.FindHero(uuid);
+                    foreach (var key in HeroConstant.PropKeys)
+                    {
+                        playerModel.TeamProp[key] += (propertyChangedMsg.PropertyChanged[key] - heroInfo.Prop[key]);
+                    }
+                }
                 if(HeroPropertyChanged != null)
                 {
                     HeroPropertyChanged(propertyChangedMsg);

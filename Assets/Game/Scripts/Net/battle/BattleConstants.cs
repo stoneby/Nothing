@@ -68,7 +68,7 @@ namespace com.kx.sglm.gs.battle.share
 
 		/// <summary>
 		/// 怪物弱职业弱化倍数 </summary>
-		public const int MONSTER_WEAK_RATIO = 2;
+		public const float MONSTER_WEAK_RATIO_INT = 2f;
 
 		/// <summary>
 		/// 默认怪物目标index </summary>

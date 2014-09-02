@@ -27,6 +27,7 @@ namespace KXSGCodec
   public partial class SCStrengthItemSucc : TBase
   {
     private short _operItemIndex;
+    private int _updateContribExp;
     private SCDeleteItems _delteItems;
 
     /// <summary>
@@ -42,6 +43,22 @@ namespace KXSGCodec
       {
         __isset.operItemIndex = true;
         this._operItemIndex = value;
+      }
+    }
+
+    /// <summary>
+    /// 升级后贡献经验值
+    /// </summary>
+    public int UpdateContribExp
+    {
+      get
+      {
+        return _updateContribExp;
+      }
+      set
+      {
+        __isset.updateContribExp = true;
+        this._updateContribExp = value;
       }
     }
 
@@ -65,6 +82,7 @@ namespace KXSGCodec
     #endif
     public struct Isset {
       public bool operItemIndex;
+      public bool updateContribExp;
       public bool delteItems;
     }
 
@@ -91,6 +109,13 @@ namespace KXSGCodec
             }
             break;
           case 2:
+            if (field.Type == TType.I32) {
+              UpdateContribExp = iprot.ReadI32();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 3:
             if (field.Type == TType.Struct) {
               DelteItems = new SCDeleteItems();
               DelteItems.Read(iprot);
@@ -119,10 +144,18 @@ namespace KXSGCodec
         oprot.WriteI16(OperItemIndex);
         oprot.WriteFieldEnd();
       }
+      if (__isset.updateContribExp) {
+        field.Name = "updateContribExp";
+        field.Type = TType.I32;
+        field.ID = 2;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteI32(UpdateContribExp);
+        oprot.WriteFieldEnd();
+      }
       if (DelteItems != null && __isset.delteItems) {
         field.Name = "delteItems";
         field.Type = TType.Struct;
-        field.ID = 2;
+        field.ID = 3;
         oprot.WriteFieldBegin(field);
         DelteItems.Write(oprot);
         oprot.WriteFieldEnd();
@@ -135,6 +168,8 @@ namespace KXSGCodec
       StringBuilder sb = new StringBuilder("SCStrengthItemSucc(");
       sb.Append("OperItemIndex: ");
       sb.Append(OperItemIndex);
+      sb.Append(",UpdateContribExp: ");
+      sb.Append(UpdateContribExp);
       sb.Append(",DelteItems: ");
       sb.Append(DelteItems== null ? "<null>" : DelteItems.ToString());
       sb.Append(")");

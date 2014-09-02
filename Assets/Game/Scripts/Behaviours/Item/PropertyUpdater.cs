@@ -20,6 +20,8 @@ public class PropertyUpdater : MonoBehaviour
     private const string ChangeColor = "[00ff00]";
     private const string ColorSuffix = "[-]";
 
+    private const string AddColorPrefix = ChangeColor + "+";
+
     private void Awake()
     {
         atkLabel = transform.Find("Atk/AtkValue").GetComponent<UILabel>();
@@ -53,15 +55,26 @@ public class PropertyUpdater : MonoBehaviour
 
     public void PreShowChangedProperty(int lvlChanged, int atkChanged, int hpChanged, int recoverChanged, int mpChanged)
     {
-        const string colorPrefix = ChangeColor + "+";
-        if (lvlLabel != null)
+        if (lvlLabel != null && lvlChanged > 0)
         {
-            lvlLabel.text = string.Format("{0}/{1}", lvlCached, maxLvlCached) + colorPrefix + lvlChanged + ColorSuffix; 
+            lvlLabel.text = string.Format("{0}/{1}", lvlCached, maxLvlCached) + AddColorPrefix + lvlChanged + ColorSuffix;
         }
-        atkLabel.text = atkCached + colorPrefix + atkChanged + ColorSuffix;
-        hpLabel.text = hpCached + colorPrefix + hpChanged + ColorSuffix;
-        recoverLabel.text = recoverCached + colorPrefix + recoverChanged + ColorSuffix;
-        mpLabel.text = mpCached + colorPrefix + mpChanged + ColorSuffix;
+        Preshow(atkLabel, atkCached, atkChanged);
+        Preshow(hpLabel, hpCached, hpChanged);
+        Preshow(recoverLabel, recoverCached, recoverChanged);
+        Preshow(mpLabel, mpCached, mpChanged);
+    }
+
+    private void Preshow(UILabel label, int cachedValue, int changed)
+    {
+        if(changed > 0)
+        {
+            label.text = cachedValue + AddColorPrefix + changed + ColorSuffix;
+        }
+        else if(changed < 0)
+        {
+            label.text = cachedValue + ChangeColor + changed + ColorSuffix;
+        }
     }
 
     public void Reset()

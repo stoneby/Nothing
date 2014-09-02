@@ -1,6 +1,5 @@
-﻿using System.Collections;
+﻿using com.kx.sglm.gs.battle.share.data;
 using UnityEngine;
-using com.kx.sglm.gs.battle.share.data;
 
 /// <summary>
 /// Enemy Controller that control behaviours of enemy.
@@ -9,7 +8,6 @@ public class EnemyControl : MonoBehaviour
 {
     #region Public Fields
 
-    public GameObject EnemySprite;
     public GameObject CdLabel;
     public GameObject AimSprite;
 
@@ -74,12 +72,6 @@ public class EnemyControl : MonoBehaviour
     private const int WarningCdValue = 1;
     private const string CdHead = "CD:";
 
-    private const string BossNormal = "BossNormal";
-    private const string BossWhite = "BossWhite";
-    private const string BossBlack = "BossBlack";
-
-    private Vector3 originalPosition;
-
     #endregion
 
     #region Public Methods
@@ -130,9 +122,6 @@ public class EnemyControl : MonoBehaviour
     /// </summary>
     public void PlayShake()
     {
-        StopAll();
-        ResetPosition();
-        iTweenEvent.GetEvent(EnemySprite, "ShakeTween").Play();
     }
 
     /// <summary>
@@ -140,9 +129,6 @@ public class EnemyControl : MonoBehaviour
     /// </summary>
     public void PlayBigShake()
     {
-        StopAll();
-        ResetPosition();
-        iTweenEvent.GetEvent(EnemySprite, "ShakeBigTween").Play();
     }
 
     /// <summary>
@@ -150,7 +136,6 @@ public class EnemyControl : MonoBehaviour
     /// </summary>
     public void StopAll()
     {
-        iTween.Stop(gameObject);
     }
 
     /// <summary>
@@ -159,7 +144,7 @@ public class EnemyControl : MonoBehaviour
     /// <returns>The attrack.</returns>
     public float PlayAttack()
     {
-        StartCoroutine(DoPlayAttarck());
+        // play attack.
         return GameConfig.MonsterAttackStepTime * 3;
     }
 
@@ -178,14 +163,12 @@ public class EnemyControl : MonoBehaviour
     /// <remarks>Reset original position to the enemy.</remarks>
     public void Reset()
     {
-        EnemySprite.transform.localPosition = originalPosition;
         ShowBlood(true);
         ShowAimTo(false);
     }
 
     public void ResetPosition()
     {
-        EnemySprite.transform.localPosition = originalPosition;
     }
 
     public void Move()
@@ -202,55 +185,12 @@ public class EnemyControl : MonoBehaviour
 
     #endregion
 
-    #region Private Methods
-
-    private IEnumerator DoPlayAttarck()
-    {
-        var enemySprite = EnemySprite.GetComponent<UIWidget>();
-        yield return new WaitForSeconds(GameConfig.MonsterAttackStepTime);
-        //AttackWhite(enemySprite);
-        yield return new WaitForSeconds(GameConfig.MonsterAttackStepTime);
-        AttackBlack(enemySprite);
-        yield return new WaitForSeconds(GameConfig.MonsterAttackStepTime);
-        //AttackWhite(enemySprite);
-        yield return new WaitForSeconds(GameConfig.MonsterAttackStepTime);
-        AttackNormal(enemySprite);
-    }
-
-    private void AttackBlack(UIWidget enemySprite)
-    {
-        enemySprite.color = Color.black;
-        enemySprite.HighLight = 0f;
-        enemySprite.Invalidate(true);
-        enemySprite.panel.Refresh();
-    }
-
-    private void AttackWhite(UIWidget enemySprite)
-    {
-        enemySprite.color = Color.white;
-        enemySprite.HighLight = HighLight;
-        enemySprite.Invalidate(true);
-        enemySprite.panel.Refresh();
-    }
-    private void AttackNormal(UIWidget enemySprite)
-    {
-        enemySprite.color = Color.white;
-        enemySprite.HighLight = 0f;
-        enemySprite.Invalidate(true);
-        enemySprite.panel.Refresh();
-    }
-
-
-    #endregion
-
     #region Mono
 
     private void Awake()
     {
         // default hide aim sprite.
         AimSprite.SetActive(false);
-        // record original position down to restore.
-        originalPosition = EnemySprite.transform.localPosition;
     }
 
     #endregion
