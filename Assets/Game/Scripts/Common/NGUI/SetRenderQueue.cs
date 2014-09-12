@@ -19,9 +19,9 @@ public class SetRenderQueue : MonoBehaviour
 
     public void SetQueue()
     {
-        foreach (var particleSystem in particleSystemList)
+        foreach (var psSystem in particleSystemList)
         {
-            var ren = particleSystem.gameObject.renderer ?? particleSystem.renderer;
+            var ren = psSystem.gameObject.renderer ?? psSystem.renderer;
             ReplaceMaterial(ren);
         }
 
@@ -35,6 +35,14 @@ public class SetRenderQueue : MonoBehaviour
     {
         if (ren != null)
         {
+            //Debug.Log("ren's name:"+ren.name);
+            //if (ren.sharedMaterial == null)
+            //{
+            //    Debug.Log("ren.sharedMaterial is null");
+            //    return;
+            //}
+            //Debug.Log("ren.sharedMaterial's name:"+ren.sharedMaterial.name);
+
             material = new Material(ren.sharedMaterial) { renderQueue = RenderQueue };
             ren.material = material;
         }

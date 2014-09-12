@@ -171,6 +171,7 @@ public class GreenHandGuideWindow : Window
 
     public override void OnEnter()
     {
+        Debug.Log("!!!!!!!!!!!!!!!!!Show green hand window now.");
         InstallHandlers();
     }
 
