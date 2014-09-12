@@ -61,7 +61,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400004}
-  m_RootOrder: 1
 --- !u!4 &400002
 Transform:
   m_ObjectHideFlags: 1
@@ -73,7 +72,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400004}
-  m_RootOrder: 0
 --- !u!4 &400004
 Transform:
   m_ObjectHideFlags: 1
@@ -87,7 +85,6 @@ Transform:
   - {fileID: 400002}
   - {fileID: 400000}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
 --- !u!65 &6500000
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -111,6 +108,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77c90fa644ad446499d2303d8231091c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PosIndex: 0
+  IsLocked: 0
+  TemplateId: 0
+  Uuid: 
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1

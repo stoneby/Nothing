@@ -73,18 +73,24 @@ namespace Assets.Game.Scripts.Net.handler
                     {
                         var sellList = scHeroSell.SellList;
                         var heroList = HeroModelLocator.Instance.SCHeroList.HeroList;
+                        var items = ItemModeLocator.Instance.ScAllItemInfos;
                         for(var index = 0; index < heroList.Count; index++)
                         {
-                            if(sellList.Contains(heroList[index].Uuid))
+                            var heroInfo = heroList[index];
+                            if (sellList.Contains(heroInfo.Uuid))
                             {
-                                heroList.Remove(heroList[index]);
+                                if (items != null)
+                                {
+                                    HeroUtils.CleanEquipStatus(heroInfo, items.ItemInfos);
+                                }
+                                heroList.Remove(heroInfo);
                                 index--;
                             }
                         }
                         WindowManager.Instance.Show<UISellDialogWindow>(false);
-                        var sellhero = WindowManager.Instance.GetWindow<UIHeroCommonWindow>().SellHeroHandler;
-                        sellhero.CleanUp();
-                        var window=WindowManager.Instance.GetWindow<UIHeroCommonWindow>();
+                        var window = WindowManager.Instance.GetWindow<UIHeroCommonWindow>();
+                        var sellhero = window.SellHeroHandler;
+                        sellhero.SellOverUpdate();
                         window.Refresh(heroList);
                     }
                     break;
@@ -104,28 +110,23 @@ namespace Assets.Game.Scripts.Net.handler
                     var hChangeEquipMsg = msg.GetContent() as SCHeroChangeEquip;
                     if(hChangeEquipMsg != null)
                     {
-                        //var heroDetail = WindowManager.Instance.GetWindow<UIHeroDetailWindow>();
-                        //heroDetail.HeroInfo.EquipUuid[heroDetail.CurEquipIndex] = hChangeEquipMsg.EquipUuid;
-                        //heroDetail.EquipOver(heroDetail.HeroInfo);
-                        for (int k = 0; k < ItemModeLocator.Instance.ScAllItemInfos.ItemInfos.Count; k++)
+                        var items = ItemModeLocator.Instance.ScAllItemInfos.ItemInfos;
+                        foreach (var item in items)
                         {
-                            if (ItemModeLocator.Instance.ScAllItemInfos.ItemInfos[k].Id == hChangeEquipMsg.EquipUuid)
+                            var isEquip = (item.Id == hChangeEquipMsg.EquipUuid);
+                            var isUnEquip = (item.Id == hChangeEquipMsg.UnEquipUuid);
+                            if (isEquip || isUnEquip)
                             {
-                                ItemModeLocator.Instance.ScAllItemInfos.ItemInfos[k].EquipStatus = 1;
-                                for (int i = 0; i < HeroModelLocator.Instance.SCHeroList.HeroList.Count; i++)
+                                item.EquipStatus = (sbyte)(isEquip ? 1 : 0);
+                                var heros = HeroModelLocator.Instance.SCHeroList.HeroList;
+                                foreach(var hero in heros)
                                 {
-                                    if (HeroModelLocator.Instance.SCHeroList.HeroList[i].Uuid == hChangeEquipMsg.HeroUuid)
+                                    if (hero.Uuid == hChangeEquipMsg.HeroUuid)
                                     {
-                                        HeroModelLocator.Instance.SCHeroList.HeroList[i].EquipUuid[hChangeEquipMsg.Index] =
-                                            hChangeEquipMsg.EquipUuid;
-                                        HeroModelLocator.Instance.SCHeroList.HeroList[i].EquipTemplateId[hChangeEquipMsg.Index] =
-                                            ItemModeLocator.Instance.ScAllItemInfos.ItemInfos[k].TmplId;
+                                        hero.EquipUuid[hChangeEquipMsg.Index] = hChangeEquipMsg.EquipUuid;
+                                        hero.EquipTemplateId[hChangeEquipMsg.Index] = isEquip ? item.TmplId : 0;
                                     }
                                 }
-                            }
-                            if (ItemModeLocator.Instance.ScAllItemInfos.ItemInfos[k].Id == hChangeEquipMsg.UnEquipUuid)
-                            {
-                                ItemModeLocator.Instance.ScAllItemInfos.ItemInfos[k].EquipStatus = 0;
                             }
                         }
                     }
@@ -134,14 +135,9 @@ namespace Assets.Game.Scripts.Net.handler
                     var heroBindSucc = msg.GetContent() as SCHeroBindSucc;
                     if(heroBindSucc != null)
                     {
-                        var changedList = HeroLockHandler.ChangedLockList;
-                        for (int i = 0; i < changedList.Count; i++)
-                        {
-                            var uid = changedList[i];
-                            var heroInfo = HeroModelLocator.Instance.FindHero(uid);
-                            heroInfo.Bind = !heroInfo.Bind;
-                        }
-                        //WindowManager.Instance.GetWindow<UIHerosPageWindow>().Refresh(HeroModelLocator.Instance.SCHeroList.HeroList);
+                        var heroInfo = HeroModelLocator.Instance.FindHero(HeroBaseInfoRefresher.Uuid);
+                        heroInfo.Bind = !heroInfo.Bind;
+                        PopTextManager.PopTip(heroInfo.Bind ? "绑定成功" : "解绑成功", false);
                     }
                     break;
             }

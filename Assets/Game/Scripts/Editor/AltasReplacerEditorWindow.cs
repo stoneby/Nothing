@@ -10,6 +10,7 @@ public class AltasReplacerEditorWindow : EditorWindow
     private bool findSprites;
     private bool repaceAtlas;
     private bool startFind;
+    private bool showDetails;
     private Vector2 scrollPos;
     private List<GameObject> sourcePrefabs = new List<GameObject>();
     private List<UISprite> sourceSprites = new List<UISprite>();
@@ -96,7 +97,10 @@ public class AltasReplacerEditorWindow : EditorWindow
 
             if (findSprites)
             {
-                ShowFindSprites(sourcePrefabs);
+                showDetails = EditorGUILayout.Toggle("Show Details", showDetails);
+                Logger.Log("Show details: " + showDetails + " sprite count: " + sourceSprites.Count + ", source prefabs count: " + sourcePrefabs.Count);
+                var objectToShow = (showDetails) ? sourceSprites.Select(sprite => sprite.gameObject).ToList() : sourcePrefabs;
+                ShowFindSprites(objectToShow);
             }
 
             if (repaceAtlas)
@@ -166,23 +170,42 @@ public class AltasReplacerEditorWindow : EditorWindow
 
     private void ExcuteReplace(IList<UISprite> sprites, UIAtlas target)
     {
+
         if (sprites == null || sprites.Count == 0)
         {
             ShowNotification(new GUIContent("没有要替换的精灵，替换失败！"));
             return;
         }
-        if (target != null || EditorUtility.DisplayDialog("目标atlas为空",
-                                                         "目标atlas为空，确定要替换吗? ", "Replace", "Do Not Replace"))
+        if (target != null)
+        {
+            var targetSpriteNames = target.spriteList.Select(item => item.name).ToList();
+            foreach (var sourceSprite in sprites)
+            {
+                if (targetSpriteNames.Contains(sourceSprite.spriteName))
+                {
+                    sourceSprite.atlas = target;
+                }
+            }
+            RestoreAndSave();
+            ShowNotification(new GUIContent("Altas 替换成功！"));
+        }
+        else if(EditorUtility.DisplayDialog("目标atlas为空",
+                                           "目标atlas为空，确定要替换吗? ", "Replace", "Do Not Replace"))
         {
             foreach (var sourceSprite in sprites)
             {
-                sourceSprite.atlas = target;
+                sourceSprite.atlas = null;
             }
-            FindWidget.RestoreActiveStatus(activeStatus);
-            AssetDatabase.SaveAssets();
-            AssetDatabase.Refresh();
+            RestoreAndSave();
             ShowNotification(new GUIContent("Altas 替换成功！"));
         }
+    }
+
+    private void RestoreAndSave()
+    {
+        FindWidget.RestoreActiveStatus(activeStatus);
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
     }
 
     private bool Field(List<UIAtlas> list)

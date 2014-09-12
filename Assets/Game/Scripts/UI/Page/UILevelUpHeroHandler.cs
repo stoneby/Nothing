@@ -4,7 +4,6 @@ using System.Globalization;
 using System.Linq;
 using KXSGCodec;
 using Property;
-using Template;
 using Template.Auto.Hero;
 using UnityEngine;
 
@@ -18,17 +17,15 @@ public class UILevelUpHeroHandler : MonoBehaviour
     /// <summary>
     /// The particle system to show the level up.
     /// </summary>
-    public GameObject LevelUpEffect;
+    public EffectSequnce LevelUpEffect;
 
     public PropertyUpdater PropertyUpdater;
+    public HeroBaseInfoRefresher HeroBaseInfoRefresher;
 
     #endregion
 
     #region Private Fields
 
-    private UIEventListener lockLis;
-    private UISprite lockSprite;
-    private UISprite icon;
     private UIHeroCommonWindow commonWindow;
     private short curLvl = -1;
     private UIEventListener addLis;
@@ -63,7 +60,6 @@ public class UILevelUpHeroHandler : MonoBehaviour
             return commonWindow.HeroTemplate;
         }
     }
-    private Transform baseInfos;
 
     private long totalCostSoul;
     private readonly List<int> additions = new List<int>{0, 0, 0, 0, 0};
@@ -112,9 +108,7 @@ public class UILevelUpHeroHandler : MonoBehaviour
 
     // Use this for initialization
     private void Awake()
-    {
-        lockLis = UIEventListener.Get(Utils.FindChild(transform, "Lock").gameObject);
-        lockSprite = Utils.FindChild(transform, "Lock").GetComponent<UISprite>();
+    {   
         addLis = UIEventListener.Get(transform.Find("Buttons/Button-Add").gameObject);
         subLis = UIEventListener.Get(transform.Find("Buttons/Button-Sub").gameObject);
         levelUpLis = UIEventListener.Get(transform.Find("Buttons/Button-LvlUp").gameObject);
@@ -124,10 +118,9 @@ public class UILevelUpHeroHandler : MonoBehaviour
         usedSoulValue = usedSoulTitle.transform.Find("UsedSoulValue").GetComponent<UILabel>();
         ownedSoulValue = Utils.FindChild(transform, "OwnedSoulValue").GetComponent<UILabel>();
         commonWindow = WindowManager.Instance.GetWindow<UIHeroCommonWindow>();
-        baseInfos = transform.Find("BaseInfo");
-        icon = baseInfos.Find("Icon").GetComponent<UISprite>();
         //As the property updater's Awake has the dependency with the window's OnEnter, we make it be called first.
         NGUITools.SetActive(PropertyUpdater.gameObject, true);
+        NGUITools.SetActive(HeroBaseInfoRefresher.gameObject, true);
     }
 
     /// <summary>
@@ -138,7 +131,6 @@ public class UILevelUpHeroHandler : MonoBehaviour
         addLis.onClick = OnAddBtnClicked;
         subLis.onClick = OnSubLisClicked;
         levelUpLis.onClick = OnOkBtnClicked;
-        lockLis.onClick = OnLockClicked;
         CommonHandler.HeroPropertyChanged += OnHeroPeopertyChanged;
         CommonHandler.PlayerPropertyChanged += OnPlayerPropertyChanged;
     }
@@ -151,15 +143,8 @@ public class UILevelUpHeroHandler : MonoBehaviour
         addLis.onClick = null;
         subLis.onClick = null;
         levelUpLis.onClick = null;
-        lockLis.onClick = null;
         CommonHandler.HeroPropertyChanged -= OnHeroPeopertyChanged;
         CommonHandler.PlayerPropertyChanged -= OnPlayerPropertyChanged;
-    }
-
-    private void OnLockClicked(GameObject go)
-    {
-        commonWindow.ReverseLockState();
-        commonWindow.ShowLockState(lockSprite);
     }
 
     private void OnHeroPeopertyChanged(SCPropertyChangedNumber scpropertychanged)
@@ -197,10 +182,8 @@ public class UILevelUpHeroHandler : MonoBehaviour
 
     private void OnNormalClick(GameObject go)
     {
-        ResetData();
-        commonWindow.ShowSelMask(go.transform.position);
+        ResetData();  
         commonWindow.CurSelPos = UISellHeroHandler.GetPosition(go);
-        commonWindow.ShowLockState(lockSprite);
         curLvl = HeroInfo.Lvl;
         CheckButtonEnabled();
         RefreshData();
@@ -319,31 +302,7 @@ public class UILevelUpHeroHandler : MonoBehaviour
         {
             ownedSoulValue.text = PlayerModelLocator.Instance.Sprit.ToString(CultureInfo.InvariantCulture);
         }
-        baseInfos.FindChild("Name").GetComponent<UILabel>().text = HeroTemplate.Name;
-        HeroConstant.SetHeadByIndex(icon, HeroTemplate.Icon - 1);
-        var stars = baseInfos.Find("Stars");
-        for (int index = stars.childCount - 1; index >= stars.childCount - HeroTemplate.Star; index--)
-        {
-            NGUITools.SetActive(stars.GetChild(index).gameObject, true);
-        }
-        for (int index = 0; index < stars.childCount - HeroTemplate.Star; index++)
-        {
-            NGUITools.SetActive(stars.GetChild(index).gameObject, false);
-        }
-    }
-
-    private IEnumerator PlayEffect(float time)
-    {
-        var pss = LevelUpEffect.GetComponents<ParticleSystem>();
-        foreach (var system in pss)
-        {
-            system.Play();
-        }
-        yield return new WaitForSeconds(time);
-        foreach (var system in pss)
-        {
-            system.Stop();
-        }
+       HeroBaseInfoRefresher.Refresh(HeroInfo);
     }
 
     #endregion
@@ -355,7 +314,7 @@ public class UILevelUpHeroHandler : MonoBehaviour
     /// </summary>
     public void ShowLevelOver()
     {
-        StartCoroutine("PlayEffect", 1.5f);
+        LevelUpEffect.Play();
         ResetData();
     }
 

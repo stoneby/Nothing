@@ -19,15 +19,15 @@ public class RaidsWindow : Window
     private GameObject ContainerSmallMap;
 
     private GameObject LabelGold;
-    private GameObject LabelEnergy;
+    private UILabel LabelEnergy;
 
     private GameObject BtnReturn;
 
     private GameObject PrefabBigItem;
 
-    private bool IsScale = false;
-    private bool IsShowStage = false;
-    private bool HaveInitMaps = false;
+    private bool IsScale;
+    private bool IsShowStage;
+    private bool HaveInitMaps;
 
     private List<RaidInfo> Raids;
 
@@ -50,13 +50,15 @@ public class RaidsWindow : Window
 
     //private int StageLevel = 0;//难度1普通2精英3英雄
     private int StageLevelCount = 3;
+    private int maxEnergy;
 
     //private List<GameObject> ChapterRaidsContainers; 
     #region Window
 
     public override void OnEnter()
     {
-        StartCoroutine(PersistenceHandler.Instance.CheckBattleEndSucceed());
+        PersistenceHandler.Instance.Cleanup();
+
         Set2DCamera(!IsShowStage);
         MissionModelLocator.Instance.ComputeStagecount();
         if (!HaveInitMaps)
@@ -102,6 +104,7 @@ public class RaidsWindow : Window
         StageBgClickUIEventListener.onClick += OnStageBgClickHandler;
         ResetButton();
         SetEnergy();
+        EnergyIncreaseControl.Instance.EnergyIncreaseHandler += OnEnergyIncreaseHandler;
     }
 
     private void SetEnergy()
@@ -113,8 +116,12 @@ public class RaidsWindow : Window
             return;
         }
         var levelTemp = levelTemps[PlayerModelLocator.Instance.Level];
-        var lb = LabelEnergy.GetComponent<UILabel>();
-        lb.text = string.Format("{0}/{1}", PlayerModelLocator.Instance.Energy, levelTemp.MaxEnergy);
+        maxEnergy = levelTemp.MaxEnergy;
+        if (EnergyIncreaseControl.Instance.Energy > maxEnergy)
+        {
+            EnergyIncreaseControl.Instance.Energy = maxEnergy;
+        }
+        LabelEnergy.text = string.Format("{0}/{1}", PlayerModelLocator.Instance.Energy, maxEnergy);
     }
 
     private void SetRaids()
@@ -371,6 +378,20 @@ public class RaidsWindow : Window
         if (BtnStageLevelUIEventListener != null) BtnStageLevelUIEventListener.onClick -= OnStageLevelHandler;
         if (StageBgClickUIEventListener != null) StageBgClickUIEventListener.onClick -= OnStageBgClickHandler;
         Set2DCamera(false);
+        EnergyIncreaseControl.Instance.EnergyIncreaseHandler -= OnEnergyIncreaseHandler;
+    }
+
+    private void OnEnergyIncreaseHandler(int energyvalue)
+    {
+        if (energyvalue > maxEnergy)
+        {
+            EnergyIncreaseControl.Instance.Energy = maxEnergy;
+            EnergyIncreaseControl.Instance.StopMonitor();
+        }
+        else
+        {
+            LabelEnergy.text = string.Format("{0}/{1}", energyvalue, maxEnergy);
+        }
     }
 
     private void Set2DCamera(bool is2d)
@@ -445,7 +466,7 @@ public class RaidsWindow : Window
         BtnReturnUIEventListener = UIEventListener.Get(BtnReturn);
 
         LabelGold = transform.FindChild("Label gold").gameObject;
-        LabelEnergy = transform.FindChild("Label energy").gameObject;
+        LabelEnergy = transform.FindChild("Label energy").GetComponent<UILabel>();
 
         StageContainer = transform.FindChild("Container stage").gameObject;
         StageTitleLabel = transform.FindChild("Container stage/Label title").gameObject;

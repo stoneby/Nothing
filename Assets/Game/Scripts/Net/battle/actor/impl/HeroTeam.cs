@@ -350,7 +350,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 			{
 				if (!_point.Color.Recover)
 				{
-					_point.Fighter.randomSpMax();
+					_point.Fighter.addSpMaxBuff();
 					//只生成一个SP
 					break;
 				}

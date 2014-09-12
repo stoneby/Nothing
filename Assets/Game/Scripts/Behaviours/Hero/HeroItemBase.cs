@@ -80,4 +80,16 @@ public class HeroItemBase : MonoBehaviour
     {
         InitItem(heroInfo);
     }
+
+    public virtual void Show(int tempId)
+    {
+        var heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpls[tempId];
+        Quality = heroTemplate.Star;
+        HeroConstant.SetHeadByIndex(icon, heroTemplate.Icon - 1);
+        if (jobIcon)
+        {
+            jobIcon.spriteName = HeroConstant.HeroJobPrefix + heroTemplate.Job;
+            jobIcon.MakePixelPerfect();
+        }
+    }
 }

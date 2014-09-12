@@ -1,0 +1,130 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &100000
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 400000}
+  - 114: {fileID: 11400002}
+  - 114: {fileID: 11400000}
+  m_Layer: 8
+  m_Name: ItemEvolutionEffect
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &400000
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12282a5b77b55f64c93748543986d7a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EffectSequnce: {fileID: 11400002}
+--- !u!114 &11400002
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbd4e00940493954995be78a4e21191a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RenderQ: 4200
+  EffectInfos:
+  - EffectObj: {fileID: 100002, guid: a0a50bc946efb684ab969ffed5524dd1, type: 2}
+    EffectType: 1
+    StartTime: 0
+    Douration: 1.5
+    PositonFrom: {x: 120, y: -18, z: 0}
+    PositionTo: {x: 171, y: 180, z: 0}
+    IsLocal: 1
+  - EffectObj: {fileID: 100002, guid: a0a50bc946efb684ab969ffed5524dd1, type: 2}
+    EffectType: 1
+    StartTime: 0
+    Douration: 1.5
+    PositonFrom: {x: 234, y: -18, z: 0}
+    PositionTo: {x: 171, y: 180, z: 0}
+    IsLocal: 1
+  - EffectObj: {fileID: 100002, guid: a0a50bc946efb684ab969ffed5524dd1, type: 2}
+    EffectType: 1
+    StartTime: 0
+    Douration: 1.5
+    PositonFrom: {x: 350, y: -18, z: 0}
+    PositionTo: {x: 171, y: 180, z: 0}
+    IsLocal: 1
+  - EffectObj: {fileID: 100002, guid: a0a50bc946efb684ab969ffed5524dd1, type: 2}
+    EffectType: 1
+    StartTime: 0
+    Douration: 1.5
+    PositonFrom: {x: 474, y: -18, z: 0}
+    PositionTo: {x: 171, y: 180, z: 0}
+    IsLocal: 1
+  - EffectObj: {fileID: 100010, guid: 00da2b54452c2564f9c967a9c523e5da, type: 2}
+    EffectType: 1
+    StartTime: 1
+    Douration: 1
+    PositonFrom: {x: 171, y: 176, z: 0}
+    PositionTo: {x: 171, y: 176, z: 0}
+    IsLocal: 1
+  - EffectObj: {fileID: 100000, guid: c7868c00ccb85754aa3c453bb6f120c6, type: 2}
+    EffectType: 0
+    StartTime: 1
+    Douration: 1
+    PositonFrom: {x: 222, y: 176, z: 0}
+    PositionTo: {x: 348, y: 176, z: 0}
+    IsLocal: 1
+  - EffectObj: {fileID: 100008, guid: c763946b9649d7b4ab3b9e963675587f, type: 2}
+    EffectType: 1
+    StartTime: 2
+    Douration: .5
+    PositonFrom: {x: 410, y: 176, z: 0}
+    PositionTo: {x: 410, y: 176, z: 0}
+    IsLocal: 1
+  - EffectObj: {fileID: 100000, guid: 1f64ca5520dd58746a1289b88f099e38, type: 2}
+    EffectType: 0
+    StartTime: 2.5
+    Douration: 1.5
+    PositonFrom: {x: 284, y: 0, z: 0}
+    PositionTo: {x: 284, y: 0, z: 0}
+    IsLocal: 1
+  - EffectObj: {fileID: 100000, guid: 54660ae3af68543458e122ecdcf950f3, type: 2}
+    EffectType: 1
+    StartTime: 2.5
+    Douration: 1.5
+    PositonFrom: {x: 284, y: 0, z: 0}
+    PositionTo: {x: 284, y: 0, z: 0}
+    IsLocal: 1
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 100000}
+  m_IsPrefabParent: 1
+  m_IsExploded: 1

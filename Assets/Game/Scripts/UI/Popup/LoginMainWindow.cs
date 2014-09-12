@@ -49,7 +49,7 @@ public class LoginMainWindow : Window
         lb.text = "Version:" + GameConfig.Version;
 
 #if UNITY_ANDROID
-        labelSwitchAccount.gameObject.SetActive(true);
+        labelSwitchAccount.gameObject.SetActive(GameConfig.BundleID == "cn.kx.sglm.jinshan");
 #endif
     }
 
@@ -201,7 +201,7 @@ public class LoginMainWindow : Window
         }
         else
         {
-            //FeidouManager.DoLogin();
+            FeidouManager.DoLogin();
         }
     }
 

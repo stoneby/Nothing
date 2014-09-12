@@ -1,5 +1,6 @@
 ﻿using Assets.Game.Scripts.Common.Model;
 using com.kx.sglm.gs.battle.share.data;
+using com.kx.sglm.gs.battle.share.enums;
 using com.kx.sglm.gs.battle.share.input;
 using Template.Auto.Skill;
 using UnityEngine;
@@ -107,8 +108,30 @@ public class LeaderControl : MonoBehaviour
         {
             return;
         }
-        Alert.Show(AssertionWindow.Type.OkCancel, skillData.Name, skillData.Desc, OnAssertButtonClicked, OnCancelClicked);
+
+        var assertWindow = WindowManager.Instance.GetWindow<ActiveSkillConfirmWindow>();
+        assertWindow.AssertType = ActiveSkillConfirmWindow.Type.OkCancel;
+        assertWindow.Title = skillData.Name;
+        assertWindow.Message = skillData.Desc;
+        WindowManager.Instance.Show(typeof(ActiveSkillConfirmWindow), true);
+        assertWindow.OkButtonClicked = OnAssertButtonClicked;
+        assertWindow.CancelButtonClicked = OnCancelClicked;
+
         BattleModelLocator.Instance.CanSelectHero = false;
+
+        if (BattleModelLocator.Instance.BattleType == BattleType.GREENHANDPVE.Index)
+        {
+            var greenHandGuideWindow = WindowManager.Instance.GetWindow<GreenHandGuideWindow>();
+            if (greenHandGuideWindow)
+            {
+                greenHandGuideWindow.FingerBlinkObject.transform.localPosition = new Vector3(102, -87, 0);
+            }
+            var activeSkillConfirmWindow = WindowManager.Instance.GetWindow<ActiveSkillConfirmWindow>();
+            if (activeSkillConfirmWindow)
+            {
+                activeSkillConfirmWindow.Button2.GetComponent<BoxCollider>().enabled = false;
+            }
+        }
     }
 
     /// <summary>
@@ -117,7 +140,7 @@ public class LeaderControl : MonoBehaviour
     /// <param name="sender">Sender</param>
     private void OnAssertButtonClicked(GameObject sender)
     {
-        var action = new UseActiveSkillAction {FighterIndex = Data.LeaderIndex};
+        var action = new UseActiveSkillAction { FighterIndex = Data.LeaderIndex };
         BattleModelLocator.Instance.MainBattle.handleBattleEvent(action);
         BattleModelLocator.Instance.Skill = skillData;
 

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
+using Object = UnityEngine.Object;
 
 public sealed class PlayerModelLocator
 {
@@ -13,7 +13,10 @@ public sealed class PlayerModelLocator
     public long Diamond;
     public long Gold;
     public int Sprit;
-    public int Energy;
+    public int Energy
+    {
+        get { return EnergyIncreaseControl.Instance.Energy; }
+    }
 
     public int HeroMax;
     public int ItemMax;

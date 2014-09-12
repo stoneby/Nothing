@@ -681,7 +681,6 @@ GameObject:
   - 114: {fileID: 11400112}
   - 65: {fileID: 6500000}
   - 114: {fileID: 11400114}
-  - 114: {fileID: 11400118}
   m_Layer: 8
   m_Name: 014
   m_TagString: Untagged
@@ -2875,47 +2874,8 @@ MonoBehaviour:
   Animation: {fileID: 0}
   BuffController: {fileID: 0}
   BuffBarController: {fileID: 0}
---- !u!114 &11400118
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100108}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0401554a0e6f9466db3c1a798d358b8c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tweenName: ShakeTween
-  playAutomatically: 0
-  delay: 0
-  type: 32
-  showIconInInspector: 0
-  keys:
-  - amount
-  - time
-  indexes: 0000000000000000
-  metadatas:
-  - 
-  - 
-  ints: 
-  floats:
-  - .200000003
-  bools: 
-  strings: []
-  vector3s:
-  - {x: .150000006, y: .150000006, z: 0}
-  colors: []
-  spaces: 
-  easeTypes: 
-  loopTypes: 
-  gameObjects: []
-  transforms: []
-  audioClips: []
-  audioSources: []
-  vector3Arrays: []
-  transformArrays: []
-  paths: []
+  FaceObject: {fileID: 0}
+  AnimatedObject: {fileID: 0}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

@@ -1,9 +1,8 @@
-﻿using System.IO;
-using System.Xml.Serialization;
-using KXSGCodec;
+﻿using KXSGCodec;
 using System;
 using System.Collections.Generic;
-using Template.Auto.Raid;
+using System.IO;
+using System.Xml.Serialization;
 using Template.Auto.Raid;
 using Object = UnityEngine.Object;
 

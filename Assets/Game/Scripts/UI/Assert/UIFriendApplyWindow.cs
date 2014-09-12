@@ -7,10 +7,14 @@ using KXSGCodec;
 /// </summary>
 public class UIFriendApplyWindow : Window
 {
+    #region Private Fields
+
     private UIEventListener closeLis;
     private UIEventListener applyLis;
     private UIEventListener viewDetailLis;
     private FriendItem friendItem;
+
+    #endregion
 
     #region Window
 

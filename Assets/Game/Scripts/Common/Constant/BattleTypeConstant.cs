@@ -28,14 +28,13 @@ public enum FootColorType
 /// <summary>
 /// Character job type.
 /// </summary>
-public enum JobType
+public enum HeroJob
 {
-    Sword = 1,
-    Kinght,
-    Archer,
-    Shielder,
-    Master,
-    Heart
+    Jian = 1,
+    Tu,
+    Gong,
+    Chui,
+    Ji,
 };
 
 /// <summary>

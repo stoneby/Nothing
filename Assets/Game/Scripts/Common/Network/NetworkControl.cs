@@ -6,9 +6,10 @@ using UnityEngine;
 
 public class NetworkControl : MonoBehaviour
 {
-    private float realTime = -10;
+    private const float ApplicationQuitTime = 3f;
+    private float lastTimeSinceStart;
 
-    private static IEnumerator MessageHandler()
+    private IEnumerator MessageHandler()
     {
         while (true)
         {
@@ -17,7 +18,7 @@ public class NetworkControl : MonoBehaviour
             {
                 while (msg != null)
                 {
-                    Logger.Log(msg.GetMsgType());
+                    Debug.Log(msg.GetMsgType());
                     switch (msg.GetMsgType())
                     {
                         case (short)MessageType.SC_SYSTEM_INFO_MSG:
@@ -173,6 +174,21 @@ public class NetworkControl : MonoBehaviour
                             ChooseCardHandler.IsHeroFirstLoginGive=true;
                             ChooseCardHandler.HeroFirstLoginGiveMsg = msg;
                             break;
+                        case (short)MessageType.SC_MAIL_LIST_MSG:
+                            MailHandler.OnMailList(msg);
+                            break;
+                        case (short)MessageType.SC_MAIL_OPTION_RESULT_MSG:
+                            MailHandler.OnMailOptionResultMsg(msg);
+                            break;
+                        case (short)MessageType.SC_MAIL_UPDATE_MSG:
+                            MailHandler.OnMailUpdateMsg(msg);
+                            break;
+                        case (short)MessageType.SC_MAIL_DETAIL_MSG:
+                            MailHandler.OnMailDetailMsg(msg);
+                            break;
+                        case (short)MessageType.SC_MAIL_DELETE_MSG:
+                            MailHandler.OnMailDeleteMsg(msg);
+                            break;
                     }
                     msg = NetManager.GetMessage();
                 }
@@ -182,38 +198,49 @@ public class NetworkControl : MonoBehaviour
                 var errorLog = string.Format("Message Parse Error.\n StackTrace:\n{0}\nMessage:\n{1}\n", e.StackTrace,
                     e.Message);
                 //PopTextManager.PopTip(errorLog);
-                Debug.LogWarning(errorLog);
+                Debug.LogError(errorLog);
             }
             
             yield return new WaitForSeconds(0.5f);
         }
     }
 
+    private IEnumerator AppliationChecker()
+    {
+        // performance tune, only check every frame for andriod.
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            while (true)
+            {
+                // return key.
+                if (Input.GetKeyDown(KeyCode.Escape))
+                {
+                    if (Time.realtimeSinceStartup - lastTimeSinceStart < ApplicationQuitTime)
+                    {
+                        Application.Quit();
+                    }
+                    else
+                    {
+                        lastTimeSinceStart = Time.realtimeSinceStartup;
+                        PopTextManager.PopTip("再按一次退出游戏", false);
+                    }
+                }
+
+                // Home key.
+                if (Input.GetKeyDown(KeyCode.Home))
+                {
+                    Application.Quit();
+                }
+
+                // break one frame.
+                yield return null;
+            }
+        }
+    }
+
     private void Start()
     {
         StartCoroutine(MessageHandler());
-    }
-
-    private void Update()
-    {
-        //返回键
-        if (Application.platform == RuntimePlatform.Android && (Input.GetKeyDown(KeyCode.Escape)))
-        {
-            if (Time.realtimeSinceStartup - realTime < 3)
-            {
-                Application.Quit();
-            }
-            else
-            {
-                realTime = Time.realtimeSinceStartup;
-                PopTextManager.PopTip("再按一次退出游戏", false);
-            }
-        }
-
-        // Home键
-        if (Application.platform == RuntimePlatform.Android && (Input.GetKeyDown(KeyCode.Home)))
-        {
-            Application.Quit();
-        }
+        StartCoroutine(AppliationChecker());
     }
 }

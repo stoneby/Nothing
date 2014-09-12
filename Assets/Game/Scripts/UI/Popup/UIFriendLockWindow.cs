@@ -7,6 +7,8 @@ using UnityEngine;
 /// </summary>
 public class UIFriendLockWindow : Window
 {
+    #region Private Fields
+
     private UIEventListener closeLis;
     private UIEventListener lockLis;
     private UIEventListener delLis;
@@ -18,6 +20,57 @@ public class UIFriendLockWindow : Window
 
     private UILabel lockLabel;
     private bool isLocked;
+
+    #endregion
+
+    #region Public Methods
+
+    public void Refresh(FriendInfo info, FriendItem source)
+    {
+        sourceItem = source;
+        friendItem.Init(info);
+        isLocked = FriendUtils.IsFriendBind(info);
+        lockLabel.text = isLocked
+                             ? LanguageManager.Instance.GetTextValue("UIFriendLock.UnLock")
+                             : LanguageManager.Instance.GetTextValue("UIFriendLock.Lock");
+        delLis.GetComponent<UIButton>().isEnabled = !isLocked;
+    }
+
+    public void ShowLockSucc(FriendInfo info)
+    {
+        sourceItem.Init(info);
+        WindowManager.Instance.Show<UIFriendLockWindow>(false);
+    }
+
+    public void ShowDelSucc()
+    {
+        if (PoolManager.Pools.ContainsKey("FriendRelated"))
+        {
+            var grid = sourceItem.transform.parent.GetComponent<UIGrid>();
+            sourceItem.transform.parent = PoolManager.Pools["FriendRelated"].transform;
+            PoolManager.Pools["FriendRelated"].Despawn(sourceItem.transform);
+            grid.repositionNow = true;
+        }
+        WindowManager.Instance.Show<UIFriendLockWindow>(false);
+    }
+
+    private void ShowDelAssert()
+    {
+        var assertWindow = WindowManager.Instance.GetWindow<AssertionWindow>();
+        assertWindow.Title = LanguageManager.Instance.GetTextValue("UIFriendLock.DelFriendAssert") + friendItem.FriendInfo.FriendName + "?";
+        assertWindow.Message = "";
+        assertWindow.AssertType = AssertionWindow.Type.OkCancel;
+        assertWindow.OkButtonClicked = OnDelOkPressed;
+        WindowManager.Instance.Show<AssertionWindow>(true);
+    }
+
+    private void OnDelOkPressed(GameObject sender)
+    {
+        var msg = new CSFriendDelete { FriendUuid = friendItem.FriendInfo.FriendUuid };
+        NetManager.SendMessage(msg);
+    }
+
+    #endregion
 
     #region Window
 
@@ -87,49 +140,4 @@ public class UIFriendLockWindow : Window
     }
 
     #endregion
-
-    public void Refresh(FriendInfo info, FriendItem source)
-    {
-        sourceItem = source;
-        friendItem.Init(info);
-        isLocked = FriendUtils.IsFriendBind(info);
-        lockLabel.text = isLocked
-                             ? LanguageManager.Instance.GetTextValue("UIFriendLock.UnLock")
-                             : LanguageManager.Instance.GetTextValue("UIFriendLock.Lock");
-        delLis.GetComponent<UIButton>().isEnabled = !isLocked;
-    }
-
-    public void ShowLockSucc(FriendInfo info)
-    {
-        sourceItem.Init(info);
-        WindowManager.Instance.Show<UIFriendLockWindow>(false);
-    }
-
-    public void ShowDelSucc()
-    {
-        if (PoolManager.Pools.ContainsKey("FriendRelated"))
-        {
-            var grid = sourceItem.transform.parent.GetComponent<UIGrid>();
-            sourceItem.transform.parent = PoolManager.Pools["FriendRelated"].transform;
-            PoolManager.Pools["FriendRelated"].Despawn(sourceItem.transform);
-            grid.repositionNow = true;
-        }
-        WindowManager.Instance.Show<UIFriendLockWindow>(false);
-    }
-
-    private void ShowDelAssert()
-    {
-        var assertWindow = WindowManager.Instance.GetWindow<AssertionWindow>();
-        assertWindow.Title = LanguageManager.Instance.GetTextValue("UIFriendLock.DelFriendAssert") + friendItem.FriendInfo.FriendName + "?";
-        assertWindow.Message = "";
-        assertWindow.AssertType = AssertionWindow.Type.OkCancel;
-        assertWindow.OkButtonClicked = OnDelOkPressed;
-        WindowManager.Instance.Show<AssertionWindow>(true);
-    }
-
-    private void OnDelOkPressed(GameObject sender)
-    {
-        var msg = new CSFriendDelete { FriendUuid = friendItem.FriendInfo.FriendUuid };
-        NetManager.SendMessage(msg);
-    }
 }

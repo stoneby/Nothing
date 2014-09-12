@@ -9,6 +9,8 @@ using UnityEngine;
 /// </summary>
 public class UIFriendDetailWindow : Window
 {
+    #region Private Fields
+
     private UIEventListener closeLis;
     private UILabel atkLabel;
     private UILabel hpLabel;
@@ -19,6 +21,10 @@ public class UIFriendDetailWindow : Window
 
     private List<UISprite> leaderJobs = new List<UISprite>();
     private List<UILabel> leaderAtks = new List<UILabel>();
+
+    #endregion
+
+    #region Private Property
 
     private int Atk
     {
@@ -77,6 +83,19 @@ public class UIFriendDetailWindow : Window
         }
     }
 
+    #endregion
+
+    #region Public Methods
+
+    public void Init(FriendInfo info)
+    {
+        FriendInfo = info;
+    }
+
+    #endregion
+
+    #region Private Methods
+
     private void RefreshLeaders(FriendInfo info)
     {
         var heroTemps = HeroModelLocator.Instance.HeroTemplates.HeroTmpls;
@@ -96,6 +115,13 @@ public class UIFriendDetailWindow : Window
         Mp = mpValue;
     }
 
+    private void OnClose(GameObject go)
+    {
+        WindowManager.Instance.Show<UIFriendDetailWindow>(false);
+    }
+
+    #endregion
+
     #region Window
 
     public override void OnEnter()
@@ -110,7 +136,7 @@ public class UIFriendDetailWindow : Window
 
     #endregion
 
-    #region Private Methods
+    #region Mono
 
     // Use this for initialization
     private void Awake()
@@ -131,20 +157,6 @@ public class UIFriendDetailWindow : Window
         leaderJobs.Add(transform.Find("Leader1/JobBG/JobIcon").GetComponent<UISprite>());
         leaderJobs.Add(transform.Find("Leader2/JobBG/JobIcon").GetComponent<UISprite>());
         leaderJobs.Add(transform.Find("Leader3/JobBG/JobIcon").GetComponent<UISprite>());
-    }
-
-    private void OnClose(GameObject go)
-    {
-        WindowManager.Instance.Show<UIFriendDetailWindow>(false);
-    }
-
-    #endregion
-
-    #region Public Methods
-
-    public void Init(FriendInfo info)
-    {
-        FriendInfo = info;
     }
 
     #endregion

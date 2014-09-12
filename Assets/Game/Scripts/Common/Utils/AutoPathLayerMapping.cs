@@ -42,6 +42,10 @@ public class AutoPathLayerMapping : AbstractPathLayerMapping
 
                 Logger.LogWarning("Window type - " + windowType + " with name " + className);
 
+                if (windowType == null)
+                {
+                    Logger.LogError("windowType is null. " + "perfabPath is: " + prefabPath);
+                }
                 PathTypeMap[prefabPath] = windowType;
                 TypePathMap[windowType] = prefabPath;
 

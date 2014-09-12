@@ -17,27 +17,19 @@ public class UIBuildingTeamWindow : Window
     private List<long> curTeamCached; 
     private List<long> curTeam; 
     private SCHeroList scHeroList;
-    private const int NormalTeamMembers = 9;
     private const int Column = 3;
     private GameObject toggleObjects;
     private GameObject tabTemplate;
-    private UIEventListener closeBtnLis;
-    private UIEventListener sortBtnLis;
-    private StretchItem closeBtnLine;
-    private bool descendSort;
-    private bool isEntered;
     private bool isToClose;
     private int activeTab;
     private List<HeroInfo> infos;
     private UIGrid teamGrid;
-    private UILabel sortLabel;
     private UILabel leaderSkillName;
     private UILabel leaderSkillDesc;
     private const string TeamSpriteN = "Team{0}N";
     private const string TeamSpriteD = "Team{0}D";
     private readonly List<long> cachedSelUuids = new List<long>();
     private readonly List<GameObject> toggles = new List<GameObject>();
-    private readonly List<int> minHeroIndex = new List<int> { 1, 2, 3 };
     private readonly List<List<long>> teams = new List<List<long>>();
     private readonly Dictionary<Position, GameObject> teamObjects = new Dictionary<Position, GameObject>();
 
@@ -45,8 +37,9 @@ public class UIBuildingTeamWindow : Window
 
     #region Public Fields
 
+    public CloseButtonControl CloseButtonControl;
+    public HeroSortControl HeroSortControl;
     public PropertyUpdater PropertyUpdater;
-    public UIToggle DescendToggle;
     public GameObject BaseHeroPrefab;
     public float IntervalOfTabs = 80f;
     public int CountOfOneGroup = 4;
@@ -63,12 +56,11 @@ public class UIBuildingTeamWindow : Window
     public override void OnEnter()
     {
         MtaManager.TrackBeginPage(MtaType.HeroBuildingTeamWindow);
-        isEntered = true;
         isToClose = false;
-        var orderType = HeroModelLocator.Instance.OrderType;
-        sortLabel.text = LanguageManager.Instance.GetTextValue(ItemHelper.SortKeys[(int)orderType]);
         NGUITools.SetActive(Heros.gameObject, true);
-        InitWrapContents(infos);
+        infos = scHeroList.HeroList;
+        HeroSortControl.Init(infos);
+        HeroUtils.InitWrapContents(Heros, infos, CountOfOneGroup, PlayerModelLocator.Instance.HeroMax);
         Init();
         InstallHandlers();
     }
@@ -88,12 +80,7 @@ public class UIBuildingTeamWindow : Window
     private void Awake()
     {
         NGUITools.SetActive(PropertyUpdater.gameObject, true);
-        closeBtnLis = UIEventListener.Get(transform.Find("Buttons/Button-Close").gameObject);
-        closeBtnLine = transform.Find("Buttons/Button-CloseLine").GetComponent<StretchItem>();
-        sortBtnLis = UIEventListener.Get(transform.Find("Buttons/Button-Sort").gameObject);
-        sortLabel = sortBtnLis.GetComponentInChildren<UILabel>();
         scHeroList = HeroModelLocator.Instance.SCHeroList;
-        infos = scHeroList.HeroList ?? new List<HeroInfo>();
         toggleObjects = transform.Find("ToggleButtons").gameObject;
         tabTemplate = transform.Find("TabTemplate").gameObject;
         teamGrid = transform.Find("Item/Grid").GetComponent<UIGrid>();
@@ -126,11 +113,11 @@ public class UIBuildingTeamWindow : Window
     {
         var pos = UISellHeroHandler.GetPosition(go);
         var isIntoTeam = !teamObjects.ContainsKey(pos);
-        if ((isIntoTeam && teamObjects.Count >= NormalTeamMembers))
+        if ((isIntoTeam && teamObjects.Count >= HeroConstant.MaxHerosPerTeam))
         {
             return;
         }
-        var index = GetPosInTeam();
+        var index = HeroUtils.GetPosInTeam(curTeam);
         if (isIntoTeam)
         {
             var child = NGUITools.AddChild(teamGrid.gameObject, BaseHeroPrefab);
@@ -143,11 +130,17 @@ public class UIBuildingTeamWindow : Window
             UIEventListener.Get(child.gameObject).onClick = CancelHeroToTeam;
             teamObjects.Add(pos, child);
             curTeam[index] = uuid;
+            //If it is main leader.
+            if(index == 0)
+            {
+                UpdateSkills(heroInfo);
+            }
         }
         else
         {
             CancelHeroToTeam(teamObjects[pos]);
         }
+        UpdateProperty();
         var item = NGUITools.FindInParents<WrapHerosItem>(go);
         item.ShowSellMask(pos.Y, isIntoTeam);
     }
@@ -172,6 +165,11 @@ public class UIBuildingTeamWindow : Window
                     (int)go.transform.localPosition.x / (int)teamGrid.cellWidth;
         RemoveSellObject(pos, index);
         RefreshCurScreen();
+        //If it is main leader.
+        if (index == 0)
+        {
+            ResetSkills();
+        }
     }
 
     private void RemoveSellObject(Position pos, int index)
@@ -187,11 +185,12 @@ public class UIBuildingTeamWindow : Window
     /// </summary>
     private void InstallHandlers()
     {
+        CloseButtonControl.OnCloseWindow = OnClose;
         HeroHandler.OnHeroModifyTeam += OnHeroModifyTeam;
-        EventDelegate.Add(DescendToggle.onChange, SortTypeChanged);
-        closeBtnLis.onClick = OnClose;
-        closeBtnLine.DragFinish = OnClose;
-        sortBtnLis.onClick = OnSort;
+        HeroSortControl.InstallHandlers();
+        HeroSortControl.OnSortOrderChangedBefore += SortBefore;
+        HeroSortControl.OnSortOrderChangedAfter += SortAfter;
+        HeroSortControl.OnExcuteAfterSort += OnExcuteAfterSort;
         Heros.OnUpdate = OnUpdate;
     }
 
@@ -200,14 +199,30 @@ public class UIBuildingTeamWindow : Window
     /// </summary>
     private void UnInstallHandlers()
     {
+        CloseButtonControl.OnCloseWindow = null;
+        HeroSortControl.UnInstallHandlers();
+        HeroSortControl.OnSortOrderChangedBefore -= SortBefore;
+        HeroSortControl.OnSortOrderChangedAfter -= SortAfter;
+        HeroSortControl.OnExcuteAfterSort -= OnExcuteAfterSort;
         HeroHandler.OnHeroModifyTeam -= OnHeroModifyTeam;
-        EventDelegate.Remove(DescendToggle.onChange, SortTypeChanged);
-        closeBtnLis.onClick = null;
-        closeBtnLine.DragFinish = null;
-        sortBtnLis.onClick = null;
         Heros.OnUpdate = null;
     }
-    
+
+    private void SortBefore()
+    {
+        CacheUuidsFromPos(teamObjects.Keys, cachedSelUuids);
+    }
+
+    private void SortAfter()
+    {
+        RefreshAfterReCalculatePos(infos);
+    }
+
+    private void OnExcuteAfterSort()
+    {
+        HeroUtils.InitWrapContents(Heros, infos, CountOfOneGroup, PlayerModelLocator.Instance.HeroMax);
+    }
+
     private void OnHeroModifyTeam(sbyte teamIndex, List<long> uuids)
     {
         if(isToClose)
@@ -221,20 +236,9 @@ public class UIBuildingTeamWindow : Window
         }
     }
 
-    private void OnSort(GameObject go)
+    private void OnClose()
     {
-        CacheUuidsFromPos(teamObjects.Keys, cachedSelUuids);
-        var orderType = HeroModelLocator.Instance.OrderType;
-        orderType = (ItemHelper.OrderType)(((int)orderType + 1) % ItemHelper.SortKeys.Count);
-        sortLabel.text = LanguageManager.Instance.GetTextValue(ItemHelper.SortKeys[(int)orderType]);
-        HeroModelLocator.Instance.OrderType = orderType;
-        InitWrapContents(infos);
-        RefreshAfterReCalculatePos(infos);
-    }
-
-    private void OnClose(GameObject sender)
-    {
-        if (!IsValidTeam())
+        if (!HeroUtils.IsValidTeam(curTeam))
         {
             ShowEditAssert();
             return;
@@ -267,28 +271,9 @@ public class UIBuildingTeamWindow : Window
         }
     }
 
-    private void SortTypeChanged()
-    {
-        descendSort = DescendToggle.value;
-        if (isEntered)
-        {
-            CacheUuidsFromPos(teamObjects.Keys, cachedSelUuids);
-            InitWrapContents(infos);
-            RefreshAfterReCalculatePos(infos);
-        }
-    }
-
     private bool SendModifyTeamMsg()
     {
-        var isDirty = false;
-        for(var i = 0; i < curTeam.Count; i++)
-        {
-            if(curTeam[i] != curTeamCached[i])
-            {
-                isDirty = true;
-                break;
-            }
-        }
+        var isDirty = curTeam.Where((t, i) => t != curTeamCached[i]).Any();
         if(isDirty)
         {
             var msg = new CSHeroModifyTeam {TeamIndex = curTeamIndex, NewTeamList = curTeam};
@@ -305,17 +290,6 @@ public class UIBuildingTeamWindow : Window
         WindowManager.Instance.Show<AssertionWindow>(true);
     }
 
-    private int GetPosInTeam()
-    {
-        for(var i = 0; i < NormalTeamMembers; i++)
-        {
-            if(curTeam[i] == HeroConstant.NoneInitHeroUuid)
-            {
-                return i;
-            }
-        }
-        return -1;
-    }
 
     /// <summary>
     /// Refresh the hero list.
@@ -342,7 +316,7 @@ public class UIBuildingTeamWindow : Window
             toggles.Add(child);
         }
         var toggle = toggles[curTeamIndex];
-        SetToggleSprite(toggle, "TableD", string.Format(TeamSpriteD, curTeamIndex + 1));
+        HeroUtils.SetToggleSprite(toggle, "TableD", string.Format(TeamSpriteD, curTeamIndex + 1));
     }
 
     private void OnTabClicked(GameObject go)
@@ -352,7 +326,7 @@ public class UIBuildingTeamWindow : Window
         {
             return;
         }
-        if (!IsValidTeam())
+        if (!HeroUtils.IsValidTeam(curTeam))
         {
             ShowEditAssert();
             return;
@@ -390,23 +364,6 @@ public class UIBuildingTeamWindow : Window
         }
     }
 
-    /// <summary>
-    /// Check if the edited team is valid(if it contains at least one leader and two assistents).
-    /// </summary>
-    /// <returns></returns>
-    private bool IsValidTeam()
-    {
-        var team = teams[curTeamIndex];
-        for(int i = 0; i < minHeroIndex.Count; i++)
-        {
-            if (team[i] == HeroConstant.NoneInitHeroUuid)
-            {
-                return false;
-            }
-        }
-        return true;
-    }
-
     private void CacheUuidsFromPos(IEnumerable<Position> list, List<long> uuids)
     {
         uuids.Clear();
@@ -438,9 +395,9 @@ public class UIBuildingTeamWindow : Window
         for (var i = 0; i < count; i++)
         {
             teams.Add(new List<long>(teamList[i].ListHeroUuid));
-            if (teamList[i].ListHeroUuid.Count < NormalTeamMembers)
+            if (teamList[i].ListHeroUuid.Count < HeroConstant.MaxHerosPerTeam)
             {
-                for (var j = teamList[i].ListHeroUuid.Count; j < NormalTeamMembers; j++)
+                for (var j = teamList[i].ListHeroUuid.Count; j < HeroConstant.MaxHerosPerTeam; j++)
                 {
                     teams[i].Add(HeroConstant.NoneInitHeroUuid);
                 }
@@ -453,9 +410,21 @@ public class UIBuildingTeamWindow : Window
     private void RefreshTeam()
     {
         teamObjects.Clear();
+        HeroInfo leaderInfo;
+        List<HeroInfo> heroInfos;
+        CloneBaseHeros(out heroInfos, out leaderInfo);
+        UpdateProperty(heroInfos);
+        UpdateSkills(leaderInfo);
+        HeroUtils.InitWrapContents(Heros, infos, CountOfOneGroup, PlayerModelLocator.Instance.HeroMax);
+        RefreshCurScreen();
+    }
+
+    private void CloneBaseHeros(out List<HeroInfo> heroInfos, out HeroInfo leaderInfo)
+    {
+        leaderInfo = null;
+        heroInfos = new List<HeroInfo>();
         var curIndex = 0;
-        HeroInfo leaderInfo = null;
-        for (var i = 0; i < curTeam.Count; i++)
+        for(var i = 0; i < curTeam.Count; i++)
         {
             var uuid = curTeam[i];
             if(uuid != HeroConstant.NoneInitHeroUuid)
@@ -466,6 +435,7 @@ public class UIBuildingTeamWindow : Window
                 var baseHero = child.GetComponent<HeroItemBase>();
                 var heroInfo = HeroModelLocator.Instance.FindHero(uuid);
                 baseHero.InitItem(heroInfo);
+                heroInfos.Add(heroInfo);
                 var index = infos.IndexOf(heroInfo);
                 teamObjects.Add(Utils.OneDimToTwo(index, CountOfOneGroup), child);
                 if(i == 0)
@@ -475,17 +445,35 @@ public class UIBuildingTeamWindow : Window
             }
             curIndex++;
         }
-        InitWrapContents(infos);
-        PropertyUpdater.UpdateProperty(-1, -1, leaderInfo.Prop[RoleProperties.ROLE_ATK],
-                                       leaderInfo.Prop[RoleProperties.ROLE_HP],
-                                       leaderInfo.Prop[RoleProperties.ROLE_RECOVER],
-                                       leaderInfo.Prop[RoleProperties.ROLE_MP]);
+    }
+
+    private void UpdateProperty(IEnumerable<HeroInfo> heroInfos)
+    {
+        int atk, hp, recover, mp;
+        HeroUtils.GetProperties(heroInfos, out atk, out hp, out recover, out mp);
+        PropertyUpdater.UpdateProperty(-1, -1, atk, hp, recover, mp);
+    }
+
+    private void UpdateProperty()
+    {
+        var heroInfos = curTeam.Select(uid => HeroModelLocator.Instance.FindHero(uid)).Where(info => info != null).ToList();
+        UpdateProperty(heroInfos);
+    }
+
+    private void UpdateSkills(HeroInfo leaderInfo)
+    {
         var leaderTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpls[leaderInfo.TemplateId];
         var skillTempls = HeroModelLocator.Instance.SkillTemplates.HeroBattleSkillTmpls;
         HeroBattleSkillTemplate leaderSkill;
         skillTempls.TryGetValue(leaderTemplate.LeaderSkill, out leaderSkill);
         leaderSkillName.text = leaderSkill != null ? leaderSkill.Name : "-";
         leaderSkillDesc.text = leaderSkill != null ? leaderSkill.Desc : "-";
+    }
+
+    private void ResetSkills()
+    {
+        leaderSkillName.text =  "-";
+        leaderSkillDesc.text =  "-";
     }
 
     private void RefreshCurScreen()
@@ -507,27 +495,6 @@ public class UIBuildingTeamWindow : Window
         }
     }
 
-    private void InitWrapContents(List<HeroInfo> heroInfos)
-    {
-        var orderType = HeroModelLocator.Instance.OrderType;
-        HeroModelLocator.Instance.SortHeroList(orderType, heroInfos, descendSort);
-        var data = new List<List<long>>();
-        var rows = Mathf.CeilToInt((float)heroInfos.Count / CountOfOneGroup);
-        for (var i = 0; i < rows; i++)
-        {
-            var list = new List<long>();
-            for (var j = 0; j < CountOfOneGroup; j++)
-            {
-                if (i * CountOfOneGroup + j < heroInfos.Count)
-                {
-                    list.Add(heroInfos[i * CountOfOneGroup + j].Uuid);
-                }
-            }
-            data.Add(list);
-        }
-        Heros.Init(data);
-    }
-
     #endregion
 
     #region Public Methods
@@ -537,22 +504,13 @@ public class UIBuildingTeamWindow : Window
         TeamMemberManager.Instance.SetValue((sbyte)tabIndex);
         var curToggle = toggles[curTeamIndex];
         var aimToggle = toggles[tabIndex];
-        SetToggleSprite(curToggle, "TabN", string.Format(TeamSpriteN, curTeamIndex + 1));
-        SetToggleSprite(aimToggle, "TableD", string.Format(TeamSpriteD, (tabIndex + 1)));
+        HeroUtils.SetToggleSprite(curToggle, "TabN", string.Format(TeamSpriteN, curTeamIndex + 1));
+        HeroUtils.SetToggleSprite(aimToggle, "TableD", string.Format(TeamSpriteD, (tabIndex + 1)));
         curTeamIndex = (sbyte)tabIndex;
         curTeam = new List<long>(teams[curTeamIndex]);
         curTeamCached = new List<long>(curTeam);
         CleanObjectsInTeam();
         RefreshTeam();
-    }
-
-    private void SetToggleSprite(GameObject toggle, string bgSprite, string contentSprite)
-    {
-        if(toggle)
-        {
-            toggle.GetComponent<UISprite>().spriteName = bgSprite;
-            toggle.transform.GetChild(0).GetComponent<UISprite>().spriteName = contentSprite;
-        }
     }
 
     #endregion

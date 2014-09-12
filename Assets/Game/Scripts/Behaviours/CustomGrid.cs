@@ -10,6 +10,8 @@ public class CustomGrid : UIWidgetContainer
     public UpdateData OnUpdate;
 
     public GameObject Item;
+    public bool ShowBg;
+    public string BgName;
 
     public int CellHeight = 60;
 
@@ -37,6 +39,7 @@ public class CustomGrid : UIWidgetContainer
     private int m_maxLine;
 
     private WrapItemBase[] m_cellList;
+    private Transform[] m_bgList;
 
     private CustomScrollView mDrag;
 
@@ -47,6 +50,8 @@ public class CustomGrid : UIWidgetContainer
     private Vector3 defaultVec;
 
     private int curIndex;
+
+    private int bgMaxCount;
 
     #endregion
 
@@ -63,7 +68,10 @@ public class CustomGrid : UIWidgetContainer
         m_maxLine = Mathf.CeilToInt(m_height / CellHeight) + 1;
 
         m_cellList = new WrapItemBase[m_maxLine];
-
+        if (ShowBg)
+        {
+            m_bgList = new Transform[m_maxLine];
+        }
         CreateItem();
         lastY = mDrag.transform.localPosition.y;
     }
@@ -77,7 +85,6 @@ public class CustomGrid : UIWidgetContainer
         if (!Mathf.Approximately(mDrag.transform.localPosition.y, lastY))
         {
             Validate();
-
             lastY = mDrag.transform.localPosition.y;
         }
     }
@@ -105,34 +112,31 @@ public class CustomGrid : UIWidgetContainer
 
     #endregion
 
-    public void Init(IList list)
+    public void Init(IList list, int bgMax)
     {
+        bgMaxCount = bgMax;
         m_listData = list;
         if (m_listData == null || m_listData.Count == 0)
         {
             return;
         }
         Validate();
-        UpdateBounds(m_listData.Count);
+        UpdateBounds(Mathf.Max(m_listData.Count, bgMax));
     }
 
     private void Validate()
     {
         Vector3 position = mDrag.panel.transform.localPosition;
-
         float _ver = Mathf.Max(position.y, 0);
-
         curIndex = Mathf.FloorToInt(_ver / CellHeight);
         int endIndex = Mathf.Min(m_listData.Count, curIndex + m_maxLine);
-
         int index = 0;
-        for (int i = curIndex; i < curIndex + m_maxLine; i++)
+        for (var i = curIndex; i < curIndex + m_maxLine; i++)
         {
             var cell = m_cellList[index];
-
             if (i < endIndex)
             {
-                cell.gameObject.SetActive(true);
+                NGUITools.SetActive(cell.gameObject, true);
                 cell.transform.localPosition = new Vector3(0, i * -CellHeight, 0);
                 cell.SetData(m_listData[i], i);
                 if(OnUpdate != null)
@@ -143,9 +147,18 @@ public class CustomGrid : UIWidgetContainer
             else
             {
                 cell.transform.localPosition = defaultVec;
-                cell.gameObject.SetActive(false);
+                NGUITools.SetActiveChildren(cell.gameObject, false);
             }
-
+            if (ShowBg && i < bgMaxCount && i >= endIndex)
+            {
+                if (!NGUITools.GetActive(cell))
+                {
+                    NGUITools.SetActiveSelf(cell.gameObject, true);
+                }
+                NGUITools.SetActiveChildren(cell.gameObject, false);
+                cell.transform.localPosition = new Vector3(0, i * -CellHeight, 0);
+                NGUITools.SetActive(m_bgList[index].gameObject, true);
+            }
             index++;
         }
     }
@@ -157,19 +170,14 @@ public class CustomGrid : UIWidgetContainer
             var child = NGUITools.AddChild(gameObject, Item);
             child.name = "Item" + i;
             child.SetActive(true);
+            if(ShowBg)
+            {
+                var bg = Utils.FindChild(child.transform, BgName);
+                m_bgList[i] = bg;
+            }
             var item = child.GetComponent<WrapItemBase>();
             m_cellList[i] = item;
-            child.SetActive(false);
+            NGUITools.SetActiveChildren(child.gameObject, false);
         }
-    }
-
-    public void Reset()
-    {
-        mDrag.ResetPosition();
-        foreach (var cell in m_cellList)
-        {
-            cell.transform.localPosition = Vector3.zero;
-        }
-        Validate();
     }
 }

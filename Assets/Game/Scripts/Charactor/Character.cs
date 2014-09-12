@@ -20,7 +20,8 @@ public class Character : MonoBehaviour
         Idle = 0,
         Run,
         Attack,
-        Hurt
+        Hurt,
+        Special
     }
 
     /// <summary>
@@ -75,7 +76,8 @@ public class Character : MonoBehaviour
     /// </summary>
     public bool CanSelected
     {
-        get { return (BuffController == null) || ((BuffController != null) && BuffController.CanSelected); }
+        get { return canSelected && ((BuffController == null) || ((BuffController != null) && BuffController.CanSelected)); }
+        set { canSelected = value; }
     }
 
     /// <summary>
@@ -87,6 +89,16 @@ public class Character : MonoBehaviour
     /// Buff bar controller.
     /// </summary>
     public BuffBarController BuffBarController;
+
+    /// <summary>
+    /// Face object like CharacterController and MonsterController.
+    /// </summary>
+    public GameObject FaceObject;
+
+    /// <summary>
+    /// Animated game object without face stuffes.
+    /// </summary>
+    public GameObject AnimatedObject;
 
     /// <summary>
     /// Logic data.
@@ -105,7 +117,8 @@ public class Character : MonoBehaviour
     #region Private Fields
 
     private const int NeighborDistance = 1;
-    private List<string> animationList; 
+    private List<string> animationList;
+    private bool canSelected = true;
 
     #endregion
 
@@ -131,6 +144,8 @@ public class Character : MonoBehaviour
     /// <param name="loop">Flag indicates if state is in loop mode</param>
     public void PlayState(State state, bool loop)
     {
+        // WARNING, in case of special attack like nine attack full not ready for all heros, we will use attack normal instead for temp way fix.
+        state = (animationList.Count == (int)state) ? State.Attack : state;
         Animation[animationList[(int)state]].wrapMode = (loop) ? WrapMode.Loop : WrapMode.Once;
         Animation.Play(animationList[(int)state]);
     }
@@ -194,6 +209,10 @@ public class Character : MonoBehaviour
         if (Animation != null)
         {
             animationList = new List<string>(Animation.Cast<AnimationState>().Select(item => item.name));
+            if (animationList.Count != Enum.GetNames(typeof(State)).Count())
+            {
+                Logger.LogWarning("Animation list count: " + animationList.Count + ", should be equals to State count define from script: " + Enum.GetNames(typeof(State)).Count());
+            }
         }
 
         if (BuffController == null)
@@ -201,6 +220,13 @@ public class Character : MonoBehaviour
             BuffController = GetComponent<CharacterBuffController>() ??
                              gameObject.AddComponent<CharacterBuffController>();
         }
+
+        if (transform.childCount != 1)
+        {
+            Logger.LogWarning("Child should only count for aniamted game object when in awake.");
+            return;
+        }
+        AnimatedObject = transform.GetChild(0).gameObject;
     }
 
     #endregion

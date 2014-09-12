@@ -1,21 +1,15 @@
 ﻿using System;
 using System.IO;
+using System.Xml;
 using UnityEditor;
 using UnityEngine;
-
-using System.Collections;
-using System.Collections.Generic;
-using System.Xml;
-using System.Xml.Linq;
 
 public class BuildManager
 {
     public static void BuildAndroid()
     {
         Debug.Log("====================================Switch To Android Target=======================");
-        Debug.LogError("=================================Switch To Android Target=================================");
         EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTarget.Android);
-        //PlayerSettings.SetIconsForTargetGroup(BuildTargetGroup.Android, );
 
         ReadGameConfigurationXml();
 
@@ -32,6 +26,7 @@ public class BuildManager
         PlayerSettings.Android.keyaliasPass = "111111";
 
         var iconFile = "Assets/icons/" + GameConfig.GameIcon + ".png";
+        
         Debug.Log("============================================================" + iconFile);
         int[] sizeList = PlayerSettings.GetIconSizesForTargetGroup(BuildTargetGroup.Android);//{144,96,72,48,36};
         Texture2D[] iconList = new Texture2D[sizeList.Length];
@@ -42,14 +37,11 @@ public class BuildManager
             int iconSize = sizeList[i];
             Debug.Log("============================================================Create icon size " + iconSize);
             iconList[i] = AssetDatabase.LoadMainAssetAtPath(iconFile) as Texture2D;
-            iconList[i].Resize(iconSize, iconSize, TextureFormat.ARGB32, false);
-
+            //iconList[i].Resize(iconSize, iconSize, TextureFormat.ARGB32, false);
         }
         PlayerSettings.SetIconsForTargetGroup(BuildTargetGroup.Android, iconList);
 
         
-
-        //PlayerSettings.iOS.targetDevice = iOSTargetDevice;
 
         FileUtil.DeleteFileOrDirectory("release/AndroidBuild");
         Directory.CreateDirectory("release/AndroidBuild");
@@ -57,7 +49,8 @@ public class BuildManager
         string[] scenes = { "Assets/game/scenes/BattleScene.unity" };
         var d = DateTime.Now;
         var str = "";
-        str += d.Year + GetValueName(d.Month) + GetValueName(d.Day) + "-" + GetValueName(d.Hour) + GetValueName(d.Minute);
+        str += d.Year + GetValueName(d.Month) + GetValueName(d.Day) + "-" + GetValueName(d.Hour) +
+               GetValueName(d.Minute) + "-" + PlayerSettings.bundleIdentifier;
         Debug.Log("开始打包Android");
         string res;
         if (GameConfig.Build == "true" || GameConfig.Build == "development")
@@ -72,6 +65,10 @@ public class BuildManager
         if (res.Length > 0)
         {
             throw new Exception("BuildPlayer failure: " + res);
+        }
+        else
+        {
+            //FileUtil.DeleteFileOrDirectory("Assets/Plugins/Android");
         }
         Debug.Log("Build Android Successful");
     }
@@ -140,33 +137,54 @@ public class BuildManager
         PlayerSettings.defaultInterfaceOrientation = UIOrientation.LandscapeLeft;
         PlayerSettings.iOS.exitOnSuspend = true;
         PlayerSettings.iOS.sdkVersion = iOSSdkVersion.DeviceSDK;
+        
+        //PlayerSettings.iOS.targetResolution
+        Debug.Log("-------------------------" + GameConfig.GameIcon);
         var iconFile = "Assets/icons/"+GameConfig.GameIcon+".png";
+        //var iconFile = "Assets/icons/sglm.png";
         int[] sizeList = PlayerSettings.GetIconSizesForTargetGroup(BuildTargetGroup.iPhone);
         Texture2D[] iconList = new Texture2D[sizeList.Length];
         for (int i = 0; i < sizeList.Length; i++)
         {
             int iconSize = sizeList[i];
+            Debug.Log("============================================================Create icon size " + iconSize);
             iconList[i] = AssetDatabase.LoadMainAssetAtPath(iconFile) as Texture2D;
-            iconList[i].Resize(iconSize, iconSize, TextureFormat.ARGB32, false);
+            if (iconList[i] == null)
+            {
+                Debug.Log("Texture is null");
+                continue;
+            }
+            //iconList[i].Resize(iconSize, iconSize, TextureFormat.ARGB32, false);
         }
         PlayerSettings.SetIconsForTargetGroup(BuildTargetGroup.iPhone, iconList);
         
-//        var splashStr = "Assets/loading/device/splash.png";
-//        var resourcePath = "Assets/loading/sglm/splash.png";
-//        SwapAsset(resourcePath, splashStr);
-//        AssetDatabase.Refresh();
-        
         PlayerSettings.iOS.targetDevice = iOSTargetDevice.iPhoneAndiPad;
 
+        FileUtil.DeleteFileOrDirectory("Assets/Plugins/Android");
+        FileUtil.DeleteFileOrDirectory("Assets/Plugins/AndroidI18N");
         FileUtil.DeleteFileOrDirectory("release/IosBuild");
         Directory.CreateDirectory("release/IosBuild");
 
         string[] scenes = { "Assets/game/scenes/BattleScene.unity" };
-        var res = BuildPipeline.BuildPlayer(scenes, "release/IosBuild", BuildTarget.iPhone, BuildOptions.None);
+//        var res = BuildPipeline.BuildPlayer(scenes, "release/IosBuild", BuildTarget.iPhone, BuildOptions.None);
+        string res;
+        if (GameConfig.Build == "true" || GameConfig.Build == "development")
+        {
+            res = BuildPipeline.BuildPlayer(scenes, "release/IosBuild", BuildTarget.iPhone, BuildOptions.ConnectWithProfiler | BuildOptions.Development);
+        }
+        else
+        {
+            res = BuildPipeline.BuildPlayer(scenes, "release/IosBuild", BuildTarget.iPhone, BuildOptions.None);
+        } 
+
         if (res.Length > 0)
         {
             throw new Exception("BuildPlayer failure: " + res);
         }
+//        else
+//        {
+//            FileUtil.CopyFileOrDirectory("release/IosLocal", "release/IosBuild");
+//        }
     }
 
     private static void ReadGameConfigurationXml()

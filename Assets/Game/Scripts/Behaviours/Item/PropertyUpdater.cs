@@ -16,11 +16,10 @@ public class PropertyUpdater : MonoBehaviour
     private int maxLvlCached;
 
     private const string DefaultValue = "-";
-
-    private const string ChangeColor = "[00ff00]";
     private const string ColorSuffix = "[-]";
 
-    private const string AddColorPrefix = ChangeColor + "+";
+    private const string AddColorPrefix = "[00ff00]+";
+    private const string SubColorPrefix = "[ff0000]";
 
     private void Awake()
     {
@@ -55,9 +54,18 @@ public class PropertyUpdater : MonoBehaviour
 
     public void PreShowChangedProperty(int lvlChanged, int atkChanged, int hpChanged, int recoverChanged, int mpChanged)
     {
-        if (lvlLabel != null && lvlChanged > 0)
+        if (lvlLabel != null )
         {
-            lvlLabel.text = string.Format("{0}/{1}", lvlCached, maxLvlCached) + AddColorPrefix + lvlChanged + ColorSuffix;
+            var changed = "";
+            if (lvlChanged > 0)
+            {
+                changed = AddColorPrefix + lvlChanged + ColorSuffix;
+            }
+            else if (lvlChanged < 0)
+            {
+                changed = SubColorPrefix + lvlChanged + ColorSuffix;
+            }
+            lvlLabel.text = string.Format("{0}{1}/{2}", lvlCached, changed, maxLvlCached);
         }
         Preshow(atkLabel, atkCached, atkChanged);
         Preshow(hpLabel, hpCached, hpChanged);
@@ -73,7 +81,7 @@ public class PropertyUpdater : MonoBehaviour
         }
         else if(changed < 0)
         {
-            label.text = cachedValue + ChangeColor + changed + ColorSuffix;
+            label.text = cachedValue + SubColorPrefix + changed + ColorSuffix;
         }
     }
 

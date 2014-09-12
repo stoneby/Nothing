@@ -8,20 +8,172 @@ using UnityEngine;
 
 public class PersistenceHandler : Singleton<PersistenceHandler>
 {
-    #region Private Fields
+    #region Public Fields
 
     //Switcher to open or close Battle Persistence function.
-    private readonly bool isOpenPersistence = true;
+    public bool Enabled = true;
+
+    // Stored persistence file path.
+#if UNITY_EDITOR
+
+    public static string LoginInfoPath = Application.dataPath + "/LoginInfo.txt";
+    public static string StartBattlePath = Application.dataPath + "/StartBattleInfo.txt";
+    public static string PersistencePath = Application.dataPath + "/PersistenceInfo.txt";
+    public static string EndBattlePath = Application.dataPath + "/EndBattleInfo.txt";
+
+#else
+
+    public static string LoginInfoPath = Application.persistentDataPath + "/LoginInfo.txt";
+    public static string StartBattlePath = Application.persistentDataPath + "/StartBattleInfo.txt";
+    public static string PersistencePath = Application.persistentDataPath + "/PersistenceInfo.txt";
+    public static string EndBattlePath = Application.persistentDataPath + "/EndBattleInfo.txt";
+
+#endif
+
+    /// <summary>
+    /// Flag to verifying BattleEndMessage sent succeed or not.
+    /// </summary>
+    public static bool IsRaidFinish = false;
+
+    public enum PersistenceMode
+    {
+        ReSendMessageNow,
+        ReStartBattle,
+        ReStartBattleWithPersistence,
+        ReSendMessageNext,
+        Normal
+    }
+    /// <summary>
+    /// Mode for managing SimpleConfirmWindow.
+    /// </summary>
+    public PersistenceMode Mode = PersistenceMode.Normal;
+
+    public bool IsBattlePersistent
+    {
+        get { return Mode == PersistenceMode.ReStartBattle || Mode == PersistenceMode.ReStartBattleWithPersistence; }
+    }
+
+    public Dictionary<string, string> PersistentInfor { get; set; }
+
+    #endregion
+
+    #region Private Fields
 
     //Check BattleEndMessage sent succeed or not after waiting seconds.
     private const int WaitingSeconds = 3;
 
     //Nums count for verifying stored data.
     private const int LoginInfoCount = 2;
-    private const int PersistenceInfoCount = 10;
+    private const int PersistenceInfoCount = 8;
 
     //Store BattleEndMessage for resending if send failed.
     private CSBattlePveFinishMsg tempEndBattleMsg = new CSBattlePveFinishMsg();
+
+    #endregion
+
+    #region Public Methods
+
+    /// <summary>
+    ///  Store Start Battle data for persistence.
+    /// </summary>
+    public void StoreStartBattle(SCBattlePveStartMsg battlestartmsg)
+    {
+        if (Enabled)
+        {
+            StartCoroutine(DoStoreStartBattle(battlestartmsg));
+        }
+    }
+
+    /// <summary>
+    ///  Store Persistence data for persistence.
+    /// </summary>
+    public void StorePersistence()
+    {
+        if (Enabled)
+        {
+            if (PersistentInfor == null)
+            {
+                PersistentInfor = new Dictionary<string, string>();
+            }
+            PersistentInfor.Clear();
+
+            // store LevelManager persistent infor.
+            BattleModelLocator.Instance.LevelManager.StorePersistent(PersistentInfor);
+
+            // store InitBattleField persistent infor.
+            var battleWindow = WindowManager.Instance.Show<BattleWindow>(true);
+            battleWindow.Battle.PersistenceStore(PersistentInfor);
+
+            DoStorePersistence(PersistentInfor);
+        }
+    }
+
+    /// <summary>
+    ///  Store Battle End data for persistence.
+    /// </summary>
+    public void StoreBattleEndMessage(CSBattlePveFinishMsg msg)
+    {
+        if (Enabled)
+        {
+            StartCoroutine(DoStoreBattleEndMessage(msg));
+        }
+    }
+
+    /// <summary>
+    /// Check BattleEndMessage sent succeed function, is called after sending BattleEndMessage.
+    /// </summary>
+    /// <param name="msg"></param>
+    /// <returns>IEnumerator</returns>
+    public IEnumerator CheckBattleEndSucceed(CSBattlePveFinishMsg msg)
+    {
+        if (Enabled)
+        {
+            //wait several seconds.
+            yield return new WaitForSeconds(WaitingSeconds);
+
+            if (IsRaidFinish == false && msg != null)
+            {
+                //Show ConfirmWindow if battle end msg sent failed.
+                tempEndBattleMsg = msg;
+
+                if (WindowManager.Instance.GetWindow<SimpleConfirmWindow>() == null)
+                {
+                    WindowManager.Instance.Show<SimpleConfirmWindow>(true);
+                }
+                Mode = PersistenceMode.ReSendMessageNow;
+                var window = WindowManager.Instance.GetWindow<SimpleConfirmWindow>();
+                window.gameObject.SetActive(true);
+                SetConfirmWindow(window);
+
+                yield break;
+            }
+
+            Cleanup();
+        }
+        else
+        {
+            yield return null;
+        }
+    }
+
+    public void Cleanup()
+    {
+        //Delete file if battle end msg sent succeed.
+        new FileInfo(StartBattlePath).Delete();
+        new FileInfo(PersistencePath).Delete();
+        new FileInfo(EndBattlePath).Delete();
+    }
+
+    /// <summary>
+    /// Check persistence state, is called when returning playerinfo.
+    /// </summary>
+    public void GoToPersistenceWay()
+    {
+        if (Enabled)
+        {
+            StartCoroutine(PersistenceExecute());
+        }
+    }
 
     #endregion
 
@@ -45,48 +197,39 @@ public class PersistenceHandler : Singleton<PersistenceHandler>
             var battleStartMsg = LoadStartBattle();
 
             PopTextManager.PopTip("返回战斗数据");
-            BattleModelLocator.Instance.BattleType = battleStartMsg.BattleType;
-            BattleModelLocator.Instance.RaidID = battleStartMsg.RaidID;
-            BattleModelLocator.Instance.Uuid = battleStartMsg.Uuid;
 
-            // server logic data.
-            BattleCreateUtils.initBattleModeLocator(BattleModelLocator.Instance, battleStartMsg);
+            if (Mode == PersistenceMode.ReStartBattleWithPersistence)
+            {
+                PersistentInfor = LoadPersistence();
+            }
 
-
-            var factory = BattleModelLocator.Instance.Source.BattleType.Factory;
-
-            BattleModelLocator.Instance.MainBattle = factory.createBattle(BattleModelLocator.Instance.Source);
-
-            var tempPersistence = new Dictionary<string, string>();
+            BattleModelLocator.Instance.Init(battleStartMsg);
 
             //Start battle scene accroding to different Mode.
             if (Mode == PersistenceMode.ReStartBattleWithPersistence)
             {
-                tempPersistence = LoadPersistence();
-                BattleModelLocator.Instance.MainBattle.startFromDataStore(tempPersistence["ServerLogicKey"]);
+                BattleModelLocator.Instance.MainBattle.startFromDataStore(PersistentInfor["ServerLogicKey"]);
             }
             else
             {
                 BattleModelLocator.Instance.MainBattle.start();
             }
 
-            BattleModelLocator.Instance.MonsterIndex = 0;
-
             // client side show.
-            var window = Singleton<WindowManager>.Instance.Show(typeof(BattleWindow), true).gameObject;
-            Singleton<WindowManager>.Instance.Show(typeof(RaidsWindow), false);
-            Singleton<WindowManager>.Instance.Show(typeof(MainMenuBarWindow), false);
-            Singleton<WindowManager>.Instance.Show(typeof(SetBattleWindow), false);
+            var battleWindow = WindowManager.Instance.Show<BattleWindow>(true);
+            Singleton<WindowManager>.Instance.Show<RaidsWindow>(false);
+            Singleton<WindowManager>.Instance.Show<MainMenuBarWindow>(false);
+            Singleton<WindowManager>.Instance.Show<SetBattleWindow>(false);
 
             if (Mode == PersistenceMode.ReStartBattleWithPersistence)
             {
-                window.GetComponent<BattleWindow>().Battle.PersisitenceSet(tempPersistence);
+                battleWindow.Battle.PersisitenceSet(PersistentInfor);
             }
         }
         catch (Exception e)
         {
             //Delete all stored file if catch exception.
-            Debug.LogError("Catch Exception in DoReStartBattle, delete all persistence file to initialize.");
+            Debug.LogError("Catch Exception in DoReStartBattle, delete all persistence file to initialize." + e.Message);
             Debug.LogException(e);
             PopTextManager.PopTip("执行持久化操作时出现异常，已经删除存储的持久化信息。");
             File.Move(LoginInfoPath, LoginInfoPath + "Rename");
@@ -161,6 +304,7 @@ public class PersistenceHandler : Singleton<PersistenceHandler>
     private void OnCancel(GameObject go)
     {
         WindowManager.Instance.Show<SimpleConfirmWindow>(false);
+        Mode = PersistenceMode.Normal;
         if (Mode != PersistenceMode.ReSendMessageNow)
         {
             new FileInfo(StartBattlePath).Delete();
@@ -196,7 +340,7 @@ public class PersistenceHandler : Singleton<PersistenceHandler>
     //Store and Load persistence data functions.
     private void StoreLoginInfo(Dictionary<string, string> value)
     {
-        if (isOpenPersistence)
+        if (Enabled)
         {
             var fileInfo = new FileInfo(LoginInfoPath);
 
@@ -297,7 +441,7 @@ public class PersistenceHandler : Singleton<PersistenceHandler>
     {
         var fileInfo = new FileInfo(PersistencePath);
 
-        if (fileInfo.Exists == true)
+        if (fileInfo.Exists)
         {
             fileInfo.Delete();
         }
@@ -468,133 +612,6 @@ public class PersistenceHandler : Singleton<PersistenceHandler>
         StoreLoginInfo(tempDictionary);
 
         yield return null;
-    }
-
-    #endregion
-
-    #region Public Fields
-
-    // Stored persistence file path.
-#if UNITY_EDITOR
-
-    public static string LoginInfoPath = Application.dataPath + "/LoginInfo.txt";
-    public static string StartBattlePath = Application.dataPath + "/StartBattleInfo.txt";
-    public static string PersistencePath = Application.dataPath + "/PersistenceInfo.txt";
-    public static string EndBattlePath = Application.dataPath + "/EndBattleInfo.txt";
-
-#else
-
-    public static string LoginInfoPath = Application.persistentDataPath + "/LoginInfo.txt";
-    public static string StartBattlePath = Application.persistentDataPath + "/StartBattleInfo.txt";
-    public static string PersistencePath = Application.persistentDataPath + "/PersistenceInfo.txt";
-    public static string EndBattlePath = Application.persistentDataPath + "/EndBattleInfo.txt";
-
-#endif
-
-    /// <summary>
-    /// Flag to verifying BattleEndMessage sent succeed or not.
-    /// </summary>
-    public static bool IsRaidFinish = false;
-
-    public enum PersistenceMode
-    {
-        ReSendMessageNow,
-        ReStartBattle,
-        ReStartBattleWithPersistence,
-        ReSendMessageNext,
-        Normal
-    }
-    /// <summary>
-    /// Mode for managing SimpleConfirmWindow.
-    /// </summary>
-    public static PersistenceMode Mode = PersistenceMode.Normal;
-
-    #endregion
-
-    #region Public Methods
-
-    /// <summary>
-    ///  Store Start Battle data for persistence.
-    /// </summary>
-    public void StoreStartBattle(SCBattlePveStartMsg battlestartmsg)
-    {
-        if (isOpenPersistence)
-        {
-            StartCoroutine(DoStoreStartBattle(battlestartmsg));
-        }
-    }
-
-    /// <summary>
-    ///  Store Persistence data for persistence.
-    /// </summary>
-    public void StorePersistence(Dictionary<string, string> value)
-    {
-        if (isOpenPersistence)
-        {
-            DoStorePersistence(value);
-        }
-    }
-
-    /// <summary>
-    ///  Store Battle End data for persistence.
-    /// </summary>
-    public void StoreBattleEndMessage(CSBattlePveFinishMsg msg)
-    {
-        if (isOpenPersistence)
-        {
-            StartCoroutine(DoStoreBattleEndMessage(msg));
-        }
-    }
-
-    /// <summary>
-    /// Check BattleEndMessage sent succeed function, is called after sending BattleEndMessage.
-    /// </summary>
-    /// <param name="msg"></param>
-    /// <returns></returns>
-    public IEnumerator CheckBattleEndSucceed(CSBattlePveFinishMsg msg = null)
-    {
-        if (isOpenPersistence)
-        {
-            //wait several seconds.
-            yield return new WaitForSeconds(WaitingSeconds);
-
-            if (IsRaidFinish == false && msg != null)
-            {
-                //Show ConfirmWindow if battle end msg sent failed.
-                tempEndBattleMsg = msg;
-
-                if (WindowManager.Instance.GetWindow<SimpleConfirmWindow>() == null)
-                {
-                    WindowManager.Instance.Show<SimpleConfirmWindow>(true);
-                }
-                Mode = PersistenceMode.ReSendMessageNow;
-                var window = WindowManager.Instance.GetWindow<SimpleConfirmWindow>();
-                window.gameObject.SetActive(true);
-                SetConfirmWindow(window);
-
-                yield break;
-            }
-
-            //Delete file if battle end msg sent succeed.
-            new FileInfo(StartBattlePath).Delete();
-            new FileInfo(PersistencePath).Delete();
-            new FileInfo(EndBattlePath).Delete();
-        }
-        else
-        {
-            yield return null;
-        }
-    }
-
-    /// <summary>
-    /// Check persistence state, is called when returning playerinfo.
-    /// </summary>
-    public void GoToPersistenceWay()
-    {
-        if (isOpenPersistence)
-        {
-            StartCoroutine(PersistenceExecute());
-        }
     }
 
     #endregion

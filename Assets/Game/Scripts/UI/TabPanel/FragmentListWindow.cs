@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class FragmentListWindow : Window
 {
+    #region Public Fields
+
+    public GameObject FragmentHero;
+
+    #endregion
+
     #region Private Fields
 
     //Interface info.
@@ -22,6 +28,72 @@ public class FragmentListWindow : Window
     private const int StarBarHeight = 61;
     private const int GridColumn = 8;
     private const int GridItemHeight = 119;
+
+    #endregion
+
+    #region Public Methods
+
+    /// <summary>
+    /// Initialize FragmentList info.
+    /// </summary>
+    /// <param name="msg"></param>
+    public void Refresh(SCLotteryComposeList msg)
+    {
+        scLotteryComposeList = msg;
+
+        //Initialize the SuperChip info.
+        fragmentNum.text = scLotteryComposeList.SuperChip.ToString();
+        PlayerModelLocator.Instance.SuperChip = scLotteryComposeList.SuperChip;
+
+        //Initialize grid5 hero info.
+        AddedOrDelFragmentHero(grid5, scLotteryComposeList.Star5Chip, scLotteryComposeList.SuperChip);
+
+        //Initialize grid4 hero info.
+        AddedOrDelFragmentHero(grid4, scLotteryComposeList.Star4Chip, scLotteryComposeList.SuperChip);
+
+        //Initialize the starbar4 position.
+        if (scLotteryComposeList.Star5Chip.Count == 0)
+        {
+            starBar4.transform.localPosition = new Vector3(0, StarBar5PosY - StarBarHeight, 0);
+        }
+        else
+        {
+            starBar4.transform.localPosition = new Vector3(0, StarBar5PosY - StarBarHeight - ((scLotteryComposeList.Star5Chip.Count - 1) / GridColumn + 1) * GridItemHeight, 0);
+        }
+    }
+
+    /// <summary>
+    /// Override Refresh function for refresh FragmentList info.
+    /// </summary>
+    /// <param name="msg"></param>
+    public void Refresh(SCLotteryComposeSucc msg)
+    {
+        scLotteryComposeSucc = msg;
+
+        //Refresh fragmentNum info.
+        fragmentNum.text = PlayerModelLocator.Instance.SuperChip.ToString();
+
+        //Refresh changed FragmentHero info.
+        FragmentHero[] tempFragmentHeros = transform.GetComponentsInChildren<FragmentHero>();
+        foreach (var item in tempFragmentHeros)
+        {
+            if (item.TemplateId == scLotteryComposeSucc.TemplateId)
+            {
+                int composeCount = HeroModelLocator.Instance.HeroTemplates.HeroTmpls[item.TemplateId].ComposeCount;
+                item.MaterialCount = scLotteryComposeSucc.ChipCount;
+                if (item.MaterialCount < composeCount * 0.8 || item.MaterialCount + PlayerModelLocator.Instance.SuperChip < composeCount)
+                {
+                    item.SwitchColor(Color.grey);
+                }
+                else
+                {
+                    item.SwitchColor(Color.white);
+                }
+                item.gameObject.SetActive(true);
+                item.Refresh();
+            }
+        }
+    }
 
     #endregion
 
@@ -75,78 +147,6 @@ public class FragmentListWindow : Window
 
             heroTemp.gameObject.SetActive(true);
             fragmentHeroTemp.Refresh();
-        }
-    }
-
-    #endregion
-
-    #region Public Fields
-
-    public GameObject FragmentHero;
-
-    #endregion
-
-    #region Public Methods
-
-    /// <summary>
-    /// Initialize FragmentList info.
-    /// </summary>
-    /// <param name="msg"></param>
-    public void Refresh(SCLotteryComposeList msg)
-    {
-        scLotteryComposeList = msg;
-
-        //Initialize the SuperChip info.
-        fragmentNum.text = scLotteryComposeList.SuperChip.ToString();
-        PlayerModelLocator.Instance.SuperChip = scLotteryComposeList.SuperChip;
-
-        //Initialize grid5 hero info.
-        AddedOrDelFragmentHero(grid5, scLotteryComposeList.Star5Chip, scLotteryComposeList.SuperChip);
-        
-        //Initialize grid4 hero info.
-        AddedOrDelFragmentHero(grid4, scLotteryComposeList.Star4Chip, scLotteryComposeList.SuperChip);
-
-        //Initialize the starbar4 position.
-        if (scLotteryComposeList.Star5Chip.Count == 0)
-        {
-            starBar4.transform.localPosition = new Vector3(0, StarBar5PosY - StarBarHeight, 0);
-        }
-        else
-        {
-            starBar4.transform.localPosition = new Vector3(0, StarBar5PosY - StarBarHeight - ((scLotteryComposeList.Star5Chip.Count - 1) / GridColumn + 1) * GridItemHeight, 0);
-        }
-    }
-
-    /// <summary>
-    /// Override Refresh function for refresh FragmentList info.
-    /// </summary>
-    /// <param name="msg"></param>
-    public void Refresh(SCLotteryComposeSucc msg)
-    {
-        scLotteryComposeSucc = msg;
-
-        //Refresh fragmentNum info.
-        fragmentNum.text = PlayerModelLocator.Instance.SuperChip.ToString();
-
-        //Refresh changed FragmentHero info.
-        FragmentHero[] tempFragmentHeros= transform.GetComponentsInChildren<FragmentHero>();
-        foreach (var item in tempFragmentHeros)
-        {
-            if (item.TemplateId == scLotteryComposeSucc.TemplateId)
-            {
-                int composeCount = HeroModelLocator.Instance.HeroTemplates.HeroTmpls[item.TemplateId].ComposeCount;
-                item.MaterialCount = scLotteryComposeSucc.ChipCount;
-                if (item.MaterialCount < composeCount * 0.8 || item.MaterialCount + PlayerModelLocator.Instance.SuperChip < composeCount)
-                {
-                    item.SwitchColor(Color.grey);
-                }
-                else
-                {
-                    item.SwitchColor(Color.white);
-                }
-                item.gameObject.SetActive(true);
-                item.Refresh();
-            }
         }
     }
 

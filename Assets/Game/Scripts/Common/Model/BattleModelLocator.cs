@@ -1,6 +1,9 @@
 ﻿using com.kx.sglm.gs.battle.share;
 using com.kx.sglm.gs.battle.share.data;
 using com.kx.sglm.gs.battle.share.data.record;
+using com.kx.sglm.gs.battle.share.enums;
+using com.kx.sglm.gs.battle.share.factory.creater;
+using KXSGCodec;
 using System.Collections.Generic;
 using System.Text;
 using Template.Auto.Raid;
@@ -13,23 +16,39 @@ namespace Assets.Game.Scripts.Common.Model
     {
         #region Public Fields
 
+        public LevelManager LevelManager { get; set; }
+
+        #region Level Manger Wrapper
+
+        public List<FighterInfo> MonsterList
+        {
+            get { return LevelManager.MonsterList; }
+        }
+
+        public List<int> MonsterGroup
+        {
+            get { return LevelManager.MonsterGroupList; }
+        }
+
+        public int MonsterIndex
+        {
+            get { return LevelManager.CurrentLevelMonsterBaseIndex; }
+        }
+
+        #endregion
+
         public sbyte BattleType;
-        public List<int> EnemyGroup;
         public int RaidID;
         public long Uuid;
 
         public BattleSource Source;
         public List<FighterInfo> HeroList;
-        public List<FighterInfo> EnemyList;
-        public int MonsterIndex;
         public Battle MainBattle;
         public List<PointRecord> NextList;
 
         public HeroBattleSkillTemplate Skill;
 
         public bool CanSelectHero = true;
-
-        private readonly BattleTemplateModelLocator templateModel;
 
         /// <summary>
         /// Minimun count of all heros.
@@ -61,9 +80,11 @@ namespace Assets.Game.Scripts.Common.Model
         private static volatile BattleModelLocator instance;
         private static readonly object SyncRoot = new Object();
 
+        private readonly BattleTemplateModelLocator templateModel;
+
         #endregion
 
-        #region Private Methods
+        #region Constructors
 
         private BattleModelLocator()
         {
@@ -73,6 +94,50 @@ namespace Assets.Game.Scripts.Common.Model
         #endregion
 
         #region Public Methods
+
+        public void Init(SCBattlePveStartMsg battleStartMsg)
+        {
+            var service = BattleTemplateModelLocator.Instance;
+            var battleSourceCreator = new BattleSourceTemplateCreater(service);
+            var battleSource = battleSourceCreator.createPVESource(battleStartMsg);
+            battleSource.Uuid = battleStartMsg.Uuid;
+
+            // level manager setup, including levels and monsters controll.
+            LevelManager = new LevelManager
+            {
+                MonsterList = battleSource.getSideFighters(BattleSideEnum.SIDEB_RIGHT),
+                MonsterGroupList = battleSource.MonsterGroup
+            };
+            if (LevelManager.MonsterList == null)
+            {
+                Debug.Log("MonsterList == null");
+            }
+            if (LevelManager.MonsterGroupList == null)
+            {
+                Debug.Log("MonsterGroupList == null");
+            }
+
+            // Important, will do level manager input data validation.
+            LevelManager.Validate();
+
+            if (PersistenceHandler.Instance.Mode == PersistenceHandler.PersistenceMode.ReStartBattleWithPersistence)
+            {
+                LevelManager.RestorePersistent(PersistenceHandler.Instance.PersistentInfor);
+            }
+            LevelManager.InitLevel();
+
+            BattleType = battleStartMsg.BattleType;
+            RaidID = battleStartMsg.RaidID;
+            Uuid = battleStartMsg.Uuid;
+            Source = battleSource;
+
+            var factory = battleSource.BattleType.Factory;
+            MainBattle = factory.createBattle(Source);
+            MainBattle.start();
+
+            // hero setup.
+            HeroList = battleSource.getSideFighters(BattleSideEnum.SIDE_LEFT);
+        }
 
         public BattleTemplateModelLocator TemplateModel
         {

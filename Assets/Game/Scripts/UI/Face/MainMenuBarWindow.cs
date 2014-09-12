@@ -15,6 +15,7 @@ public class MainMenuBarWindow : Window
     //private UIEventListener menuLis;
     private UIEventListener logLis;
     private GameObject inputLog;
+    private UIEventListener emailLis;
 
     #endregion
 
@@ -39,6 +40,7 @@ public class MainMenuBarWindow : Window
     /// </summary>
     private void Awake()
     {
+        emailLis = UIEventListener.Get(transform.Find("Buttons/Button email").gameObject);
         //homeLis = UIEventListener.Get(Utils.FindChild(transform, "Button-Home").gameObject);
         heroLis = UIEventListener.Get(Utils.FindChild(transform, "Button hero").gameObject);
         teamLis = UIEventListener.Get(Utils.FindChild(transform, "Button team").gameObject);
@@ -66,6 +68,7 @@ public class MainMenuBarWindow : Window
         friendLis.onClick = OnFriendClicked;
        // menuLis.onClick = OnMenuClicked;
         logLis.onClick = OnLogClicked;
+        emailLis.onClick = OnEmail;
     }
 
     /// <summary>
@@ -82,6 +85,20 @@ public class MainMenuBarWindow : Window
         friendLis.onClick = null;
         //menuLis.onClick = null;
         logLis.onClick = null;
+        emailLis.onClick = null;
+    }
+
+    private void OnEmail(GameObject go)
+    {
+        if(MailModelLocator.AlreadyRequest == false)
+        {
+            var csmsg = new CSMailListMsg();
+            NetManager.SendMessage(csmsg);
+        }
+        else
+        {
+            WindowManager.Instance.Show<UIEmailEntryWindow>(true);
+        }
     }
 
     /// <summary>

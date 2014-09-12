@@ -92,6 +92,61 @@ public class LocalizationManagerEditorWindow : EditorWindow
 
     #endregion
 
+    #region Public Methods
+
+    /// <summary>
+    /// Transform value to display in game.
+    /// Use '{' and '}' to split string.
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="args"></param>
+    /// <returns></returns>
+    public static string LocalizateFormat(string value, params object[] args)
+    {
+        //Formatted string.
+        string result = "";
+
+        char[] splitCharsLeft = { '{' };
+        char[] splitCharsRight = { '}' };
+
+        //Split by '{'
+        string[] splitLeft = value.Split(splitCharsLeft);
+        //Fail check
+        if (splitLeft.Length != args.Length + 1)
+        {
+            Debug.LogError("LocalizateFormatError: Value doesn't fit args, operation stopped, check the data!");
+            return null;
+        }
+
+        //Split by '}'
+        var tempSplit = splitLeft[0].Split(splitCharsRight);
+        //Fail check
+        if (tempSplit.Length != 1)
+        {
+            Debug.LogError("LocalizateFormatError: Value doesn't fit args, operation stopped, check the data!");
+            return null;
+        }
+        result += tempSplit[0];
+
+        for (int i = 1; i < splitLeft.Length; i++)
+        {
+            //Split by '}'
+            tempSplit = splitLeft[i].Split(splitCharsRight);
+
+            //Fail check
+            if (tempSplit.Length != 2 || tempSplit[0] != (i - 1).ToString())
+            {
+                Debug.LogError("LocalizateFormatError: Value doesn't fit args, operation stopped, check the data!");
+                return null;
+            }
+            result = result + args[i - 1].ToString() + tempSplit[1];
+        }
+
+        return result;
+    }
+
+    #endregion
+
     #region Private Methods
 
     private void GenerateFromObject()
@@ -424,61 +479,6 @@ public class LocalizationManagerEditorWindow : EditorWindow
     }
 
     #endregion
-
-    #endregion
-
-    #region Public Methods
-
-    /// <summary>
-    /// Transform value to display in game.
-    /// Use '{' and '}' to split string.
-    /// </summary>
-    /// <param name="value"></param>
-    /// <param name="args"></param>
-    /// <returns></returns>
-    public static string LocalizateFormat(string value, params object[] args)
-    {
-        //Formatted string.
-        string result = "";
-
-        char[] splitCharsLeft = {'{'};
-        char[] splitCharsRight = {'}'};
-
-        //Split by '{'
-        string[] splitLeft = value.Split(splitCharsLeft);
-        //Fail check
-        if (splitLeft.Length != args.Length + 1)
-        {
-            Debug.LogError("LocalizateFormatError: Value doesn't fit args, operation stopped, check the data!");
-            return null;
-        }
-
-        //Split by '}'
-        var tempSplit = splitLeft[0].Split(splitCharsRight);
-        //Fail check
-        if (tempSplit.Length != 1)
-        {
-            Debug.LogError("LocalizateFormatError: Value doesn't fit args, operation stopped, check the data!");
-            return null;
-        }
-        result += tempSplit[0];
-
-        for (int i = 1; i < splitLeft.Length; i++)
-        {
-            //Split by '}'
-            tempSplit = splitLeft[i].Split(splitCharsRight);
-
-            //Fail check
-            if (tempSplit.Length != 2 || tempSplit[0] != (i - 1).ToString())
-            {
-                Debug.LogError("LocalizateFormatError: Value doesn't fit args, operation stopped, check the data!");
-                return null;
-            }
-            result = result + args[i - 1].ToString() + tempSplit[1];
-        }
-
-        return result;
-    }
 
     #endregion
 

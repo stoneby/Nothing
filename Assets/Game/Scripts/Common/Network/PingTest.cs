@@ -61,7 +61,7 @@ public class PingTest : Singleton<PingTest>
         {
             var req = (HttpWebRequest)WebRequest.CreateDefault(new Uri(webResourceAddress));
             req.Method = "HEAD";
-            req.Timeout = 1000;
+            req.Timeout = 5000;
             var res = (HttpWebResponse)req.GetResponse();
             return (res.StatusCode == HttpStatusCode.OK);
         }

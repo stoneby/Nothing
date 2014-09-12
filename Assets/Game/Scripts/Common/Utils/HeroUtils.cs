@@ -201,4 +201,99 @@ public class HeroUtils
     {
         return Mathf.RoundToInt((float)value / ConversionRate);
     }
+
+    public static void CleanEquipStatus(HeroInfo heroInfo, List<ItemInfo> items)
+    {
+        if (heroInfo == null || items == null)
+        {
+            return;
+        }
+        var equipedUuids = heroInfo.EquipUuid;
+        foreach (var equipedUuid in equipedUuids)
+        {
+            var item = ItemModeLocator.Instance.FindItem(equipedUuid);
+            if (item != null)
+            {
+                item.EquipStatus = 0;
+            }
+        }
+    }
+
+    public static void InitWrapContents(CustomGrid grid, List<HeroInfo> heroInfos, int countPerGroup, int curMaxCount)
+    {
+        if(heroInfos == null)
+        {
+            return;
+        }
+        var data = new List<List<long>>();
+        var rows = Mathf.CeilToInt((float)heroInfos.Count / countPerGroup);
+        var curLimitRow = Mathf.CeilToInt((float)curMaxCount / countPerGroup);
+        for (var i = 0; i < rows; i++)
+        {
+            var list = new List<long>();
+            for (var j = 0; j < countPerGroup; j++)
+            {
+                if (i * countPerGroup + j < heroInfos.Count)
+                {
+                    list.Add(heroInfos[i * countPerGroup + j].Uuid);
+                }
+            }
+            data.Add(list);
+        }
+        grid.Init(data, curLimitRow);
+    }
+
+
+    /// <summary>
+    /// Check if the edited team is valid(if it contains at least one leader and two assistents).
+    /// </summary>
+    /// <returns></returns>
+    public static bool IsValidTeam(List<long> team)
+    {
+        var count = HeroConstant.MinHeroIndex.Count;
+        for (var i = 0; i < count; i++)
+        {
+            if (team[i] == HeroConstant.NoneInitHeroUuid)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static int GetPosInTeam(List<long> team)
+    {
+        for (var i = 0; i < HeroConstant.MaxHerosPerTeam; i++)
+        {
+            if (team[i] == HeroConstant.NoneInitHeroUuid)
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public static void SetToggleSprite(GameObject toggle, string bgSprite, string contentSprite)
+    {
+        if (toggle)
+        {
+            toggle.GetComponent<UISprite>().spriteName = bgSprite;
+            toggle.transform.GetChild(0).GetComponent<UISprite>().spriteName = contentSprite;
+        }
+    }
+
+    public static void GetProperties(IEnumerable<HeroInfo> heroInfos, out int atk, out int hp, out int recover, out int mp)
+    {
+        atk = 0;
+        hp = 0;
+        recover = 0;
+        mp = 0;
+        foreach (var heroInfo in heroInfos)
+        {
+            atk += heroInfo.Prop[RoleProperties.ROLE_ATK];
+            hp += heroInfo.Prop[RoleProperties.ROLE_HP];
+            recover += heroInfo.Prop[RoleProperties.ROLE_RECOVER];
+            mp += heroInfo.Prop[RoleProperties.ROLE_MP];
+        }
+    }
  }

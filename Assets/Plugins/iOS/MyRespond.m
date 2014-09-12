@@ -1,4 +1,4 @@
-//
+﻿//
 //  MyRespond.m
 //  Unity-iPhone
 //
@@ -76,7 +76,7 @@ void PressPay(const char * remark, int userid, int serverid, const char * roleid
     NSString* str=@"";
     str=[[str stringByAppendingString:@"initGameStart:"]stringByAppendingString:(NSString*)[message object]];
     const char* result=[str cStringUsingEncoding:NSASCIIStringEncoding];
-    UnitySendMessage("Global", "Respond", result);
+    UnitySendMessage("SDKResponse", "Respond", result);
     NSLog(@"Sending message to Unity.");
     
 }
@@ -87,7 +87,7 @@ void PressPay(const char * remark, int userid, int serverid, const char * roleid
     NSString* str=@"";
     str=[[str stringByAppendingString:@"login:"]stringByAppendingString:(NSString*)[message object]];
     const char* result=[str cStringUsingEncoding:NSASCIIStringEncoding];
-    UnitySendMessage("Global", "Respond", result);
+    UnitySendMessage("SDKResponse", "Respond", result);
     NSLog(@"Sending message to Unity.");
 }
 
@@ -97,7 +97,7 @@ void PressPay(const char * remark, int userid, int serverid, const char * roleid
     NSString* str=@"";
     str=[[str stringByAppendingString:@"logout:"]stringByAppendingString:(NSString*)[message object]];
     const char* result=[str cStringUsingEncoding:NSASCIIStringEncoding];
-    UnitySendMessage("Global", "Respond", result);
+    UnitySendMessage("SDKResponse", "Respond", result);
     NSLog(@"Sending message to Unity.");
 }
 
@@ -107,7 +107,7 @@ void PressPay(const char * remark, int userid, int serverid, const char * roleid
     NSString* str=@"";
     str=[[str stringByAppendingString:@"addRole:"]stringByAppendingString:(NSString*)[message object]];
     const char* result=[str cStringUsingEncoding:NSASCIIStringEncoding];
-    UnitySendMessage("Global", "Respond", result);
+    UnitySendMessage("SDKResponse", "Respond", result);
     NSLog(@"Sending message to Unity.");
 }
 
@@ -117,7 +117,7 @@ void PressPay(const char * remark, int userid, int serverid, const char * roleid
     NSString* str=@"";
     str=[[str stringByAppendingString:@"iosPay:"]stringByAppendingString:(NSString*)[message object]];
     const char* result=[str cStringUsingEncoding:NSASCIIStringEncoding];
-    UnitySendMessage("Global", "Respond", result);
+    UnitySendMessage("SDKResponse", "Respond", result);
     NSLog(@"Sending message to Unity.");
 }
 
@@ -127,7 +127,7 @@ void PressPay(const char * remark, int userid, int serverid, const char * roleid
     NSString* str=@"";
     str=[[str stringByAppendingString:@"Pay:"]stringByAppendingString:(NSString*)[message object]];
     const char* result=[str cStringUsingEncoding:NSASCIIStringEncoding];
-    UnitySendMessage("Global", "Respond", result);
+    UnitySendMessage("SDKResponse", "Respond", result);
     NSLog(@"Sending message to Unity.");
 }
 
@@ -142,3 +142,4 @@ void PressPay(const char * remark, int userid, int serverid, const char * roleid
 }
 
 @end
+

@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class FragmentCombineHandler : MonoBehaviour 
 {
+    #region Public Fields
+
+    public GameObject FragmentHero;
+
+    #endregion
 
     #region Private Fields
 
@@ -24,6 +29,76 @@ public class FragmentCombineHandler : MonoBehaviour
     private const int GridColumn = 9;
     private const int GridItemHeight = 125;
     private const int GapDistance = 15;
+
+    #endregion
+
+    #region Public Methods
+
+    /// <summary>
+    /// Initialize FragmentList info.
+    /// </summary>
+    /// <param name="msg"></param>
+    public void Refresh(SCLotteryComposeList msg)
+    {
+        scLotteryComposeList = msg;
+
+        //Initialize the SuperChip info.
+        fragmentNum.text = scLotteryComposeList.SuperChip.ToString();
+        PlayerModelLocator.Instance.SuperChip = scLotteryComposeList.SuperChip;
+
+        //Initialize grid5 hero info.
+        AddedOrDelFragmentHero(grid5, scLotteryComposeList.Star5Chip, scLotteryComposeList.SuperChip);
+        grid5.GetComponent<UIGrid>().Reposition();
+
+        //Initialize grid4 hero info.
+        AddedOrDelFragmentHero(grid4, scLotteryComposeList.Star4Chip, scLotteryComposeList.SuperChip);
+        grid4.GetComponent<UIGrid>().Reposition();
+
+        //Initialize the starbar4 position.
+        if (scLotteryComposeList.Star5Chip.Count == 0)
+        {
+            starBar4.transform.localPosition = new Vector3(0, StarBar5PosY - StarBarHeight - GapDistance, 0);
+        }
+        else
+        {
+            starBar4.transform.localPosition = new Vector3(0, StarBar5PosY - StarBarHeight - ((scLotteryComposeList.Star5Chip.Count - 1) / GridColumn + 1) * GridItemHeight - GapDistance, 0);
+        }
+    }
+
+    /// <summary>
+    /// Override Refresh function for refresh FragmentList info.
+    /// </summary>
+    /// <param name="msg"></param>
+    public void Refresh(SCLotteryComposeSucc msg)
+    {
+        scLotteryComposeSucc = msg;
+
+        //Refresh fragmentNum info.
+        fragmentNum.text = PlayerModelLocator.Instance.SuperChip.ToString();
+
+        //Refresh changed FragmentHero info.
+        FragmentHero[] tempFragmentHeros = transform.GetComponentsInChildren<FragmentHero>();
+        foreach (var item in tempFragmentHeros)
+        {
+            if (item.TemplateId == scLotteryComposeSucc.TemplateId)
+            {
+                int composeCount = HeroModelLocator.Instance.HeroTemplates.HeroTmpls[item.TemplateId].ComposeCount;
+                item.MaterialCount = scLotteryComposeSucc.ChipCount;
+                if (item.MaterialCount < composeCount * 0.8 || item.MaterialCount + PlayerModelLocator.Instance.SuperChip < composeCount)
+                {
+                    item.SwitchColor(Color.grey);
+                }
+                else
+                {
+                    item.SwitchColor(Color.white);
+                }
+                item.gameObject.SetActive(true);
+                item.Refresh();
+            }
+        }
+
+        PopTextManager.PopTip("Hero fragment combine success.");
+    }
 
     #endregion
 
@@ -78,82 +153,6 @@ public class FragmentCombineHandler : MonoBehaviour
             heroTemp.gameObject.SetActive(true);
             fragmentHeroTemp.Refresh();
         }
-    }
-
-    #endregion
-
-    #region Public Fields
-
-    public GameObject FragmentHero;
-
-    #endregion
-
-    #region Public Methods
-
-    /// <summary>
-    /// Initialize FragmentList info.
-    /// </summary>
-    /// <param name="msg"></param>
-    public void Refresh(SCLotteryComposeList msg)
-    {
-        scLotteryComposeList = msg;
-
-        //Initialize the SuperChip info.
-        fragmentNum.text = scLotteryComposeList.SuperChip.ToString();
-        PlayerModelLocator.Instance.SuperChip = scLotteryComposeList.SuperChip;
-
-        //Initialize grid5 hero info.
-        AddedOrDelFragmentHero(grid5, scLotteryComposeList.Star5Chip, scLotteryComposeList.SuperChip);
-        grid5.GetComponent<UIGrid>().Reposition();
-
-        //Initialize grid4 hero info.
-        AddedOrDelFragmentHero(grid4, scLotteryComposeList.Star4Chip, scLotteryComposeList.SuperChip);
-        grid4.GetComponent<UIGrid>().Reposition();
-
-        //Initialize the starbar4 position.
-        if (scLotteryComposeList.Star5Chip.Count == 0)
-        {
-            starBar4.transform.localPosition = new Vector3(0, StarBar5PosY - StarBarHeight- GapDistance , 0);
-        }
-        else
-        {
-            starBar4.transform.localPosition = new Vector3(0, StarBar5PosY - StarBarHeight - ((scLotteryComposeList.Star5Chip.Count - 1) / GridColumn + 1) * GridItemHeight - GapDistance, 0);
-        }
-    }
-
-    /// <summary>
-    /// Override Refresh function for refresh FragmentList info.
-    /// </summary>
-    /// <param name="msg"></param>
-    public void Refresh(SCLotteryComposeSucc msg)
-    {
-        scLotteryComposeSucc = msg;
-
-        //Refresh fragmentNum info.
-        fragmentNum.text = PlayerModelLocator.Instance.SuperChip.ToString();
-
-        //Refresh changed FragmentHero info.
-        FragmentHero[] tempFragmentHeros = transform.GetComponentsInChildren<FragmentHero>();
-        foreach (var item in tempFragmentHeros)
-        {
-            if (item.TemplateId == scLotteryComposeSucc.TemplateId)
-            {
-                int composeCount = HeroModelLocator.Instance.HeroTemplates.HeroTmpls[item.TemplateId].ComposeCount;
-                item.MaterialCount = scLotteryComposeSucc.ChipCount;
-                if (item.MaterialCount < composeCount * 0.8 || item.MaterialCount + PlayerModelLocator.Instance.SuperChip < composeCount)
-                {
-                    item.SwitchColor(Color.grey);
-                }
-                else
-                {
-                    item.SwitchColor(Color.white);
-                }
-                item.gameObject.SetActive(true);
-                item.Refresh();
-            }
-        }
-
-        PopTextManager.PopTip("Hero fragment combine success.");
     }
 
     #endregion

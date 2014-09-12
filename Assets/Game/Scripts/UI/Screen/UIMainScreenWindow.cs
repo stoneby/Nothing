@@ -24,6 +24,7 @@ public class UIMainScreenWindow : Window
     private UILabel energy;
 
     private GameObject BtnRecharge;
+    private int maxEnergy;
 
     private readonly List<int> iconIds = new List<int>(); 
 
@@ -59,8 +60,9 @@ public class UIMainScreenWindow : Window
             }
             var levelTemp = levelTemps[value];
             lvlSlider.value = (float) PlayerModelLocator.Instance.Exp / levelTemp.MaxExp;
-            var energyValue = PlayerModelLocator.Instance.Energy;
-            var maxEnergy = levelTemp.MaxEnergy;
+            maxEnergy = levelTemp.MaxEnergy;
+            var energyValue = Mathf.Min(PlayerModelLocator.Instance.Energy, maxEnergy);
+            EnergyIncreaseControl.Instance.Energy = energyValue;
             energySlider.value = (float) energyValue / maxEnergy;
             energy.text = string.Format("{0}/{1}", energyValue, maxEnergy);
             level.text = value.ToString();
@@ -83,6 +85,7 @@ public class UIMainScreenWindow : Window
         InstallHandlers();
 		RefreshData ();
         SpawnAndPlay();
+        EnergyIncreaseControl.Instance.StartMonitor();
     }
 
     public override void OnExit()
@@ -93,6 +96,7 @@ public class UIMainScreenWindow : Window
         //}
         UnstallHandlers();
         Despawn();
+        EnergyIncreaseControl.Instance.StopMonitor();
     }
 
     #endregion
@@ -124,11 +128,25 @@ public class UIMainScreenWindow : Window
         }
     }
 
+    private void OnEnergyHandler(int value)
+    {
+        if(value > maxEnergy)
+        {
+            EnergyIncreaseControl.Instance.Energy = maxEnergy;
+            EnergyIncreaseControl.Instance.StopMonitor();
+        }
+        else
+        {
+            energySlider.value = (float)value / maxEnergy;
+            energy.text = string.Format("{0}/{1}", value, maxEnergy);
+        }
+    }
+
     // Use this for initialization
     private void Awake()
     {
         startGameLis = UIEventListener.Get(Utils.FindChild(transform, "Button-Start").gameObject);
-        nameLabel = transform.Find("Name").GetComponent<UILabel>();
+        nameLabel = transform.Find("NameValue").GetComponent<UILabel>();
         level = transform.Find("Level/LvlValue").GetComponent<UILabel>();
         var property = transform.Find("Property");
         atk = property.Find("Atk/AtkValue").GetComponent<UILabel>();
@@ -164,11 +182,13 @@ public class UIMainScreenWindow : Window
     private void InstallHandlers()
     {
         startGameLis.onClick = OnStartGameClicked;
+        EnergyIncreaseControl.Instance.EnergyIncreaseHandler += OnEnergyHandler;
     }
 
     private void UnstallHandlers()
     {
         startGameLis.onClick = null;
+        EnergyIncreaseControl.Instance.EnergyIncreaseHandler -= OnEnergyHandler;
     }
 
     private void RefreshData()

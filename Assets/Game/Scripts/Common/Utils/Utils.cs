@@ -272,4 +272,14 @@ public class Utils
     {
         return position.X * column + position.Y;
     }
+
+    public static void DestoryChildren(Transform parent)
+    {
+        var childCount = parent.childCount;
+        for (var i = childCount - 1; i >= 0; i--)
+        {
+            var child = parent.GetChild(i);
+            NGUITools.Destroy(child.gameObject);
+        }
+    }
 }

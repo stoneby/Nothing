@@ -8,6 +8,7 @@
 	<target name="Clean">
 		<echo>Clean Files</echo>
 		<delete file="../Assets/Game/Resources/Config/GameConfiguration.xml"/>   
+		<delete dir="../Assets/Plugins/Android"/>
 	</target>
 	<target name="ZipExe" depends="Clean">
 		<echo>Zip Exe File</echo>
@@ -20,7 +21,7 @@
 		<copy file="./IosRelease/ipa/kxsg.ipa" tofile="./IosRelease/sglm-${IOS_Type}-${GameVersion}-${DSTAMP}-${TSTAMP}.ipa"/>
 	</target>
 	<target name="IosReplaceImage">
-		<echo>Replace Ios Splash Images File</echo>
+		<echo>替换Loading启动画面</echo>
 		<delete file="./IosBuild/Default.png"/> 
 		<delete file="./IosBuild/Default@2x.png"/> 
 		<delete file="./IosBuild/Default-568h@2x.png"/> 
@@ -35,5 +36,8 @@
 		<copy file="./build/splash/Default-Landscape@2x.png" tofile="./IosBuild/Default-Landscape@2x.png"/>
 		<copy file="./build/splash/Default-Portrait.png" tofile="./IosBuild/Default-Portrait.png"/>
 		<copy file="./build/splash/Default-Portrait@2x.png" tofile="./IosBuild/Default-Portrait@2x.png"/>
+		<echo>替换语言</echo>
+	   <replace file ="./IosBuild/Info.plist" token="CFBundleDevelopmentRegion" value="CFBundleLocalizations" encoding="UTF-8"/>
+	   <replace file ="./IosBuild/Info.plist" token="&lt;string&gt;en&lt;/string&gt;" value="&lt;array&gt;&lt;string&gt;zh_CN&lt;/string&gt;&lt;string&gt;en&lt;/string&gt;&lt;string&gt;zh_TW&lt;/string&gt;&lt;string&gt;ja&lt;/string&gt;&lt;string&gt;ko&lt;/string&gt;&lt;/array&gt;" encoding="UTF-8"/>
 	</target>
 </project>

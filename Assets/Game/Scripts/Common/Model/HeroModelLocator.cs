@@ -273,6 +273,10 @@ public sealed class HeroModelLocator
     /// <param name="isDescend">Descend or ascend of the sorting.</param>
     public void SortHeroList(OrderType orderType, List<HeroInfo> heros, bool isDescend = true)
     {
+        if (heros == null || heros.Count <= 1)
+        {
+            return;
+        }
         switch (orderType)
         {
             case OrderType.Time:

@@ -54,8 +54,7 @@ public class CommonHandler
                 }
                 if (propertyChangedMsg.PropertyChanged.ContainsKey(RoleProperties.ROLEBASE_ENERGY))
                 {
-                    PlayerModelLocator.Instance.Energy =
-                        propertyChangedMsg.PropertyChanged[RoleProperties.ROLEBASE_ENERGY];
+                    EnergyIncreaseControl.Instance.Energy = propertyChangedMsg.PropertyChanged[RoleProperties.ROLEBASE_ENERGY];
                 }
                 if (propertyChangedMsg.PropertyChanged.ContainsKey(RoleProperties.ROLEBASE_EXTEND_HREO_BAG_TIMES))
                 {

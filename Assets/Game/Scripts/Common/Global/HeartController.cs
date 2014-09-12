@@ -63,7 +63,7 @@ public class HeartController : MonoBehaviour
                     var levelTemp = levelTemps[value];
                     if (PlayerModelLocator.Instance.Energy < levelTemp.MaxEnergy)
                     {
-                        PlayerModelLocator.Instance.Energy++;
+                       // PlayerModelLocator.Instance.Energy++;
                         eneryLastTime += eneryStepTime;
                         //PopTextManager.PopTip("体力恢复为：" + PlayerModelLocator.Instance.Energy);
                         if (CommonHandler.PlayerPropertyChanged != null)

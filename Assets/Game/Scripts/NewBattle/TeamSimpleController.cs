@@ -14,7 +14,7 @@ public class TeamSimpleController : MonoBehaviour
     /// </summary>
     public TeamFormationController FormationController;
 
-    public delegate void SelectedChanged(GameObject currentObject, GameObject lastObject);
+    public delegate void SelectedChanged(Character currentObject, Character lastObject,bool isStartScene=false);
 
     [HideInInspector]
     public SelectedChanged OnSelectedChanged;
@@ -81,7 +81,7 @@ public class TeamSimpleController : MonoBehaviour
 
         if (CurrentSelect != null)
         {
-            OnSelectedChanged(CurrentSelect.gameObject, CurrentSelect.gameObject);
+            OnSelectedChanged(CurrentSelect, CurrentSelect,true);
         }
     }
 
@@ -134,7 +134,7 @@ public class TeamSimpleController : MonoBehaviour
         {
             var listener = UIEventListener.Get(character.gameObject);
             listener.onDrag = OnCharacterDrag;
-            listener.onSelect = OnCharacterSeleced;
+            listener.onClick = OnCharacterSeleced;
         });
     }
 
@@ -142,19 +142,21 @@ public class TeamSimpleController : MonoBehaviour
 
     #region Private Methods
 
-    private void OnCharacterSeleced(GameObject sender, bool selected)
+    private void OnCharacterSeleced(GameObject sender)
     {
-        Logger.LogWarning("On Character Selected: " + sender.name + ", selected: " + selected);
+        Logger.LogWarning("On Character Selected: " + sender.name);
 
         var character = sender.GetComponent<Character>();
-        if (selected)
+        if (!character.CanSelected)
         {
-            if (OnSelectedChanged != null)
-            {
-                OnSelectedChanged(character.gameObject, CurrentSelect.gameObject);
-            }
-            CurrentSelect = character;
+            return;
         }
+
+        if (OnSelectedChanged != null)
+        {
+            OnSelectedChanged(character, CurrentSelect);
+        }
+        CurrentSelect = character;
     }
 
     private void OnCharacterDrag(GameObject sender, Vector2 delta)
@@ -178,8 +180,8 @@ public class TeamSimpleController : MonoBehaviour
             Logger.LogError("Total: " + Total + " should be equal to position list count: " + positionList.Count +
                             " of index: " + (Total - 1) + " from formation list.", gameObject);
             return;
-        } 
-        
+        }
+
         for (var i = 0; i < CharacterList.Count; ++i)
         {
             var character = CharacterList[i];

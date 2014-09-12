@@ -61,6 +61,8 @@ public class HeroConstant
     /// </summary>
     public const int ThirdLeaderPosInTeam = 2;
 
+    public static List<int> MinHeroIndex = new List<int> { 1, 2, 3 };
+
     /// <summary>
     /// The prefix of the hero icon id.
     /// </summary>

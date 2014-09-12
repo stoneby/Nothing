@@ -16,13 +16,8 @@ public class UISellItemHandler : MonoBehaviour
     private const int HighQuality = 3;
     private long totalMoney;
     private UIEventListener sellLis;
-    private UIEventListener buyBackLis;
     private UIGrid grid;
-
-    public GameObject BaseItemPrefab;
-
     private readonly List<short> cachedSelBagIndexs = new List<short>();
-
     private readonly Dictionary<Position, GameObject> sellObjects = new Dictionary<Position, GameObject>();
 
     private long TotalMoney
@@ -67,7 +62,7 @@ public class UISellItemHandler : MonoBehaviour
         var itemInfo = ItemModeLocator.Instance.FindItem(bagIndex);
         if (isToSell)
         {
-            var child = NGUITools.AddChild(grid.gameObject, BaseItemPrefab);
+            var child = NGUITools.AddChild(grid.gameObject, commonWindow.BaseItemPrefab);
             var heroBase = child.GetComponent<ItemBase>();
             heroBase.InitItem(itemInfo);
             UIEventListener.Get(child.gameObject).onClick = CancelItemSell;
@@ -110,25 +105,22 @@ public class UISellItemHandler : MonoBehaviour
         moneyCount = transform.Find("CoinsCount/CoinsValue").GetComponent<UILabel>();
         var buttons = transform.Find("Buttons");
         sellLis = UIEventListener.Get(buttons.Find("Button-Sell").gameObject);
-        buyBackLis = UIEventListener.Get(buttons.Find("Button-BuyBack").gameObject);
     }
 
     private void InstallHandlers()
     {
         sellLis.onClick = OnSell;
-        buyBackLis.onClick = OnBuyBack;
         commonWindow.Items.OnUpdate += OnUpdate;
-        commonWindow.OnSortOrderChangedBefore += OnSortOrderChangedBefore;
-        commonWindow.OnSortOrderChangedAfter += OnSortOrderChangedAfter;
+        commonWindow.SortControl.OnSortOrderChangedBefore += OnSortOrderChangedBefore;
+        commonWindow.SortControl.OnSortOrderChangedAfter += OnSortOrderChangedAfter;
     }
 
     private void UnInstallHandlers()
     {
         sellLis.onClick = null;
-        buyBackLis.onClick = null;
         commonWindow.Items.OnUpdate -= OnUpdate;
-        commonWindow.OnSortOrderChangedBefore -= OnSortOrderChangedBefore;
-        commonWindow.OnSortOrderChangedAfter -= OnSortOrderChangedAfter;
+        commonWindow.SortControl.OnSortOrderChangedBefore -= OnSortOrderChangedBefore;
+        commonWindow.SortControl.OnSortOrderChangedAfter -= OnSortOrderChangedAfter;
     }
 
     private void OnUpdate(GameObject sender, int index)
@@ -143,8 +135,9 @@ public class UISellItemHandler : MonoBehaviour
         }
     }
 
-    private void OnSortOrderChangedAfter(List<ItemInfo> hInfos)
+    private void OnSortOrderChangedAfter()
     {
+        var hInfos = commonWindow.Infos;
         var countPerGroup = commonWindow.CountOfOneGroup;
         var posList = GetPositionsViaBagIndex(cachedSelBagIndexs, hInfos, countPerGroup);
         var values = sellObjects.Values.ToList();
@@ -156,7 +149,7 @@ public class UISellItemHandler : MonoBehaviour
         UpdateSellMasks();
     }
 
-    private void OnSortOrderChangedBefore(List<ItemInfo> hInfos)
+    private void OnSortOrderChangedBefore()
     {
         CacheBagIndexsFromPos(sellObjects.Keys, cachedSelBagIndexs);
     }
@@ -190,11 +183,6 @@ public class UISellItemHandler : MonoBehaviour
     {
         return bags.Select(bagIndex => hInfos.FindIndex(info => info.BagIndex == bagIndex)).Select(
             index => new Position { X = index / countPerGroup, Y = index % countPerGroup }).ToList();
-    }
-
-    private void OnBuyBack(GameObject go)
-    {
-        
     }
 
     private void OnSell(GameObject go)
@@ -329,6 +317,7 @@ public class UISellItemHandler : MonoBehaviour
             NGUITools.Destroy(clones[i]);
         }
         sellObjects.Clear();
+        cachedSelBagIndexs.Clear();
     }
 
     public void CleanUp()
@@ -336,6 +325,15 @@ public class UISellItemHandler : MonoBehaviour
         CleanMasks();
         TotalMoney = 0;
         RefreshSelAndCoins();
+    }
+
+    public void SellOverUpdate()
+    {
+        if (sellObjects.ContainsKey(commonWindow.CurSelPos))
+        {
+            commonWindow.CurSelPos = HeroConstant.FirstPos;
+        }
+        CleanUp();
     }
 
     #endregion

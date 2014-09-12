@@ -3,6 +3,7 @@ namespace com.kx.sglm.gs.battle.share.enums
 
 	using IndexedEnum = com.kx.sglm.core.constant.IndexedEnum;
 	using MathUtils = com.kx.sglm.core.util.MathUtils;
+	using GreenhandPVEBattleFactory = com.kx.sglm.gs.battle.share.factory.GreenhandPVEBattleFactory;
 	using IBattleFactory = com.kx.sglm.gs.battle.share.factory.IBattleFactory;
 	using TestBattleFactory = com.kx.sglm.gs.battle.share.factory.TestBattleFactory;
 
@@ -16,6 +17,8 @@ namespace com.kx.sglm.gs.battle.share.enums
 	{
 		// TODO 这个Factory不该在这里创建，另找位置
 		public static readonly IBattleFactory TEST_FACTORY = new TestBattleFactory();
+
+		public static readonly IBattleFactory GREENHAND_FACTORY = new GreenhandPVEBattleFactory();
 
 		/// <summary>
 		/// 自动战斗flag位，若该位数值为1，则是自动战斗 </summary>
@@ -45,6 +48,17 @@ namespace com.kx.sglm.gs.battle.share.enums
 		private class BattleTypeAnonymousInnerClassHelper2 : BattleType
 		{
 			public BattleTypeAnonymousInnerClassHelper2() : base(1, PVE_BATTLE_INDEX, null)
+			{
+			}
+
+
+		}
+
+		public static readonly BattleType GREENHANDPVE = new BattleTypeAnonymousInnerClassHelper3(GREENHAND_FACTORY);
+
+		private class BattleTypeAnonymousInnerClassHelper3 : BattleType
+		{
+			public BattleTypeAnonymousInnerClassHelper3(IBattleFactory GREENHAND_FACTORY) : base(2, PVE_BATTLE_INDEX, GREENHAND_FACTORY)
 			{
 			}
 
@@ -108,7 +122,7 @@ namespace com.kx.sglm.gs.battle.share.enums
 			}
 		}
 
-		private static BattleType[] VALUES = new BattleType[] {TESTPVE, RAIDPVE};
+		private static BattleType[] VALUES = new BattleType[] {TESTPVE, RAIDPVE, GREENHANDPVE};
 
 		public static BattleType[] values()
 		{

@@ -44,16 +44,10 @@ public static class GameToolMenu
         EditorWindow.GetWindow<LocalizationManagerEditorWindow>(false, "Localization Manager", true);
     }
 
-    [MenuItem("Tool/AtlasReplacer", false, 0)]
-    static public void OpenAtlasReplacer()
+    [MenuItem("Tool/AltasReplacer", false, 0)]
+    static public void OpenAltasReplacer()
     {
-        EditorWindow.GetWindow<AtlasReplacerEditorWindow>(false, "Atlas Replacer", true);
-    }
-
-    [MenuItem("Tool/AtlasRenamer", false, 0)]
-    static public void OpenAtlasRenamer()
-    {
-        EditorWindow.GetWindow<AtlasRenamerEditorWindow>(false, "Atlas Renamer", true);
+        EditorWindow.GetWindow<AltasReplacerEditorWindow>(false, "Altas Replacer", true);
     }
 
     #endregion

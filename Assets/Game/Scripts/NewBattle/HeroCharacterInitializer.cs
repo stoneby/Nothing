@@ -23,27 +23,22 @@ public class HeroCharacterInitializer : CharacterInitializer
             var index = heroTemplate.Icon - 1;
             if (index < 0 || index >= characterPoolManager.CharacterPoolList.Count)
             {
-                Logger.LogError("Hero index should be in range [0, " + characterPoolManager.CharacterPoolList.Count + ").");
-                return;
+                Logger.LogError("Hero index should be in range [0, " + characterPoolManager.CharacterPoolList.Count + ")." + ", take index 0 as default error recovery.");
+                // Fault recover, make unknown index as 0. 
+                index = 0;
             }
             var character = characterPoolManager.CharacterPoolList[index].Take().GetComponent<Character>();
+            Utils.AddChild(Parent, character.gameObject);
             character.Data = data;
             character.IDIndex = index;
             character.JobIndex = heroTemplate.Job;
-            NGUITools.AddChild(character.gameObject, Face);
-            var characterControll = character.GetComponent<CharacterControl>() ?? character.gameObject.AddComponent<CharacterControl>();
+            var faceObject = NGUITools.AddChild(character.gameObject, Face);
+            var characterControll = faceObject.GetComponent<CharacterControl>();
             characterControll.CharacterData = character;
             characterControll.gameObject.SetActive(true);
+            character.FaceObject = characterControll.gameObject;
+            character.BuffBarController = characterControll.BuffBarController;
             CharacterList.Add(character);
-        });
-    }
-
-    public override void Cleanup()
-    {
-        CharacterList.ForEach(character =>
-        {
-            var characterControll = character.GetComponent<CharacterControl>() ?? character.gameObject.AddComponent<CharacterControl>();
-            Destroy(characterControll.gameObject);
         });
     }
 }

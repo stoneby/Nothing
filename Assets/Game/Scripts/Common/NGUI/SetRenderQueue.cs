@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 /// <summary>
 /// Set render queue of current game obejct.
@@ -11,22 +13,21 @@ public class SetRenderQueue : MonoBehaviour
 {
     public int RenderQueue = 4000;
 
+    private List<ParticleSystem> particleSystemList;
+    private List<MeshRenderer> meshRendererList;
     private Material material;
 
-    void Start()
+    public void SetQueue()
     {
-        var pss = GetComponentsInChildren<ParticleSystem>();
-        foreach(var ps in pss)
+        foreach (var particleSystem in particleSystemList)
         {
-            Renderer ren = ps.gameObject.renderer ?? ps.renderer;
-
+            var ren = particleSystem.gameObject.renderer ?? particleSystem.renderer;
             ReplaceMaterial(ren);
         }
 
-        var mrs = GetComponentsInChildren<MeshRenderer>();
-        foreach (var mr in mrs)
+        foreach (var meshRenderer in meshRendererList)
         {
-            ReplaceMaterial(mr);
+            ReplaceMaterial(meshRenderer);
         }
     }
 
@@ -34,10 +35,23 @@ public class SetRenderQueue : MonoBehaviour
     {
         if (ren != null)
         {
-            material = new Material(ren.sharedMaterial) {renderQueue = RenderQueue};
+            material = new Material(ren.sharedMaterial) { renderQueue = RenderQueue };
             ren.material = material;
         }
     }
 
-    void OnDestroy() { if (material != null) Destroy(material); }
+    void Awake()
+    {
+        particleSystemList = new List<ParticleSystem>();
+        particleSystemList.AddRange(GetComponentsInChildren<ParticleSystem>());
+        meshRendererList = new List<MeshRenderer>();
+        meshRendererList.AddRange(GetComponentsInChildren<MeshRenderer>());
+
+        SetQueue();
+    }
+
+    void OnDestroy()
+    {
+        if (material != null) Destroy(material);
+    }
 }

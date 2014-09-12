@@ -8,8 +8,7 @@ public class UILevelUpItemHandler : MonoBehaviour
 {
     public PropertyUpdater PropertyUpdater;
     public ItemBase ItemBase;
-    public GameObject LevelUpEffect;
-    public GameObject BaseItemPrefab;
+    public EffectSequnce LevelUpEffectSeq;
     private bool isReady;
     private UISprite maskBg; 
     private UIGrid matGrid;
@@ -51,6 +50,10 @@ public class UILevelUpItemHandler : MonoBehaviour
         get { return expCanGet; }
         set
         {
+            if (MainInfo == null)
+            {
+                return;
+            }
             expCanGet = value;
             var exp = value + MainInfo.CurExp;
             var itemLvlTmpls = ItemModeLocator.Instance.ItemConfig.ItemLvlTmpls;
@@ -72,6 +75,10 @@ public class UILevelUpItemHandler : MonoBehaviour
 
     private void Refresh()
     {
+        if(MainInfo == null)
+        {
+            return;
+        }
         UpdateProperty();
         ItemBase.InitItem(MainInfo.TmplId);
         var isMaterial = ItemModeLocator.Instance.IsMaterial(MainInfo.TmplId);
@@ -85,6 +92,10 @@ public class UILevelUpItemHandler : MonoBehaviour
 
     private int ExpNeededToFull()
     {
+        if (MainInfo == null)
+        {
+            return 0;
+        }
         var level = MainInfo.Level;
         var maxLevel = MainInfo.MaxLvl;
         var itemLvlTmpls = ItemModeLocator.Instance.ItemConfig.ItemLvlTmpls;
@@ -100,12 +111,13 @@ public class UILevelUpItemHandler : MonoBehaviour
     {
         commonWindow = WindowManager.Instance.GetWindow<UIItemCommonWindow>();
         commonWindow.NormalClicked = OnNormalClicked;
-        var selected = commonWindow.MainInfo != null;
+        var selected = MainInfo != null;
         NGUITools.SetActive(ItemBase.gameObject, selected);
-        if (commonWindow.MainInfo == null)
+        if (MainInfo == null)
         {
             return;
         }
+        commonWindow.ShowSelMask(true);
         Refresh();
         GetMaterialPosList();
         RefreshCurScreen();
@@ -115,8 +127,8 @@ public class UILevelUpItemHandler : MonoBehaviour
     private void OnDisable()
     {
         UnInStallHandlers();
-        ResetMasks();
         PropertyUpdater.Reset();
+        Clean();
     }
 
     private void GetMaterialPosList()
@@ -136,6 +148,10 @@ public class UILevelUpItemHandler : MonoBehaviour
 
     private void UpdateProperty()
     {
+        if(MainInfo == null)
+        {
+            return;
+        }
         var level = MainInfo.Level;
         var tempId = MainInfo.TmplId;
         var atk = ItemModeLocator.Instance.GetAttack(tempId, level);
@@ -228,7 +244,7 @@ public class UILevelUpItemHandler : MonoBehaviour
             }
             else
             {
-                var child = NGUITools.AddChild(matGrid.gameObject, BaseItemPrefab);
+                var child = NGUITools.AddChild(matGrid.gameObject, commonWindow.BaseItemPrefab);
                 var heroBase = child.GetComponent<ItemBase>();
                 heroBase.InitItem(itemInfo);   
                 levelObjects.Add(pos, child);     
@@ -260,8 +276,6 @@ public class UILevelUpItemHandler : MonoBehaviour
     private void RefreshChangeMain(GameObject go)
     {
         commonWindow.CurSelPos = UISellItemHandler.GetPosition(go);
-        commonWindow.ShowSelMask(go.transform.position);
-        Refresh();
         ExpCanGet = 0;
         foreach(var levelObj in levelObjects)
         {
@@ -270,6 +284,7 @@ public class UILevelUpItemHandler : MonoBehaviour
             var mainType = ItemModeLocator.Instance.GetItemType(MainInfo.TmplId);
             ExpCanGet += (info.ContribExp * (ItemHelper.IsSameJobType(mainType, MainInfo.TmplId, info.BagIndex) ? 5 : 1));
         }
+        Refresh();
     }
 
     private void RemoveSellObject(Position pos)
@@ -281,6 +296,10 @@ public class UILevelUpItemHandler : MonoBehaviour
 
     private void RefreshCurScreen()
     {
+        if(MainInfo == null)
+        {
+            return;
+        }
         var items = commonWindow.Items.transform;
         var childCount = items.childCount;
         for (var i = 0; i < childCount; i++)
@@ -309,20 +328,6 @@ public class UILevelUpItemHandler : MonoBehaviour
         }
     }
 
-    private void ResetMasks()
-    {
-        var items = commonWindow.Items.transform;
-        var childCount = items.childCount;
-        for (var i = 0; i < childCount; i++)
-        {
-            var wrapItem = items.GetChild(i).GetComponent<WrapItemContent>();
-            if (wrapItem != null)
-            {
-                wrapItem.ShowMasks(false);
-            }
-        }
-    }
-
     private void CacheBagIndexsFromPos(IEnumerable<Position> list, List<short> bagIndexs)
     {
         bagIndexs.Clear();
@@ -332,8 +337,8 @@ public class UILevelUpItemHandler : MonoBehaviour
     private void InstallHandlers()
     {
         commonWindow.Items.OnUpdate += OnUpdate;
-        commonWindow.OnSortOrderChangedBefore += OnSortOrderChangedBefore;
-        commonWindow.OnSortOrderChangedAfter += OnSortOrderChangedAfter;
+        commonWindow.SortControl.OnSortOrderChangedBefore += OnSortOrderChangedBefore;
+        commonWindow.SortControl.OnSortOrderChangedAfter += OnSortOrderChangedAfter;
         levelUpLis.onClick = OnLevelUp;
         cancelLis.onClick = OnCancel;
     }
@@ -341,8 +346,8 @@ public class UILevelUpItemHandler : MonoBehaviour
     private void UnInStallHandlers()
     {
         commonWindow.Items.OnUpdate -= OnUpdate;
-        commonWindow.OnSortOrderChangedBefore -= OnSortOrderChangedBefore;
-        commonWindow.OnSortOrderChangedAfter -= OnSortOrderChangedAfter;
+        commonWindow.SortControl.OnSortOrderChangedBefore -= OnSortOrderChangedBefore;
+        commonWindow.SortControl.OnSortOrderChangedAfter -= OnSortOrderChangedAfter;
         levelUpLis.onClick = null;
         cancelLis.onClick = null;
     }
@@ -359,8 +364,9 @@ public class UILevelUpItemHandler : MonoBehaviour
         SetMask(false);
     }
 
-    private void OnSortOrderChangedAfter(List<ItemInfo> hinfos)
+    private void OnSortOrderChangedAfter()
     {
+        var hinfos = commonWindow.Infos;
         var countPerGroup = commonWindow.CountOfOneGroup;
         var posList = UISellItemHandler.GetPositionsViaBagIndex(cachedBagIndexs, hinfos, countPerGroup);
         var values = levelObjects.Values.ToList();
@@ -373,7 +379,7 @@ public class UILevelUpItemHandler : MonoBehaviour
         RefreshCurScreen();
     }
 
-    private void OnSortOrderChangedBefore(List<ItemInfo> hinfos)
+    private void OnSortOrderChangedBefore()
     {
         CacheBagIndexsFromPos(levelObjects.Keys.ToList(), cachedBagIndexs);
         CacheBagIndexsFromPos(materialsPosList, cachedMatBagIndexs);
@@ -388,28 +394,17 @@ public class UILevelUpItemHandler : MonoBehaviour
             var pos = new Position { X = index, Y = i };
             var show = levelObjects.Keys.Contains(pos);
             wrapItem.ShowSellMask(i, show);
-            show = materialsPosList.Contains(pos);
-            wrapItem.ShowMask(i, show);
-        }
-    }
-
-    private IEnumerator PlayEffect(float time)
-    {
-        var pss = LevelUpEffect.GetComponents<ParticleSystem>();
-        foreach (var system in pss)
-        {
-            system.Play();
-        }
-        yield return new WaitForSeconds(time);
-        foreach (var system in pss)
-        {
-            system.Stop();
+            if(!isReady)
+            {
+                show = materialsPosList.Contains(pos);
+                wrapItem.ShowMask(i, show);
+            }
         }
     }
 
     public void ShowLevelOver()
     {
-        StartCoroutine("PlayEffect", 1.5f);
+        LevelUpEffectSeq.Play();
         UpdateLevelUp(preshowLvl);
     }
 
@@ -421,7 +416,6 @@ public class UILevelUpItemHandler : MonoBehaviour
         commonWindow.Refresh();
         var index = commonWindow.Infos.FindIndex(info => info.BagIndex == cachedBagIndex);
         commonWindow.CurSelPos = Utils.OneDimToTwo(index, commonWindow.CountOfOneGroup);
-        commonWindow.RefreshSelMask(commonWindow.CurSelPos);
         SetMask(false);
         CleanMasks();
         ExpCanGet = 0;
@@ -431,7 +425,7 @@ public class UILevelUpItemHandler : MonoBehaviour
     /// <summary>
     /// Set color back to normal and destory mask game objects.
     /// </summary>
-    private void CleanMasks()
+    private void CleanMasks(bool includedMaterials = false)
     {
         var items = commonWindow.Items.transform;
         for (var i = 0; i < items.childCount; i++)
@@ -440,6 +434,10 @@ public class UILevelUpItemHandler : MonoBehaviour
             if (wrapItem)
             {
                 wrapItem.ShowSellMasks(false);
+                if (includedMaterials)
+                {
+                    wrapItem.ShowMasks(false);
+                }
             }
         }
         var clones = levelObjects.Select(sellObj => sellObj.Value).ToList();
@@ -448,5 +446,15 @@ public class UILevelUpItemHandler : MonoBehaviour
             NGUITools.Destroy(clones[i]);
         }
         levelObjects.Clear();
+        cachedBagIndexs.Clear();
     }
+
+   private void Clean()
+   {
+       SetMask(false);
+       CleanMasks(true);
+       ExpCanGet = 0;
+       CoinsCost = 0;
+       cachedMatBagIndexs.Clear();
+   }
 }

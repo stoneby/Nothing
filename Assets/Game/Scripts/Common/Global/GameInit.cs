@@ -41,9 +41,12 @@ public class GameInit : MonoBehaviour
         Loom.Instance.RemoveDelay(ShowDelay);
     }
 
-    private static void OnMessageSended()
+    private static void OnMessageSended(bool playLoadingWait)
     {
-        Loom.QueueOnMainThread(() => WindowManager.Instance.Show<LoadingWaitWindow>(true), DelayTime, ShowDelay);
+        if (playLoadingWait)
+        {
+            Loom.QueueOnMainThread(() => WindowManager.Instance.Show<LoadingWaitWindow>(true), DelayTime, ShowDelay);
+        }
     }
 
     #endregion

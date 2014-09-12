@@ -7,6 +7,10 @@
 	<tstamp/>
 	<target name="AndroidConfig"  depends="ReplaceFile">
 		<echo>Android Package Config Params</echo>
+		<copy todir="../Assets/Plugins/Android">
+			<fileset dir="sdk/Android/${AndroidSDK}"/>
+		</copy>
+		<echo>Copy Android SDK Finish   ${AndroidSDK}</echo>
 	</target>
 	<target name="IosConfig"  depends="ReplaceFile">
 		<echo>IOS Package Config Params</echo>

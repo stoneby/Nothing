@@ -25,15 +25,15 @@ public class TeamSelectController : MonoBehaviour
 
     public bool EditMode;
 
-    public delegate void GameObjectHandler(GameObject attackedObject);
+    public delegate void CharacterHandler(Character attackedObject);
     public delegate void BoolHandler(bool isAttacked);
     public delegate void VoidHandler();
 
     public VoidHandler OnStart;
     public BoolHandler OnStop;
-    public GameObjectHandler OnSelect;
-    public GameObjectHandler OnDeselect;
-    public GameObjectHandler OnAttack;
+    public CharacterHandler OnSelect;
+    public CharacterHandler OnDeselect;
+    public CharacterHandler OnAttack;
 
     /// <summary>
     /// Flag indicates if enable / disable the whole controller.
@@ -215,10 +215,10 @@ public class TeamSelectController : MonoBehaviour
         AdjustColliders(1 / ColliderFactor);
     }
 
-    public void OnDragOverAnotherTeamHandler(GameObject target)
+    public void OnDragOverAnotherTeamHandler(Character target)
     {
         Logger.Log("Ready to attack target: " + target.name);
-        targetObject = target;
+        targetObject = target.gameObject;
     }
 
     #endregion
@@ -315,6 +315,8 @@ public class TeamSelectController : MonoBehaviour
 
         Logger.Log("On character drag over: " + sender.name + ", dragged started game ojbect: " + draggedObject.name);
 
+        var currentCharacter = sender.GetComponent<Character>();
+
         if (!dragStart)
         {
             Logger.LogWarning("Drag over but drag is not started at current TeamSelectController with name: " + name);
@@ -322,12 +324,11 @@ public class TeamSelectController : MonoBehaviour
             targetObject = sender;
             if (OnAttack != null)
             {
-                OnAttack(targetObject);
+                OnAttack(currentCharacter);
             }
             return;
         }
 
-        var currentCharacter = sender.GetComponent<Character>();
         var firstTime = (LastCharacter == null);
         if (!firstTime && !LastCharacter.IsNeighborhood(currentCharacter))
         {
@@ -345,7 +346,7 @@ public class TeamSelectController : MonoBehaviour
                 var deselectedObject = SelectedCharacterList[SelectedCharacterList.Count - 1];
                 if (OnDeselect != null)
                 {
-                    OnDeselect(deselectedObject.gameObject);
+                    OnDeselect(deselectedObject);
                 }
 
                 SelectedCharacterList.RemoveAt(SelectedCharacterList.Count - 1);
@@ -370,7 +371,7 @@ public class TeamSelectController : MonoBehaviour
 
             if (OnSelect != null)
             {
-                OnSelect(currentCharacter.gameObject);
+                OnSelect(currentCharacter);
             }
 
             Logger.Log("Add dragged character, which is neighbor - " + currentCharacter +

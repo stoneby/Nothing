@@ -47,7 +47,6 @@ public class UIItemDetailHandler : MonoBehaviour
     private void OnDetail(GameObject go)
     {
         commonWindow.CurSelPos = UISellItemHandler.GetPosition(go);
-        commonWindow.ShowSelMask(go.transform.position);
         //var bagIndex = go.GetComponent<NewEquipItem>().BagIndex;
         //var csmsg = new CSQueryItemDetail { BagIndex = bagIndex };
         //NetManager.SendMessage(csmsg);

@@ -36,4 +36,7 @@ public static class RenderQueue
 
     // Effect upon battle face panel, which is 4100.
     public const int FaceEffect = Overlay + 200;
+
+    //Toppest effect which is 5000.
+    public const int ToppestEffect = Overlay + 1000;
 }

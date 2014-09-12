@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using KXSGCodec;
 using Template.Auto.Item;
@@ -22,11 +23,10 @@ public class UIEvolveItemHandler : MonoBehaviour
     private const int MainItemIndex = 0;
     private const int TargetItemIndex = 1;
     private const int CountOfMainAndTarget = 2;
-
-    /// <summary>
-    /// The item which will show on the right.
-    /// </summary>
-    public GameObject BaseItemPrefab;
+    private Transform arrow;
+    public EffectSequnce EffectSequnce;
+    public float ArrowDelay = 1;
+    public float ArrowDouration = 1;
 
     #region Window
 
@@ -35,6 +35,8 @@ public class UIEvolveItemHandler : MonoBehaviour
         Init();
         commonWindow = WindowManager.Instance.GetWindow<UIItemCommonWindow>();
         commonWindow.NormalClicked = OnNormalClicked;
+        var selected = commonWindow.MainInfo != null;
+        commonWindow.ShowSelMask(selected);
         RefreshEvolve(commonWindow.GetInfo(commonWindow.CurSelPos));
         InstallHandlers();
     }
@@ -64,23 +66,24 @@ public class UIEvolveItemHandler : MonoBehaviour
         evolveLis = UIEventListener.Get(transform.Find("Button-Evolve").gameObject);
         cannotEvolveMask = transform.Find("CanNotEvolve");
         evolveCost = transform.Find("CostCoins/CostCoinsValue").GetComponent<UILabel>();
+        arrow = transform.Find("PreShow/Arrow");
     }
 
     private void InstallHandlers()
     {
         evolveLis.onClick = OnEvolve;
         commonWindow.Items.OnUpdate += OnUpdate;
-        commonWindow.OnSortOrderChangedAfter += OnSortAfter;
+        commonWindow.SortControl.OnSortOrderChangedAfter += OnSortAfter;
     }
 
     private void UnInstallHandlers()
     {
         evolveLis.onClick = null;
         commonWindow.Items.OnUpdate -= OnUpdate;
-        commonWindow.OnSortOrderChangedAfter -= OnSortAfter;
+        commonWindow.SortControl.OnSortOrderChangedAfter -= OnSortAfter;
     }
 
-    private void OnSortAfter(List<ItemInfo> hinfos)
+    private void OnSortAfter()
     {
         RefreshCurScreen();
     }
@@ -121,7 +124,6 @@ public class UIEvolveItemHandler : MonoBehaviour
     {
         CleanUp();
         commonWindow.CurSelPos = UISellItemHandler.GetPosition(go);
-        commonWindow.ShowSelMask(go.transform.position);
         RefreshEvolve(commonWindow.MainInfo);
     }
 
@@ -132,7 +134,8 @@ public class UIEvolveItemHandler : MonoBehaviour
             NGUITools.SetActive(cannotEvolveMask.gameObject, true);
             return;
         }
-        var mat = NGUITools.AddChild(evolveBg.gameObject, BaseItemPrefab);
+        var baseItemPrefab = commonWindow.BaseItemPrefab;
+        var mat = NGUITools.AddChild(evolveBg.gameObject, baseItemPrefab);
         mat.GetComponent<ItemBase>().InitItem(info);
         mats[MainItemIndex] = mat;
         var tempId = info.TmplId;
@@ -141,14 +144,14 @@ public class UIEvolveItemHandler : MonoBehaviour
         NGUITools.SetActive(cannotEvolveMask.gameObject, evoluteTmp == null);
         if (evoluteTmp != null)
         {
-            mat = NGUITools.AddChild(targetBg.gameObject, BaseItemPrefab);
+            mat = NGUITools.AddChild(targetBg.gameObject, baseItemPrefab);
             mat.GetComponent<ItemBase>().InitItem(evoluteTmp.TargetItemId);
             mats[TargetItemIndex] = mat;
             for(var i = 0; i < evoluteTmp.NeedMaterials.Count; i++)
             {
                 var evoluteParam = evoluteTmp.NeedMaterials[i];
                 var count = FindMaterialCount(evoluteParam.NeedMaterialId);
-                mat = NGUITools.AddChild(evolveMats.gameObject, BaseItemPrefab);
+                mat = NGUITools.AddChild(evolveMats.gameObject, baseItemPrefab);
                 mat.GetComponent<ItemBase>().InitItem(evoluteParam.NeedMaterialId);
                 mats[CountOfMainAndTarget + i] = mat;
                 matsOwnCount[i].text = string.Format("{0}/{1}", count, evoluteParam.NeedMaterialCount);
@@ -206,7 +209,17 @@ public class UIEvolveItemHandler : MonoBehaviour
 
     public void ShowEvolveOver()
     {
+        StartCoroutine("PlayEffect");
         CleanUp();
+    }
+
+    private IEnumerator PlayEffect()
+    {
+        EffectSequnce.Play();
+        yield return new WaitForSeconds(ArrowDelay);
+        NGUITools.SetActive(arrow.gameObject, false);
+        yield return new WaitForSeconds(ArrowDouration);
+        NGUITools.SetActive(arrow.gameObject, true);
     }
 
     #endregion

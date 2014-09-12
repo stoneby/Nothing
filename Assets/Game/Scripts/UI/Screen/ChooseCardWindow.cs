@@ -3,20 +3,76 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Specific window controller.
+/// Specific window controller for ChooseCard module.
 /// </summary>
 public class ChooseCardWindow : Window
 {
+    #region Public Fields
+
+    /// <summary>
+    /// Stored lottery message.
+    /// </summary>
+    public SCLotteryList ScLotteryList
+    {
+        get { return scLotteryList; }
+        set
+        {
+            scLotteryList = value;
+            isSet.Sclotterylist = true;
+        }
+    }
+
+    /// <summary>
+    /// Stored fragment compose message.
+    /// </summary>
+    public SCLotteryComposeList ScLotteryComposeList
+    {
+        get { return scLotteryComposeList; }
+        set
+        {
+            scLotteryComposeList = value;
+            isSet.Sclotterycomposelist = true;
+        }
+    }
+
+    /// <summary>
+    /// Control hero and item summit.
+    /// </summary>
+    public HeroAndItemSummitHandler HeroAndItemSummitHandler;
+
+    /// <summary>
+    /// control activity summit.
+    /// </summary>
+    public ActivityHandler ActivityHandler;
+
+    /// <summary>
+    /// Control fragment combine.
+    /// </summary>
+    public FragmentCombineHandler FragmentCombineHandler;
+
+    /// <summary>
+    /// Tab button perfab for creating toggle buttons.
+    /// </summary>
+    public GameObject ToggleButtonPerfab;
+
+    #endregion
+
     #region Private Fields
 
-    //Stored lottery message.
+    /// <summary>
+    /// Shield FragCombine module in current version, may open in next version.
+    /// </summary>
+    private const bool IsOpenFragmentCombine = false;
+
     private SCLotteryList scLotteryList;
     private SCLotteryComposeList scLotteryComposeList;
 
-    private readonly Color activedColor=new Color(255,237,0,255);
+    private readonly Color activedColor = new Color(255, 237, 0, 255);
     private readonly Color deactivedColor = new Color(0, 0, 0, 255);
 
-    //IsSet flag of lottery message.
+    /// <summary>
+    /// IsSet flag of lottery and fragment combine message.
+    /// </summary>
     private struct IsSet
     {
         public bool Sclotterylist;
@@ -25,7 +81,7 @@ public class ChooseCardWindow : Window
     private IsSet isSet;
 
     /// <summary>
-    /// Class contains necessary info for button click
+    /// Class contains necessary info for toggle button click.
     /// </summary>
     private class ToggleButton
     {
@@ -35,17 +91,72 @@ public class ChooseCardWindow : Window
     }
 
     /// <summary>
-    /// Dictionary used for toggle button click
+    /// Dictionary to control toggle button click
     /// </summary>
-    private Dictionary<GameObject, ToggleButton> toggleButtonsMap = new Dictionary<GameObject, ToggleButton>();
+    private readonly Dictionary<GameObject, ToggleButton> toggleButtonsMap = new Dictionary<GameObject, ToggleButton>();
 
-    private UIEventListener closeLis;
+    /// <summary>
+    /// Listener for close button click.
+    /// </summary>
+    private UIEventListener closeListener;
+
     private GameObject heroAndItemSummit;
     private GameObject activitySummit;
     private GameObject fragCombine;
     private GameObject toggleButtons;
-    public GameObject ToggleButtonPerfab;
     private GameObject defaultToggleButton;
+
+    #endregion
+
+    #region Public Methods
+
+    /// <summary>
+    /// Generate toggle buttons with server's message.
+    /// </summary>
+    public void InitializeToggleButtons()
+    {
+        //Safety check message.
+        if (ScLotteryList == null)
+        {
+            Logger.LogError("Stored ScLotteryListMsg not found! Operation aborted!");
+            return;
+        }
+
+        //Clear toggle buttons.
+        toggleButtonsMap.Clear();
+        while (toggleButtons.transform.childCount != 0)
+        {
+            var toggleButton = toggleButtons.transform.GetChild(0);
+            toggleButton.parent = null;
+            Destroy(toggleButton.gameObject);
+        }
+
+        //Create toggle buttons with server's message.
+        SetToggleButton(LanguageManager.Instance.GetTextValue("ChooseCard.hero lottery"), heroAndItemSummit, OnChooseHeroCard, true);
+        SetToggleButton(LanguageManager.Instance.GetTextValue("ChooseCard.item lottery"), heroAndItemSummit, OnChooseItemCard, false);
+
+        var lotteryInfoList = ScLotteryList.ListLotteryHeroInfo;
+        for (int i = 1; i < lotteryInfoList.Count; i++)
+        {
+            SetToggleButton(lotteryInfoList[i].Name, activitySummit, OnActivity, false);
+        }
+
+        lotteryInfoList = ScLotteryList.ListLotteryItemInfo;
+        for (int i = 1; i < lotteryInfoList.Count; i++)
+        {
+            SetToggleButton(lotteryInfoList[i].Name, activitySummit, OnActivity, false);
+        }
+
+        if (IsOpenFragmentCombine)
+        {
+            SetToggleButton(LanguageManager.Instance.GetTextValue("ChooseCard.frag combine"), fragCombine, OnFragCombine, false);
+        }
+
+        toggleButtons.GetComponent<UITable>().Reposition();
+
+        //Go to default toggle button, change defaultToggleButton if you want another default button.
+        OnChooseHeroCard(defaultToggleButton);
+    }
 
     #endregion
 
@@ -53,36 +164,40 @@ public class ChooseCardWindow : Window
 
     private void InstallHandlers()
     {
-        closeLis.onClick = OnClose;
+        closeListener.onClick = OnClose;
     }
 
     private void UnInstallHandlers()
     {
-        closeLis.onClick = null;
+        closeListener.onClick = null;
     }
 
+    /// <summary>
+    /// On close button click.
+    /// </summary>
+    /// <param name="go">clicked gameobject</param>
     private void OnClose(GameObject go)
     {
         WindowManager.Instance.Show<UIMainScreenWindow>(true);
     }
 
     /// <summary>
-    /// Call back of ChooseHeroCard
+    /// Call back of ChooseHeroCard toggle button click.
     /// </summary>
-    /// <param name="go"></param>
+    /// <param name="go">clicked gameobject</param>
     private void OnChooseHeroCard(GameObject go)
     {
         DeActiveAll();
-        toggleButtonsMap[go].FrontLabel.color=activedColor;
+        toggleButtonsMap[go].FrontLabel.color = activedColor;
         toggleButtonsMap[go].ActiveGameObject.SetActive(true);
         toggleButtonsMap[go].FrontGameObject.SetActive(true);
         HeroAndItemSummitHandler.Refresh(ScLotteryList, true);
     }
 
     /// <summary>
-    /// Call back of ChooseItemCard
+    /// Call back of ChooseItemCard toggle button click.
     /// </summary>
-    /// <param name="go"></param>
+    /// <param name="go">clicked gameobject</param>
     private void OnChooseItemCard(GameObject go)
     {
         DeActiveAll();
@@ -93,9 +208,9 @@ public class ChooseCardWindow : Window
     }
 
     /// <summary>
-    /// Call back of SummitActivity
+    /// Call back of SummitActivity toggle button click.
     /// </summary>
-    /// <param name="go"></param>
+    /// <param name="go">clicked gameobject</param>
     private void OnActivity(GameObject go)
     {
         DeActiveAll();
@@ -105,9 +220,9 @@ public class ChooseCardWindow : Window
     }
 
     /// <summary>
-    /// Call back of FragmentCombine
+    /// Call back of FragmentCombine toggle button click.
     /// </summary>
-    /// <param name="go"></param>
+    /// <param name="go">clicked gameobject</param>
     private void OnFragCombine(GameObject go)
     {
         DeActiveAll();
@@ -115,9 +230,10 @@ public class ChooseCardWindow : Window
         toggleButtonsMap[go].ActiveGameObject.SetActive(true);
         toggleButtonsMap[go].FrontGameObject.SetActive(true);
 
-        if (isSet.Sclotterycomposelist == false)
+        //Request message to server if no stored message found.
+        if (!isSet.Sclotterycomposelist)
         {
-            CSLotteryComposeList csMsg = new CSLotteryComposeList();
+            var csMsg = new CSLotteryComposeList();
             NetManager.SendMessage(csMsg);
         }
         else
@@ -133,98 +249,44 @@ public class ChooseCardWindow : Window
     {
         foreach (var item in toggleButtonsMap.Values)
         {
-            item.FrontLabel.color=deactivedColor;
+            item.FrontLabel.color = deactivedColor;
             item.ActiveGameObject.SetActive(false);
             item.FrontGameObject.SetActive(false);
         }
     }
 
-    private void NewToggleButtonAndAddToParent(string name, GameObject activeGameObject, UIEventListener.VoidDelegate lis,bool isDefault)
+    /// <summary>
+    /// New and set toggle buttons.
+    /// </summary>
+    /// <param name="buttonName">toggle button's name</param>
+    /// <param name="activeGameObject">toggle button's front object</param>
+    /// <param name="lisDelegate">toggle button's listener</param>
+    /// <param name="isDefault">set this button to default or not</param>
+    private void SetToggleButton(string buttonName, GameObject activeGameObject, UIEventListener.VoidDelegate lisDelegate, bool isDefault)
     {
         var newToggleButton = Instantiate(ToggleButtonPerfab) as GameObject;
-        Utils.FindChild(newToggleButton.transform, "Label").GetComponent<UILabel>().text = name;
-        newToggleButton.GetComponentInChildren<UIEventListener>().onClick = lis;
+
+        //Set toggle button's name.
+        Utils.FindChild(newToggleButton.transform, "Label").GetComponent<UILabel>().text = buttonName;
+
+        //Set toggle button's listener.
+        newToggleButton.GetComponentInChildren<UIEventListener>().onClick = lisDelegate;
+
+        //Add toggle button to dictionary controller.
         toggleButtonsMap.Add(newToggleButton, new ToggleButton()
         {
             FrontLabel = Utils.FindChild(newToggleButton.transform, "Label").GetComponent<UILabel>(),
             ActiveGameObject = activeGameObject,
             FrontGameObject = Utils.FindChild(newToggleButton.transform, "Front").gameObject
         });
+
         Utils.MoveToParent(toggleButtons.transform, newToggleButton.transform);
+
+        //Set default button or not.
         if (isDefault)
         {
             defaultToggleButton = newToggleButton;
         }
-    }
-
-    #endregion
-
-    #region Public Fields
-
-    public SCLotteryList ScLotteryList
-    {
-        get { return scLotteryList; }
-        set
-        {
-            scLotteryList = value;
-            isSet.Sclotterylist = true;
-        }
-    }
-
-    public SCLotteryComposeList ScLotteryComposeList
-    {
-        get { return scLotteryComposeList; }
-        set
-        {
-            scLotteryComposeList = value;
-            isSet.Sclotterycomposelist = true;
-        }
-    }
-
-    public HeroAndItemSummitHandler HeroAndItemSummitHandler;
-    public ActivityHandler ActivityHandler;
-    public FragmentCombineHandler FragmentCombineHandler;
-
-    #endregion
-
-    #region Public Methods
-
-    /// <summary>
-    /// Use this to generate toggleButtons with server's message.
-    /// </summary>
-    public void InitializeToggleButtons()
-    {
-        if (ScLotteryList == null)
-        {
-            Logger.LogError("Stored ScLotteryListMsg not found! Operation aborted!");
-            return;
-        }
-
-        toggleButtonsMap.Clear();
-        while (toggleButtons.transform.childCount != 0)
-        {
-            var toggleButton = toggleButtons.transform.GetChild(0);
-            toggleButton.parent = null;
-            Destroy(toggleButton.gameObject);
-        }
-        NewToggleButtonAndAddToParent(LanguageManager.Instance.GetTextValue("ChooseCard.hero lottery"), heroAndItemSummit, OnChooseHeroCard, true);
-        NewToggleButtonAndAddToParent(LanguageManager.Instance.GetTextValue("ChooseCard.item lottery"), heroAndItemSummit, OnChooseItemCard, false);
-        var lotteryInfoList = ScLotteryList.ListLotteryHeroInfo;
-        for (int i = 1; i < lotteryInfoList.Count; i++)
-        {
-            NewToggleButtonAndAddToParent(lotteryInfoList[i].Name, activitySummit, OnActivity, false);
-        }
-        lotteryInfoList = ScLotteryList.ListLotteryItemInfo;
-        for (int i = 1; i < lotteryInfoList.Count; i++)
-        {
-            NewToggleButtonAndAddToParent(lotteryInfoList[i].Name, activitySummit, OnActivity, false);
-        }
-        //Shield FragCombine module in current version.
-        //NewToggleButtonAndAddToParent(LanguageManager.Instance.GetTextValue("ChooseCard.frag combine"), fragCombine, OnFragCombine, false);
-        toggleButtons.GetComponent<UITable>().Reposition();
-
-        //Go to default toggle button, change this if you want another default button.
-        OnChooseHeroCard(defaultToggleButton);
     }
 
     #endregion
@@ -234,6 +296,8 @@ public class ChooseCardWindow : Window
     public override void OnEnter()
     {
         InstallHandlers();
+
+        //Request message to server for initialization.
         isSet = new IsSet()
         {
             Sclotterylist = false,
@@ -248,10 +312,9 @@ public class ChooseCardWindow : Window
         UnInstallHandlers();
     }
 
-    // Use this for initialization
     void Awake()
     {
-        closeLis = UIEventListener.Get(Utils.FindChild(transform, "Button-Close").gameObject);
+        closeListener = UIEventListener.Get(Utils.FindChild(transform, "Button-Close").gameObject);
 
         heroAndItemSummit = Utils.FindChild(transform, "HeroAndItemSummit").gameObject;
         activitySummit = Utils.FindChild(transform, "ActivitySummit").gameObject;

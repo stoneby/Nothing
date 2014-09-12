@@ -5,68 +5,7 @@ using UnityEngine;
 /// Specific window controller.
 /// </summary>
 public class FragmentConfirmWindow : Window
-{
-    #region Private Fields
-
-    private UIEventListener confirmLis;
-    private UIEventListener closeLis;
-    
-    // Combine info get from sever.
-    private int templateId;
-    private int materialCount;
-
-    //Interface info.
-    private UISprite cornorSprite;
-    private UISprite heroImage;
-    private int star;
-    private UILabel attack;
-    private UILabel hp;
-    private UILabel recover;
-    private UILabel mp;
-    private UILabel accessibleWay;
-    private UILabel combineCount;
-    private UILabel cost;
-    private UILabel costLabel1;
-    private UILabel costLabel2;
-    private UISprite confirmBTN;
-    private UIButton confirmHoverEffect;
-     
-    #endregion
-
-    #region Private Methods
-
-    private void InstallHandlers()
-    {
-        closeLis.onClick += OnClose;
-    }
-
-    private void UnInstallHandlers()
-    {
-        closeLis.onClick -= OnClose;
-    }
-
-    /// <summary>
-    /// Response event of click confirmBTN.
-    /// </summary>
-    /// <param name="go"></param>
-    private void OnConfirm(GameObject go)
-    {
-        var msg = new CSLotteryCompose {HeroTemplateId = templateId};
-        NetManager.SendMessage(msg);
-        WindowManager.Instance.Show<FragmentConfirmWindow>(false);
-    }
-
-    /// <summary>
-    /// Response event of click CloseBTN.
-    /// </summary>
-    /// <param name="go"></param>
-    private void OnClose(GameObject go)
-    {
-        WindowManager.Instance.Show<FragmentConfirmWindow>(false);
-    }
-
-    #endregion
-
+{    
     #region Public Fields
 
     /// <summary>
@@ -133,6 +72,67 @@ public class FragmentConfirmWindow : Window
 
         set { materialCount = value; }
     }   
+
+    #endregion
+
+    #region Private Fields
+
+    private UIEventListener confirmLis;
+    private UIEventListener closeLis;
+    
+    // Combine info get from sever.
+    private int templateId;
+    private int materialCount;
+
+    //Interface info.
+    private UISprite cornorSprite;
+    private UISprite heroImage;
+    private int star;
+    private UILabel attack;
+    private UILabel hp;
+    private UILabel recover;
+    private UILabel mp;
+    private UILabel accessibleWay;
+    private UILabel combineCount;
+    private UILabel cost;
+    private UILabel costLabel1;
+    private UILabel costLabel2;
+    private UISprite confirmBTN;
+    private UIButton confirmHoverEffect;
+     
+    #endregion
+
+    #region Private Methods
+
+    private void InstallHandlers()
+    {
+        closeLis.onClick += OnClose;
+    }
+
+    private void UnInstallHandlers()
+    {
+        closeLis.onClick -= OnClose;
+    }
+
+    /// <summary>
+    /// Response event of click confirmBTN.
+    /// </summary>
+    /// <param name="go"></param>
+    private void OnConfirm(GameObject go)
+    {
+        var msg = new CSLotteryCompose {HeroTemplateId = templateId};
+        NetManager.SendMessage(msg);
+        WindowManager.Instance.Show<FragmentConfirmWindow>(false);
+    }
+
+    /// <summary>
+    /// Response event of click CloseBTN.
+    /// </summary>
+    /// <param name="go"></param>
+    private void OnClose(GameObject go)
+    {
+        WindowManager.Instance.Show<FragmentConfirmWindow>(false);
+    }
 
     #endregion
 

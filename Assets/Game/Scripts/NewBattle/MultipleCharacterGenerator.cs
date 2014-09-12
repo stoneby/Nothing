@@ -15,12 +15,6 @@ public class MultipleCharacterGenerator : CharacterGenerator
     {
         Initializer.Cleanup();
 
-        var characterPoolManager = CharacterPoolManager.Instance;
-        CharacterList.ForEach(character =>
-        {
-            var index = character.IDIndex;
-            characterPoolManager.CharacterPoolList[index].Return(character.gameObject);
-        });
         CharacterList.Clear();
     }
 
@@ -34,9 +28,6 @@ public class MultipleCharacterGenerator : CharacterGenerator
         Initializer.Initialize(FighterList);
         CharacterList.Clear();
         CharacterList.AddRange(Initializer.CharacterList);
-
-        // transform character to parent game object.
-        CharacterList.ForEach(character => Utils.AddChild(Parent, character.gameObject));
     }
 
     public override void Return(GameObject go)

@@ -3,28 +3,17 @@ using UnityEngine;
 
 public class ExtendBag : MonoBehaviour
 {
+    #region Public Fields
+
+    public event UIEventListener.VoidDelegate OkClicked;
+    public event UIEventListener.VoidDelegate CancelClicked;
+
+    #endregion
+
+    #region Private Fields
+
     private string extendContentKey;
-    public string ExtendContentKey
-    {
-        set
-        {
-            extendContentKey = value;
-            extendContentLabel.text = LanguageManager.Instance.GetTextValue(value);
-        }
-        get { return extendContentKey; }
-    }
-
     private string extendLimitKey;
-    public string ExtendLimitKey
-    {
-        set
-        {
-            extendContentKey = value;
-            extendLimitLabel.text = LanguageManager.Instance.GetTextValue(value);
-        }
-        get { return extendContentKey; }
-    }
-
     private int extendPerTime;
     private int extendCounts;
     private int extendTimes;
@@ -41,11 +30,30 @@ public class ExtendBag : MonoBehaviour
     private Dictionary<int, int> costDict;
     private UILabel extendContentLabel;
     private UILabel extendLimitLabel;
-
-    public event UIEventListener.VoidDelegate OkClicked;
-    public event UIEventListener.VoidDelegate CancelClicked;
-
     private short extendSize;
+
+    #endregion
+
+    #region Public Property
+    public string ExtendContentKey
+    {
+        set
+        {
+            extendContentKey = value;
+            extendContentLabel.text = LanguageManager.Instance.GetTextValue(value);
+        }
+        get { return extendContentKey; }
+    }
+
+    public string ExtendLimitKey
+    {
+        set
+        {
+            extendContentKey = value;
+            extendLimitLabel.text = LanguageManager.Instance.GetTextValue(value);
+        }
+        get { return extendContentKey; }
+    }
 
     public short ExtendSize
     {
@@ -53,21 +61,21 @@ public class ExtendBag : MonoBehaviour
 
         private set
         {
-            if(value != extendSize)
+            if (value != extendSize)
             {
                 extendCounts = extendPerTime * value;
                 bagCountLabel.text = extendCounts.ToString();
                 titleBagCountLabel.text = extendCounts.ToString();
-                if(extendSize < value)
+                if (extendSize < value)
                 {
-                    for(int i = extendSize + 1; i <= value; i++)
+                    for (int i = extendSize + 1; i <= value; i++)
                     {
                         diamond += costDict[i + extendTimes];
                     }
                 }
-                if(value < extendSize)
+                if (value < extendSize)
                 {
-                    for(int i = value + 1; i <= extendSize; i++)
+                    for (int i = value + 1; i <= extendSize; i++)
                     {
                         diamond -= costDict[i + extendTimes];
                     }
@@ -78,6 +86,8 @@ public class ExtendBag : MonoBehaviour
         }
     }
 
+    #endregion
+
     public void Init(int extendTimes, int extendPerTime, Dictionary<int, int> costDict)
     {
         this.extendTimes = extendTimes;
@@ -86,6 +96,8 @@ public class ExtendBag : MonoBehaviour
         maxExtendSize = costDict.Count - extendTimes;
         Reset();
     }
+
+    #region Private Methods
 
     private void Reset()
     {
@@ -143,7 +155,7 @@ public class ExtendBag : MonoBehaviour
 
     private void OnOk(GameObject go)
     {
-        if(OkClicked != null)
+        if (OkClicked != null)
         {
             OkClicked(go);
         }
@@ -184,4 +196,5 @@ public class ExtendBag : MonoBehaviour
             decreaseLis.GetComponent<UIButton>().isEnabled = false;
         }
     }
+    #endregion
 }

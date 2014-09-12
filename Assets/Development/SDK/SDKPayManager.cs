@@ -29,6 +29,64 @@ public class SDKPayManager : MonoBehaviour
 
     #endregion
 
+    #region Public Methods
+
+    /// <summary>
+    /// Pay SDK function.
+    /// </summary>
+    /// <param name="msg"></param>
+    public static void PayInSDK(ThriftSCMessage msg)
+    {
+        var themsg = msg.GetContent() as SCRechargeIdMsg;
+
+#if UNITY_IPHONE
+
+        if (Application.platform != RuntimePlatform.OSXEditor)
+        {
+            if (SDKResponse.IsInitialized == false)
+            {
+                //if initialized, pay.
+                Debug.Log("Calling ActivateInitialize.");
+                SDKResponse.WhichResponse += PayAfterInit;
+                gameID = themsg.GameOrderId.ToString();
+                SDK_IOS.ActivateInitialize();
+            }
+            else
+            {
+                //if not initialized, initialize SDK first.
+                Debug.Log("Calling pay in IOS SDK");
+                SDK_IOS.ActivatePay(themsg.GameOrderId.ToString());
+            }
+        }
+
+#endif
+
+#if UNITY_ANDROID
+
+        if (Application.platform != RuntimePlatform.WindowsEditor)
+        {
+            if (SDKResponse.IsInitialized == false)
+            {
+                //if initialized, pay.
+                Debug.Log("Calling SDK initialize.");
+                SDKResponse.WhichResponse += PayAfterInit;
+                gameID = themsg.GameOrderId.ToString();
+                jo.Call("initialize", ServiceManager.GameID, GameConfig.Version, ServiceManager.FValue, "initialize");
+            }
+            else
+            {
+                //if not initialized, initialize SDK first.
+                Debug.Log("Calling SDK platformPay.");
+                jo.Call("platformpay",ServiceManager.UserID.ToString(),PlayerModelLocator.Instance.RoleId.ToString(),ServiceManager.ServerData.SID,themsg.GameOrderId.ToString(),"platformpay");
+            }
+        }
+
+#endif
+
+    }
+
+    #endregion
+
     #region Private Methods
 
     private void InstallHandlers()
@@ -74,64 +132,6 @@ public class SDKPayManager : MonoBehaviour
         Debug.Log("Calling SDK platformPay.");
         jo.Call("platformpay", ServiceManager.UserID.ToString(), PlayerModelLocator.Instance.RoleId.ToString(), ServiceManager.ServerData.SID, gameID, "platformpay");
         SDKResponse.WhichResponse = null;
-
-#endif
-
-    }
-
-    #endregion
-
-    #region Public Methods
-
-    /// <summary>
-    /// Pay SDK function.
-    /// </summary>
-    /// <param name="msg"></param>
-    public static void PayInSDK(ThriftSCMessage msg)
-    {
-        var themsg = msg.GetContent() as SCRechargeIdMsg;
-        
-#if UNITY_IPHONE
-
-        if (Application.platform != RuntimePlatform.OSXEditor)
-        {
-            if (SDKResponse.IsInitialized == false)
-            {
-                //if initialized, pay.
-                Debug.Log("Calling ActivateInitialize.");
-                SDKResponse.WhichResponse += PayAfterInit;
-                gameID = themsg.GameOrderId.ToString();
-                SDK_IOS.ActivateInitialize();
-            }
-            else
-            {
-                //if not initialized, initialize SDK first.
-                Debug.Log("Calling pay in IOS SDK");
-                SDK_IOS.ActivatePay(themsg.GameOrderId.ToString());
-            }
-        }
-
-#endif
-
-#if UNITY_ANDROID
-
-        if (Application.platform != RuntimePlatform.WindowsEditor)
-        {
-            if (SDKResponse.IsInitialized == false)
-            {
-                //if initialized, pay.
-                Debug.Log("Calling SDK initialize.");
-                SDKResponse.WhichResponse += PayAfterInit;
-                gameID = themsg.GameOrderId.ToString();
-                jo.Call("initialize", ServiceManager.GameID, GameConfig.Version, ServiceManager.FValue, "initialize");
-            }
-            else
-            {
-                //if not initialized, initialize SDK first.
-                Debug.Log("Calling SDK platformPay.");
-                jo.Call("platformpay",ServiceManager.UserID.ToString(),PlayerModelLocator.Instance.RoleId.ToString(),ServiceManager.ServerData.SID,themsg.GameOrderId.ToString(),"platformpay");
-            }
-        }
 
 #endif
 

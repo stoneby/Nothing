@@ -1,12 +1,20 @@
-﻿using KXSGCodec;
+﻿using System.Collections;
+using KXSGCodec;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Assets.Game.Scripts.Net.handler
 {
     public class ChooseCardHandler
     {
+        #region Public Fields
+
         public static bool IsHeroFirstLoginGive = false;
         public static ThriftSCMessage HeroFirstLoginGiveMsg;
+
+        #endregion
+
+        #region Public Methods
 
         public static void OnLotteryList(ThriftSCMessage msg)
         {
@@ -38,6 +46,7 @@ namespace Assets.Game.Scripts.Net.handler
             var themsg = HeroFirstLoginGiveMsg.GetContent() as SCHeroFristLoginGive;
             if (themsg != null)
             {
+                Logger.Log("!!!!!!!!!!!!!!!!themsg is:" + themsg.HeroInfos[0].Uuid + "," + themsg.HeroInfos[1].Uuid + "," + themsg.HeroInfos[2].Uuid);
                 var window = WindowManager.Instance.Show<ChooseCardSuccWindow>(true);
                 window.StoredHeroFristLoginGiveMsg = themsg;
                 window.ShowHeroFirstGive();
@@ -146,5 +155,7 @@ namespace Assets.Game.Scripts.Net.handler
                 WindowManager.Instance.GetWindow<ChooseCardWindow>().FragmentCombineHandler.Refresh(themsg);
             }
         }
+
+        #endregion
     }
 }

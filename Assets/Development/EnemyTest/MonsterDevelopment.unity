@@ -1,0 +1,3844 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!29 &1
+SceneSettings:
+  m_ObjectHideFlags: 0
+  m_PVSData: 
+  m_PVSObjectsArray: []
+  m_PVSPortalsArray: []
+  m_OcclusionBakeSettings:
+    smallestOccluder: 5
+    smallestHole: .25
+    backfaceThreshold: 100
+--- !u!104 &2
+RenderSettings:
+  m_Fog: 0
+  m_FogColor: {r: .5, g: .5, b: .5, a: 1}
+  m_FogMode: 3
+  m_FogDensity: .00999999978
+  m_LinearFogStart: 0
+  m_LinearFogEnd: 300
+  m_AmbientLight: {r: .200000003, g: .200000003, b: .200000003, a: 1}
+  m_SkyboxMaterial: {fileID: 0}
+  m_HaloStrength: .5
+  m_FlareStrength: 1
+  m_FlareFadeSpeed: 3
+  m_HaloTexture: {fileID: 0}
+  m_SpotCookie: {fileID: 0}
+  m_ObjectHideFlags: 0
+--- !u!127 &3
+LevelGameManager:
+  m_ObjectHideFlags: 0
+--- !u!157 &4
+LightmapSettings:
+  m_ObjectHideFlags: 0
+  m_LightProbes: {fileID: 0}
+  m_Lightmaps: []
+  m_LightmapsMode: 1
+  m_BakedColorSpace: 0
+  m_UseDualLightmapsInForward: 0
+  m_LightmapEditorSettings:
+    m_Resolution: 50
+    m_LastUsedResolution: 0
+    m_TextureWidth: 1024
+    m_TextureHeight: 1024
+    m_BounceBoost: 1
+    m_BounceIntensity: 1
+    m_SkyLightColor: {r: .860000014, g: .930000007, b: 1, a: 1}
+    m_SkyLightIntensity: 0
+    m_Quality: 0
+    m_Bounces: 1
+    m_FinalGatherRays: 1000
+    m_FinalGatherContrastThreshold: .0500000007
+    m_FinalGatherGradientThreshold: 0
+    m_FinalGatherInterpolationPoints: 15
+    m_AOAmount: 0
+    m_AOMaxDistance: .100000001
+    m_AOContrast: 1
+    m_LODSurfaceMappingDistance: 1
+    m_Padding: 0
+    m_TextureCompression: 0
+    m_LockAtlas: 0
+--- !u!196 &5
+NavMeshSettings:
+  m_ObjectHideFlags: 0
+  m_BuildSettings:
+    agentRadius: .5
+    agentHeight: 2
+    agentSlope: 45
+    agentClimb: .400000006
+    ledgeDropHeight: 0
+    maxJumpAcrossDistance: 0
+    accuratePlacement: 0
+    minRegionArea: 2
+    widthInaccuracy: 16.666666
+    heightInaccuracy: 10
+  m_NavMesh: {fileID: 0}
+--- !u!1 &120462673
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100016, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 120462674}
+  - 114: {fileID: 120462675}
+  m_Layer: 8
+  m_Name: dengai_tui1
+  m_TagString: Sprites
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &120462674
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400058, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  m_GameObject: {fileID: 120462673}
+  m_LocalRotation: {x: .000172129585, y: 1.25158722e-05, z: -1, w: -5.72795034e-06}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 672585058}
+--- !u!114 &120462675
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400016, guid: 33f994f8dd1f9414f91f7ab2d3ae3823,
+    type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  m_GameObject: {fileID: 120462673}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 28
+  mHeight: 42
+  mDepth: 1001
+  HighLight: 0
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: .666666687
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: aef2f83cf81d2a84b901d9980a7f782a, type: 2}
+  mSpriteName: dengai_tui1
+  mFillCenter: 1
+--- !u!1 &134256615
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100038, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 134256616}
+  - 114: {fileID: 134256617}
+  m_Layer: 8
+  m_Name: dengai_zuoxiaobi
+  m_TagString: Sprites
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &134256616
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400080, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  m_GameObject: {fileID: 134256615}
+  m_LocalRotation: {x: -2.66815562e-07, y: 1.9049422e-07, z: .695347309, w: .718673944}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1207972534}
+--- !u!114 &134256617
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400038, guid: 33f994f8dd1f9414f91f7ab2d3ae3823,
+    type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  m_GameObject: {fileID: 134256615}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 22
+  mHeight: 26
+  mDepth: 986
+  HighLight: 0
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: .846153855
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: aef2f83cf81d2a84b901d9980a7f782a, type: 2}
+  mSpriteName: dengai_zuoxiaobi
+  mFillCenter: 1
+--- !u!1 &201130265
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100040, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 201130266}
+  m_Layer: 8
+  m_Name: D_dengai_bianzi1
+  m_TagString: Bones
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &201130266
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400002, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  m_GameObject: {fileID: 201130265}
+  m_LocalRotation: {x: 1.31329941e-07, y: -6.29942605e-08, z: .999642372, w: .0267424062}
+  m_LocalPosition: {x: -55.0824928, y: 106.352592, z: -28.9932594}
+  m_LocalScale: {x: -1.01935041, y: -1.01935041, z: -1.01935005}
+  m_Children:
+  - {fileID: 983547900}
+  m_Father: {fileID: 736890740}
+--- !u!1 &290027699
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100016, guid: 619860d4729d1e543948043168aceede, type: 2}
+  m_PrefabInternal: {fileID: 1999507069}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 290027700}
+  - 114: {fileID: 290027701}
+  m_Layer: 8
+  m_Name: Aim
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &290027700
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400016, guid: 619860d4729d1e543948043168aceede, type: 2}
+  m_PrefabInternal: {fileID: 1999507069}
+  m_GameObject: {fileID: 290027699}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3, y: 3, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 752880670}
+--- !u!114 &290027701
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400024, guid: 619860d4729d1e543948043168aceede,
+    type: 2}
+  m_PrefabInternal: {fileID: 1999507069}
+  m_GameObject: {fileID: 290027699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 84
+  mHeight: 86
+  mDepth: 2000
+  HighLight: 0
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: .976744175
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: aef2f83cf81d2a84b901d9980a7f782a, type: 2}
+  mSpriteName: Aim
+  mFillCenter: 1
+--- !u!1 &358821027
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100108, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 358821028}
+  - 114: {fileID: 358821031}
+  - 65: {fileID: 358821030}
+  - 114: {fileID: 358821029}
+  m_Layer: 8
+  m_Name: 016
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &358821028
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400108, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  m_GameObject: {fileID: 358821027}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 736890740}
+  m_Father: {fileID: 1349232433}
+--- !u!114 &358821029
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400114, guid: 33f994f8dd1f9414f91f7ab2d3ae3823,
+    type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  m_GameObject: {fileID: 358821027}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6dc5676606f19d47877c45733a579e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Index: 0
+  IDIndex: 0
+  Type: 0
+  ColorIndex: 0
+  JobIndex: 0
+  IsLeader: 0
+  Animator: {fileID: 0}
+  Animation: {fileID: 0}
+  BuffController: {fileID: 0}
+  BuffBarController: {fileID: 0}
+  FaceObject: {fileID: 0}
+  AnimatedObject: {fileID: 0}
+--- !u!65 &358821030
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6500000, guid: 33f994f8dd1f9414f91f7ab2d3ae3823,
+    type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  m_GameObject: {fileID: 358821027}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 98.9700012, y: 156, z: 0}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &358821031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400112, guid: 33f994f8dd1f9414f91f7ab2d3ae3823,
+    type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  m_GameObject: {fileID: 358821027}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 858a20c1b21a3f94bb5b2d3b901c9aaf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 114
+  mHeight: 160
+  mDepth: 24
+  HighLight: 0
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: .712499976
+--- !u!1 &366247578
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100044, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 366247579}
+  m_Layer: 8
+  m_Name: D_dengai_bianzi3
+  m_TagString: Bones
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &366247579
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400006, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  m_GameObject: {fileID: 366247578}
+  m_LocalRotation: {x: 3.04374437e-09, y: -6.65094149e-08, z: .998954475, w: -.0457162634}
+  m_LocalPosition: {x: -43.3112602, y: 128.53038, z: -28.9932594}
+  m_LocalScale: {x: -1.17031646, y: -1.02902484, z: -1.02902496}
+  m_Children:
+  - {fileID: 756210982}
+  m_Father: {fileID: 736890740}
+--- !u!1 &377817791
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100032, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 377817792}
+  - 114: {fileID: 377817793}
+  m_Layer: 8
+  m_Name: dengai_youshouwan
+  m_TagString: Sprites
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &377817792
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400074, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  m_GameObject: {fileID: 377817791}
+  m_LocalRotation: {x: -1.76869435e-07, y: 6.65790267e-08, z: -1, w: 1.17145631e-14}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 614388710}
+--- !u!114 &377817793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400032, guid: 33f994f8dd1f9414f91f7ab2d3ae3823,
+    type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  m_GameObject: {fileID: 377817791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 34
+  mHeight: 34
+  mDepth: 1033
+  HighLight: 0
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: 1
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: aef2f83cf81d2a84b901d9980a7f782a, type: 2}
+  mSpriteName: dengai_youshouwan
+  mFillCenter: 1
+--- !u!1 &403376439
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100024, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 403376440}
+  - 114: {fileID: 403376441}
+  m_Layer: 8
+  m_Name: dengai_xiaopifeng
+  m_TagString: Sprites
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &403376440
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400066, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  m_GameObject: {fileID: 403376439}
+  m_LocalRotation: {x: -3.10027531e-07, y: 6.65790978e-08, z: -1, w: -2.66316079e-07}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 857810534}
+--- !u!114 &403376441
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400024, guid: 33f994f8dd1f9414f91f7ab2d3ae3823,
+    type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  m_GameObject: {fileID: 403376439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 112
+  mHeight: 66
+  mDepth: 991
+  HighLight: 0
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: 1.69696975
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: aef2f83cf81d2a84b901d9980a7f782a, type: 2}
+  mSpriteName: dengai_xiaopifeng
+  mFillCenter: 1
+--- !u!1 &457372977
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100006, guid: 619860d4729d1e543948043168aceede, type: 2}
+  m_PrefabInternal: {fileID: 1999507069}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 457372978}
+  - 114: {fileID: 457372980}
+  - 114: {fileID: 457372979}
+  m_Layer: 8
+  m_Name: BuffBar
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &457372978
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400012, guid: 619860d4729d1e543948043168aceede, type: 2}
+  m_PrefabInternal: {fileID: 1999507069}
+  m_GameObject: {fileID: 457372977}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 508189383}
+  - {fileID: 1933232620}
+  m_Father: {fileID: 752880670}
+--- !u!114 &457372979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400010, guid: 619860d4729d1e543948043168aceede,
+    type: 2}
+  m_PrefabInternal: {fileID: 1999507069}
+  m_GameObject: {fileID: 457372977}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c9bf4948e04332439ca7c3884f00661, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BuffLabel: {fileID: 508189382}
+--- !u!114 &457372980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400012, guid: 619860d4729d1e543948043168aceede,
+    type: 2}
+  m_PrefabInternal: {fileID: 1999507069}
+  m_GameObject: {fileID: 457372977}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 858a20c1b21a3f94bb5b2d3b901c9aaf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 100
+  mHeight: 100
+  mDepth: 26
+  HighLight: 0
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: 1
+--- !u!1 &485510049
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100052, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 485510050}
+  m_Layer: 8
+  m_Name: D_dengai_dengaiwuqi
+  m_TagString: Bones
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &485510050
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400014, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  m_GameObject: {fileID: 485510049}
+  m_LocalRotation: {x: -1.94634964e-07, y: 1.37697697e-07, z: -.816358209, w: .577545941}
+  m_LocalPosition: {x: 3.34793854, y: 147.237595, z: -3.12943375e-05}
+  m_LocalScale: {x: -1.00000012, y: -1.00000012, z: -1}
+  m_Children:
+  - {fileID: 782080017}
+  m_Father: {fileID: 736890740}
+--- !u!1 &492459640
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100058, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 492459641}
+  m_Layer: 8
+  m_Name: D_dengai_tui2
+  m_TagString: Bones
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &492459641
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400020, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  m_GameObject: {fileID: 492459640}
+  m_LocalRotation: {x: 1.3315757e-07, y: -3.32894928e-07, z: 1, w: 1.4647386e-06}
+  m_LocalPosition: {x: -19.3684921, y: 19.8630886, z: 4.30129433}
+  m_LocalScale: {x: -1, y: -1.00000012, z: -1}
+  m_Children:
+  - {fileID: 958445824}
+  m_Father: {fileID: 736890740}
+--- !u!1 &508189382
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100004, guid: 619860d4729d1e543948043168aceede, type: 2}
+  m_PrefabInternal: {fileID: 1999507069}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 508189383}
+  - 114: {fileID: 508189385}
+  - 114: {fileID: 508189384}
+  m_Layer: 8
+  m_Name: CDLabel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &508189383
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400002, guid: 619860d4729d1e543948043168aceede, type: 2}
+  m_PrefabInternal: {fileID: 1999507069}
+  m_GameObject: {fileID: 508189382}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 40, y: 1.52587891e-05, z: 0}
+  m_LocalScale: {x: 1.00007999, y: 1.00007999, z: 1.00007999}
+  m_Children: []
+  m_Father: {fileID: 457372978}
+--- !u!114 &508189384
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400006, guid: 619860d4729d1e543948043168aceede,
+    type: 2}
+  m_PrefabInternal: {fileID: 1999507069}
+  m_GameObject: {fileID: 508189382}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0401554a0e6f9466db3c1a798d358b8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tweenName: ShakeAttrackLabel
+  playAutomatically: 0
+  delay: 0
+  type: 32
+  showIconInInspector: 0
+  keys:
+  - amount
+  - looptype
+  indexes: 0000000000000000
+  metadatas:
+  - 
+  - 
+  ints: 
+  floats: []
+  bools: 
+  strings: []
+  vector3s:
+  - {x: 0, y: .00999999978, z: 0}
+  colors: []
+  spaces: 
+  easeTypes: 
+  loopTypes: 01000000
+  gameObjects: []
+  transforms: []
+  audioClips: []
+  audioSources: []
+  vector3Arrays: []
+  transformArrays: []
+  paths: []
+--- !u!114 &508189385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400008, guid: 619860d4729d1e543948043168aceede,
+    type: 2}
+  m_PrefabInternal: {fileID: 1999507069}
+  m_GameObject: {fileID: 508189382}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9d0b5f3bbe925a408bd595c79d0bf63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 46
+  mHeight: 24
+  mDepth: 2100
+  HighLight: 0
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: 1.91666663
+  keepCrispWhenShrunk: 2
+  mTrueTypeFont: {fileID: 0}
+  mFont: {fileID: 11400000, guid: 30054980c4ab28942a48b10c3d67cac5, type: 2}
+  mText: 10
+  mFontSize: 20
+  mFontStyle: 1
+  mAlignment: 0
+  mEncoding: 1
+  mMaxLineCount: 0
+  mEffectStyle: 2
+  mEffectColor: {r: 0, g: 0, b: 0, a: 1}
+  mSymbols: 1
+  mEffectDistance: {x: 1, y: 1}
+  mOverflow: 0
+  mMaterial: {fileID: 0}
+  mApplyGradient: 0
+  mGradientTop: {r: 1, g: 1, b: 1, a: 1}
+  mGradientBottom: {r: .699999988, g: .699999988, b: .699999988, a: 1}
+  mSpacingX: 0
+  mSpacingY: 0
+  mShrinkToFit: 0
+  mMaxLineWidth: 0
+  mMaxLineHeight: 0
+  mLineWidth: 0
+  mMultiline: 1
+--- !u!1 &511725143
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100048, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 511725144}
+  m_Layer: 8
+  m_Name: D_dengai_dabiyou
+  m_TagString: Bones
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &511725144
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400010, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  m_GameObject: {fileID: 511725143}
+  m_LocalRotation: {x: -8.80430101e-15, y: -6.65790267e-08, z: 1, w: 1.33158053e-07}
+  m_LocalPosition: {x: -34.5470276, y: 93.1750793, z: 25.8984203}
+  m_LocalScale: {x: -1.00000024, y: -1.00000024, z: -1}
+  m_Children:
+  - {fileID: 1361803120}
+  m_Father: {fileID: 736890740}
+--- !u!1 &533688965
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100028, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 533688966}
+  - 114: {fileID: 533688967}
+  m_Layer: 8
+  m_Name: dengai_yaofeng
+  m_TagString: Sprites
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &533688966
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400070, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  m_GameObject: {fileID: 533688965}
+  m_LocalRotation: {x: -4.37113883e-08, y: 6.65790267e-08, z: -1, w: 2.97149407e-15}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1282544700}
+--- !u!114 &533688967
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400028, guid: 33f994f8dd1f9414f91f7ab2d3ae3823,
+    type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  m_GameObject: {fileID: 533688965}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 56
+  mHeight: 46
+  mDepth: 1009
+  HighLight: 0
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: 1.21739125
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: aef2f83cf81d2a84b901d9980a7f782a, type: 2}
+  mSpriteName: dengai_yaofeng
+  mFillCenter: 1
+--- !u!1 &604231501
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100014, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 604231502}
+  - 114: {fileID: 604231503}
+  m_Layer: 8
+  m_Name: dengai_hudang
+  m_TagString: Sprites
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &604231502
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400056, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  m_GameObject: {fileID: 604231501}
+  m_LocalRotation: {x: -1.77211362e-07, y: 6.7492735e-08, z: -.999986649, w: -.00517103681}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1962439384}
+--- !u!114 &604231503
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400014, guid: 33f994f8dd1f9414f91f7ab2d3ae3823,
+    type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  m_GameObject: {fileID: 604231501}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 14
+  mHeight: 46
+  mDepth: 1011
+  HighLight: 0
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: .304347813
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: aef2f83cf81d2a84b901d9980a7f782a, type: 2}
+  mSpriteName: dengai_hudang
+  mFillCenter: 1
+--- !u!1 &614388709
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100072, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 614388710}
+  m_Layer: 8
+  m_Name: D_dengai_youshouwan
+  m_TagString: Bones
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &614388710
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400034, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  m_GameObject: {fileID: 614388709}
+  m_LocalRotation: {x: 1.33158053e-07, y: -6.65790267e-08, z: 1, w: 8.80430101e-15}
+  m_LocalPosition: {x: -38.6215973, y: 74.9009399, z: 33.9984818}
+  m_LocalScale: {x: -1, y: -1, z: -1}
+  m_Children:
+  - {fileID: 377817792}
+  m_Father: {fileID: 736890740}
+--- !u!1 &672585057
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100056, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 672585058}
+  m_Layer: 8
+  m_Name: D_dengai_tui1
+  m_TagString: Bones
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &672585058
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400018, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  m_GameObject: {fileID: 672585057}
+  m_LocalRotation: {x: -.000172173299, y: -1.25158722e-05, z: 1, w: -5.72795079e-06}
+  m_LocalPosition: {x: 18.8594685, y: 44.6664734, z: 1.65360034}
+  m_LocalScale: {x: -1, y: -1, z: -1}
+  m_Children:
+  - {fileID: 120462674}
+  m_Father: {fileID: 736890740}
+--- !u!1 &698896844
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 698896845}
+  - 114: {fileID: 698896848}
+  - 114: {fileID: 698896847}
+  - 54: {fileID: 698896846}
+  m_Layer: 8
+  m_Name: UI Root
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &698896845
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 698896844}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: .00352112669, y: .00352112669, z: .00352112669}
+  m_Children:
+  - {fileID: 886948910}
+  - {fileID: 1349232433}
+  - {fileID: 2081730379}
+  m_Father: {fileID: 0}
+--- !u!54 &698896846
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 698896844}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: .0500000007
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &698896847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 698896844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae942c9068183dc40a9d01f648273726, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  showInPanelTool: 1
+  generateNormals: 0
+  widgetsAreStatic: 0
+  cullWhileDragging: 0
+  alwaysOnScreen: 0
+  anchorOffset: 0
+  renderQueue: 0
+  startingRenderQueue: 3000
+  mAlpha: 1
+  mClipping: 0
+  mClipRange: {x: 0, y: 0, z: 300, w: 200}
+  mClipSoftness: {x: 4, y: 4}
+  mDepth: 0
+  mSortingOrder: 0
+  mClipOffset: {x: 0, y: 0}
+--- !u!114 &698896848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 698896844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c5ecb5660b11414fb042fb826e03b73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scalingStyle: 0
+  manualHeight: 720
+  minimumHeight: 320
+  maximumHeight: 1536
+  adjustByDPI: 0
+  shrinkPortraitUI: 0
+--- !u!1 &722279490
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100010, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 722279491}
+  - 114: {fileID: 722279492}
+  m_Layer: 8
+  m_Name: dengai_dalian
+  m_TagString: Sprites
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &722279491
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400052, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  m_GameObject: {fileID: 722279490}
+  m_LocalRotation: {x: -1.7686952e-07, y: 3.32895155e-07, z: -1, w: -2.6631605e-07}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1275001625}
+--- !u!114 &722279492
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400010, guid: 33f994f8dd1f9414f91f7ab2d3ae3823,
+    type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  m_GameObject: {fileID: 722279490}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 142
+  mHeight: 152
+  mDepth: 1019
+  HighLight: 0
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: .934210539
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: aef2f83cf81d2a84b901d9980a7f782a, type: 2}
+  mSpriteName: dengai_dalian
+  mFillCenter: 1
+--- !u!1 &731350947
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100034, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 731350948}
+  - 114: {fileID: 731350949}
+  m_Layer: 8
+  m_Name: dengai_zuodabi
+  m_TagString: Sprites
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &731350948
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400076, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  m_GameObject: {fileID: 731350947}
+  m_LocalRotation: {x: -4.42629971e-06, y: 4.27806799e-06, z: .705416977, w: .708792567}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1398159314}
+--- !u!114 &731350949
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400034, guid: 33f994f8dd1f9414f91f7ab2d3ae3823,
+    type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  m_GameObject: {fileID: 731350947}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 24
+  mHeight: 38
+  mDepth: 982
+  HighLight: 0
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: .631578922
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: aef2f83cf81d2a84b901d9980a7f782a, type: 2}
+  mSpriteName: dengai_zuodabi
+  mFillCenter: 1
+--- !u!1 &736890739
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100080, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 736890740}
+  - 111: {fileID: 736890741}
+  m_Layer: 8
+  m_Name: dengai
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &736890740
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400000, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  m_GameObject: {fileID: 736890739}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 7.05318832, y: -65.3743591, z: 0}
+  m_LocalScale: {x: .50999999, y: .50999999, z: .50999999}
+  m_Children:
+  - {fileID: 201130266}
+  - {fileID: 1421382541}
+  - {fileID: 366247579}
+  - {fileID: 1748728299}
+  - {fileID: 511725144}
+  - {fileID: 1275001625}
+  - {fileID: 485510050}
+  - {fileID: 1962439384}
+  - {fileID: 672585058}
+  - {fileID: 492459641}
+  - {fileID: 2014640248}
+  - {fileID: 1229949852}
+  - {fileID: 857810534}
+  - {fileID: 1689339884}
+  - {fileID: 1282544700}
+  - {fileID: 1946521109}
+  - {fileID: 614388710}
+  - {fileID: 1398159314}
+  - {fileID: 2012549436}
+  - {fileID: 1207972534}
+  m_Father: {fileID: 358821028}
+--- !u!111 &736890741
+Animation:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11100000, guid: 33f994f8dd1f9414f91f7ab2d3ae3823,
+    type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  m_GameObject: {fileID: 736890739}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: ba8ae71e37daa3e4e89a1989620d5d31, type: 3}
+  m_Animations:
+  - {fileID: 7400000, guid: ba8ae71e37daa3e4e89a1989620d5d31, type: 3}
+  - {fileID: 7400002, guid: ba8ae71e37daa3e4e89a1989620d5d31, type: 3}
+  - {fileID: 7400004, guid: ba8ae71e37daa3e4e89a1989620d5d31, type: 3}
+  - {fileID: 7400006, guid: ba8ae71e37daa3e4e89a1989620d5d31, type: 3}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
+--- !u!1 &752880669
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100018, guid: 619860d4729d1e543948043168aceede, type: 2}
+  m_PrefabInternal: {fileID: 1999507069}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 752880670}
+  - 114: {fileID: 752880672}
+  - 114: {fileID: 752880671}
+  m_Layer: 8
+  m_Name: MonsterFace
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &752880670
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400018, guid: 619860d4729d1e543948043168aceede, type: 2}
+  m_PrefabInternal: {fileID: 1999507069}
+  m_GameObject: {fileID: 752880669}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 290027700}
+  - {fileID: 1577238018}
+  - {fileID: 1369577240}
+  - {fileID: 457372978}
+  - {fileID: 1933813640}
+  m_Father: {fileID: 1349232433}
+--- !u!114 &752880671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400028, guid: 619860d4729d1e543948043168aceede,
+    type: 2}
+  m_PrefabInternal: {fileID: 1999507069}
+  m_GameObject: {fileID: 752880669}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41ad3c420f47c7244b961edeaa7dde17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CdLabel: {fileID: 1933813639}
+  AimSprite: {fileID: 290027699}
+  AttackLocation: {fileID: 1577238017}
+  BloodController: {fileID: 1369577241}
+  BuffBarController: {fileID: 457372979}
+  BaseWidget: {fileID: 0}
+  MoveSpeed: 1
+  MoveDuration: .5
+  CharacterData: {fileID: 358821029}
+--- !u!114 &752880672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400026, guid: 619860d4729d1e543948043168aceede,
+    type: 2}
+  m_PrefabInternal: {fileID: 1999507069}
+  m_GameObject: {fileID: 752880669}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 858a20c1b21a3f94bb5b2d3b901c9aaf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 100
+  mHeight: 100
+  mDepth: 23
+  HighLight: 0
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: 1
+--- !u!1 &756210981
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100004, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 756210982}
+  - 114: {fileID: 756210983}
+  m_Layer: 8
+  m_Name: dengai_bianzi3
+  m_TagString: Sprites
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &756210982
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400046, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  m_GameObject: {fileID: 756210981}
+  m_LocalRotation: {x: -4.6709431e-08, y: 6.85077381e-08, z: -.998954475, w: -.0457162634}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 366247579}
+--- !u!114 &756210983
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400004, guid: 33f994f8dd1f9414f91f7ab2d3ae3823,
+    type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  m_GameObject: {fileID: 756210981}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 18
+  mHeight: 28
+  mDepth: 972
+  HighLight: 0
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: .642857134
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: aef2f83cf81d2a84b901d9980a7f782a, type: 2}
+  mSpriteName: dengai_bianzi3
+  mFillCenter: 1
+--- !u!1 &782080016
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100012, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 782080017}
+  - 114: {fileID: 782080018}
+  m_Layer: 8
+  m_Name: dengai_dengaiwuqi
+  m_TagString: Sprites
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &782080017
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400054, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  m_GameObject: {fileID: 782080016}
+  m_LocalRotation: {x: 8.74227766e-08, y: -3.82137093e-15, z: -1, w: 4.37113883e-08}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 485510050}
+--- !u!114 &782080018
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400012, guid: 33f994f8dd1f9414f91f7ab2d3ae3823,
+    type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  m_GameObject: {fileID: 782080016}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 54
+  mHeight: 218
+  mDepth: 1000
+  HighLight: 0
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: .247706428
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: aef2f83cf81d2a84b901d9980a7f782a, type: 2}
+  mSpriteName: dengai_dengaiwuqi
+  mFillCenter: 1
+--- !u!1 &857810533
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100064, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 857810534}
+  m_Layer: 8
+  m_Name: D_dengai_xiaopifeng
+  m_TagString: Bones
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &857810534
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400026, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  m_GameObject: {fileID: 857810533}
+  m_LocalRotation: {x: 2.66316135e-07, y: -6.65790836e-08, z: 1, w: -2.66316079e-07}
+  m_LocalPosition: {x: -2.63009357, y: 51.911705, z: -9.90804386}
+  m_LocalScale: {x: -1.00000012, y: -1.00000012, z: -1}
+  m_Children:
+  - {fileID: 403376440}
+  m_Father: {fileID: 736890740}
+--- !u!1 &886948907
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 886948910}
+  - 20: {fileID: 886948909}
+  - 114: {fileID: 886948908}
+  m_Layer: 8
+  m_Name: Camera
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &886948908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 886948907}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a92b5d748695fd44aac9feef17ba415, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eventType: 1
+  eventReceiverMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  debug: 0
+  useMouse: 1
+  useTouch: 1
+  allowMultiTouch: 1
+  useKeyboard: 1
+  useController: 1
+  stickyTooltip: 1
+  tooltipDelay: 1
+  mouseDragThreshold: 4
+  mouseClickThreshold: 10
+  touchDragThreshold: 40
+  touchClickThreshold: 40
+  rangeDistance: -1
+  scrollAxisName: Mouse ScrollWheel
+  verticalAxisName: Vertical
+  horizontalAxisName: Horizontal
+  submitKey0: 13
+  submitKey1: 330
+  cancelKey0: 27
+  cancelKey1: 331
+--- !u!20 &886948909
+Camera:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 886948907}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 3
+  m_BackGroundColor: {r: .5, g: .5, b: .5, a: 1}
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: -10
+  far clip plane: 10
+  field of view: 60
+  orthographic: 1
+  orthographic size: 1
+  m_Depth: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 256
+  m_RenderingPath: -1
+  m_TargetTexture: {fileID: 0}
+  m_HDR: 0
+  m_OcclusionCulling: 1
+--- !u!4 &886948910
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 886948907}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 698896845}
+--- !u!1 &946914263
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100022, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 946914264}
+  - 114: {fileID: 946914265}
+  m_Layer: 8
+  m_Name: dengai_tui4
+  m_TagString: Sprites
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &946914264
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400064, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  m_GameObject: {fileID: 946914263}
+  m_LocalRotation: {x: .000171996508, y: 1.25170591e-05, z: -1, w: 1.06311154e-06}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1229949852}
+--- !u!114 &946914265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400022, guid: 33f994f8dd1f9414f91f7ab2d3ae3823,
+    type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  m_GameObject: {fileID: 946914263}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 32
+  mHeight: 36
+  mDepth: 1000
+  HighLight: 0
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: .888888896
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: aef2f83cf81d2a84b901d9980a7f782a, type: 2}
+  mSpriteName: dengai_tui4
+  mFillCenter: 1
+--- !u!1 &958445823
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100018, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 958445824}
+  - 114: {fileID: 958445825}
+  m_Layer: 8
+  m_Name: dengai_tui2
+  m_TagString: Sprites
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &958445824
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400060, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  m_GameObject: {fileID: 958445823}
+  m_LocalRotation: {x: -1.76868951e-07, y: 3.32894871e-07, z: -1, w: 1.4647386e-06}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 492459641}
+--- !u!114 &958445825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400018, guid: 33f994f8dd1f9414f91f7ab2d3ae3823,
+    type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  m_GameObject: {fileID: 958445823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 30
+  mHeight: 44
+  mDepth: 1004
+  HighLight: 0
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: .681818187
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: aef2f83cf81d2a84b901d9980a7f782a, type: 2}
+  mSpriteName: dengai_tui2
+  mFillCenter: 1
+--- !u!1 &977118238
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100030, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 977118239}
+  - 114: {fileID: 977118240}
+  m_Layer: 8
+  m_Name: dengai_youshou
+  m_TagString: Sprites
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &977118239
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400072, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  m_GameObject: {fileID: 977118238}
+  m_LocalRotation: {x: -1.76869435e-07, y: 3.32895127e-07, z: -1, w: 5.88177442e-14}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1946521109}
+--- !u!114 &977118240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400030, guid: 33f994f8dd1f9414f91f7ab2d3ae3823,
+    type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  m_GameObject: {fileID: 977118238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 30
+  mHeight: 28
+  mDepth: 1025
+  HighLight: 0
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: 1.07142854
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: aef2f83cf81d2a84b901d9980a7f782a, type: 2}
+  mSpriteName: dengai_youshou
+  mFillCenter: 1
+--- !u!1 &983547899
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100000, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 983547900}
+  - 114: {fileID: 983547901}
+  m_Layer: 8
+  m_Name: dengai_bianzi1
+  m_TagString: Sprites
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &983547900
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400042, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  m_GameObject: {fileID: 983547899}
+  m_LocalRotation: {x: -1.31329941e-07, y: 6.29942605e-08, z: -.999642372, w: .0267424062}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 201130266}
+--- !u!114 &983547901
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400000, guid: 33f994f8dd1f9414f91f7ab2d3ae3823,
+    type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  m_GameObject: {fileID: 983547899}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 24
+  mHeight: 28
+  mDepth: 972
+  HighLight: 0
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: .857142866
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: aef2f83cf81d2a84b901d9980a7f782a, type: 2}
+  mSpriteName: dengai_bianzi1
+  mFillCenter: 1
+--- !u!1 &1196290607
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100020, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1196290608}
+  - 114: {fileID: 1196290609}
+  m_Layer: 8
+  m_Name: dengai_tui3
+  m_TagString: Sprites
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1196290608
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400062, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  m_GameObject: {fileID: 1196290607}
+  m_LocalRotation: {x: -4.25236415e-08, y: 6.57932731e-08, z: -.999842703, w: .0177363884}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2014640248}
+--- !u!114 &1196290609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400020, guid: 33f994f8dd1f9414f91f7ab2d3ae3823,
+    type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  m_GameObject: {fileID: 1196290607}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 36
+  mHeight: 48
+  mDepth: 1005
+  HighLight: 0
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: .75
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: aef2f83cf81d2a84b901d9980a7f782a, type: 2}
+  mSpriteName: dengai_tui3
+  mFillCenter: 1
+--- !u!1 &1207972533
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100078, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1207972534}
+  m_Layer: 8
+  m_Name: D_dengai_zuoxiaobi
+  m_TagString: Bones
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1207972534
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400040, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  m_GameObject: {fileID: 1207972533}
+  m_LocalRotation: {x: 2.97210164e-07, y: -2.21908451e-07, z: -.695347309, w: .718673944}
+  m_LocalPosition: {x: 55.4240417, y: 113.00679, z: -14.524477}
+  m_LocalScale: {x: -1, y: -1, z: -1}
+  m_Children:
+  - {fileID: 134256616}
+  m_Father: {fileID: 736890740}
+--- !u!1 &1229949851
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100062, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1229949852}
+  m_Layer: 8
+  m_Name: D_dengai_tui4
+  m_TagString: Bones
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1229949852
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400024, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  m_GameObject: {fileID: 1229949851}
+  m_LocalRotation: {x: -.000172040222, y: -1.25170591e-05, z: 1, w: 1.06311097e-06}
+  m_LocalPosition: {x: 20.6799221, y: 23.1007938, z: .420176685}
+  m_LocalScale: {x: -1, y: -1, z: -1}
+  m_Children:
+  - {fileID: 946914264}
+  m_Father: {fileID: 736890740}
+--- !u!1 &1275001624
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100050, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1275001625}
+  m_Layer: 8
+  m_Name: D_dengai_dalian
+  m_TagString: Bones
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1275001625
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400012, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  m_GameObject: {fileID: 1275001624}
+  m_LocalRotation: {x: 1.33158139e-07, y: -3.32895155e-07, z: 1, w: -2.66316079e-07}
+  m_LocalPosition: {x: -11.525629, y: 194.444778, z: 19.4737606}
+  m_LocalScale: {x: -1.00000024, y: -1.00000024, z: -1}
+  m_Children:
+  - {fileID: 722279491}
+  m_Father: {fileID: 736890740}
+--- !u!1 &1282544699
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100068, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1282544700}
+  m_Layer: 8
+  m_Name: D_dengai_yaofeng
+  m_TagString: Bones
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1282544700
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400030, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  m_GameObject: {fileID: 1282544699}
+  m_LocalRotation: {x: -6.12323426e-17, y: -6.65790267e-08, z: 1, w: 6.1232336e-17}
+  m_LocalPosition: {x: .525825977, y: 75.9148254, z: 9.38139439}
+  m_LocalScale: {x: -1, y: -1, z: -1}
+  m_Children:
+  - {fileID: 533688966}
+  m_Father: {fileID: 736890740}
+--- !u!1 &1299585335
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100008, guid: 619860d4729d1e543948043168aceede, type: 2}
+  m_PrefabInternal: {fileID: 1999507069}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1299585336}
+  - 114: {fileID: 1299585337}
+  m_Layer: 8
+  m_Name: Label
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1299585336
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400006, guid: 619860d4729d1e543948043168aceede, type: 2}
+  m_PrefabInternal: {fileID: 1999507069}
+  m_GameObject: {fileID: 1299585335}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 65, y: -9.57435608, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1369577240}
+--- !u!114 &1299585337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400014, guid: 619860d4729d1e543948043168aceede,
+    type: 2}
+  m_PrefabInternal: {fileID: 1999507069}
+  m_GameObject: {fileID: 1299585335}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9d0b5f3bbe925a408bd595c79d0bf63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 150
+  mHeight: 20
+  mDepth: 2100
+  HighLight: 0
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: 7.5
+  keepCrispWhenShrunk: 2
+  mTrueTypeFont: {fileID: 0}
+  mFont: {fileID: 11400000, guid: 30054980c4ab28942a48b10c3d67cac5, type: 2}
+  mText: New Label
+  mFontSize: 20
+  mFontStyle: 1
+  mAlignment: 0
+  mEncoding: 1
+  mMaxLineCount: 0
+  mEffectStyle: 2
+  mEffectColor: {r: 0, g: 0, b: 0, a: 1}
+  mSymbols: 1
+  mEffectDistance: {x: 1, y: 1}
+  mOverflow: 0
+  mMaterial: {fileID: 0}
+  mApplyGradient: 0
+  mGradientTop: {r: 1, g: 1, b: 1, a: 1}
+  mGradientBottom: {r: .699999988, g: .699999988, b: .699999988, a: 1}
+  mSpacingX: 0
+  mSpacingY: 0
+  mShrinkToFit: 0
+  mMaxLineWidth: 0
+  mMaxLineHeight: 0
+  mLineWidth: 0
+  mMultiline: 1
+--- !u!1 &1349232432
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1349232433}
+  m_Layer: 8
+  m_Name: Monster
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1349232433
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1349232432}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 358821028}
+  - {fileID: 752880670}
+  m_Father: {fileID: 698896845}
+--- !u!1 &1361803119
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100008, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1361803120}
+  - 114: {fileID: 1361803121}
+  m_Layer: 8
+  m_Name: dengai_dabiyou
+  m_TagString: Sprites
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1361803120
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400050, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  m_GameObject: {fileID: 1361803119}
+  m_LocalRotation: {x: -4.37113812e-08, y: 6.65790196e-08, z: -1, w: 1.33158053e-07}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 511725144}
+--- !u!114 &1361803121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400008, guid: 33f994f8dd1f9414f91f7ab2d3ae3823,
+    type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  m_GameObject: {fileID: 1361803119}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 28
+  mHeight: 40
+  mDepth: 1025
+  HighLight: 0
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: .699999988
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: aef2f83cf81d2a84b901d9980a7f782a, type: 2}
+  mSpriteName: dengai_dabiyou
+  mFillCenter: 1
+--- !u!1 &1369577239
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100014, guid: 619860d4729d1e543948043168aceede, type: 2}
+  m_PrefabInternal: {fileID: 1999507069}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1369577240}
+  - 114: {fileID: 1369577242}
+  - 114: {fileID: 1369577241}
+  m_Layer: 8
+  m_Name: BloodBar
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1369577240
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400014, guid: 619860d4729d1e543948043168aceede, type: 2}
+  m_PrefabInternal: {fileID: 1999507069}
+  m_GameObject: {fileID: 1369577239}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -61, y: -92.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1819387806}
+  - {fileID: 1299585336}
+  - {fileID: 1984965076}
+  m_Father: {fileID: 752880670}
+--- !u!114 &1369577241
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400020, guid: 619860d4729d1e543948043168aceede,
+    type: 2}
+  m_PrefabInternal: {fileID: 1999507069}
+  m_GameObject: {fileID: 1369577239}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 122db2c8e438c8b498a836d561ee2e2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BloodBar: {fileID: 1369577239}
+  BloodLabel: {fileID: 1299585335}
+  CurrentValue: 0
+  MaxValue: 0
+--- !u!114 &1369577242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400022, guid: 619860d4729d1e543948043168aceede,
+    type: 2}
+  m_PrefabInternal: {fileID: 1999507069}
+  m_GameObject: {fileID: 1369577239}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c20815eb3063c24290a61b7020a1836, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  thumb: {fileID: 0}
+  mBG: {fileID: 0}
+  mFG: {fileID: 1984965077}
+  mValue: 1
+  mFill: 0
+  numberOfSteps: 0
+  onChange: []
+  foreground: {fileID: 1984965076}
+  rawValue: 1
+  direction: 2
+  mInverted: 0
+--- !u!1 &1398159313
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100074, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1398159314}
+  m_Layer: 8
+  m_Name: D_dengai_zuodabi
+  m_TagString: Bones
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1398159314
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400036, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  m_GameObject: {fileID: 1398159313}
+  m_LocalRotation: {x: 4.45713431e-06, y: -4.30905038e-06, z: -.705416977, w: .708792567}
+  m_LocalPosition: {x: 34.405365, y: 109.603134, z: -18.9671879}
+  m_LocalScale: {x: -1.00000012, y: -.99999994, z: -1}
+  m_Children:
+  - {fileID: 731350948}
+  m_Father: {fileID: 736890740}
+--- !u!1 &1421382540
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100042, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1421382541}
+  m_Layer: 8
+  m_Name: D_dengai_bianzi2
+  m_TagString: Bones
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1421382541
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400004, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  m_GameObject: {fileID: 1421382540}
+  m_LocalRotation: {x: 1.29599826e-07, y: -5.97210246e-08, z: .998706043, w: .0508556142}
+  m_LocalPosition: {x: -71.6687393, y: 83.2613525, z: -29.4907227}
+  m_LocalScale: {x: -1.09967899, y: -1.09967887, z: -1.09967887}
+  m_Children:
+  - {fileID: 1934200943}
+  m_Father: {fileID: 736890740}
+--- !u!1 &1562305264
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1562305269}
+  - 20: {fileID: 1562305268}
+  - 92: {fileID: 1562305267}
+  - 124: {fileID: 1562305266}
+  - 81: {fileID: 1562305265}
+  m_Layer: 0
+  m_Name: Main Camera
+  m_TagString: MainCamera
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!81 &1562305265
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1562305264}
+  m_Enabled: 1
+--- !u!124 &1562305266
+Behaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1562305264}
+  m_Enabled: 1
+--- !u!92 &1562305267
+Behaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1562305264}
+  m_Enabled: 1
+--- !u!20 &1562305268
+Camera:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1562305264}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 1
+  m_BackGroundColor: {r: .192156866, g: .301960796, b: .474509805, a: .0196078438}
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: .300000012
+  far clip plane: 1000
+  field of view: 60
+  orthographic: 0
+  orthographic size: 5
+  m_Depth: -1
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967039
+  m_RenderingPath: -1
+  m_TargetTexture: {fileID: 0}
+  m_HDR: 0
+  m_OcclusionCulling: 1
+--- !u!4 &1562305269
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1562305264}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+--- !u!1 &1577238017
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100020, guid: 619860d4729d1e543948043168aceede, type: 2}
+  m_PrefabInternal: {fileID: 1999507069}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1577238018}
+  m_Layer: 8
+  m_Name: AttackLocation
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1577238018
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400020, guid: 619860d4729d1e543948043168aceede, type: 2}
+  m_PrefabInternal: {fileID: 1999507069}
+  m_GameObject: {fileID: 1577238017}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -120.982071, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 752880670}
+--- !u!1001 &1665429430
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1349232433}
+    m_Modifications:
+    - target: {fileID: 400108, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400108, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400108, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400108, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400108, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400108, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400108, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_RootGameObject: {fileID: 358821027}
+  m_IsPrefabParent: 0
+  m_IsExploded: 1
+--- !u!1 &1689339883
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100066, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1689339884}
+  m_Layer: 8
+  m_Name: D_dengai_xiongbumm
+  m_TagString: Bones
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1689339884
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400028, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  m_GameObject: {fileID: 1689339883}
+  m_LocalRotation: {x: 1.33158053e-07, y: -6.65790267e-08, z: 1, w: 8.80430101e-15}
+  m_LocalPosition: {x: -.486756325, y: 99.4373245, z: 1.07724554e-05}
+  m_LocalScale: {x: -1, y: -1, z: -1}
+  m_Children:
+  - {fileID: 1804989545}
+  m_Father: {fileID: 736890740}
+--- !u!1 &1748728298
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100046, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1748728299}
+  m_Layer: 8
+  m_Name: D_dengai_bianzi4
+  m_TagString: Bones
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1748728299
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400008, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  m_GameObject: {fileID: 1748728298}
+  m_LocalRotation: {x: 1.33158053e-07, y: -6.65790125e-08, z: 1, w: 8.92676419e-15}
+  m_LocalPosition: {x: -89.3319092, y: 50.8839264, z: -28.9932556}
+  m_LocalScale: {x: -1, y: -1, z: -1}
+  m_Children:
+  - {fileID: 2015357849}
+  m_Father: {fileID: 736890740}
+--- !u!1 &1804989544
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100026, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1804989545}
+  - 114: {fileID: 1804989546}
+  m_Layer: 8
+  m_Name: dengai_xiongbumm
+  m_TagString: Sprites
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1804989545
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400068, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  m_GameObject: {fileID: 1804989544}
+  m_LocalRotation: {x: -1.76869435e-07, y: 6.65790267e-08, z: -1, w: 1.17145631e-14}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1689339884}
+--- !u!114 &1804989546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400026, guid: 33f994f8dd1f9414f91f7ab2d3ae3823,
+    type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  m_GameObject: {fileID: 1804989544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 70
+  mHeight: 72
+  mDepth: 1000
+  HighLight: 0
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: .972222209
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: aef2f83cf81d2a84b901d9980a7f782a, type: 2}
+  mSpriteName: dengai_xiongbumm
+  mFillCenter: 1
+--- !u!1 &1817133690
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100036, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1817133691}
+  - 114: {fileID: 1817133692}
+  m_Layer: 8
+  m_Name: dengai_zuoshou
+  m_TagString: Sprites
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1817133691
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400078, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  m_GameObject: {fileID: 1817133690}
+  m_LocalRotation: {x: 3.79979582e-07, y: -3.55789723e-07, z: .729959905, w: .683489978}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2012549436}
+--- !u!114 &1817133692
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400036, guid: 33f994f8dd1f9414f91f7ab2d3ae3823,
+    type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  m_GameObject: {fileID: 1817133690}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 30
+  mHeight: 30
+  mDepth: 982
+  HighLight: 0
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: 1
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: aef2f83cf81d2a84b901d9980a7f782a, type: 2}
+  mSpriteName: dengai_zuoshou
+  mFillCenter: 1
+--- !u!1 &1819387805
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100010, guid: 619860d4729d1e543948043168aceede, type: 2}
+  m_PrefabInternal: {fileID: 1999507069}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1819387806}
+  - 114: {fileID: 1819387807}
+  m_Layer: 8
+  m_Name: Background
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1819387806
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400008, guid: 619860d4729d1e543948043168aceede, type: 2}
+  m_PrefabInternal: {fileID: 1999507069}
+  m_GameObject: {fileID: 1819387805}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1369577240}
+--- !u!114 &1819387807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400016, guid: 619860d4729d1e543948043168aceede,
+    type: 2}
+  m_PrefabInternal: {fileID: 1999507069}
+  m_GameObject: {fileID: 1819387805}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 3
+  mWidth: 128
+  mHeight: 22
+  mDepth: 2000
+  HighLight: 0
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: 5.81818199
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: aef2f83cf81d2a84b901d9980a7f782a, type: 2}
+  mSpriteName: flood_bg
+  mFillCenter: 1
+--- !u!1 &1933232619
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100002, guid: 619860d4729d1e543948043168aceede, type: 2}
+  m_PrefabInternal: {fileID: 1999507069}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1933232620}
+  - 114: {fileID: 1933232622}
+  - 114: {fileID: 1933232621}
+  m_Layer: 8
+  m_Name: Description
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1933232620
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400000, guid: 619860d4729d1e543948043168aceede, type: 2}
+  m_PrefabInternal: {fileID: 1999507069}
+  m_GameObject: {fileID: 1933232619}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -25, y: 1.52587891e-05, z: 0}
+  m_LocalScale: {x: 1.00007999, y: 1.00007999, z: 1.00007999}
+  m_Children: []
+  m_Father: {fileID: 457372978}
+--- !u!114 &1933232621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400002, guid: 619860d4729d1e543948043168aceede,
+    type: 2}
+  m_PrefabInternal: {fileID: 1999507069}
+  m_GameObject: {fileID: 1933232619}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0401554a0e6f9466db3c1a798d358b8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tweenName: ShakeAttrackLabel
+  playAutomatically: 0
+  delay: 0
+  type: 32
+  showIconInInspector: 0
+  keys:
+  - amount
+  - looptype
+  indexes: 0000000000000000
+  metadatas:
+  - 
+  - 
+  ints: 
+  floats: []
+  bools: 
+  strings: []
+  vector3s:
+  - {x: 0, y: .00999999978, z: 0}
+  colors: []
+  spaces: 
+  easeTypes: 
+  loopTypes: 01000000
+  gameObjects: []
+  transforms: []
+  audioClips: []
+  audioSources: []
+  vector3Arrays: []
+  transformArrays: []
+  paths: []
+--- !u!114 &1933232622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400004, guid: 619860d4729d1e543948043168aceede,
+    type: 2}
+  m_PrefabInternal: {fileID: 1999507069}
+  m_GameObject: {fileID: 1933232619}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9d0b5f3bbe925a408bd595c79d0bf63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 84
+  mHeight: 20
+  mDepth: 2100
+  HighLight: 0
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: 4.19999981
+  keepCrispWhenShrunk: 2
+  mTrueTypeFont: {fileID: 0}
+  mFont: {fileID: 11400000, guid: 30054980c4ab28942a48b10c3d67cac5, type: 2}
+  mText: 'Buff CD:'
+  mFontSize: 20
+  mFontStyle: 1
+  mAlignment: 0
+  mEncoding: 1
+  mMaxLineCount: 0
+  mEffectStyle: 2
+  mEffectColor: {r: 0, g: 0, b: 0, a: 1}
+  mSymbols: 1
+  mEffectDistance: {x: 1, y: 1}
+  mOverflow: 2
+  mMaterial: {fileID: 0}
+  mApplyGradient: 0
+  mGradientTop: {r: 1, g: 1, b: 1, a: 1}
+  mGradientBottom: {r: .699999988, g: .699999988, b: .699999988, a: 1}
+  mSpacingX: 0
+  mSpacingY: 0
+  mShrinkToFit: 0
+  mMaxLineWidth: 0
+  mMaxLineHeight: 0
+  mLineWidth: 0
+  mMultiline: 1
+--- !u!1 &1933813639
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100000, guid: 619860d4729d1e543948043168aceede, type: 2}
+  m_PrefabInternal: {fileID: 1999507069}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1933813640}
+  - 114: {fileID: 1933813641}
+  m_Layer: 8
+  m_Name: CDLabel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1933813640
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400010, guid: 619860d4729d1e543948043168aceede, type: 2}
+  m_PrefabInternal: {fileID: 1999507069}
+  m_GameObject: {fileID: 1933813639}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -75.2541199, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 752880670}
+--- !u!114 &1933813641
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400000, guid: 619860d4729d1e543948043168aceede,
+    type: 2}
+  m_PrefabInternal: {fileID: 1999507069}
+  m_GameObject: {fileID: 1933813639}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9d0b5f3bbe925a408bd595c79d0bf63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 0, g: 1, b: .00689649582, a: 1}
+  mPivot: 4
+  mWidth: 77
+  mHeight: 16
+  mDepth: 2100
+  HighLight: 0
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: 4.8125
+  keepCrispWhenShrunk: 2
+  mTrueTypeFont: {fileID: 0}
+  mFont: {fileID: 11400000, guid: 30054980c4ab28942a48b10c3d67cac5, type: 2}
+  mText: New Label
+  mFontSize: 16
+  mFontStyle: 1
+  mAlignment: 0
+  mEncoding: 1
+  mMaxLineCount: 0
+  mEffectStyle: 2
+  mEffectColor: {r: 0, g: 0, b: 0, a: 1}
+  mSymbols: 1
+  mEffectDistance: {x: 1, y: 1}
+  mOverflow: 0
+  mMaterial: {fileID: 0}
+  mApplyGradient: 0
+  mGradientTop: {r: 1, g: 1, b: 1, a: 1}
+  mGradientBottom: {r: .699999988, g: .699999988, b: .699999988, a: 1}
+  mSpacingX: 0
+  mSpacingY: 0
+  mShrinkToFit: 0
+  mMaxLineWidth: 0
+  mMaxLineHeight: 0
+  mLineWidth: 0
+  mMultiline: 1
+--- !u!1 &1934200942
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100002, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1934200943}
+  - 114: {fileID: 1934200944}
+  m_Layer: 8
+  m_Name: dengai_bianzi2
+  m_TagString: Sprites
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1934200943
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400044, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  m_GameObject: {fileID: 1934200942}
+  m_LocalRotation: {x: -1.73254648e-07, y: 5.74980561e-08, z: -.998706043, w: .0508556142}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1421382541}
+--- !u!114 &1934200944
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400002, guid: 33f994f8dd1f9414f91f7ab2d3ae3823,
+    type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  m_GameObject: {fileID: 1934200942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 24
+  mHeight: 26
+  mDepth: 971
+  HighLight: 0
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: .923076928
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: aef2f83cf81d2a84b901d9980a7f782a, type: 2}
+  mSpriteName: dengai_bianzi2
+  mFillCenter: 1
+--- !u!1 &1946521108
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100070, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1946521109}
+  m_Layer: 8
+  m_Name: D_dengai_youshou
+  m_TagString: Bones
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1946521109
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400032, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  m_GameObject: {fileID: 1946521108}
+  m_LocalRotation: {x: 1.33158053e-07, y: -3.32895127e-07, z: 1, w: 4.42664365e-14}
+  m_LocalPosition: {x: -29.5583515, y: 57.5114059, z: 25.8984184}
+  m_LocalScale: {x: -1, y: -1, z: -1}
+  m_Children:
+  - {fileID: 977118239}
+  m_Father: {fileID: 736890740}
+--- !u!1 &1962439383
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100054, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1962439384}
+  m_Layer: 8
+  m_Name: D_dengai_hudang
+  m_TagString: Bones
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1962439384
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400016, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  m_GameObject: {fileID: 1962439383}
+  m_LocalRotation: {x: 1.33500563e-07, y: -6.72667042e-08, z: .999986649, w: -.00517103681}
+  m_LocalPosition: {x: 5.94015503, y: 42.6988907, z: 11.4002724}
+  m_LocalScale: {x: -.99999994, y: -1, z: -1}
+  m_Children:
+  - {fileID: 604231502}
+  m_Father: {fileID: 736890740}
+--- !u!1 &1984965075
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100012, guid: 619860d4729d1e543948043168aceede, type: 2}
+  m_PrefabInternal: {fileID: 1999507069}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1984965076}
+  - 114: {fileID: 1984965077}
+  m_Layer: 8
+  m_Name: Foreground
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1984965076
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400004, guid: 619860d4729d1e543948043168aceede, type: 2}
+  m_PrefabInternal: {fileID: 1999507069}
+  m_GameObject: {fileID: 1984965075}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1369577240}
+--- !u!114 &1984965077
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400018, guid: 619860d4729d1e543948043168aceede,
+    type: 2}
+  m_PrefabInternal: {fileID: 1999507069}
+  m_GameObject: {fileID: 1984965075}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 3
+  mWidth: 128
+  mHeight: 22
+  mDepth: 2000
+  HighLight: 0
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: 5.81818199
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: aef2f83cf81d2a84b901d9980a7f782a, type: 2}
+  mSpriteName: flood
+  mFillCenter: 1
+--- !u!1001 &1999507069
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1349232433}
+    m_Modifications:
+    - target: {fileID: 400018, guid: 619860d4729d1e543948043168aceede, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400018, guid: 619860d4729d1e543948043168aceede, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400018, guid: 619860d4729d1e543948043168aceede, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400018, guid: 619860d4729d1e543948043168aceede, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400018, guid: 619860d4729d1e543948043168aceede, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400018, guid: 619860d4729d1e543948043168aceede, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400018, guid: 619860d4729d1e543948043168aceede, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400028, guid: 619860d4729d1e543948043168aceede, type: 2}
+      propertyPath: CharacterData
+      value: 
+      objectReference: {fileID: 358821029}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 619860d4729d1e543948043168aceede, type: 2}
+  m_RootGameObject: {fileID: 752880669}
+  m_IsPrefabParent: 0
+  m_IsExploded: 1
+--- !u!1 &2012549435
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100076, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 2012549436}
+  m_Layer: 8
+  m_Name: D_dengai_zuoshou
+  m_TagString: Bones
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2012549436
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400038, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  m_GameObject: {fileID: 2012549435}
+  m_LocalRotation: {x: -3.48072035e-07, y: 3.25913419e-07, z: -.729959905, w: .683489978}
+  m_LocalPosition: {x: 66.263855, y: 123.526192, z: -18.9671879}
+  m_LocalScale: {x: -1, y: -1, z: -1}
+  m_Children:
+  - {fileID: 1817133691}
+  m_Father: {fileID: 736890740}
+--- !u!1 &2014640247
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100060, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 2014640248}
+  m_Layer: 8
+  m_Name: D_dengai_tui3
+  m_TagString: Bones
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2014640248
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400022, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  m_GameObject: {fileID: 2014640247}
+  m_LocalRotation: {x: -1.18087151e-09, y: -6.65685533e-08, z: .999842703, w: .0177363884}
+  m_LocalPosition: {x: -15.0914249, y: 44.3398285, z: 5.53481865}
+  m_LocalScale: {x: -.99999994, y: -1.00000012, z: -1}
+  m_Children:
+  - {fileID: 1196290608}
+  m_Father: {fileID: 736890740}
+--- !u!1 &2015357848
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100006, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 2015357849}
+  - 114: {fileID: 2015357850}
+  m_Layer: 8
+  m_Name: dengai_bianzi4
+  m_TagString: Sprites
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2015357849
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400048, guid: 33f994f8dd1f9414f91f7ab2d3ae3823, type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  m_GameObject: {fileID: 2015357848}
+  m_LocalRotation: {x: -1.76869435e-07, y: 6.65790125e-08, z: -1, w: 1.18370254e-14}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1748728299}
+--- !u!114 &2015357850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400006, guid: 33f994f8dd1f9414f91f7ab2d3ae3823,
+    type: 2}
+  m_PrefabInternal: {fileID: 1665429430}
+  m_GameObject: {fileID: 2015357848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 30
+  mHeight: 46
+  mDepth: 972
+  HighLight: 0
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: .652173936
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: aef2f83cf81d2a84b901d9980a7f782a, type: 2}
+  mSpriteName: dengai_bianzi4
+  mFillCenter: 1
+--- !u!1 &2081730378
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 2081730379}
+  - 114: {fileID: 2081730380}
+  m_Layer: 8
+  m_Name: Test
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2081730379
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2081730378}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 698896845}
+--- !u!114 &2081730380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2081730378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfd8f2826c996426292694f042050085, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MonsterController: {fileID: 752880671}

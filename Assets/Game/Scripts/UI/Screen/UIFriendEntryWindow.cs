@@ -8,6 +8,14 @@ using UnityEngine;
 /// </summary>
 public class UIFriendEntryWindow : Window
 {
+    #region Public Fields
+
+    public List<UIToggle> Toggles;
+    public List<FriendHandlerBase> FriendHandlers;
+    public GameObject ExtendBagConfirm;
+
+    #endregion
+
     #region Private Fields
 
     private ExtendBag itemExtendConfirm;
@@ -15,17 +23,15 @@ public class UIFriendEntryWindow : Window
     private UIEventListener extendLis;
     private UILabel friendCount;
 
-    private UIEventListener toggleListLis;
-    private UIEventListener toggleAddLis;
-    private UIEventListener toggleSortLis;
-    private UIEventListener toggleGetLis;
+    #endregion
 
-    //private UILabel toggleListLabel;
-    //private UILabel toggleAddLabel;
-    //private UILabel toggleSortLabel;
-    //private UILabel toggleGetLabel;
-    //private readonly Color activedColor = new Color(255, 237, 0, 255);
-    //private readonly Color deactivedColor = new Color(0, 0, 0, 255);
+    #region Public Methods
+
+    public void RefreshFriendCount()
+    {
+        var scFriendLoadingAll = FriendModelLocator.Instance.ScFriendLoadingAll;
+        friendCount.text = string.Format("{0}/{1}", scFriendLoadingAll.FriendList.Count, scFriendLoadingAll.FriendLimit);
+    }
 
     #endregion
 
@@ -35,29 +41,13 @@ public class UIFriendEntryWindow : Window
     {
         closeLis.onClick = OnClose;
         extendLis.onClick = OnExtend;
-        //toggleListLis.onClick = OnListClick;
-        //toggleAddLis.onClick = OnAddClick;
-        //toggleSortLis.onClick = OnSortClick;
-        //toggleGetLis.onClick = OnGetClick;
     }
 
     private void UnInstallHandlers()
     {
         closeLis.onClick = null;
         extendLis.onClick = null;
-        toggleListLis.onClick = null;
-        toggleAddLis.onClick = null;
-        toggleSortLis.onClick = null;
-        toggleGetLis.onClick = null;
     }
-
-    //private void DeactiveAll()
-    //{
-    //    toggleListLabel.color = deactivedColor;
-    //    toggleAddLabel.color = deactivedColor;
-    //    toggleSortLabel.color = deactivedColor;
-    //    toggleGetLabel.color = deactivedColor;
-    //}
 
     private void OnExtend(GameObject go)
     {
@@ -74,7 +64,7 @@ public class UIFriendEntryWindow : Window
         }
         else
         {
-            PopTextManager.PopTip("可加好友数已达上限");
+            PopTextManager.PopTip("当前等级可拥有好友数量已达上限，不可继续扩展！");
         }
     }
 
@@ -94,54 +84,11 @@ public class UIFriendEntryWindow : Window
 
     #endregion
 
-    #region Public Fields
-
-    public List<UIToggle> Toggles;
-    public List<FriendHandlerBase> FriendHandlers;
-    public GameObject ExtendBagConfirm;
-
-    #endregion
-
-    #region Public Methods
-
-    //public void OnListClick(GameObject go)
-    //{
-    //    DeactiveAll();
-    //    toggleListLabel.color = activedColor;
-    //}
-
-    //public void OnAddClick(GameObject go)
-    //{
-    //    DeactiveAll();
-    //    toggleAddLabel.color = activedColor;
-    //}
-
-    //public void OnSortClick(GameObject go)
-    //{
-    //    DeactiveAll();
-    //    toggleSortLabel.color = activedColor;
-    //}
-
-    //public void OnGetClick(GameObject go)
-    //{
-    //    DeactiveAll();
-    //    toggleGetLabel.color = activedColor;
-    //}
-
-    public void RefreshFriendCount()
-    {
-        var scFriendLoadingAll = FriendModelLocator.Instance.ScFriendLoadingAll;
-        friendCount.text = string.Format("{0}/{1}", scFriendLoadingAll.FriendList.Count, scFriendLoadingAll.FriendLimit);
-    }
-
-    #endregion
-
     #region Window
 
     public override void OnEnter()
     {
         InstallHandlers();
-        //OnListClick(new GameObject());
     }
 
     public override void OnExit()
@@ -156,18 +103,7 @@ public class UIFriendEntryWindow : Window
         var title = transform.Find("Title");
         friendCount = title.Find("FriendCount/FriendCountValue").GetComponent<UILabel>();
         extendLis = UIEventListener.Get(title.Find("Button-Extend").gameObject);
-
-        toggleListLis = UIEventListener.Get(Utils.FindChild(transform, "Toggle-List").gameObject);
-        toggleAddLis = UIEventListener.Get(Utils.FindChild(transform, "Toggle-Add").gameObject);
-        toggleSortLis = UIEventListener.Get(Utils.FindChild(transform, "Toggle-Sort").gameObject);
-        toggleGetLis = UIEventListener.Get(Utils.FindChild(transform, "Toggle-Get").gameObject);
-
-        //toggleListLabel = Utils.FindChild(toggleListLis.transform, "Content").GetComponent<UILabel>();
-        //toggleAddLabel = Utils.FindChild(toggleAddLis.transform, "Content").GetComponent<UILabel>();
-        //toggleSortLabel = Utils.FindChild(toggleSortLis.transform, "Content").GetComponent<UILabel>();
-        //toggleGetLabel = Utils.FindChild(toggleGetLis.transform, "Content").GetComponent<UILabel>();
     }
 
     #endregion
-
 }

@@ -18,7 +18,7 @@ public class ItemBase : MonoBehaviour
         protected set
         {
             quality = value;
-            var starCount = Mathf.CeilToInt((float)quality / ItemType.QualitiesPerStar);
+            var starCount = ItemHelper.GetStarCount(quality);
             var childCount = stars.transform.childCount;
             for (int index = 0; index < starCount; index++)
             {

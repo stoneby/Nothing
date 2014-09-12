@@ -71,6 +71,7 @@ namespace com.kx.sglm.gs.battle.share.factory.creater
 			}
 		}
 
+
 		public virtual void initMonsterTemplateInfoForSource(Template.Auto.Raid.RaidMonsterGroupTemplate monsterGroup, List<BattleMsgMonster> msgMonsterList)
 		{
 			Dictionary<int, Template.Auto.Monster.MonsterTemplate> allMosnters = tmplService.AllMonsterMap;

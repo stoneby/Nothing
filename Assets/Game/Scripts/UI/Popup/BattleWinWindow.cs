@@ -332,11 +332,19 @@ public class BattleWinWindow : Window
 
     private void ShowEndView()
     {
-        var tmp = MissionModelLocator.Instance.GetNextStage();
-        PopTextManager.PopTip(MissionModelLocator.Instance.NextRaidTemplate.RaidName + "---------raid");
-        PopTextManager.PopTip(MissionModelLocator.Instance.NextStageTemplate.StageName + "---------stage");
-        var lb = LabelNextEnergy.GetComponent<UILabel>();
-        lb.text = (tmp == null) ? "" : MissionModelLocator.Instance.NextStageTemplate.CostEnergy.ToString();
+        if (MissionModelLocator.Instance.RaidLoadingAll != null)
+        {
+            var tmp = MissionModelLocator.Instance.GetNextStage();
+            //PopTextManager.PopTip(MissionModelLocator.Instance.NextRaidTemplate.RaidName + "---------raid");
+            //PopTextManager.PopTip(MissionModelLocator.Instance.NextStageTemplate.StageName + "---------stage");
+            var lb = LabelNextEnergy.GetComponent<UILabel>();
+            lb.text = (tmp == null) ? "" : MissionModelLocator.Instance.NextStageTemplate.CostEnergy.ToString();
+        }
+        else
+        {
+            BtnBattleAgain.SetActive(false);
+            BtnNextRaid.SetActive(false);
+        }
 
         GetContainer.SetActive(false);
         LevelupContainer.SetActive(false);

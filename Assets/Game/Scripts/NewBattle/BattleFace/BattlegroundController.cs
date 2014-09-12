@@ -47,6 +47,12 @@ public class BattlegroundController : MonoBehaviour
 
         initialized = true;
 
+        if (BattleID <= 0 || BattleID > TotalBattleNum)
+        {
+            Logger.LogWarning("Battle ID should be in range [1, " + TotalBattleNum + "], but is: " + BattleID + ". Let's make it default to 1.");
+            BattleID = 1;
+        }
+
         var path = string.Format("{0}/{1}", BasePath, BattleID);
         var battle = Resources.Load<GameObject>(path);
         if (battle == null)

@@ -245,4 +245,30 @@ public class ItemHelper
             }
         }
     }
+
+    public static int GetStarCount(sbyte quality)
+    {
+        return Mathf.CeilToInt((float)quality / ItemType.QualitiesPerStar);
+    }
+
+    public static void InitWrapContents(CustomGrid grid, List<ItemInfo> itemInfos, int countPerGroup, int curMaxCount)
+    {
+        if (itemInfos == null) return;
+        var list = new List<List<ItemInfo>>();
+        var rows = Mathf.CeilToInt((float)itemInfos.Count / countPerGroup);
+        var curLimitRows = Mathf.CeilToInt((float)curMaxCount / countPerGroup);
+        for (var i = 0; i < rows; i++)
+        {
+            var infosContainer = new List<ItemInfo>();
+            for (var j = 0; j < countPerGroup; j++)
+            {
+                if (i * countPerGroup + j < itemInfos.Count)
+                {
+                    infosContainer.Add(itemInfos[i * countPerGroup + j]);
+                }
+            }
+            list.Add(infosContainer);
+        }
+        grid.Init(list, curLimitRows);
+    }
 }

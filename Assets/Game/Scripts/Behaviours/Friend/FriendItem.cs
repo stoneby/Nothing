@@ -11,6 +11,8 @@ public class FriendItem : MonoBehaviour
     private UILabel hpLbl;
     private UILabel lvlLbl;
     private UISprite bindIcon;
+    private UISprite icon;
+    private UISprite jobIcon;
 
     protected NGUILongPress longPress;
 
@@ -21,25 +23,45 @@ public class FriendItem : MonoBehaviour
         hpLbl = transform.Find("Hp/HpValue").GetComponent<UILabel>();
         lvlLbl = transform.Find("Level/LevelValue").GetComponent<UILabel>();
         longPress = transform.Find("BG").GetComponent<NGUILongPress>();
-        var bindIconTran = Utils.FindChild(transform,"BindIcon");
+        var bindIconTran = Utils.FindChild(transform, "BindIcon");
         if (bindIconTran)
         {
             bindIcon = bindIconTran.GetComponent<UISprite>();
+        }
+        var iconTran = Utils.FindChild(transform, "Icon");
+        if (iconTran)
+        {
+            icon = iconTran.GetComponent<UISprite>();
+        }
+        var jobIconTran = Utils.FindChild(transform, "JobIcon");
+        if (jobIconTran)
+        {
+            jobIcon = jobIconTran.GetComponent<UISprite>();
         }
     }
 
     public virtual void Init(FriendInfo info)
     {
+        var tmpl = HeroModelLocator.Instance.HeroTemplates.HeroTmpls;
+        var leaderTmplID = info.HeroProp[0].HeroTemplateId;
         FriendInfo = info;
         nameLbl.text = info.FriendName;
         atkLbl.text = FriendUtils.GetProp(info, RoleProperties.ROLE_ATK).ToString();
         hpLbl.text = FriendUtils.GetProp(info, RoleProperties.ROLE_HP).ToString();
         lvlLbl.text = info.FriendLvl.ToString();
+        if (icon)
+        {
+            icon.spriteName = HeroConstant.IconIdPrefix + tmpl[leaderTmplID].Icon;
+        }
+        if (jobIcon)
+        {
+            jobIcon.spriteName = HeroConstant.HeroJobPrefix + tmpl[leaderTmplID].Job;
+        }
         if (bindIcon)
         {
             bindIcon.enabled = FriendUtils.IsFriendBind(info);
         }
-        if(longPress)
+        if (longPress)
         {
             longPress.OnLongPress = OnLongPress;
             longPress.OnNormalPress = OnNormalPress;
@@ -58,7 +80,7 @@ public class FriendItem : MonoBehaviour
     private void OnLongPress(GameObject go)
     {
         var friendDetail = WindowManager.Instance.Show<UIFriendDetailWindow>(true);
-        if(friendDetail != null)
+        if (friendDetail != null)
         {
             friendDetail.Init(FriendInfo);
         }

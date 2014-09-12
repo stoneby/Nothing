@@ -105,7 +105,8 @@ namespace Assets.Game.Scripts.Net.handler
         public static void OnRaidNewStage(ThriftSCMessage msg)
         {
             var themsg = msg.GetContent() as SCRaidNewStage;
-            if (themsg != null)
+            //Execute if it's not after persistence battle.
+            if (themsg != null && MissionModelLocator.Instance.RaidLoadingAll != null)
             {
                 //PopTextManager.PopTip("返回下一关卡数据");
                 MissionModelLocator.Instance.AddNewStage(themsg);

@@ -10,8 +10,6 @@ using UnityEngine;
 /// </summary>
 public class UISellHeroHandler : MonoBehaviour
 {
-    public GameObject BaseHeroPrefab;
-
     private UIHeroCommonWindow commonWindow;
     private UILabel selCount;
     private UILabel soulCount;
@@ -23,7 +21,8 @@ public class UISellHeroHandler : MonoBehaviour
     private long totalSoul;
 
     private readonly List<long> cachedSelUuids = new List<long>(); 
-    private readonly List<long> cachedCanNotSellUuids = new List<long>(); 
+    private readonly List<long> cachedCanNotSellUuids = new List<long>();
+    private long curSelUuidCache;
 
     private readonly Dictionary<Position, GameObject> sellObjects = new Dictionary<Position, GameObject>();
     private List<Position> cannotSellPosList = new List<Position>(); 
@@ -69,20 +68,21 @@ public class UISellHeroHandler : MonoBehaviour
     {
         sellLis.onClick = OnSell;
         commonWindow.Heros.OnUpdate += OnUpdate;
-        commonWindow.OnSortOrderChangedBefore += OnSortOrderChangedBefore;
-        commonWindow.OnSortOrderChangedAfter += OnSortOrderChangedAfter;
+        commonWindow.HeroSortControl.OnSortOrderChangedBefore += OnSortOrderChangedBefore;
+        commonWindow.HeroSortControl.OnSortOrderChangedAfter += OnSortOrderChangedAfter;
     }
 
     private void UnInstallHandlers()
     {
         sellLis.onClick = null;
         commonWindow.Heros.OnUpdate -= OnUpdate;
-        commonWindow.OnSortOrderChangedBefore -= OnSortOrderChangedBefore;
-        commonWindow.OnSortOrderChangedAfter -= OnSortOrderChangedAfter;
+        commonWindow.HeroSortControl.OnSortOrderChangedBefore -= OnSortOrderChangedBefore;
+        commonWindow.HeroSortControl.OnSortOrderChangedAfter -= OnSortOrderChangedAfter;
     }
 
-    private void OnSortOrderChangedAfter(List<HeroInfo> hInfos)
+    private void OnSortOrderChangedAfter()
     {
+        var hInfos = commonWindow.Infos;
         var countPerGroup = commonWindow.CountOfOneGroup;
         var posList = GetPositionsViaUuids(cachedSelUuids, hInfos, countPerGroup);
         var values = sellObjects.Values.ToList();
@@ -98,10 +98,10 @@ public class UISellHeroHandler : MonoBehaviour
     public static List<Position> GetPositionsViaUuids(IEnumerable<long> uuids, List<HeroInfo> hInfos, int countPerGroup)
     {
         return uuids.Select(uuid => hInfos.FindIndex(info => info.Uuid == uuid)).Select(
-            index => new Position {X = index / countPerGroup, Y = index % countPerGroup}).ToList();
+            index => Utils.OneDimToTwo(index, countPerGroup)).ToList();
     }
 
-    private void OnSortOrderChangedBefore(List<HeroInfo> hInfos)
+    private void OnSortOrderChangedBefore()
     {
         CacheUuidsFromPos(sellObjects.Keys.ToList(), cachedSelUuids);
         CacheUuidsFromPos(cannotSellPosList, cachedCanNotSellUuids);
@@ -135,18 +135,13 @@ public class UISellHeroHandler : MonoBehaviour
 
     private void OnUpdate(GameObject sender, int index)
     {
-        var wrapItem = sender.GetComponent<WrapHerosItem>();
-        var col = wrapItem.Children.Count;
-        for (var i = 0; i < col; i++)
-        {
-            var pos = new Position {X = index, Y = i};
-            var show = sellObjects.Keys.Contains(pos);
-            wrapItem.ShowSellMask(i, show);
-        }
+        UpdateSelAndCanNotSellMasks();
     }
 
     private void OnSell(GameObject go)
     {
+        curSelUuidCache = commonWindow.GetInfo(commonWindow.CurSelPos).Uuid;
+        CacheUuidsFromPos(cannotSellPosList, cachedCanNotSellUuids);
         var sellDialog = WindowManager.Instance.Show<UISellDialogWindow>(true);
         var sellList = sellObjects.Select(item => commonWindow.GetInfo(item.Key).Uuid).ToList();
         sellDialog.InitDialog(sellList);
@@ -166,7 +161,7 @@ public class UISellHeroHandler : MonoBehaviour
         }
         if(isToSell)
         {
-            var child = NGUITools.AddChild(grid.gameObject, BaseHeroPrefab);
+            var child = NGUITools.AddChild(grid.gameObject, commonWindow.BaseHeroPrefab);
             var heroBase = child.GetComponent<HeroItemBase>();
             var uuid = go.GetComponent<HeroItemBase>().Uuid;
             heroBase.Uuid = uuid;
@@ -194,10 +189,9 @@ public class UISellHeroHandler : MonoBehaviour
         for(var i = 0; i < count; i++)
         {
             var info = infos[i];
-            if(teamMembers.Contains(info.Uuid)||commonWindow.LockedMemberUuid.Contains(info.Uuid))
+            if(teamMembers.Contains(info.Uuid)|| info.Bind)
             {
-                var pos = new Position {X = i / countPerGroup, Y = i % countPerGroup};
-                cannotSellPosList.Add(pos);
+                cannotSellPosList.Add(Utils.OneDimToTwo(i, countPerGroup));
             }
         }
     }
@@ -300,11 +294,37 @@ public class UISellHeroHandler : MonoBehaviour
 
     #endregion
 
-    public void CleanUp(bool includeCanNotSellMask = false)
+    public void SellOverUpdate()
     {
+        UpdateCurSelPosition();
+        cannotSellPosList = GetPositionsViaUuids(cachedCanNotSellUuids, commonWindow.Infos, commonWindow.CountOfOneGroup);
+        UpdateSelAndCanNotSellMasks();
+        CleanUp();
+    }
+
+    private void UpdateCurSelPosition()
+    {
+        if(sellObjects.ContainsKey(commonWindow.CurSelPos))
+        {
+            commonWindow.CurSelPos = HeroConstant.FirstPos;
+        }
+        else
+        {
+            var index = commonWindow.Infos.FindIndex(info => info.Uuid == curSelUuidCache);
+            commonWindow.CurSelPos = Utils.OneDimToTwo(index, commonWindow.CountOfOneGroup);
+        }
+    }
+
+    public void CleanUp(bool includeCanNotSellMask = false)
+    { 
         CleanSellMasks(includeCanNotSellMask);
         totalSoul = 0;
         RefreshSelAndSoul();
+        if (includeCanNotSellMask)
+        {
+            cannotSellPosList.Clear();
+            cachedCanNotSellUuids.Clear();
+        }
     }
 
     private void CleanSellMasks(bool includeCanNotSellMask = false)
@@ -321,7 +341,6 @@ public class UISellHeroHandler : MonoBehaviour
                     wrapHerosItem.ShowCanNotSellMasks(false);
                 }
             }
-
         }
         var clones = sellObjects.Select(sellObj => sellObj.Value).ToList();
         for (var i = clones.Count - 1; i >= 0; i--)
@@ -329,5 +348,6 @@ public class UISellHeroHandler : MonoBehaviour
             NGUITools.Destroy(clones[i]);
         }
         sellObjects.Clear();
+        cachedSelUuids.Clear();
     }
 }

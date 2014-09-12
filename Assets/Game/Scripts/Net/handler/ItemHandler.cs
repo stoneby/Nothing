@@ -50,7 +50,7 @@ namespace Assets.Game.Scripts.Net.handler
             if (themsg != null)
             {
                 ItemModeLocator.Instance.ServerConfigMsg = themsg;
-                HeartController.SetEneryTimer(themsg.RecoverEnergyMinutes);
+                EnergyIncreaseControl.Instance.Init(themsg.RecoverEnergyMinutes);
             }
         }
 
@@ -118,9 +118,10 @@ namespace Assets.Game.Scripts.Net.handler
                         }
                     }
                 }
-                var sellItem = WindowManager.Instance.GetWindow<UIItemCommonWindow>().ItemSellHandler;
-                sellItem.CleanUp();
-                WindowManager.Instance.GetWindow<UIItemCommonWindow>().Refresh(infos);
+                var commonWindow = WindowManager.Instance.GetWindow<UIItemCommonWindow>();
+                var sellItem = commonWindow.ItemSellHandler;
+                sellItem.SellOverUpdate();
+                commonWindow.Refresh(infos);
             }
         }
 
@@ -161,7 +162,7 @@ namespace Assets.Game.Scripts.Net.handler
                         infos.Add(itemInfo);
                     }
                 }
-                WindowManager.Instance.GetWindow<UIBuyBackItemsWindow>().BuyBackItemSucc();
+                //WindowManager.Instance.GetWindow<UIBuyBackItemsWindow>().BuyBackItemSucc();
             }
         }
 
@@ -172,10 +173,13 @@ namespace Assets.Game.Scripts.Net.handler
             {
                 var deleteIndexs = themsg.DelteItems.DeleteIndexes;
                 var infos = ItemModeLocator.Instance.ScAllItemInfos.ItemInfos;
+                var operationBag = themsg.EvolutedItemInfo.Info.BagIndex;
+                deleteIndexs.Add(operationBag);
                 infos.RemoveAll(item => deleteIndexs.Contains(item.BagIndex));
                 infos.Add(themsg.EvolutedItemInfo.Info);
-                //WindowManager.Instance.GetWindow<UIEvolveItemHandler>().ShowEvolveOver();
-                WindowManager.Instance.GetWindow<UIItemCommonWindow>().Refresh(infos);
+                var commomWindow = WindowManager.Instance.GetWindow<UIItemCommonWindow>();
+                commomWindow.EvolveItemHandler.ShowEvolveOver();
+                commomWindow.Refresh(infos);
             }
         }
 

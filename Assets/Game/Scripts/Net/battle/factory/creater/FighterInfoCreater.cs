@@ -127,6 +127,7 @@ namespace com.kx.sglm.gs.battle.share.factory.creater
 			return _fighterList;
 		}
 
+
 		public static FighterInfo createPropFromTest(int index, BattleSideEnum battleSide, FighterType type, bool boss)
 		{
 //JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':

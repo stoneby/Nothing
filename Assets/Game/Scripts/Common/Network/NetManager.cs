@@ -18,12 +18,12 @@ public class NetManager
     private static string sessionId = "";
     private const int PkgReadLenPerTime = 1024;
 
-    public delegate void MessageSended();
+    public delegate void MessageSended(bool playLoadingWait);
     public delegate void MessageReceived();
     public static MessageSended OnMessageSended;
-    public static MessageSended OnMessageReceived;
+    public static MessageReceived OnMessageReceived;
 
-    public static void SendMessage(TBase msg, bool playEffect = true)
+    public static void SendMessage(TBase msg, bool playLoadingWait = true)
     {
         lock (CSMsgQueue.SyncRoot)
         {
@@ -31,7 +31,7 @@ public class NetManager
             //Throw the message sended event.
             if (OnMessageSended != null)
             {
-                OnMessageSended();
+                OnMessageSended(playLoadingWait);
             }
         }
 

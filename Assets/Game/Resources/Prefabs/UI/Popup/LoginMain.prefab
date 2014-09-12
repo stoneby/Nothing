@@ -266,7 +266,6 @@ Transform:
   - {fileID: 400018}
   - {fileID: 400020}
   m_Father: {fileID: 400022}
-  m_RootOrder: 0
 --- !u!4 &400002
 Transform:
   m_ObjectHideFlags: 1
@@ -278,7 +277,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400000}
-  m_RootOrder: 0
 --- !u!4 &400004
 Transform:
   m_ObjectHideFlags: 1
@@ -293,7 +291,6 @@ Transform:
   - {fileID: 400022}
   - {fileID: 400026}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
 --- !u!4 &400006
 Transform:
   m_ObjectHideFlags: 1
@@ -305,7 +302,6 @@ Transform:
   m_LocalScale: {x: 1.00007999, y: 1.00007999, z: 1.00007999}
   m_Children: []
   m_Father: {fileID: 400020}
-  m_RootOrder: 1
 --- !u!4 &400008
 Transform:
   m_ObjectHideFlags: 1
@@ -317,7 +313,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400018}
-  m_RootOrder: 0
 --- !u!4 &400010
 Transform:
   m_ObjectHideFlags: 1
@@ -329,7 +324,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400020}
-  m_RootOrder: 0
 --- !u!4 &400012
 Transform:
   m_ObjectHideFlags: 1
@@ -341,7 +335,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400016}
-  m_RootOrder: 1
 --- !u!4 &400014
 Transform:
   m_ObjectHideFlags: 1
@@ -353,7 +346,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400016}
-  m_RootOrder: 0
 --- !u!4 &400016
 Transform:
   m_ObjectHideFlags: 1
@@ -367,7 +359,6 @@ Transform:
   - {fileID: 400014}
   - {fileID: 400012}
   m_Father: {fileID: 400000}
-  m_RootOrder: 1
 --- !u!4 &400018
 Transform:
   m_ObjectHideFlags: 1
@@ -381,7 +372,6 @@ Transform:
   - {fileID: 400008}
   - {fileID: 400028}
   m_Father: {fileID: 400000}
-  m_RootOrder: 2
 --- !u!4 &400020
 Transform:
   m_ObjectHideFlags: 1
@@ -395,7 +385,6 @@ Transform:
   - {fileID: 400010}
   - {fileID: 400006}
   m_Father: {fileID: 400000}
-  m_RootOrder: 3
 --- !u!4 &400022
 Transform:
   m_ObjectHideFlags: 1
@@ -408,7 +397,6 @@ Transform:
   m_Children:
   - {fileID: 400000}
   m_Father: {fileID: 400004}
-  m_RootOrder: 1
 --- !u!4 &400024
 Transform:
   m_ObjectHideFlags: 1
@@ -420,7 +408,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400004}
-  m_RootOrder: 0
 --- !u!4 &400026
 Transform:
   m_ObjectHideFlags: 1
@@ -432,7 +419,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400004}
-  m_RootOrder: 2
 --- !u!4 &400028
 Transform:
   m_ObjectHideFlags: 1
@@ -444,7 +430,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400018}
-  m_RootOrder: 1
 --- !u!54 &5400000
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -506,7 +491,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 260, y: 40, z: 0}
+  m_Size: {x: 318.899994, y: 73.6999969, z: 0}
   m_Center: {x: -130, y: 0, z: 0}
 --- !u!114 &11400000
 MonoBehaviour:
@@ -669,13 +654,13 @@ MonoBehaviour:
   OffsetX: 0
   OffsetY: 0
   MeshFactor: 1
-  autoResizeBoxCollider: 1
+  autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
   aspectRatio: 6.5
   keepCrispWhenShrunk: 2
-  mTrueTypeFont: {fileID: 0}
-  mFont: {fileID: 11400000, guid: 30054980c4ab28942a48b10c3d67cac5, type: 2}
+  mTrueTypeFont: {fileID: 12800000, guid: 482d99b42ce11584288190b4b23a76f2, type: 3}
+  mFont: {fileID: 0}
   mText: "\u66F4\u6362\u8D26\u53F7"
   mFontSize: 36
   mFontStyle: 1
@@ -730,7 +715,7 @@ MonoBehaviour:
   mPivot: 3
   mWidth: 419
   mHeight: 40
-  mDepth: 5
+  mDepth: 50
   HighLight: 0
   OffsetX: 0
   OffsetY: 0
@@ -740,8 +725,8 @@ MonoBehaviour:
   keepAspectRatio: 0
   aspectRatio: 10.4750004
   keepCrispWhenShrunk: 2
-  mTrueTypeFont: {fileID: 0}
-  mFont: {fileID: 11400000, guid: 30054980c4ab28942a48b10c3d67cac5, type: 2}
+  mTrueTypeFont: {fileID: 12800000, guid: 482d99b42ce11584288190b4b23a76f2, type: 3}
+  mFont: {fileID: 0}
   mText: "SS - SS\u670D"
   mFontSize: 36
   mFontStyle: 1
@@ -796,7 +781,7 @@ MonoBehaviour:
   mPivot: 3
   mWidth: 621
   mHeight: 40
-  mDepth: 4
+  mDepth: 50
   HighLight: 0
   OffsetX: 0
   OffsetY: 0
@@ -806,8 +791,8 @@ MonoBehaviour:
   keepAspectRatio: 0
   aspectRatio: 15.5249996
   keepCrispWhenShrunk: 2
-  mTrueTypeFont: {fileID: 0}
-  mFont: {fileID: 11400000, guid: 30054980c4ab28942a48b10c3d67cac5, type: 2}
+  mTrueTypeFont: {fileID: 12800000, guid: 482d99b42ce11584288190b4b23a76f2, type: 3}
+  mFont: {fileID: 0}
   mText: "\u767B\u5F55 / \u6CE8\u518C"
   mFontSize: 36
   mFontStyle: 1
@@ -920,7 +905,7 @@ MonoBehaviour:
   mPivot: 4
   mWidth: 94
   mHeight: 30
-  mDepth: 6
+  mDepth: 50
   HighLight: 0
   OffsetX: 0
   OffsetY: 0
@@ -930,8 +915,8 @@ MonoBehaviour:
   keepAspectRatio: 0
   aspectRatio: 3.13333344
   keepCrispWhenShrunk: 2
-  mTrueTypeFont: {fileID: 0}
-  mFont: {fileID: 11400000, guid: 30054980c4ab28942a48b10c3d67cac5, type: 2}
+  mTrueTypeFont: {fileID: 12800000, guid: 482d99b42ce11584288190b4b23a76f2, type: 3}
+  mFont: {fileID: 0}
   mText: '
 
 '
@@ -1234,8 +1219,8 @@ MonoBehaviour:
   keepAspectRatio: 0
   aspectRatio: 8.5714283
   keepCrispWhenShrunk: 1
-  mTrueTypeFont: {fileID: 0}
-  mFont: {fileID: 11400000, guid: 30054980c4ab28942a48b10c3d67cac5, type: 2}
+  mTrueTypeFont: {fileID: 12800000, guid: 482d99b42ce11584288190b4b23a76f2, type: 3}
+  mFont: {fileID: 0}
   mText: Version:1.0.0
   mFontSize: 35
   mFontStyle: 0
@@ -1313,7 +1298,7 @@ MonoBehaviour:
   mPivot: 5
   mWidth: 260
   mHeight: 40
-  mDepth: 6
+  mDepth: 50
   HighLight: 0
   OffsetX: 0
   OffsetY: 0
@@ -1323,8 +1308,8 @@ MonoBehaviour:
   keepAspectRatio: 0
   aspectRatio: 6.5
   keepCrispWhenShrunk: 2
-  mTrueTypeFont: {fileID: 0}
-  mFont: {fileID: 11400000, guid: 30054980c4ab28942a48b10c3d67cac5, type: 2}
+  mTrueTypeFont: {fileID: 12800000, guid: 482d99b42ce11584288190b4b23a76f2, type: 3}
+  mFont: {fileID: 0}
   mText: "\u70B9\u51FB\u9009\u533A"
   mFontSize: 36
   mFontStyle: 1

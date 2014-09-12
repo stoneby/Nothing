@@ -14,6 +14,39 @@ namespace com.kx.sglm.gs.battle.share.factory.creater
 	public class FighterTemplateCreater
 	{
 
+		public static List<FighterInfo> createFighterInfoListFormHeroTemp(List<Template.Auto.Hero.HeroTemplate> heroTemps, BattleSideEnum side)
+		{
+			List<FighterInfo> _infoList = new List<FighterInfo>();
+			int _heroTempSize = heroTemps.Count;
+			for (int _i = 0; _i < _heroTempSize; _i++)
+			{
+				FighterInfo _info = createFighterInfoFromHeroTemp(_i, side, heroTemps[_i]);
+				_infoList.Add(_info);
+			}
+			return _infoList;
+		}
+
+		public static FighterInfo createFighterInfoFromHeroTemp(int index, BattleSideEnum side, Template.Auto.Hero.HeroTemplate heroTemp)
+		{
+
+			Dictionary<int, int> _aProps = createHeroAPropFromTemp(heroTemp);
+			FighterInfo _info = FighterInfoCreater.createFighterProp(index, side, FighterType.HERO, _aProps);
+			_info.addNormalProp(BattleKeyConstants.BATTLE_KEY_HERO_TEMPLATE, heroTemp.Id);
+			_info.addNormalProp(BattleKeyConstants.BATTLE_KEY_HERO_JOB, (int)heroTemp.Job);
+			//是在客户端构建的
+			_info.addNormalProp(BattleKeyConstants.BATTLE_KEY_HERO_TYPE, BattleConstants.FIGHTER_TYPE_HERO);
+			_info.ActiveSkillId = heroTemp.ActiveSkill;
+			_info.LeaderSkillId = heroTemp.LeaderSkill;
+
+			List<int> _allSkills = new List<int>();
+			_allSkills.AddRange(heroTemp.PassiveSkill);
+			_allSkills.Add(heroTemp.SpSkill);
+			_allSkills.Add(heroTemp.LeaderSkill);
+			_allSkills.Add(heroTemp.ActiveSkill);
+
+			return _info;
+		}
+
 		public static void initMonsterIdAndGroup(List<int> allMonsterIdList, List<int> monsterGroupList, List<Template.Auto.Raid.MonsterGroup> allMonster)
 		{
 
@@ -45,7 +78,6 @@ namespace com.kx.sglm.gs.battle.share.factory.creater
 				monsterList.Add(monsterId);
 			}
 		}
-
 
 		public static List<FighterInfo> createMosnterFighterList(List<Template.Auto.Monster.MonsterTemplate> monterList, BattleSideEnum side)
 		{
@@ -90,7 +122,7 @@ namespace com.kx.sglm.gs.battle.share.factory.creater
 			{
 				_allSkillIds.Add(_defaultSkill.SkillId);
 			}
-			//可能没有AISkill
+			// 可能没有AISkill
 			if (aiTemp.AiSkills != null)
 			{
 				foreach (Template.Auto.Monster.MonsterSkillAIData _aiData in aiTemp.AiSkills)
@@ -143,6 +175,17 @@ namespace com.kx.sglm.gs.battle.share.factory.creater
 				return;
 			}
 			buffIds.Add(buffId);
+		}
+
+		public static Dictionary<int, int> createHeroAPropFromTemp(Template.Auto.Hero.HeroTemplate heroTemp)
+		{
+			Dictionary<int, int> _addProps = new Dictionary<int, int>();
+			_addProps[RoleAProperty.ATK] = heroTemp.Attack;
+			_addProps[RoleAProperty.HP] = heroTemp.HP;
+			_addProps[RoleAProperty.MP] = heroTemp.MP;
+			_addProps[RoleAProperty.RECOVER] = heroTemp.Recover;
+			_addProps[RoleAProperty.LUCY] = heroTemp.Lucky;
+			return _addProps;
 		}
 
 	}

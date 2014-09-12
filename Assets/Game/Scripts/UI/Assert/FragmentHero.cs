@@ -2,6 +2,24 @@
 
 public class FragmentHero : MonoBehaviour
 {
+    #region Public Fields
+
+    public int TemplateId
+    {
+        get { return templateId; }
+
+        set { templateId = value; }
+    }
+
+    public int MaterialCount
+    {
+        get { return materialCount; }
+
+        set { materialCount = value; }
+    }
+
+    #endregion
+
     #region Private Fields
 
     private UIEventListener fragHeroLis;
@@ -14,6 +32,31 @@ public class FragmentHero : MonoBehaviour
     private UISprite cornorSprite;
     private UISprite heroImage;
     private int star;
+
+    #endregion
+
+    #region Public Methods
+
+    /// <summary>
+    /// Initialize or refresh private fields.
+    /// </summary>
+    public void Refresh()
+    {
+        var heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpls[templateId];
+        cornorSprite.spriteName = HeroConstant.HeroJobPrefix + heroTemplate.Job;
+
+        star = heroTemplate.Star;
+        for (int i = 0; i < star; i++)
+        {
+            transform.Find("Star" + (i + 1)).gameObject.SetActive(true);
+        }
+        fragHeroLis.onClick = OnFragmentHero;
+    }
+
+    public void SwitchColor(Color color)
+    {
+        heroImage.color = color;
+    }
 
     #endregion
 
@@ -37,49 +80,6 @@ public class FragmentHero : MonoBehaviour
         {
             tempWindow.Refresh(false);
         }
-    }
-
-    #endregion
-
-    #region Public Fields
-
-    public int TemplateId
-    {
-        get { return templateId; }
-
-        set { templateId = value; }
-    }
-
-    public int MaterialCount
-    {
-        get { return materialCount; }
-
-        set { materialCount = value; }
-    }   
-
-    #endregion
-
-    #region Public Methods
-
-    /// <summary>
-    /// Initialize or refresh private fields.
-    /// </summary>
-    public void Refresh()
-    {
-        var heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpls[templateId];
-        cornorSprite.spriteName=HeroConstant.HeroJobPrefix+heroTemplate.Job;
-
-        star = heroTemplate.Star;
-        for (int i = 0; i < star; i++)
-        {
-            transform.Find("Star" + (i + 1)).gameObject.SetActive(true);
-        }
-        fragHeroLis.onClick = OnFragmentHero;
-    }
-
-    public void SwitchColor(Color color)
-    {
-        heroImage.color = color;
     }
 
     #endregion

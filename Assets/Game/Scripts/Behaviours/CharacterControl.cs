@@ -14,6 +14,8 @@ public class CharacterControl : MonoBehaviour
     public GameObject TopTimesObj;
     public GameObject FriendLabelObj;
 
+    public BuffBarController BuffBarController;
+
     public Character CharacterData;
 
     public int JobIndex;
@@ -114,7 +116,6 @@ public class CharacterControl : MonoBehaviour
     public void PlayCharacter(Character.State state, bool loop)
     {
         CharacterData.PlayState(state, loop);
-        // [FIXME] Missing character moving animation.
         if (state == Character.State.Run || state == Character.State.Run)
         {
             NGUITools.SetActive(FootObj, false);
@@ -157,11 +158,11 @@ public class CharacterControl : MonoBehaviour
 
     private IEnumerator PopPlay()
     {
-        PopTextManager.ShowText(AttackValue.ToString(), 0.5f, 0, 0, 70, transform.localPosition);
+        PopTextManager.ShowText(AttackValue.ToString(), 0.5f, 0, 0, 70, CharacterData.transform.localPosition);
         yield return new WaitForSeconds(0.5f);
         if (isSelected)
         {
-            topAttackObj = PopTextManager.ShakeText(AttackValue.ToString(), -25, 25, transform.localPosition);
+            topAttackObj = PopTextManager.ShakeText(AttackValue.ToString(), -25, 25, CharacterData.transform.localPosition);
         }
     }
 }

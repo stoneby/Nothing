@@ -1,12 +1,17 @@
 ﻿using System.Collections.Generic;
 using KXSGCodec;
+using UnityEngine;
 
 namespace Assets.Game.Scripts.Net.handler
 {
-    class PlayerHandler 
+    class PlayerHandler
     {
+        private static bool isNewPlayer=false;
+
         public static void OnCreatePlayer(ThriftSCMessage msg)
         {
+            isNewPlayer = true;
+
             if (ServiceManager.IsDebugAccount == 1)
             {
                 ServiceManager.SetDebugAccount(ServiceManager.DebugUserName, ServiceManager.DebugPassword);
@@ -42,6 +47,7 @@ namespace Assets.Game.Scripts.Net.handler
 
         public static void OnPlayerInfo(ThriftSCMessage msg)
         {
+            UnityEngine.Debug.Log("Receive scplayerinfo msg from server.");
             //PopTextManager.PopTip("登录成功，返回玩家角色信息");
             var themsg = msg.GetContent() as SCPlayerInfoMsg;    
             if (themsg != null)
@@ -58,10 +64,10 @@ namespace Assets.Game.Scripts.Net.handler
                 PlayerModelLocator.Instance.ExtendHeroTimes = themsg.HeroExtendTimes;
                 PlayerModelLocator.Instance.ExtendItemTimes = themsg.ItemExtendTimes;
                 PlayerModelLocator.Instance.HeroMax = themsg.HeroMax;
-                PlayerModelLocator.Instance.Energy = themsg.Energy;
+                EnergyIncreaseControl.Instance.Energy = themsg.Energy;
                 PlayerModelLocator.Instance.TeamProp = new Dictionary<int, int>(themsg.TeamProp);
                 PlayerModelLocator.Instance.TeamList = new List<int>(themsg.TeamList);
-                
+                UnityEngine.Debug.Log("Set PlayerModelLocator ends.");
                 ServiceManager.UserID = themsg.UId;
                 if (ServiceManager.IsDebugAccount == 1)
                 {
@@ -77,30 +83,35 @@ namespace Assets.Game.Scripts.Net.handler
             EventManager.Instance.Post(new LoginEvent { Message = "This is login event." });
             HttpResourceManager.Instance.OnLoadFinish += OnFinish;
             //WindowManager.Instance.Show<MainMenuBarWindow>(true);
+            UnityEngine.Debug.Log("Start loading template.");
             HttpResourceManager.Instance.LoadTemplate();
             WindowManager.Instance.Show<LoadingWaitWindow>(true);
         }
 
         private static void OnFinish()
         {
-            WindowManager.Instance.Show<UIMainScreenWindow>(true);
+            Debug.Log("Go to finish in playerhandler.");
             WindowManager.Instance.Show<LoginAccountWindow>(false);
             WindowManager.Instance.Show<LoginCreateRoleWindow>(false);
             WindowManager.Instance.Show<LoginMainWindow>(false);
             WindowManager.Instance.Show<LoginRegisterWindow>(false);
             WindowManager.Instance.Show<LoginServersWindow>(false);
             WindowManager.Instance.Show<LoadingWaitWindow>(false);
+            WindowManager.Instance.Show<UIMainScreenWindow>(true);
 
             HttpResourceManager.Instance.OnLoadFinish -= OnFinish;
 
+            Debug.Log("go to green hand way.");
+            //GreenHand battle
+            if (isNewPlayer)
+            {
+                isNewPlayer = false;
+                GreenhandController.Instance.SendStartMessage();
+            }
+
+            Debug.Log("Go to persistence way.");
             //BattlePersistence
             PersistenceHandler.Instance.GoToPersistenceWay();
-
-            //FirstLoginGiveHero
-            if (ChooseCardHandler.IsHeroFirstLoginGive)
-            {
-                ChooseCardHandler.OnHeroFirstLoginGive();
-            }
         }
     }
 }

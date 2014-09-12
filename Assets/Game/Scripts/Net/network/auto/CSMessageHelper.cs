@@ -23,6 +23,8 @@ namespace KXSGCodec
         private  CSMessageHelper() 
         {
         	            MSG_TYPE_DICT[typeof(CSBattlePveFinishMsg)] = (short)MessageType.CS_BATTLE_PVE_FINISH_MSG.GetHashCode();
+			            MSG_TYPE_DICT[typeof(CSGreenhandBattleEndMsg)] = (short)MessageType.CS_GREENHAND_BATTLE_END_MSG.GetHashCode();
+			            MSG_TYPE_DICT[typeof(CSGreenhandBattleStartMsg)] = (short)MessageType.CS_GREENHAND_BATTLE_START_MSG.GetHashCode();
 			            MSG_TYPE_DICT[typeof(CSRaidBattleStartMsg)] = (short)MessageType.CS_RAID_BATTLE_START_MSG.GetHashCode();
 			            MSG_TYPE_DICT[typeof(CSFriendApply)] = (short)MessageType.CS_FRIEND_APPLY.GetHashCode();
 			            MSG_TYPE_DICT[typeof(CSFriendApplyList)] = (short)MessageType.CS_FRIEND_APPLY_LIST.GetHashCode();
@@ -62,6 +64,8 @@ namespace KXSGCodec
 			            MSG_TYPE_DICT[typeof(CSLotteryCompose)] = (short)MessageType.CS_LOTTERY_COMPOSE.GetHashCode();
 			            MSG_TYPE_DICT[typeof(CSLotteryComposeList)] = (short)MessageType.CS_LOTTERY_COMPOSE_LIST.GetHashCode();
 			            MSG_TYPE_DICT[typeof(CSLotteryList)] = (short)MessageType.CS_LOTTERY_LIST.GetHashCode();
+			            MSG_TYPE_DICT[typeof(CSMailListMsg)] = (short)MessageType.CS_MAIL_LIST_MSG.GetHashCode();
+			            MSG_TYPE_DICT[typeof(CSOptionMailMsg)] = (short)MessageType.CS_OPTION_MAIL_MSG.GetHashCode();
 			            MSG_TYPE_DICT[typeof(CSBuyEnergy)] = (short)MessageType.CS_BUY_ENERGY.GetHashCode();
 			            MSG_TYPE_DICT[typeof(CSRaidLoadingAll)] = (short)MessageType.CS_RAID_LOADING_ALL.GetHashCode();
 			            MSG_TYPE_DICT[typeof(CSRaidQueryFriend)] = (short)MessageType.CS_RAID_QUERY_FRIEND.GetHashCode();

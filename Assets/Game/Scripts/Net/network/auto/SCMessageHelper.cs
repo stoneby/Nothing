@@ -20,7 +20,11 @@ namespace KXSGCodec
     {
         public static TBase createMessage(short type)
         {
-        	            if (type == MessageType.SC_BATTLE_PVE_START_MSG.GetHashCode())
+        	            if (type == MessageType.SC_BAG_OVER_LIMIT.GetHashCode())
+            {
+                return new SCBagOverLimit();
+            }
+			            if (type == MessageType.SC_BATTLE_PVE_START_MSG.GetHashCode())
             {
                 return new SCBattlePveStartMsg();
             }
@@ -191,6 +195,26 @@ namespace KXSGCodec
 			            if (type == MessageType.SC_LOTTERY_REFRESH_TIMES.GetHashCode())
             {
                 return new SCLotteryRefreshTimes();
+            }
+			            if (type == MessageType.SC_MAIL_DELETE_MSG.GetHashCode())
+            {
+                return new SCMailDeleteMsg();
+            }
+			            if (type == MessageType.SC_MAIL_DETAIL_MSG.GetHashCode())
+            {
+                return new SCMailDetailMsg();
+            }
+			            if (type == MessageType.SC_MAIL_LIST_MSG.GetHashCode())
+            {
+                return new SCMailListMsg();
+            }
+			            if (type == MessageType.SC_MAIL_OPTION_RESULT_MSG.GetHashCode())
+            {
+                return new SCMailOptionResultMsg();
+            }
+			            if (type == MessageType.SC_MAIL_UPDATE_MSG.GetHashCode())
+            {
+                return new SCMailUpdateMsg();
             }
 			            if (type == MessageType.SC_PROPERTY_CHANGED_NUMBER.GetHashCode())
             {

@@ -7,10 +7,27 @@ using UnityEngine;
 /// </summary>
 public abstract class CharacterInitializer : MonoBehaviour
 {
+    public GameObject Parent;
     public GameObject Face;
     public List<Character> CharacterList { get; set; }
     
     public abstract void Initialize(List<FighterInfo> fighterList);
 
-    public abstract void Cleanup();
+    public virtual void Cleanup()
+    {
+        var characterPoolManager = CharacterPoolManager.Instance;
+        CharacterList.ForEach(character =>
+        {
+            var index = character.IDIndex;
+            character.CanSelected = true;
+            characterPoolManager.CharacterPoolList[index].Return(character.gameObject);
+        });
+
+        CharacterList.ForEach(character =>
+        {
+            var faceObject = character.FaceObject;
+            character.FaceObject = null;
+            Destroy(faceObject);
+        });
+    }
 }

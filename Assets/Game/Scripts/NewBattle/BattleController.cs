@@ -13,7 +13,7 @@ public class BattleController : MonoBehaviour
     public float RunTime = 0.2f;
     public float AttackTime = 0.3f;
 
-    private void OnSelected(GameObject selectObject)
+    private void OnSelected(Character selectObject)
     {
         
     }
@@ -52,7 +52,7 @@ public class BattleController : MonoBehaviour
             yield return new WaitForSeconds(AttackTime);
 
             // enemy hurt.
-            var enemyControll = enemy.GetComponent<EnemyControl>();
+            var enemyControll = enemy.GetComponent<MonsterControl>();
             enemyControll.PlayAttack();
             enemyControll.PlayShake();
 

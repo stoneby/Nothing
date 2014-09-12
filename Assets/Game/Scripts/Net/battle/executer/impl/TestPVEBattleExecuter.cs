@@ -33,7 +33,7 @@ namespace com.kx.sglm.gs.battle.share.executer.impl
 	public class TestPVEBattleExecuter : AbstractBattleExcuter
 	{
 
-		private List<MonsterTeam> monsterList;
+		protected internal List<MonsterTeam> monsterList;
 
 		public TestPVEBattleExecuter(Battle battle) : base(battle)
 		{
