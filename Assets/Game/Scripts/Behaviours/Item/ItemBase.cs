@@ -11,6 +11,8 @@ public class ItemBase : MonoBehaviour
 
     [HideInInspector]
     public ItemInfo TheItemInfo;
+    [HideInInspector]
+    public int TempId;
     protected sbyte quality;
     public virtual sbyte Quality
     {
@@ -59,6 +61,7 @@ public class ItemBase : MonoBehaviour
 
     public virtual void InitItem(int temId)
     {
+        TempId = temId;
         Quality = ItemModeLocator.Instance.GetQuality(temId);
         ItemType.SetHeadByTemplate(icon, temId);
         if(itemName)

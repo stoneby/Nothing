@@ -32,6 +32,9 @@ namespace KXSGCodec
     private bool _firstLotteryGive4Star;
     private bool _tenLotteryGiveElevenHero;
 
+    /// <summary>
+    /// 活动id
+    /// </summary>
     public int ActivityId
     {
       get
@@ -45,6 +48,9 @@ namespace KXSGCodec
       }
     }
 
+    /// <summary>
+    /// 开始时间
+    /// </summary>
     public long StartTime
     {
       get
@@ -58,6 +64,9 @@ namespace KXSGCodec
       }
     }
 
+    /// <summary>
+    /// 结束时间
+    /// </summary>
     public long EndTime
     {
       get
@@ -71,6 +80,9 @@ namespace KXSGCodec
       }
     }
 
+    /// <summary>
+    /// 轮播图片
+    /// </summary>
     public List<int> Icon
     {
       get
@@ -84,6 +96,9 @@ namespace KXSGCodec
       }
     }
 
+    /// <summary>
+    /// 名称
+    /// </summary>
     public string Name
     {
       get
@@ -97,6 +112,9 @@ namespace KXSGCodec
       }
     }
 
+    /// <summary>
+    /// 描述
+    /// </summary>
     public string Desc
     {
       get
@@ -110,6 +128,9 @@ namespace KXSGCodec
       }
     }
 
+    /// <summary>
+    /// 首抽给4星
+    /// </summary>
     public bool FirstLotteryGive4Star
     {
       get
@@ -123,6 +144,9 @@ namespace KXSGCodec
       }
     }
 
+    /// <summary>
+    /// 10连抽给11个武将
+    /// </summary>
     public bool TenLotteryGiveElevenHero
     {
       get

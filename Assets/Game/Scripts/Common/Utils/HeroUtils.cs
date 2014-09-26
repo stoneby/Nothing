@@ -282,18 +282,32 @@ public class HeroUtils
         }
     }
 
-    public static void GetProperties(IEnumerable<HeroInfo> heroInfos, out int atk, out int hp, out int recover, out int mp)
+    public static void GetProperties(List<HeroInfo> heroInfos, out int atk, out int hp, out int recover, out int mp)
     {
-        atk = 0;
-        hp = 0;
-        recover = 0;
-        mp = 0;
-        foreach (var heroInfo in heroInfos)
+        atk = GetProp(heroInfos, RoleProperties.ROLE_ATK);
+        hp = GetProp(heroInfos, RoleProperties.ROLE_HP);
+        recover = GetProp(heroInfos, RoleProperties.ROLE_RECOVER);
+        mp = GetProp(heroInfos, RoleProperties.ROLE_MP);
+    }
+
+    public static int GetProp(List<HeroInfo> heros, int key)
+    {
+        var sumProp = 0;
+        foreach (var hero in heros)
         {
-            atk += heroInfo.Prop[RoleProperties.ROLE_ATK];
-            hp += heroInfo.Prop[RoleProperties.ROLE_HP];
-            recover += heroInfo.Prop[RoleProperties.ROLE_RECOVER];
-            mp += heroInfo.Prop[RoleProperties.ROLE_MP];
+            sumProp += hero.Prop[key];
+        }
+        return sumProp;
+    }
+
+    public static void InstallLongPress(GameObject go, UIEventListener.VoidDelegate normalClick, bool pressNotTriggerWhenLPress)
+    {
+        var longPressHandler = go.GetComponent<HeroLongPressHandler>();
+        if (longPressHandler)
+        {
+            var longPress = longPressHandler.InstallLongPress();
+            longPress.NPressNotTriggerWhenLPress = pressNotTriggerWhenLPress;
+            longPress.OnNormalPress = normalClick;
         }
     }
  }

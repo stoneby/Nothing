@@ -37,6 +37,8 @@ namespace KXSGCodec
 			            MSG_TYPE_DICT[typeof(CSFriendQueryByName)] = (short)MessageType.CS_FRIEND_QUERY_BY_NAME.GetHashCode();
 			            MSG_TYPE_DICT[typeof(CSFriendRecieveEnergy)] = (short)MessageType.CS_FRIEND_RECIEVE_ENERGY.GetHashCode();
 			            MSG_TYPE_DICT[typeof(CSFriendRecieveEnergyList)] = (short)MessageType.CS_FRIEND_RECIEVE_ENERGY_LIST.GetHashCode();
+			            MSG_TYPE_DICT[typeof(CSGreenhandFinishMsg)] = (short)MessageType.CS_GREENHAND_FINISH_MSG.GetHashCode();
+			            MSG_TYPE_DICT[typeof(CSGreenhandStartMsg)] = (short)MessageType.CS_GREENHAND_START_MSG.GetHashCode();
 			            MSG_TYPE_DICT[typeof(CSHeroBind)] = (short)MessageType.CS_HERO_BIND.GetHashCode();
 			            MSG_TYPE_DICT[typeof(CSHeroChangeEquip)] = (short)MessageType.CS_HERO_CHANGE_EQUIP.GetHashCode();
 			            MSG_TYPE_DICT[typeof(CSHeroChangeOrder)] = (short)MessageType.CS_HERO_CHANGE_ORDER.GetHashCode();
@@ -66,6 +68,8 @@ namespace KXSGCodec
 			            MSG_TYPE_DICT[typeof(CSLotteryList)] = (short)MessageType.CS_LOTTERY_LIST.GetHashCode();
 			            MSG_TYPE_DICT[typeof(CSMailListMsg)] = (short)MessageType.CS_MAIL_LIST_MSG.GetHashCode();
 			            MSG_TYPE_DICT[typeof(CSOptionMailMsg)] = (short)MessageType.CS_OPTION_MAIL_MSG.GetHashCode();
+			            MSG_TYPE_DICT[typeof(CSGameNoticeDetailMsg)] = (short)MessageType.CS_GAME_NOTICE_DETAIL_MSG.GetHashCode();
+			            MSG_TYPE_DICT[typeof(CSGameNoticeList)] = (short)MessageType.CS_GAME_NOTICE_LIST.GetHashCode();
 			            MSG_TYPE_DICT[typeof(CSBuyEnergy)] = (short)MessageType.CS_BUY_ENERGY.GetHashCode();
 			            MSG_TYPE_DICT[typeof(CSRaidLoadingAll)] = (short)MessageType.CS_RAID_LOADING_ALL.GetHashCode();
 			            MSG_TYPE_DICT[typeof(CSRaidQueryFriend)] = (short)MessageType.CS_RAID_QUERY_FRIEND.GetHashCode();

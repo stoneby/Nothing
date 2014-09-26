@@ -27,14 +27,14 @@ public class LoginAccountWindow : Window
 
         EventManager.Instance.AddListener<LoginEvent>(OnSCPlayerInfoHandler);
 
-//        var obj = ServiceManager.GetDefaultAccount();
-//        if (obj != null)
-//        {
-            var acinput = InputAccount.GetComponent<UIInput>();
-            var pwinput = InputPassword.GetComponent<UIInput>();
-            acinput.value = ServiceManager.DebugUserName;
-            pwinput.value = ServiceManager.DebugPassword;
-//        }
+        //        var obj = ServiceManager.GetDefaultAccount();
+        //        if (obj != null)
+        //        {
+        var acinput = InputAccount.GetComponent<UIInput>();
+        var pwinput = InputPassword.GetComponent<UIInput>();
+        acinput.value = ServiceManager.DebugUserName;
+        pwinput.value = ServiceManager.DebugPassword;
+        //        }
     }
 
     public override void OnExit()
@@ -83,22 +83,29 @@ public class LoginAccountWindow : Window
             return;
         }
 
-//        if (ServiceManager.AccountData == null)
-//        {
-//            ServiceManager.AccountData = new AccountVO();
-//        }
+        //        if (ServiceManager.AccountData == null)
+        //        {
+        //            ServiceManager.AccountData = new AccountVO();
+        //        }
         ServiceManager.DebugUserName = acinput.value;
         ServiceManager.DebugPassword = pwinput.value;
         ServiceManager.AddServer(ServiceManager.ServerData.Url);
         ServiceManager.IsDebugAccount = 1;
 
+        if (!HttpResourceManager.Instance.IsLoadTemplateFinished)
+        {
+            Logger.Log("Start loading template.");
+            HttpResourceManager.Instance.LoadTemplate();
+            WindowManager.Instance.Show<LoadingWaitWindow>(true);
+        }
+
         var csMsg = new CSPasswdLoginMsg();
         csMsg.DeviceId = "1";
         csMsg.DeviceType = 2;
+        csMsg.DeviceModel = SystemInfo.deviceModel;
         csMsg.Passwd = pwinput.value;
         csMsg.AccountName = acinput.value;
         NetManager.SendMessage(csMsg);
-        
     }
 
     private void OnRegisterButtonClick(GameObject game)
@@ -119,7 +126,7 @@ public class LoginAccountWindow : Window
         {
             ServiceManager.SetDebugAccount(ServiceManager.DebugUserName, ServiceManager.DebugPassword);
         }
-        
+
         //ServiceManager.SaveAccount();
     }
 }

@@ -21,6 +21,8 @@ namespace com.kx.sglm.gs.battle.share.factory.creater
 
 		Dictionary<int, Template.Auto.Buff.BattleBuffTemplate> AllBuffMap {get;}
 
+		Template.Auto.Greenhand.GreenhandTemplate BattleGreenhandTemplate {get;}
+
 	}
 
 }

@@ -7,6 +7,13 @@ using UnityEngine;
 
 public class HeroAndItemSummitHandler : MonoBehaviour
 {
+    #region Public Fields
+
+    public AdvertisePlayer HeroPlayer;
+    public AdvertisePlayer ItemPlayer;
+
+    #endregion
+
     #region Private Fields
 
     private UIEventListener buyOneLis;
@@ -27,27 +34,102 @@ public class HeroAndItemSummitHandler : MonoBehaviour
     private SCLotteryList scLotteryList;
     private Transform tenTimesDesc;
     private Transform elevenTimesDesc;
-    private AdvertisePlayer heroPlayer;
-    private AdvertisePlayer itemPlayer;
     private int lotteryMode = -1;
     private bool isHeroChoose;
 
     #endregion
 
-    #region Window
+    #region Public Methods
 
-    private void OnEnable()
+    /// <summary>
+    /// Used to refresh the main window ui.
+    /// </summary>
+    /// <param name="lotteryList"></param>
+    /// <param name="isChooseHeroCard"></param>
+    public void Refresh(SCLotteryList lotteryList, bool isChooseHeroCard)
     {
-        InstallHandlers();
+        isHeroChoose = isChooseHeroCard;
+        scLotteryList = lotteryList;
+
+        if (isChooseHeroCard)
+        {
+            NGUITools.SetActiveChildren(heroRelated.gameObject, isHeroChoose);
+            NGUITools.SetActiveChildren(itemRelated.gameObject, false);
+
+            var oneTimeCostValue = lotteryList.LotteryHeroCost;
+            oneTimeCost.text = oneTimeCostValue.ToString(CultureInfo.InvariantCulture);
+            tenTimeCost.text = (oneTimeCostValue * TenTimes).ToString(CultureInfo.InvariantCulture);
+            var isElevenTimes = lotteryList.ListLotteryHeroInfo[0].TenLotteryGiveElevenHero;
+            elevenTimesDesc.gameObject.SetActive(isElevenTimes);
+            tenTimesDesc.gameObject.SetActive(!isElevenTimes);
+            if (HeroPlayer.Textures.Count != 0 && HeroPlayer.Textures.Count != 1)
+            {
+                HeroPlayer.Play();
+            }
+            RefreshTimes(lotteryList.LastFreeLotteryTime, lotteryList.Get4StarHeroRestTimes);
+        }
+        else
+        {
+            NGUITools.SetActiveChildren(itemRelated.gameObject, !isHeroChoose);
+            NGUITools.SetActiveChildren(heroRelated.gameObject, false);
+
+            var oneTimeCostValue = lotteryList.LotteryItemCost;
+            oneTimeCost.text = oneTimeCostValue.ToString(CultureInfo.InvariantCulture);
+            tenTimeCost.text = (oneTimeCostValue * TenTimes).ToString(CultureInfo.InvariantCulture);
+            var isElevenTimes = lotteryList.ListLotteryHeroInfo[0].TenLotteryGiveElevenHero;
+            elevenTimesDesc.gameObject.SetActive(isElevenTimes);
+            tenTimesDesc.gameObject.SetActive(!isElevenTimes);
+            if (ItemPlayer.Textures.Count != 0 && ItemPlayer.Textures.Count != 1)
+            {
+                ItemPlayer.Play();
+            }
+            RefreshTimes(lotteryList.LastFreeLotteryTime, lotteryList.Get4StarHeroRestTimes);
+        }
+        totalFamous.text = PlayerModelLocator.Instance.Famous.ToString(CultureInfo.InvariantCulture);
+        totalIngot.text = PlayerModelLocator.Instance.Diamond.ToString(CultureInfo.InvariantCulture);
     }
 
-    private void OnDisable()
+    /// <summary>
+    /// Update the time with the last free time and times for free.
+    /// </summary>
+    /// <param name="lastTime"></param>
+    /// <param name="restTimes"></param>
+    public void RefreshTimes(long lastTime, int restTimes)
     {
-        UnInstallHandlers();
-        StopAllCoroutines();
-        scLotteryList = null;
-        heroPlayer.Reset();
-        itemPlayer.Reset();
+        if (isHeroChoose)
+        {
+            DisplayFreeTime(lastTime);
+            timesForHero.text = restTimes.ToString(CultureInfo.InvariantCulture);
+            if (int.Parse(timesForHero.text) == 0)
+            {
+                timesForHero.gameObject.SetActive(false);
+                heroDescNotFree.gameObject.SetActive(false);
+                heroDescFree.gameObject.SetActive(true);
+            }
+            else if (int.Parse(timesForHero.text) > 0)
+            {
+                timesForHero.gameObject.SetActive(true);
+                heroDescNotFree.gameObject.SetActive(true);
+                heroDescFree.gameObject.SetActive(false);
+            }
+            else
+            {
+                Logger.LogError("Not correct timesForHero Num.");
+                return;
+            }
+            WindowManager.Instance.GetWindow<ChooseCardWindow>().ScLotteryList.LastFreeLotteryTime = lastTime;
+        }
+    }
+
+
+    /// <summary>
+    /// Show ui for lottery can not be free.
+    /// </summary>
+    public void LotteryCannotFree()
+    {
+        isFreeTime = false;
+        lotteryMode = LotteryConstant.LotteryModeOnceCharge;
+        ShowOneConfirm();
     }
 
     #endregion
@@ -71,21 +153,23 @@ public class HeroAndItemSummitHandler : MonoBehaviour
         timesForHero = heroRelated.FindChild("TimesForHero").GetComponent<UILabel>();
         heroDescNotFree = heroRelated.FindChild("HeroDesc1").GetComponent<UISprite>();
         heroDescFree = heroRelated.FindChild("HeroDesc1_2").GetComponent<UISprite>();
-        heroPlayer = heroRelated.GetComponentInChildren<AdvertisePlayer>();
-        itemPlayer = itemRelated.GetComponentInChildren<AdvertisePlayer>();
+        //heroPlayer = heroRelated.GetComponentInChildren<AdvertisePlayer>();
+        //itemPlayer = itemRelated.GetComponentInChildren<AdvertisePlayer>();
     }
 
     private void InstallHandlers()
     {
-        buyOneLis.onClick = OnBuyOne;
-        buyTenLis.onClick = OnBuyTen;
+        Logger.Log("!!!!!!Install handlers in HeroAndItemSummitHandler.");
+        buyOneLis.onClick += OnBuyOne;
+        buyTenLis.onClick += OnBuyTen;
         CommonHandler.PlayerPropertyChanged += RefreshFamousAndIngot;
     }
 
     private void UnInstallHandlers()
     {
-        buyOneLis.onClick = null;
-        buyTenLis.onClick = null;
+        Logger.Log("!!!!!!UnInstall handlers in HeroAndItemSummitHandler.");
+        buyOneLis.onClick -= OnBuyOne;
+        buyTenLis.onClick -= OnBuyTen;
         CommonHandler.PlayerPropertyChanged -= RefreshFamousAndIngot;
     }
 
@@ -257,97 +341,20 @@ public class HeroAndItemSummitHandler : MonoBehaviour
 
     #endregion
 
-    #region Public Methods
+    #region Window
 
-    /// <summary>
-    /// Used to refresh the main window ui.
-    /// </summary>
-    /// <param name="lotteryList"></param>
-    /// <param name="isChooseHeroCard"></param>
-    public void Refresh(SCLotteryList lotteryList, bool isChooseHeroCard)
+    private void OnEnable()
     {
-        isHeroChoose = isChooseHeroCard;
-        scLotteryList = lotteryList;
-
-        if (isChooseHeroCard)
-        {
-            NGUITools.SetActiveChildren(heroRelated.gameObject, isHeroChoose);
-            NGUITools.SetActiveChildren(itemRelated.gameObject, false);
-
-            var oneTimeCostValue = lotteryList.LotteryHeroCost;
-            oneTimeCost.text = oneTimeCostValue.ToString(CultureInfo.InvariantCulture);
-            tenTimeCost.text = (oneTimeCostValue * TenTimes).ToString(CultureInfo.InvariantCulture);
-            var isElevenTimes = lotteryList.ListLotteryHeroInfo[0].TenLotteryGiveElevenHero;
-            elevenTimesDesc.gameObject.SetActive(isElevenTimes);
-            tenTimesDesc.gameObject.SetActive(!isElevenTimes);
-            if (heroPlayer.Textures.Count != 0 && heroPlayer.Textures.Count != 1)
-            {
-                heroPlayer.Play();
-            }
-            RefreshTimes(lotteryList.LastFreeLotteryTime, lotteryList.Get4StarHeroRestTimes);
-        }
-        else
-        {
-            NGUITools.SetActiveChildren(itemRelated.gameObject, !isHeroChoose);
-            NGUITools.SetActiveChildren(heroRelated.gameObject, false);
-
-            var oneTimeCostValue = lotteryList.LotteryItemCost;
-            oneTimeCost.text = oneTimeCostValue.ToString(CultureInfo.InvariantCulture);
-            tenTimeCost.text = (oneTimeCostValue * TenTimes).ToString(CultureInfo.InvariantCulture);
-            var isElevenTimes = lotteryList.ListLotteryHeroInfo[0].TenLotteryGiveElevenHero;
-            elevenTimesDesc.gameObject.SetActive(isElevenTimes);
-            tenTimesDesc.gameObject.SetActive(!isElevenTimes);
-            if (itemPlayer.Textures.Count != 0 && itemPlayer.Textures.Count != 1)
-            {
-                itemPlayer.Play();
-            }
-            RefreshTimes(lotteryList.LastFreeLotteryTime, lotteryList.Get4StarHeroRestTimes);
-        }
-        totalFamous.text = PlayerModelLocator.Instance.Famous.ToString(CultureInfo.InvariantCulture);
-        totalIngot.text = PlayerModelLocator.Instance.Diamond.ToString(CultureInfo.InvariantCulture);
+        InstallHandlers();
     }
 
-    /// <summary>
-    /// Update the time with the last free time and times for free.
-    /// </summary>
-    /// <param name="lastTime"></param>
-    /// <param name="restTimes"></param>
-    public void RefreshTimes(long lastTime, int restTimes)
+    private void OnDisable()
     {
-        if (isHeroChoose)
-        {
-            DisplayFreeTime(lastTime);
-            timesForHero.text = restTimes.ToString(CultureInfo.InvariantCulture);
-            if (int.Parse(timesForHero.text) == 0)
-            {
-                timesForHero.gameObject.SetActive(false);
-                heroDescNotFree.gameObject.SetActive(false);
-                heroDescFree.gameObject.SetActive(true);
-            }
-            else if (int.Parse(timesForHero.text) > 0)
-            {
-                timesForHero.gameObject.SetActive(true);
-                heroDescNotFree.gameObject.SetActive(true);
-                heroDescFree.gameObject.SetActive(false);
-            }
-            else
-            {
-                Logger.LogError("Not correct timesForHero Num.");
-                return;
-            }
-            WindowManager.Instance.GetWindow<ChooseCardWindow>().ScLotteryList.LastFreeLotteryTime = lastTime;
-        }
-    }
-
-
-    /// <summary>
-    /// Show ui for lottery can not be free.
-    /// </summary>
-    public void LotteryCannotFree()
-    {
-        isFreeTime = false;
-        lotteryMode = LotteryConstant.LotteryModeOnceCharge;
-        ShowOneConfirm();
+        UnInstallHandlers();
+        StopAllCoroutines();
+        scLotteryList = null;
+        HeroPlayer.Reset();
+        ItemPlayer.Reset();
     }
 
     #endregion

@@ -1,8 +1,7 @@
-using System.Collections.Generic;
-using System.Linq;
 using Assets.Game.Scripts.Net.handler;
 using KXSGCodec;
-using Property;
+using System.Collections.Generic;
+using System.Linq;
 using Template.Auto.Skill;
 using UnityEngine;
 
@@ -37,6 +36,7 @@ public class UIBuildingTeamWindow : Window
 
     #region Public Fields
 
+    public GameObject HeroDetailInfo;
     public CloseButtonControl CloseButtonControl;
     public HeroSortControl HeroSortControl;
     public PropertyUpdater PropertyUpdater;
@@ -62,7 +62,9 @@ public class UIBuildingTeamWindow : Window
         HeroSortControl.Init(infos);
         HeroUtils.InitWrapContents(Heros, infos, CountOfOneGroup, PlayerModelLocator.Instance.HeroMax);
         Init();
+        InstallHeroClicks();
         InstallHandlers();
+        GameObject.FindGameObjectWithTag("TeamCloseBTN").GetComponent<BoxCollider>().enabled = true;
     }
 
     public override void OnExit()
@@ -86,7 +88,6 @@ public class UIBuildingTeamWindow : Window
         teamGrid = transform.Find("Item/Grid").GetComponent<UIGrid>();
         NGUITools.SetActive(tabTemplate, false);
         NGUITools.SetActive(Heros.transform.parent.gameObject, true);
-        InstallHeroClicks();
         leaderSkillName = transform.Find("LeaderSkill/Name").GetComponent<UILabel>();
         leaderSkillDesc = transform.Find("LeaderSkill/Desc").GetComponent<UILabel>();
     }
@@ -102,8 +103,7 @@ public class UIBuildingTeamWindow : Window
                 var hero = item.GetChild(j).gameObject;
                 var activeCache = hero.activeSelf;
                 NGUITools.SetActive(hero, true);
-                var lis = UIEventListener.Get(hero);
-                lis.onClick = OnHeroClicked;
+                HeroUtils.InstallLongPress(hero, OnHeroClicked, GreenHandGuideHandler.Instance.TeamFinishFlag);
                 NGUITools.SetActive(hero, activeCache);
             }
         }
@@ -123,13 +123,11 @@ public class UIBuildingTeamWindow : Window
             var child = NGUITools.AddChild(teamGrid.gameObject, BaseHeroPrefab);
             SetPositionViaIndex(child, index);
             var heroBase = child.GetComponent<HeroItemBase>();
-            var uuid = go.GetComponent<HeroItemBase>().Uuid;
-            heroBase.Uuid = uuid;
-            var heroInfo = HeroModelLocator.Instance.FindHero(heroBase.Uuid);
+            var heroInfo = go.GetComponent<HeroItemBase>().HeroInfo;
             heroBase.InitItem(heroInfo);
-            UIEventListener.Get(child.gameObject).onClick = CancelHeroToTeam;
             teamObjects.Add(pos, child);
-            curTeam[index] = uuid;
+            curTeam[index] = heroInfo.Uuid;
+            HeroUtils.InstallLongPress(child, CancelHeroToTeam, GreenHandGuideHandler.Instance.TeamFinishFlag);
             //If it is main leader.
             if(index == 0)
             {
@@ -227,6 +225,14 @@ public class UIBuildingTeamWindow : Window
     {
         if(isToClose)
         {
+            //Set GreenHand info.
+            if (!GreenHandGuideHandler.Instance.TeamFinishFlag)
+            {
+                Logger.Log("!!!!!!!!!!Set teamFinishFlag true.");
+                GreenHandGuideHandler.Instance.TeamFinishFlag = true;
+                GreenHandGuideHandler.Instance.SendEndMessage(5);
+            }
+
             WindowManager.Instance.Show<UIMainScreenWindow>(true);
         }
         else
@@ -238,6 +244,14 @@ public class UIBuildingTeamWindow : Window
 
     private void OnClose()
     {
+        //Set GreenHand info.
+        if (!GreenHandGuideHandler.Instance.TeamFinishFlag)
+        {
+            Logger.Log("!!!!!!!!!!Set teamFinishFlag true.");
+            GreenHandGuideHandler.Instance.TeamFinishFlag = true;
+            GreenHandGuideHandler.Instance.SendEndMessage(5);
+        }
+
         if (!HeroUtils.IsValidTeam(curTeam))
         {
             ShowEditAssert();
@@ -430,7 +444,6 @@ public class UIBuildingTeamWindow : Window
             if(uuid != HeroConstant.NoneInitHeroUuid)
             {
                 var child = NGUITools.AddChild(teamGrid.gameObject, BaseHeroPrefab);
-                UIEventListener.Get(child.gameObject).onClick = CancelHeroToTeam;
                 SetPositionViaIndex(child, curIndex);
                 var baseHero = child.GetComponent<HeroItemBase>();
                 var heroInfo = HeroModelLocator.Instance.FindHero(uuid);
@@ -438,6 +451,7 @@ public class UIBuildingTeamWindow : Window
                 heroInfos.Add(heroInfo);
                 var index = infos.IndexOf(heroInfo);
                 teamObjects.Add(Utils.OneDimToTwo(index, CountOfOneGroup), child);
+                HeroUtils.InstallLongPress(child, CancelHeroToTeam, GreenHandGuideHandler.Instance.TeamFinishFlag);
                 if(i == 0)
                 {
                     leaderInfo = heroInfo;
@@ -447,7 +461,7 @@ public class UIBuildingTeamWindow : Window
         }
     }
 
-    private void UpdateProperty(IEnumerable<HeroInfo> heroInfos)
+    private void UpdateProperty(List<HeroInfo> heroInfos)
     {
         int atk, hp, recover, mp;
         HeroUtils.GetProperties(heroInfos, out atk, out hp, out recover, out mp);

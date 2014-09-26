@@ -67,8 +67,8 @@ public class ChooseCardWindow : Window
     private SCLotteryList scLotteryList;
     private SCLotteryComposeList scLotteryComposeList;
 
-    private readonly Color activedColor = new Color(255, 237, 0, 255);
-    private readonly Color deactivedColor = new Color(0, 0, 0, 255);
+    //private readonly Color activedColor = new Color(255, 237, 0, 255);
+    //private readonly Color deactivedColor = new Color(0, 0, 0, 255);
 
     /// <summary>
     /// IsSet flag of lottery and fragment combine message.
@@ -85,7 +85,8 @@ public class ChooseCardWindow : Window
     /// </summary>
     private class ToggleButton
     {
-        public UILabel FrontLabel;
+        public UILabel ActivedLabel;
+        public UILabel DeactivedLabel;
         public GameObject FrontGameObject;
         public GameObject ActiveGameObject;
     }
@@ -178,6 +179,13 @@ public class ChooseCardWindow : Window
     /// <param name="go">clicked gameobject</param>
     private void OnClose(GameObject go)
     {
+        //Set GreenHand info.
+        if (!GreenHandGuideHandler.Instance.SummitFinishFlag)
+        {
+            GreenHandGuideHandler.Instance.SummitFinishFlag = true;
+            GreenHandGuideHandler.Instance.SendEndMessage(4);
+        }
+
         WindowManager.Instance.Show<UIMainScreenWindow>(true);
     }
 
@@ -188,7 +196,8 @@ public class ChooseCardWindow : Window
     private void OnChooseHeroCard(GameObject go)
     {
         DeActiveAll();
-        toggleButtonsMap[go].FrontLabel.color = activedColor;
+        toggleButtonsMap[go].ActivedLabel.gameObject.SetActive(true);
+        toggleButtonsMap[go].DeactivedLabel.gameObject.SetActive(false);
         toggleButtonsMap[go].ActiveGameObject.SetActive(true);
         toggleButtonsMap[go].FrontGameObject.SetActive(true);
         HeroAndItemSummitHandler.Refresh(ScLotteryList, true);
@@ -201,7 +210,8 @@ public class ChooseCardWindow : Window
     private void OnChooseItemCard(GameObject go)
     {
         DeActiveAll();
-        toggleButtonsMap[go].FrontLabel.color = activedColor;
+        toggleButtonsMap[go].ActivedLabel.gameObject.SetActive(true);
+        toggleButtonsMap[go].DeactivedLabel.gameObject.SetActive(false);
         toggleButtonsMap[go].ActiveGameObject.SetActive(true);
         toggleButtonsMap[go].FrontGameObject.SetActive(true);
         HeroAndItemSummitHandler.Refresh(ScLotteryList, false);
@@ -214,7 +224,8 @@ public class ChooseCardWindow : Window
     private void OnActivity(GameObject go)
     {
         DeActiveAll();
-        toggleButtonsMap[go].FrontLabel.color = activedColor;
+        toggleButtonsMap[go].ActivedLabel.gameObject.SetActive(true);
+        toggleButtonsMap[go].DeactivedLabel.gameObject.SetActive(false);
         toggleButtonsMap[go].ActiveGameObject.SetActive(true);
         toggleButtonsMap[go].FrontGameObject.SetActive(true);
     }
@@ -226,7 +237,8 @@ public class ChooseCardWindow : Window
     private void OnFragCombine(GameObject go)
     {
         DeActiveAll();
-        toggleButtonsMap[go].FrontLabel.color = activedColor;
+        toggleButtonsMap[go].ActivedLabel.gameObject.SetActive(true);
+        toggleButtonsMap[go].DeactivedLabel.gameObject.SetActive(false);
         toggleButtonsMap[go].ActiveGameObject.SetActive(true);
         toggleButtonsMap[go].FrontGameObject.SetActive(true);
 
@@ -249,7 +261,8 @@ public class ChooseCardWindow : Window
     {
         foreach (var item in toggleButtonsMap.Values)
         {
-            item.FrontLabel.color = deactivedColor;
+            item.ActivedLabel.gameObject.SetActive(false);
+            item.DeactivedLabel.gameObject.SetActive(true);
             item.ActiveGameObject.SetActive(false);
             item.FrontGameObject.SetActive(false);
         }
@@ -267,7 +280,8 @@ public class ChooseCardWindow : Window
         var newToggleButton = Instantiate(ToggleButtonPerfab) as GameObject;
 
         //Set toggle button's name.
-        Utils.FindChild(newToggleButton.transform, "Label").GetComponent<UILabel>().text = buttonName;
+        Utils.FindChild(newToggleButton.transform, "ActivedLabel").GetComponent<UILabel>().text = buttonName;
+        Utils.FindChild(newToggleButton.transform, "DeactivedLabel").GetComponent<UILabel>().text = buttonName;
 
         //Set toggle button's listener.
         newToggleButton.GetComponentInChildren<UIEventListener>().onClick = lisDelegate;
@@ -275,7 +289,8 @@ public class ChooseCardWindow : Window
         //Add toggle button to dictionary controller.
         toggleButtonsMap.Add(newToggleButton, new ToggleButton()
         {
-            FrontLabel = Utils.FindChild(newToggleButton.transform, "Label").GetComponent<UILabel>(),
+            ActivedLabel = Utils.FindChild(newToggleButton.transform, "ActivedLabel").GetComponent<UILabel>(),
+            DeactivedLabel = Utils.FindChild(newToggleButton.transform, "DeactivedLabel").GetComponent<UILabel>(),
             ActiveGameObject = activeGameObject,
             FrontGameObject = Utils.FindChild(newToggleButton.transform, "Front").gameObject
         });

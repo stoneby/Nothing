@@ -32,8 +32,14 @@ public class EffectController : MonoBehaviour
 
     public void Stop()
     {
-        particleList.ForEach(item => item.Stop());
-        animationList.ForEach(item => item.Stop());
+        if (particleList != null)
+        {
+            particleList.ForEach(item => item.Stop());
+        }
+        if (animationList != null)
+        {
+            animationList.ForEach(item => item.Stop());
+        }
     }
 
     private float GetDuration()

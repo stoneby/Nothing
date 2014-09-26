@@ -17,6 +17,8 @@ public class MonsterControl : MonoBehaviour
     /// </summary>
     public GameObject AttackLocation;
 
+    public GameObject BattleBG;
+
     /// <summary>
     /// Blood bar controller.
     /// </summary>
@@ -24,10 +26,34 @@ public class MonsterControl : MonoBehaviour
 
     public BuffBarController BuffBarController;
 
+    public BattlegroundController BattleController
+    {
+        get
+        {
+            if (!BattleBG)
+            {
+                BattleBG = GameObject.FindGameObjectWithTag("BattleBG");
+            }
+
+            if (BattleBG)
+            {
+                return BattleBG.GetComponent<BattlegroundController>();
+            }
+            else
+            {
+                Logger.LogError("!!!!!!!!!Can't get taged \"BattleBG\" object in MonsterControl.");
+                return null;
+            }
+        }
+    }
+
     /// <summary>
     /// Base widget of moving standard.
     /// </summary>
-    public UIWidget BaseWidget;
+    public UIWidget BaseWidget
+    {
+        get { return BattleController.GetComponent<UIWidget>(); }
+    }
 
     /// <summary>
     /// Speed of moving to next round.
@@ -38,6 +64,11 @@ public class MonsterControl : MonoBehaviour
     /// Duration of moving to next round.
     /// </summary>
     public float MoveDuration;
+
+    public Vector3 MoveDistance
+    {
+        get { return new Vector3(MoveDuration * MoveSpeed * BaseWidget.width, 0, 0); }
+    }
 
     /// <summary>
     /// Character data.
@@ -68,7 +99,6 @@ public class MonsterControl : MonoBehaviour
     #region Private Fields
 
     private const int WarningCdValue = 1;
-    private const string CdHead = "CD:";
 
     #endregion
 
@@ -103,7 +133,7 @@ public class MonsterControl : MonoBehaviour
     {
         var cdLabel = CdLabel.GetComponent<UILabel>();
         cdLabel.color = (cd == WarningCdValue) ? Color.red : Color.green;
-        cdLabel.text = string.Format("{0} {1}", CdHead, cd);
+        cdLabel.text = "" + cd;
     }
 
     /// <summary>
@@ -172,10 +202,9 @@ public class MonsterControl : MonoBehaviour
 
     public void Move()
     {
-        var distance = new Vector3(MoveDuration * MoveSpeed * BaseWidget.width, 0, 0);
         // using itween here to make consistent with texture looper, to keep in the same frame. NGUI tween has issue by eating frames.
-        iTween.MoveFrom(CharacterData.gameObject,
-            iTween.Hash("position", (CharacterData.transform.localPosition + distance), "time", MoveDuration, "easetype", "linear",
+        iTween.MoveTo(CharacterData.gameObject,
+            iTween.Hash("position", (CharacterData.transform.localPosition - MoveDistance), "time", MoveDuration, "easetype", "linear",
                 "islocal", true));
     }
 
@@ -187,6 +216,7 @@ public class MonsterControl : MonoBehaviour
     {
         // default hide aim sprite.
         AimSprite.SetActive(false);
+        BattleBG = GameObject.FindGameObjectWithTag("BattleBG");
     }
 
     #endregion

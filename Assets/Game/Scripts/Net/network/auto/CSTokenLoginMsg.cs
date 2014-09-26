@@ -28,6 +28,7 @@ namespace KXSGCodec
   {
     private sbyte _deviceType;
     private string _deviceId;
+    private string _deviceModel;
     private string _token;
 
     public sbyte DeviceType
@@ -56,6 +57,19 @@ namespace KXSGCodec
       }
     }
 
+    public string DeviceModel
+    {
+      get
+      {
+        return _deviceModel;
+      }
+      set
+      {
+        __isset.deviceModel = true;
+        this._deviceModel = value;
+      }
+    }
+
     public string Token
     {
       get
@@ -77,6 +91,7 @@ namespace KXSGCodec
     public struct Isset {
       public bool deviceType;
       public bool deviceId;
+      public bool deviceModel;
       public bool token;
     }
 
@@ -110,6 +125,13 @@ namespace KXSGCodec
             }
             break;
           case 3:
+            if (field.Type == TType.String) {
+              DeviceModel = iprot.ReadString();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 4:
             if (field.Type == TType.String) {
               Token = iprot.ReadString();
             } else { 
@@ -145,10 +167,18 @@ namespace KXSGCodec
         oprot.WriteString(DeviceId);
         oprot.WriteFieldEnd();
       }
+      if (DeviceModel != null && __isset.deviceModel) {
+        field.Name = "deviceModel";
+        field.Type = TType.String;
+        field.ID = 3;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteString(DeviceModel);
+        oprot.WriteFieldEnd();
+      }
       if (Token != null && __isset.token) {
         field.Name = "token";
         field.Type = TType.String;
-        field.ID = 3;
+        field.ID = 4;
         oprot.WriteFieldBegin(field);
         oprot.WriteString(Token);
         oprot.WriteFieldEnd();
@@ -163,6 +193,8 @@ namespace KXSGCodec
       sb.Append(DeviceType);
       sb.Append(",DeviceId: ");
       sb.Append(DeviceId);
+      sb.Append(",DeviceModel: ");
+      sb.Append(DeviceModel);
       sb.Append(",Token: ");
       sb.Append(Token);
       sb.Append(")");

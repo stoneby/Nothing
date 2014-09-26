@@ -350,7 +350,7 @@ namespace com.kx.sglm.gs.battle.share.skill.creater
 		protected internal static List<ISkillTargetGetter> createDefaultTarget(bool enemySide, bool allTarget)
 		{
 			List<ISkillTargetGetter> _defaultList = new List<ISkillTargetGetter>();
-			SkillTargetEnum _defaultType = allTarget ? SkillTargetEnum.ALL_TARGET : (enemySide ? SkillTargetEnum.DEFAULT_TARGET : SkillTargetEnum.SELF_TARGET);
+			SkillTargetEnum _defaultType = allTarget ? SkillTargetEnum.ALL_BATTLING_TARGET : (enemySide ? SkillTargetEnum.DEFAULT_TARGET : SkillTargetEnum.SELF_TARGET);
 			_defaultList.Add((ISkillTargetGetter) _defaultType.createInfo());
 			return _defaultList;
 		}

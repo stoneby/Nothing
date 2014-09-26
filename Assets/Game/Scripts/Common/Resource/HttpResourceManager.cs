@@ -9,11 +9,14 @@ public class HttpResourceManager : Singleton<HttpResourceManager>
 
     private ZipHelper zipHelper;
 
-    public delegate void LoadFinish();
-    public LoadFinish OnLoadFinish;
+    public bool IsLoadTemplateFinished = false;
+    //public delegate void LoadFinish();
+    //public LoadFinish OnLoadFinish;
 
     public void LoadTemplate()
     {
+        WindowManager.Instance.GetWindow<LoginWindow>().GreenHandLoading.SetActive(true);
+
         if (string.IsNullOrEmpty(ServiceManager.ServerData.DataUrl))
         {
             return;
@@ -60,10 +63,11 @@ public class HttpResourceManager : Singleton<HttpResourceManager>
 
         yield return null;
 
-        if (OnLoadFinish != null)
-        {
-            OnLoadFinish();
-        }
+        IsLoadTemplateFinished = true;
+        //if (OnLoadFinish != null)
+        //{
+        //    OnLoadFinish();
+        //}
     }
 
     private void Awake()

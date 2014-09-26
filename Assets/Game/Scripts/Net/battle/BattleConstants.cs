@@ -151,6 +151,13 @@ namespace com.kx.sglm.gs.battle.share
 
 		public const int SP_MAX_NEED_RECOVER = 4;
 
+		/// <summary>
+		/// 新手引导模板内容Index， 这里之后最好能有更好的办法 </summary>
+		public const int GREENHAND_TEMP_COLOR_INDEX = 2;
+		/// <summary>
+		/// 新手引导模板内容Index， 新手引导模板内容Index， 这里之后最好能有更好的办法 </summary>
+		public const int GREENHAND_TEMP_SP_INDEX = 3;
+
 	}
 
 }

@@ -125,7 +125,7 @@ public class BuffDisplayer : MonoBehaviour
     private float Initialize(GameObject buff)
     {
         var renderQueue = buff.GetComponent<SetRenderQueue>() ?? buff.AddComponent<SetRenderQueue>();
-        renderQueue.RenderQueue = RenderQueue.Overlay;
+        renderQueue.RenderQueue = RenderQueue.BattleEffect;
 
         var effectConroller = buff.GetComponent<EffectController>() ?? buff.AddComponent<EffectController>();
         return effectConroller.Duration;

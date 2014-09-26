@@ -1,6 +1,7 @@
 ﻿using KXSGCodec;
 using System.Globalization;
 using UnityEngine;
+using EquipState = ItemType.EquipState;
 
 public class EquipItem : ItemBase
 {
@@ -22,15 +23,34 @@ public class EquipItem : ItemBase
             lockedIcon.gameObject.SetActive(bindState == 1);
         }
     }
-    private sbyte equipStatus;
-    public sbyte EquipStatus
+    private EquipState equipStatus;
+    public EquipState EquipStatus
     {
         get { return equipStatus; }
         set
         {
             equipStatus = value;
-            curTeamEquiped.gameObject.SetActive(equipStatus == 1);
-            otherTeamEquiped.gameObject.SetActive(false);
+            switch (value)
+            {
+                case EquipState.UnEquip:
+                    {
+                        curTeamEquiped.gameObject.SetActive(false);
+                        otherTeamEquiped.gameObject.SetActive(false);
+                        break;
+                    }
+                case EquipState.CurEquip:
+                    {
+                        curTeamEquiped.gameObject.SetActive(true);
+                        otherTeamEquiped.gameObject.SetActive(false);
+                        break;
+                    }
+                case EquipState.OtherEquip:
+                    {
+                        curTeamEquiped.gameObject.SetActive(false);
+                        otherTeamEquiped.gameObject.SetActive(true);
+                        break;
+                    }
+            }
         }
     }
 
@@ -49,7 +69,7 @@ public class EquipItem : ItemBase
     {
         base.InitItem(itemInfo);
         BindState = itemInfo.BindStatus;
-        EquipStatus = itemInfo.EquipStatus;
+        EquipStatus = (EquipState)itemInfo.EquipStatus;
     }
 
     /// <summary>

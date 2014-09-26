@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using KXSGCodec;
+using UnityEngine;
 
 namespace Assets.Game.Scripts.Net.handler
 {
@@ -8,6 +9,8 @@ namespace Assets.Game.Scripts.Net.handler
     {
         public delegate void MessageReceived();
         public static MessageReceived ItemListInItemPanel;
+
+        public static bool IsShowMainScreen = false;
 
         public static void OnAllItemInfos(ThriftSCMessage msg)
         {
@@ -51,6 +54,21 @@ namespace Assets.Game.Scripts.Net.handler
             {
                 ItemModeLocator.Instance.ServerConfigMsg = themsg;
                 EnergyIncreaseControl.Instance.Init(themsg.RecoverEnergyMinutes);
+
+                Debug.Log("Go to finish in itemHandler.");
+                //WindowManager.Instance.Show<LoginAccountWindow>(false);
+                //WindowManager.Instance.Show<LoginCreateRoleWindow>(false);
+                //WindowManager.Instance.Show<LoginMainWindow>(false);
+                //WindowManager.Instance.Show<LoginRegisterWindow>(false);
+                //WindowManager.Instance.Show<LoginServersWindow>(false);
+                //WindowManager.Instance.Show<LoadingWaitWindow>(false);
+                //WindowManager.Instance.Show(WindowGroupType.Popup, false);
+
+                GreenHandGuideHandler.Instance.ShowMainScreen();
+
+                Debug.Log("Go to persistence way.");
+                //BattlePersistence
+                PersistenceHandler.Instance.GoToPersistenceWay();
             }
         }
 
@@ -174,12 +192,39 @@ namespace Assets.Game.Scripts.Net.handler
                 var deleteIndexs = themsg.DelteItems.DeleteIndexes;
                 var infos = ItemModeLocator.Instance.ScAllItemInfos.ItemInfos;
                 var operationBag = themsg.EvolutedItemInfo.Info.BagIndex;
+                var operationInfo = ItemModeLocator.Instance.FindItem(operationBag);
+                var operationId = operationInfo.Id;
+                var evolvedInfo = themsg.EvolutedItemInfo.Info;
+                UpdateHeroEquipItem(operationId, evolvedInfo.Id);
                 deleteIndexs.Add(operationBag);
                 infos.RemoveAll(item => deleteIndexs.Contains(item.BagIndex));
                 infos.Add(themsg.EvolutedItemInfo.Info);
                 var commomWindow = WindowManager.Instance.GetWindow<UIItemCommonWindow>();
                 commomWindow.EvolveItemHandler.ShowEvolveOver();
                 commomWindow.Refresh(infos);
+            }
+        }
+
+        private static void UpdateHeroEquipItem(string operationId, string newId)
+        {
+            HeroInfo heroEquiped = null;
+            var heros = HeroModelLocator.Instance.SCHeroList != null ? HeroModelLocator.Instance.SCHeroList.HeroList : null;
+            var index = 0;
+            if(heros != null)
+            {
+                foreach(var hero in heros)
+                {
+                    if(hero.EquipUuid.Contains(operationId))
+                    {
+                        index = hero.EquipUuid.IndexOf(operationId);
+                        heroEquiped = hero;
+                        break;
+                    }
+                }
+            }
+            if(heroEquiped != null)
+            {
+                heroEquiped.EquipUuid[index] = newId;
             }
         }
 

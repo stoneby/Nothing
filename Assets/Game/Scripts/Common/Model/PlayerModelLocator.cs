@@ -57,7 +57,7 @@ public sealed class PlayerModelLocator
         Instance.TeamList = heros.Select(hero => hero.TemplateId).ToList();
         foreach (var key in HeroConstant.PropKeys)
         {
-            Instance.TeamProp[key] = heros.Sum(hero => hero.Prop[key]);
+            Instance.TeamProp[key] = HeroUtils.GetProp(heros, key);
         }
     }
 }

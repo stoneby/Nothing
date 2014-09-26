@@ -2,11 +2,11 @@
 
 public class PropertyUpdater : MonoBehaviour
 {
-    private UILabel atkLabel;
-    private UILabel hpLabel;
-    private UILabel lvlLabel;
-    private UILabel mpLabel;
-    private UILabel recoverLabel;
+    public UILabel AtkLabel;
+    public UILabel HpLabel;
+    public UILabel LvlLabel;
+    public UILabel MpLabel;
+    public UILabel RecoverLabel;
 
     private int lvlCached;
     private int atkCached;
@@ -21,19 +21,6 @@ public class PropertyUpdater : MonoBehaviour
     private const string AddColorPrefix = "[00ff00]+";
     private const string SubColorPrefix = "[ff0000]";
 
-    private void Awake()
-    {
-        atkLabel = transform.Find("Atk/AtkValue").GetComponent<UILabel>();
-        var lvlTran = transform.Find("Lvl/LvlValue");
-        if(lvlTran)
-        {
-            lvlLabel = lvlTran.GetComponent<UILabel>();
-        }
-        hpLabel = transform.FindChild("Hp/HpValue").GetComponent<UILabel>();
-        recoverLabel = transform.Find("Recover/RecoverValue").GetComponent<UILabel>();
-        mpLabel = transform.Find("Mp/MpValue").GetComponent<UILabel>();
-    }
-
     public void UpdateProperty(int lvl, int maxLvl, int atk, int hp, int recover, int mp)
     {
         lvlCached = lvl;
@@ -42,19 +29,19 @@ public class PropertyUpdater : MonoBehaviour
         hpCached = hp;
         recoverCached = recover;
         mpCached = mp;
-        if(lvlLabel != null)
+        if(LvlLabel != null)
         {
-            lvlLabel.text = string.Format("{0}/{1}", lvl, maxLvl);
+            LvlLabel.text = string.Format("{0}/{1}", lvl, maxLvl);
         }
-        atkLabel.text = atk > 0 ? atk.ToString() : DefaultValue;
-        hpLabel.text = hp > 0 ? hp.ToString() : DefaultValue;
-        recoverLabel.text = recover > 0 ? recover.ToString() : DefaultValue;
-        mpLabel.text = recover > 0 ? mp.ToString() : DefaultValue;
+        AtkLabel.text = atk >= 0 ? atk.ToString() : DefaultValue;
+        HpLabel.text = hp >= 0 ? hp.ToString() : DefaultValue;
+        RecoverLabel.text = recover >=0 ? recover.ToString() : DefaultValue;
+        MpLabel.text = mp >= 0 ? mp.ToString() : DefaultValue;
     }
 
     public void PreShowChangedProperty(int lvlChanged, int atkChanged, int hpChanged, int recoverChanged, int mpChanged)
     {
-        if (lvlLabel != null )
+        if (LvlLabel != null )
         {
             var changed = "";
             if (lvlChanged > 0)
@@ -65,12 +52,20 @@ public class PropertyUpdater : MonoBehaviour
             {
                 changed = SubColorPrefix + lvlChanged + ColorSuffix;
             }
-            lvlLabel.text = string.Format("{0}{1}/{2}", lvlCached, changed, maxLvlCached);
+            else
+            {
+                LvlLabel.text = string.Format("{0}/{1}", lvlCached, maxLvlCached);
+            }
+            LvlLabel.text = string.Format("{0}{1}/{2}", lvlCached, changed, maxLvlCached);
         }
-        Preshow(atkLabel, atkCached, atkChanged);
-        Preshow(hpLabel, hpCached, hpChanged);
-        Preshow(recoverLabel, recoverCached, recoverChanged);
-        Preshow(mpLabel, mpCached, mpChanged);
+        Preshow(AtkLabel, atkCached, atkChanged);
+        Preshow(HpLabel, hpCached, hpChanged);
+        Preshow(RecoverLabel, recoverCached, recoverChanged);
+        Preshow(MpLabel, mpCached, mpChanged);
+        if(lvlChanged == 0 && atkChanged == 0 && hpChanged == 0 && recoverChanged == 0 && mpChanged == 0)
+        {
+            UpdateProperty(lvlCached, maxLvlCached, atkCached, hpCached, recoverCached, mpCached);
+        }
     }
 
     private void Preshow(UILabel label, int cachedValue, int changed)
@@ -83,17 +78,21 @@ public class PropertyUpdater : MonoBehaviour
         {
             label.text = cachedValue + SubColorPrefix + changed + ColorSuffix;
         }
+        else
+        {
+            label.text = cachedValue >= 0 ? cachedValue.ToString() : DefaultValue;
+        }
     }
 
     public void Reset()
     {
-        if (lvlLabel != null)
+        if (LvlLabel != null)
         {
-            lvlLabel.text = "-";
+            LvlLabel.text = "-";
         }
-        atkLabel.text = "-";
-        hpLabel.text = "-";
-        recoverLabel.text = "-";
-        mpLabel.text = "-";
+        AtkLabel.text = "-";
+        HpLabel.text = "-";
+        RecoverLabel.text = "-";
+        MpLabel.text = "-";
     }
 }

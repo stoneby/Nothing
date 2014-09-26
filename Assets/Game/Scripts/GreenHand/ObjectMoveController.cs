@@ -68,7 +68,7 @@ public class ObjectMoveController : MonoBehaviour
     /// <summary>
     /// Used to play particle effect.
     /// </summary>
-    private EffectController effectController = new EffectController();
+    private EffectController effectController;
 
     #endregion
 

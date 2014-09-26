@@ -72,12 +72,7 @@ public sealed class HeroModelLocator
     /// <returns>The result of the comparation</returns>
     private int CompareHeroByTime(HeroInfo p1, HeroInfo p2)
     {
-        int compareResult = p2.CreateTime.CompareTo(p1.CreateTime);
-        if (compareResult == 0)
-        {
-            return CompareHeroByTemplateId(p1, p2);
-        }
-        return compareResult;
+        return p2.Uuid.CompareTo(p1.Uuid);
     }
 
     /// <summary>

@@ -6,21 +6,21 @@
 public class TopDataController : MonoBehaviour
 {
     public UILabel BoxLabel;
-    public UILabel GoldLabel;
+    public UILabel HeroLabel;
 
     public float BoxCount;
-    public float GoldCount;
+    public float HeroCount;
 
     public void Show()
     {
         BoxLabel.text = "" + BoxCount;
-        GoldLabel.text = "" + GoldCount;
+        HeroLabel.text = "" + HeroCount;
     }
 
     public void Reset()
     {
         BoxCount = 0;
-        GoldCount = 0;
+        HeroCount = 0;
 
         Show();
     }

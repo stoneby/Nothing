@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Text;
 using Thrift.Protocol;
 using Thrift.Transport;
 using UnityEngine;
@@ -281,5 +282,41 @@ public class Utils
             var child = parent.GetChild(i);
             NGUITools.Destroy(child.gameObject);
         }
+    }
+
+    public static string SubstringWithinByteLimit(string text, int byteLimit, string cutSymbol)
+    {
+        var byteCount = 0;
+        var buffer = new char[1];
+        for (var i = 0; i < text.Length; i++)
+        {
+            buffer[0] = text[i];
+            byteCount += Encoding.Default.GetByteCount(buffer);
+            if (byteCount > byteLimit)
+            {
+                return text.Substring(0, i) + cutSymbol;
+            }
+        }
+        return text;
+    }
+
+    private static float pixelAjustFactor = -1f;
+    public static float PixelAjustFactor
+    {
+        get
+        {
+            if(pixelAjustFactor > 0)
+            {
+                return pixelAjustFactor;
+            }
+            var factor =
+                GameObject.FindGameObjectWithTag("Root").GetComponent<UIRoot>().GetPixelSizeAdjustment(Screen.height);
+            if(UICamera.currentCamera != null)
+            {
+                factor *= UICamera.currentCamera.orthographicSize;
+            }
+            return factor;
+        }
+        set { pixelAjustFactor = value; }
     }
 }

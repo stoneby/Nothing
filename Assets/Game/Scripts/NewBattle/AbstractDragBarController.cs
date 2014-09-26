@@ -2,8 +2,6 @@
 
 public abstract class AbstractDragBarController : MonoBehaviour
 {
-    protected float Factor;
-
     /// <summary>
     /// Set drag bar width.
     /// </summary>
@@ -17,7 +15,7 @@ public abstract class AbstractDragBarController : MonoBehaviour
     public void SetWidth(Vector3 source, Vector3 target)
     {
         var width = Mathf.Abs(Vector3.Distance(source, target));
-        width *= Factor;
+        width *= Utils.PixelAjustFactor;
         SetWidth(Mathf.Abs(width));
     }
 
@@ -59,13 +57,4 @@ public abstract class AbstractDragBarController : MonoBehaviour
     /// </summary>
     /// <returns>The dragbar depth.</returns>
     public abstract int GetDepth();
-
-    protected virtual void Start()
-    {
-        Factor = UIRoot.GetPixelSizeAdjustment(gameObject);
-        if (UICamera.currentCamera != null)
-        {
-            Factor *= UICamera.currentCamera.orthographicSize;
-        }
-    }
 }

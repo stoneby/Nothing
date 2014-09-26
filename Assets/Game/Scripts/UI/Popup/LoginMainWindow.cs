@@ -48,6 +48,9 @@ public class LoginMainWindow : Window
         var lb = VersionLabel.GetComponent<UILabel>();
         lb.text = "Version:" + GameConfig.Version;
 
+        NetManager.sessionId = "";
+
+        SDKResponse.TokenString = null;
 #if UNITY_ANDROID
         labelSwitchAccount.gameObject.SetActive(GameConfig.BundleID == "cn.kx.sglm.jinshan");
 #endif
@@ -167,19 +170,29 @@ public class LoginMainWindow : Window
     private void OnLoginButtonClick(GameObject game)
     {
         //var obj = ServiceManager.GetDefaultAccount();
+        //EffectManager.ShowEffect(EffectType.LevelUp, 0, 0, new Vector3(0, 0, 0));
+        //EffectManager.PlayEffect(EffectType.LevelUp, 1.1f, 0, 0, new Vector3(0, 0, 0));
+        //EffectManager.PlayEffect(EffectType.Jiesuan, 10.0f, 0, 0, new Vector3(0, 0, 0));
+        //EffectManager.PlayEffect(EffectType.Baoxiang, 10.0f, 0, 0, new Vector3(0, 0, 0));
+        //return;
+        //SystemInfo.dev
         if (ServiceManager.OpenTestAccount)
         {
             if (ServiceManager.DebugUserName != "" && ServiceManager.DebugPassword != "")
             {
+                LoadResource();
                 var csMsg = new CSPasswdLoginMsg
                 {
                     DeviceId = "1",
                     DeviceType = 2,
+                    DeviceModel = SystemInfo.deviceModel,
                     Passwd = ServiceManager.DebugPassword,
                     AccountName = ServiceManager.DebugUserName
                 };
                 NetManager.SendMessage(csMsg);
                 ServiceManager.AddServer(ServiceManager.ServerData.Url);
+                //HttpResourceManager.Instance.OnLoadFinish += OnFinish;
+                //WindowManager.Instance.Show<MainMenuBarWindow>(true);
             }
             else
             {
@@ -188,7 +201,18 @@ public class LoginMainWindow : Window
         }
         else
         {
+            LoadResource();
             FeidouManager.DoLogin();
+        }
+    }
+
+    private void LoadResource()
+    {
+        if (!HttpResourceManager.Instance.IsLoadTemplateFinished)
+        {
+            Logger.Log("Start loading template.");
+            HttpResourceManager.Instance.LoadTemplate();
+            WindowManager.Instance.Show<LoadingWaitWindow>(true);
         }
     }
 
@@ -201,6 +225,7 @@ public class LoginMainWindow : Window
         }
         else
         {
+            LoadResource();
             FeidouManager.DoLogin();
         }
     }
@@ -213,6 +238,7 @@ public class LoginMainWindow : Window
     private void OnSwitchAccountClick(GameObject go)
     {
         Logger.Log("!!!!!!!!Switch account click succeed.");
+        LoadResource();
         FeidouManager.DoSwitchAccount();
     }
 

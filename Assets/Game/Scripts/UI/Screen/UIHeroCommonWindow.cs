@@ -21,6 +21,7 @@ public class UIHeroCommonWindow : Window
     public UIHeroDetailHandler HeroDetailHandler;
     public UILevelUpHeroHandler LevelUpHeroHandler;
     public UISellHeroHandler SellHeroHandler;
+    public GameObject HeroDetailInfo;
     public HeroTemplate HeroTemplate
     {
         get { return heroTemplate; }
@@ -94,8 +95,12 @@ public class UIHeroCommonWindow : Window
                         var hero = item.GetChild(j).gameObject;
                         var activeCache = hero.activeSelf;
                         NGUITools.SetActive(hero, true);
-                        var lis = UIEventListener.Get(hero);
-                        lis.onClick = value;
+                        var longPressHandler = hero.GetComponent<HeroLongPressHandler>();
+                        if (longPressHandler)
+                        {
+                            var longPress = longPressHandler.InstallLongPress();
+                            longPress.OnNormalPress = value;
+                        }
                         NGUITools.SetActive(hero, activeCache);
                     }
                 }

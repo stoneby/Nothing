@@ -27,8 +27,13 @@ public class NetworkControl : MonoBehaviour
                         case (short)MessageType.SC_ERROR_INFO_MSG:
                             SystemHandler.OnErrorInfo(msg);
                             break;
+                        case (short)MessageType.SC_GREENHAND_FLAG_MSG:
+                            GreenHandGuideHandler.Instance.SetGreenHandGuideFlag(msg);
+                            break;
                         case (short)MessageType.SC_CREATE_PLAYER_MSG:
-                            PlayerHandler.OnCreatePlayer(msg);
+                            PlayerHandler.IsSetCreatePlayerMsg = true;
+                            PlayerHandler.SCCreatePlayerMsg = msg;
+                            GreenHandGuideHandler.Instance.GoToCreatePlayer();
                             break;
                         case (short)MessageType.SC_PLAYER_INFO_MSG:
                             PlayerHandler.OnPlayerInfo(msg);
@@ -76,7 +81,6 @@ public class NetworkControl : MonoBehaviour
                         case (short)MessageType.SC_RAID_RECEIVE_AWARDS:
                             RaidHandler.OnRaidReceiveReward(msg);
                             break;
-
                         case (short)MessageType.SC_RAID_FINISH_ADD_FRIEND:
                             RaidHandler.OnRaidFinishAddFriend(msg);
                             break;
@@ -167,12 +171,11 @@ public class NetworkControl : MonoBehaviour
                         case (short)MessageType.SC_FRIEND_DELETE_SUCC:
                             FriendHandler.OnFriendDelSucc(msg);
                             break;
-                        case(short)MessageType.SC_RANDOM_CHAR_NAME_MSG:
+                        case (short)MessageType.SC_RANDOM_CHAR_NAME_MSG:
                             PlayerHandler.OnRandomCharName(msg);
                             break;
                         case (short)MessageType.SC_HERO_FRIST_LOGIN_GIVE:
-                            ChooseCardHandler.IsHeroFirstLoginGive=true;
-                            ChooseCardHandler.HeroFirstLoginGiveMsg = msg;
+                            ChooseCardHandler.OnHeroFirstLoginGive(msg);
                             break;
                         case (short)MessageType.SC_MAIL_LIST_MSG:
                             MailHandler.OnMailList(msg);
@@ -189,6 +192,12 @@ public class NetworkControl : MonoBehaviour
                         case (short)MessageType.SC_MAIL_DELETE_MSG:
                             MailHandler.OnMailDeleteMsg(msg);
                             break;
+                        case (short)MessageType.SC_GAME_NOTICE_LIST_MSG:
+                            SystemHandler.OnNoticeList(msg);
+                            break;
+                        case (short)MessageType.SC_GAME_NOTICE_DETAIL_MSG:
+                            SystemHandler.OnNoticeDetail(msg);
+                            break;
                     }
                     msg = NetManager.GetMessage();
                 }
@@ -200,7 +209,7 @@ public class NetworkControl : MonoBehaviour
                 //PopTextManager.PopTip(errorLog);
                 Debug.LogError(errorLog);
             }
-            
+
             yield return new WaitForSeconds(0.5f);
         }
     }

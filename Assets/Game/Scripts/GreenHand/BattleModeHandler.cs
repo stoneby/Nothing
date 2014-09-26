@@ -1,12 +1,11 @@
 ﻿using Assets.Game.Scripts.Common.Model;
 using com.kx.sglm.gs.battle.share.enums;
 
-public interface BattleMode
+public interface IBattleMode
 {
     void ResetCurrentConfig();
 
-    void SetBattleField(TeamSelectController teamController, TeamSimpleController enemyController,
-        Character[,] characters, BattleFaceController faceController, string mode);
+    void SetBattleField(TeamSelectController teamController, TeamSimpleController enemyController, Character[,] characters, string mode);
 
     int CheckCanAttack(TeamSelectController teamController);
 
@@ -15,17 +14,17 @@ public interface BattleMode
 
 public class BattleModeHandler
 {
-    public BattleMode BattleMode=null;
+    public IBattleMode BattleMode = null;
 
     public BattleModeHandler()
     {
-        if (BattleModelLocator.Instance.BattleType==BattleType.GREENHANDPVE.Index)
+        if (BattleModelLocator.Instance.BattleType == BattleType.GREENHANDPVE.Index)
         {
-            BattleMode=new GreenHandGuideHandler();
+            BattleMode = GreenHandGuideHandler.Instance;
         }
         else
         {
-            BattleMode=new BattleNormalMode();
+            BattleMode = new BattleNormalMode();
         }
     }
 
@@ -34,9 +33,9 @@ public class BattleModeHandler
         BattleMode.ResetCurrentConfig();
     }
 
-    public void SetBattleField(TeamSelectController teamController, TeamSimpleController enemyController, Character[,] characters, BattleFaceController faceController, string mode)
+    public void SetBattleField(TeamSelectController teamController, TeamSimpleController enemyController, Character[,] characters, string mode)
     {
-        BattleMode.SetBattleField(teamController, enemyController, characters, faceController, mode);
+        BattleMode.SetBattleField(teamController, enemyController, characters, mode);
     }
     public int CheckCanAttack(TeamSelectController teamController)
     {

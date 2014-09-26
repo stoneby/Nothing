@@ -71,6 +71,31 @@ public class PingTest : Singleton<PingTest>
             return false;
         }
     }
+    
+    public void CheckConnection()
+    {
+        StartCoroutine("DoCheckConnection");
+    }
+
+    private IEnumerator DoCheckConnection()
+    {
+        yield return null;
+        if (!Instance.IsWebResourceAvailable(GameConfig.OfficialSiteAddress))
+        {
+            // Show assert window.
+            Alert.Show(AssertionWindow.Type.Ok, "系统提示", "网络连接失败，请您接入网络后再试", OnAssertButtonClicked);
+        }
+        else if (!Instance.IsWebResourceAvailable(GameConfig.ServicePath))
+        {
+            // Show assert window.
+            Alert.Show(AssertionWindow.Type.Ok, "系统提示", "无法连接至服务器，请检查您的网络连接再试", OnAssertButtonClicked);
+        }
+    }
+
+    private void OnAssertButtonClicked(GameObject sender)
+    {
+        StartCoroutine(DoCheckConnection());
+    }
 
     #endregion
 }

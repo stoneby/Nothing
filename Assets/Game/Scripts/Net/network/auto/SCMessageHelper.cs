@@ -72,6 +72,10 @@ namespace KXSGCodec
             {
                 return new SCFriendRecieveEnergySucc();
             }
+			            if (type == MessageType.SC_GREENHAND_FLAG_MSG.GetHashCode())
+            {
+                return new SCGreenhandFlagMsg();
+            }
 			            if (type == MessageType.SC_HERO_BIND_SUCC.GetHashCode())
             {
                 return new SCHeroBindSucc();
@@ -215,6 +219,14 @@ namespace KXSGCodec
 			            if (type == MessageType.SC_MAIL_UPDATE_MSG.GetHashCode())
             {
                 return new SCMailUpdateMsg();
+            }
+			            if (type == MessageType.SC_GAME_NOTICE_DETAIL_MSG.GetHashCode())
+            {
+                return new SCGameNoticeDetailMsg();
+            }
+			            if (type == MessageType.SC_GAME_NOTICE_LIST_MSG.GetHashCode())
+            {
+                return new SCGameNoticeListMsg();
             }
 			            if (type == MessageType.SC_PROPERTY_CHANGED_NUMBER.GetHashCode())
             {

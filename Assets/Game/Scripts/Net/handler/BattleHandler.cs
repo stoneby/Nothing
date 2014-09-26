@@ -32,6 +32,7 @@ namespace Assets.Game.Scripts.Net.handler
 
             // client side show.
             WindowManager.Instance.Show(typeof(BattleWindow), true);
+            WindowManager.Instance.GetWindow<LoginWindow>().GreenHandLoading.SetActive(false);
             WindowManager.Instance.Show(typeof(RaidsWindow), false);
             WindowManager.Instance.Show(typeof(SetBattleWindow), false);
         }

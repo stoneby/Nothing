@@ -231,7 +231,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 400028}
-  - 114: {fileID: 11400050}
+  - 114: {fileID: 11400006}
   m_Layer: 8
   m_Name: SortLabel
   m_TagString: Untagged
@@ -508,7 +508,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100010}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 110, y: -260, z: 0}
+  m_LocalPosition: {x: 110, y: -300, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400008}
@@ -521,7 +521,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100032}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 110.5, y: -300, z: 0}
+  m_LocalPosition: {x: 110.5, y: -260, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400024}
@@ -795,6 +795,60 @@ MonoBehaviour:
   callWhenFinished: 
   from: {r: .990216434, g: .982063472, b: .965757489, a: 1}
   to: {r: 1, g: 1, b: 1, a: 1}
+--- !u!114 &11400006
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 220
+  mHeight: 38
+  mDepth: 19
+  HighLight: 0
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: 5.78947353
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: 5b92cbdcb180fb042a7069f903d9f7ae, type: 2}
+  mSpriteName: AttackSort
+  mFillCenter: 1
 --- !u!114 &11400008
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1070,7 +1124,7 @@ MonoBehaviour:
   alwaysOnScreen: 0
   anchorOffset: 0
   renderQueue: 0
-  startingRenderQueue: 3006
+  startingRenderQueue: 3004
   mAlpha: 1
   mClipping: 3
   mClipRange: {x: 7.30000019, y: 54.5, z: 580, w: 600}
@@ -1461,72 +1515,6 @@ MonoBehaviour:
   eventReceiver: {fileID: 0}
   functionName: OnActivate
   startsChecked: 0
---- !u!114 &11400050
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100028}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e9d0b5f3bbe925a408bd595c79d0bf63, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  leftAnchor:
-    target: {fileID: 0}
-    relative: 0
-    absolute: 0
-  rightAnchor:
-    target: {fileID: 0}
-    relative: 1
-    absolute: 0
-  bottomAnchor:
-    target: {fileID: 0}
-    relative: 0
-    absolute: 0
-  topAnchor:
-    target: {fileID: 0}
-    relative: 1
-    absolute: 0
-  updateAnchors: 1
-  mColor: {r: .154411793, g: .154411793, b: .154411793, a: 1}
-  mPivot: 4
-  mWidth: 152
-  mHeight: 30
-  mDepth: 17
-  HighLight: 0
-  OffsetX: 0
-  OffsetY: 0
-  MeshFactor: 1
-  autoResizeBoxCollider: 0
-  hideIfOffScreen: 0
-  keepAspectRatio: 0
-  aspectRatio: 5.0666666
-  keepCrispWhenShrunk: 1
-  mTrueTypeFont: {fileID: 12800000, guid: 482d99b42ce11584288190b4b23a76f2, type: 3}
-  mFont: {fileID: 0}
-  mText: "\u653B\u51FB\u529B\u6392\u5E8F"
-  mFontSize: 30
-  mFontStyle: 0
-  mAlignment: 0
-  mEncoding: 1
-  mMaxLineCount: 0
-  mEffectStyle: 0
-  mEffectColor: {r: 0, g: 0, b: 0, a: 1}
-  mSymbols: 1
-  mEffectDistance: {x: 1, y: 1}
-  mOverflow: 2
-  mMaterial: {fileID: 0}
-  mApplyGradient: 0
-  mGradientTop: {r: 1, g: 1, b: 1, a: 1}
-  mGradientBottom: {r: .699999988, g: .699999988, b: .699999988, a: 1}
-  mSpacingX: 0
-  mSpacingY: 0
-  mShrinkToFit: 0
-  mMaxLineWidth: 0
-  mMaxLineHeight: 0
-  mLineWidth: 0
-  mMultiline: 1
 --- !u!114 &11400052
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1648,7 +1636,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Type: 1
   SortBtnLis: {fileID: 11401528}
-  SortLabel: {fileID: 11400050}
+  SortSprite: {fileID: 11400006}
   DescendToggle: {fileID: 11400040}
 --- !u!114 &11401528
 MonoBehaviour:

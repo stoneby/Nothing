@@ -29,14 +29,11 @@ public static class RenderQueue
 
     public const int Transparent = 3000;
 
-    // Lines on the screen. (Over world, but under GUI.)
-    public const int ScreenLines = Transparent + 100;
+    // Effect upon battle characters like buffs, which is based on 3000.
+    public const int BattleEffect = 3400;
+
+    // Effect upon battle face panel, which is 3500.
+    public const int FaceEffect = 3800;
 
     public const int Overlay = 4000;
-
-    // Effect upon battle face panel, which is 4100.
-    public const int FaceEffect = Overlay + 200;
-
-    //Toppest effect which is 5000.
-    public const int ToppestEffect = Overlay + 1000;
 }

@@ -60,6 +60,7 @@ public class SDKLoginManager : MonoBehaviour
                 //if not initialized, initialize SDK first.
                 Debug.Log("Calling SDK login.");
                 jo.Call("login", ServiceManager.ServerData.SID, "login");
+                WindowManager.Instance.Show<LoadingWaitWindow>(true);
             }
         }
 
@@ -107,6 +108,7 @@ public class SDKLoginManager : MonoBehaviour
 
         Debug.Log("Calling SDK login.");
         jo.Call("login", ServiceManager.ServerData.SID, "login");
+        WindowManager.Instance.Show<LoadingWaitWindow>(true);
         SDKResponse.WhichResponse = null;
 
 #endif

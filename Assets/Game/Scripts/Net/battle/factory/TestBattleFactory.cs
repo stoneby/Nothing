@@ -9,11 +9,12 @@ namespace com.kx.sglm.gs.battle.share.factory
 	using IBattleExecuter = com.kx.sglm.gs.battle.share.executer.IBattleExecuter;
 	using TestPVEBattleExecuter = com.kx.sglm.gs.battle.share.executer.impl.TestPVEBattleExecuter;
 	using BattleFighterCreater = com.kx.sglm.gs.battle.share.factory.creater.BattleFighterCreater;
+	using IBattleTemplateService = com.kx.sglm.gs.battle.share.factory.creater.IBattleTemplateService;
 
 	public class TestBattleFactory : AbstractBattleFactory
 	{
 
-		public override IBattleExecuter createBattleExecuter(Battle battle)
+		public override IBattleExecuter createBattleExecuter(Battle battle, IBattleTemplateService tempService)
 		{
 			return new TestPVEBattleExecuter(battle);
 		}

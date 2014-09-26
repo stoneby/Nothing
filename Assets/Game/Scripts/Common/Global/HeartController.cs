@@ -40,9 +40,10 @@ public class HeartController : MonoBehaviour
 	    var newtime = GetTime();
 	    for (int i = 0; i < TimeEvents.Length; i++)
 	    {
+            //PopTextManager.PopTip("Old:" + oldTime + ", New:" + newtime);
             if ((oldTime > TimeEvents[i] && newtime <= TimeEvents[i]) || (oldTime < TimeEvents[i] && newtime >= TimeEvents[i]))
 	        {
-                PopTextManager.PopTip(TimeEvents[i].ToString());
+                //PopTextManager.PopTip(TimeEvents[i].ToString());
 	            EventHandler(TimeEvents[i]);
 	        }
 	    }

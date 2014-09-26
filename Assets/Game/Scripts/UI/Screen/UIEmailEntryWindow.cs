@@ -14,6 +14,7 @@ public class UIEmailEntryWindow : Window
     private UIGrid mails;
     private UIToggle sysToggle;
     private UIToggle priToggle;
+    private UILabel mailCount;
     private readonly List<MailItem> mailList = new List<MailItem>();
     private List<MailMsgInfo> mailMsgInfos;
     private UIEventListener menuLis;
@@ -50,12 +51,15 @@ public class UIEmailEntryWindow : Window
             mailList.Add(mailItem);
             mailItem.Init(mailMsgInfos[i]);
         }
+        mailCount.text = string.Format("{0}/{1}", mailMsgInfos.Count,
+                                       ItemModeLocator.Instance.ServerConfigMsg.MailShowMax);
     }
 
     #region Window
 
     public override void OnEnter()
     {
+        MtaManager.TrackBeginPage(MtaType.EmailEntryWindow);
         play = true;
         InstallHandlers();
         mailMsgInfos = MailModelLocator.Instance.ScMailListMsg.MailList;
@@ -68,6 +72,7 @@ public class UIEmailEntryWindow : Window
 
     public override void OnExit()
     {
+        MtaManager.TrackEndPage(MtaType.EmailEntryWindow);
         UnInstallHandlers();
         StopCoroutine("UpdateDeadlines");
         WindowManager.Instance.Show<UIMailDetailWindow>(false);
@@ -83,6 +88,7 @@ public class UIEmailEntryWindow : Window
         sysToggle = transform.Find("Toggles/Toggle-Sys").GetComponent<UIToggle>();
         priToggle = transform.Find("Toggles/Toggle-Pri").GetComponent<UIToggle>();
         menuLis = UIEventListener.Get(transform.Find("Menu").gameObject);
+        mailCount = transform.Find("MailCount").GetComponent<UILabel>();
     }
 
     private void InstallHandlers()

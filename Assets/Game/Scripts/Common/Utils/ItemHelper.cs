@@ -31,16 +31,16 @@ public class ItemHelper
         Material = 0,
     }
 
-    public static List<string> SortKeys = new List<string>
+    public static List<string> SortSpriteNames = new List<string>
                                                      {
-                                                         "UIHeroOrItem.TimeSort",
-                                                         "UIHeroOrItem.JobSort",
-                                                         "UIHeroOrItem.RaritySort",
-                                                         "UIHeroOrItem.AttackSort",
-                                                         "UIHeroOrItem.HealthSort",
-                                                         "UIHeroOrItem.RecoverSort",
-                                                         "UIHeroOrItem.LevelSort",
-                                                         "UIHeroOrItem.TeamSort",
+                                                         "TimeSort",
+                                                         "JobSort",
+                                                         "RaritySort",
+                                                         "AttackSort",
+                                                         "HealthSort",
+                                                         "RecoverSort",
+                                                         "LevelSort",
+                                                         "TeamSort",
                                                      };
 
     /// <summary>
@@ -270,5 +270,16 @@ public class ItemHelper
             list.Add(infosContainer);
         }
         grid.Init(list, curLimitRows);
+    }
+
+    public static void InstallLongPress(GameObject mat, UIEventListener.VoidDelegate normalClick = null, bool useTempId = false)
+    {
+        var itemLongPressHandler = mat.GetComponent<ItemLongPressHandler>();
+        if (itemLongPressHandler)
+        {
+            itemLongPressHandler.UseTemplateId = useTempId;
+            var longPress = itemLongPressHandler.InstallLongPress();
+            longPress.OnNormalPress = normalClick;
+        }
     }
 }

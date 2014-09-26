@@ -16,11 +16,12 @@ public class SDKResponse : MonoBehaviour
     /// </summary>
     public delegate void Responses();
     public static Responses WhichResponse;
+    public static string TokenString;
 
     #endregion
 
     #region Public Methods
-    
+
 #if UNITY_ANDROID
 
     /// <summary>
@@ -45,8 +46,11 @@ public class SDKResponse : MonoBehaviour
             else if (split[0] == "loginResult is")
             {
                 Debug.Log("Response loginResult succeed!Sending message to server.");
-                var msg = new CSTokenLoginMsg() { DeviceType = 0, DeviceId = "", Token = split[1] };
+                TokenString = split[1];
+                WindowManager.Instance.Show<LoadingWaitWindow>(false);
+                var msg = new CSTokenLoginMsg() { DeviceType = 0, DeviceId = "", DeviceModel = SystemInfo.deviceModel,Token = TokenString };
                 NetManager.SendMessage(msg);
+                //PopTextManager.PopTip("平台登录成功，开始调用服务器进行token登录");
             }
             else if (split[0] == "logoutResult is")
             {
@@ -87,7 +91,7 @@ public class SDKResponse : MonoBehaviour
 	{
 		if (Application.platform != RuntimePlatform.OSXEditor) 
 		{
-			Debug.Log ("message is:" + str);
+			Logger.Log ("message is:" + str);
 			string[] split=str.Split(new char[]{':'});
 		    if (split[0] == "initGameStart")
 		    {
@@ -101,8 +105,8 @@ public class SDKResponse : MonoBehaviour
 		    }
 		    else if (split[0] == "login")
 		    {
-		        Debug.Log("Response login succeed, Sending message to server.");
-		        var msg = new CSTokenLoginMsg() {DeviceType = 0, DeviceId = "", Token = split[1]};
+		        Logger.Log("Response login succeed, Sending message to server.");
+		        var msg = new CSTokenLoginMsg() {DeviceType = 0, DeviceId = "", DeviceModel = SystemInfo.deviceModel, Token = split[1]};
 		        NetManager.SendMessage(msg);
 		    }
             else if (split[0] == "logout")

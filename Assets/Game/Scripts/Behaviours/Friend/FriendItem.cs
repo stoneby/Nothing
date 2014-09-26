@@ -65,7 +65,13 @@ public class FriendItem : MonoBehaviour
         {
             longPress.OnLongPress = OnLongPress;
             longPress.OnNormalPress = OnNormalPress;
+            longPress.OnLongPressFinish = OnLongPressFinish;
         }
+    }
+
+    private void OnLongPressFinish(GameObject go)
+    {
+        WindowManager.Instance.Show<UIFriendDetailWindow>(false);
     }
 
     private void OnNormalPress(GameObject go)
@@ -83,6 +89,7 @@ public class FriendItem : MonoBehaviour
         if (friendDetail != null)
         {
             friendDetail.Init(FriendInfo);
+            friendDetail.GetComponent<FloatWindowShower>().Show();
         }
     }
 }

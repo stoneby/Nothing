@@ -12,6 +12,7 @@ public class ResourcePath
     public const string FileItemConfig = "Templates/ItemConfig";
     public const string FileMonsterConfig = "Templates/Monster";
     public const string FileBuffConfig = "Templates/Buff";
+    public const string FileGreenhandConfig = "Templates/Greenhand";
 
-    public static string[] ByteFiles = { FileBag, FileHero, FileItem, FileItemConfig, FileLevelUp, FileRaid, FileSkill, FileMonsterConfig, FileBuffConfig };
+    public static string[] ByteFiles = { FileBag, FileHero, FileItem, FileItemConfig, FileLevelUp, FileRaid, FileSkill, FileMonsterConfig, FileBuffConfig, FileGreenhandConfig };
 }

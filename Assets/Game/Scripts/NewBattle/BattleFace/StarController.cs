@@ -13,17 +13,12 @@ public class StarController : MonoBehaviour
 
     public void Reset()
     {
-        StarList.ForEach(item => item.gameObject.SetActive(true));
+        StarList.ForEach(item => SetEnable(item, true));
         CurrentStar = RatioList.Count;
     }
 
     public void Show(float ratio)
     {
-        if (CurrentStar == null && RatioList != null)
-        {
-            CurrentStar = RatioList.Count;
-        } 
-        
         for (var i = RatioList.Count - 1; i >= 0; --i)
         {
             if (ratio < RatioList[i])
@@ -33,9 +28,14 @@ public class StarController : MonoBehaviour
 
             if (i >= CurrentStar)
             {
-                StarList[i].gameObject.SetActive(false);
+                SetEnable(StarList[i], false);
             }
         }
+    }
+
+    private void SetEnable(UISprite star, bool enable)
+    {
+        star.spriteName = enable ? "StarLight" : "StarDelight";
     }
 
     private void Awake()

@@ -1,5 +1,4 @@
 using Assets.Game.Scripts.Common.Model;
-using Assets.Game.Scripts.Net.handler;
 using com.kx.sglm.gs.battle.share;
 using com.kx.sglm.gs.battle.share.data.record;
 using com.kx.sglm.gs.battle.share.enums;
@@ -15,23 +14,18 @@ using UnityEngine;
 public class InitBattleField : MonoBehaviour, IBattleView
 {
     public GameObject SpritePrefab;
-    public GameObject EffectBg;
-    public GameObject EffectObject;
-
-    public GameObject BreakObject;
-    public GameObject TextBGObject;
-    public GameObject TextObject;
-    public GameObject Picture91;
-    public GameObject TextBG91;
-    public GameObject TexSwardBg91;
-    public GameObject Text91;
 
     public CameraLikeEffect CameraEffect;
 
     /// <summary>
+    /// Clound effect begin the battle.
+    /// </summary>
+    public EffectSpawner CloudController;
+
+    /// <summary>
     /// Warning controller.
     /// </summary>
-    public WarningEffect WarningController;
+    public EffectSpawner WarningController;
 
     /// <summary>
     /// Rectangle team controller
@@ -94,7 +88,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
     /// <summary>
     /// Character team list.
     /// </summary>
-    private readonly Character[,] charactersLeft = new Character[3, 3];
+    public readonly Character[,] charactersLeft = new Character[3, 3];
 
     private readonly List<Character> originalCharacterList = new List<Character>();
     private readonly List<Character> originalMonsterList = new List<Character>();
@@ -107,16 +101,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
 
     public void Init()
     {
-        EffectBg.SetActive(false);
-        EffectObject.SetActive(false);
-        BreakObject.SetActive(false);
-        TextBGObject.SetActive(false);
-        TextObject.SetActive(false);
-        Picture91.SetActive(false);
-        TextBG91.SetActive(false);
-        Text91.SetActive(false);
-        TexSwardBg91.SetActive(false);
-
         Debug.Log("Set greenhandBattleMode.");
         battleModeHandler = new BattleModeHandler();
         //Reset current config for GreenHand.
@@ -235,9 +219,18 @@ public class InitBattleField : MonoBehaviour, IBattleView
 
     IEnumerator InitBattleFighters()
     {
+        yield return StartCoroutine(TransitionIn());
+
         yield return StartCoroutine(MakeUpOneByOne(false));
         RunToNextMonsters();
         BattleModelLocator.Instance.CanSelectHero = true;
+    }
+
+    private IEnumerator TransitionIn()
+    {
+        CloudController.Play();
+        yield return new WaitForSeconds(CloudController.Duration);
+        CloudController.Stop();
     }
 
     private void InitMonsterList()
@@ -265,7 +258,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
             enemyController.Reset();
             enemyController.SetBloodBar(maxValue, maxValue);
             enemyController.CharacterData.Data = enemyData;
-            enemyController.BaseWidget = BattleController.GetComponent<UIWidget>();
 
             Logger.Log("Init enemy of index: " + (BattleModelLocator.Instance.MonsterIndex + i));
         }
@@ -421,7 +413,10 @@ public class InitBattleField : MonoBehaviour, IBattleView
 
         SyncTeamController();
 
-        battleModeHandler.SetBattleField(TeamController, MonsterController, charactersLeft, FaceController, "MakeUpOneByOne");
+        battleModeHandler.SetBattleField(TeamController, MonsterController, charactersLeft, "MakeUpOneByOne");
+
+        //Enable all leaders' collider.
+        leaderController.SetAllLeadersCollider(true);
 
         if (needresetcharacter)
         {
@@ -508,6 +503,10 @@ public class InitBattleField : MonoBehaviour, IBattleView
         if (isAttacked)
         {
             battleModeHandler.StopFingerMove();
+
+            //Disable all leader collider when attack to prevent error.
+            leaderController.SetAllLeadersCollider(false);
+
             var selectedList = TeamController.SelectedCharacterList.Select(item => TeamController.TwoDimensionToOne(item.Location));
             DoAttack(selectedList.ToArray());
         }
@@ -850,13 +849,9 @@ public class InitBattleField : MonoBehaviour, IBattleView
             if (enemyController.Health <= 0)
             {
                 var enemyData = monsterList[monsterIndexBase + monster.Index];
-                var v = enemyData.getIntProp(BattleKeyConstants.BATTLE_PROP_MONSTER_DROP_COIN);
-                if (v > 0)
-                {
-                    topController.GoldCount += v;
-                    EffectManager.PlayEffect(EffectType.GetMoney, 0.5f, 0, 0, monster.transform.position);
-                }
 
+                topController.HeroCount += enemyData.getIntProp(BattleKeyConstants.BATTLE_PROP_MONSTER_DROP_HERO);
+                //EffectManager.PlayEffect(EffectType.GetMoney, 0.5f, 0, 0, monster.transform.position);
                 topController.BoxCount += enemyData.getIntProp(BattleKeyConstants.BATTLE_PROP_MONSTER_DROP_ITEM);
                 topController.Show();
 
@@ -882,6 +877,11 @@ public class InitBattleField : MonoBehaviour, IBattleView
     private IEnumerator RightAttackCoroutineHandler()
     {
         SetCharacterCanSelect(false);
+
+        // show character's debuff.
+        ShowDebuff(TeamController.CharacterList);
+        yield return new WaitForSeconds(GameConfig.HeroBeenAttrackTime);
+
         if (battleTeamRecord.RecordList.Count > 0)
         {
             foreach (BattleFightRecord record in battleTeamRecord.RecordList)
@@ -928,10 +928,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
                 ResetMonsterStates(ec, record.getAttackAction());
             }
         }
-
-        // show character's debuff.
-        ShowDebuff(TeamController.CharacterList);
-        yield return new WaitForSeconds(GameConfig.HeroBeenAttrackTime);
 
         recordIndex++;
         DealWithRecord();
@@ -1009,7 +1005,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
             }
         }
 
-        battleModeHandler.SetBattleField(TeamController, MonsterController, charactersLeft, FaceController, "UnderAttack");
+        battleModeHandler.SetBattleField(TeamController, MonsterController, charactersLeft, "UnderAttack");
     }
 
     private static void RunToAttackPlace(Character hero, Character enemy)
@@ -1074,7 +1070,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
 
     private void OnActiveLeaderSkill(LeaderData data)
     {
-        battleModeHandler.SetBattleField(TeamController, MonsterController, charactersLeft, FaceController, "ActiveSkill");
+        //battleModeHandler.SetBattleField(TeamController, MonsterController, charactersLeft, "ActiveSkill");
         RequestRecords();
     }
 
@@ -1197,9 +1193,8 @@ public class InitBattleField : MonoBehaviour, IBattleView
             moveCharacters = new ArrayList();
             moveGameObjects = new ArrayList();
         }
-        var cc = hero.FaceObject.GetComponent<CharacterControl>();
         var vo = new CharacterMoveVO();
-        vo.Init(cc.GetNamePrefix(), transform.localPosition, enemy.transform.localPosition);
+        vo.Init(transform.localPosition, enemy.transform.localPosition, 3);
         moveCharacters.Add(vo);
         return vo.Duration;
     }
@@ -1241,6 +1236,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
             else if (str != "continue")
             {
                 obj = NGUITools.AddChild(leftContainerObj, SpritePrefab);
+                obj.transform.localEulerAngles = new Vector3(0, 180, 0);
                 var sp = obj.GetComponent<UISprite>();
                 sp.spriteName = str;
                 sp.color = new Color(1.0f, 0, 0);
@@ -1275,6 +1271,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
             {
                 WarningController.Play();
                 yield return new WaitForSeconds(WarningController.Duration);
+                WarningController.Stop();
             }
 
             ShowTopData();
@@ -1326,10 +1323,14 @@ public class InitBattleField : MonoBehaviour, IBattleView
             ? originalCharacterList
             : originalMonsterList;
 
+        //Clear buff hurt list in all characters.
+        characterList.ForEach(item => item.BuffController.HurtValueList.Clear());
+
+        //Set buff hurt list in specific characters.
         battleTeamFightRecord.BuffAction.ForEach(action =>
         {
             var character = GetObjectByAction(characterList, action.FighterInfo);
-            character.BuffController.HurtValueList.Clear();
+            //character.BuffController.HurtValueList.Clear();
             character.BuffController.BaseValue = characterValue;
             character.BuffController.HurtValueList.Add(action.ResultHp);
         });
@@ -1547,19 +1548,11 @@ public class InitBattleField : MonoBehaviour, IBattleView
                 {
                     if (BattleModelLocator.Instance.BattleType == BattleType.GREENHANDPVE.Index)
                     {
-                        GreenhandController.Instance.SendEndMessage();
+                        GreenHandGuideHandler.Instance.SendEndMessage(1);
 
-                        ResetAll();
+                        //ResetAll();
 
                         WindowManager.Instance.Show<GreenHandGuideWindow>(false);
-                        WindowManager.Instance.Show<UIMainScreenWindow>(true);
-
-                        Debug.Log("Go to HeroFirstLoginGive.");
-                        //FirstLoginGiveHero
-                        if (ChooseCardHandler.IsHeroFirstLoginGive)
-                        {
-                            ChooseCardHandler.OnHeroFirstLoginGive();
-                        }
                     }
                     else
                     {
@@ -1635,7 +1628,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
     private void OnMonsterSelected(Character currentSelected, Character lastSelected, bool isStartScene = false)
     {
         Logger.LogWarning("On enemy select: sender, " + currentSelected.name + ", last selected: " + lastSelected.name);
-        battleModeHandler.SetBattleField(TeamController, MonsterController, charactersLeft, FaceController, "MonsterSelect");
+        battleModeHandler.SetBattleField(TeamController, MonsterController, charactersLeft, "MonsterSelect");
         var lastEnemy = lastSelected.FaceObject.GetComponent<MonsterControl>();
         var currentEnemy = currentSelected.FaceObject.GetComponent<MonsterControl>();
         if (!isStartScene)
@@ -1646,13 +1639,14 @@ public class InitBattleField : MonoBehaviour, IBattleView
                 lastEnemy.ShowAimTo(false);
                 currentEnemy.ShowAimTo(true);
             }
-            //Deactive aim if select the same monster, which isShowedAim.
 
+            //Deactive aim if select the same monster, which isShowedAim.
             else
             {
                 currentEnemy.ShowAimTo(!currentEnemy.IsShowAim);
             }
         }
+
         //Deactive aim if default select in start a new scene.
         else
         {
@@ -1700,7 +1694,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
         ShowTopData();
         //Sync Topinfo
         topController.BoxCount = float.Parse(value["BoxCount"]);
-        topController.GoldCount = float.Parse(value["GoldCount"]);
+        topController.HeroCount = float.Parse(value["GoldCount"]);
         topController.Show();
         //Sync Star
         starController.CurrentStar = int.Parse(value["StarCount"]);
@@ -1713,7 +1707,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
         persistenceInfo.Add("Mp", leaderController.TotalLeaderCD.ToString());
         //topinfo
         persistenceInfo.Add("BoxCount", topController.BoxCount.ToString());
-        persistenceInfo.Add("GoldCount", topController.GoldCount.ToString());
+        persistenceInfo.Add("GoldCount", topController.HeroCount.ToString());
         //star
         persistenceInfo.Add("StarCount", starController.CurrentStar.ToString());
     }

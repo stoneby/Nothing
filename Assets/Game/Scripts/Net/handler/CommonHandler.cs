@@ -14,15 +14,35 @@ public class CommonHandler
         {
             if (propertyChangedMsg.RoleType == 2)
             {
-                var playerModel = PlayerModelLocator.Instance;
                 var uuid = propertyChangedMsg.Uuid;
+                var hero = HeroModelLocator.Instance.FindHero(uuid);
+                if(propertyChangedMsg.PropertyChanged.ContainsKey(RoleProperties.ROLE_ATK))
+                {
+                    hero.Prop[RoleProperties.ROLE_ATK] = propertyChangedMsg.PropertyChanged[RoleProperties.ROLE_ATK];
+                }
+                if (propertyChangedMsg.PropertyChanged.ContainsKey(RoleProperties.ROLE_HP))
+                {
+                    hero.Prop[RoleProperties.ROLE_HP] = propertyChangedMsg.PropertyChanged[RoleProperties.ROLE_HP];
+                }
+                if (propertyChangedMsg.PropertyChanged.ContainsKey(RoleProperties.ROLE_RECOVER))
+                {
+                    hero.Prop[RoleProperties.ROLE_RECOVER] = propertyChangedMsg.PropertyChanged[RoleProperties.ROLE_RECOVER];
+                } 
+                if(propertyChangedMsg.PropertyChanged.ContainsKey(RoleProperties.ROLE_MP))
+                {
+                    hero.Prop[RoleProperties.ROLE_MP] = propertyChangedMsg.PropertyChanged[RoleProperties.ROLE_MP];
+                }
+                if (propertyChangedMsg.PropertyChanged.ContainsKey(RoleProperties.ROLEBASE_LEVEL))
+                {
+                    hero.Lvl = (short)propertyChangedMsg.PropertyChanged[RoleProperties.ROLEBASE_LEVEL];
+                }
+                var playerModel = PlayerModelLocator.Instance;
                 var isInTeam = TeamMemberManager.Instance.CurTeam.Contains(uuid);
                 if(isInTeam)
                 {
-                    var heroInfo = HeroModelLocator.Instance.FindHero(uuid);
                     foreach (var key in HeroConstant.PropKeys)
                     {
-                        playerModel.TeamProp[key] += (propertyChangedMsg.PropertyChanged[key] - heroInfo.Prop[key]);
+                        playerModel.TeamProp[key] += (propertyChangedMsg.PropertyChanged[key] - hero.Prop[key]);
                     }
                 }
                 if(HeroPropertyChanged != null)

@@ -36,11 +36,13 @@ public class UIMailDetailWindow : Window
 
     public override void OnEnter()
     {
+        MtaManager.TrackBeginPage(MtaType.EmailDetailWindow);
         MailHandler.MailIsUpdated += OnMailUpdate;
     }
 
     public override void OnExit()
     {
+        MtaManager.TrackEndPage(MtaType.EmailDetailWindow);
         mailMsgInfo = null;
         Utils.DestoryChildren(attachItems);
         MailHandler.MailIsUpdated -= OnMailUpdate;

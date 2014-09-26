@@ -15,10 +15,11 @@ public class GameInit : MonoBehaviour
         EventManager.Instance.RemoveListener<WindowManagerReady>(GameStart);
 
         Logger.Log("GameInit started after everything ready, all start later call.");
-        WindowManager.Instance.Show(typeof(LoginWindow), true);
+        WindowManager.Instance.Show<LoginWindow>(true);
         WindowManager.Instance.Show<LoadingWaitWindow>(true);
         NetManager.OnMessageSended = OnMessageSended;
         NetManager.OnMessageReceived = OnMessageReceived;
+        NetManager.OnMessageThrowException = OnMessageExeption;
     }
 
     #endregion
@@ -47,6 +48,12 @@ public class GameInit : MonoBehaviour
         {
             Loom.QueueOnMainThread(() => WindowManager.Instance.Show<LoadingWaitWindow>(true), DelayTime, ShowDelay);
         }
+    }
+
+    private static void OnMessageExeption()
+    {
+        Loom.QueueOnMainThread(() => WindowManager.Instance.Show<LoadingWaitWindow>(false));
+        Loom.QueueOnMainThread(() => PingTest.Instance.CheckConnection());
     }
 
     #endregion

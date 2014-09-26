@@ -25,13 +25,13 @@ public class MailHandler
                     }
                     mailListCached.Add(info);  
                 }
-                MailConstant.SortMailList(mailListCached);
             }
             else
             {
                 MailModelLocator.Instance.ScMailListMsg = themsg;
                 MailModelLocator.AlreadyRequest = true;
             }
+            MailConstant.SortMailList(MailModelLocator.Instance.ScMailListMsg.MailList);
             var mailEntry = WindowManager.Instance.Show<UIEmailEntryWindow>(true);
             mailEntry.Refresh();
         }

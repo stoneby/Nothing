@@ -3,92 +3,21 @@ using UnityEngine;
 
 public class MainMenuBarWindow : Window
 {
-    #region Private Fields
-
-    //private UIEventListener homeLis;
-    private UIEventListener heroLis;
-    private UIEventListener teamLis;
-    private UIEventListener equipLis;
-    private UIEventListener summonLis;
-    private UIEventListener friendLis;
-    private UIEventListener battleLis;
-    //private UIEventListener menuLis;
-    private UIEventListener logLis;
-    private GameObject inputLog;
-    private UIEventListener emailLis;
-
-    #endregion
-
     #region Window
 
     public override void OnEnter()
     {
-        InstallHandlers();
     }
 
     public override void OnExit()
     {
-        UnInstallHandlers();
     }
 
     #endregion
 
     #region Private Methods
 
-    /// <summary>
-    /// Use this for initialization.
-    /// </summary>
-    private void Awake()
-    {
-        emailLis = UIEventListener.Get(transform.Find("Buttons/Button email").gameObject);
-        //homeLis = UIEventListener.Get(Utils.FindChild(transform, "Button-Home").gameObject);
-        heroLis = UIEventListener.Get(Utils.FindChild(transform, "Button hero").gameObject);
-        teamLis = UIEventListener.Get(Utils.FindChild(transform, "Button team").gameObject);
-        equipLis = UIEventListener.Get(Utils.FindChild(transform, "Button equip").gameObject);
-        summonLis = UIEventListener.Get(Utils.FindChild(transform, "Button summon").gameObject);
-        friendLis = UIEventListener.Get(Utils.FindChild(transform, "Button friend").gameObject);
-        //menuLis = UIEventListener.Get(Utils.FindChild(transform, "Button-Menu").gameObject);
-        battleLis = UIEventListener.Get(Utils.FindChild(transform, "Button battle").gameObject);
-        logLis = UIEventListener.Get(Utils.FindChild(transform, "Button chat").gameObject);
-        inputLog = Utils.FindChild(transform, "Input-Log").gameObject;
-        inputLog.SetActive(false);
-    }
-
-    /// <summary>
-    /// Install all handlers.
-    /// </summary>
-    private void InstallHandlers()
-    {
-        //homeLis.onClick = OnHomeClicked;
-        heroLis.onClick = OnHeroClicked;
-        teamLis.onClick = OnTeamClicked;
-        equipLis.onClick = OnEquipClicked;
-        summonLis.onClick = OnSummonClicked;
-        battleLis.onClick = OnBattleClicked;
-        friendLis.onClick = OnFriendClicked;
-       // menuLis.onClick = OnMenuClicked;
-        logLis.onClick = OnLogClicked;
-        emailLis.onClick = OnEmail;
-    }
-
-    /// <summary>
-    /// Uninstall all handlers.
-    /// </summary>
-    private void UnInstallHandlers()
-    {
-        //homeLis.onClick = null;
-        heroLis.onClick = null;
-        teamLis.onClick = null;
-        equipLis.onClick = null;
-        summonLis.onClick = null;
-        battleLis.onClick = null;
-        friendLis.onClick = null;
-        //menuLis.onClick = null;
-        logLis.onClick = null;
-        emailLis.onClick = null;
-    }
-
-    private void OnEmail(GameObject go)
+    public void OnEmail()
     {
         if(MailModelLocator.AlreadyRequest == false)
         {
@@ -104,16 +33,16 @@ public class MainMenuBarWindow : Window
     /// <summary>
     /// The callback of clicking log button.
     /// </summary>
-    private void OnLogClicked(GameObject go)
+    public void OnChatClicked(GameObject go)
     {
         //This is just for testing.
-        inputLog.SetActive(!inputLog.gameObject.activeInHierarchy);
+        go.SetActive(!go.gameObject.activeInHierarchy);
     }
 
     /// <summary>
     /// The callback of clicking menu button.
     /// </summary>
-    private void OnBattleClicked(GameObject go)
+    public void OnBattleClicked()
     {
         MissionModelLocator.Instance.ShowRaidWindow();  
     }
@@ -121,7 +50,7 @@ public class MainMenuBarWindow : Window
     /// <summary>
     /// The callback of clicking summon button.
     /// </summary>
-    private void OnSummonClicked(GameObject go)
+    public void OnSummonClicked()
     {
         WindowManager.Instance.Show<ChooseCardWindow>(true);
     }
@@ -129,7 +58,7 @@ public class MainMenuBarWindow : Window
     /// <summary>
     /// The callback of clicking friend button.
     /// </summary>
-    private void OnFriendClicked(GameObject go)
+    public void OnFriendClicked()
     {
         var msg = new CSFriendLoadingAll();
         NetManager.SendMessage(msg);
@@ -138,7 +67,7 @@ public class MainMenuBarWindow : Window
     /// <summary>
     /// The callback of clicking equip button.
     /// </summary>
-    private void OnEquipClicked(GameObject go)
+    public void OnEquipClicked()
     {
         //PopTextManager.PopTip("暂未开放该功能！", false);
         if (ItemModeLocator.AlreadyMainRequest == false)
@@ -156,7 +85,7 @@ public class MainMenuBarWindow : Window
     /// <summary>
     /// The callback of clicking team button.
     /// </summary>
-    private void OnTeamClicked(GameObject go)
+    public void OnTeamClicked()
     {
         if (HeroModelLocator.AlreadyRequest == false)
         {
@@ -174,7 +103,7 @@ public class MainMenuBarWindow : Window
     /// <summary>
     /// The callback of clicking hero button.
     /// </summary>
-    private void OnHeroClicked(GameObject go)
+    public void OnHeroClicked()
     {
         //PopTextManager.PopTip("暂未开放该功能！", false);
         //WindowManager.Instance.Show<HeroMenuBarWindow>(true);
@@ -193,7 +122,7 @@ public class MainMenuBarWindow : Window
     /// <summary>
     /// The callback of clicking home button.
     /// </summary>
-    private void OnHomeClicked(GameObject go)
+    public void OnHomeClicked()
     {
         var curMap = WindowManager.Instance.CurrentWindowMap;
         if(curMap.ContainsKey(WindowGroupType.TabPanel))

@@ -15,13 +15,15 @@ public class NetManager
     private static readonly Queue SCMsgQueue = new Queue();
     private static readonly Thread MsgThread = new Thread(DoSend);
 
-    private static string sessionId = "";
+    public static string sessionId = "";
     private const int PkgReadLenPerTime = 1024;
 
     public delegate void MessageSended(bool playLoadingWait);
     public delegate void MessageReceived();
+    public delegate void MessageThrowException();
     public static MessageSended OnMessageSended;
     public static MessageReceived OnMessageReceived;
+    public static MessageThrowException OnMessageThrowException;
 
     public static void SendMessage(TBase msg, bool playLoadingWait = true)
     {
@@ -167,9 +169,9 @@ public class NetManager
             }
             catch (Exception e)
             {
-                if (OnMessageReceived != null)
+                if (OnMessageThrowException != null)
                 {
-                    OnMessageReceived();
+                    OnMessageThrowException();
                 }
                 Logger.Log("An error occurred: " + e.Message);
                 MtaManager.ReportError("An error occurred: " + e.Message);

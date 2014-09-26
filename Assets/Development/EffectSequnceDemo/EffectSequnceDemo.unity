@@ -99,7 +99,7 @@ Transform:
   m_GameObject: {fileID: 67016589}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 360, y: 360, z: 360}
   m_Children: []
   m_Father: {fileID: 845628248}
 --- !u!114 &67016591
@@ -114,7 +114,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12282a5b77b55f64c93748543986d7a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Cube: {fileID: 0}
   EffectSequnce: {fileID: 67016592}
 --- !u!114 &67016592
 MonoBehaviour:
@@ -130,26 +129,185 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RenderQ: 4200
   EffectInfos:
-  - EffectObj: {fileID: 100002, guid: a0a50bc946efb684ab969ffed5524dd1, type: 2}
+  - EffectObj: {fileID: 100126, guid: 5674ed6acb8f5ab4eba47f5e39333906, type: 2}
     EffectType: 1
-    StartTime: 1
-    Douration: 3
-    PositonFrom: {x: -100, y: 0, z: 0}
-    PositionTo: {x: -100, y: 200, z: 0}
+    StartTime: 0
+    Douration: 12
+    UseMove: 1
+    MoveDelay: 1
+    MoveDouration: 1
+    PositonFrom: {x: 0, y: 0, z: 0}
+    PositionTo: {x: 0, y: -.400000006, z: 0}
+    UseRotation: 0
+    RotationDelay: 1
+    RoationDouration: 2
+    RotationFrom: {x: 0, y: 0, z: 0}
+    RotationTo: {x: 0, y: 90, z: 0}
     IsLocal: 1
-  - EffectObj: {fileID: 100010, guid: 00da2b54452c2564f9c967a9c523e5da, type: 2}
+  - EffectObj: {fileID: 100008, guid: 87494cdf2b03c9b40aa03f19ca4a8fce, type: 2}
     EffectType: 1
+    StartTime: 2
+    Douration: 10
+    UseMove: 0
+    MoveDelay: 0
+    MoveDouration: 0
+    PositonFrom: {x: 0, y: 0, z: 0}
+    PositionTo: {x: 0, y: 0, z: 0}
+    UseRotation: 0
+    RotationDelay: 0
+    RoationDouration: 0
+    RotationFrom: {x: 0, y: 0, z: 0}
+    RotationTo: {x: 0, y: 0, z: 0}
+    IsLocal: 1
+  - EffectObj: {fileID: 100000, guid: 69542e44382184046bf2a3924ed1ac43, type: 2}
+    EffectType: 0
+    StartTime: 2
+    Douration: 1
+    UseMove: 1
+    MoveDelay: 0
+    MoveDouration: .5
+    PositonFrom: {x: 0, y: -.400000006, z: 0}
+    PositionTo: {x: -.800000012, y: .800000012, z: 0}
+    UseRotation: 1
+    RotationDelay: .5
+    RoationDouration: .5
+    RotationFrom: {x: 0, y: 0, z: 0}
+    RotationTo: {x: 0, y: 60, z: 0}
+    IsLocal: 1
+  - EffectObj: {fileID: 100000, guid: 69542e44382184046bf2a3924ed1ac43, type: 2}
+    EffectType: 0
     StartTime: 3
-    Douration: 4
-    PositonFrom: {x: -100, y: 200, z: 0}
-    PositionTo: {x: -100, y: 200, z: 0}
+    Douration: 1
+    UseMove: 1
+    MoveDelay: 0
+    MoveDouration: .5
+    PositonFrom: {x: -0, y: -.400000006, z: 0}
+    PositionTo: {x: -.400000006, y: .800000012, z: 0}
+    UseRotation: 1
+    RotationDelay: .5
+    RoationDouration: .5
+    RotationFrom: {x: 0, y: 0, z: 0}
+    RotationTo: {x: 0, y: 60, z: 0}
     IsLocal: 1
-  - EffectObj: {fileID: 100000, guid: 54660ae3af68543458e122ecdcf950f3, type: 2}
-    EffectType: 1
+  - EffectObj: {fileID: 100000, guid: 69542e44382184046bf2a3924ed1ac43, type: 2}
+    EffectType: 0
+    StartTime: 4
+    Douration: 1
+    UseMove: 1
+    MoveDelay: 0
+    MoveDouration: .5
+    PositonFrom: {x: 0, y: -.400000006, z: 0}
+    PositionTo: {x: 0, y: .800000012, z: 0}
+    UseRotation: 1
+    RotationDelay: .5
+    RoationDouration: .5
+    RotationFrom: {x: 0, y: 0, z: 0}
+    RotationTo: {x: 0, y: 60, z: 0}
+    IsLocal: 1
+  - EffectObj: {fileID: 100000, guid: 69542e44382184046bf2a3924ed1ac43, type: 2}
+    EffectType: 0
+    StartTime: 5
+    Douration: 1
+    UseMove: 1
+    MoveDelay: 0
+    MoveDouration: .5
+    PositonFrom: {x: 0, y: -.400000006, z: 0}
+    PositionTo: {x: .400000006, y: .800000012, z: 0}
+    UseRotation: 1
+    RotationDelay: .5
+    RoationDouration: .5
+    RotationFrom: {x: 0, y: 0, z: 0}
+    RotationTo: {x: 0, y: 60, z: 0}
+    IsLocal: 1
+  - EffectObj: {fileID: 100000, guid: 69542e44382184046bf2a3924ed1ac43, type: 2}
+    EffectType: 0
+    StartTime: 6
+    Douration: 1
+    UseMove: 1
+    MoveDelay: 0
+    MoveDouration: .5
+    PositonFrom: {x: 0, y: -.400000006, z: 0}
+    PositionTo: {x: .800000012, y: .800000012, z: 0}
+    UseRotation: 1
+    RotationDelay: .5
+    RoationDouration: .5
+    RotationFrom: {x: 0, y: 0, z: 0}
+    RotationTo: {x: 0, y: 60, z: 0}
+    IsLocal: 1
+  - EffectObj: {fileID: 100000, guid: 69542e44382184046bf2a3924ed1ac43, type: 2}
+    EffectType: 0
     StartTime: 7
-    Douration: 4
-    PositonFrom: {x: 0, y: 100, z: 0}
-    PositionTo: {x: 0, y: 100, z: 0}
+    Douration: 1
+    UseMove: 1
+    MoveDelay: 0
+    MoveDouration: .5
+    PositonFrom: {x: 0, y: -.400000006, z: 0}
+    PositionTo: {x: -.800000012, y: .400000006, z: 0}
+    UseRotation: 1
+    RotationDelay: .5
+    RoationDouration: .5
+    RotationFrom: {x: 0, y: 0, z: 0}
+    RotationTo: {x: 0, y: 60, z: 0}
+    IsLocal: 1
+  - EffectObj: {fileID: 100000, guid: 69542e44382184046bf2a3924ed1ac43, type: 2}
+    EffectType: 0
+    StartTime: 8
+    Douration: 1
+    UseMove: 1
+    MoveDelay: 0
+    MoveDouration: .5
+    PositonFrom: {x: 0, y: -.400000006, z: 0}
+    PositionTo: {x: -.400000006, y: .400000006, z: 0}
+    UseRotation: 1
+    RotationDelay: .5
+    RoationDouration: .5
+    RotationFrom: {x: 0, y: 0, z: 0}
+    RotationTo: {x: 0, y: 60, z: 0}
+    IsLocal: 1
+  - EffectObj: {fileID: 100000, guid: 69542e44382184046bf2a3924ed1ac43, type: 2}
+    EffectType: 0
+    StartTime: 9
+    Douration: 1
+    UseMove: 1
+    MoveDelay: 0
+    MoveDouration: .5
+    PositonFrom: {x: 0, y: -.400000006, z: 0}
+    PositionTo: {x: 0, y: .400000006, z: 0}
+    UseRotation: 1
+    RotationDelay: .5
+    RoationDouration: .5
+    RotationFrom: {x: 0, y: 0, z: 0}
+    RotationTo: {x: 0, y: 60, z: 0}
+    IsLocal: 1
+  - EffectObj: {fileID: 100000, guid: 69542e44382184046bf2a3924ed1ac43, type: 2}
+    EffectType: 0
+    StartTime: 10
+    Douration: 1
+    UseMove: 1
+    MoveDelay: 0
+    MoveDouration: .5
+    PositonFrom: {x: 0, y: -.400000006, z: 0}
+    PositionTo: {x: .400000006, y: .400000006, z: 0}
+    UseRotation: 1
+    RotationDelay: .5
+    RoationDouration: .5
+    RotationFrom: {x: 0, y: 0, z: 0}
+    RotationTo: {x: 0, y: 60, z: 0}
+    IsLocal: 1
+  - EffectObj: {fileID: 100000, guid: 69542e44382184046bf2a3924ed1ac43, type: 2}
+    EffectType: 0
+    StartTime: 11
+    Douration: 1
+    UseMove: 1
+    MoveDelay: 0
+    MoveDouration: .5
+    PositonFrom: {x: 0, y: -.400000006, z: 0}
+    PositionTo: {x: .800000012, y: .400000006, z: 0}
+    UseRotation: 1
+    RotationDelay: .5
+    RoationDouration: .5
+    RotationFrom: {x: 0, y: 0, z: 0}
+    RotationTo: {x: 0, y: 60, z: 0}
     IsLocal: 1
 --- !u!1001 &534472495
 Prefab:
@@ -318,7 +476,7 @@ Transform:
   m_GameObject: {fileID: 1487996667}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: .00353356893, y: .00353356893, z: .00353356893}
+  m_LocalScale: {x: .0035650623, y: .0035650623, z: .0035650623}
   m_Children:
   - {fileID: 845628248}
   m_Father: {fileID: 0}

@@ -155,7 +155,29 @@ public class ItemModeLocator
     /// <returns>The result of the comparation</returns>
     private int CompareItemByJob(ItemInfo p1, ItemInfo p2)
     {
-        int compareResult = GetJob(p1.TmplId).CompareTo(GetJob(p2.TmplId));
+        var tempId1 = p1.TmplId;
+        var tempId2 = p2.TmplId;
+        var itemType2 = GetItemType(tempId2);
+        //Campare by type first, equip > armor > material.
+        int compareResult = itemType2.CompareTo(GetItemType(tempId1));
+        if (compareResult == 0 )
+        {
+            //If the type is the same and they are not materials, then compare by job.
+            if(itemType2 != EquipType.Material)
+            {
+                compareResult = GetJob(tempId1).CompareTo(GetJob(tempId2));
+            }
+            //Level up material is front of evolve material.
+            else
+            {
+                compareResult =
+                    ItemTemplates.MaterialTmpls[tempId1].Type.CompareTo(ItemTemplates.MaterialTmpls[tempId2].Type);
+                if(compareResult == 0)
+                {
+                    compareResult = GetJob(tempId1).CompareTo(GetJob(tempId2));
+                }
+            }
+        }
         if (compareResult == 0)
         {
             return p2.TmplId.CompareTo(p1.TmplId);
@@ -422,6 +444,51 @@ public class ItemModeLocator
         return -1;
     }
 
+    public int GetAttackLvlParms(int tempId, short parmLvl)
+    {
+        var equipTmpl = ItemTemplates.EquipTmpls;
+        var armorTmpl = ItemTemplates.ArmorTmpls;
+        if (equipTmpl.ContainsKey(tempId))
+        {
+            return Mathf.RoundToInt(parmLvl * equipTmpl[tempId].AttackLvlParam / ConversionRate);
+        }
+        if (armorTmpl.ContainsKey(tempId))
+        {
+            return Mathf.RoundToInt(parmLvl * armorTmpl[tempId].AttackLvlParam / ConversionRate);
+        }
+        return 0;
+    }
+
+    public int GetRecoverLvlParms(int tempId, short parmLvl)
+    {
+        var equipTmpl = ItemTemplates.EquipTmpls;
+        var armorTmpl = ItemTemplates.ArmorTmpls;
+        if (equipTmpl.ContainsKey(tempId))
+        {
+            return Mathf.RoundToInt(parmLvl * equipTmpl[tempId].RecoverLvlParam / ConversionRate);
+        }
+        if (armorTmpl.ContainsKey(tempId))
+        {
+            return Mathf.RoundToInt(parmLvl * armorTmpl[tempId].RecoverLvlParam / ConversionRate);
+        }
+        return 0;
+    }
+
+    public int GetHpLvlParms(int tempId, short parmLvl)
+    {
+        var equipTmpl = ItemTemplates.EquipTmpls;
+        var armorTmpl = ItemTemplates.ArmorTmpls;
+        if (equipTmpl.ContainsKey(tempId))
+        {
+            return Mathf.RoundToInt(parmLvl * equipTmpl[tempId].HpLvlParam / ConversionRate);
+        }
+        if (armorTmpl.ContainsKey(tempId))
+        {
+            return Mathf.RoundToInt(parmLvl * armorTmpl[tempId].HpLvlParam / ConversionRate);
+        }
+        return 0;
+    } 
+
     /// <summary>
     /// Get the hp of the item.
     /// </summary>
@@ -597,12 +664,12 @@ public class ItemModeLocator
             {
                 levelCost += lvlTempls[i].UpCostGolds[quality - 1];
             }
-            var curLevelTemp = lvlTempls[level];
-            var preshowLevelTemp = lvlTempls[preshowLvl];
-            var valueToSub = (int)((float)curExp / curLevelTemp.MaxExp * preshowLevelTemp.UpCostGolds[quality - 1]);
-            var valueToAdd = (int)((float)preshowCurExp / preshowLevelTemp.MaxExp * preshowLevelTemp.UpCostGolds[quality - 1]);
-            levelCost += (valueToAdd - valueToSub);
         }
+        var curLevelTemp = lvlTempls[level];
+        var preshowLevelTemp = lvlTempls[preshowLvl];
+        var valueToSub = (int)((float)curExp / curLevelTemp.MaxExp * preshowLevelTemp.UpCostGolds[quality - 1]);
+        var valueToAdd = (int)((float)preshowCurExp / preshowLevelTemp.MaxExp * preshowLevelTemp.UpCostGolds[quality - 1]);
+        levelCost += (valueToAdd - valueToSub);
         return levelCost;
     }
 

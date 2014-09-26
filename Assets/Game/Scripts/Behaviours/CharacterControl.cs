@@ -107,12 +107,6 @@ public class CharacterControl : MonoBehaviour
         uilb.text = "" + ((FootIndex == (int)FootColorType.Pink) ? (Restore) : (Attack));
     }
 
-    public string GetNamePrefix()
-    {
-        var index = (CharacterData.IDIndex == 0) ? 1 : 5;
-        return "c_" + index + "_";
-    }
-
     public void PlayCharacter(Character.State state, bool loop)
     {
         CharacterData.PlayState(state, loop);

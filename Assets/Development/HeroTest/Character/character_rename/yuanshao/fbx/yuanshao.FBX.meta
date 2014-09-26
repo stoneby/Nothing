@@ -1,0 +1,471 @@
+fileFormatVersion: 2
+guid: a0a41a26ddf8f5d4080b9bff0e800b68
+ModelImporter:
+  serializedVersion: 16
+  fileIDToRecycleName:
+    100000: D_yuanshao_bingqi1
+    100002: D_yuanshao_biqngi
+    100004: D_yuanshao_pifeng
+    100006: D_yuanshao_qunjia
+    100008: D_yuanshao_qunjia1
+    100010: D_yuanshao_qunjia3
+    100012: D_yuanshao_shenti
+    100014: D_yuanshao_tou
+    100016: D_yuanshao_yaodai
+    100018: D_yuanshao_youdabi
+    100020: D_yuanshao_youdatui
+    100022: D_yuanshao_yougebo
+    100024: D_yuanshao_youjianjia
+    100026: D_yuanshao_youshou
+    100028: D_yuanshao_youtui
+    100030: D_yuanshao_yumao
+    100032: D_yuanshao_zuodabi
+    100034: D_yuanshao_zuodatui
+    100036: D_yuanshao_zuogebo
+    100038: D_yuanshao_zuojianjia
+    100040: D_yuanshao_zuoshou
+    100042: D_yuanshao_zuotui
+    100044: //RootNode
+    400000: D_yuanshao_bingqi1
+    400002: D_yuanshao_biqngi
+    400004: D_yuanshao_pifeng
+    400006: D_yuanshao_qunjia
+    400008: D_yuanshao_qunjia1
+    400010: D_yuanshao_qunjia3
+    400012: D_yuanshao_shenti
+    400014: D_yuanshao_tou
+    400016: D_yuanshao_yaodai
+    400018: D_yuanshao_youdabi
+    400020: D_yuanshao_youdatui
+    400022: D_yuanshao_yougebo
+    400024: D_yuanshao_youjianjia
+    400026: D_yuanshao_youshou
+    400028: D_yuanshao_youtui
+    400030: D_yuanshao_yumao
+    400032: D_yuanshao_zuodabi
+    400034: D_yuanshao_zuodatui
+    400036: D_yuanshao_zuogebo
+    400038: D_yuanshao_zuojianjia
+    400040: D_yuanshao_zuoshou
+    400042: D_yuanshao_zuotui
+    400044: //RootNode
+    7400000: Idle
+    7400002: Run
+    7400004: Attack
+    7400006: Hurt
+    7400008: Special
+    9500000: //RootNode
+    11100000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Idle
+      takeName: Take 001
+      firstFrame: 1
+      lastFrame: 19
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 1
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: D_yuanshao_bingqi1
+        weight: 1
+      - path: D_yuanshao_biqngi
+        weight: 1
+      - path: D_yuanshao_pifeng
+        weight: 1
+      - path: D_yuanshao_qunjia
+        weight: 1
+      - path: D_yuanshao_qunjia1
+        weight: 1
+      - path: D_yuanshao_qunjia3
+        weight: 1
+      - path: D_yuanshao_shenti
+        weight: 1
+      - path: D_yuanshao_tou
+        weight: 1
+      - path: D_yuanshao_yaodai
+        weight: 1
+      - path: D_yuanshao_youdabi
+        weight: 1
+      - path: D_yuanshao_youdatui
+        weight: 1
+      - path: D_yuanshao_yougebo
+        weight: 1
+      - path: D_yuanshao_youjianjia
+        weight: 1
+      - path: D_yuanshao_youshou
+        weight: 1
+      - path: D_yuanshao_youtui
+        weight: 1
+      - path: D_yuanshao_yumao
+        weight: 1
+      - path: D_yuanshao_zuodabi
+        weight: 1
+      - path: D_yuanshao_zuodatui
+        weight: 1
+      - path: D_yuanshao_zuogebo
+        weight: 1
+      - path: D_yuanshao_zuojianjia
+        weight: 1
+      - path: D_yuanshao_zuoshou
+        weight: 1
+      - path: D_yuanshao_zuotui
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Run
+      takeName: Take 001
+      firstFrame: 28
+      lastFrame: 42
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: D_yuanshao_bingqi1
+        weight: 1
+      - path: D_yuanshao_biqngi
+        weight: 1
+      - path: D_yuanshao_pifeng
+        weight: 1
+      - path: D_yuanshao_qunjia
+        weight: 1
+      - path: D_yuanshao_qunjia1
+        weight: 1
+      - path: D_yuanshao_qunjia3
+        weight: 1
+      - path: D_yuanshao_shenti
+        weight: 1
+      - path: D_yuanshao_tou
+        weight: 1
+      - path: D_yuanshao_yaodai
+        weight: 1
+      - path: D_yuanshao_youdabi
+        weight: 1
+      - path: D_yuanshao_youdatui
+        weight: 1
+      - path: D_yuanshao_yougebo
+        weight: 1
+      - path: D_yuanshao_youjianjia
+        weight: 1
+      - path: D_yuanshao_youshou
+        weight: 1
+      - path: D_yuanshao_youtui
+        weight: 1
+      - path: D_yuanshao_yumao
+        weight: 1
+      - path: D_yuanshao_zuodabi
+        weight: 1
+      - path: D_yuanshao_zuodatui
+        weight: 1
+      - path: D_yuanshao_zuogebo
+        weight: 1
+      - path: D_yuanshao_zuojianjia
+        weight: 1
+      - path: D_yuanshao_zuoshou
+        weight: 1
+      - path: D_yuanshao_zuotui
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Attack
+      takeName: Take 001
+      firstFrame: 43
+      lastFrame: 58
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: D_yuanshao_bingqi1
+        weight: 1
+      - path: D_yuanshao_biqngi
+        weight: 1
+      - path: D_yuanshao_pifeng
+        weight: 1
+      - path: D_yuanshao_qunjia
+        weight: 1
+      - path: D_yuanshao_qunjia1
+        weight: 1
+      - path: D_yuanshao_qunjia3
+        weight: 1
+      - path: D_yuanshao_shenti
+        weight: 1
+      - path: D_yuanshao_tou
+        weight: 1
+      - path: D_yuanshao_yaodai
+        weight: 1
+      - path: D_yuanshao_youdabi
+        weight: 1
+      - path: D_yuanshao_youdatui
+        weight: 1
+      - path: D_yuanshao_yougebo
+        weight: 1
+      - path: D_yuanshao_youjianjia
+        weight: 1
+      - path: D_yuanshao_youshou
+        weight: 1
+      - path: D_yuanshao_youtui
+        weight: 1
+      - path: D_yuanshao_yumao
+        weight: 1
+      - path: D_yuanshao_zuodabi
+        weight: 1
+      - path: D_yuanshao_zuodatui
+        weight: 1
+      - path: D_yuanshao_zuogebo
+        weight: 1
+      - path: D_yuanshao_zuojianjia
+        weight: 1
+      - path: D_yuanshao_zuoshou
+        weight: 1
+      - path: D_yuanshao_zuotui
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Hurt
+      takeName: Take 001
+      firstFrame: 20
+      lastFrame: 27
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: D_yuanshao_bingqi1
+        weight: 1
+      - path: D_yuanshao_biqngi
+        weight: 1
+      - path: D_yuanshao_pifeng
+        weight: 1
+      - path: D_yuanshao_qunjia
+        weight: 1
+      - path: D_yuanshao_qunjia1
+        weight: 1
+      - path: D_yuanshao_qunjia3
+        weight: 1
+      - path: D_yuanshao_shenti
+        weight: 1
+      - path: D_yuanshao_tou
+        weight: 1
+      - path: D_yuanshao_yaodai
+        weight: 1
+      - path: D_yuanshao_youdabi
+        weight: 1
+      - path: D_yuanshao_youdatui
+        weight: 1
+      - path: D_yuanshao_yougebo
+        weight: 1
+      - path: D_yuanshao_youjianjia
+        weight: 1
+      - path: D_yuanshao_youshou
+        weight: 1
+      - path: D_yuanshao_youtui
+        weight: 1
+      - path: D_yuanshao_yumao
+        weight: 1
+      - path: D_yuanshao_zuodabi
+        weight: 1
+      - path: D_yuanshao_zuodatui
+        weight: 1
+      - path: D_yuanshao_zuogebo
+        weight: 1
+      - path: D_yuanshao_zuojianjia
+        weight: 1
+      - path: D_yuanshao_zuoshou
+        weight: 1
+      - path: D_yuanshao_zuotui
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Special
+      takeName: Take 001
+      firstFrame: 59
+      lastFrame: 156
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: D_yuanshao_bingqi1
+        weight: 1
+      - path: D_yuanshao_biqngi
+        weight: 1
+      - path: D_yuanshao_pifeng
+        weight: 1
+      - path: D_yuanshao_qunjia
+        weight: 1
+      - path: D_yuanshao_qunjia1
+        weight: 1
+      - path: D_yuanshao_qunjia3
+        weight: 1
+      - path: D_yuanshao_shenti
+        weight: 1
+      - path: D_yuanshao_tou
+        weight: 1
+      - path: D_yuanshao_yaodai
+        weight: 1
+      - path: D_yuanshao_youdabi
+        weight: 1
+      - path: D_yuanshao_youdatui
+        weight: 1
+      - path: D_yuanshao_yougebo
+        weight: 1
+      - path: D_yuanshao_youjianjia
+        weight: 1
+      - path: D_yuanshao_youshou
+        weight: 1
+      - path: D_yuanshao_youtui
+        weight: 1
+      - path: D_yuanshao_yumao
+        weight: 1
+      - path: D_yuanshao_zuodabi
+        weight: 1
+      - path: D_yuanshao_zuodatui
+        weight: 1
+      - path: D_yuanshao_zuogebo
+        weight: 1
+      - path: D_yuanshao_zuojianjia
+        weight: 1
+      - path: D_yuanshao_zuoshou
+        weight: 1
+      - path: D_yuanshao_zuotui
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 1
+  additionalBone: 0
+  userData: 

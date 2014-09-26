@@ -19,14 +19,18 @@ public class UIEvolveItemHandler : MonoBehaviour
     private UIItemCommonWindow commonWindow;
     private Transform cannotEvolveMask;
     private UILabel evolveCost;
+    private UISprite evolveSprite;
     private const int MaterialCount = 6;
     private const int MainItemIndex = 0;
     private const int TargetItemIndex = 1;
     private const int CountOfMainAndTarget = 2;
     private Transform arrow;
+    private bool containsGreaterStarItem;
     public EffectSequnce EffectSequnce;
     public float ArrowDelay = 1;
     public float ArrowDouration = 1;
+    public string EnableEvolveSprite = "SortN";
+    public string DisableEvolveSprite = "BtnC";
 
     #region Window
 
@@ -64,6 +68,7 @@ public class UIEvolveItemHandler : MonoBehaviour
             matsOwnCount.Add(matBgs.Find("Mat"+i+"/Label").GetComponent<UILabel>());
         }
         evolveLis = UIEventListener.Get(transform.Find("Button-Evolve").gameObject);
+        evolveSprite = evolveLis.GetComponent<UISprite>();
         cannotEvolveMask = transform.Find("CanNotEvolve");
         evolveCost = transform.Find("CostCoins/CostCoinsValue").GetComponent<UILabel>();
         arrow = transform.Find("PreShow/Arrow");
@@ -95,6 +100,8 @@ public class UIEvolveItemHandler : MonoBehaviour
 
     private void Init()
     {
+        EffectSequnce.Stop();
+        NGUITools.SetActive(arrow.gameObject, true);
         if(mats.Count == 0)
         {
             for (var i = 0; i < MaterialCount; i++)
@@ -113,11 +120,47 @@ public class UIEvolveItemHandler : MonoBehaviour
 
     private void OnEvolve(GameObject go)
     {
-        var msg = new CSEvoluteItem
+        if(containsGreaterStarItem)
         {
-            OperItemIndex = commonWindow.GetInfo(commonWindow.CurSelPos).BagIndex
-        };
+            var assert = WindowManager.Instance.GetWindow<AssertionWindow>();
+            assert.AssertType = AssertionWindow.Type.OkCancel;
+            assert.Message = "";
+            assert.Title = string.Format(LanguageManager.Instance.GetTextValue(ItemType.EvolveConfirmKey), commonWindow.EvolveAndLevelColor, UIItemCommonWindow.ColorEnd);
+            assert.OkButtonClicked = OnEvolveOk;
+            assert.CancelButtonClicked = OnEvolveCancel;
+            WindowManager.Instance.Show(typeof(AssertionWindow), true);
+            return;
+        }
+        SendEvolveMessage();
+    }
+
+    private void SendEvolveMessage()
+    {
+        var msg = new CSEvoluteItem
+                      {
+                          OperItemIndex = commonWindow.GetInfo(commonWindow.CurSelPos).BagIndex
+                      };
         NetManager.SendMessage(msg);
+    }
+
+    private void OnEvolveCancel(GameObject sender)
+    {
+        CleanAssertWindow();
+        WindowManager.Instance.Show<AssertionWindow>(false);
+    }
+
+    private void OnEvolveOk(GameObject sender)
+    {
+        CleanAssertWindow();
+        SendEvolveMessage();
+    }
+
+    private void CleanAssertWindow()
+    {
+        var assert = WindowManager.Instance.GetWindow<AssertionWindow>();
+        assert.OkButtonClicked = OnEvolveOk;
+        assert.CancelButtonClicked = OnEvolveCancel;
+        WindowManager.Instance.Show<AssertionWindow>(false);
     }
 
     private void OnNormalClicked(GameObject go)
@@ -134,9 +177,12 @@ public class UIEvolveItemHandler : MonoBehaviour
             NGUITools.SetActive(cannotEvolveMask.gameObject, true);
             return;
         }
+        containsGreaterStarItem = false;
+        var canEvolve = info.Level == info.MaxLvl;
         var baseItemPrefab = commonWindow.BaseItemPrefab;
         var mat = NGUITools.AddChild(evolveBg.gameObject, baseItemPrefab);
         mat.GetComponent<ItemBase>().InitItem(info);
+        ItemHelper.InstallLongPress(mat);
         mats[MainItemIndex] = mat;
         var tempId = info.TmplId;
         ItemEvoluteTemplate evoluteTmp;
@@ -147,17 +193,35 @@ public class UIEvolveItemHandler : MonoBehaviour
             mat = NGUITools.AddChild(targetBg.gameObject, baseItemPrefab);
             mat.GetComponent<ItemBase>().InitItem(evoluteTmp.TargetItemId);
             mats[TargetItemIndex] = mat;
-            for(var i = 0; i < evoluteTmp.NeedMaterials.Count; i++)
+            ItemHelper.InstallLongPress(mat, null, true);
+            var contains = false;
+            for (var i = 0; i < evoluteTmp.NeedMaterials.Count; i++)
             {
                 var evoluteParam = evoluteTmp.NeedMaterials[i];
-                var count = FindMaterialCount(evoluteParam.NeedMaterialId);
+                int count, countOfLevelBelow;
+                FindMaterialCount(evoluteParam.NeedMaterialId, commonWindow.ConfirmStar, out count, out countOfLevelBelow);
                 mat = NGUITools.AddChild(evolveMats.gameObject, baseItemPrefab);
                 mat.GetComponent<ItemBase>().InitItem(evoluteParam.NeedMaterialId);
+                ItemHelper.InstallLongPress(mat, null, true);
                 mats[CountOfMainAndTarget + i] = mat;
                 matsOwnCount[i].text = string.Format("{0}/{1}", count, evoluteParam.NeedMaterialCount);
-                evolveMats.repositionNow = true;
+                if(!contains)
+                {
+                    contains = (countOfLevelBelow < evoluteParam.NeedMaterialCount);
+                }
+                if(canEvolve)
+                {
+                    canEvolve = count >= evoluteParam.NeedMaterialCount;
+                }
             }
+            evolveMats.repositionNow = true;
             evolveCost.text = evoluteTmp.CostGold.ToString();
+            if (canEvolve)
+            {
+                canEvolve = PlayerModelLocator.Instance.Gold >= evoluteTmp.CostGold;
+            }
+            evolveSprite.spriteName = canEvolve ? EnableEvolveSprite : DisableEvolveSprite;
+            containsGreaterStarItem = canEvolve && contains;
         }
     }
 
@@ -202,9 +266,12 @@ public class UIEvolveItemHandler : MonoBehaviour
         }
     }
 
-    private int FindMaterialCount(int id)
+    private void FindMaterialCount(int id, int star, out int count, out int countOfStarBelow)
     {
-        return ItemModeLocator.Instance.ScAllItemInfos.ItemInfos.Count(t => t.TmplId == id);
+        var infos = ItemModeLocator.Instance.ScAllItemInfos.ItemInfos.Where(
+                 t => (t != commonWindow.MainInfo && t.TmplId == id && t.EquipStatus == 0 && t.BindStatus == 0)).ToList();
+        count =  infos.Count();
+        countOfStarBelow = infos.Count(info => ItemHelper.GetStarCount(ItemModeLocator.Instance.GetQuality(info.TmplId)) <= star);
     }
 
     public void ShowEvolveOver()

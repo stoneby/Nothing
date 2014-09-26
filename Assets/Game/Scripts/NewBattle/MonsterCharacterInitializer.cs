@@ -7,9 +7,11 @@ using UnityEngine;
 
 public class MonsterCharacterInitializer : CharacterInitializer
 {
-    public float Scale;
+    public float NoOneScale;
+    public float NoTwoScale;
     
     private const float RotateValue = 180;
+    private const int Three = 3;
 
     private Vector3 defaultEulerAngle;
     private Vector3 defaultScale;
@@ -27,6 +29,7 @@ public class MonsterCharacterInitializer : CharacterInitializer
         defaultScale = characterTrans.localScale;
         defaultEulerAngle = characterTrans.localEulerAngles;
 
+        var counter = 0;
         fighterList.ForEach(data =>
         {
             var tempid = Int32.Parse(data.getProp(BattleKeyConstants.BATTLE_KEY_HERO_TEMPLATE));
@@ -45,7 +48,7 @@ public class MonsterCharacterInitializer : CharacterInitializer
             // rotate 2d character animation to 180.
             var trans = character.AnimatedObject.transform;
             trans.localEulerAngles = new Vector3(0, RotateValue, 0);
-            trans.localScale = defaultScale * Scale;
+            trans.localScale = defaultScale * (fighterList.Count == Three && (counter == fighterList.Count - 1) ? NoOneScale : NoTwoScale);
 
             character.Data = data;
             character.IDIndex = index;
@@ -57,6 +60,8 @@ public class MonsterCharacterInitializer : CharacterInitializer
             character.FaceObject = monsterControll.gameObject;
             character.BuffBarController = monsterControll.BuffBarController;
             CharacterList.Add(character);
+
+            ++counter;
         });
 
     }

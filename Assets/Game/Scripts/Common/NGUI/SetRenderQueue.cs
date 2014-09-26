@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 /// <summary>
@@ -15,6 +14,7 @@ public class SetRenderQueue : MonoBehaviour
 
     private List<ParticleSystem> particleSystemList;
     private List<MeshRenderer> meshRendererList;
+    private List<SkinnedMeshRenderer> skinnedMeshRendererList;
     private Material material;
 
     public void SetQueue()
@@ -29,31 +29,36 @@ public class SetRenderQueue : MonoBehaviour
         {
             ReplaceMaterial(meshRenderer);
         }
+
+        foreach (var meshRenderer in skinnedMeshRendererList)
+        {
+            ReplaceMaterial(meshRenderer);
+        }
     }
 
     private void ReplaceMaterial(Renderer ren)
     {
         if (ren != null)
         {
-            //Debug.Log("ren's name:"+ren.name);
-            //if (ren.sharedMaterial == null)
-            //{
-            //    Debug.Log("ren.sharedMaterial is null");
-            //    return;
-            //}
-            //Debug.Log("ren.sharedMaterial's name:"+ren.sharedMaterial.name);
+            if (ren.sharedMaterial == null)
+            {
+                Logger.LogError("ren.sharedMaterial is null");
+                return;
+            }
 
             material = new Material(ren.sharedMaterial) { renderQueue = RenderQueue };
             ren.material = material;
         }
     }
 
-    void Awake()
+    void Start()
     {
         particleSystemList = new List<ParticleSystem>();
         particleSystemList.AddRange(GetComponentsInChildren<ParticleSystem>());
         meshRendererList = new List<MeshRenderer>();
         meshRendererList.AddRange(GetComponentsInChildren<MeshRenderer>());
+        skinnedMeshRendererList = new List<SkinnedMeshRenderer>();
+        skinnedMeshRendererList.AddRange(GetComponentsInChildren<SkinnedMeshRenderer>());
 
         SetQueue();
     }

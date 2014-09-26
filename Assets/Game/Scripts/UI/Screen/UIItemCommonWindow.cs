@@ -20,6 +20,12 @@ public class UIItemCommonWindow : Window
     public List<ItemInfo> Infos { get; private set; }
     public ItemInfo MainInfo { get; private set; }
     public int CountOfOneGroup = 4;
+    /// <summary>
+    /// If the item level is greater than this star count, we will show confirm dialog.
+    /// </summary>
+    public int ConfirmStar = 3;
+    public string EvolveAndLevelColor = "[ffff00]";
+    public const string ColorEnd = "[-]";
     public delegate void SortOrderChanged(List<ItemInfo> hInfos);
 
     private ExtendBag itemExtendConfirm;
@@ -72,8 +78,12 @@ public class UIItemCommonWindow : Window
                         var hero = item.GetChild(j).gameObject;
                         var activeCache = hero.activeSelf;
                         NGUITools.SetActive(hero, true);
-                        var lis = UIEventListener.Get(hero);
-                        lis.onClick = value;
+                        var longPressHandler = hero.GetComponent<ItemLongPressHandler>();
+                        if (longPressHandler)
+                        {
+                            var longPress = longPressHandler.InstallLongPress();
+                            longPress.OnNormalPress = value;
+                        }
                         NGUITools.SetActive(hero, activeCache);
                     }
                 }

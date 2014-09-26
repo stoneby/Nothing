@@ -9,13 +9,17 @@ namespace com.kx.sglm.gs.battle.share.factory
 	using IBattleExecuter = com.kx.sglm.gs.battle.share.executer.IBattleExecuter;
 	using GreenhandPVEBattleExecuter = com.kx.sglm.gs.battle.share.executer.impl.GreenhandPVEBattleExecuter;
 	using BattleFighterCreater = com.kx.sglm.gs.battle.share.factory.creater.BattleFighterCreater;
+	using IBattleTemplateService = com.kx.sglm.gs.battle.share.factory.creater.IBattleTemplateService;
 
 	public class GreenhandPVEBattleFactory : AbstractBattleFactory
 	{
 
-		public override IBattleExecuter createBattleExecuter(Battle battle)
+		public override IBattleExecuter createBattleExecuter(Battle battle, IBattleTemplateService tempService)
 		{
-			return new GreenhandPVEBattleExecuter(battle);
+			GreenhandPVEBattleExecuter _executer = new GreenhandPVEBattleExecuter(battle);
+			Template.Auto.Greenhand.GreenhandTemplate _temp = tempService.BattleGreenhandTemplate;
+			_executer.initTemplInfo(_temp);
+			return _executer;
 		}
 
 		public override HeroTeam createAttackerTeam(Battle battle)

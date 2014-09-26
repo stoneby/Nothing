@@ -87,7 +87,6 @@ namespace Assets.Game.Scripts.Net.handler
                                 index--;
                             }
                         }
-                        WindowManager.Instance.Show<UISellDialogWindow>(false);
                         var window = WindowManager.Instance.GetWindow<UIHeroCommonWindow>();
                         var sellhero = window.SellHeroHandler;
                         sellhero.SellOverUpdate();
@@ -110,24 +109,45 @@ namespace Assets.Game.Scripts.Net.handler
                     var hChangeEquipMsg = msg.GetContent() as SCHeroChangeEquip;
                     if(hChangeEquipMsg != null)
                     {
-                        var items = ItemModeLocator.Instance.ScAllItemInfos.ItemInfos;
-                        foreach (var item in items)
+                        var heros = HeroModelLocator.Instance.SCHeroList.HeroList;
+                        var equipUuid = hChangeEquipMsg.EquipUuid;
+                        var heroUuid = hChangeEquipMsg.HeroUuid;
+                        var heroInfo = HeroModelLocator.Instance.FindHero(heroUuid);
+                        //卸掉当前武将上的装备
+                        if (equipUuid == "")
                         {
-                            var isEquip = (item.Id == hChangeEquipMsg.EquipUuid);
-                            var isUnEquip = (item.Id == hChangeEquipMsg.UnEquipUuid);
-                            if (isEquip || isUnEquip)
+                            //更新道具的装备状态
+                            var itemId = heroInfo.EquipUuid[hChangeEquipMsg.Index];
+                            var itemInfo = ItemModeLocator.Instance.FindItem(itemId);
+                            itemInfo.EquipStatus = (sbyte)ItemType.EquipState.UnEquip;
+
+                            heroInfo.EquipUuid[hChangeEquipMsg.Index] = "";
+                            heroInfo.EquipTemplateId[hChangeEquipMsg.Index] = 0;
+                        }
+                        else
+                        {
+                            var itemId = heroInfo.EquipUuid[hChangeEquipMsg.Index];
+                            //装备栏上本来就有道具
+                            if(itemId != "")
                             {
-                                item.EquipStatus = (sbyte)(isEquip ? 1 : 0);
-                                var heros = HeroModelLocator.Instance.SCHeroList.HeroList;
-                                foreach(var hero in heros)
-                                {
-                                    if (hero.Uuid == hChangeEquipMsg.HeroUuid)
-                                    {
-                                        hero.EquipUuid[hChangeEquipMsg.Index] = hChangeEquipMsg.EquipUuid;
-                                        hero.EquipTemplateId[hChangeEquipMsg.Index] = isEquip ? item.TmplId : 0;
-                                    }
-                                }
+                                //更新旧道具的装备状态
+                                var oldItemInfo = ItemModeLocator.Instance.FindItem(itemId);
+                                oldItemInfo.EquipStatus = (sbyte)ItemType.EquipState.UnEquip;                             
                             }
+                            var otherEquipedHero = heros.Find(hero => hero.EquipUuid.Contains(equipUuid));
+                            //已经被别的武将装备了
+                            if (otherEquipedHero != null)
+                            {
+                                var index = otherEquipedHero.EquipUuid.IndexOf(equipUuid);
+                                otherEquipedHero.EquipUuid[index] = "";
+                                otherEquipedHero.EquipTemplateId[index] = 0;
+                            }
+                            heroInfo.EquipUuid[hChangeEquipMsg.Index] = equipUuid;
+                            var itemInfo = ItemModeLocator.Instance.FindItem(equipUuid);
+                            heroInfo.EquipTemplateId[hChangeEquipMsg.Index] = itemInfo.TmplId;
+                            //更新道具的装备状态
+                            var inCurTeam = TeamMemberManager.Instance.CurTeam.Contains(heroInfo.Uuid);
+                            itemInfo.EquipStatus = (sbyte)(inCurTeam ? ItemType.EquipState.CurEquip : ItemType.EquipState.OtherEquip);
                         }
                     }
                     break;
@@ -137,6 +157,9 @@ namespace Assets.Game.Scripts.Net.handler
                     {
                         var heroInfo = HeroModelLocator.Instance.FindHero(HeroBaseInfoRefresher.Uuid);
                         heroInfo.Bind = !heroInfo.Bind;
+                        var heroCommon = WindowManager.Instance.GetWindow<UIHeroCommonWindow>();
+                        //Fix me: we just to refresh the current item to bind.
+                        heroCommon.Refresh();
                         PopTextManager.PopTip(heroInfo.Bind ? "绑定成功" : "解绑成功", false);
                     }
                     break;

@@ -35,8 +35,7 @@ public class HeroSelItem : MonoBehaviour
                     var child = item.GetChild(j).gameObject;
                     var activeCache = child.activeSelf;
                     NGUITools.SetActive(child, true);
-                    var lis = UIEventListener.Get(child);
-                    lis.onClick = OnEquipItemClick;
+                    ItemHelper.InstallLongPress(child, OnEquipItemClick);
                     NGUITools.SetActive(child, activeCache);
                 }
             }

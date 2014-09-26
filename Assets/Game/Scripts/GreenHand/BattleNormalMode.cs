@@ -1,14 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class BattleNormalMode : BattleMode
+public class BattleNormalMode : IBattleMode
 {
     public void ResetCurrentConfig()
     {
         
     }
 
-    public void SetBattleField(TeamSelectController teamController, TeamSimpleController enemyController, Character[,] characters, BattleFaceController faceController, string mode)
+    public void SetBattleField(TeamSelectController teamController, TeamSimpleController enemyController, Character[,] characters, string mode)
     {
         
     }

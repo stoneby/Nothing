@@ -9,6 +9,9 @@
     public const string BattleWinWindow = "Battle Win Window";         
     public const string BattleFailWindow = "Battle Fail Window";
 
+    //主界面统计
+    public const string MainScreenWindow = "Main Screen Window";
+
     //武将相关页面统计：
     public const string HeroBuildingTeamWindow = "Hero Building Team Window";
     public const string SellHeroWindow = "Sell Hero Window";
@@ -27,6 +30,9 @@
     public const string SortFriendWindow = "Sort Friend Window";
     public const string ReceiveEnergyWindow = "Receive Energy Window";
 
+    //邮件相关页面统计
+    public const string EmailEntryWindow = "Email Entry Window";
+    public const string EmailDetailWindow = "Email Detail Window";
 
     //自定义事件
     public const string VKEventBattle = "battle";

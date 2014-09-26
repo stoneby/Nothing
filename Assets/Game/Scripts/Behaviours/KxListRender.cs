@@ -95,11 +95,11 @@ public class KxListRender : MonoBehaviour
         {
             item.SetActive(true);
             var itemrender = item.GetComponent<KxItemRender>();
-            if (itemrender.ItemIndex != theindex)
-            {
+//            if (itemrender.ItemIndex != theindex)
+//            {
                 itemrender.ItemIndex = theindex;
                 itemrender.SetData(DataPravider[theindex]);
-            }
+//            }
         }
     }
 

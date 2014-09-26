@@ -67,10 +67,10 @@ public class ActiveSkillConfirmWindow : Window
     private void OnButton1Click(GameObject sender)
     {
         WindowManager.Instance.Show(typeof(ActiveSkillConfirmWindow), false);
-        if (BattleModelLocator.Instance.BattleType == BattleType.GREENHANDPVE.Index)
-        {
-            Button2.GetComponent<BoxCollider>().enabled = true;
-        }
+        //if (BattleModelLocator.Instance.BattleType == BattleType.GREENHANDPVE.Index)
+        //{
+        //    Button2.GetComponent<BoxCollider>().enabled = true;
+        //}
 
         if (OkButtonClicked != null)
         {

@@ -2,7 +2,6 @@
 
 public class CharacterMoveVO
 {
-    public string Name;
     public Vector3 From;
     public Vector3 To;
     public Vector3 DestPosition;
@@ -14,9 +13,8 @@ public class CharacterMoveVO
     private float deltTime;
     private int pastFrames;
 
-    public float Init(string thename, Vector3 thefrom, Vector3 theto, int thecount = 4)
+    public float Init(Vector3 thefrom, Vector3 theto, int thecount)
     {
-        Name = thename;
         From = thefrom;
         DestPosition = theto;
         FrameCount = thecount;
@@ -52,7 +50,7 @@ public class CharacterMoveVO
         {
             CurrentFrame = k;
         }
-        var str = Name + "3_" + CurrentFrame.ToString();
+        var str = "SP-" + CurrentFrame;
         return str;
     }
 

@@ -6,6 +6,7 @@ public class KxHListRender : MonoBehaviour {
 
     private GameObject itemBox;
     private GameObject itemPrefab;
+    private GameObject selectBox;
     private IList dataPravider;
 
     private List<GameObject> Items;
@@ -60,6 +61,11 @@ public class KxHListRender : MonoBehaviour {
         if (haveNotInit)
         {
             itemBox = transform.FindChild("Container").gameObject;
+            selectBox = transform.FindChild("Container/Sprite select").gameObject;
+            var selectbox = selectBox.GetComponent<UISprite>();
+            selectbox.width = 114;
+            selectbox.height = 114;
+            
             itemBox.GetComponent<UIWidget>();
             itemPrefab = Resources.Load(prefabname) as GameObject;
 
@@ -96,6 +102,8 @@ public class KxHListRender : MonoBehaviour {
             theitem.InitItem();
         }
 
+        //SystemInfo.deviceModel
+
         for (int j = 0; j < Items.Count; j++)
         {
             Items[j].SetActive(false);
@@ -114,6 +122,10 @@ public class KxHListRender : MonoBehaviour {
         StartIndex = 0;
         StartDataIndex = 0;
         //PopTextManager.PopTip("data count " + dataPravider.Count);
+        if (Items.Count > 0)
+        {
+            OnSelecteHandler(Items[0]);
+        }
     }
 
     private void OnSelecteHandler(GameObject obj)
@@ -122,6 +134,8 @@ public class KxHListRender : MonoBehaviour {
         if (OnSelected != null)
         {
             OnSelected(obj);
+            selectBox.SetActive(true);
+            selectBox.transform.localPosition = obj.transform.localPosition;
         }
     }
 

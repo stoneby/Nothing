@@ -1,202 +1,136 @@
-﻿using System.Collections.Generic;
+﻿using Assets.Game.Scripts.Net.handler;
+using KXSGCodec;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using System.Collections;
 
-public class GreenHandGuideHandler : BattleMode
+public class GreenHandGuideHandler : Singleton<GreenHandGuideHandler>, IBattleMode
 {
     #region Public Fields
 
+    public bool IsFlagAfterLogin = true;
     public bool IsGreenHand = false;
-    public int CurrentConfig = 0;
+    public string ConfigMode;
+    public int CurrentConfigIndex;
     public List<string> TextList = new List<string>();
-    public List<int> CanClickIndexList = new List<int>();
+    public string NextConfigTriggerObjectTag;
+    public int TagObjectIndex;
+    public Vector3 NormalMoveVec = new Vector3();
+    public bool IsWait;
+    public float WaitSec;
+
+    #region Battle Variables
+
     public List<int> CanSelectIndexList = new List<int>();
     public List<int> ValidateIndexList = new List<int>();
-    public List<int> MoveTraceIndexList=new List<int>(); 
+    public List<int> MoveTraceIndexList = new List<int>();
+
+    #endregion
 
     #endregion
 
     #region Private Fields
 
+    public GameObject TagObject;
     private List<Vector3> moveTrace = new List<Vector3>();
+
+    public bool BattleFinishFlag = true;
+    public bool GiveHeroFinishFlag = true;
+    public bool RaidFinishFlag = true;
+    public bool SummitFinishFlag = true;
+    public bool TeamFinishFlag = true;
+
+    /// <summary>
+    /// Green hand guide finish flag.
+    /// </summary>
+    public bool IsGreenHandGuideFinish
+    {
+        get { return BattleFinishFlag && GiveHeroFinishFlag && RaidFinishFlag && SummitFinishFlag && TeamFinishFlag; }
+    }
 
     #endregion
 
     #region Public Methods
 
+    public void ShowMainScreen()
+    {
+        StartCoroutine("DoShowMainScreen");
+    }
+
+    public void SetGreenHandGuideFlag(ThriftSCMessage msg)
+    {
+        var greenHandMsg = msg.GetContent() as SCGreenhandFlagMsg;
+        var flagInfo = greenHandMsg.GreenhandPassFlag;
+        BattleFinishFlag = (flagInfo & 1) != 0;
+        GiveHeroFinishFlag = (flagInfo & 2) != 0;
+        RaidFinishFlag = (flagInfo & 4) != 0;
+        SummitFinishFlag = (flagInfo & 8) != 0;
+        TeamFinishFlag = (flagInfo & 16) != 0;
+        Debug.Log("!!!!!!!!!!!!flag info:" + flagInfo);
+        Debug.Log("Flags:" + BattleFinishFlag + ", " + GiveHeroFinishFlag + ", " + RaidFinishFlag + ", " + SummitFinishFlag + ", " + TeamFinishFlag);
+
+        if (!BattleFinishFlag)
+        {
+            Debug.Log("Send battle start msg in flag response.");
+            StartCoroutine("SendStartBattleMessage");
+        }
+    }
+
     /// <summary>
     /// Read CanSelectIndex list and ValidateIndex list config.
     /// </summary>
-    public int ReadGuideConfig()
+    public bool ReadGuideConfig()
     {
         var configReader = new TestConfigReader();
-        var result = configReader.ReadConfig(this, CurrentConfig);
-        CurrentConfig++;
+        var result = configReader.ReadConfig(this, CurrentConfigIndex);
+        Logger.Log("!!!!!!!!!!!!!!Read config in index: " + CurrentConfigIndex + ", result is: " + result);
+        CurrentConfigIndex++;
         return result;
-    }
-
-    /// <summary>
-    /// Set a series of hero character can or can't selected.
-    /// </summary>
-    /// <param name="teamController"></param>
-    /// <param name="enemyController"></param>
-    public void SetCanSelect(TeamSelectController teamController, TeamSimpleController enemyController)
-    {
-        var canSelectPositions = new Position[CanSelectIndexList.Count];
-
-        for (int i = 0; i < CanSelectIndexList.Count; i++)
-        {
-            canSelectPositions[i] = teamController.OneDimensionToTwo(CanSelectIndexList[i]);
-        }
-
-        for (int i = 0; i < 12; i++)
-        {
-            teamController.CharacterList[i].CanSelected = canSelectPositions.Contains(teamController.CharacterList[i].Location);
-        }
-
-        for (int i = 0; i < enemyController.CharacterList.Count; i++)
-        {
-            enemyController.CharacterList[i].CanSelected = CanSelectIndexList.Contains(i + 12);
-        }
-    }
-
-    public void ShieldGuideWindowButtons()
-    {
-        var window = WindowManager.Instance.GetWindow<GreenHandGuideWindow>();
-        if (window)
-        {
-            var isShieldList = new List<bool>();
-            for (int i = 0; i < 5; i++)
-            {
-                if (CanClickIndexList.Contains(i))
-                {
-                    isShieldList.Add(false);
-                }
-                else
-                {
-                    isShieldList.Add(true);
-                }
-            }
-            window.ShieldButtons(isShieldList);
-        }
-    }
-
-    public void ShowAPeriodInfos(TeamSelectController teamController, Character[,] charactersLeft, TeamSimpleController monsterController, BattleFaceController faceController)
-    {
-        //Set moveTrace by MoveTraceIndex.
-        var moveTraceArrangePos = new Position[MoveTraceIndexList.Count];
-        for (int i = 0; i < MoveTraceIndexList.Count; i++)
-        {
-            moveTraceArrangePos[i] = teamController.OneDimensionToTwo(MoveTraceIndexList[i]);
-        }
-        moveTrace = new List<Vector3>();
-        foreach (var position in moveTraceArrangePos)
-        {
-            moveTrace.Add(charactersLeft[position.X, position.Y].transform.position);
-        }
-
-        //Set moveTrace by canSelectIndex if it's null.
-        if (moveTrace.Count == 0)
-        {
-            foreach (var item in CanSelectIndexList)
-            {
-                if (item > 11)
-                {
-                    moveTrace.Add(monsterController.CharacterList[item - 12].transform.position);
-                }
-            }
-        }
-
-        //Set moveTrace by canClickIndex if it's null.
-        if (moveTrace.Count == 0)
-        {
-            for (int i = 0; i < CanClickIndexList.Count; i++)
-            {
-                if (CanClickIndexList[i] == 0)
-                {
-                    moveTrace.Add(faceController.transform.Find("ButtomLeftContainer/Menu").position);
-                }
-                else
-                {
-                    moveTrace.Add(faceController.LeaderController.LeaderList[CanClickIndexList[i] - 1].transform.position);
-                }
-            }
-        }
-
-        //Output moveTrace's null or not.
-        if (moveTrace.Count == 0)
-        {
-            Logger.LogWarning("No moveTrace in configindex:" + (CurrentConfig - 1));
-        }
-
-        //Set greenHand window.
-        var window = WindowManager.Instance.Show<GreenHandGuideWindow>(true);
-        window.MoveTrace = moveTrace;
-        if (TextList != null)
-        {
-            window.ShowComponents(true, true, false,false);
-        }
-        else
-        {
-            Logger.LogWarning("TextList in greenHandGuideHandler in null. Disable all operation.");
-            window.ShowComponents(true, false, false,false);
-        }
-        if (moveTrace.Count > 1)
-        {
-            window.ShowAPeriodInfos(TextList, window.OnMoveFinger);
-        }
-        else if(moveTrace.Count==1)
-        {
-            window.ShowAPeriodInfos(TextList, window.OnBlinkFinger);
-        }
-        else
-        {
-            window.ShowAPeriodInfos(TextList, null);
-        }
     }
 
     #endregion
 
-    #region Inherit From Battle Mode
+    #region Inherit From IBattleMode
 
     public void ResetCurrentConfig()
     {
-        CurrentConfig = 0;
+        CurrentConfigIndex = 0;
     }
 
-    public void SetBattleField(TeamSelectController teamController, TeamSimpleController enemyController, Character[,] characters, BattleFaceController faceController, string mode)
+    public void SetBattleField(TeamSelectController teamController, TeamSimpleController enemyController, Character[,] characters, string mode)
     {
         var flag = false;
         switch (mode)
         {
             case "MakeUpOneByOne":
-                flag = (CurrentConfig != 5 - 1);
+                var nums = new[] { 0, 2, 3, 5 };
+                flag = (nums.Contains(CurrentConfigIndex));
                 break;
-            case "ActiveSkill":
+            case "Outter":
                 flag = true;
                 break;
             case "MonsterSelect":
-                flag = (CurrentConfig == 2 - 1);
+                flag = (CurrentConfigIndex == 1);
                 break;
             case "UnderAttack":
-                flag = (CurrentConfig == 5 - 1);
+                flag = (CurrentConfigIndex == 4);
                 break;
             default:
-                Logger.LogError("Try to call SetBattleField fun");
+                Logger.LogError("Try to call SetBattleField with inCorrect mode.");
                 break;
         }
         if (flag)
         {
+            //Read config info.
             Logger.Log("Read config.");
-            if (ReadGuideConfig() == -1)
+            if (!ReadGuideConfig())
             {
                 Logger.LogWarning("Read config fail, setting battle field cancelled.");
                 return;
             }
-            ShowAPeriodInfos(teamController, characters, enemyController, faceController);
-            ShieldGuideWindowButtons();
-            SetCanSelect(teamController, enemyController);
+
+            SetGreenHandConfig();
         }
     }
 
@@ -229,6 +163,478 @@ public class GreenHandGuideHandler : BattleMode
         {
             window.ObjectMove.StopMove();
         }
+    }
+
+    public void StopAll()
+    {
+        GlobalDimmerController.Instance.Show(false);
+
+        var window = WindowManager.Instance.GetWindow<GreenHandGuideWindow>();
+        if (window)
+        {
+            window.ObjectMove.StopMove();
+            window.ShowComponents(false, false, false, false);
+            window.ShowDimmerButtom(false);
+
+            window.ClearAll();
+        }
+        WindowManager.Instance.Show<GreenHandGuideWindow>(false);
+
+        CurrentConfigIndex = 0;
+    }
+
+    #endregion
+
+    #region Private Methods
+
+    private IEnumerator DoShowMainScreen()
+    {
+        var checkCount = 0;
+        while (!HttpResourceManager.Instance.IsLoadTemplateFinished)
+        {
+            checkCount++;
+            if (checkCount > 20)
+            {
+                Debug.LogError("Check template data loaded time out.");
+                yield break;
+            }
+            yield return new WaitForSeconds(1.0f);
+        }
+
+        Debug.Log("!!!!!!!!!!!Show main screen.");
+        WindowManager.Instance.GetWindow<LoginWindow>().GreenHandLoading.SetActive(false);
+        WindowManager.Instance.Show(WindowGroupType.Popup, false);
+        WindowManager.Instance.Show<UIMainScreenWindow>(true);
+    }
+
+    private void FindTagObject(string tagString)
+    {
+        StartCoroutine(DoFindTagObject(tagString));
+    }
+
+    private IEnumerator DoFindTagObject(string tagString)
+    {
+        if (IsWait)
+        {
+            yield return new WaitForSeconds(WaitSec);
+        }
+
+        var objects = GameObject.FindGameObjectsWithTag(tagString);
+        var findCount = 1;
+        while (objects.Length == 0)
+        {
+            Logger.LogWarning("!!!!!!!!Specified tagObject not found, continue finding after 0.5 sec.");
+            yield return new WaitForSeconds(0.5f);
+            objects = GameObject.FindGameObjectsWithTag(tagString);
+            findCount++;
+            if (findCount == 20 && objects.Length == 0)
+            {
+                Logger.LogWarning("!!!!!!!!!!!!Can't find object after 10 seconds, cancel finding.");
+                yield break;
+            }
+        }
+
+        Logger.Log("!!!!!!!!!!Find tagObject, num:" + objects.Length + ", name in first:" + objects[0].name);
+
+        // yield one more frame utill dimmer get closed.
+        yield return null;
+
+        if (objects.Length == 1)
+        {
+            TagObject = objects[0];
+            ShowAPeriodInfos();
+            yield break;
+        }
+        if (objects.Length > 1)
+        {
+            TagObject = objects[TagObjectIndex];
+            ShowAPeriodInfos();
+            yield break;
+        }
+    }
+
+    private void SetNextTrigger()
+    {
+        Logger.Log("!!!!!!!!!!!Set next trigger in showAPeriodInfo.");
+        SetNextTrigger(TagObject);
+    }
+
+    public void SetNextTrigger(GameObject go)
+    {
+        if (go == null)
+        {
+            Logger.LogError("tagObject is null in GreenHandGuideHandler.");
+            return;
+        }
+
+        Logger.Log("!!!!!!!!!!!Set next trigger.");
+        var listener = go.GetComponent<UIEventListener>() ?? go.AddComponent<UIEventListener>();
+        if (ConfigMode != "NormalMove")
+        {
+            Logger.Log("!!!!!!Bind onclick lis in SetNextTrigger.");
+            listener.onClick += GreenHandGuideCall;
+        }
+        else
+        {
+            Logger.Log("!!!!!!Bind onDragEnd lis in SetNextTrigger.");
+            listener.onDragEnd += GreenHandGuideCall;
+            GameObject.FindGameObjectWithTag("TeamCloseBTN").GetComponent<BoxCollider>().enabled = false;
+        }
+    }
+
+    private void GreenHandGuideCall(GameObject go)
+    {
+        Logger.Log("!!!!!!!!!!!!Go to GreenHandGuideCall.");
+        //Subtract listener void delegate after call.
+        TagObject.GetComponent<UIEventListener>().onClick -= GreenHandGuideCall;
+
+        var greenHandGuideWindow = WindowManager.Instance.GetWindow<GreenHandGuideWindow>();
+        if (greenHandGuideWindow)
+        {
+            Logger.Log("!!!!!!!!!!!!StopMove.");
+            greenHandGuideWindow.ObjectMove.StopMove();
+        }
+
+        RestoreBlinkButtonDepth(TagObject);
+
+        if (!ReadGuideConfig())
+        {
+            Logger.LogWarning("Read config fail, GreenHandGuideCall cancelled.");
+            return;
+        }
+
+        SetGreenHandConfig();
+    }
+
+    private void RestoreBlinkButtonDepth(GameObject target)
+    {
+        //var panel = target.GetComponent<UIPanel>();
+        //if (!panel)
+        //{
+        //    Logger.LogError("No panel found in blink button:" + target.name);
+        //    return;
+        //}
+        //Destroy(panel);
+    }
+
+    /// <summary>
+    /// Set a series of hero character can or can't selected.
+    /// </summary>
+    /// <param name="teamController"></param>
+    /// <param name="enemyController"></param>
+    private void SetCanSelect(TeamSelectController teamController, TeamSimpleController enemyController)
+    {
+        var canSelectPositions = new Position[CanSelectIndexList.Count];
+
+        for (int i = 0; i < CanSelectIndexList.Count; i++)
+        {
+            canSelectPositions[i] = teamController.OneDimensionToTwo(CanSelectIndexList[i]);
+        }
+
+        for (int i = 0; i < 12; i++)
+        {
+            teamController.CharacterList[i].CanSelected = canSelectPositions.Contains(teamController.CharacterList[i].Location);
+        }
+
+        for (int i = 0; i < enemyController.CharacterList.Count; i++)
+        {
+            enemyController.CharacterList[i].CanSelected = CanSelectIndexList.Contains(i + 12);
+        }
+    }
+
+    private void ShowAPeriodInfos(TeamSelectController teamController, Character[,] charactersLeft, TeamSimpleController monsterController)
+    {
+        StartCoroutine(DoShowAPeriodInfos(teamController, charactersLeft, monsterController));
+    }
+
+    private IEnumerator DoShowAPeriodInfos(TeamSelectController teamController, Character[,] charactersLeft, TeamSimpleController monsterController)
+    {
+        if (IsWait)
+        {
+            yield return new WaitForSeconds(WaitSec);
+        }
+
+        //Set moveTrace by MoveTraceIndex.
+        if (ConfigMode == "BattleMove")
+        {
+            var moveTraceArrangePos = new Position[MoveTraceIndexList.Count];
+            for (int i = 0; i < MoveTraceIndexList.Count; i++)
+            {
+                moveTraceArrangePos[i] = teamController.OneDimensionToTwo(MoveTraceIndexList[i]);
+            }
+            moveTrace = new List<Vector3>();
+            foreach (var position in moveTraceArrangePos)
+            {
+                moveTrace.Add(charactersLeft[position.X, position.Y].transform.position);
+            }
+        }
+
+        //Set moveTrace by canSelectIndex.
+        else if (ConfigMode == "BattleBlink")
+        {
+            moveTrace = new List<Vector3>();
+            foreach (var item in CanSelectIndexList)
+            {
+                if (item > 11)
+                {
+                    moveTrace.Add(monsterController.CharacterList[item - 12].transform.position);
+                }
+            }
+        }
+
+        //Set greenHand window.
+        var window = WindowManager.Instance.Show<GreenHandGuideWindow>(true);
+        window.MoveTrace = moveTrace;
+        window.ShowDimmerButtom(true);
+        if (TextList != null)
+        {
+            window.ShowComponents(true, true, false, false);
+        }
+        else
+        {
+            Logger.LogWarning("TextList in greenHandGuideHandler in null. Deactive the frame.");
+            window.ShowComponents(true, false, false, false);
+        }
+
+        if (moveTrace.Count > 1)
+        {
+            window.ShowAPeriodInfos(TextList, window.OnMoveFinger);
+        }
+        else if (moveTrace.Count == 1)
+        {
+            window.ShowAPeriodInfos(TextList, window.OnBlinkFinger);
+        }
+        else
+        {
+            window.ShowAPeriodInfos(TextList, null);
+        }
+
+        //Set battleField can selected.
+        SetCanSelect(teamController, monsterController);
+    }
+
+    private void ShowAPeriodInfos()
+    {
+        SetNextTrigger();
+
+        //Set moveTrace.
+        if (ConfigMode == "NormalBlink")
+        {
+            moveTrace = new List<Vector3> { TagObject.transform.position };
+        }
+
+        if (ConfigMode == "NormalMove")
+        {
+            moveTrace = new List<Vector3>() { TagObject.transform.position };
+            moveTrace.Add(moveTrace[0] + NormalMoveVec);
+        }
+
+        //Set greenHand window.
+        var window = WindowManager.Instance.Show<GreenHandGuideWindow>(true);
+        window.MoveTrace = moveTrace;
+        Logger.Log("!!!!!!!!GreenHand window movetrace count:" + moveTrace.Count);
+        window.FingerBlinkButton = TagObject;
+        window.ShowDimmerButtom(false);
+
+        if (TextList != null)
+        {
+            window.ShowComponents(true, true, false, false);
+        }
+        else
+        {
+            Logger.LogWarning("TextList in greenHandGuideHandler in null. Deactive the frame.");
+            window.ShowComponents(true, false, false, false);
+        }
+
+        if (moveTrace.Count > 1)
+        {
+            window.ShowAPeriodInfos(TextList, window.OnMoveFinger);
+        }
+        else if (moveTrace.Count == 1)
+        {
+            window.ShowAPeriodInfos(TextList, window.OnBlinkFinger);
+        }
+        else
+        {
+            window.ShowAPeriodInfos(TextList, null);
+        }
+    }
+
+    private void DoGiveHero(GameObject go)
+    {
+        //FirstLoginGiveHero
+        var message = new CSGreenhandStartMsg { GreenhandType = 2 };
+        Debug.Log("Send greenhandGiveHero msg to server.");
+        NetManager.SendMessage(message);
+    }
+
+    private void DoCreatePlayer(GameObject go)
+    {
+        PlayerHandler.OnCreatePlayer();
+    }
+
+    private void SetGreenHandConfig()
+    {
+        if (ConfigMode == "BattleBlink" || ConfigMode == "BattleMove")
+        {
+            var battleWindow = WindowManager.Instance.GetWindow<BattleWindow>();
+            if (battleWindow)
+            {
+                var initBattleField = battleWindow.gameObject.GetComponent<InitBattleField>();
+                ShowAPeriodInfos(initBattleField.TeamController, initBattleField.charactersLeft, initBattleField.MonsterController);
+            }
+            else
+            {
+                Logger.LogError("BattleWindow not found, can't operate ShowAPeriodInfos(teamController, characters, enemyController).");
+            }
+        }
+        else if (ConfigMode == "NormalBlink" || ConfigMode == "NormalMove")
+        {
+            FindTagObject(NextConfigTriggerObjectTag);
+        }
+        else if (ConfigMode == "CreatePlayer")
+        {
+            var window = WindowManager.Instance.Show<GreenHandGuideWindow>(true);
+            window.ShowAPeriodInfos(TextList, DoCreatePlayer);
+            window.ShowDimmerButtom(false);
+            window.ShowComponents(true, true, false, false);
+        }
+        else if (ConfigMode == "GiveHero")
+        {
+            var window = WindowManager.Instance.Show<GreenHandGuideWindow>(true);
+            window.ShowAPeriodInfos(TextList, DoGiveHero);
+            window.ShowDimmerButtom(false);
+            window.ShowComponents(true, true, false, false);
+        }
+        else
+        {
+            Logger.LogError("Not correct configMode in GreenHandGuideHandler.");
+        }
+    }
+
+    #endregion
+
+    #region Start GreenHand Module Interface
+
+    public void ExecuteGreenHandFlag()
+    {
+        if (!GiveHeroFinishFlag)
+        {
+            StartCoroutine("GoToGiveHero");
+        }
+        else if (!RaidFinishFlag)
+        {
+            StartCoroutine("GoToScene");
+        }
+        else if (!SummitFinishFlag)
+        {
+            StartCoroutine("GoToChooseCard");
+        }
+        else if (!TeamFinishFlag)
+        {
+            Logger.Log("!!!!!!!!!!Go to team greenHandGuide.");
+            StartCoroutine("GoToTeam");
+        }
+    }
+
+    public void SendEndMessage(int typeID)
+    {
+        GlobalDimmerController.Instance.Show(false);
+
+        var message = new CSGreenhandFinishMsg { GreenhandType = (sbyte)typeID };
+        Logger.Log("!!!!!!!!!Send greenhandEnd msg to server, type:" + typeID);
+        NetManager.SendMessage(message);
+    }
+
+    private IEnumerator SendStartBattleMessage()
+    {
+        var checkCount = 0;
+        while (!HttpResourceManager.Instance.IsLoadTemplateFinished)
+        {
+            checkCount++;
+            if (checkCount > 20)
+            {
+                Debug.LogError("Check template data loaded time out.");
+                yield break;
+            }
+            yield return new WaitForSeconds(1.0f);
+        }
+
+        var message = new CSGreenhandStartMsg { GreenhandType = 1 };
+        Debug.Log("Send greenhandBattleStart msg to server.");
+        NetManager.SendMessage(message);
+
+        WindowManager.Instance.Show(WindowGroupType.Popup, false);
+    }
+
+    public void GoToCreatePlayer()
+    {
+        Debug.Log("Go to CreatePlayer.");
+        CurrentConfigIndex = 10;
+        if (!ReadGuideConfig())
+        {
+            Logger.LogWarning("Read config fail, setting battle field cancelled.");
+            return;
+        }
+
+        SetGreenHandConfig();
+    }
+
+    public IEnumerator GoToGiveHero()
+    {
+        yield return null;
+
+        Debug.Log("Go to HeroFirstLoginGive.");
+        CurrentConfigIndex = 20;
+        if (!ReadGuideConfig())
+        {
+            Logger.LogWarning("Read config fail, setting battle field cancelled.");
+            yield break;
+        }
+
+        SetGreenHandConfig();
+    }
+
+    public IEnumerator GoToScene()
+    {
+        yield return null;
+
+        CurrentConfigIndex = 30;
+        if (!ReadGuideConfig())
+        {
+            Logger.LogWarning("Read config fail, setting battle field cancelled.");
+            yield break;
+        }
+
+        SetGreenHandConfig();
+    }
+
+    public IEnumerator GoToChooseCard()
+    {
+        yield return null;
+
+        CurrentConfigIndex = 40;
+        if (!ReadGuideConfig())
+        {
+            Logger.LogWarning("Read config fail, setting battle field cancelled.");
+            yield break;
+        }
+
+        SetGreenHandConfig();
+    }
+
+    public IEnumerator GoToTeam()
+    {
+        yield return null;
+
+        CurrentConfigIndex = 50;
+        if (!ReadGuideConfig())
+        {
+            Logger.LogWarning("Read config fail, setting battle field cancelled.");
+            yield break;
+        }
+
+        SetGreenHandConfig();
     }
 
     #endregion

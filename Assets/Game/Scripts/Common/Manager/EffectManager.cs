@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections;
 using UnityEngine;
+using System.Collections;
 using Object = UnityEngine.Object;
 
 public class EffectManager
@@ -18,33 +18,27 @@ public class EffectManager
         rootGameObject = rootobj;
     }
 
-    public static GameObject ShowEffect(string effecttype, float offsetx, float offsety, Vector3 pos)
+    public static GameObject ShowEffect(string effecttype, float offsetx, float offsety, Vector3 pos, float resize = 2.5f)
     {
+        var sam = rootGameObject.GetComponent<Camera>();
+        sam.orthographicSize = resize;
         var obj = GetEffectPrefab(effecttype);
         Vector3 v3 = Camera.main.WorldToScreenPoint(pos);
         v3.x += offsetx;
         v3.y += offsety;
-        var sam = rootGameObject.GetComponent<Camera>();
+//        var sam = rootGameObject.GetComponent<Camera>();
         v3 = sam.ScreenToWorldPoint(v3);
         v3.z = 5;
-        var effectobj = Object.Instantiate(obj, v3, obj.transform.rotation) as GameObject;
+        var effectobj = MonoBehaviour.Instantiate(obj, v3, obj.transform.rotation) as GameObject;
         effectobj.transform.parent = rootGameObject.transform;
         SetAllLayers(effectobj, 9);
         return effectobj;
     }
 
-    public static void PlayEffect(string effecttype, float showtime, float offsetx, float offsety, Vector3 pos, float rotatevalue = 0, bool isbig = false)
+    public static void PlayEffect(string effecttype, float showtime, float offsetx, float offsety, Vector3 pos, float rotatevalue = 0, float resize = 2.5f)
     {
         var sam = rootGameObject.GetComponent<Camera>();
-        if (isbig)
-        {
-            sam.orthographicSize = 0.5f;
-        }
-        else
-        {
-            sam.orthographicSize = 2.5f;
-
-        }
+        sam.orthographicSize = resize;
         GameObject obj = GetEffectPrefab(effecttype);
 
         //Transform trans = transforms;
@@ -128,6 +122,15 @@ public class EffectManager
         }
     }
 
+    private static void SetAllScales(GameObject obj, float scale)
+    {
+        obj.transform.localScale = new Vector3(scale, scale, scale);
+        foreach (var item in obj.transform)
+        {
+            SetAllScales(((Transform)item).gameObject, scale);
+        }
+    }
+
     private static GameObject GetEffectPrefab(string effecttype)
     {
         for (var i = 0; i < names.Count; i++)
@@ -139,10 +142,6 @@ public class EffectManager
             }
         }
         var obj = Resources.Load(effecttype) as GameObject;
-        if (obj == null)
-        {
-            Debug.LogError("Could not get effect from path: " + effecttype);
-        }
         effectFabs.Add(obj);
         names.Add(effecttype);
         return obj;
@@ -150,10 +149,10 @@ public class EffectManager
 
     public static void PlayAllEffect(bool isplay)
     {
-        //var gamecamera = GameObject.Find("Camera");
-        //foreach (var item in gamecamera.transform)
-        //{
-        //    ((Transform)item).gameObject.SetActive(isplay);
-        //}
+        var gamecamera = GameObject.Find("Camera");
+        foreach (var item in gamecamera.transform)
+        {
+            ((Transform)item).gameObject.SetActive(isplay);
+        }
     }
 }

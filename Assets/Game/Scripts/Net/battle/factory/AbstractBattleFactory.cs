@@ -5,12 +5,13 @@ namespace com.kx.sglm.gs.battle.share.factory
 	using BattleSource = com.kx.sglm.gs.battle.share.data.BattleSource;
 	using BattleType = com.kx.sglm.gs.battle.share.enums.BattleType;
 	using IBattleExecuter = com.kx.sglm.gs.battle.share.executer.IBattleExecuter;
+	using IBattleTemplateService = com.kx.sglm.gs.battle.share.factory.creater.IBattleTemplateService;
 
 	public abstract class AbstractBattleFactory : IBattleFactory
 	{
 
 
-		public virtual Battle createBattle(BattleSource source)
+		public virtual Battle createBattle(BattleSource source, IBattleTemplateService tempService)
 		{
 //JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
 //ORIGINAL LINE: final com.kx.sglm.gs.battle.share.enums.BattleType _type = source.getBattleType();
@@ -18,7 +19,7 @@ namespace com.kx.sglm.gs.battle.share.factory
 
 			Battle _battle = new Battle(_type, source);
 
-			IBattleExecuter _excuter = createBattleExecuter(_battle);
+			IBattleExecuter _excuter = createBattleExecuter(_battle, tempService);
 
 			_battle.BattleExcuter = _excuter;
 
@@ -35,7 +36,7 @@ namespace com.kx.sglm.gs.battle.share.factory
 
 
 
-		public abstract IBattleExecuter createBattleExecuter(Battle battle);
+		public abstract IBattleExecuter createBattleExecuter(Battle battle, IBattleTemplateService tempService);
 
 		public abstract HeroTeam createAttackerTeam(Battle battle);
 

@@ -8,9 +8,15 @@ public class NGUILongPress : MonoBehaviour
         Press
     }
 
+    public bool NPressNotTriggerWhenLPress = true;
+
     public TriggerType LongTriggerType;
     public UIEventListener.VoidDelegate OnLongPress;
     public UIEventListener.VoidDelegate OnNormalPress;
+    /// <summary>
+    /// Only used for press type.
+    /// </summary>
+    public UIEventListener.VoidDelegate OnLongPressFinish;
     public float LongClickDuration = 2f;
     private bool dragged;
     private float lastPress = -1f;
@@ -32,11 +38,15 @@ public class NGUILongPress : MonoBehaviour
         {
             isInPress = false;
             //If the press time is over long click duration and the object is not be dragged, trigger long press.
-            if (Time.realtimeSinceStartup - lastPress > LongClickDuration && !dragged)
+            if (Time.realtimeSinceStartup - lastPress > LongClickDuration)
             {
-                if(LongTriggerType == TriggerType.Release && OnLongPress != null)
+                if(LongTriggerType == TriggerType.Release && !dragged && OnLongPress != null)
                 {
                     OnLongPress(gameObject);
+                }
+                if (LongTriggerType == TriggerType.Press && OnLongPressFinish != null)
+                {
+                    OnLongPressFinish(gameObject);
                 }
             }
         }
@@ -44,7 +54,7 @@ public class NGUILongPress : MonoBehaviour
 
     private void TriggerLongPress()
     {
-        if (!dragged && isInPress)
+        if (!dragged && isInPress && OnLongPress != null)
         {
             OnLongPress(gameObject);
         }
@@ -53,7 +63,18 @@ public class NGUILongPress : MonoBehaviour
     private void OnClick()
     {
         isInPress = false;
-        if (Time.realtimeSinceStartup - lastPress < LongClickDuration)
+        if (NPressNotTriggerWhenLPress)
+        {
+            if (Time.realtimeSinceStartup - lastPress < LongClickDuration)
+            {
+                CancelInvoke("TriggerLongPress");
+                if (OnNormalPress != null)
+                {
+                    OnNormalPress(gameObject);
+                }
+            }
+        }
+        else
         {
             CancelInvoke("TriggerLongPress");
             if (OnNormalPress != null)

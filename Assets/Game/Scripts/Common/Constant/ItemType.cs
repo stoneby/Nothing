@@ -52,10 +52,29 @@ public class ItemType : MonoBehaviour
     /// </summary>
     public const int InvalidBuyBackIndex = -1;
 
+    /// <summary>
+    /// 代表升级道具类型
+    /// </summary>
+    public const int LevelUpMaterialType = 1;
+
+    /// <summary>
+    /// 代表进化道具类型
+    /// </summary>
+    public const int EvolveMaterialType = 2;
+
+    public enum EquipState
+    {
+        UnEquip,
+        CurEquip,
+        OtherEquip
+    }
+
     public const string SellConfirmKey = "UISellItem.SellConfirm";
     public const string ItemHeadPrefix = "Item_";
     public const string ExtendContentKey = "UIItemCommon.ExtendContent";
     public const string ExtendLimitKey = "UIItemCommon.ExtendLimit";
+    public const string EvolveConfirmKey = "UIEvolveItemHandler.EvolveConfirm";
+    public const string LvlUpConfirmKey = "UILevelUpItemHandler.LvlUpConfirm";
 
     public const string ArmorJob = "job_6";
 

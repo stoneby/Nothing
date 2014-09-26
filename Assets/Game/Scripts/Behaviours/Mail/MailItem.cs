@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using KXSGCodec;
 using Property;
 using Template.Auto.Hero;
@@ -73,6 +74,7 @@ public class MailItem : MonoBehaviour
 
     private const string Multipler = "X";
     private const string Separator = "  ";
+    private const string CutSymbol = "...";
 
     private void Awake()
     {
@@ -166,8 +168,10 @@ public class MailItem : MonoBehaviour
         {
             senderLabel.text = MailMsgInfo.Sender;
             timeLabel.text = Utils.ConvertFromJavaTimestamp(MailMsgInfo.CreateTime).ToString("yyyy-M-d");
-            titleLabel.text = MailMsgInfo.Title;
-            attachLabel.text = GetAttachDesc(MailMsgInfo.Attachments);
+            titleLabel.text = Utils.SubstringWithinByteLimit(MailMsgInfo.Title, MailConstant.MailByteCutLength,
+                                                             CutSymbol);
+            var desc = GetAttachDesc(MailMsgInfo.Attachments);
+            attachLabel.text = Utils.SubstringWithinByteLimit(desc, MailConstant.MailByteCutLength, CutSymbol);
             DateTime expireTime = Utils.ConvertFromJavaTimestamp(MailMsgInfo.Deadline);
             TimeRemain = expireTime.Subtract(DateTime.Now);
             var hasAttachment = (MailMsgInfo.Attachments != null && MailMsgInfo.Attachments.Count > 0);
@@ -217,6 +221,10 @@ public class MailItem : MonoBehaviour
                             else if (attach.ItemId == RoleProperties.ROLEBASE_ENERGY)
                             {
                                 currencyText = LanguageManager.Instance.GetTextValue(MailConstant.EnergyAttachKey);
+                            }    
+                            else if (attach.ItemId == RoleProperties.ROLEBASE_HERO_SPIRIT)
+                            {
+                                currencyText = LanguageManager.Instance.GetTextValue(MailConstant.SoulAttachKey);
                             }
                             result += (currencyText + Multipler + attach.Count + Separator);
                             break;

@@ -26,7 +26,7 @@ namespace Assets.Game.Scripts.Net.handler
         private static void AlertHandler(GameObject sender = null)
         {
             //WindowManager.Instance.Show(typeof(MainMenuBarWindow), false);
-            
+
             WindowManager.Instance.Show(false);
             WindowManager.Instance.Show(typeof(LoginWindow), true);
             WindowManager.Instance.Show(typeof(LoginMainWindow), true);
@@ -75,7 +75,7 @@ namespace Assets.Game.Scripts.Net.handler
                     case (short)ErrorType.SERVER_NOT_OPEN:
                         str += "服务器未开放";
                         break;
-                    case(short)ErrorType.USER_LOCKED:
+                    case (short)ErrorType.USER_LOCKED:
                         str += "帐号被锁定";
                         break;
                     default:
@@ -86,5 +86,45 @@ namespace Assets.Game.Scripts.Net.handler
             }
         }
 
+
+        public static void OnNoticeList(ThriftSCMessage msg)
+        {
+            var greenHand = GreenHandGuideHandler.Instance;
+            if (!GreenHandGuideHandler.Instance.IsGreenHandGuideFinish) return;
+            if (!greenHand.BattleFinishFlag) return;
+
+            //Shield Notice if greenHand not finish
+            if (!(greenHand.GiveHeroFinishFlag && greenHand.RaidFinishFlag && greenHand.SummitFinishFlag &&
+                greenHand.TeamFinishFlag)) return;
+
+            var sysmsg = msg.GetContent() as SCGameNoticeListMsg;
+            //PopTextManager.PopTip("公告" + sysmsg.NoticeList.Count);
+            //Logger.Log("公告" + sysmsg.NoticeList.Count);
+            if (sysmsg != null && sysmsg.NoticeList != null && sysmsg.NoticeList.Count > 0)
+            {
+                SystemModelLocator.Instance.NoticeListMsg = sysmsg;
+                WindowManager.Instance.Show(typeof(NoticeWindow), true);
+            }
+            else
+            {
+                Logger.Log("Notice list message should not be null.");
+            }
+        }
+
+        public static void OnNoticeDetail(ThriftSCMessage msg)
+        {
+            var sysmsg = msg.GetContent() as SCGameNoticeDetailMsg;
+
+            if (sysmsg != null)
+            {
+                SystemModelLocator.Instance.NoticeDetailMsg = sysmsg;
+                SystemModelLocator.Instance.NoticeItem.SetContent(sysmsg.Content);
+                //WindowManager.Instance.Show(typeof(NoticeWindow), true);
+            }
+            else
+            {
+                Logger.LogError("Notice list message should not be null.");
+            }
+        }
     }
 }

@@ -175,6 +175,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400016}
+  m_RootOrder: 1
 --- !u!4 &400002
 Transform:
   m_ObjectHideFlags: 1
@@ -186,6 +187,7 @@ Transform:
   m_LocalScale: {x: 1.00007999, y: 1.00007999, z: 1.00007999}
   m_Children: []
   m_Father: {fileID: 400016}
+  m_RootOrder: 6
 --- !u!4 &400004
 Transform:
   m_ObjectHideFlags: 1
@@ -197,6 +199,7 @@ Transform:
   m_LocalScale: {x: 1.00007999, y: 1.00007999, z: 1.00007999}
   m_Children: []
   m_Father: {fileID: 400016}
+  m_RootOrder: 3
 --- !u!4 &400006
 Transform:
   m_ObjectHideFlags: 1
@@ -208,6 +211,7 @@ Transform:
   m_LocalScale: {x: 1.00007999, y: 1.00007999, z: 1.00007999}
   m_Children: []
   m_Father: {fileID: 400016}
+  m_RootOrder: 5
 --- !u!4 &400008
 Transform:
   m_ObjectHideFlags: 1
@@ -220,6 +224,7 @@ Transform:
   m_Children:
   - {fileID: 400010}
   m_Father: {fileID: 400016}
+  m_RootOrder: 0
 --- !u!4 &400010
 Transform:
   m_ObjectHideFlags: 1
@@ -231,6 +236,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400008}
+  m_RootOrder: 0
 --- !u!4 &400012
 Transform:
   m_ObjectHideFlags: 1
@@ -242,6 +248,7 @@ Transform:
   m_LocalScale: {x: 1.00007999, y: 1.00007999, z: 1.00007999}
   m_Children: []
   m_Father: {fileID: 400016}
+  m_RootOrder: 4
 --- !u!4 &400014
 Transform:
   m_ObjectHideFlags: 1
@@ -253,6 +260,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400016}
+  m_RootOrder: 2
 --- !u!4 &400016
 Transform:
   m_ObjectHideFlags: 1
@@ -272,6 +280,7 @@ Transform:
   - {fileID: 400002}
   - {fileID: 400018}
   m_Father: {fileID: 0}
+  m_RootOrder: 0
 --- !u!4 &400018
 Transform:
   m_ObjectHideFlags: 1
@@ -283,6 +292,7 @@ Transform:
   m_LocalScale: {x: 1.00007999, y: 1.00007999, z: 1.00007999}
   m_Children: []
   m_Father: {fileID: 400016}
+  m_RootOrder: 7
 --- !u!65 &6500000
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -576,7 +586,7 @@ MonoBehaviour:
   bottomType: 1
   topType: 1
   mAtlas: {fileID: 11400000, guid: 5b92cbdcb180fb042a7069f903d9f7ae, type: 2}
-  mSpriteName: JobBG
+  mSpriteName: job
   mFillCenter: 1
 --- !u!114 &11400012
 MonoBehaviour:
@@ -608,8 +618,8 @@ MonoBehaviour:
   updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
-  mWidth: 32
-  mHeight: 32
+  mWidth: 26
+  mHeight: 26
   mDepth: 4
   HighLight: 0
   OffsetX: 0

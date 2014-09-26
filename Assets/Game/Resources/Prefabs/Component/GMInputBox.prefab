@@ -74,7 +74,6 @@ GameObject:
   - 4: {fileID: 400008}
   - 65: {fileID: 6500000}
   - 114: {fileID: 11400014}
-  - 114: {fileID: 11400012}
   - 114: {fileID: 11400028}
   m_Layer: 8
   m_Name: Button open
@@ -157,7 +156,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 400018}
   - 65: {fileID: 6500002}
-  - 114: {fileID: 11400024}
   - 114: {fileID: 11400002}
   m_Layer: 8
   m_Name: Image Button
@@ -434,8 +432,8 @@ MonoBehaviour:
   rightType: 1
   bottomType: 1
   topType: 1
-  mAtlas: {fileID: 11400000, guid: bad600732db804285aba6ebd6f30da8c, type: 2}
-  mSpriteName: background
+  mAtlas: {fileID: 11400000, guid: 5b92cbdcb180fb042a7069f903d9f7ae, type: 2}
+  mSpriteName: box3
   mFillCenter: 1
 --- !u!114 &11400006
 MonoBehaviour:
@@ -598,21 +596,6 @@ MonoBehaviour:
   mAtlas: {fileID: 11400000, guid: 5b92cbdcb180fb042a7069f903d9f7ae, type: 2}
   mSpriteName: OKN
   mFillCenter: 1
---- !u!114 &11400012
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100008}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d44bc69c2ca5f943b845318866dc1bd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  audioClip: {fileID: 0}
-  trigger: 0
-  volume: 1
-  pitch: 1
 --- !u!114 &11400014
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -752,7 +735,7 @@ MonoBehaviour:
   rightType: 1
   bottomType: 1
   topType: 1
-  mAtlas: {fileID: 11400000, guid: bad600732db804285aba6ebd6f30da8c, type: 2}
+  mAtlas: {fileID: 11400000, guid: 5b92cbdcb180fb042a7069f903d9f7ae, type: 2}
   mSpriteName: background
   mFillCenter: 1
 --- !u!114 &11400020
@@ -786,7 +769,7 @@ MonoBehaviour:
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
   mWidth: 300
-  mHeight: 54
+  mHeight: 72
   mDepth: 4
   HighLight: 0
   OffsetX: 0
@@ -795,7 +778,7 @@ MonoBehaviour:
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
-  aspectRatio: 5.55555534
+  aspectRatio: 4.16666651
   mType: 1
   mFillDirection: 4
   mFillAmount: 1
@@ -806,8 +789,8 @@ MonoBehaviour:
   rightType: 1
   bottomType: 1
   topType: 1
-  mAtlas: {fileID: 11400000, guid: bad600732db804285aba6ebd6f30da8c, type: 2}
-  mSpriteName: inputbox
+  mAtlas: {fileID: 11400000, guid: 5b92cbdcb180fb042a7069f903d9f7ae, type: 2}
+  mSpriteName: box4
   mFillCenter: 1
 --- !u!114 &11400022
 MonoBehaviour:
@@ -850,21 +833,6 @@ MonoBehaviour:
   hideIfOffScreen: 0
   keepAspectRatio: 0
   aspectRatio: 1
---- !u!114 &11400024
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100018}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d44bc69c2ca5f943b845318866dc1bd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  audioClip: {fileID: 0}
-  trigger: 0
-  volume: 1
-  pitch: 1
 --- !u!114 &11400026
 MonoBehaviour:
   m_ObjectHideFlags: 1

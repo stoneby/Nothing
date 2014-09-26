@@ -7,11 +7,11 @@ public class HeroBaseInfoRefresher : MonoBehaviour
 {
     private KeyValuePair<int, GameObject> cachedHero = new KeyValuePair<int, GameObject>(InValid, null);
     private const int InValid = -1;
-    private Transform hero;
-    private Transform stars;
-    private UILabel heroName;
-    private UISprite lockSprite;
-    private UIEventListener lockLis;
+    public Transform Hero;
+    public Transform Stars;
+    public UILabel HeroNameLabel;
+    public UISprite LockSprite;
+    public UIEventListener LockLis;
     private const string LockName = "HeroLock_close";
     private const string UnLockName = "HeroLock_open";
     public static long Uuid;
@@ -21,31 +21,30 @@ public class HeroBaseInfoRefresher : MonoBehaviour
         get { return isLock; }
         set 
         {
-            lockSprite.spriteName = value ? LockName : UnLockName;
-            isLock = value;
+            if(LockSprite != null)
+            {
+                LockSprite.spriteName = value ? LockName : UnLockName;
+                isLock = value;
+            }
         }
     }
 
     private void OnEnable()
     {
-        lockLis.onClick = OnLock;
+        if (LockLis)
+        {
+            LockLis.onClick = OnLock;
+        }
     }
 
     private void OnDisable()
     {
         Despawn();
-        lockLis.onClick = null;
+        if (LockLis)
+        {
+            LockLis.onClick = null;
+        }
     }
-
-    private void Awake()
-    {
-        hero = transform.Find("Hero");
-        stars = transform.Find("Stars");
-        heroName = transform.Find("Name").GetComponent<UILabel>();
-        lockLis = UIEventListener.Get(transform.Find("Lock").gameObject);
-        lockSprite = lockLis.GetComponent<UISprite>();
-    }
-
 
     private void OnLock(GameObject go)
     {
@@ -69,15 +68,15 @@ public class HeroBaseInfoRefresher : MonoBehaviour
         if (heroTemp != null)
         {
 
-            for(var index = stars.childCount - 1; index >= stars.childCount - heroTemp.Star; index--)
+            for (var index = Stars.childCount - 1; index >= Stars.childCount - heroTemp.Star; index--)
             {
-                NGUITools.SetActive(stars.GetChild(index).gameObject, true);
+                NGUITools.SetActive(Stars.GetChild(index).gameObject, true);
             }
-            for(var index = 0; index < stars.childCount - heroTemp.Star; index++)
+            for (var index = 0; index < Stars.childCount - heroTemp.Star; index++)
             {
-                NGUITools.SetActive(stars.GetChild(index).gameObject, false);
+                NGUITools.SetActive(Stars.GetChild(index).gameObject, false);
             }
-            heroName.text = heroTemp.Name;
+            HeroNameLabel.text = heroTemp.Name;
             Despawn();
             Spawn(heroTemp.Icon - 1);
             IsLock = heroInfo.Bind;
@@ -87,8 +86,7 @@ public class HeroBaseInfoRefresher : MonoBehaviour
     private void Spawn(int index)
     {
         var character = CharacterPoolManager.Instance.CharacterPoolList[index].Take().GetComponent<Character>();
-        character.Animation.playAutomatically = false;
-        Utils.AddChild(hero.gameObject, character.gameObject);
+        Utils.AddChild(Hero.gameObject, character.gameObject);
         cachedHero = new KeyValuePair<int, GameObject>(index, character.gameObject);
     }
 

@@ -38,7 +38,7 @@ public class UISellItemHandler : MonoBehaviour
         commonWindow = WindowManager.Instance.GetWindow<UIItemCommonWindow>();
         commonWindow.ShowSelMask(false);
         commonWindow.NormalClicked = OnNormalClick;
-        RefreshSelAndCoins();
+        RefreshSel();
         InstallHandlers();
         sellLis.GetComponent<UIButton>().isEnabled = false;
     }
@@ -65,7 +65,7 @@ public class UISellItemHandler : MonoBehaviour
             var child = NGUITools.AddChild(grid.gameObject, commonWindow.BaseItemPrefab);
             var heroBase = child.GetComponent<ItemBase>();
             heroBase.InitItem(itemInfo);
-            UIEventListener.Get(child.gameObject).onClick = CancelItemSell;
+            ItemHelper.InstallLongPress(child, CancelItemSell);
             sellObjects.Add(pos, child);
         }
         else
@@ -77,7 +77,7 @@ public class UISellItemHandler : MonoBehaviour
         var sellCost = ItemModeLocator.Instance.GetSellCost(tempId, itemInfo.CurExp, itemInfo.Level,
                                                             ItemModeLocator.Instance.GetQuality(tempId));
         TotalMoney += flag * sellCost;
-        RefreshSelAndCoins();
+        RefreshSel();
         var item = NGUITools.FindInParents<WrapItemContent>(go);
         item.ShowSellMask(pos.Y, isToSell);
         var exitsToSell = sellObjects.Count != 0;
@@ -261,6 +261,10 @@ public class UISellItemHandler : MonoBehaviour
         RemoveSellObject(pos);
         RefreshCurScreen();
         grid.repositionNow = true;
+        var itemInfo = commonWindow.GetInfo(pos);
+        TotalMoney -= ItemModeLocator.Instance.GetSellCost(itemInfo.TmplId, itemInfo.CurExp, itemInfo.Level,
+                                                     ItemModeLocator.Instance.GetQuality(itemInfo.TmplId));
+        RefreshSel();
     }
 
     private void RemoveSellObject(Position pos)
@@ -292,7 +296,7 @@ public class UISellItemHandler : MonoBehaviour
     /// <summary>
     /// Refresh some ui items when we needed.
     /// </summary>
-    private void RefreshSelAndCoins()
+    private void RefreshSel()
     {
         selCount.text = sellObjects.Count.ToString(CultureInfo.InvariantCulture);
     }
@@ -324,7 +328,7 @@ public class UISellItemHandler : MonoBehaviour
     {
         CleanMasks();
         TotalMoney = 0;
-        RefreshSelAndCoins();
+        RefreshSel();
     }
 
     public void SellOverUpdate()

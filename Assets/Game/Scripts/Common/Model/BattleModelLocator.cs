@@ -97,6 +97,7 @@ namespace Assets.Game.Scripts.Common.Model
 
         public void Init(SCBattlePveStartMsg battleStartMsg)
         {
+            
             var service = BattleTemplateModelLocator.Instance;
             var battleSourceCreator = new BattleSourceTemplateCreater(service);
             var battleSource = battleSourceCreator.createPVESource(battleStartMsg);
@@ -132,7 +133,7 @@ namespace Assets.Game.Scripts.Common.Model
             Source = battleSource;
 
             var factory = battleSource.BattleType.Factory;
-            MainBattle = factory.createBattle(Source);
+            MainBattle = factory.createBattle(Source, templateModel);
             MainBattle.start();
 
             // hero setup.

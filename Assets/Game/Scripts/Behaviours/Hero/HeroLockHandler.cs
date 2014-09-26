@@ -58,7 +58,7 @@ public class HeroLockHandler : MonoBehaviour
     public void OnHeroItemClicked(GameObject go)
     {
         var heroItem = go.GetComponent<HeroItem>();
-        var uid = heroItem.Uuid;
+        var uid = heroItem.HeroInfo.Uuid;
         if (!lockList.Contains(uid))
         {
             lockList.Add(uid);

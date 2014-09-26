@@ -27,6 +27,7 @@ public class UILevelUpItemHandler : MonoBehaviour
     private readonly Dictionary<Position, GameObject> levelObjects = new Dictionary<Position, GameObject>();
     private List<Position> materialsPosList = new List<Position>(); 
     private Transform cannotLevelMask;
+    private List<short> choiceIndexs = new List<short>();
 
     private ItemInfo MainInfo
     {
@@ -80,7 +81,7 @@ public class UILevelUpItemHandler : MonoBehaviour
             return;
         }
         UpdateProperty();
-        ItemBase.InitItem(MainInfo.TmplId);
+        ItemBase.InitItem(MainInfo);
         var isMaterial = ItemModeLocator.Instance.IsMaterial(MainInfo.TmplId);
         if (!isMaterial)
         {
@@ -109,6 +110,8 @@ public class UILevelUpItemHandler : MonoBehaviour
 
     private void OnEnable()
     {
+        MtaManager.TrackBeginPage(MtaType.LevelUpItemWindow);
+        LevelUpEffectSeq.Stop();
         commonWindow = WindowManager.Instance.GetWindow<UIItemCommonWindow>();
         commonWindow.NormalClicked = OnNormalClicked;
         var selected = MainInfo != null;
@@ -119,6 +122,7 @@ public class UILevelUpItemHandler : MonoBehaviour
         }
         commonWindow.ShowSelMask(true);
         Refresh();
+        ItemHelper.InstallLongPress(ItemBase.gameObject);
         GetMaterialPosList();
         RefreshCurScreen();
         InstallHandlers();
@@ -126,6 +130,7 @@ public class UILevelUpItemHandler : MonoBehaviour
 
     private void OnDisable()
     {
+        MtaManager.TrackEndPage(MtaType.LevelUpItemWindow);
         UnInStallHandlers();
         PropertyUpdater.Reset();
         Clean();
@@ -161,14 +166,11 @@ public class UILevelUpItemHandler : MonoBehaviour
 
         if (preshowLvl > level)
         {
-            var changedLevel = preshowLvl - level;
-            var attackChanged = ItemModeLocator.Instance.GetAttack(tempId, preshowLvl) -
-                                ItemModeLocator.Instance.GetAttack(tempId, level);
-            var recoverChanged = ItemModeLocator.Instance.GetRecover(tempId, preshowLvl) -
-                                 ItemModeLocator.Instance.GetRecover(tempId, level);
-            var hpChanged = ItemModeLocator.Instance.GetAttack(tempId, preshowLvl) -
-                            ItemModeLocator.Instance.GetAttack(tempId, level);
-            PropertyUpdater.PreShowChangedProperty(changedLevel, attackChanged, recoverChanged, hpChanged, 0);
+            var changedLevel = (sbyte)(preshowLvl - level);
+            var attackChanged = ItemModeLocator.Instance.GetAttackLvlParms(tempId, changedLevel);
+            var recoverChanged = ItemModeLocator.Instance.GetRecoverLvlParms(tempId, changedLevel);
+            var hpChanged = ItemModeLocator.Instance.GetHpLvlParms(tempId, changedLevel);
+            PropertyUpdater.PreShowChangedProperty(changedLevel, attackChanged, hpChanged, recoverChanged, 0);
         }
         else
         {
@@ -246,7 +248,8 @@ public class UILevelUpItemHandler : MonoBehaviour
             {
                 var child = NGUITools.AddChild(matGrid.gameObject, commonWindow.BaseItemPrefab);
                 var heroBase = child.GetComponent<ItemBase>();
-                heroBase.InitItem(itemInfo);   
+                heroBase.InitItem(itemInfo);
+                ItemHelper.InstallLongPress(child);
                 levelObjects.Add(pos, child);     
             }
             var item = NGUITools.FindInParents<WrapItemContent>(go);
@@ -354,9 +357,52 @@ public class UILevelUpItemHandler : MonoBehaviour
 
     private void OnLevelUp(GameObject go)
     {
-        var choiceIndexs = levelObjects.Keys.Select(key => commonWindow.GetInfo(key).BagIndex).ToList();
-        var msg = new CSStrengthItem {OperItemIndex = MainInfo.BagIndex, ChoiceItemIndexes = choiceIndexs};
+        choiceIndexs = levelObjects.Keys.Select(key => commonWindow.GetInfo(key).BagIndex).ToList();
+        var containsGreatStar =
+            choiceIndexs.Any(
+                chiceIndex =>
+                ItemHelper.GetStarCount(
+                    ItemModeLocator.Instance.GetQuality(ItemModeLocator.Instance.FindItem(chiceIndex).TmplId)) >
+                commonWindow.ConfirmStar);
+        if(containsGreatStar)
+        {
+            var assert = WindowManager.Instance.GetWindow<AssertionWindow>();
+            assert.AssertType = AssertionWindow.Type.OkCancel;
+            assert.Message = "";
+            assert.Title = string.Format(LanguageManager.Instance.GetTextValue(ItemType.LvlUpConfirmKey),
+                                         commonWindow.EvolveAndLevelColor, UIItemCommonWindow.ColorEnd);
+            assert.OkButtonClicked = OnEvolveOk;
+            assert.CancelButtonClicked = OnEvolveCancel;
+            WindowManager.Instance.Show(typeof(AssertionWindow), true);
+            return;
+        }
+        SendLvlUpMessage();
+    }
+
+    private void OnEvolveCancel(GameObject sender)
+    {
+        CleanAssertWindow();
+        WindowManager.Instance.Show<AssertionWindow>(false);
+    }
+
+    private void OnEvolveOk(GameObject sender)
+    {
+        CleanAssertWindow();
+        SendLvlUpMessage();
+    }
+
+    private void SendLvlUpMessage()
+    {
+        var msg = new CSStrengthItem { OperItemIndex = MainInfo.BagIndex, ChoiceItemIndexes = choiceIndexs };
         NetManager.SendMessage(msg);
+    }
+
+    private void CleanAssertWindow()
+    {
+        var assert = WindowManager.Instance.GetWindow<AssertionWindow>();
+        assert.OkButtonClicked = OnEvolveOk;
+        assert.CancelButtonClicked = OnEvolveCancel;
+        WindowManager.Instance.Show<AssertionWindow>(false);
     }
 
     private void OnCancel(GameObject go)
@@ -406,6 +452,7 @@ public class UILevelUpItemHandler : MonoBehaviour
     {
         LevelUpEffectSeq.Play();
         UpdateLevelUp(preshowLvl);
+        choiceIndexs.Clear();
     }
 
     private void UpdateLevelUp(short level)
@@ -456,5 +503,6 @@ public class UILevelUpItemHandler : MonoBehaviour
        ExpCanGet = 0;
        CoinsCost = 0;
        cachedMatBagIndexs.Clear();
+       choiceIndexs.Clear();
    }
 }

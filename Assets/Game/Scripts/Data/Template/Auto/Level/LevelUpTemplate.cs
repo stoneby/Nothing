@@ -26,6 +26,7 @@ namespace Template.Auto.Level
     private int _id;
     private int _maxExp;
     private int _maxEnergy;
+    private int _maxFriend;
 
     public int Id
     {
@@ -72,6 +73,22 @@ namespace Template.Auto.Level
       }
     }
 
+    /// <summary>
+    /// 好友上限
+    /// </summary>
+    public int MaxFriend
+    {
+      get
+      {
+        return _maxFriend;
+      }
+      set
+      {
+        __isset.maxFriend = true;
+        this._maxFriend = value;
+      }
+    }
+
 
     public Isset __isset;
     #if !SILVERLIGHT
@@ -81,6 +98,7 @@ namespace Template.Auto.Level
       public bool id;
       public bool maxExp;
       public bool maxEnergy;
+      public bool maxFriend;
     }
 
     public LevelUpTemplate() {
@@ -115,6 +133,13 @@ namespace Template.Auto.Level
           case 3:
             if (field.Type == TType.I32) {
               MaxEnergy = iprot.ReadI32();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 4:
+            if (field.Type == TType.I32) {
+              MaxFriend = iprot.ReadI32();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
@@ -156,6 +181,14 @@ namespace Template.Auto.Level
         oprot.WriteI32(MaxEnergy);
         oprot.WriteFieldEnd();
       }
+      if (__isset.maxFriend) {
+        field.Name = "maxFriend";
+        field.Type = TType.I32;
+        field.ID = 4;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteI32(MaxFriend);
+        oprot.WriteFieldEnd();
+      }
       oprot.WriteFieldStop();
       oprot.WriteStructEnd();
     }
@@ -168,6 +201,8 @@ namespace Template.Auto.Level
       sb.Append(MaxExp);
       sb.Append(",MaxEnergy: ");
       sb.Append(MaxEnergy);
+      sb.Append(",MaxFriend: ");
+      sb.Append(MaxFriend);
       sb.Append(")");
       return sb.ToString();
     }

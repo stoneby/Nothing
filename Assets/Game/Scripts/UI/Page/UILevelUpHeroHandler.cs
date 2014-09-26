@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -88,6 +87,7 @@ public class UILevelUpHeroHandler : MonoBehaviour
     private void OnEnable()
     {
         MtaManager.TrackBeginPage(MtaType.LevelUpHeroWindow);
+        LevelUpEffect.Stop();
         if (HeroInfo != null)
         {
             commonWindow.NormalClicked = OnNormalClick;
@@ -118,9 +118,6 @@ public class UILevelUpHeroHandler : MonoBehaviour
         usedSoulValue = usedSoulTitle.transform.Find("UsedSoulValue").GetComponent<UILabel>();
         ownedSoulValue = Utils.FindChild(transform, "OwnedSoulValue").GetComponent<UILabel>();
         commonWindow = WindowManager.Instance.GetWindow<UIHeroCommonWindow>();
-        //As the property updater's Awake has the dependency with the window's OnEnter, we make it be called first.
-        NGUITools.SetActive(PropertyUpdater.gameObject, true);
-        NGUITools.SetActive(HeroBaseInfoRefresher.gameObject, true);
     }
 
     /// <summary>
@@ -149,17 +146,11 @@ public class UILevelUpHeroHandler : MonoBehaviour
 
     private void OnHeroPeopertyChanged(SCPropertyChangedNumber scpropertychanged)
     {
-        var level = scpropertychanged.PropertyChanged[RoleProperties.ROLEBASE_LEVEL];
-        curLvl = HeroInfo.Lvl = (short)level;
-        var atkProp = scpropertychanged.PropertyChanged[RoleProperties.ROLE_ATK];
-        HeroInfo.Prop[RoleProperties.ROLE_ATK] = atkProp;
-        var hpProp = scpropertychanged.PropertyChanged[RoleProperties.ROLE_HP];
-        HeroInfo.Prop[RoleProperties.ROLE_HP] = hpProp;
-        var recoverProp = scpropertychanged.PropertyChanged[RoleProperties.ROLE_RECOVER];
-        HeroInfo.Prop[RoleProperties.ROLE_RECOVER] = recoverProp;
-        var mpProp = scpropertychanged.PropertyChanged[RoleProperties.ROLE_MP];
-        HeroInfo.Prop[RoleProperties.ROLE_MP] = mpProp;
-        PropertyUpdater.UpdateProperty(level, HeroTemplate.LvlLimit, atkProp, hpProp, recoverProp, mpProp);
+        //var level = scpropertychanged.PropertyChanged[RoleProperties.ROLEBASE_LEVEL];
+        curLvl = HeroInfo.Lvl;
+        PropertyUpdater.UpdateProperty(curLvl, HeroTemplate.LvlLimit, HeroInfo.Prop[RoleProperties.ROLE_ATK],
+                                       HeroInfo.Prop[RoleProperties.ROLE_HP], HeroInfo.Prop[RoleProperties.ROLE_RECOVER],
+                                       HeroInfo.Prop[RoleProperties.ROLE_MP]);
         CheckButtonEnabled();
         commonWindow.Refresh();
     }
@@ -221,7 +212,7 @@ public class UILevelUpHeroHandler : MonoBehaviour
     private void OnAddBtnClicked(GameObject go)
     {
         LevelUp(true);
-        if (curLvl == HeroTemplate.LvlLimit || totalCostSoul + GetCostSoul((short)(curLvl + 1), HeroTemplate.Star) > PlayerModelLocator.Instance.Sprit)
+        if (!CanLevelUp())
         {
             addLis.GetComponent<UIButton>().isEnabled = false;
         }
@@ -231,16 +222,19 @@ public class UILevelUpHeroHandler : MonoBehaviour
         }
     }
 
+    private bool CanLevelUp()
+    {
+        return curLvl < HeroTemplate.LvlLimit &&
+               totalCostSoul + GetCostSoul((short) (curLvl + 1), HeroTemplate.Star) <= PlayerModelLocator.Instance.Sprit;
+    }
+
     /// <summary>
     /// The callback of clicking decrease level button.
     /// </summary>
     private void OnSubLisClicked(GameObject go)
     {
         LevelUp(false);
-        if (curLvl == HeroTemplate.LvlLimit - 1)
-        {
-            addLis.GetComponent<UIButton>().isEnabled = true;
-        }
+        addLis.GetComponent<UIButton>().isEnabled = CanLevelUp();
         if (curLvl == HeroInfo.Lvl)
         {
             subLis.GetComponent<UIButton>().isEnabled = false;

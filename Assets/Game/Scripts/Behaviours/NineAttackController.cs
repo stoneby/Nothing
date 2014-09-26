@@ -26,6 +26,9 @@ public class NineAttackController : MonoBehaviour
 
     private const float OverLayTimeAfterPeriod1 = 0;
     private const float OverLayTimeAfterPeriod2 = 0;
+    private const float LoopTime1 = 2.0f;
+    private const float LoopTime2 = 0.5f;
+    private const float LoopTime3 = 0.5f;
 
     #endregion
 
@@ -35,7 +38,7 @@ public class NineAttackController : MonoBehaviour
     {
         get
         {
-            return effectControllerList[0].Duration + effectControllerList[1].Duration +
+            return LoopTime1 + effectControllerList[1].Duration +
                    effectControllerList[2].Duration - OverLayTimeAfterPeriod1 - OverLayTimeAfterPeriod2;
         }
     }
@@ -108,18 +111,22 @@ public class NineAttackController : MonoBehaviour
         effectControllerList[2].transform.position = End.transform.position;
 
         effectControllerList[0].gameObject.SetActive(true);
-        effectControllerList[0].Play(false);
-        yield return new WaitForSeconds(effectControllerList[0].Duration - OverLayTimeAfterPeriod1);
-
+        effectControllerList[0].Play(true);
+        yield return new WaitForSeconds(LoopTime1 - OverLayTimeAfterPeriod1);
+        effectControllerList[0].Stop();
         effectControllerList[0].gameObject.SetActive(false);
-        effectControllerList[1].gameObject.SetActive(true);
-        effectControllerList[1].Play(false);
-        yield return new WaitForSeconds(effectControllerList[1].Duration - OverLayTimeAfterPeriod2);
 
+        effectControllerList[1].gameObject.SetActive(true);
+        effectControllerList[1].Play(true);
+        yield return new WaitForSeconds(effectControllerList[1].Duration - OverLayTimeAfterPeriod2);
         effectControllerList[1].Stop();
         effectControllerList[1].gameObject.SetActive(false);
+
         effectControllerList[2].gameObject.SetActive(true);
-        effectControllerList[2].Play(false);
+        effectControllerList[2].Play(true);
+        yield return new WaitForSeconds(effectControllerList[2].Duration - OverLayTimeAfterPeriod2);
+        effectControllerList[2].Stop();
+        effectControllerList[2].gameObject.SetActive(false);
     }
 
     #endregion

@@ -43,7 +43,7 @@ namespace com.kx.sglm.gs.battle.share.factory.creater
 			_allSkills.Add(heroTemp.SpSkill);
 			_allSkills.Add(heroTemp.LeaderSkill);
 			_allSkills.Add(heroTemp.ActiveSkill);
-
+			_info.SkillIdList = _allSkills;
 			return _info;
 		}
 

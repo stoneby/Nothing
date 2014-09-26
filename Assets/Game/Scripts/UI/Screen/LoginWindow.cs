@@ -5,7 +5,7 @@ using UnityEngine;
 /// </summary>
 public class LoginWindow : Window
 {
-    
+    public GameObject GreenHandLoading;
 
     #region Window
 

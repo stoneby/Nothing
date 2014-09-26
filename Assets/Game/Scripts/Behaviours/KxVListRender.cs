@@ -47,8 +47,14 @@ public class KxVListRender : MonoBehaviour
 
     private bool NeedPlayEffect = false;
 
+    private float totalHeight;
+
+    private UIEventListener UpEventListener;
+    private GameObject UpButton;
+    private GameObject ClipPanel;
+
     public void Init(IList datas, string prefabname,
-        int thewidth, int theheight, int itemwidth, int itemheight, OnSelectedCallback selectedcallback = null, bool playeffect = true)
+        int thewidth, int theheight, int itemwidth, int itemheight, OnSelectedCallback selectedcallback = null, bool playeffect = true, bool showupbutton = false)
     {
         dataPravider = datas;
         NeedPlayEffect = playeffect;
@@ -56,9 +62,21 @@ public class KxVListRender : MonoBehaviour
         OnSelected = selectedcallback;
         if (haveNotInit)
         {
-            itemBox = transform.FindChild("Container").gameObject;
+            itemBox = transform.FindChild("Panel/Container").gameObject;
+            ClipPanel = transform.FindChild("Panel").gameObject;
             itemBox.GetComponent<UIWidget>();
             itemPrefab = Resources.Load(prefabname) as GameObject;
+            var pn = ClipPanel.GetComponent<UIPanel>();
+            pn.baseClipRegion = new Vector4(0, 0, thewidth, theheight);
+
+            if (showupbutton)
+            {
+                UpButton = transform.FindChild("Button up").gameObject;
+                UpButton.transform.localPosition = new Vector3(thewidth / 2 - 90, -theheight / 2 + 20, 0);
+                UpEventListener = UIEventListener.Get(UpButton);
+                UpEventListener.onClick += UpClickHandler;
+                UpButton.SetActive(false);
+            }
 
             theWidth = thewidth;
             theHeight = theheight;
@@ -91,6 +109,10 @@ public class KxVListRender : MonoBehaviour
             var theitem = Items[Items.Count - 1].GetComponent<KxItemRender>();
             theitem.OnSelected += OnSelecteHandler;
             theitem.OnPress += OnPressHandler;
+            
+            theitem.ItemHeight = itemHeight;
+            theitem.ItemWidth = itemwidth;
+            theitem.OnResize += OnResizeHandler;
             theitem.InitItem();
         }
 
@@ -107,9 +129,10 @@ public class KxVListRender : MonoBehaviour
             theitem.ItemIndex = i;
             EndDataIndex = i;
             theitem.SetData(dataPravider[i]);
-            Items[i].transform.localPosition = playeffect ? new Vector3(thewidth, maxY - itemHeight * i, 0) : new Vector3(0, maxY - itemHeight * i, 0);
+            Items[i].transform.localPosition = playeffect ? new Vector3(thewidth, maxY - theitem.ItemHeight * i, 0) : new Vector3(0, maxY - theitem.ItemHeight * i, 0);
 
         }
+        totalHeight = itemHeight*dataPravider.Count;
         StartIndex = 0;
         StartDataIndex = 0;
         if (NeedPlayEffect) itemBox.transform.localPosition = new Vector3(0, 0, 0);
@@ -118,6 +141,11 @@ public class KxVListRender : MonoBehaviour
             ShowItems();
         }
         //PopTextManager.PopTip("data count " + dataPravider.Count);
+    }
+
+    private void UpClickHandler(GameObject obj)
+    {
+        GotoTop();
     }
 
     public void ShowItems()
@@ -173,6 +201,19 @@ public class KxVListRender : MonoBehaviour
         }
     }
 
+    private void OnResizeHandler(GameObject go)
+    {
+        float begin = maxY;
+        for (int i = 0; i < Items.Count && i < dataPravider.Count; i++)
+        {
+            var theitem = Items[i].GetComponent<KxItemRender>();
+            Items[i].transform.localPosition = new Vector3(0, begin, 0);
+            begin -= theitem.ItemHeight;
+            Logger.Log("resized 调用 " + i + "  height:" + theitem.ItemHeight);
+        }
+        totalHeight = maxY - begin;
+    }
+
     private void OnSelecteHandler(GameObject obj)
     {
         isDraging = false;
@@ -212,14 +253,14 @@ public class KxVListRender : MonoBehaviour
             var boxy = itemBox.transform.localPosition.y;
             var v = 0.25f * (boxy - startY)/(endtime - startTime);
             boxy += v;
-            var maxy = boxy - dataPravider.Count * itemHeight + theHeight / 2;
+            var maxy = boxy - totalHeight + theHeight / 2;
             if (boxy < 0)
             {
                 StartCoroutine(MoveToPos(0));
             }
             else if (maxy > -theHeight / 2)
             {
-                var toy = dataPravider.Count * itemHeight - theHeight / 2 - 3 * itemHeight / 2;
+                var toy = totalHeight - theHeight / 2 - 3 * itemHeight / 2;
                 if (toy < 0) toy = 0;
                 StartCoroutine(MoveToPos(toy));
             }
@@ -305,6 +346,11 @@ public class KxVListRender : MonoBehaviour
         }
     }
 
+    public void GotoTop()
+    {
+        StartCoroutine(MoveToPos(0));
+    }
+
     private float MoveToY;
     IEnumerator MoveToPos(float yy)
     {
@@ -315,6 +361,22 @@ public class KxVListRender : MonoBehaviour
         PlayTweenPosition(itemBox, 0.5f, itemBox.transform.localPosition, new Vector3(0, yy, 0));
 
         yield return new WaitForSeconds(0.7f);
+        if (UpButton != null)
+        {
+            if (MoveToY > 0)
+            {
+                UpButton.SetActive(true);
+                var pn = ClipPanel.GetComponent<UIPanel>();
+                pn.baseClipRegion = new Vector4(0, 20, theWidth, theHeight - 40);
+            }
+            else
+            {
+                UpButton.SetActive(false);
+                var pn = ClipPanel.GetComponent<UIPanel>();
+                pn.baseClipRegion = new Vector4(0, 0, theWidth, theHeight);
+            }
+            
+        }
         //ResetList();
         isMoving = false;
     }

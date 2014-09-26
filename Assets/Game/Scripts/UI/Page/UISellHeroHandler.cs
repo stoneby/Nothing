@@ -142,9 +142,34 @@ public class UISellHeroHandler : MonoBehaviour
     {
         curSelUuidCache = commonWindow.GetInfo(commonWindow.CurSelPos).Uuid;
         CacheUuidsFromPos(cannotSellPosList, cachedCanNotSellUuids);
-        var sellDialog = WindowManager.Instance.Show<UISellDialogWindow>(true);
+        var assert = WindowManager.Instance.GetWindow<AssertionWindow>();
+        assert.Title = LanguageManager.Instance.GetTextValue("UISellHandler.ConfirmLabel");
+        assert.Message = "";
+        assert.AssertType = AssertionWindow.Type.OkCancel;
+        assert.OkButtonClicked = OnSellConfirm;
+        assert.CancelButtonClicked = OnSellCancel;
+        WindowManager.Instance.Show<AssertionWindow>(true);
+    }
+
+    private void OnSellCancel(GameObject sender)
+    {
+        var assert = WindowManager.Instance.GetWindow<AssertionWindow>();
+        assert.OkButtonClicked = null;
+        assert.CancelButtonClicked = null;
+        WindowManager.Instance.Show<AssertionWindow>(false);
+    }
+
+    private void OnSellConfirm(GameObject sender)
+    {
+        var assert = WindowManager.Instance.GetWindow<AssertionWindow>();
+        assert.OkButtonClicked = null;
         var sellList = sellObjects.Select(item => commonWindow.GetInfo(item.Key).Uuid).ToList();
-        sellDialog.InitDialog(sellList);
+        if (sellList.Count > 0)
+        {
+            var csHeroSell = new CSHeroSell {SellList = sellList};
+            NetManager.SendMessage(csHeroSell);
+        }
+        WindowManager.Instance.Show<AssertionWindow>(false);
     }
 
     private void OnNormalClick(GameObject go)
@@ -163,11 +188,13 @@ public class UISellHeroHandler : MonoBehaviour
         {
             var child = NGUITools.AddChild(grid.gameObject, commonWindow.BaseHeroPrefab);
             var heroBase = child.GetComponent<HeroItemBase>();
-            var uuid = go.GetComponent<HeroItemBase>().Uuid;
-            heroBase.Uuid = uuid;
-            var heroInfo = HeroModelLocator.Instance.FindHero(heroBase.Uuid);
+            var heroInfo = go.GetComponent<HeroItemBase>().HeroInfo;
             heroBase.InitItem(heroInfo);
-            UIEventListener.Get(child.gameObject).onClick = CancelHeroSell;
+            var longPressHandler = child.GetComponent<HeroLongPressHandler>();
+            if(longPressHandler)
+            {
+                longPressHandler.InstallLongPress();
+            }
             sellObjects.Add(pos, child);
         }
         else
@@ -268,6 +295,7 @@ public class UISellHeroHandler : MonoBehaviour
     /// </summary>
     private void GetTeamMembers()
     {
+        teamMembers.Clear();
         var count = scHeroList.TeamList.Count;
         for (int teamIndex = 0; teamIndex < count; teamIndex++)
         {

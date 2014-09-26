@@ -3,5 +3,5 @@ using System.Collections;
 
 public interface GreeenHandConfigReader
 {
-    int ReadConfig(GreenHandGuideHandler handler,int configIndex);
+    bool ReadConfig(GreenHandGuideHandler handler,int configIndex);
 }

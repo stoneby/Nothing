@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using com.kx.sglm.gs.battle.share;
+using UnityEngine;
 using KXSGCodec;
 using Property;
 using System.Collections;
@@ -44,18 +45,18 @@ public class BattleWinWindow : Window
     private GameObject SpriteStar1;
     private GameObject SpriteStar2;
 
-//    private GameObject LabelExp;
-//    private GameObject LabelGold;
-//    private GameObject LabelCoin;
-//    private GameObject LabelEnergy;
-//    private GameObject LabelMingqi;
+    //    private GameObject LabelExp;
+    //    private GameObject LabelGold;
+    //    private GameObject LabelCoin;
+    //    private GameObject LabelEnergy;
+    //    private GameObject LabelMingqi;
     private GameObject LabelOldMaxEnergy;
     private GameObject LabelNewMaxEnergy;
     private GameObject LabelOldMaxFriend;
     private GameObject LabelNewMaxFriend;
 
     private List<GameObject> SpriteIcons;
-    private List<GameObject> LabelValues; 
+    private List<GameObject> LabelValues;
 
     private GameObject LabelLevel;
 
@@ -89,11 +90,13 @@ public class BattleWinWindow : Window
     private UIEventListener AddFriendUIEventListener;
     private UIEventListener CancelFriendUIEventListener;
 
+    private GameObject LevelUpEffect;
+
     #region Private Methods
 
     public override void OnEnter()
     {
-        
+
     }
 
     public override void OnExit()
@@ -191,22 +194,44 @@ public class BattleWinWindow : Window
         lb.text = MissionModelLocator.Instance.BattleStageTemplate.CostEnergy.ToString();
 
         var bar = ExpBar.GetComponent<UIProgressBar>();
-        var temp = LevelModelLocator.Instance.GetLevelByTemplateId(MissionModelLocator.Instance.OldLevel + 1);
-        var v = (float)(MissionModelLocator.Instance.OldExp + MissionModelLocator.Instance.BattleReward.Exp) / temp.MaxExp;
+        var tempold = LevelModelLocator.Instance.GetLevelByTemplateId(MissionModelLocator.Instance.OldLevel);
+        var v = (float)(MissionModelLocator.Instance.OldExp + MissionModelLocator.Instance.BattleReward.Exp) / tempold.MaxExp;
+
+        //        PopTextManager.PopTip("old exp:" + MissionModelLocator.Instance.OldExp + ", add exp:" + MissionModelLocator.Instance.BattleReward.Exp + ", need exp:" + temp.MaxExp);
+        //        PopTextManager.PopTip("old level:" + MissionModelLocator.Instance.OldLevel + ", current level:" + PlayerModelLocator.Instance.Level);
+        //        Debug.Log("old exp:" + MissionModelLocator.Instance.OldExp + ", add exp:" + MissionModelLocator.Instance.BattleReward.Exp + ", need exp:" + temp.MaxExp);
+        //        Debug.Log("old level:" + MissionModelLocator.Instance.OldLevel + ", current level:" + PlayerModelLocator.Instance.Level);
+
+        yield return new WaitForSeconds(0.5f);
+        var vv = bar.value;
+        while (vv < v)
+        {
+            vv += 0.05f;
+            if (vv > v) vv = v;
+            bar.value = vv;
+            yield return new WaitForSeconds(0.05f);
+        }
 
         if (v >= 1)
         {
+            EffectManager.PlayEffect(EffectType.LevelUp, 1.1f, 0, 0, new Vector3(0, 0, 0), 0, 1.5f);
+            //EffectManager.PlayEffect(EffectType.LevelUp, 1.1f, 0, 0, new Vector3(0, 0, 0));
             LevelupContainer.SetActive(true);
             CurrentStep = StepTypeLevelup;
-            yield return new WaitForSeconds(0.2f);
+            //yield return new WaitForSeconds(0.8f);
             lb = LabelLevel.GetComponent<UILabel>();
             lb.text = "Lv." + (MissionModelLocator.Instance.OldLevel + 1).ToString();
 
-            var tempold = LevelModelLocator.Instance.GetLevelByTemplateId(MissionModelLocator.Instance.OldLevel);
+            var temp = LevelModelLocator.Instance.GetLevelByTemplateId(PlayerModelLocator.Instance.Level);
             lb = LabelOldMaxEnergy.GetComponent<UILabel>();
             lb.text = tempold.MaxEnergy.ToString();
             lb = LabelNewMaxEnergy.GetComponent<UILabel>();
             lb.text = temp.MaxEnergy.ToString();
+
+            lb = LabelOldMaxFriend.GetComponent<UILabel>();
+            lb.text = tempold.MaxFriend.ToString();
+            lb = LabelNewMaxFriend.GetComponent<UILabel>();
+            lb.text = temp.MaxFriend.ToString();
 
             bar.value = v;
             CanClick = true;
@@ -236,7 +261,7 @@ public class BattleWinWindow : Window
             if (values[i] > 0) m++;
         }
 
-        int basex = 30 - thewidth*m/2;
+        int basex = 30 - thewidth * m / 2;
         int k = 0;
 
         for (int i = 0; i < values.Length; i++)
@@ -281,7 +306,7 @@ public class BattleWinWindow : Window
         if (ExpBar != null)
         {
             var bar = ExpBar.GetComponent<UIProgressBar>();
-            var temp = LevelModelLocator.Instance.GetLevelByTemplateId(MissionModelLocator.Instance.OldLevel + 1);
+            var temp = LevelModelLocator.Instance.GetLevelByTemplateId(MissionModelLocator.Instance.OldLevel);
             bar.value = (float)MissionModelLocator.Instance.OldExp / temp.MaxExp;
         }
     }
@@ -291,6 +316,7 @@ public class BattleWinWindow : Window
         if (MissionModelLocator.Instance.BattleReward.RewardItem != null &&
             MissionModelLocator.Instance.BattleReward.RewardItem.Count > 0)
         {
+            CanClick = false;
             InfoContainer.SetActive(false);
             LevelupContainer.SetActive(false);
             PopupAddFriend.SetActive(false);
@@ -298,7 +324,6 @@ public class BattleWinWindow : Window
             CurrentStep = StepTypeItems;
             SetItems();
             StartCoroutine(ShowItemStep());
-            CanClick = false;
         }
         else
         {
@@ -318,7 +343,7 @@ public class BattleWinWindow : Window
             var lb = FriendNameLanel.GetComponent<UILabel>();
             lb.text = MissionModelLocator.Instance.FriendData.Data.FriendName;
             var sp = FriendHeadSprite.GetComponent<UISprite>();
-            
+
             var tem = HeroModelLocator.Instance.GetHeroByTemplateId(MissionModelLocator.Instance.FriendData.Data.HeroProp[0].HeroTemplateId);
             HeroConstant.SetHeadByIndex(sp, tem.Icon - 1);
             CanClick = false;
@@ -353,6 +378,15 @@ public class BattleWinWindow : Window
         InfoContainer.SetActive(true);
         CanClick = true;
         SpriteClick.SetActive(true);
+
+        if (!GreenHandGuideHandler.Instance.SummitFinishFlag)
+        {
+            WindowManager.Instance.Show<BattleWindow>(false);
+            WindowManager.Instance.Show<RaidsWindow>(false);
+            WindowManager.Instance.Show<SetBattleWindow>(false);
+            WindowManager.Instance.Show<BattleWinWindow>(false);
+            WindowManager.Instance.Show<UIMainScreenWindow>(true);
+        }
     }
 
     #endregion
@@ -389,10 +423,15 @@ public class BattleWinWindow : Window
 
     void OnClick()
     {
-        //if (!CanClick) return;
+        if (!CanClick) return;
         switch (CurrentStep)
         {
             case StepTypeLevelup:
+                if (LevelUpEffect != null)
+                {
+                    Destroy(LevelUpEffect);
+                    LevelUpEffect = null;
+                }
                 ShowItemView();
                 break;
             case StepTypeItems:
@@ -470,8 +509,8 @@ public class BattleWinWindow : Window
     private void ShowEnd()
     {
         WindowManager.Instance.Show(WindowGroupType.Popup, false);
-//        WindowManager.Instance.Show(typeof(UIMainScreenWindow), true);
-//        WindowManager.Instance.Show(typeof(MainMenuBarWindow), true);
+        //        WindowManager.Instance.Show(typeof(UIMainScreenWindow), true);
+        //        WindowManager.Instance.Show(typeof(MainMenuBarWindow), true);
         //WindowManager.Instance.Show(typeof(RaidsWindow), true);
         MissionModelLocator.Instance.ShowRaidWindow();
         OnExitHandler();
@@ -542,7 +581,8 @@ public class BattleWinWindow : Window
     private void BattleAgainHandler(GameObject obj)
     {
         ShowEnd();
-        WindowManager.Instance.Show(typeof(SetBattleWindow), true);
+        NetManager.SendMessage(new CSRaidQueryFriend());
+        //WindowManager.Instance.Show(typeof(SetBattleWindow), true);
     }
 
     private void NextRaidHandler(GameObject obj)
@@ -552,7 +592,7 @@ public class BattleWinWindow : Window
         MissionModelLocator.Instance.BattleRaidTemplate = MissionModelLocator.Instance.NextRaidTemplate;
         ShowEnd();
         NetManager.SendMessage(new CSRaidQueryFriend());
-        
+
     }
 
     private void BackToRaidHandler(GameObject obj)

@@ -190,8 +190,8 @@ public class HeroItem : HeroItemBase
     public override void InitItem(HeroInfo heroInfo, List<long> curTeam, List<long> allTeams)
     {
         base.InitItem(heroInfo);
-        Uuid = heroInfo.Uuid;
+        HeroInfo = heroInfo;
         BindState = heroInfo.Bind;
-        LeaderState = HeroUtils.GetLeaderState(Uuid, curTeam, allTeams);
+        LeaderState = HeroUtils.GetLeaderState(heroInfo.Uuid, curTeam, allTeams);
     }
 }

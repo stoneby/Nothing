@@ -11,7 +11,7 @@ public class HeroSortControl : MonoBehaviour
     }
     public SortType Type = SortType.Hero;
     public UIEventListener SortBtnLis;
-    public UILabel SortLabel;
+    public UISprite SortSprite;
     public UIToggle DescendToggle;
     private List<HeroInfo> infos; 
     private List<ItemInfo> itemInfos; 
@@ -43,14 +43,16 @@ public class HeroSortControl : MonoBehaviour
     {
         infos = heroInfos;
         var orderType = HeroModelLocator.Instance.OrderType;
-        SortLabel.text = LanguageManager.Instance.GetTextValue(ItemHelper.SortKeys[(int)orderType]);
+        SortSprite.spriteName = ItemHelper.SortSpriteNames[(int)orderType];
+        SortSprite.MakePixelPerfect();
     }
 
     public void Init(List<ItemInfo> hInfos)
     {
         itemInfos = hInfos;
         var orderType = ItemModeLocator.Instance.OrderType;
-        SortLabel.text = LanguageManager.Instance.GetTextValue(ItemHelper.SortKeys[(int)orderType]);
+        SortSprite.spriteName = ItemHelper.SortSpriteNames[(int)orderType];
+        SortSprite.MakePixelPerfect();
     }
 
     private void OnSort(GameObject go)
@@ -60,18 +62,19 @@ public class HeroSortControl : MonoBehaviour
         if (Type == SortType.Hero)
         {
             orderType = HeroModelLocator.Instance.OrderType;
-            orderType = (ItemHelper.OrderType)(((int)orderType + 1) % ItemHelper.SortKeys.Count);
+            orderType = (ItemHelper.OrderType)(((int)orderType + 1) % ItemHelper.SortSpriteNames.Count);
             HeroModelLocator.Instance.SortHeroList(orderType, infos, isDescend);
             HeroModelLocator.Instance.OrderType = orderType;
         }
         else
         {
             orderType = ItemModeLocator.Instance.OrderType;
-            orderType = (ItemHelper.OrderType)(((int)orderType + 1) % ItemHelper.SortKeys.Count);
+            orderType = (ItemHelper.OrderType)(((int)orderType + 1) % ItemHelper.SortSpriteNames.Count);
             ItemModeLocator.Instance.SortItemList(orderType, itemInfos, isDescend);
             ItemModeLocator.Instance.OrderType = orderType;
         }
-        SortLabel.text = LanguageManager.Instance.GetTextValue(ItemHelper.SortKeys[(int)orderType]);
+        SortSprite.spriteName = ItemHelper.SortSpriteNames[(int) orderType];
+        SortSprite.MakePixelPerfect();
         PostSortAfterEvents();
     }
 

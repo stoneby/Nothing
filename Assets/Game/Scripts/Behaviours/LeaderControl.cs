@@ -1,6 +1,5 @@
 ﻿using Assets.Game.Scripts.Common.Model;
 using com.kx.sglm.gs.battle.share.data;
-using com.kx.sglm.gs.battle.share.enums;
 using com.kx.sglm.gs.battle.share.input;
 using Template.Auto.Skill;
 using UnityEngine;
@@ -8,7 +7,6 @@ using UnityEngine;
 public class LeaderControl : MonoBehaviour
 {
     public GameObject SpriteBg;
-    public GameObject SpriteLight;
     public UISprite SpriteHead;
 
     public LeaderData Data;
@@ -18,7 +16,8 @@ public class LeaderControl : MonoBehaviour
     /// <summary>
     /// Seal particle effect.
     /// </summary>
-    public GameObject SealEffect;
+    public EffectSpawner SealEffect;
+    public EffectSpawner LightEffect;
 
     public delegate void ActiveLeaderSkill(LeaderData data);
 
@@ -27,13 +26,12 @@ public class LeaderControl : MonoBehaviour
     /// </summary>
     public ActiveLeaderSkill OnActiveLeaderSkill;
 
-    private GameObject shineObj;
+    public UILabel CostMP;
+
     private int currentCD;
 
     private FighterInfo figherData;
     private HeroBattleSkillTemplate skillData;
-
-    private EffectController sealEffectClone;
 
     /// <summary>
     /// Initialize.
@@ -54,7 +52,7 @@ public class LeaderControl : MonoBehaviour
     /// </summary>
     public void Reset()
     {
-        SpriteLight.SetActive(false);
+        LightEffect.Stop();
         StopSeal();
     }
 
@@ -72,6 +70,7 @@ public class LeaderControl : MonoBehaviour
         if (skillData != null)
         {
             Data.BaseCd = skillData.CostMP;
+            CostMP.text = skillData.CostMP.ToString();
             Logger.LogWarning("Leader base CD: " + Data.BaseCd + ", name: " + name);
         }
         Data.LeaderIndex = leaderIndex;
@@ -84,7 +83,15 @@ public class LeaderControl : MonoBehaviour
     public void SetCD(int currentcd)
     {
         currentCD = currentcd;
-        SpriteLight.SetActive((skillData != null && currentcd >= Data.BaseCd));
+        var effectEnabled = (skillData != null && currentcd >= Data.BaseCd);
+        if (effectEnabled)
+        {
+            LightEffect.Play();
+        }
+        else
+        {
+            LightEffect.Stop();
+        }
     }
 
     public void PlaySeal(bool show)
@@ -109,28 +116,31 @@ public class LeaderControl : MonoBehaviour
             return;
         }
 
-        var assertWindow = WindowManager.Instance.GetWindow<ActiveSkillConfirmWindow>();
-        assertWindow.AssertType = ActiveSkillConfirmWindow.Type.OkCancel;
-        assertWindow.Title = skillData.Name;
-        assertWindow.Message = skillData.Desc;
+        var window = WindowManager.Instance.GetWindow<ActiveSkillConfirmWindow>();
+        if (window == null)
+        {
+            Logger.Log("!!!!!!!!!!!!!Assert window equal to null.");
+        }
+        window.AssertType = ActiveSkillConfirmWindow.Type.OkCancel;
+        window.Title = skillData.Name;
+        window.Message = skillData.Desc;
         WindowManager.Instance.Show(typeof(ActiveSkillConfirmWindow), true);
-        assertWindow.OkButtonClicked = OnAssertButtonClicked;
-        assertWindow.CancelButtonClicked = OnCancelClicked;
+        window.OkButtonClicked = OnAssertButtonClicked;
+        window.CancelButtonClicked = OnCancelClicked;
 
         BattleModelLocator.Instance.CanSelectHero = false;
+    }
 
-        if (BattleModelLocator.Instance.BattleType == BattleType.GREENHANDPVE.Index)
+    /// <summary>
+    /// Set leader's collider enable or disable.
+    /// </summary>
+    /// <param name="isEnable"></param>
+    public void SetLeaderCollider(bool isEnable)
+    {
+        var colliderItem = gameObject.GetComponent<BoxCollider>();
+        if (colliderItem)
         {
-            var greenHandGuideWindow = WindowManager.Instance.GetWindow<GreenHandGuideWindow>();
-            if (greenHandGuideWindow)
-            {
-                greenHandGuideWindow.FingerBlinkObject.transform.localPosition = new Vector3(102, -87, 0);
-            }
-            var activeSkillConfirmWindow = WindowManager.Instance.GetWindow<ActiveSkillConfirmWindow>();
-            if (activeSkillConfirmWindow)
-            {
-                activeSkillConfirmWindow.Button2.GetComponent<BoxCollider>().enabled = false;
-            }
+            colliderItem.enabled = isEnable;
         }
     }
 
@@ -163,37 +173,13 @@ public class LeaderControl : MonoBehaviour
 
     private void PlaySeal()
     {
-        if (sealEffectClone == null)
-        {
-            return;
-        }
-        sealEffectClone.gameObject.SetActive(true);
         collider.enabled = false;
-        sealEffectClone.Play(true);
+        SealEffect.Play();
     }
 
     private void StopSeal()
     {
-        if (sealEffectClone == null)
-        {
-            return;
-        }
-        sealEffectClone.gameObject.SetActive(false);
         collider.enabled = true;
-        sealEffectClone.Stop();
-    }
-
-    private void Awake()
-    {
-        var sealEffect = Instantiate(SealEffect) as GameObject;
-        sealEffect.transform.position = transform.position;
-        sealEffect.transform.localScale = Vector3.one;
-        sealEffect.transform.parent = transform;
-
-        var renderQueue = sealEffect.GetComponent<SetRenderQueue>() ?? sealEffect.AddComponent<SetRenderQueue>();
-        renderQueue.RenderQueue = RenderQueue.FaceEffect;
-
-        sealEffectClone = sealEffect.GetComponent<EffectController>() ?? sealEffect.AddComponent<EffectController>();
-        sealEffectClone.gameObject.SetActive(false);
+        SealEffect.Stop();
     }
 }

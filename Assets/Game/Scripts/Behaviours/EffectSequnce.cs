@@ -20,8 +20,16 @@ public class EffectSequnce : MonoBehaviour
         public EffectType EffectType;
         public float StartTime;
         public float Douration;
+        public bool UseMove;
+        public float MoveDelay;
+        public float MoveDouration;
         public Vector3 PositonFrom;
         public Vector3 PositionTo;
+        public bool UseRotation;
+        public float RotationDelay;
+        public float RoationDouration;
+        public Vector3 RotationFrom;
+        public Vector3 RotationTo;
         public bool IsLocal = true;
     }
 
@@ -33,14 +41,15 @@ public class EffectSequnce : MonoBehaviour
         Stop();
         EffectInfos.Sort((x, y) => x.StartTime.CompareTo(y.StartTime));
         StartCoroutine(PlaySequnceEffect());
-        EffectInfos.Sort((x, y) => (x.StartTime + x.Douration).CompareTo(y.StartTime + y.Douration));
-        StartCoroutine(CloseSequnceEffect());
+        var infos = new List<EffectInfo>(EffectInfos);
+        infos.Sort((x, y) => (x.StartTime + x.Douration).CompareTo(y.StartTime + y.Douration));
+        StartCoroutine(CloseSequnceEffect(infos));
     }
 
-    private IEnumerator CloseSequnceEffect()
+    private IEnumerator CloseSequnceEffect(List<EffectInfo> infos)
     {
         var lastWait = 0f;
-        foreach (var effectInfo in EffectInfos)
+        foreach (var effectInfo in infos)
         {
             var curWait = effectInfo.StartTime + effectInfo.Douration;
             yield return new WaitForSeconds(curWait - lastWait);
@@ -50,6 +59,7 @@ public class EffectSequnce : MonoBehaviour
             }
             lastWait = curWait;
         }
+        infos.Clear();
     }
 
     private IEnumerator PlaySequnceEffect()
@@ -64,16 +74,29 @@ public class EffectSequnce : MonoBehaviour
             var effectInfo = EffectInfos[index];
             var effectObj = effectInfo.EffectObj;
             var clone = NGUITools.AddChild(gameObject, effectObj);
-            NGUITools.SetActive(clone.gameObject, false);
+            NGUITools.SetActive(clone, false);
             clone.transform.localPosition = effectInfo.PositonFrom;
             NGUITools.SetActive(clone.gameObject, true);
             if(!cloneObjects.ContainsKey(effectInfo))
             {
                 cloneObjects.Add(effectInfo, clone);
                 PlayEffect(effectInfo, true);
-                iTween.MoveTo(clone,
-                              iTween.Hash("position", effectInfo.PositionTo, "time", effectInfo.Douration, "islocal",
-                                          true));
+                if (effectInfo.UseMove)
+                {
+                    iTween.MoveTo(clone,
+                                  iTween.Hash("position", effectInfo.PositionTo,
+                                              "delay", effectInfo.MoveDelay,
+                                              "time", effectInfo.MoveDouration,
+                                              "islocal", effectInfo.IsLocal));
+                }
+                if(effectInfo.UseRotation)
+                {
+                    iTween.RotateTo(clone,
+                                    iTween.Hash("rotation", effectInfo.RotationTo,
+                                                "delay", effectInfo.RotationDelay,
+                                                "time", effectInfo.RoationDouration,
+                                                "islocal", effectInfo.IsLocal));
+                }
             }
         }
     }

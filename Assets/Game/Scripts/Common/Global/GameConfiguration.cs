@@ -84,6 +84,10 @@ public class GameConfiguration : Singleton<GameConfiguration>
             {
                 GameConfig.GameIcon = node["IconPath"].InnerText;
             }
+            if (node["OfficialSiteAddress"] != null)
+            {
+                GameConfig.OfficialSiteAddress = node["OfficialSiteAddress"].InnerText;
+            }
 
             if (node["ServicePath"] != null)
             {

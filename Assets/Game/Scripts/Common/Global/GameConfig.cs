@@ -14,6 +14,7 @@ public class GameConfig
     public static string ServerIpAddress;
     public static string LocalServicePath;
     //public static string CookieAddress;
+    public static string OfficialSiteAddress;
     public static string BattleConfig;
     public static string GameIcon;
     public static string Build;

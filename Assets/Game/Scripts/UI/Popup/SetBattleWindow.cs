@@ -225,6 +225,14 @@ public class SetBattleWindow : Window
         Dictionary<string, string> dict = new Dictionary<string, string>();
         dict.Add("raid", MissionModelLocator.Instance.BattleStageTemplate.Id.ToString());
         dict.Add("friend", MissionModelLocator.Instance.FriendData.Data.FriendUuid.ToString());
+
+        //Set GreenHand info.
+        if (!GreenHandGuideHandler.Instance.RaidFinishFlag)
+        {
+            GreenHandGuideHandler.Instance.RaidFinishFlag = true;
+            GreenHandGuideHandler.Instance.SendEndMessage(3);
+        }
+
         MtaManager.TrackCustomKVEvent(MtaType.VKEventBattle, dict);
     }
 

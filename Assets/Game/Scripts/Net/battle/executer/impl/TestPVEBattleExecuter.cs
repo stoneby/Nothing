@@ -64,11 +64,11 @@ namespace com.kx.sglm.gs.battle.share.executer.impl
 
 		public override void onBattleTeamShotStart(BattleTeamShot battleTeamShot)
 		{
-			if (battleTeamShot.CurAttacker.FighterType.Hero)
-			{
-				attackerTeam().createNextWatingHero();
-				recordWaitingList();
-			}
+			//if (battleTeamShot.CurAttacker.FighterType.Hero)
+			//{
+			//	attackerTeam().createNextWatingHero();
+			//	recordWaitingList();
+			//}
 		}
 
 		public override void onBattleTeamShotFinish(BattleTeamShot battleTeamShot)
@@ -81,6 +81,8 @@ namespace com.kx.sglm.gs.battle.share.executer.impl
 
 		protected internal virtual void optionHeroTeam()
 		{
+            attackerTeam().createNextWatingHero();
+            recordWaitingList();
 			attackerTeam().emptyFightHeroArr();
 			attackerTeam().fillHeroArrayInside();
 			joinWaitingHero();

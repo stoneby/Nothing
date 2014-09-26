@@ -192,6 +192,9 @@ public class PersistenceHandler : Singleton<PersistenceHandler>
     {
         try
         {
+            //Close GreenHand module if enabled.
+            GreenHandGuideHandler.Instance.StopAll();
+
             WindowManager.Instance.Show<SimpleConfirmWindow>(false);
 
             var battleStartMsg = LoadStartBattle();
@@ -258,6 +261,9 @@ public class PersistenceHandler : Singleton<PersistenceHandler>
     {
         try
         {
+            //Close GreenHand module if enabled.
+            GreenHandGuideHandler.Instance.StopAll();
+
             WindowManager.Instance.Show<SimpleConfirmWindow>(false);
 
             if (Mode == PersistenceMode.ReSendMessageNext)

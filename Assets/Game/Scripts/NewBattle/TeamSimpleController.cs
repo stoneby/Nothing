@@ -14,7 +14,7 @@ public class TeamSimpleController : MonoBehaviour
     /// </summary>
     public TeamFormationController FormationController;
 
-    public delegate void SelectedChanged(Character currentObject, Character lastObject,bool isStartScene=false);
+    public delegate void SelectedChanged(Character currentObject, Character lastObject, bool isStartScene = false);
 
     [HideInInspector]
     public SelectedChanged OnSelectedChanged;
@@ -81,7 +81,7 @@ public class TeamSimpleController : MonoBehaviour
 
         if (CurrentSelect != null)
         {
-            OnSelectedChanged(CurrentSelect, CurrentSelect,true);
+            OnSelectedChanged(CurrentSelect, CurrentSelect, true);
         }
     }
 
@@ -185,15 +185,15 @@ public class TeamSimpleController : MonoBehaviour
         for (var i = 0; i < CharacterList.Count; ++i)
         {
             var character = CharacterList[i];
+            var distance = character.FaceObject.GetComponent<MonsterControl>().MoveDistance;
             // logic location.
             character.Index = i;
             character.Location = new Position { X = 0, Y = i };
 
             // world position.
             character.name += "_" + character.Index;
-            character.transform.position = positionList[i];
+            character.transform.position = positionList[i] + character.transform.TransformPoint(distance);
         }
-
     }
 
 

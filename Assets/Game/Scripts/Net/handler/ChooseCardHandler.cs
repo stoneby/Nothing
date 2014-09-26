@@ -9,8 +9,8 @@ namespace Assets.Game.Scripts.Net.handler
     {
         #region Public Fields
 
-        public static bool IsHeroFirstLoginGive = false;
-        public static ThriftSCMessage HeroFirstLoginGiveMsg;
+        //public static bool IsHeroFirstLoginGive = false;
+        //public static ThriftSCMessage HeroFirstLoginGiveMsg;
 
         #endregion
 
@@ -34,16 +34,21 @@ namespace Assets.Game.Scripts.Net.handler
             var themsg = msg.GetContent() as SCLottery;
             if (themsg != null)
             {
-                var window = WindowManager.Instance.Show<ChooseCardSuccWindow>(true);
-                window.StoredScLotteryMsg = msg.GetContent() as SCLottery;
-                window.Refresh();
+                var window = WindowManager.Instance.GetWindow<ChooseCardEffectWindow>();
+                if (NGUITools.GetActive(window.gameObject))
+                {
+                    window.CleanUp();
+
+                }
+                window = WindowManager.Instance.Show<ChooseCardEffectWindow>(true);
+                window.Refresh(themsg);
             }
         }
 
-        public static void OnHeroFirstLoginGive()
+        public static void OnHeroFirstLoginGive(ThriftSCMessage msg)
         {
-            PopTextManager.PopTip("Get hero in first login today!");
-            var themsg = HeroFirstLoginGiveMsg.GetContent() as SCHeroFristLoginGive;
+            //PopTextManager.PopTip("Get hero in first login today!");
+            var themsg = msg.GetContent() as SCHeroFristLoginGive;
             if (themsg != null)
             {
                 Logger.Log("!!!!!!!!!!!!!!!!themsg is:" + themsg.HeroInfos[0].Uuid + "," + themsg.HeroInfos[1].Uuid + "," + themsg.HeroInfos[2].Uuid);

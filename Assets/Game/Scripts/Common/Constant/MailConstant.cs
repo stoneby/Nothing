@@ -18,8 +18,10 @@ public class MailConstant
 
     public const sbyte NeedContent = 1;
     public const sbyte DontNeedContent = 0;
+    public const int MailByteCutLength = 30;
 
     public const string EnergyAttachKey = "UIEMailEntry.Energy";
+    public const string SoulAttachKey = "UIEMailEntry.Soul";
     public const string CoinsAttachKey = "UIEMailEntry.Coins";
     public const string DiamondAttachKey = "UIEMailEntry.Diamond";
     public const string RemainTimeKey = "UIEMailEntry.RemainTime";
@@ -37,6 +39,7 @@ public class MailConstant
     public const string MailDiamondSpriteName = "Diamond1";
     public const string MailCoinsSpriteName = "Coins1";
     public const string MailEnergySpriteName = "Energy1";
+    public const string MailSoulSpriteName = "SoulIcon";
 
     public enum MailState
     {
@@ -124,6 +127,11 @@ public class MailConstant
                     {
                         icon.spriteName = MailEnergySpriteName;
                         curDesc.text = LanguageManager.Instance.GetTextValue(EnergyAttachKey);
+                    }   
+                    else if (mailAttachment.ItemId == RoleProperties.ROLEBASE_HERO_SPIRIT)
+                    {
+                        icon.spriteName = MailSoulSpriteName;
+                        curDesc.text = LanguageManager.Instance.GetTextValue(SoulAttachKey);
                     }
                     value.text = mailAttachment.Count.ToString();
                     icon.MakePixelPerfect();

@@ -64,9 +64,9 @@ public class ChooseCardSuccWindow : Window
             HeroConstant.SetHeadByIndex(heroIconSprite, heroTemplate.Icon - 1);
             jobIcon.spriteName = HeroConstant.HeroJobPrefix + heroTemplate.Job;
             DeActiveAll();
-            for (int i = 1; i <= heroTemplate.Star; i++)
+            for (int i = 1; i <= 5; i++)
             {
-                NGUITools.SetActive(rarity.FindChild("Star" + i.ToString()).gameObject, true);
+                NGUITools.SetActive(rarity.FindChild("Star" + i.ToString()).gameObject, i <= heroTemplate.Star);
             }
 
             name.text = heroTemplate.Name;
@@ -96,10 +96,12 @@ public class ChooseCardSuccWindow : Window
             quality = (sbyte)ItemHelper.GetStarCount(quality);
             ItemType.SetHeadByTemplate(itemIconSprite, info.TmplId);
             DeActiveAll();
-            for (int index = 1; index <= quality; index++)
+            DeActiveAll();
+            for (int i = 1; i <= 5; i++)
             {
-                NGUITools.SetActive(rarity.FindChild("Star" + index.ToString()).gameObject, true);
+                NGUITools.SetActive(rarity.FindChild("Star" + i.ToString()).gameObject, i <= quality);
             }
+
             name.text = ItemModeLocator.Instance.GetName(tempId);
             SetTextValue(attackValue, ItemModeLocator.Instance.GetAttack(tempId, info.Level));
             SetTextValue(hpValue, ItemModeLocator.Instance.GetHp(tempId, info.Level));
@@ -153,9 +155,9 @@ public class ChooseCardSuccWindow : Window
         var heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpls[heroInfo.TemplateId];
         HeroConstant.SetHeadByIndex(heroIconSprite, heroTemplate.Icon - 1);
         jobIcon.spriteName = HeroConstant.HeroJobPrefix + heroTemplate.Job;
-        for (int i = 1; i <= heroTemplate.Star; i++)
+        for (int i = 1; i <= 5; i++)
         {
-            NGUITools.SetActive(rarity.FindChild("Star" + i.ToString()).gameObject, true);
+            NGUITools.SetActive(rarity.FindChild("Star" + i.ToString()).gameObject, i <= heroTemplate.Star);
         }
 
         name.text = heroTemplate.Name;
@@ -212,6 +214,14 @@ public class ChooseCardSuccWindow : Window
         //    window.heroAndItemSummitHandler.RefreshFamousAndIngot();
         //}
         WindowManager.Instance.Show<ChooseCardSuccWindow>(false);
+
+        //Set GreenHand info.
+        if (!GreenHandGuideHandler.Instance.GiveHeroFinishFlag)
+        {
+            GreenHandGuideHandler.Instance.GiveHeroFinishFlag = true;
+            GreenHandGuideHandler.Instance.SendEndMessage(2);
+            GreenHandGuideHandler.Instance.ExecuteGreenHandFlag();
+        }
     }
 
     private void ViewOKAnotherRewardItem(GameObject go)

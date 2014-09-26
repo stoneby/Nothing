@@ -29,6 +29,7 @@ namespace KXSGCodec
     private sbyte _sellItemPriceRatio;
     private sbyte _buybackItemPriceRatio;
     private sbyte _sellItemSaveHours;
+    private sbyte _mailShowMax;
 
     /// <summary>
     /// 恢复体力时间（分钟）
@@ -126,6 +127,22 @@ namespace KXSGCodec
       }
     }
 
+    /// <summary>
+    /// 邮件显示上限个数
+    /// </summary>
+    public sbyte MailShowMax
+    {
+      get
+      {
+        return _mailShowMax;
+      }
+      set
+      {
+        __isset.mailShowMax = true;
+        this._mailShowMax = value;
+      }
+    }
+
 
     public Isset __isset;
     #if !SILVERLIGHT
@@ -138,6 +155,7 @@ namespace KXSGCodec
       public bool sellItemPriceRatio;
       public bool buybackItemPriceRatio;
       public bool sellItemSaveHours;
+      public bool mailShowMax;
     }
 
     public SCServerConfigMsg() {
@@ -193,6 +211,13 @@ namespace KXSGCodec
           case 6:
             if (field.Type == TType.Byte) {
               SellItemSaveHours = iprot.ReadByte();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 7:
+            if (field.Type == TType.Byte) {
+              MailShowMax = iprot.ReadByte();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
@@ -258,6 +283,14 @@ namespace KXSGCodec
         oprot.WriteByte(SellItemSaveHours);
         oprot.WriteFieldEnd();
       }
+      if (__isset.mailShowMax) {
+        field.Name = "mailShowMax";
+        field.Type = TType.Byte;
+        field.ID = 7;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteByte(MailShowMax);
+        oprot.WriteFieldEnd();
+      }
       oprot.WriteFieldStop();
       oprot.WriteStructEnd();
     }
@@ -276,6 +309,8 @@ namespace KXSGCodec
       sb.Append(BuybackItemPriceRatio);
       sb.Append(",SellItemSaveHours: ");
       sb.Append(SellItemSaveHours);
+      sb.Append(",MailShowMax: ");
+      sb.Append(MailShowMax);
       sb.Append(")");
       return sb.ToString();
     }

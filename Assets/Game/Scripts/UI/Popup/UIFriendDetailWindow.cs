@@ -19,8 +19,9 @@ public class UIFriendDetailWindow : Window
     private UILabel leaderSkName;
     private UILabel leaderSkDesc;
 
-    private List<UISprite> leaderJobs = new List<UISprite>();
-    private List<UILabel> leaderAtks = new List<UILabel>();
+    private readonly List<UISprite> leaderJobs = new List<UISprite>();
+    private readonly List<UISprite> leaderIcons = new List<UISprite>();
+    private readonly List<UILabel> leaderAtks = new List<UILabel>();
 
     #endregion
 
@@ -102,6 +103,7 @@ public class UIFriendDetailWindow : Window
         for(int i = 0; i < info.HeroProp.Count; i++)
         {
             var heroTempId = info.HeroProp[i].HeroTemplateId;
+            HeroConstant.SetHeadByTemplate(leaderIcons[i], heroTempId);
             leaderJobs[i].spriteName = HeroConstant.HeroJobPrefix + heroTemps[heroTempId].Job;
             leaderAtks[i].text = info.HeroProp[i].Prop[RoleProperties.ROLE_ATK].ToString();
         }
@@ -113,11 +115,6 @@ public class UIFriendDetailWindow : Window
         Hp = hpValue;
         Recover = recoverValue;
         Mp = mpValue;
-    }
-
-    private void OnClose(GameObject go)
-    {
-        WindowManager.Instance.Show<UIFriendDetailWindow>(false);
     }
 
     #endregion
@@ -156,7 +153,16 @@ public class UIFriendDetailWindow : Window
 
         leaderJobs.Add(transform.Find("Leader1/JobBG/JobIcon").GetComponent<UISprite>());
         leaderJobs.Add(transform.Find("Leader2/JobBG/JobIcon").GetComponent<UISprite>());
-        leaderJobs.Add(transform.Find("Leader3/JobBG/JobIcon").GetComponent<UISprite>());
+        leaderJobs.Add(transform.Find("Leader3/JobBG/JobIcon").GetComponent<UISprite>()); 
+        
+        leaderIcons.Add(transform.Find("Leader1/HeroIcon").GetComponent<UISprite>());
+        leaderIcons.Add(transform.Find("Leader2/HeroIcon").GetComponent<UISprite>());
+        leaderIcons.Add(transform.Find("Leader3/HeroIcon").GetComponent<UISprite>());
+    }
+
+    private void OnClose(GameObject go)
+    {
+        WindowManager.Instance.Show<UIFriendDetailWindow>(false);
     }
 
     #endregion

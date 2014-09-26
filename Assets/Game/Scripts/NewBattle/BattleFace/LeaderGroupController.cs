@@ -52,6 +52,16 @@ public class LeaderGroupController : MonoBehaviour
     {
         TotalLeaderCD = 0;
         LeaderList.ForEach(item => item.Reset());
+        SetAllLeadersCollider(true);
+    }
+
+    /// <summary>
+    /// Set all leaders' collider enable or disable.
+    /// </summary>
+    /// <param name="isEnable"></param>
+    public void SetAllLeadersCollider(bool isEnable)
+    {
+        LeaderList.ForEach(item => item.SetLeaderCollider(isEnable));
     }
 
     public void PlaySeal(int leaderIndex, bool show)

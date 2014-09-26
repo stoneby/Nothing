@@ -78,6 +78,7 @@ public class UIMainScreenWindow : Window
 
     public override void OnEnter()
     {
+        MtaManager.TrackBeginPage(MtaType.MainScreenWindow);
         //if (ServiceManager.IsTest)
         //{
             WindowManager.Instance.Show<MainMenuBarWindow>(true);
@@ -86,10 +87,13 @@ public class UIMainScreenWindow : Window
 		RefreshData ();
         SpawnAndPlay();
         EnergyIncreaseControl.Instance.StartMonitor();
+
+        GreenHandGuideHandler.Instance.ExecuteGreenHandFlag();
     }
 
     public override void OnExit()
     {
+        MtaManager.TrackEndPage(MtaType.MainScreenWindow);
         //if (ServiceManager.IsTest)
         //{
             WindowManager.Instance.Show<MainMenuBarWindow>(false);
@@ -165,30 +169,22 @@ public class UIMainScreenWindow : Window
         leaders.Add(leadersTran.Find("MainLeader"));
         leaders.Add(leadersTran.Find("SecondLeader"));
         leaders.Add(leadersTran.Find("ThirdLeader"));
-        CommonHandler.PlayerPropertyChanged += OnPlayerPropertyChanged;
-
         BtnRecharge = transform.FindChild("Buttons/Button-Play").gameObject;
         if (ServiceManager.AppData != null) BtnRecharge.SetActive(ServiceManager.AppData.RechargeType != "0");
-    }
-
-    /// <summary>
-    /// Used to do some clean work before destorying.
-    /// </summary>
-    private void OnDestory()
-    {
-        CommonHandler.PlayerPropertyChanged -= OnPlayerPropertyChanged;
     }
 
     private void InstallHandlers()
     {
         startGameLis.onClick = OnStartGameClicked;
         EnergyIncreaseControl.Instance.EnergyIncreaseHandler += OnEnergyHandler;
+        CommonHandler.PlayerPropertyChanged += OnPlayerPropertyChanged;
     }
 
     private void UnstallHandlers()
     {
         startGameLis.onClick = null;
         EnergyIncreaseControl.Instance.EnergyIncreaseHandler -= OnEnergyHandler;
+        CommonHandler.PlayerPropertyChanged -= OnPlayerPropertyChanged;
     }
 
     private void RefreshData()

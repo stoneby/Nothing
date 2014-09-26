@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using KXSGCodec;
+using UnityEngine;
 
 public class FeidouManager
 {
@@ -27,7 +28,15 @@ public class FeidouManager
 
     public static void DoLogin()
     {
-        if (!CanLogin()) return;
+#if UNITY_ANDROID||UNITY_IPHONE
+        if (SDKResponse.TokenString != null)
+        {
+            var msg = new CSTokenLoginMsg() { DeviceType = 0, DeviceId = "", DeviceModel = SystemInfo.deviceModel, Token = SDKResponse.TokenString };
+            NetManager.SendMessage(msg);
+            return;
+        }
+#endif
+
 #if UNITY_ANDROID
         Init();
         ServiceManager.IsDebugAccount = 0;
@@ -43,6 +52,7 @@ public class FeidouManager
             {
                 Debug.Log("Calling SDK login.");
                 jo.Call("login", ServiceManager.ServerData.SID, "login");
+                WindowManager.Instance.Show<LoadingWaitWindow>(true);
             }
         }
 #endif
@@ -76,6 +86,7 @@ public class FeidouManager
 #if UNITY_ANDROID
         Debug.Log("Calling SDK login.");
         jo.Call("login", ServiceManager.ServerData.SID, "login");
+        WindowManager.Instance.Show<LoadingWaitWindow>(true);
         SDKResponse.WhichResponse = null;
 #endif
     }
