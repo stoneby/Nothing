@@ -111,6 +111,7 @@ public class WindowRootObjectManager : MonoBehaviour
             {
                 var layerObject = new GameObject();
                 layerObject.transform.parent = trans;
+                layerObject.transform.localScale = Vector3.one;
                 layerTrans = layerObject.transform;
 
                 Logger.Log("Adding game object to root - " + trans.name);

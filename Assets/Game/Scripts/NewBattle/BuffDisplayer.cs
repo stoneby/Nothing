@@ -17,9 +17,9 @@ public class BuffDisplayer : MonoBehaviour
     private float introDuration;
     private float loopDuration;
 
-    private Dictionary<GameObject, GameObject> buffIntroMap;
-    private Dictionary<GameObject, GameObject> buffLoopMap;
-    private Dictionary<GameObject, bool> isPlayingMap;
+    private Dictionary<GameObject, GameObject> buffIntroMap = new Dictionary<GameObject, GameObject>();
+    private Dictionary<GameObject, GameObject> buffLoopMap = new Dictionary<GameObject, GameObject>();
+    private Dictionary<GameObject, bool> isPlayingMap = new Dictionary<GameObject, bool>();
 
     public void ShowIntro(GameObject parent)
     {
@@ -147,12 +147,5 @@ public class BuffDisplayer : MonoBehaviour
         SetParent(buff, parent);
 
         return Initialize(buffMap[parent]);
-    }
-
-    private void Awake()
-    {
-        buffIntroMap = new Dictionary<GameObject, GameObject>();
-        buffLoopMap = new Dictionary<GameObject, GameObject>();
-        isPlayingMap = new Dictionary<GameObject, bool>();
     }
 }

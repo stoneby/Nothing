@@ -3,14 +3,17 @@ using UnityEngine;
 
 public class MainMenuBarWindow : Window
 {
+    public MailAlertChecker NewBehaviourScript;
     #region Window
 
     public override void OnEnter()
     {
+        NewBehaviourScript.OnEnter();
     }
 
     public override void OnExit()
     {
+        NewBehaviourScript.OnExit();
     }
 
     #endregion
@@ -19,15 +22,12 @@ public class MainMenuBarWindow : Window
 
     public void OnEmail()
     {
-        if(MailModelLocator.AlreadyRequest == false)
+        var csmsg = new CSMailListMsg();
+        if(MailModelLocator.Instance.MailListVersion > 0)
         {
-            var csmsg = new CSMailListMsg();
-            NetManager.SendMessage(csmsg);
+            csmsg.ListVersion = MailModelLocator.Instance.MailListVersion;
         }
-        else
-        {
-            WindowManager.Instance.Show<UIEmailEntryWindow>(true);
-        }
+        NetManager.SendMessage(csmsg);
     }
 
     /// <summary>
@@ -70,6 +70,11 @@ public class MainMenuBarWindow : Window
     public void OnEquipClicked()
     {
         //PopTextManager.PopTip("暂未开放该功能！", false);
+        OpenEquipWin();
+    }
+
+    public static void OpenEquipWin()
+    {
         if (ItemModeLocator.AlreadyMainRequest == false)
         {
             ItemModeLocator.Instance.GetItemPos = ItemType.GetItemInPanel;
@@ -78,7 +83,7 @@ public class MainMenuBarWindow : Window
         }
         else
         {
-            WindowManager.Instance.Show<UIItemCommonWindow>(true, true);
+            WindowManager.Instance.Show<UIItemCommonWindow>(true);
         }
     }
 
@@ -86,6 +91,12 @@ public class MainMenuBarWindow : Window
     /// The callback of clicking team button.
     /// </summary>
     public void OnTeamClicked()
+    {
+        OpenTeamWin();
+        //PopTextManager.PopTip("暂未开放该功能！", false);
+    }
+
+    public static void OpenTeamWin()
     {
         if (HeroModelLocator.AlreadyRequest == false)
         {
@@ -95,10 +106,10 @@ public class MainMenuBarWindow : Window
         }
         else
         {
-            WindowManager.Instance.Show<UIBuildingTeamWindow>(true, true);
+            WindowManager.Instance.Show<UIBuildingTeamWindow>(true);
         }
-        //PopTextManager.PopTip("暂未开放该功能！", false);
     }
+
 
     /// <summary>
     /// The callback of clicking hero button.
@@ -107,6 +118,11 @@ public class MainMenuBarWindow : Window
     {
         //PopTextManager.PopTip("暂未开放该功能！", false);
         //WindowManager.Instance.Show<HeroMenuBarWindow>(true);
+        OpenHeroWin();
+    }
+
+    public static void OpenHeroWin()
+    {
         if (HeroModelLocator.AlreadyRequest == false)
         {
             HeroModelLocator.Instance.GetHeroPos = RaidType.GetHeroInHeroPanel;
@@ -115,7 +131,7 @@ public class MainMenuBarWindow : Window
         }
         else
         {
-            WindowManager.Instance.Show<UIHeroCommonWindow>(true, true);
+            WindowManager.Instance.Show<UIHeroCommonWindow>(true);
         }
     }
 

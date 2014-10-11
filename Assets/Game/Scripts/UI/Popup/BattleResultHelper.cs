@@ -12,8 +12,5 @@ public class BattleResultHelper
         {
             battlemanager.ResetAll();
         }
-
-        // [NOTE:] Clear history window at this point.
-        WindowManager.Instance.ClearHistory();
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace com.kx.sglm.gs.battle.share.skill.effect
 {
@@ -20,7 +21,6 @@ namespace com.kx.sglm.gs.battle.share.skill.effect
 
 		private int colorIndex;
 
-
 		public override void build(params string[] param)
 		{
 			this.colorIndex = Convert.ToInt32(param[0]);
@@ -41,6 +41,11 @@ namespace com.kx.sglm.gs.battle.share.skill.effect
 			BattleRecordHelper.initSingleRecord(defencer, _singleRecord);
 			defencer.changeColor(_color, _singleRecord);
 			_record.finishCurDefecner();
+		}
+
+		public override void defencerAfterEffect(BattleFighter attacker, List<BattleFighter> defencerList, BattleFightRecord record)
+		{
+			//cur do nothing
 		}
 
 	}

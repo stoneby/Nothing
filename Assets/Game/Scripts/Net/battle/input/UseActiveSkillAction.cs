@@ -1,5 +1,3 @@
-using com.kx.sglm.gs.battle.share.helper;
-
 namespace com.kx.sglm.gs.battle.share.input
 {
 
@@ -7,6 +5,7 @@ namespace com.kx.sglm.gs.battle.share.input
 	using BattleTeam = com.kx.sglm.gs.battle.share.actor.impl.BattleTeam;
 	using BattleRecord = com.kx.sglm.gs.battle.share.data.record.BattleRecord;
 	using BattleSideEnum = com.kx.sglm.gs.battle.share.enums.BattleSideEnum;
+	using BattleLogicHelper = com.kx.sglm.gs.battle.share.helper.BattleLogicHelper;
 	using BattleRecordHelper = com.kx.sglm.gs.battle.share.helper.BattleRecordHelper;
 
 	/// <summary>
@@ -38,10 +37,9 @@ namespace com.kx.sglm.gs.battle.share.input
 			_heroTeam.OppositeTeam.recalcBuffAndTeamProp();
 
 			BattleRecord _record = battle.Record;
-            BattleLogicHelper.refreshState(battle.BattleArmy);
-            BattleRecordHelper.recordBattleTeamRecord(_heroTeam, _record);
+			BattleRecordHelper.recordBattleTeamRecord(_heroTeam, _record);
 			BattleRecordHelper.recordBattleTeamRecord(_heroTeam.OppositeTeam, _record);
-
+			BattleLogicHelper.refreshState(battle.BattleArmy);
 		}
 
 		public virtual int FighterIndex

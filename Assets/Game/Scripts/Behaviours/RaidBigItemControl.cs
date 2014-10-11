@@ -5,51 +5,45 @@ using System.Collections;
 
 public class RaidBigItemControl : KxItemRender
 {
+    private GameObject mapImgTex;
+    private GameObject mapTitleLb;
+    private GameObject mapLockSp;
+    private GameObject mapTitleTex;
+    private GameObject mapEventContainer;
+    private GameObject mapEventSprite;
+    private GameObject mapEventLabel;
+    private GameObject mapStarContainer;
+    private GameObject mapStarLabel;
+    private const string BasePath = "AssetBundles/Textures/Mission";
+    private bool initialized;
 
     public MapVO map;
-
     public bool IsChapter = true;
-
-    private GameObject MapImgTex;
-    private GameObject MapTitleLb;
-    private GameObject MapLockSp;
-
-    private GameObject MapTitleTex;
-
-    private GameObject MapEventContainer;
-    private GameObject MapEventSprite;
-    private GameObject MapEventLabel;
-
-    private GameObject MapStarContainer;
-    private GameObject MapStarLabel;
-
-
-    private bool HaveInit = false;
     public bool IsLock = true;
-
     public int RaidIndex;
     public RaidTemplate RaidTemp;
     public RaidInfo RaidData;
     public RaidAddtionInfo RaidAdditionData;
+
 	// Use this for initialization
 	void Start () 
     {
-        MapImgTex = transform.FindChild("Texture map").gameObject;
-        MapTitleLb = transform.FindChild("Label name").gameObject;
-        MapLockSp = transform.FindChild("Sprite lock").gameObject;
-	    MapTitleTex = transform.FindChild("Texture chapter title").gameObject;
-	    MapEventContainer = transform.FindChild("Event Container").gameObject;
-        MapEventSprite = transform.FindChild("Event Container/Event Sprite").gameObject;
-        MapEventLabel = transform.FindChild("Event Container/Event Label").gameObject;
-        MapStarContainer = transform.FindChild("Star Container").gameObject;
-        MapStarLabel = transform.FindChild("Star Container/Process Label").gameObject;
+        mapImgTex = transform.FindChild("Texture map").gameObject;
+        mapTitleLb = transform.FindChild("Label name").gameObject;
+        mapLockSp = transform.FindChild("Sprite lock").gameObject;
+	    mapTitleTex = transform.FindChild("Texture chapter title").gameObject;
+	    mapEventContainer = transform.FindChild("Event Container").gameObject;
+        mapEventSprite = transform.FindChild("Event Container/Event Sprite").gameObject;
+        mapEventLabel = transform.FindChild("Event Container/Event Label").gameObject;
+        mapStarContainer = transform.FindChild("Star Container").gameObject;
+        mapStarLabel = transform.FindChild("Star Container/Process Label").gameObject;
 
-        MapEventContainer.SetActive(false);
-        MapStarContainer.SetActive(false);
-        MapTitleLb.SetActive(false);
-        MapTitleTex.SetActive(false);
+        mapEventContainer.SetActive(false);
+        mapStarContainer.SetActive(false);
+        mapTitleLb.SetActive(false);
+        mapTitleTex.SetActive(false);
 
-	    HaveInit = true;
+	    initialized = true;
         OnHovered = HoverHandler;
         InitItem(true);
 	    SetContent();
@@ -86,22 +80,22 @@ public class RaidBigItemControl : KxItemRender
 
     private void SetContent()
     {
-        if (HaveInit && map != null)
+        if (initialized && map != null)
         {
             Logger.Log("MapVO:" + map.id + ", " + map.x + ", " + map.y);
-            var tt = MapImgTex.GetComponent<UITexture>();
+            var tt = mapImgTex.GetComponent<UITexture>();
             if (IsChapter)
             {
-                tt.mainTexture = (Texture2D)Resources.Load("Textures/Mission/chapter" + map.id, typeof(Texture2D));
-                MapTitleTex.SetActive(true);
-                var tit = MapTitleTex.GetComponent<UITexture>();
-                tit.mainTexture = (Texture2D)Resources.Load("Textures/Mission/cname" + map.id, typeof(Texture2D));
+                tt.mainTexture = ResoucesManager.Instance.Load<Texture2D>(string.Format("{0}/{1}{2}", BasePath, "chapter", map.id));
+                mapTitleTex.SetActive(true);
+                var tit = mapTitleTex.GetComponent<UITexture>();
+                tit.mainTexture = ResoucesManager.Instance.Load<Texture2D>(string.Format("{0}/{1}{2}", BasePath, "cname", map.id));
             }
             else
             {
-                tt.mainTexture = (Texture2D)Resources.Load("Textures/Mission/" + map.id, typeof(Texture2D));
-                MapTitleLb.SetActive(true);
-                var lb = MapTitleLb.GetComponent<UILabel>();
+                tt.mainTexture = Resources.Load<Texture2D>(string.Format("{0}/{1}", BasePath, map.id));
+                mapTitleLb.SetActive(true);
+                var lb = mapTitleLb.GetComponent<UILabel>();
                 lb.text = RaidTemp.RaidName;
             }
             tt.width = map.w;
@@ -115,26 +109,26 @@ public class RaidBigItemControl : KxItemRender
             //IsLock = false;
             if (IsLock)
             {
-                MapLockSp.SetActive(true);
+                mapLockSp.SetActive(true);
                 tt.color = new Color(0.3f, 0.3f, 0.3f);
             }
             else
             {
-                MapLockSp.SetActive(false);
+                mapLockSp.SetActive(false);
                 tt.color = new Color(1, 1, 1);
                 
                 if (!IsChapter)
                 {
-                    MapStarContainer.SetActive(true);
-                    var lb = MapStarLabel.GetComponent<UILabel>();
+                    mapStarContainer.SetActive(true);
+                    var lb = mapStarLabel.GetComponent<UILabel>();
                     //var starcount = MissionModelLocator.Instance.GetRaidStarCount(RaidData.TemplateId);
                     lb.text = MissionModelLocator.Instance.GetStageCountByRaidId(RaidTemp.Id);
 
                     if (RaidAdditionData != null)
                     {
-                        MapEventContainer.SetActive(true);
-                        var sp = MapEventSprite.GetComponent<UISprite>();
-                        var lbname = MapEventLabel.GetComponent<UILabel>();
+                        mapEventContainer.SetActive(true);
+                        var sp = mapEventSprite.GetComponent<UISprite>();
+                        var lbname = mapEventLabel.GetComponent<UILabel>();
 
                         switch (RaidAdditionData.AddtionType)
                         {
@@ -158,7 +152,7 @@ public class RaidBigItemControl : KxItemRender
                     }
                     else
                     {
-                        MapEventContainer.SetActive(false);
+                        mapEventContainer.SetActive(false);
                     }
                 }
             }
@@ -171,7 +165,7 @@ public class RaidBigItemControl : KxItemRender
     {
         if (state)
         {
-            var tt = MapImgTex.GetComponent<UITexture>();
+            var tt = mapImgTex.GetComponent<UITexture>();
             //tt.color = new Color(0.0f, 1.0f, 0.0f);
             //tt.color.a = 100;
             //tt.alpha = 0.5f;
@@ -179,7 +173,7 @@ public class RaidBigItemControl : KxItemRender
         }
         else
         {
-            var tt = MapImgTex.GetComponent<UITexture>();
+            var tt = mapImgTex.GetComponent<UITexture>();
             //tt.color = new Color(1, 1, 1, 1);
             //tt.alpha = 1;
             //MapImgTex.transform.localScale = new Vector3(1.0f, 1.0f, 1);

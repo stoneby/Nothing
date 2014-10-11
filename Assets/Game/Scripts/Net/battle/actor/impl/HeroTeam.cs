@@ -444,7 +444,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 
 		public virtual void addCurMp(int addVal)
 		{
-			int _totalVal = changeValue(CurMp, addVal, totalMp);
+			int _totalVal = changeValue(CurMp, addVal, TotalMp);
 			HeroCurMp = _totalVal;
 		}
 

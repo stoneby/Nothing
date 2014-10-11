@@ -1,17 +1,28 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Xml;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
 public class BuildManager
 {
+    private const string BaseBundlePath = "AssetBundles/";
+    private const BuildAssetBundleOptions BuildAssetOptions = BuildAssetBundleOptions.CompleteAssets |
+                                                              BuildAssetBundleOptions.CollectDependencies |
+                                                              BuildAssetBundleOptions.DeterministicAssetBundle;
     public static void BuildAndroid()
     {
         Debug.Log("====================================Switch To Android Target=======================");
         EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTarget.Android);
 
         ReadGameConfigurationXml();
+
+        if (!GameConfig.IsFullAssetBundles)
+        {
+            FileUtil.DeleteFileOrDirectory("Assets/Game/Resources/AssetBundles");
+        }
 
         PlayerSettings.productName = GameConfig.GameName;
         PlayerSettings.bundleVersion = GameConfig.Version;
@@ -41,7 +52,8 @@ public class BuildManager
         }
         PlayerSettings.SetIconsForTargetGroup(BuildTargetGroup.Android, iconList);
 
-        
+        //FileUtil.DeleteFileOrDirectory("Assets/Game/Arts/Atlases/Login/logo.png");
+        //AssetDatabase.CopyAsset("Assets/logo/" + GameConfig.NameLogo + ".png", "Assets/Game/Arts/Atlases/Login/logo.png");
 
         FileUtil.DeleteFileOrDirectory("release/AndroidBuild");
         Directory.CreateDirectory("release/AndroidBuild");
@@ -92,6 +104,11 @@ public class BuildManager
 
         ReadGameConfigurationXml();
 
+        if (!GameConfig.IsFullAssetBundles)
+        {
+            FileUtil.DeleteFileOrDirectory("Assets/Game/Resources/AssetBundles");
+        }
+
         PlayerSettings.productName = GameConfig.GameName;
         PlayerSettings.bundleVersion = GameConfig.Version;
         PlayerSettings.bundleIdentifier = GameConfig.BundleID;
@@ -115,7 +132,7 @@ public class BuildManager
 
     private static void SwapAsset(string src, string target)
     {
-        if (System.IO.File.Exists(target))
+        if (File.Exists(target))
         {
             FileUtil.ReplaceFile(src, target);
         }
@@ -131,12 +148,18 @@ public class BuildManager
 
         ReadGameConfigurationXml();
 
+        if (!GameConfig.IsFullAssetBundles)
+        {
+            FileUtil.DeleteFileOrDirectory("Assets/Game/Resources/AssetBundles");
+        }
+
         PlayerSettings.productName = GameConfig.GameName;
         PlayerSettings.bundleVersion = GameConfig.Version;
         PlayerSettings.bundleIdentifier = GameConfig.BundleID;
         PlayerSettings.defaultInterfaceOrientation = UIOrientation.LandscapeLeft;
         PlayerSettings.iOS.exitOnSuspend = true;
         PlayerSettings.iOS.sdkVersion = iOSSdkVersion.DeviceSDK;
+        PlayerSettings.iOS.exitOnSuspend = false;
         
         //PlayerSettings.iOS.targetResolution
         Debug.Log("-------------------------" + GameConfig.GameIcon);
@@ -189,9 +212,9 @@ public class BuildManager
 
     private static void ReadGameConfigurationXml()
     {
-        var GameConfigurationText = Resources.Load("Config/GameConfiguration") as TextAsset;
+        var gameConfigurationText = Resources.Load("Config/GameConfiguration") as TextAsset;
         var xmlDoc = new XmlDocument();
-        xmlDoc.LoadXml(GameConfigurationText.text);
+        xmlDoc.LoadXml(gameConfigurationText.text);
         var nodeList = xmlDoc.SelectNodes("config");
 
         if (nodeList == null)
@@ -222,10 +245,130 @@ public class BuildManager
                 GameConfig.GameIcon = node["IconPath"].InnerText;
             }
 
+            if (node["WithAssetBundles"] != null)
+            {
+                GameConfig.IsFullAssetBundles = node["WithAssetBundles"].InnerText == "full";
+            }
+
             if (node["Build"] != null)
             {
                 GameConfig.Build = node["Build"].InnerText;
             }
+
+            if (node["NameLogo"] != null)
+            {
+                GameConfig.NameLogo = node["NameLogo"].InnerText;
+            }
         }
+    }
+
+    [MenuItem("Tool/AutoBuildBundle/BuildExe")]
+    public static void BuildExeBundles()
+    {
+        BuildBundles(BuildTarget.StandaloneWindows);
+    }
+
+    [MenuItem("Tool/AutoBuildBundle/BuildAndroid")]
+    public static void BuildAndroidBundles()
+    {
+        BuildBundles(BuildTarget.Android);
+    }
+
+    [MenuItem("Tool/AutoBuildBundle/BuildIos")]
+    public static void BuildIosBundles()
+    {
+        BuildBundles(BuildTarget.iPhone);
+    }
+
+    public static void BuildBundles(BuildTarget target)
+    {
+        FileUtil.DeleteFileOrDirectory("release/Bundles");
+        var platformPath = CheckPlatformPath(target);
+        EditorUserBuildSettings.SwitchActiveBuildTarget(target);
+        List<AssetBundleConfig> configurations;
+        ReadBundleBuildConfigXml(out configurations);
+        foreach (var configuration in configurations)
+        {
+            var path = BaseBundlePath + Utils.ConvertToResoucesPath(configuration.Folder);
+
+            var objects = Resources.LoadAll(path);
+            switch (configuration.Type)
+            {
+                case "Texture":
+                    {
+                        objects = objects.Where(obj => obj is Texture2D).ToArray();
+                        break;
+                    }
+                case "Prefab":
+                    {
+                        objects = objects.Where(obj => obj is GameObject).ToArray();
+                        break;
+                    }
+            }
+
+            if (configuration.Separately == "true")
+            {
+                foreach (var o in objects)
+                {
+                    path = AssetDatabase.GetAssetPath(o);
+                    var bundleName = Utils.ConvertToAssetBundleName(path);
+                    bundleName = bundleName.Substring(0, bundleName.LastIndexOf('.'));
+                    bundleName += ".assetbundle";
+                    bundleName = GetResourcesLoadPath(bundleName);
+                    path = platformPath + bundleName;
+                    BuildPipeline.BuildAssetBundle(o, null, path, BuildAssetOptions, target);
+                }
+            }
+            else
+            {
+                var bundleName = Utils.ConvertToAssetBundleName(path);
+                bundleName += ".assetbundle";
+                bundleName = GetResourcesLoadPath(bundleName);
+                path = platformPath + bundleName;
+                BuildPipeline.BuildAssetBundle(null, objects, path, BuildAssetOptions, target);
+            }
+        }
+        CreateMD5List.Execute(target);
+        CampareMD5ToGenerateVersionNum.Execute(target);
+    }
+
+    private static string GetResourcesLoadPath(string path)
+    {
+        if(path.Contains(".Resources."))
+        {
+            var index = path.IndexOf(".Resources.");
+            path = path.Substring(index + ".Resources.".Length);
+        }
+        return path;
+    }
+
+    private static string CheckPlatformPath(BuildTarget target)
+    {
+        var platformPath = BundleCreaterWindow.GetPlatformPath(target);
+        if (!Directory.Exists(platformPath))
+        {
+            Directory.CreateDirectory(platformPath);
+        }
+        return platformPath;
+    }
+
+    private static void ReadBundleBuildConfigXml(out List<AssetBundleConfig> configurations)
+    {
+        var configurationText = Resources.Load("Config/BundleConfig") as TextAsset;
+        var xmlDoc = new XmlDocument();
+        xmlDoc.LoadXml(configurationText.text);
+        var xmlRoot = xmlDoc.DocumentElement;
+        configurations = (from element in xmlRoot.ChildNodes.OfType<XmlElement>()
+                          let folder = element.GetAttribute("FolderName")
+                          let type = element.GetAttribute("Type")
+                          let separately = element.GetAttribute("Separately")
+                          select new AssetBundleConfig {Folder = folder, Type = type, Separately = separately}).ToList();
+    }
+
+    public class AssetBundleConfig
+    {
+        public string Folder { get; set; }
+        public string Type { get; set; }
+        public string Separately { get; set; }
     }
 }

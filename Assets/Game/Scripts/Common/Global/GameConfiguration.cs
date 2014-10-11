@@ -22,7 +22,10 @@ public class GameConfiguration : Singleton<GameConfiguration>
 
     public bool SingleMode;
 
-    public float LoadingTestTime = 1f;
+    public delegate void ParseXmlFinish();
+
+    public ParseXmlFinish OnParseXmlFinish;
+    public ParseXmlFinish OnParseRomoteXmlFinish;
 
     #endregion
 
@@ -87,6 +90,17 @@ public class GameConfiguration : Singleton<GameConfiguration>
             if (node["OfficialSiteAddress"] != null)
             {
                 GameConfig.OfficialSiteAddress = node["OfficialSiteAddress"].InnerText;
+            }
+
+            if (node["WithAssetBundles"] != null)
+            {
+                GameConfig.IsFullAssetBundles = node["WithAssetBundles"].InnerText == "full" ? true : false;
+            }
+
+            //GameConfig
+            if (node["NameLogo"] != null)
+            {
+                GameConfig.NameLogo = node["NameLogo"].InnerText;
             }
 
             if (node["ServicePath"] != null)
@@ -166,11 +180,12 @@ public class GameConfiguration : Singleton<GameConfiguration>
     {
         yield return StartCoroutine(DoReadRemoteServiceXml());
         yield return StartCoroutine(DoReadBattleConfigXml());
-
-        yield return new WaitForSeconds(LoadingTestTime);
-
-        WindowManager.Instance.Show<LoadingWaitWindow>(false);
-        WindowManager.Instance.Show(typeof(LoginMainWindow), true);
+        if(Instance.OnParseRomoteXmlFinish != null)
+        {
+            Instance.OnParseRomoteXmlFinish();
+        }
+        //WindowManager.Instance.Show<LoadingWaitWindow>(false);
+        //WindowManager.Instance.Show(typeof(LoginMainWindow), true);
     }
 
     private IEnumerator DoReadRemoteServiceXml()
@@ -189,8 +204,6 @@ public class GameConfiguration : Singleton<GameConfiguration>
         else
         {
             Logger.Log("加载Service.xml成功");
-            //Logger.Log(www.text);
-
             var doc = XElement.Parse(www.text, LoadOptions.None);
 
             ParseService(doc);
@@ -199,7 +212,7 @@ public class GameConfiguration : Singleton<GameConfiguration>
 
     private static void ParseService(XContainer doc)
     {
-        Logger.Log("解析Service.xml");
+        Debug.Log("解析Service.xml  ==========================");
         if (doc != null)
         {
             var global = doc.Element("global");
@@ -251,7 +264,6 @@ public class GameConfiguration : Singleton<GameConfiguration>
             {
                 var app = AppVO.Parse(node);
                 ServiceManager.AppArray.Add(app);
-
                 if (app.BundleID == GameConfig.BundleID)
                 {
                     ServiceManager.AppData = app;
@@ -279,7 +291,10 @@ public class GameConfiguration : Singleton<GameConfiguration>
 
             //servers
             ServiceManager.SetServers(serverMap);
-            Logger.Log("解析Service.xml成功");
+            if(Instance.OnParseXmlFinish != null)
+            {
+                Instance.OnParseXmlFinish();
+            }
         }
     }
 

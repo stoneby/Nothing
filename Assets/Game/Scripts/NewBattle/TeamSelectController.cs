@@ -168,8 +168,8 @@ public class TeamSelectController : MonoBehaviour
 
         initialized = true;
         
-        // could select as default.
-        Enable = true;
+        ////couldn't select as default.
+        //Enable = true;
 
         GroupController.Initialize();
 

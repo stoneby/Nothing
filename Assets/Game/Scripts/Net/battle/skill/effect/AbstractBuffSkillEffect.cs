@@ -55,6 +55,12 @@ namespace com.kx.sglm.gs.battle.share.skill.effect
 			}
 		}
 
+
+		public override void defencerAfterEffect(BattleFighter attacker, List<BattleFighter> defencerList, BattleFightRecord record)
+		{
+			//cur do nothing
+		}
+
 	}
 
 }

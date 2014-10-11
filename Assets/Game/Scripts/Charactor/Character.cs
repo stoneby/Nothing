@@ -72,6 +72,11 @@ public class Character : MonoBehaviour
     public Animation Animation;
 
     /// <summary>
+    /// Depth basement used to manage characters draw calls.
+    /// </summary>
+    public int DepthBase;
+
+    /// <summary>
     /// Flag indicates if this character could be selected.
     /// </summary>
     public bool CanSelected
@@ -179,6 +184,17 @@ public class Character : MonoBehaviour
     public void ShowDebuff()
     {
         BuffController.ShowDebuff();
+    }
+
+    /// <summary>
+    /// Setup character depth based on depth base.
+    /// </summary>
+    /// <param name="increase">True on set depth base.</param>
+    public void SetupDepthBase(bool increase)
+    {
+        var depth = (increase) ? DepthBase : (-DepthBase);
+        var spriteList = AnimatedObject.transform.GetComponentsInChildren<UISprite>().ToList();
+        spriteList.ForEach(sprite => sprite.depth += depth);
     }
 
     /// <overrides/>

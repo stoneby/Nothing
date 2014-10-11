@@ -216,6 +216,10 @@ namespace KXSGCodec
             {
                 return new SCMailOptionResultMsg();
             }
+			            if (type == MessageType.SC_MAIL_UNREAD_STATE_MSG.GetHashCode())
+            {
+                return new SCMailUnreadStateMsg();
+            }
 			            if (type == MessageType.SC_MAIL_UPDATE_MSG.GetHashCode())
             {
                 return new SCMailUpdateMsg();
@@ -235,6 +239,18 @@ namespace KXSGCodec
 			            if (type == MessageType.SC_PROPERTY_CHANGED_STRING.GetHashCode())
             {
                 return new SCPropertyChangedString();
+            }
+			            if (type == MessageType.SC_QUEST.GetHashCode())
+            {
+                return new SCQuest();
+            }
+			            if (type == MessageType.SC_QUEST_FINISH.GetHashCode())
+            {
+                return new SCQuestFinish();
+            }
+			            if (type == MessageType.SC_QUEST_RECIEVE_REWARD_SUCC.GetHashCode())
+            {
+                return new SCQuestRecieveRewardSucc();
             }
 			            if (type == MessageType.SC_ADD_ITEMS_AND_HEROS.GetHashCode())
             {
@@ -279,6 +295,14 @@ namespace KXSGCodec
 			            if (type == MessageType.SC_RAID_REWARD.GetHashCode())
             {
                 return new SCRaidReward();
+            }
+			            if (type == MessageType.SC_SIGN_LOAD.GetHashCode())
+            {
+                return new SCSignLoad();
+            }
+			            if (type == MessageType.SC_SIGN_SUCC.GetHashCode())
+            {
+                return new SCSignSucc();
             }
 			            if (type == MessageType.SC_ERROR_INFO_MSG.GetHashCode())
             {

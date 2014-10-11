@@ -5,7 +5,6 @@ using System.Text;
 namespace com.kx.sglm.gs.battle.share.data.store
 {
 
-
 	using MathUtils = com.kx.sglm.core.util.MathUtils;
 
 	/// <summary>
@@ -17,49 +16,126 @@ namespace com.kx.sglm.gs.battle.share.data.store
 	public class BattleStoreData
 	{
 
-		private Dictionary<int, string> dataMap;
+		private BattleStoreMap[] datas;
 
 		public BattleStoreData()
 		{
-			dataMap = new Dictionary<int, string>();
+			datas = new BattleStoreMap[BattleStoreConstants.BATTLE_STORE_DATA_SIZE];
+			for (int _i = 0; _i < BattleStoreConstants.BATTLE_STORE_DATA_SIZE; _i++)
+			{
+				datas[_i] = new BattleStoreMap();
+			}
 		}
 
 		public virtual bool Empty
 		{
 			get
 			{
-				return dataMap.Count == 0;
+				bool _empty = true;
+				for (int _i = 0; _i < BattleStoreConstants.BATTLE_STORE_DATA_SIZE; _i++)
+				{
+					if (!datas[_i].Empty)
+					{
+						_empty = false;
+						break;
+					}
+				}
+				return _empty;
 			}
 		}
 
-		protected internal virtual void addValue(int key, string value)
+		public virtual int CurMaxFight
 		{
-			dataMap[key] = value;
+			get
+			{
+				return getIntValue(BattleStoreConstants.BATTLE_RESULT_STORE_DATA, BattleStoreConstants.BATTLE_STORE_MAX_FIGHT);
+			}
 		}
 
-		protected internal virtual void addIntValue(int key, int value)
+		public virtual int CurHeroMp
 		{
-			addValue(key, Convert.ToString(value));
+			get
+			{
+				return getIntValue(BattleStoreConstants.BATTLE_RESULT_STORE_DATA, BattleStoreConstants.BATTLE_STORE_CUR_HERO_MP);
+			}
+			set
+			{
+				addIntValue(BattleStoreConstants.BATTLE_PROCESS_STORE_DATA, BattleStoreConstants.BATTLE_STORE_CUR_HERO_MP, value);
+			}
 		}
 
-		protected internal virtual void addLongValue(int key, long value)
+		public virtual int CurSceneIndex
 		{
-			addValue(key, Convert.ToString(value));
+			get
+			{
+				return getIntValue(BattleStoreConstants.BATTLE_PROCESS_STORE_DATA, BattleStoreConstants.BATTLE_STORE_CUR_SCENE_INDEX);
+			}
+			set
+			{
+				addIntValue(BattleStoreConstants.BATTLE_PROCESS_STORE_DATA, BattleStoreConstants.BATTLE_STORE_CUR_SCENE_INDEX, value);
+			}
 		}
 
-		public virtual int getIntValue(int key)
+		public virtual int CurHeroHp
 		{
-			return Convert.ToInt32(getValue(key, "0"));
+			get
+			{
+				return getIntValue(BattleStoreConstants.BATTLE_PROCESS_STORE_DATA, BattleStoreConstants.BATTLE_STORE_CUR_HERO_HP);
+			}
+			set
+			{
+				addIntValue(BattleStoreConstants.BATTLE_PROCESS_STORE_DATA, BattleStoreConstants.BATTLE_STORE_CUR_HERO_HP, value);
+			}
 		}
 
-		public virtual long getLongValue(int key)
+		public virtual int CurMax
 		{
-			return Convert.ToInt64(getValue(key, "0"));
+			set
+			{
+				addIntValue(BattleStoreConstants.BATTLE_RESULT_STORE_DATA, BattleStoreConstants.BATTLE_STORE_MAX_FIGHT, value);
+			}
 		}
 
-		public virtual string getValue(int key, string defaultValue)
+
+
+
+		protected internal virtual void addValue(int type, int key, string value)
 		{
-			return dataMap.ContainsKey(key) ? dataMap[key] : defaultValue;
+			if (type >= datas.Length)
+			{
+				return;
+			}
+			datas[type].addValue(key, value);
+		}
+
+		protected internal virtual void addIntValue(int type, int key, int value)
+		{
+			addValue(type, key, Convert.ToString(value));
+		}
+
+		protected internal virtual void addLongValue(int type, int key, long value)
+		{
+			addValue(type, key, Convert.ToString(value));
+		}
+
+		public virtual int getIntValue(int type, int key)
+		{
+			return Convert.ToInt32(getValue(type, key, "0"));
+		}
+
+		public virtual long getLongValue(int type, int key)
+		{
+			return Convert.ToInt64(getValue(type, key, "0"));
+		}
+
+		public virtual string getValue(int type, int key, string defaultValue)
+		{
+			BattleStoreMap _dataMap = getStoreMap(type);
+			if (_dataMap == null)
+			{
+				return defaultValue;
+			}
+			return _dataMap.getValue(key, defaultValue);
 		}
 
 		public virtual void saveSpString(List<int> spIndexList)
@@ -69,12 +145,13 @@ namespace com.kx.sglm.gs.battle.share.data.store
 			{
 				_value = MathUtils.optionOrFlagLong(_value, _index);
 			}
-			addLongValue(BattleKeyConstants.BATTLE_STORE_CUR_SP_INDEX_LIST, _value);
+			addLongValue(BattleStoreConstants.BATTLE_PROCESS_STORE_DATA, BattleStoreConstants.BATTLE_STORE_CUR_SP_INDEX_LIST, _value);
 		}
 
 		public virtual List<int> loadSpIndexList()
 		{
-			long _baseValue = getLongValue(BattleKeyConstants.BATTLE_STORE_CUR_SP_INDEX_LIST);
+			BattleStoreMap _map = getStoreMap(BattleStoreConstants.BATTLE_PROCESS_STORE_DATA);
+			long _baseValue = _map.getLongValue(BattleStoreConstants.BATTLE_STORE_CUR_SP_INDEX_LIST);
 			List<int> _indexList = MathUtils.getFlagIndexFromLong(_baseValue);
 			return _indexList;
 		}
@@ -82,51 +159,51 @@ namespace com.kx.sglm.gs.battle.share.data.store
 		public virtual string toStoreStr()
 		{
 			StringBuilder _sb = new StringBuilder();
-			foreach (KeyValuePair<int, string> _entry in dataMap)
+			for (int _i = 0; _i < BattleStoreConstants.BATTLE_STORE_DATA_SIZE; _i++)
 			{
-				_sb.Append(_entry.Key).Append(",");
-				_sb.Append(_entry.Value).Append(";");
+				_sb.Append(datas[_i].toStoreStr());
+				// 最后一个后面没有
+				if (_i < BattleStoreConstants.BATTLE_STORE_DATA_SIZE - 1)
+				{
+					_sb.Append(BattleStoreConstants.BATTLE_STORE_TYPE_SPLIT);
+				}
+			}
+			return _sb.ToString();
+		}
+
+		internal virtual BattleStoreMap getStoreMap(int type)
+		{
+			BattleStoreMap _map = null;
+			if (datas.Length > type)
+			{
+				_map = datas[type];
+			}
+			return _map;
+		}
+
+		public virtual string toStoreStr(int type)
+		{
+			BattleStoreMap _dataMap = getStoreMap(type);
+			StringBuilder _sb = new StringBuilder();
+			if (_dataMap != null)
+			{
+				_sb.Append(_dataMap.toStoreStr());
 			}
 			return _sb.ToString();
 		}
 
 		public virtual void fromStoreStr(string value)
 		{
-			string[] _values = value.Split(";", true);
-			if (_values.Length == 0)
+			string[] _datas = value.Split(BattleStoreConstants.BATTLE_STORE_TYPE_SPLIT, true);
+			datas = new BattleStoreMap[_datas.Length];
+			for (int _i = 0; _i < _datas.Length; _i++)
 			{
-				return;
-			}
-			foreach (string _kv in _values)
-			{
-				string[] _kvPair = _kv.Split(",", true);
-				if (_kvPair.Length != 2)
-				{
-					//TODO: loggers.error
-					continue;
-				}
-				dataMap[Convert.ToInt32(_kvPair[0])] = _kvPair[1];
+				BattleStoreMap _mapData = new BattleStoreMap();
+				_mapData.fromStoreStr(_datas[_i]);
+				datas[_i] = _mapData;
 			}
 		}
 
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }

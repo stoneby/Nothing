@@ -45,6 +45,10 @@ public class GlobalDimmerController : Singleton<GlobalDimmerController>
             // "NormalBlink" case which is more generic like button click.
             if (GreenHandGuideHandler.Instance.ConfigMode != "NormalMove")
             {
+                if (!DetectObject)
+                {
+                    return;
+                }
                 var listener = UIEventListener.Get(DetectObject);
                 listener.onClick += OnDetectClick;
                 //MouseCheck();

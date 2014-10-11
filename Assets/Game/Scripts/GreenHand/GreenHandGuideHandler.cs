@@ -103,17 +103,25 @@ public class GreenHandGuideHandler : Singleton<GreenHandGuideHandler>, IBattleMo
         var flag = false;
         switch (mode)
         {
-            case "MakeUpOneByOne":
-                var nums = new[] { 0, 2, 3, 5 };
+            case "Start":
+                //nums is config index which could be triggered when start battle.
+                flag = (CurrentConfigIndex == 0);
+                break;
+            case "LeftAttack":
+                //nums is config index which could be triggered by left attack.
+                var nums = new[] { 2, 3, 5 };
                 flag = (nums.Contains(CurrentConfigIndex));
                 break;
             case "Outter":
+                //nums is config index which could be triggered when click skill.
                 flag = true;
                 break;
             case "MonsterSelect":
+                //nums is config index which could be triggered when monster selected.
                 flag = (CurrentConfigIndex == 1);
                 break;
             case "UnderAttack":
+                //nums is config index which could be triggered when player under attack.
                 flag = (CurrentConfigIndex == 4);
                 break;
             default:
@@ -141,7 +149,16 @@ public class GreenHandGuideHandler : Singleton<GreenHandGuideHandler>, IBattleMo
     /// <returns></returns>
     public int CheckCanAttack(TeamSelectController teamController)
     {
-        if (teamController.SelectedCharacterList.Count != ValidateIndexList.Count) return 0;
+        if (teamController.SelectedCharacterList==null || ValidateIndexList==null)
+        {
+            Logger.LogError("List is null in CheckCanAttack.");
+            return 0;
+        }
+
+        if (teamController.SelectedCharacterList.Count != ValidateIndexList.Count)
+        {
+            return 0;
+        }
 
         for (int i = 0; i < ValidateIndexList.Count; i++)
         {
@@ -158,9 +175,9 @@ public class GreenHandGuideHandler : Singleton<GreenHandGuideHandler>, IBattleMo
     public void StopFingerMove()
     {
         //Stop MoveFinger translation.
-        var window = WindowManager.Instance.GetWindow<GreenHandGuideWindow>();
-        if (window)
+        if (WindowManager.Instance.ContainWindow<GreenHandGuideWindow>())
         {
+            var window = WindowManager.Instance.GetWindow<GreenHandGuideWindow>();
             window.ObjectMove.StopMove();
         }
     }
@@ -169,9 +186,9 @@ public class GreenHandGuideHandler : Singleton<GreenHandGuideHandler>, IBattleMo
     {
         GlobalDimmerController.Instance.Show(false);
 
-        var window = WindowManager.Instance.GetWindow<GreenHandGuideWindow>();
-        if (window)
+        if (WindowManager.Instance.ContainWindow<GreenHandGuideWindow>())
         {
+            var window = WindowManager.Instance.GetWindow<GreenHandGuideWindow>();
             window.ObjectMove.StopMove();
             window.ShowComponents(false, false, false, false);
             window.ShowDimmerButtom(false);
@@ -205,6 +222,8 @@ public class GreenHandGuideHandler : Singleton<GreenHandGuideHandler>, IBattleMo
         WindowManager.Instance.GetWindow<LoginWindow>().GreenHandLoading.SetActive(false);
         WindowManager.Instance.Show(WindowGroupType.Popup, false);
         WindowManager.Instance.Show<UIMainScreenWindow>(true);
+
+        MemoryStrategy.Instance.HandleUIBegin();
     }
 
     private void FindTagObject(string tagString)
@@ -477,9 +496,9 @@ public class GreenHandGuideHandler : Singleton<GreenHandGuideHandler>, IBattleMo
     {
         if (ConfigMode == "BattleBlink" || ConfigMode == "BattleMove")
         {
-            var battleWindow = WindowManager.Instance.GetWindow<BattleWindow>();
-            if (battleWindow)
+            if (WindowManager.Instance.ContainWindow<BattleWindow>())
             {
+                var battleWindow = WindowManager.Instance.GetWindow<BattleWindow>();
                 var initBattleField = battleWindow.gameObject.GetComponent<InitBattleField>();
                 ShowAPeriodInfos(initBattleField.TeamController, initBattleField.charactersLeft, initBattleField.MonsterController);
             }

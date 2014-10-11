@@ -14,8 +14,7 @@ public class SortedItem : FriendItem
     #region Private Fields
 
     private UILabel curPass;
-    //Shield MaxHit in current version.
-    //private UILabel highestHit;
+    private UILabel highestHit;
     private UILabel loserLabel;
     private UISprite winerSprite;
 
@@ -26,7 +25,7 @@ public class SortedItem : FriendItem
     public override void Init(FriendInfo info)
     {
         base.Init(info);
-        //highestHit.text = info.MaxDamage.ToString();
+        highestHit.text = info.MaxDamage.ToString();
         var raidTemp = MissionModelLocator.Instance.RaidTemplates;
         if (raidTemp.RaidStageTmpls.ContainsKey(info.RaidStageId))
         {
@@ -63,7 +62,7 @@ public class SortedItem : FriendItem
     {
         base.Awake();
         curPass = transform.Find("CurPassTitle/CurPass").GetComponent<UILabel>();
-        //highestHit = transform.Find("MaxHitTitle/MaxHit").GetComponent<UILabel>();
+        highestHit = transform.Find("MaxHitTitle/MaxHit").GetComponent<UILabel>();
         loserLabel = transform.Find("Ranking/Loser").GetComponent<UILabel>();
         winerSprite = transform.Find("Ranking/Winner").GetComponent<UISprite>();
     }

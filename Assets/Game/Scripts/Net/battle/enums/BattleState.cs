@@ -33,6 +33,15 @@ namespace com.kx.sglm.gs.battle.share.enums
 			}
 
 		}
+		public static readonly BattleState PREPAIR = new BattleStateAnonymousInnerClassHelper4();
+
+		private class BattleStateAnonymousInnerClassHelper4 : BattleState
+		{
+			public BattleStateAnonymousInnerClassHelper4() : base(3, false, true)
+			{
+			}
+
+		}
 
 		private int index;
 		private bool hangUp;

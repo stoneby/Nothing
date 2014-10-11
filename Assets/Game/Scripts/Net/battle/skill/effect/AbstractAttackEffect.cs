@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace com.kx.sglm.gs.battle.share.skill.effect
 {
@@ -200,6 +201,15 @@ namespace com.kx.sglm.gs.battle.share.skill.effect
 		public virtual void costHp(int costHp, BattleFighter defencer, SingleActionRecord record)
 		{
 			BattleLogicHelper.costBaseHp(costHp, defencer, record);
+		}
+
+
+		public override void defencerAfterEffect(BattleFighter attacker, List<BattleFighter> defencerList, BattleFightRecord record)
+		{
+			foreach (BattleFighter _defencer in defencerList)
+			{
+				_defencer.afterDefence(attacker, record);
+			}
 		}
 
 	}

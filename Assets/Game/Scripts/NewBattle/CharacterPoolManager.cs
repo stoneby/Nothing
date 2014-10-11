@@ -1,15 +1,16 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class CharacterPoolManager : Singleton<CharacterPoolManager>
 {
     public List<MyPoolManager> CharacterPoolList;
 
-    private const string BasePath = "Prefabs/NewBattle/Character";
+    private const string BasePath = "AssetBundles/Prefabs/NewBattle/Character";
 
     private bool initialized;
 
-    private void Initialize()
+    public void Initialize()
     {
         if (initialized)
         {
@@ -24,8 +25,8 @@ public class CharacterPoolManager : Singleton<CharacterPoolManager>
         }
 
         Logger.LogWarning("Dynamic binding mode is on, loading resources in the follow path: " + BasePath);
-
-        var characterList = Resources.LoadAll<GameObject>(BasePath);
+        var characterList = ResoucesManager.Instance.LoadAll<GameObject>(BasePath);
+        characterList = characterList.Where(ch => ch.name.StartsWith("0")).ToArray();
         foreach (var characterPrefab in characterList)
         {
             GeneratePoolManager(characterPrefab);
@@ -42,11 +43,54 @@ public class CharacterPoolManager : Singleton<CharacterPoolManager>
         initialized = false;
     }
 
+    public void Cleanup()
+    {
+        CharacterPoolList.ForEach(pool => pool.Cleanup());
+        CharacterPoolList.ForEach(pool => pool.SpawnObject = null);
+    }
+
+    /// <summary>
+    /// Take pool item from pool index.
+    /// </summary>
+    /// <param name="index">The index of pool</param>
+    public GameObject Take(int index)
+    {
+        if (index < 0 || index >= CharacterPoolList.Count)
+        {
+            Logger.LogError("Index is out of range [0, " + CharacterPoolList.Count + ")" + ", but index is: " + index);
+            return null;
+        }
+        var pool = CharacterPoolList[index];
+        if (pool.SpawnObject == null)
+        {
+            // resouce file are 1 based, but our index is 0 based.
+            pool.SpawnObject = Resources.Load<GameObject>(string.Format("{0}/{1:000}", BasePath, (index + 1)));
+        }
+        return pool.Take();
+    }
+
+    /// <summary>
+    /// Return game object to pool of index.
+    /// </summary>
+    /// <param name="index"></param>
+    /// <param name="go"></param>
+    public void Return(int index, GameObject go)
+    {
+        if (index < 0 || index >= CharacterPoolList.Count)
+        {
+            Logger.LogError("Index is out of range [0, " + CharacterPoolList.Count + ")" + ", but index is: " + index);
+            return;
+        }
+        var pool = CharacterPoolList[index];
+        pool.Return(go);
+    }
+
     private void GeneratePoolManager(GameObject spawnObject)
     {
         var go = new GameObject(spawnObject.name);
         var pool = go.AddComponent<MyPoolManager>();
         pool.SpawnObject = spawnObject;
+        pool.Capacity = 0;
         pool.Initialize();
         go.transform.parent = transform;
 
@@ -55,6 +99,6 @@ public class CharacterPoolManager : Singleton<CharacterPoolManager>
 
     private void Awake()
     {
-        Initialize();
+        ResoucesManager.Instance.OnResourcesDownLoaded += Initialize;
     }
 }

@@ -5,6 +5,7 @@ namespace com.kx.sglm.gs.battle.share.enums
 	using MathUtils = com.kx.sglm.core.util.MathUtils;
 	using GreenhandPVEBattleFactory = com.kx.sglm.gs.battle.share.factory.GreenhandPVEBattleFactory;
 	using IBattleFactory = com.kx.sglm.gs.battle.share.factory.IBattleFactory;
+	using RaidPVEBattleFactory = com.kx.sglm.gs.battle.share.factory.RaidPVEBattleFactory;
 	using TestBattleFactory = com.kx.sglm.gs.battle.share.factory.TestBattleFactory;
 
 	/// <summary>
@@ -20,34 +21,39 @@ namespace com.kx.sglm.gs.battle.share.enums
 
 		public static readonly IBattleFactory GREENHAND_FACTORY = new GreenhandPVEBattleFactory();
 
+		public static readonly IBattleFactory RAID_FACTORY = new RaidPVEBattleFactory();
+
 		/// <summary>
 		/// 自动战斗flag位，若该位数值为1，则是自动战斗 </summary>
 		private const int AUTO_BATTLE_INDEX = 0x01;
 		/// <summary>
 		/// PVE战斗flag位， </summary>
 		private const int PVE_BATTLE_INDEX = 0X02;
+		/// <summary>
+		/// 是否有掉落flag位， </summary>
+		private const int HAS_DROP = 0X04;
 
 		// /////////////////////////以下是判断用组合key///////////////////////////////////
 		/// <summary>
 		/// 战斗是否可选择攻击Index，具体方式为PVE战斗并且为非自动战斗 </summary>
 		private static readonly int TARGET_SELECTABLE = PVE_BATTLE_INDEX | (AUTO_BATTLE_INDEX & 0);
 
-		public static readonly BattleType TESTPVE = new BattleTypeAnonymousInnerClassHelper(TEST_FACTORY);
+		public static readonly BattleType TESTPVE = new BattleTypeAnonymousInnerClassHelper(PVE_BATTLE_INDEX | HAS_DROP, TEST_FACTORY);
 
 		private class BattleTypeAnonymousInnerClassHelper : BattleType
 		{
-			public BattleTypeAnonymousInnerClassHelper(IBattleFactory TEST_FACTORY) : base(0, PVE_BATTLE_INDEX, TEST_FACTORY)
+			public BattleTypeAnonymousInnerClassHelper(int PVE_BATTLE_INDEX, IBattleFactory TEST_FACTORY) : base(0, PVE_BATTLE_INDEX | HAS_DROP, TEST_FACTORY)
 			{
 			}
 
 
 		}
 
-		public static readonly BattleType RAIDPVE = new BattleTypeAnonymousInnerClassHelper2();
+		public static readonly BattleType RAIDPVE = new BattleTypeAnonymousInnerClassHelper2(PVE_BATTLE_INDEX | HAS_DROP, RAID_FACTORY);
 
 		private class BattleTypeAnonymousInnerClassHelper2 : BattleType
 		{
-			public BattleTypeAnonymousInnerClassHelper2() : base(1, PVE_BATTLE_INDEX, null)
+			public BattleTypeAnonymousInnerClassHelper2(int PVE_BATTLE_INDEX, IBattleFactory RAID_FACTORY) : base(1, PVE_BATTLE_INDEX | HAS_DROP, RAID_FACTORY)
 			{
 			}
 
@@ -96,6 +102,11 @@ namespace com.kx.sglm.gs.battle.share.enums
 			{
 				return hasFlag(PVE_BATTLE_INDEX);
 			}
+		}
+
+		public virtual bool hasDrop()
+		{
+			return hasFlag(HAS_DROP);
 		}
 
 		public virtual IBattleFactory Factory

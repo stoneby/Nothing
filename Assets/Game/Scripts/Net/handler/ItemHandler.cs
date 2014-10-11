@@ -23,7 +23,7 @@ namespace Assets.Game.Scripts.Net.handler
                     {
                         ItemModeLocator.Instance.ScAllItemInfos = themsg;
                         ItemModeLocator.AlreadyMainRequest = true;
-                        WindowManager.Instance.Show<UIItemCommonWindow>(true, true);
+                        WindowManager.Instance.Show<UIItemCommonWindow>(true);
                     }
                     if (themsg.BagType == ItemType.BuyBackItemBagType)
                     {
@@ -54,6 +54,7 @@ namespace Assets.Game.Scripts.Net.handler
             {
                 ItemModeLocator.Instance.ServerConfigMsg = themsg;
                 EnergyIncreaseControl.Instance.Init(themsg.RecoverEnergyMinutes);
+                MailModelLocator.Instance.MailUpdateInterval = themsg.MailUpdateInterval;
 
                 Debug.Log("Go to finish in itemHandler.");
                 //WindowManager.Instance.Show<LoginAccountWindow>(false);

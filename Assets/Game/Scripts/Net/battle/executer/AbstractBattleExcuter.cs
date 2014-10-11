@@ -5,6 +5,7 @@ namespace com.kx.sglm.gs.battle.share.executer
 
 	using BattleFighter = com.kx.sglm.gs.battle.share.actor.impl.BattleFighter;
 	using HeroTeam = com.kx.sglm.gs.battle.share.actor.impl.HeroTeam;
+	using IColorCreater = com.kx.sglm.gs.battle.share.color.IColorCreater;
 	using BattleStoreData = com.kx.sglm.gs.battle.share.data.store.BattleStoreData;
 
 	public abstract class AbstractBattleExcuter : IBattleExecuter
@@ -30,9 +31,12 @@ namespace com.kx.sglm.gs.battle.share.executer
 
 		private HeroTeam attackerTeam_Renamed;
 
-		public AbstractBattleExcuter(Battle battle)
+		private IColorCreater attackerColorCreater;
+
+		public AbstractBattleExcuter(Battle battle, IColorCreater attackerColorCreater)
 		{
 			this.battle = battle;
+			this.attackerColorCreater = attackerColorCreater;
 		}
 
 		public virtual void recoveryData(BattleStoreData storeData)
@@ -58,15 +62,15 @@ namespace com.kx.sglm.gs.battle.share.executer
 
 		protected internal virtual void resetHeroTeamHp(BattleStoreData storeData)
 		{
-			int _curHp = storeData.getIntValue(BattleKeyConstants.BATTLE_STORE_CUR_HERO_HP);
+			int _curHp = storeData.CurHeroHp;
 			attackerTeam_Renamed.HeroCurHp = _curHp;
-			int _curMp = storeData.getIntValue(BattleKeyConstants.BATTLE_STORE_CUR_HERO_MP);
+			int _curMp = storeData.CurHeroMp;
 			attackerTeam_Renamed.HeroCurMp = _curMp;
 		}
 
 		protected internal virtual void resetBattleSceneIndex(BattleStoreData storeData)
 		{
-			int _curIndex = storeData.getIntValue(BattleKeyConstants.BATTLE_STORE_CUR_SCENE_INDEX);
+			int _curIndex = storeData.CurSceneIndex;
 			Battle.BattleField.LoopCountForce = _curIndex;
 		}
 
@@ -78,6 +82,13 @@ namespace com.kx.sglm.gs.battle.share.executer
 			}
 		}
 
+		public virtual IColorCreater AttackerColorCreater
+		{
+			get
+			{
+				return attackerColorCreater;
+			}
+		}
 
 		public virtual HeroTeam attackerTeam()
 		{

@@ -319,4 +319,14 @@ public class Utils
         }
         set { pixelAjustFactor = value; }
     }
+
+    public static string ConvertToAssetBundleName(string resName)
+    {
+        return resName.Replace('/', '.');
+    }
+
+    public static string ConvertToResoucesPath(string resName)
+    {
+        return resName.Replace('.', '/');
+    }
 }

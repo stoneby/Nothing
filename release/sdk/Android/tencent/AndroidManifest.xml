@@ -1,0 +1,208 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.tencent.tmgp.sgmmd"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="11" />
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/app_icon"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name="com.tencent.tmgp.sgmmd.SDKActivity"
+            android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen"
+            android:screenOrientation="landscape"
+	    android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <receiver
+            android:name="com.tencent.sample.AppRegister"
+            android:permission="com.tencent.mm.plugin.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.tencent.mm.plugin.openapi.Intent.ACTION_REFRESH_WXAPP" />
+            </intent-filter>
+        </receiver>
+        <!-- 应用吧 -->
+        <activity
+            android:name="com.tencent.open.yyb.AppbarActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity android:name="com.tencent.connect.avatar.ImageActivity" />
+        <activity
+            android:name="com.tencent.connect.common.AssistActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name="com.tencent.tmgp.yttx.ReturnActivity"
+            android:label="@string/title_activity_return"
+            android:screenOrientation="landscape"
+        >
+        </activity>
+        <activity
+            android:name="com.tencent.tauth.AuthActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="landscape"
+            android:noHistory="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="tencent222222" />
+ 				<!-- 100380359 100381104 222222 -->
+            </intent-filter>
+        </activity>
+        <!-- 微云 -->
+        <activity
+            android:name=".weiyun.OperationSelectActivity"
+            android:screenOrientation="landscape" >
+        </activity>
+        <activity
+            android:name=".weiyun.FileListActivity"
+            android:screenOrientation="landscape" >
+        </activity>
+        <activity
+            android:name=".weiyun.WeiyunMainActivity"
+            android:screenOrientation="landscape" >
+        </activity>
+        <activity
+            android:name=".weiyun.RecordList"
+            android:screenOrientation="landscape" >
+        </activity>
+        <activity
+            android:name=".weiyun.RecordOperationActivity"
+            android:screenOrientation="landscape" >
+        </activity>
+        <activity
+            android:name="com.tencent.sample.DataProviderActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="landscape">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="tencent222222.data" />
+            </intent-filter>
+        </activity>
+
+        <!-- zivon add start -->
+        <activity
+            android:name=".activitys.AccountInfoActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="landscape"/>
+        <activity
+            android:name=".activitys.QQShareActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:screenOrientation="landscape"/>
+        <activity
+            android:name=".activitys.QZoneShareActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:screenOrientation="landscape"/>
+        <activity
+            android:name=".activitys.QzonePicturesActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="landscape"/>
+        <!-- zivon add end -->
+
+
+        <!-- stev add start -->
+
+        <activity
+            android:name=".activitys.WPAActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".activitys.OtherApiActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:screenOrientation="landscape"/>
+        <activity
+            android:name=".activitys.TQQInfoActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:screenOrientation="landscape"/>
+        <activity
+            android:name=".activitys.SocialApiActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:screenOrientation="landscape"/>
+        <activity
+            android:name=".activitys.SocialAppbarActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:screenOrientation="landscape"/>
+        <activity
+            android:name=".activitys.AvatarActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:screenOrientation="landscape"/>
+        
+        <activity
+            android:name=".activitys.QQGroupActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".activitys.GameLogicActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <!-- stev add end -->
+        
+         <activity
+            android:name="com.feidou.tencentsdk.util.UrlShowActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="landscape" >
+        </activity>
+        <activity
+            android:name="com.feidou.tencentsdk.util.PayActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:theme="@style/Theme.Dialog"
+            android:screenOrientation="landscape">
+        </activity>
+        <activity
+            android:name="com.feidou.tencentsdk.util.PayRequestActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:theme="@style/Theme.Dialog"
+            android:screenOrientation="landscape">
+        </activity>
+         
+        
+        
+        
+        <!-- 请将value改为MTA分配的appkey < -->
+        <meta-data
+            android:name="TA_APPKEY"
+            android:value="ACR76WS35WPQ" />
+        <meta-data
+            android:name="InstallChannel"
+            android:value="feidou" />
+    </application>
+    <!--  <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS_FULL"/> -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.RECEIVE_MMS" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.WRITE_SMS" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="com.android.vending.BILLING" />
+</manifest>

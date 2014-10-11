@@ -10,6 +10,7 @@ using UnityEngine;
 public class UIEmailEntryWindow : Window
 {
     public CloseButtonControl CloseButtonControl;
+    public ScrollBackWhenNotFull ScrollBackWhenNotFull;
     public Transform MailItem;
     private UIGrid mails;
     private UIToggle sysToggle;
@@ -22,7 +23,15 @@ public class UIEmailEntryWindow : Window
 
     protected UIGrid Mails
     {
-        get { return mails ?? transform.Find("Scroll View/Grid").GetComponent<UIGrid>(); }
+        get
+        {
+            if(mails == null)
+            {
+                mails = transform.Find("Scroll View/Grid").GetComponent<UIGrid>();
+                return mails;
+            }
+            return mails;
+        }
     }
 
     /// <summary>
@@ -44,14 +53,17 @@ public class UIEmailEntryWindow : Window
     public void Refresh()
     {
         mailList.Clear();
-        UpdateItemList(mailMsgInfos.Count);
-        for (int i = 0; i < mailMsgInfos.Count; i++)
+        if (mailMsgInfos != null)
         {
-            var mailItem = Mails.transform.GetChild(i).GetComponent<MailItem>();
-            mailList.Add(mailItem);
-            mailItem.Init(mailMsgInfos[i]);
+            UpdateItemList(mailMsgInfos.Count);
+            for (int i = 0; i < mailMsgInfos.Count; i++)
+            {
+                var mailItem = Mails.transform.GetChild(i).GetComponent<MailItem>();
+                mailList.Add(mailItem);
+                mailItem.Init(mailMsgInfos[i]);
+            }
         }
-        mailCount.text = string.Format("{0}/{1}", mailMsgInfos.Count,
+        mailCount.text = string.Format("{0}/{1}", mailMsgInfos == null ? 0 : mailMsgInfos.Count,
                                        ItemModeLocator.Instance.ServerConfigMsg.MailShowMax);
     }
 
@@ -99,6 +111,7 @@ public class UIEmailEntryWindow : Window
         menuLis.onClick += OnMenu;
         MailHandler.MailIsUpdated += OnMailUpdate;
         MailHandler.MailDetailed += OnMailDetailed;
+        ScrollBackWhenNotFull.OnSrollUpdate += OnSrollUpdate;
     }
 
     private void UnInstallHandlers()
@@ -109,6 +122,17 @@ public class UIEmailEntryWindow : Window
         menuLis.onClick -= OnMenu;
         MailHandler.MailIsUpdated -= OnMailUpdate;
         MailHandler.MailDetailed -= OnMailDetailed;
+        ScrollBackWhenNotFull.OnSrollUpdate -= OnSrollUpdate;
+    }
+
+    private void OnSrollUpdate()
+    {
+        var csmsg = new CSMailListMsg();
+        if (MailModelLocator.Instance.MailListVersion > 0)
+        {
+            csmsg.ListVersion = MailModelLocator.Instance.MailListVersion;
+        }
+        NetManager.SendMessage(csmsg);
     }
 
     private void OnMailDetailed(int mailid, string content)

@@ -6,10 +6,18 @@ public class MyPoolManager : MonoBehaviour
 {
     #region Public Fields
 
+    public enum IncreaseType
+    {
+        Linear,
+        Exponential,
+    }
+
     public int Capacity = DefaultCapcity;
     public GameObject SpawnObject;
 
     public const int DefaultCapcity = 4;
+
+    public IncreaseType TheIncreaseType;
 
     #endregion
 
@@ -109,8 +117,8 @@ public class MyPoolManager : MonoBehaviour
 
         initialized = false;
 
+        ObjectList.ForEach(Destroy);
         ObjectList.Clear();
-        Capacity = DefaultCapcity;
     }
 
     #endregion
@@ -127,7 +135,7 @@ public class MyPoolManager : MonoBehaviour
 
     private void EnlargeCapacity()
     {
-        Capacity += Capacity;
+        Capacity = (Capacity == 0) ? 1 : ((TheIncreaseType == IncreaseType.Linear) ? (Capacity + 1) : (Capacity * 2));
         FillObjectList(Capacity - ObjectList.Count);
     }
 

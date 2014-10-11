@@ -4,8 +4,10 @@ public class MailHandler
 {
     public delegate void MailUpdated(int mailId, sbyte state);
     public delegate void MailDetail(int mailId, string content);
+    public delegate void MailUnReadUpdated();
     public static MailUpdated MailIsUpdated;
     public static MailDetail MailDetailed;
+    public static MailUnReadUpdated OnMailUnReadUpdated;
 
     public static void OnMailList(ThriftSCMessage msg)
     {
@@ -29,8 +31,10 @@ public class MailHandler
             else
             {
                 MailModelLocator.Instance.ScMailListMsg = themsg;
-                MailModelLocator.AlreadyRequest = true;
             }
+            MailModelLocator.Instance.MailListVersion = themsg.ListVersion != -1
+                                                            ? themsg.ListVersion
+                                                            : MailModelLocator.Instance.MailListVersion;
             MailConstant.SortMailList(MailModelLocator.Instance.ScMailListMsg.MailList);
             var mailEntry = WindowManager.Instance.Show<UIEmailEntryWindow>(true);
             mailEntry.Refresh();
@@ -99,6 +103,19 @@ public class MailHandler
             if(mailList != null)
             {
                 mailList.RemoveAll(mail => themsg.MailIds.Contains(mail.Uuid));
+            }
+        }
+    }
+
+    public static void OnMailUnreadStateMsg(ThriftSCMessage msg)
+    {
+        var themsg = msg.GetContent() as SCMailUnreadStateMsg;
+        if(themsg != null)
+        {
+            MailModelLocator.Instance.UnReadCount = themsg.UnReadCount;
+            if(OnMailUnReadUpdated != null)
+            {
+                OnMailUnReadUpdated();
             }
         }
     }

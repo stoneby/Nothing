@@ -1,6 +1,7 @@
 namespace com.kx.sglm.gs.battle.share.data.store
 {
 
+
 	public class AttackStoreExecuter : AbstractBattleStoreExecuter
 	{
 
@@ -46,10 +47,10 @@ namespace com.kx.sglm.gs.battle.share.data.store
 
 		public override void saveToData()
 		{
-			int _curMax = data.getIntValue(BattleKeyConstants.BATTLE_STORE_MAX_FIGHT);
+			int _curMax = data.CurMaxFight;
 			if (_curMax < curAttack)
 			{
-				data.addIntValue(BattleKeyConstants.BATTLE_STORE_MAX_FIGHT, curAttack);
+				data.CurMax = curAttack;
 			}
 		}
 

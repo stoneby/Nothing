@@ -38,7 +38,6 @@ namespace Assets.Game.Scripts.Net.handler
                 if (NGUITools.GetActive(window.gameObject))
                 {
                     window.CleanUp();
-
                 }
                 window = WindowManager.Instance.Show<ChooseCardEffectWindow>(true);
                 window.Refresh(themsg);

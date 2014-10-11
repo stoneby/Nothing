@@ -56,8 +56,8 @@ namespace Assets.Game.Scripts.Net.handler
                     case (short)ErrorType.LOGIN_CHECK_FAIL:
                         str += "登录信息检查未通过";
                         break;
-                    case (short)ErrorType.LOGIN_EXPIRED:
-                        str += "登录超时";
+                    case (short)ErrorType.DATA_SAVING_CANT_LOGIN:
+                        str += "保存数据中，稍后登录";
                         break;
                     case (short)ErrorType.LOGIN_INVALID:
                         str += "登录失效";
@@ -120,6 +120,88 @@ namespace Assets.Game.Scripts.Net.handler
                 SystemModelLocator.Instance.NoticeDetailMsg = sysmsg;
                 SystemModelLocator.Instance.NoticeItem.SetContent(sysmsg.Content);
                 //WindowManager.Instance.Show(typeof(NoticeWindow), true);
+            }
+            else
+            {
+                Logger.LogError("Notice list message should not be null.");
+            }
+        }
+
+        public static void OnSignLoad(ThriftSCMessage msg)
+        {
+            var sysmsg = msg.GetContent() as SCSignLoad;
+
+            if (sysmsg != null)
+            {
+                SystemModelLocator.Instance.SignLoadMsg = sysmsg;
+                WindowManager.Instance.Show(typeof(SignWindow), true);
+            }
+            else
+            {
+                Logger.LogError("Notice list message should not be null.");
+            }
+        }
+
+        public static void OnSignSuccess(ThriftSCMessage msg)
+        {
+            var sysmsg = msg.GetContent() as SCSignSucc;
+
+            if (sysmsg != null)
+            {
+                PopTextManager.PopTip("今日签到成功！", false);
+                WindowManager.Instance.Show<SignWindow>(false);
+                var signmsg = new CSSignLoad();
+                NetManager.SendMessage(signmsg);
+            }
+            else
+            {
+                Logger.LogError("Notice list message should not be null.");
+            }
+        }
+
+        public static void OnQuestLoad(ThriftSCMessage msg)
+        {
+            var sysmsg = msg.GetContent() as SCQuest;
+
+            if (sysmsg != null)
+            {
+                SystemModelLocator.Instance.QuestMsg = sysmsg;
+                WindowManager.Instance.Show(typeof(TaskWindow), true);
+            }
+            else
+            {
+                Logger.LogError("Notice list message should not be null.");
+            }
+        }
+
+        //
+        public static void OnQuestReward(ThriftSCMessage msg)
+        {
+            var sysmsg = msg.GetContent() as SCQuestRecieveRewardSucc;
+
+            if (sysmsg != null)
+            {
+                PopTextManager.PopTip("奖励领取成功！", false);
+                WindowManager.Instance.Show<TaskWindow>(false);
+                var taskmsg = new CSQuest();
+                NetManager.SendMessage(taskmsg);
+            }
+            else
+            {
+                Logger.LogError("Notice list message should not be null.");
+            }
+        }
+
+        //OnQuestFinish
+        public static void OnQuestFinish(ThriftSCMessage msg)
+        {
+            var sysmsg = msg.GetContent() as SCQuestFinish;
+
+            if (sysmsg != null)
+            {
+                PlayerModelLocator.Instance.HasFinishedQuest = true;
+                var e = new QuestFinishEvent();
+                EventManager.Instance.Post(e);
             }
             else
             {

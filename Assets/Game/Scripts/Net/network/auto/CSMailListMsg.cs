@@ -23,6 +23,32 @@ namespace KXSGCodec
   #endif
   public partial class CSMailListMsg : TBase
   {
+    private sbyte _listVersion;
+
+    /// <summary>
+    /// 当前列表版本，默认为0
+    /// </summary>
+    public sbyte ListVersion
+    {
+      get
+      {
+        return _listVersion;
+      }
+      set
+      {
+        __isset.listVersion = true;
+        this._listVersion = value;
+      }
+    }
+
+
+    public Isset __isset;
+    #if !SILVERLIGHT
+    [Serializable]
+    #endif
+    public struct Isset {
+      public bool listVersion;
+    }
 
     public CSMailListMsg() {
     }
@@ -39,6 +65,13 @@ namespace KXSGCodec
         }
         switch (field.ID)
         {
+          case 1:
+            if (field.Type == TType.Byte) {
+              ListVersion = iprot.ReadByte();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
           default: 
             TProtocolUtil.Skip(iprot, field.Type);
             break;
@@ -51,12 +84,23 @@ namespace KXSGCodec
     public void Write(TProtocol oprot) {
       TStruct struc = new TStruct("CSMailListMsg");
       oprot.WriteStructBegin(struc);
+      TField field = new TField();
+      if (__isset.listVersion) {
+        field.Name = "listVersion";
+        field.Type = TType.Byte;
+        field.ID = 1;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteByte(ListVersion);
+        oprot.WriteFieldEnd();
+      }
       oprot.WriteFieldStop();
       oprot.WriteStructEnd();
     }
 
     public override string ToString() {
       StringBuilder sb = new StringBuilder("CSMailListMsg(");
+      sb.Append("ListVersion: ");
+      sb.Append(ListVersion);
       sb.Append(")");
       return sb.ToString();
     }

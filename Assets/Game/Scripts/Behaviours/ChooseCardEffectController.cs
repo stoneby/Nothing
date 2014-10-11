@@ -9,6 +9,7 @@ public class ChooseCardEffectController : MonoBehaviour
     public float CardMoveInterval = 1f;
     public float ExploreDelay = 0.15f;
     public List<Vector3> Positions; 
+    
     public delegate void CardMoveComplete();
     public delegate void EffectComplete();
     public CardMoveComplete OnCardMoveComplete;
@@ -22,7 +23,11 @@ public class ChooseCardEffectController : MonoBehaviour
             var effectController = GetEffectControl(system);
             effectControllerList.Add(effectController);
             NGUITools.SetActive(effectController.gameObject, false);
-        }  
+        }
+        if (effectControllerList.Count > 4)
+        {
+            effectControllerList[4].GetComponent<SetRenderQueue>().RenderQueue = RenderQueue.Overlay;
+        }
     }
 
     private EffectController GetEffectControl(GameObject system)
@@ -30,8 +35,7 @@ public class ChooseCardEffectController : MonoBehaviour
         var child = NGUITools.AddChild(gameObject, system);
         var setRenderQueue = child.GetComponent<SetRenderQueue>() ??
                              child.AddComponent<SetRenderQueue>();
-        setRenderQueue.RenderQueue = RenderQueue.Overlay;
-
+        setRenderQueue.RenderQueue = RenderQueue.FaceEffect;
         return child.GetComponent<EffectController>() ?? child.AddComponent<EffectController>();
     }
 
@@ -63,16 +67,17 @@ public class ChooseCardEffectController : MonoBehaviour
         PlayEffect(effectControllerList[1]);
         yield return new WaitForSeconds(Effect2StartDelay);
         PlayEffect(effectControllerList[2]);
-        if (Positions.Count * CardMoveInterval >= effectControllerList[2].Duration)
+        if (Positions.Count > 0)
         {
             NGUITools.SetActive(effectControllerList[3].gameObject, true);
             foreach (var pos in Positions)
             {
                 PlayCardMove(effectControllerList[0].transform.localPosition, pos);
-                yield return new WaitForSeconds(CardMoveInterval);
+                yield return new WaitForSeconds(CardMoveInterval - ExploreDelay);
                 effectControllerList[4].transform.position = effectControllerList[3].transform.position;
                 PlayEffect(effectControllerList[4]);
                 yield return new WaitForSeconds(ExploreDelay);
+                effectControllerList[4].Stop();
                 if(OnCardMoveComplete != null)
                 {
                     OnCardMoveComplete();

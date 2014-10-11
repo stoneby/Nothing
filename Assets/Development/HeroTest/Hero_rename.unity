@@ -2181,6 +2181,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: .374894947
       objectReference: {fileID: 0}
+    - target: {fileID: 100120, guid: 16ba318dbd131a84e80e7daa419ff198, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 16ba318dbd131a84e80e7daa419ff198, type: 2}
   m_RootGameObject: {fileID: 1929838604}
@@ -3220,6 +3224,33 @@ MonoBehaviour:
   mAtlas: {fileID: 11400000, guid: d12e651d91874d74ea15e9e61a2e7bbb, type: 2}
   mSpriteName: lvlingqi_yaobu
   mFillCenter: 1
+--- !u!1 &59536847
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100088, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 59536848}
+  m_Layer: 0
+  m_Name: D_liubei_qunzi
+  m_TagString: Bones
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &59536848
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400088, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 59536847}
+  m_LocalRotation: {x: -4.22163318e-08, y: -5.97722249e-07, z: .997515082, w: .070453167}
+  m_LocalPosition: {x: 18.0134125, y: 29.6991558, z: 69.7067566}
+  m_LocalScale: {x: -1, y: -1, z: -1}
+  m_Children:
+  - {fileID: 629972868}
+  m_Father: {fileID: 88459495}
 --- !u!1 &60247877
 GameObject:
   m_ObjectHideFlags: 0
@@ -3675,6 +3706,10 @@ Prefab:
     - target: {fileID: 400002, guid: 0463e4a77582bcb40a71f7071f6218ba, type: 2}
       propertyPath: m_LocalScale.z
       value: .374894947
+      objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: 0463e4a77582bcb40a71f7071f6218ba, type: 2}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0463e4a77582bcb40a71f7071f6218ba, type: 2}
@@ -4608,6 +4643,80 @@ MonoBehaviour:
   mAtlas: {fileID: 11400000, guid: 068edf9549a808d4087cec4b2e8a5b47, type: 2}
   mSpriteName: tongyongdaobing_zuoxiaobi
   mFillCenter: 1
+--- !u!1 &88459494
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100108, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 88459495}
+  - 111: {fileID: 88459496}
+  m_Layer: 0
+  m_Name: liubei
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &88459495
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400108, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 88459494}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: -4.37113883e-08}
+  m_LocalPosition: {x: 502.106049, y: -235.028412, z: -4.38955067e-05}
+  m_LocalScale: {x: .374894887, y: .374894887, z: .374894887}
+  m_Children:
+  - {fileID: 1233145457}
+  - {fileID: 1185127112}
+  - {fileID: 1587092121}
+  - {fileID: 1528689886}
+  - {fileID: 1622081958}
+  - {fileID: 2141448171}
+  - {fileID: 1510400066}
+  - {fileID: 434563716}
+  - {fileID: 870529698}
+  - {fileID: 59536848}
+  - {fileID: 422659161}
+  - {fileID: 745057147}
+  - {fileID: 1219136995}
+  - {fileID: 655076630}
+  - {fileID: 496243878}
+  - {fileID: 1434707015}
+  - {fileID: 141824284}
+  - {fileID: 250651402}
+  - {fileID: 1133891289}
+  - {fileID: 2004570779}
+  - {fileID: 923277016}
+  - {fileID: 1644048726}
+  - {fileID: 346968493}
+  - {fileID: 1992019376}
+  - {fileID: 385474739}
+  - {fileID: 1590716499}
+  - {fileID: 354493827}
+  m_Father: {fileID: 1030463608}
+--- !u!111 &88459496
+Animation:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11100000, guid: e67515824a20a3d49866a39982021286,
+    type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 88459494}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 6ec5e0e7ca08e2241b738dfc6ddee243, type: 3}
+  m_Animations:
+  - {fileID: 7400000, guid: 6ec5e0e7ca08e2241b738dfc6ddee243, type: 3}
+  - {fileID: 7400002, guid: 6ec5e0e7ca08e2241b738dfc6ddee243, type: 3}
+  - {fileID: 7400004, guid: 6ec5e0e7ca08e2241b738dfc6ddee243, type: 3}
+  - {fileID: 7400006, guid: 6ec5e0e7ca08e2241b738dfc6ddee243, type: 3}
+  - {fileID: 7400008, guid: 6ec5e0e7ca08e2241b738dfc6ddee243, type: 3}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1 &88946582
 GameObject:
   m_ObjectHideFlags: 0
@@ -5210,6 +5319,10 @@ Prefab:
     - target: {fileID: 400116, guid: e4ad328a185bee048a1ea03eeac16d09, type: 2}
       propertyPath: m_LocalScale.z
       value: .374894947
+      objectReference: {fileID: 0}
+    - target: {fileID: 100116, guid: e4ad328a185bee048a1ea03eeac16d09, type: 2}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e4ad328a185bee048a1ea03eeac16d09, type: 2}
@@ -6072,6 +6185,58 @@ Transform:
   m_Children:
   - {fileID: 1463831289}
   m_Father: {fileID: 1677936542}
+--- !u!1001 &118281749
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1030463608}
+    m_Modifications:
+    - target: {fileID: 400108, guid: e67515824a20a3d49866a39982021286, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 502.106049
+      objectReference: {fileID: 0}
+    - target: {fileID: 400108, guid: e67515824a20a3d49866a39982021286, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: -235.028412
+      objectReference: {fileID: 0}
+    - target: {fileID: 400108, guid: e67515824a20a3d49866a39982021286, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -4.38955067e-05
+      objectReference: {fileID: 0}
+    - target: {fileID: 400108, guid: e67515824a20a3d49866a39982021286, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400108, guid: e67515824a20a3d49866a39982021286, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 400108, guid: e67515824a20a3d49866a39982021286, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400108, guid: e67515824a20a3d49866a39982021286, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: -4.37113883e-08
+      objectReference: {fileID: 0}
+    - target: {fileID: 400108, guid: e67515824a20a3d49866a39982021286, type: 2}
+      propertyPath: m_LocalScale.x
+      value: .374894887
+      objectReference: {fileID: 0}
+    - target: {fileID: 400108, guid: e67515824a20a3d49866a39982021286, type: 2}
+      propertyPath: m_LocalScale.y
+      value: .374894887
+      objectReference: {fileID: 0}
+    - target: {fileID: 400108, guid: e67515824a20a3d49866a39982021286, type: 2}
+      propertyPath: m_LocalScale.z
+      value: .374894887
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_RootGameObject: {fileID: 88459494}
+  m_IsPrefabParent: 0
+  m_IsExploded: 1
 --- !u!1 &119011091
 GameObject:
   m_ObjectHideFlags: 0
@@ -7456,6 +7621,33 @@ MonoBehaviour:
   mAtlas: {fileID: 11400000, guid: d66d1f55caa952e44940495e2404221a, type: 2}
   mSpriteName: tongyongwenguan_toufa1
   mFillCenter: 1
+--- !u!1 &141824283
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100074, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 141824284}
+  m_Layer: 0
+  m_Name: D_liubei_toujin2
+  m_TagString: Bones
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &141824284
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400074, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 141824283}
+  m_LocalRotation: {x: -4.56196112e-08, y: -3.29754499e-07, z: .990565658, w: .137038991}
+  m_LocalPosition: {x: -23.2198143, y: 158.523315, z: 58.0808182}
+  m_LocalScale: {x: -1, y: -1, z: -1}
+  m_Children:
+  - {fileID: 1131886886}
+  m_Father: {fileID: 88459495}
 --- !u!1 &142004845
 GameObject:
   m_ObjectHideFlags: 0
@@ -10399,6 +10591,88 @@ Transform:
   m_Children:
   - {fileID: 1780222851}
   m_Father: {fileID: 1867458099}
+--- !u!1 &192851531
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100006, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 192851532}
+  - 114: {fileID: 192851533}
+  m_Layer: 8
+  m_Name: liubei_zuojianjia
+  m_TagString: Sprites
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &192851532
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400006, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 192851531}
+  m_LocalRotation: {x: 9.49757819e-08, y: 3.3433804e-07, z: -.999861479, w: .0166463871}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1992019376}
+--- !u!114 &192851533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400006, guid: e67515824a20a3d49866a39982021286,
+    type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 192851531}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 36
+  mHeight: 32
+  mDepth: 1043
+  HighLight: 0
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: 1.125
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: 0541f6a1815e0bf42a8eb3232211579a, type: 2}
+  mSpriteName: liubei_zuojianjia
+  mFillCenter: 1
 --- !u!1 &193583061
 GameObject:
   m_ObjectHideFlags: 0
@@ -12987,6 +13261,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: .437377363
       objectReference: {fileID: 0}
+    - target: {fileID: 100084, guid: 6eab46e19c1382148a056c40d9fb9f27, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6eab46e19c1382148a056c40d9fb9f27, type: 2}
   m_RootGameObject: {fileID: 1008424181}
@@ -13482,6 +13760,33 @@ MonoBehaviour:
   mAtlas: {fileID: 11400000, guid: 80f4c41db08ecb444a6cc1d7f1f62fcc, type: 2}
   mSpriteName: zhangchunhua_fa
   mFillCenter: 1
+--- !u!1 &250651401
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100072, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 250651402}
+  m_Layer: 0
+  m_Name: D_liubei_yaodai
+  m_TagString: Bones
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &250651402
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400072, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 250651401}
+  m_LocalRotation: {x: 2.32599771e-08, y: -5.65508117e-07, z: .983706176, w: .179783717}
+  m_LocalPosition: {x: 19.6207256, y: 57.9962845, z: 101.798233}
+  m_LocalScale: {x: -1, y: -1.00000012, z: -1}
+  m_Children:
+  - {fileID: 815959537}
+  m_Father: {fileID: 88459495}
 --- !u!1 &251876523
 GameObject:
   m_ObjectHideFlags: 0
@@ -14117,6 +14422,10 @@ Prefab:
     - target: {fileID: 400080, guid: 965c79908b89e7b4aa8f296ba9d41e4e, type: 2}
       propertyPath: m_LocalScale.z
       value: .374894947
+      objectReference: {fileID: 0}
+    - target: {fileID: 100080, guid: 965c79908b89e7b4aa8f296ba9d41e4e, type: 2}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 965c79908b89e7b4aa8f296ba9d41e4e, type: 2}
@@ -15080,6 +15389,10 @@ Prefab:
     - target: {fileID: 400088, guid: dfa655b57cd614c4c861a41b62db23d0, type: 2}
       propertyPath: m_LocalScale.z
       value: .374894947
+      objectReference: {fileID: 0}
+    - target: {fileID: 100088, guid: dfa655b57cd614c4c861a41b62db23d0, type: 2}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: dfa655b57cd614c4c861a41b62db23d0, type: 2}
@@ -16763,6 +17076,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: .374894947
       objectReference: {fileID: 0}
+    - target: {fileID: 100076, guid: f1d27d249d286674d9f9ecdcc316e5b4, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f1d27d249d286674d9f9ecdcc316e5b4, type: 2}
   m_RootGameObject: {fileID: 97503177}
@@ -16822,6 +17139,88 @@ Transform:
   m_Children:
   - {fileID: 306034028}
   m_Father: {fileID: 1852990397}
+--- !u!1 &304741032
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100048, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 304741033}
+  - 114: {fileID: 304741034}
+  m_Layer: 8
+  m_Name: liubei_dabi
+  m_TagString: Sprites
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &304741033
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400048, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 304741032}
+  m_LocalRotation: {x: -2.80547425e-07, y: 6.33512002e-07, z: -.735803604, w: .677195072}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1587092121}
+--- !u!114 &304741034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400048, guid: e67515824a20a3d49866a39982021286,
+    type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 304741032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 32
+  mHeight: 40
+  mDepth: 1125
+  HighLight: 0
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: .800000012
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: 0541f6a1815e0bf42a8eb3232211579a, type: 2}
+  mSpriteName: liubei_dabi
+  mFillCenter: 1
 --- !u!1 &305360818
 GameObject:
   m_ObjectHideFlags: 0
@@ -19070,6 +19469,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: .374894947
       objectReference: {fileID: 0}
+    - target: {fileID: 100100, guid: 0a71bffcbf2abb248b7198ffd0100098, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0a71bffcbf2abb248b7198ffd0100098, type: 2}
   m_RootGameObject: {fileID: 1852990396}
@@ -19566,6 +19969,88 @@ MonoBehaviour:
   mAtlas: {fileID: 11400000, guid: 291bca726a3e8f84c80ec69d675cad31, type: 2}
   mSpriteName: lvmeng_youtui
   mFillCenter: 1
+--- !u!1 &336952139
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100028, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 336952140}
+  - 114: {fileID: 336952141}
+  m_Layer: 8
+  m_Name: liubei_toufa1
+  m_TagString: Sprites
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &336952140
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400028, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 336952139}
+  m_LocalRotation: {x: -3.73568589e-08, y: 3.32001292e-07, z: -.999818265, w: .0190648139}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1219136995}
+--- !u!114 &336952141
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400028, guid: e67515824a20a3d49866a39982021286,
+    type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 336952139}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 12
+  mHeight: 56
+  mDepth: 1067
+  HighLight: 0
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: .214285716
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: 0541f6a1815e0bf42a8eb3232211579a, type: 2}
+  mSpriteName: liubei_toufa1
+  mFillCenter: 1
 --- !u!1 &337455878
 GameObject:
   m_ObjectHideFlags: 0
@@ -20002,6 +20487,33 @@ MonoBehaviour:
   mAtlas: {fileID: 11400000, guid: d12e651d91874d74ea15e9e61a2e7bbb, type: 2}
   mSpriteName: lvlingqi_erhuan2
   mFillCenter: 1
+--- !u!1 &346968492
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100062, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 346968493}
+  m_Layer: 0
+  m_Name: D_liubei_zuodabi
+  m_TagString: Bones
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &346968493
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400062, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 346968492}
+  m_LocalRotation: {x: -1.83628131e-07, y: -2.63604306e-07, z: .973795235, w: -.227426648}
+  m_LocalPosition: {x: 63.5073471, y: 79.6947174, z: 20.8577404}
+  m_LocalScale: {x: -.999999821, y: -.999999821, z: -1}
+  m_Children:
+  - {fileID: 1595273842}
+  m_Father: {fileID: 88459495}
 --- !u!1 &347056276
 GameObject:
   m_ObjectHideFlags: 0
@@ -20519,6 +21031,33 @@ Transform:
   m_Children:
   - {fileID: 1257459480}
   m_Father: {fileID: 125875019}
+--- !u!1 &354493826
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100054, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 354493827}
+  m_Layer: 0
+  m_Name: D_liubei_zuoshoubi
+  m_TagString: Bones
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &354493827
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400054, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 354493826}
+  m_LocalRotation: {x: 5.58125492e-08, y: -5.30114619e-07, z: .952418923, w: -.304792017}
+  m_LocalPosition: {x: 77.9248047, y: 65.3574295, z: 28.8991184}
+  m_LocalScale: {x: -1.00000036, y: -1.00000036, z: -1}
+  m_Children:
+  - {fileID: 559505347}
+  m_Father: {fileID: 88459495}
 --- !u!1 &356389863
 GameObject:
   m_ObjectHideFlags: 0
@@ -21978,6 +22517,88 @@ Transform:
   m_Children:
   - {fileID: 1376521432}
   m_Father: {fileID: 913097149}
+--- !u!1 &382199845
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100012, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 382199846}
+  - 114: {fileID: 382199847}
+  m_Layer: 8
+  m_Name: liubei_youjiao
+  m_TagString: Sprites
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &382199846
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400012, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 382199845}
+  m_LocalRotation: {x: -4.5201412e-07, y: 4.78809625e-07, z: -.981789351, w: .189972892}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 923277016}
+--- !u!114 &382199847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400012, guid: e67515824a20a3d49866a39982021286,
+    type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 382199845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 36
+  mHeight: 38
+  mDepth: 1055
+  HighLight: 0
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: .947368443
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: 0541f6a1815e0bf42a8eb3232211579a, type: 2}
+  mSpriteName: liubei_youjiao
+  mFillCenter: 1
 --- !u!1 &382791495
 GameObject:
   m_ObjectHideFlags: 0
@@ -22141,6 +22762,33 @@ Transform:
   m_Children:
   - {fileID: 1670504774}
   m_Father: {fileID: 1966350449}
+--- !u!1 &385474738
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100058, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 385474739}
+  m_Layer: 0
+  m_Name: D_liubei_zuojiao
+  m_TagString: Bones
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &385474739
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400058, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 385474738}
+  m_LocalRotation: {x: -1.32840754e-07, y: 1.32840754e-07, z: .999997199, w: .0023801981}
+  m_LocalPosition: {x: 46.8847694, y: 18.5987244, z: 48.5004501}
+  m_LocalScale: {x: -.99999994, y: -1.00000012, z: -.99999994}
+  m_Children:
+  - {fileID: 576191590}
+  m_Father: {fileID: 88459495}
 --- !u!1 &385735355
 GameObject:
   m_ObjectHideFlags: 0
@@ -24050,6 +24698,88 @@ MonoBehaviour:
   mAtlas: {fileID: 11400000, guid: a0432c7eec5df0f429a431385f3db29d, type: 2}
   mSpriteName: sunquan_lingzi2
   mFillCenter: 1
+--- !u!1 &410921208
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100014, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 410921209}
+  - 114: {fileID: 410921210}
+  m_Layer: 8
+  m_Name: liubei_youjianjia
+  m_TagString: Sprites
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &410921209
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400014, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 410921208}
+  m_LocalRotation: {x: -3.18618731e-07, y: 6.08865093e-07, z: -.800954044, w: .598725855}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2004570779}
+--- !u!114 &410921210
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400014, guid: e67515824a20a3d49866a39982021286,
+    type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 410921208}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 52
+  mHeight: 38
+  mDepth: 1140
+  HighLight: 0
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: 1.36842108
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: 0541f6a1815e0bf42a8eb3232211579a, type: 2}
+  mSpriteName: liubei_youjianjia
+  mFillCenter: 1
 --- !u!1 &411588986
 GameObject:
   m_ObjectHideFlags: 0
@@ -24642,6 +25372,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: .374894947
       objectReference: {fileID: 0}
+    - target: {fileID: 100096, guid: 36577e804b0c77c43b0f9174ee5364df, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 36577e804b0c77c43b0f9174ee5364df, type: 2}
   m_RootGameObject: {fileID: 476995372}
@@ -24756,6 +25490,33 @@ Transform:
   m_Children:
   - {fileID: 753016744}
   m_Father: {fileID: 1659684270}
+--- !u!1 &422659160
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100086, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 422659161}
+  m_Layer: 0
+  m_Name: D_liubei_shenti
+  m_TagString: Bones
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &422659161
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400086, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 422659160}
+  m_LocalRotation: {x: 2.32602115e-08, y: -5.65508287e-07, z: .983706236, w: .179783329}
+  m_LocalPosition: {x: 26.9130268, y: 79.9709778, z: 62.3941231}
+  m_LocalScale: {x: -1, y: -1, z: -1}
+  m_Children:
+  - {fileID: 1480756608}
+  m_Father: {fileID: 88459495}
 --- !u!1 &423115656
 GameObject:
   m_ObjectHideFlags: 0
@@ -25464,6 +26225,33 @@ Transform:
   m_Children:
   - {fileID: 1144454434}
   m_Father: {fileID: 694808000}
+--- !u!1 &434563715
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100092, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 434563716}
+  m_Layer: 0
+  m_Name: D_liubei_qunjia2
+  m_TagString: Bones
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &434563716
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400092, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 434563715}
+  m_LocalRotation: {x: 5.0255867e-08, y: -5.97100041e-07, z: .99647671, w: -.0838700309}
+  m_LocalPosition: {x: 48.2435837, y: 32.449913, z: 85.3374252}
+  m_LocalScale: {x: -1.00000012, y: -1.00000012, z: -1}
+  m_Children:
+  - {fileID: 1918032858}
+  m_Father: {fileID: 88459495}
 --- !u!1 &435075277
 GameObject:
   m_ObjectHideFlags: 0
@@ -26218,6 +27006,10 @@ Prefab:
     - target: {fileID: 400104, guid: 8a87729666950884db86309642d75370, type: 2}
       propertyPath: m_LocalScale.z
       value: .374894947
+      objectReference: {fileID: 0}
+    - target: {fileID: 100104, guid: 8a87729666950884db86309642d75370, type: 2}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8a87729666950884db86309642d75370, type: 2}
@@ -28721,6 +29513,33 @@ Transform:
   m_Children:
   - {fileID: 587620233}
   m_Father: {fileID: 1754094456}
+--- !u!1 &496243877
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100078, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 496243878}
+  m_Layer: 0
+  m_Name: D_liubei_toufa3
+  m_TagString: Bones
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &496243878
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400078, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 496243877}
+  m_LocalRotation: {x: -1.31691946e-08, y: -3.32634556e-07, z: .999217212, w: .0395595878}
+  m_LocalPosition: {x: 7.83695745, y: 133.196793, z: 158.547638}
+  m_LocalScale: {x: -.999999881, y: -.99999994, z: -1}
+  m_Children:
+  - {fileID: 1837791246}
+  m_Father: {fileID: 88459495}
 --- !u!1001 &496634132
 Prefab:
   m_ObjectHideFlags: 0
@@ -28851,6 +29670,10 @@ Prefab:
     - target: {fileID: 400080, guid: 1294d5811e0d36e40a75112e789a0b4c, type: 2}
       propertyPath: m_LocalScale.z
       value: .374894947
+      objectReference: {fileID: 0}
+    - target: {fileID: 100080, guid: 1294d5811e0d36e40a75112e789a0b4c, type: 2}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1294d5811e0d36e40a75112e789a0b4c, type: 2}
@@ -30895,6 +31718,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: .374894947
       objectReference: {fileID: 0}
+    - target: {fileID: 100080, guid: 2c56cef424499034b8e171cac822bc90, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2c56cef424499034b8e171cac822bc90, type: 2}
   m_RootGameObject: {fileID: 1677936541}
@@ -31437,6 +32264,10 @@ Prefab:
     - target: {fileID: 400112, guid: eb587c0503207ea4bac9b0c3a2852ba1, type: 2}
       propertyPath: m_LocalScale.z
       value: .374894947
+      objectReference: {fileID: 0}
+    - target: {fileID: 100112, guid: eb587c0503207ea4bac9b0c3a2852ba1, type: 2}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: eb587c0503207ea4bac9b0c3a2852ba1, type: 2}
@@ -32725,6 +33556,88 @@ MonoBehaviour:
   mAtlas: {fileID: 11400000, guid: d2b085e7c5abe97498d75ac2bce4d214, type: 2}
   mSpriteName: duizhang_wuqi1
   mFillCenter: 1
+--- !u!1 &559505346
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100000, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 559505347}
+  - 114: {fileID: 559505348}
+  m_Layer: 8
+  m_Name: liubei_zuoshoubi
+  m_TagString: Sprites
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &559505347
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400000, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 559505346}
+  m_LocalRotation: {x: -9.74441008e-08, y: 5.43437523e-07, z: -.952418923, w: -.304792017}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 354493827}
+--- !u!114 &559505348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400000, guid: e67515824a20a3d49866a39982021286,
+    type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 559505346}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 30
+  mHeight: 38
+  mDepth: 1028
+  HighLight: 0
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: .789473712
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: 0541f6a1815e0bf42a8eb3232211579a, type: 2}
+  mSpriteName: liubei_zuoshoubi
+  mFillCenter: 1
 --- !u!1 &561870263
 GameObject:
   m_ObjectHideFlags: 0
@@ -33260,6 +34173,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: .374894887
       objectReference: {fileID: 0}
+    - target: {fileID: 100112, guid: 7fa16747b9a819e47b402ebba61714ff, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7fa16747b9a819e47b402ebba61714ff, type: 2}
   m_RootGameObject: {fileID: 1847598702}
@@ -33292,6 +34209,88 @@ Transform:
   m_Children:
   - {fileID: 1720494426}
   m_Father: {fileID: 1146795932}
+--- !u!1 &576191589
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100004, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 576191590}
+  - 114: {fileID: 576191591}
+  m_Layer: 8
+  m_Name: liubei_zuojiao
+  m_TagString: Sprites
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &576191590
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400004, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 576191589}
+  m_LocalRotation: {x: 8.9129486e-08, y: -1.32944791e-07, z: -.999997199, w: .0023801981}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 385474739}
+--- !u!114 &576191591
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400004, guid: e67515824a20a3d49866a39982021286,
+    type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 576191589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 32
+  mHeight: 34
+  mDepth: 1048
+  HighLight: 0
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: .941176474
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: 0541f6a1815e0bf42a8eb3232211579a, type: 2}
+  mSpriteName: liubei_zuojiao
+  mFillCenter: 1
 --- !u!1 &581397599
 GameObject:
   m_ObjectHideFlags: 0
@@ -34272,6 +35271,88 @@ Transform:
   m_Children:
   - {fileID: 888110469}
   m_Father: {fileID: 1966350449}
+--- !u!1 &597420309
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100042, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 597420310}
+  - 114: {fileID: 597420311}
+  m_Layer: 8
+  m_Name: liubei_qunjia
+  m_TagString: Sprites
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &597420310
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400042, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 597420309}
+  m_LocalRotation: {x: 8.44054693e-09, y: 5.93159484e-07, z: -.996229351, w: .0867592469}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2141448171}
+--- !u!114 &597420311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400042, guid: e67515824a20a3d49866a39982021286,
+    type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 597420309}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 28
+  mHeight: 24
+  mDepth: 1092
+  HighLight: 0
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: 1.16666663
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: 0541f6a1815e0bf42a8eb3232211579a, type: 2}
+  mSpriteName: liubei_qunjia
+  mFillCenter: 1
 --- !u!1 &597673901
 GameObject:
   m_ObjectHideFlags: 0
@@ -36233,6 +37314,88 @@ MonoBehaviour:
   mAtlas: {fileID: 11400000, guid: d8cb26e8604ee334e80768867c85385c, type: 2}
   mSpriteName: dengai_xiaopifeng
   mFillCenter: 1
+--- !u!1 &629972867
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100034, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 629972868}
+  - 114: {fileID: 629972869}
+  m_Layer: 8
+  m_Name: liubei_qunzi
+  m_TagString: Sprites
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &629972868
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400034, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 629972867}
+  m_LocalRotation: {x: -1.3864373e-09, y: 5.94642643e-07, z: -.997515082, w: .070453167}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 59536848}
+--- !u!114 &629972869
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400034, guid: e67515824a20a3d49866a39982021286,
+    type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 629972867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 70
+  mHeight: 54
+  mDepth: 1069
+  HighLight: 0
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: 1.29629624
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: 0541f6a1815e0bf42a8eb3232211579a, type: 2}
+  mSpriteName: liubei_qunzi
+  mFillCenter: 1
 --- !u!1 &630231167
 GameObject:
   m_ObjectHideFlags: 0
@@ -36850,6 +38013,10 @@ Prefab:
     - target: {fileID: 400076, guid: 65bfdbf80e933d643a6da5f5d048182c, type: 2}
       propertyPath: m_LocalScale.z
       value: .374894947
+      objectReference: {fileID: 0}
+    - target: {fileID: 100076, guid: 65bfdbf80e933d643a6da5f5d048182c, type: 2}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 65bfdbf80e933d643a6da5f5d048182c, type: 2}
@@ -37972,6 +39139,33 @@ Transform:
   m_Children:
   - {fileID: 1399346983}
   m_Father: {fileID: 1929838605}
+--- !u!1 &655076629
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100080, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 655076630}
+  m_Layer: 0
+  m_Name: D_liubei_toufa2
+  m_TagString: Bones
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &655076630
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400080, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 655076629}
+  m_LocalRotation: {x: -5.7754459e-08, y: -5.96421444e-07, z: .995344222, w: .0963841379}
+  m_LocalPosition: {x: 47.7795715, y: 266.769073, z: 46.1645737}
+  m_LocalScale: {x: -1, y: -.99999994, z: -1}
+  m_Children:
+  - {fileID: 911195322}
+  m_Father: {fileID: 88459495}
 --- !u!1 &656442165
 GameObject:
   m_ObjectHideFlags: 0
@@ -39191,6 +40385,10 @@ Prefab:
     - target: {fileID: 400096, guid: 260e90de1073b594b88422f9245a9135, type: 2}
       propertyPath: m_LocalScale.z
       value: .374894947
+      objectReference: {fileID: 0}
+    - target: {fileID: 100096, guid: 260e90de1073b594b88422f9245a9135, type: 2}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 260e90de1073b594b88422f9245a9135, type: 2}
@@ -40502,6 +41700,10 @@ Prefab:
     - target: {fileID: 400084, guid: 5a61e75ac7b102947afcb554d4b2d43b, type: 2}
       propertyPath: m_LocalScale.z
       value: .374894947
+      objectReference: {fileID: 0}
+    - target: {fileID: 100084, guid: 5a61e75ac7b102947afcb554d4b2d43b, type: 2}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5a61e75ac7b102947afcb554d4b2d43b, type: 2}
@@ -43355,6 +44557,33 @@ Transform:
   m_Children:
   - {fileID: 1128564502}
   m_Father: {fileID: 1316470440}
+--- !u!1 &745057146
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100084, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 745057147}
+  m_Layer: 0
+  m_Name: D_liubei_tou
+  m_TagString: Bones
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &745057147
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400084, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 745057146}
+  m_LocalRotation: {x: -5.7754459e-08, y: -5.96421444e-07, z: .995344222, w: .0963841379}
+  m_LocalPosition: {x: 46.105526, y: 175.859268, z: 81.0464935}
+  m_LocalScale: {x: -1, y: -.99999994, z: -1}
+  m_Children:
+  - {fileID: 1072766581}
+  m_Father: {fileID: 88459495}
 --- !u!1 &748198076
 GameObject:
   m_ObjectHideFlags: 0
@@ -43668,6 +44897,10 @@ Prefab:
     - target: {fileID: 400100, guid: 9769bd6735619a347b6317cb83ce50da, type: 2}
       propertyPath: m_LocalScale.z
       value: .374894947
+      objectReference: {fileID: 0}
+    - target: {fileID: 100100, guid: 9769bd6735619a347b6317cb83ce50da, type: 2}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9769bd6735619a347b6317cb83ce50da, type: 2}
@@ -44948,6 +46181,10 @@ Prefab:
     - target: {fileID: 400080, guid: cc83ba595a8c5894298dc57cde41bcbb, type: 2}
       propertyPath: m_LocalScale.z
       value: .374894947
+      objectReference: {fileID: 0}
+    - target: {fileID: 100080, guid: cc83ba595a8c5894298dc57cde41bcbb, type: 2}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: cc83ba595a8c5894298dc57cde41bcbb, type: 2}
@@ -48511,6 +49748,88 @@ MonoBehaviour:
   mAtlas: {fileID: 11400000, guid: dad671a5d38155648b861dae538407f2, type: 2}
   mSpriteName: yuanshao_bingqi1
   mFillCenter: 1
+--- !u!1 &815959536
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100018, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 815959537}
+  - 114: {fileID: 815959538}
+  m_Layer: 8
+  m_Name: liubei_yaodai
+  m_TagString: Sprites
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &815959537
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400018, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 815959536}
+  m_LocalRotation: {x: -6.62591404e-08, y: 5.57649514e-07, z: -.983706176, w: .179783717}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 250651402}
+--- !u!114 &815959538
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400018, guid: e67515824a20a3d49866a39982021286,
+    type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 815959536}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 64
+  mHeight: 44
+  mDepth: 1101
+  HighLight: 0
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: 1.4545455
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: 0541f6a1815e0bf42a8eb3232211579a, type: 2}
+  mSpriteName: liubei_yaodai
+  mFillCenter: 1
 --- !u!1 &817017725
 GameObject:
   m_ObjectHideFlags: 0
@@ -51592,6 +52911,33 @@ Transform:
   m_Children:
   - {fileID: 392905559}
   m_Father: {fileID: 696627422}
+--- !u!1 &870529697
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100090, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 870529698}
+  m_Layer: 0
+  m_Name: D_liubei_qunjia3
+  m_TagString: Bones
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &870529698
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400090, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 870529697}
+  m_LocalRotation: {x: -5.19871151e-08, y: -5.9695185e-07, z: .996229351, w: .0867592469}
+  m_LocalPosition: {x: 21.5161591, y: 21.358469, z: 79.8946915}
+  m_LocalScale: {x: -.99999994, y: -.99999994, z: -1}
+  m_Children:
+  - {fileID: 1792846213}
+  m_Father: {fileID: 88459495}
 --- !u!1 &870787901
 GameObject:
   m_ObjectHideFlags: 0
@@ -54348,6 +55694,88 @@ MonoBehaviour:
   mAtlas: {fileID: 11400000, guid: 3bc466f6f7ac3a04383fed2e1e8c3dbb, type: 2}
   mSpriteName: zhangbao_zuoshou
   mFillCenter: 1
+--- !u!1 &911195321
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100026, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 911195322}
+  - 114: {fileID: 911195323}
+  m_Layer: 8
+  m_Name: liubei_toufa2
+  m_TagString: Sprites
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &911195322
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400026, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 911195321}
+  m_LocalRotation: {x: 1.42465808e-08, y: 5.9220838e-07, z: -.995344222, w: .0963841379}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 655076630}
+--- !u!114 &911195323
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400026, guid: e67515824a20a3d49866a39982021286,
+    type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 911195321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 68
+  mHeight: 72
+  mDepth: 1046
+  HighLight: 0
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: .944444418
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: 0541f6a1815e0bf42a8eb3232211579a, type: 2}
+  mSpriteName: liubei_toufa2
+  mFillCenter: 1
 --- !u!1 &911697035
 GameObject:
   m_ObjectHideFlags: 0
@@ -55207,6 +56635,33 @@ MonoBehaviour:
   mAtlas: {fileID: 11400000, guid: e364316e9816e2343990c077f8a28459, type: 2}
   mSpriteName: zhugeliang_beihou2
   mFillCenter: 1
+--- !u!1 &923277015
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100066, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 923277016}
+  m_Layer: 0
+  m_Name: D_liubei_youjiao
+  m_TagString: Bones
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &923277016
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400066, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 923277015}
+  m_LocalRotation: {x: 4.09098732e-07, y: -4.87113596e-07, z: .981789351, w: .189972892}
+  m_LocalPosition: {x: -23.7927475, y: 17.4822998, z: 55.5150719}
+  m_LocalScale: {x: -1.00000036, y: -1, z: -1}
+  m_Children:
+  - {fileID: 382199846}
+  m_Father: {fileID: 88459495}
 --- !u!1 &923938618
 GameObject:
   m_ObjectHideFlags: 0
@@ -56248,6 +57703,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: .374894887
       objectReference: {fileID: 0}
+    - target: {fileID: 100140, guid: 37b374e8b1c882740b07e4f5e4fdc021, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 37b374e8b1c882740b07e4f5e4fdc021, type: 2}
   m_RootGameObject: {fileID: 913097148}
@@ -56883,6 +58342,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: .374894947
       objectReference: {fileID: 0}
+    - target: {fileID: 100116, guid: f04819f56bbbd3f40bbcc1afaff8eaa1, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f04819f56bbbd3f40bbcc1afaff8eaa1, type: 2}
   m_RootGameObject: {fileID: 1659684269}
@@ -57296,6 +58759,88 @@ MonoBehaviour:
   topType: 1
   mAtlas: {fileID: 11400000, guid: 16020eed1d7346e4bb570bf7e6412b78, type: 2}
   mSpriteName: guanyu_huzi9
+  mFillCenter: 1
+--- !u!1 &953924236
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100010, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 953924237}
+  - 114: {fileID: 953924238}
+  m_Layer: 8
+  m_Name: liubei_youshou
+  m_TagString: Sprites
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &953924237
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400010, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 953924236}
+  m_LocalRotation: {x: 3.09131665e-10, y: 7.95333506e-07, z: -.998485506, w: .0550152212}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1644048726}
+--- !u!114 &953924238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400010, guid: e67515824a20a3d49866a39982021286,
+    type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 953924236}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 30
+  mHeight: 28
+  mDepth: 1125
+  HighLight: 0
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: 1.07142854
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: 0541f6a1815e0bf42a8eb3232211579a, type: 2}
+  mSpriteName: liubei_youshou
   mFillCenter: 1
 --- !u!1 &954844771
 GameObject:
@@ -59718,6 +61263,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: .374894887
       objectReference: {fileID: 0}
+    - target: {fileID: 100088, guid: 01a5b2c2132aa094e975fbfeb4dad4a3, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 01a5b2c2132aa094e975fbfeb4dad4a3, type: 2}
   m_RootGameObject: {fileID: 1966350448}
@@ -59947,6 +61496,10 @@ Prefab:
     - target: {fileID: 400092, guid: 9dd55076bb7a4154f809522bebe51de4, type: 2}
       propertyPath: m_LocalScale.z
       value: .374894947
+      objectReference: {fileID: 0}
+    - target: {fileID: 100092, guid: 9dd55076bb7a4154f809522bebe51de4, type: 2}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9dd55076bb7a4154f809522bebe51de4, type: 2}
@@ -60500,6 +62053,10 @@ Prefab:
     - target: {fileID: 400088, guid: ec1e0b39ea5a1a840a4a89505d1c660e, type: 2}
       propertyPath: m_LocalScale.z
       value: .374894947
+      objectReference: {fileID: 0}
+    - target: {fileID: 100088, guid: ec1e0b39ea5a1a840a4a89505d1c660e, type: 2}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ec1e0b39ea5a1a840a4a89505d1c660e, type: 2}
@@ -62509,6 +64066,7 @@ Transform:
   - {fileID: 913097149}
   - {fileID: 780395300}
   - {fileID: 1449684926}
+  - {fileID: 88459495}
   - {fileID: 1659684270}
   - {fileID: 1677936542}
   - {fileID: 2009008668}
@@ -65041,6 +66599,88 @@ MonoBehaviour:
   mAtlas: {fileID: 11400000, guid: a4ddab25bfd26594998b3514f3b095c5, type: 2}
   mSpriteName: simashi_shou
   mFillCenter: 1
+--- !u!1 &1072766580
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100030, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1072766581}
+  - 114: {fileID: 1072766582}
+  m_Layer: 8
+  m_Name: liubei_tou
+  m_TagString: Sprites
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1072766581
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400030, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 1072766580}
+  m_LocalRotation: {x: 0, y: 0, z: 1, w: -4.37113883e-08}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 745057147}
+--- !u!114 &1072766582
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400030, guid: e67515824a20a3d49866a39982021286,
+    type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 1072766580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 128
+  mHeight: 156
+  mDepth: 1081
+  HighLight: 0
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: .820512831
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: 0541f6a1815e0bf42a8eb3232211579a, type: 2}
+  mSpriteName: liubei_tou
+  mFillCenter: 1
 --- !u!1 &1072899704
 GameObject:
   m_ObjectHideFlags: 0
@@ -65222,6 +66862,10 @@ Prefab:
     - target: {fileID: 400076, guid: c9e9b2105293f3c4c9ad70bc3a8689c7, type: 2}
       propertyPath: m_LocalScale.z
       value: .374894947
+      objectReference: {fileID: 0}
+    - target: {fileID: 100076, guid: c9e9b2105293f3c4c9ad70bc3a8689c7, type: 2}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c9e9b2105293f3c4c9ad70bc3a8689c7, type: 2}
@@ -67752,6 +69396,88 @@ MonoBehaviour:
   mAtlas: {fileID: 11400000, guid: dad671a5d38155648b861dae538407f2, type: 2}
   mSpriteName: yuanshao_biqngi
   mFillCenter: 1
+--- !u!1 &1131886885
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100020, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1131886886}
+  - 114: {fileID: 1131886887}
+  m_Layer: 8
+  m_Name: liubei_toujin2
+  m_TagString: Sprites
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1131886886
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400020, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 1131886885}
+  m_LocalRotation: {x: 2.32061104e-09, y: 3.2376434e-07, z: -.990565658, w: .137038991}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 141824284}
+--- !u!114 &1131886887
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400020, guid: e67515824a20a3d49866a39982021286,
+    type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 1131886885}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 48
+  mHeight: 102
+  mDepth: 1058
+  HighLight: 0
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: .470588237
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: 0541f6a1815e0bf42a8eb3232211579a, type: 2}
+  mSpriteName: liubei_toujin2
+  mFillCenter: 1
 --- !u!1 &1132601574
 GameObject:
   m_ObjectHideFlags: 0
@@ -67943,6 +69669,33 @@ MonoBehaviour:
   mAtlas: {fileID: 11400000, guid: 5eba4c064693c5b458e5a2cb8775400f, type: 2}
   mSpriteName: xiahoushi_qunbai3
   mFillCenter: 1
+--- !u!1 &1133891288
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100070, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1133891289}
+  m_Layer: 0
+  m_Name: D_liubei_youdabi
+  m_TagString: Bones
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1133891289
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400070, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 1133891288}
+  m_LocalRotation: {x: -1.39954338e-07, y: -7.86594683e-07, z: .984537661, w: .175173208}
+  m_LocalPosition: {x: -22.9696178, y: 110.517479, z: 133.913925}
+  m_LocalScale: {x: -1, y: -.99999994, z: -1}
+  m_Children:
+  - {fileID: 2046597342}
+  m_Father: {fileID: 88459495}
 --- !u!1 &1135805366
 GameObject:
   m_ObjectHideFlags: 0
@@ -72320,6 +74073,33 @@ MonoBehaviour:
   mAtlas: {fileID: 11400000, guid: 16020eed1d7346e4bb570bf7e6412b78, type: 2}
   mSpriteName: guanyu_youjia
   mFillCenter: 1
+--- !u!1 &1185127111
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100104, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1185127112}
+  m_Layer: 0
+  m_Name: D_liubei_bingqi2
+  m_TagString: Bones
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1185127112
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400104, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 1185127111}
+  m_LocalRotation: {x: -.0206767898, y: -.000659151119, z: .999278486, w: .0318524502}
+  m_LocalPosition: {x: 102.547424, y: 104.673691, z: 19.7017651}
+  m_LocalScale: {x: -.99999994, y: -1.00000012, z: -.99999994}
+  m_Children:
+  - {fileID: 2090220283}
+  m_Father: {fileID: 88459495}
 --- !u!1 &1186035150
 GameObject:
   m_ObjectHideFlags: 0
@@ -72802,6 +74582,10 @@ Prefab:
     - target: {fileID: 400096, guid: 70903ade40224954c820ded65ec18f6c, type: 2}
       propertyPath: m_LocalScale.z
       value: .374894947
+      objectReference: {fileID: 0}
+    - target: {fileID: 100096, guid: 70903ade40224954c820ded65ec18f6c, type: 2}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 70903ade40224954c820ded65ec18f6c, type: 2}
@@ -74389,6 +76173,33 @@ MonoBehaviour:
   mAtlas: {fileID: 11400000, guid: 129dadd1de69e264a95cb2264304441f, type: 2}
   mSpriteName: sunshangxiang_youyaopian
   mFillCenter: 1
+--- !u!1 &1219136994
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100082, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1219136995}
+  m_Layer: 0
+  m_Name: D_liubei_toufa1
+  m_TagString: Bones
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1219136995
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400082, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 1219136994}
+  m_LocalRotation: {x: -6.34658415e-09, y: -3.32834645e-07, z: .999818265, w: .0190648139}
+  m_LocalPosition: {x: 89.5730362, y: 121.587402, z: 67.3908005}
+  m_LocalScale: {x: -.999999821, y: -.99999994, z: -1}
+  m_Children:
+  - {fileID: 336952140}
+  m_Father: {fileID: 88459495}
 --- !u!1 &1219928314
 GameObject:
   m_ObjectHideFlags: 0
@@ -75233,6 +77044,33 @@ MonoBehaviour:
   mAtlas: {fileID: 11400000, guid: e36ba9d75b5775342a289a5d9160e134, type: 2}
   mSpriteName: caocao_faguan
   mFillCenter: 1
+--- !u!1 &1233145456
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100106, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1233145457}
+  m_Layer: 0
+  m_Name: D_liubei_bingqi1
+  m_TagString: Bones
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1233145457
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400106, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 1233145456}
+  m_LocalRotation: {x: -8.72849614e-06, y: -2.94613819e-05, z: .664602935, w: .747196734}
+  m_LocalPosition: {x: 35.4121399, y: 80.5848846, z: 123.430786}
+  m_LocalScale: {x: -1, y: -1, z: -1}
+  m_Children:
+  - {fileID: 1675393457}
+  m_Father: {fileID: 88459495}
 --- !u!1 &1235872837
 GameObject:
   m_ObjectHideFlags: 0
@@ -82326,6 +84164,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: .374894947
       objectReference: {fileID: 0}
+    - target: {fileID: 100092, guid: ce6f2b109f0e38940954e417e6d59063, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ce6f2b109f0e38940954e417e6d59063, type: 2}
   m_RootGameObject: {fileID: 377262423}
@@ -83178,6 +85020,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: .374894947
       objectReference: {fileID: 0}
+    - target: {fileID: 100088, guid: d411998d74d85034f80e967928dcd8e4, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d411998d74d85034f80e967928dcd8e4, type: 2}
   m_RootGameObject: {fileID: 1150337391}
@@ -83581,6 +85427,10 @@ Prefab:
     - target: {fileID: 400046, guid: 669a220a60044754fa27a9caf36242a2, type: 2}
       propertyPath: m_LocalScale.z
       value: .374894947
+      objectReference: {fileID: 0}
+    - target: {fileID: 100092, guid: 669a220a60044754fa27a9caf36242a2, type: 2}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 669a220a60044754fa27a9caf36242a2, type: 2}
@@ -85359,6 +87209,88 @@ Transform:
   m_Children:
   - {fileID: 807367596}
   m_Father: {fileID: 254587508}
+--- !u!1 &1421737070
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100022, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1421737071}
+  - 114: {fileID: 1421737072}
+  m_Layer: 8
+  m_Name: liubei_toujin1
+  m_TagString: Sprites
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1421737071
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400022, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 1421737070}
+  m_LocalRotation: {x: 2.76299943e-08, y: 5.89804301e-07, z: -.992948771, w: .118544437}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1434707015}
+--- !u!114 &1421737072
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400022, guid: e67515824a20a3d49866a39982021286,
+    type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 1421737070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 54
+  mHeight: 72
+  mDepth: 1067
+  HighLight: 0
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: .75
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: 0541f6a1815e0bf42a8eb3232211579a, type: 2}
+  mSpriteName: liubei_toujin1
+  mFillCenter: 1
 --- !u!1 &1422708632
 GameObject:
   m_ObjectHideFlags: 0
@@ -86212,6 +88144,33 @@ Transform:
   m_Children:
   - {fileID: 1059806763}
   m_Father: {fileID: 1117649872}
+--- !u!1 &1434707014
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100076, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1434707015}
+  m_Layer: 0
+  m_Name: D_liubei_toujin1
+  m_TagString: Bones
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1434707015
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400076, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 1434707014}
+  m_LocalRotation: {x: -7.10331634e-08, y: -5.94986034e-07, z: .992948771, w: .118544437}
+  m_LocalPosition: {x: -19.5378933, y: 187.571716, z: 67.1481247}
+  m_LocalScale: {x: -1, y: -1, z: -1}
+  m_Children:
+  - {fileID: 1421737071}
+  m_Father: {fileID: 88459495}
 --- !u!1 &1435122445
 GameObject:
   m_ObjectHideFlags: 0
@@ -89493,6 +91452,88 @@ Transform:
   m_Children:
   - {fileID: 1457395095}
   m_Father: {fileID: 254587508}
+--- !u!1 &1480756607
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100032, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1480756608}
+  - 114: {fileID: 1480756609}
+  m_Layer: 8
+  m_Name: liubei_shenti
+  m_TagString: Sprites
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1480756608
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400032, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 1480756607}
+  m_LocalRotation: {x: -6.62593749e-08, y: 5.57649685e-07, z: -.983706236, w: .179783329}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 422659161}
+--- !u!114 &1480756609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400032, guid: e67515824a20a3d49866a39982021286,
+    type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 1480756607}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 62
+  mHeight: 52
+  mDepth: 1062
+  HighLight: 0
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: 1.19230771
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: 0541f6a1815e0bf42a8eb3232211579a, type: 2}
+  mSpriteName: liubei_shenti
+  mFillCenter: 1
 --- !u!1 &1482271730
 GameObject:
   m_ObjectHideFlags: 0
@@ -89729,6 +91770,10 @@ Prefab:
     - target: {fileID: 400096, guid: 873839aa28cf1244fbb1c2978e59b54a, type: 2}
       propertyPath: m_LocalScale.z
       value: .374894947
+      objectReference: {fileID: 0}
+    - target: {fileID: 100096, guid: 873839aa28cf1244fbb1c2978e59b54a, type: 2}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 873839aa28cf1244fbb1c2978e59b54a, type: 2}
@@ -90380,6 +92425,10 @@ Prefab:
     - target: {fileID: 400088, guid: 7e45298587e02514b973d57d227e05bd, type: 2}
       propertyPath: m_LocalScale.z
       value: .374894887
+      objectReference: {fileID: 0}
+    - target: {fileID: 100088, guid: 7e45298587e02514b973d57d227e05bd, type: 2}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7e45298587e02514b973d57d227e05bd, type: 2}
@@ -91697,6 +93746,33 @@ MonoBehaviour:
   mAtlas: {fileID: 11400000, guid: b046f37ab92266741bbd9780501bdd71, type: 2}
   mSpriteName: dongzhuo_bingqi
   mFillCenter: 1
+--- !u!1 &1510400065
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100094, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1510400066}
+  m_Layer: 0
+  m_Name: D_liubei_qunjia1
+  m_TagString: Bones
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1510400066
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400094, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 1510400065}
+  m_LocalRotation: {x: -1.12353128e-07, y: -5.88583816e-07, z: .98226428, w: .187501699}
+  m_LocalPosition: {x: -10.6118708, y: 39.5584106, z: 85.3374329}
+  m_LocalScale: {x: -1, y: -.99999994, z: -1}
+  m_Children:
+  - {fileID: 2017563631}
+  m_Father: {fileID: 88459495}
 --- !u!1 &1511221900
 GameObject:
   m_ObjectHideFlags: 0
@@ -92099,6 +94175,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: .374894947
       objectReference: {fileID: 0}
+    - target: {fileID: 100080, guid: 3c69ffb512956b0428d40c0d769dda43, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3c69ffb512956b0428d40c0d769dda43, type: 2}
   m_RootGameObject: {fileID: 1432468162}
@@ -92238,6 +94318,10 @@ Prefab:
     - target: {fileID: 400084, guid: 9021ae31f746c7344834126505ded4d3, type: 2}
       propertyPath: m_LocalScale.z
       value: .374894947
+      objectReference: {fileID: 0}
+    - target: {fileID: 100084, guid: 9021ae31f746c7344834126505ded4d3, type: 2}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9021ae31f746c7344834126505ded4d3, type: 2}
@@ -92871,6 +94955,33 @@ Transform:
   m_Children:
   - {fileID: 1544412794}
   m_Father: {fileID: 2005329225}
+--- !u!1 &1528689885
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100100, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1528689886}
+  m_Layer: 0
+  m_Name: D_liubei_pifeng
+  m_TagString: Bones
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1528689886
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400100, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 1528689885}
+  m_LocalRotation: {x: -1.13104107e-07, y: -5.88440003e-07, z: .982024252, w: .188754991}
+  m_LocalPosition: {x: 9.60830688, y: 59.6750603, z: 5.26373482}
+  m_LocalScale: {x: -.999999821, y: -.999999821, z: -1}
+  m_Children:
+  - {fileID: 2058026983}
+  m_Father: {fileID: 88459495}
 --- !u!1 &1528747039
 GameObject:
   m_ObjectHideFlags: 0
@@ -94844,6 +96955,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: .374894947
       objectReference: {fileID: 0}
+    - target: {fileID: 100104, guid: 3d27b4be56f9d104db60c9c7cd780ae3, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3d27b4be56f9d104db60c9c7cd780ae3, type: 2}
   m_RootGameObject: {fileID: 1649615038}
@@ -95792,6 +97907,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: .374894947
       objectReference: {fileID: 0}
+    - target: {fileID: 100128, guid: a49e59b2791eddb47ac78e9ac794f8de, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a49e59b2791eddb47ac78e9ac794f8de, type: 2}
   m_RootGameObject: {fileID: 696627421}
@@ -96587,6 +98706,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: .374894947
       objectReference: {fileID: 0}
+    - target: {fileID: 100084, guid: 745953ab4b1797a4ebb0222f47c5d1cc, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 745953ab4b1797a4ebb0222f47c5d1cc, type: 2}
   m_RootGameObject: {fileID: 995012055}
@@ -96947,6 +99070,33 @@ MonoBehaviour:
   mAtlas: {fileID: 11400000, guid: 5eaf44bb5808754418f54ff385cb0599, type: 2}
   mSpriteName: luxun_youdatui
   mFillCenter: 1
+--- !u!1 &1587092120
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100102, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1587092121}
+  m_Layer: 0
+  m_Name: D_liubei_dabi
+  m_TagString: Bones
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1587092121
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400102, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 1587092120}
+  m_LocalRotation: {x: 2.48384424e-07, y: -6.63113155e-07, z: .735803604, w: .677195072}
+  m_LocalPosition: {x: -12.5627079, y: 113.123337, z: 125.08284}
+  m_LocalScale: {x: -.99999994, y: -.99999994, z: -1}
+  m_Children:
+  - {fileID: 304741033}
+  m_Father: {fileID: 88459495}
 --- !u!1 &1587151969
 GameObject:
   m_ObjectHideFlags: 0
@@ -97629,6 +99779,33 @@ Transform:
   m_Children:
   - {fileID: 2000375018}
   m_Father: {fileID: 1929838605}
+--- !u!1 &1590716498
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100056, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1590716499}
+  m_Layer: 0
+  m_Name: D_liubei_zuoshou
+  m_TagString: Bones
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1590716499
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400056, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 1590716498}
+  m_LocalRotation: {x: -1.5607867e-07, y: -2.32013193e-07, z: .872702956, w: -.488251567}
+  m_LocalPosition: {x: 97.9706955, y: 59.0316315, z: 20.8577347}
+  m_LocalScale: {x: -1.00000012, y: -1.00000012, z: -1}
+  m_Children:
+  - {fileID: 1824739464}
+  m_Father: {fileID: 88459495}
 --- !u!1 &1591337286
 GameObject:
   m_ObjectHideFlags: 0
@@ -97738,6 +99915,88 @@ Transform:
   m_Children:
   - {fileID: 1105606145}
   m_Father: {fileID: 321406841}
+--- !u!1 &1595273841
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100008, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1595273842}
+  - 114: {fileID: 1595273843}
+  m_Layer: 8
+  m_Name: liubei_zuodabi
+  m_TagString: Sprites
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1595273842
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400008, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 1595273841}
+  m_LocalRotation: {x: 1.41062188e-07, y: 2.73545453e-07, z: -.973795235, w: -.227426648}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 346968493}
+--- !u!114 &1595273843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400008, guid: e67515824a20a3d49866a39982021286,
+    type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 1595273841}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 26
+  mHeight: 34
+  mDepth: 1020
+  HighLight: 0
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: .764705896
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: 0541f6a1815e0bf42a8eb3232211579a, type: 2}
+  mSpriteName: liubei_zuodabi
+  mFillCenter: 1
 --- !u!1 &1595324324
 GameObject:
   m_ObjectHideFlags: 0
@@ -98228,6 +100487,10 @@ Prefab:
     - target: {fileID: 400112, guid: 2104f3504b4ddff48874d6d2fb2a93d7, type: 2}
       propertyPath: m_LocalScale.z
       value: .374894947
+      objectReference: {fileID: 0}
+    - target: {fileID: 100112, guid: 2104f3504b4ddff48874d6d2fb2a93d7, type: 2}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2104f3504b4ddff48874d6d2fb2a93d7, type: 2}
@@ -99515,6 +101778,33 @@ Transform:
   m_Children:
   - {fileID: 1811938285}
   m_Father: {fileID: 1677936542}
+--- !u!1 &1622081957
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100098, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1622081958}
+  m_Layer: 0
+  m_Name: D_liubei_pifeng1
+  m_TagString: Bones
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1622081958
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400098, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 1622081957}
+  m_LocalRotation: {x: 2.32602115e-08, y: -5.65508287e-07, z: .983706236, w: .179783329}
+  m_LocalPosition: {x: 34.1532593, y: 103.598785, z: 70.1085358}
+  m_LocalScale: {x: -1, y: -1, z: -1}
+  m_Children:
+  - {fileID: 2089278756}
+  m_Father: {fileID: 88459495}
 --- !u!1 &1623744398
 GameObject:
   m_ObjectHideFlags: 0
@@ -100431,6 +102721,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: .374894947
       objectReference: {fileID: 0}
+    - target: {fileID: 100076, guid: 51c7ddfa5aea0f64b854281ea0969efb, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 51c7ddfa5aea0f64b854281ea0969efb, type: 2}
   m_RootGameObject: {fileID: 1390958238}
@@ -100627,6 +102921,33 @@ MonoBehaviour:
   mAtlas: {fileID: 11400000, guid: 16020eed1d7346e4bb570bf7e6412b78, type: 2}
   mSpriteName: guanyu_huzi4
   mFillCenter: 1
+--- !u!1 &1644048725
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100064, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1644048726}
+  m_Layer: 0
+  m_Name: D_liubei_youshou
+  m_TagString: Bones
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1644048726
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400064, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 1644048725}
+  m_LocalRotation: {x: -4.39543193e-08, y: -7.97738323e-07, z: .998485506, w: .0550152212}
+  m_LocalPosition: {x: -22.733799, y: 91.9542236, z: 125.082809}
+  m_LocalScale: {x: -1, y: -1, z: -1}
+  m_Children:
+  - {fileID: 953924237}
+  m_Father: {fileID: 88459495}
 --- !u!1 &1644342651
 GameObject:
   m_ObjectHideFlags: 0
@@ -102823,6 +105144,88 @@ MonoBehaviour:
   mAtlas: {fileID: 11400000, guid: 9a0dfed3e55174942a486723cb3a7137, type: 2}
   mSpriteName: dianwei_youxiaotui
   mFillCenter: 1
+--- !u!1 &1675393456
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100052, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1675393457}
+  - 114: {fileID: 1675393458}
+  m_Layer: 8
+  m_Name: liubei_bingqi1
+  m_TagString: Sprites
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1675393457
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400052, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 1675393456}
+  m_LocalRotation: {x: 0, y: 0, z: 1, w: -4.37113883e-08}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1233145457}
+--- !u!114 &1675393458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400052, guid: e67515824a20a3d49866a39982021286,
+    type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 1675393456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 26
+  mHeight: 194
+  mDepth: 1123
+  HighLight: 0
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: .134020612
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: 0541f6a1815e0bf42a8eb3232211579a, type: 2}
+  mSpriteName: liubei_bingqi1
+  mFillCenter: 1
 --- !u!1 &1675726074
 GameObject:
   m_ObjectHideFlags: 0
@@ -103187,6 +105590,10 @@ Prefab:
     - target: {fileID: 400084, guid: aa881ac54d41ca140a3f031f83e15a53, type: 2}
       propertyPath: m_LocalScale.z
       value: .374894947
+      objectReference: {fileID: 0}
+    - target: {fileID: 100084, guid: aa881ac54d41ca140a3f031f83e15a53, type: 2}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: aa881ac54d41ca140a3f031f83e15a53, type: 2}
@@ -104200,6 +106607,10 @@ Prefab:
     - target: {fileID: 400100, guid: b43f6b30a1354b144812091ddd3a1a1c, type: 2}
       propertyPath: m_LocalScale.z
       value: .374894947
+      objectReference: {fileID: 0}
+    - target: {fileID: 100100, guid: b43f6b30a1354b144812091ddd3a1a1c, type: 2}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b43f6b30a1354b144812091ddd3a1a1c, type: 2}
@@ -109571,6 +111982,88 @@ MonoBehaviour:
   mAtlas: {fileID: 11400000, guid: 25fce3041e820984b90f3ff5e9082c84, type: 2}
   mSpriteName: zhangliao_youdabi
   mFillCenter: 1
+--- !u!1 &1792846212
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100036, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1792846213}
+  - 114: {fileID: 1792846214}
+  m_Layer: 8
+  m_Name: liubei_qunjia3
+  m_TagString: Sprites
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1792846213
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400036, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 1792846212}
+  m_LocalRotation: {x: 8.44054693e-09, y: 5.93159484e-07, z: -.996229351, w: .0867592469}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 870529698}
+--- !u!114 &1792846214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400036, guid: e67515824a20a3d49866a39982021286,
+    type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 1792846212}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 24
+  mHeight: 46
+  mDepth: 1079
+  HighLight: 0
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: .521739125
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: 0541f6a1815e0bf42a8eb3232211579a, type: 2}
+  mSpriteName: liubei_qunjia3
+  mFillCenter: 1
 --- !u!1 &1795018352
 GameObject:
   m_ObjectHideFlags: 0
@@ -110818,6 +113311,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: .374894887
       objectReference: {fileID: 0}
+    - target: {fileID: 100104, guid: a011ff201dd948243a1ed7e03ec9a6ff, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a011ff201dd948243a1ed7e03ec9a6ff, type: 2}
   m_RootGameObject: {fileID: 1893745693}
@@ -111604,6 +114101,88 @@ Transform:
   m_Children:
   - {fileID: 826533066}
   m_Father: {fileID: 913097149}
+--- !u!1 &1824739463
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100002, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1824739464}
+  - 114: {fileID: 1824739465}
+  m_Layer: 8
+  m_Name: liubei_zuoshou
+  m_TagString: Sprites
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1824739464
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400002, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 1824739463}
+  m_LocalRotation: {x: 1.17931613e-07, y: 2.53355353e-07, z: -.872702956, w: -.488251567}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1590716499}
+--- !u!114 &1824739465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400002, guid: e67515824a20a3d49866a39982021286,
+    type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 1824739463}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 26
+  mHeight: 26
+  mDepth: 1020
+  HighLight: 0
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: 1
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: 0541f6a1815e0bf42a8eb3232211579a, type: 2}
+  mSpriteName: liubei_zuoshou
+  mFillCenter: 1
 --- !u!1 &1825206158
 GameObject:
   m_ObjectHideFlags: 0
@@ -111895,6 +114474,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: .374894947
       objectReference: {fileID: 0}
+    - target: {fileID: 100108, guid: ce28c1a4b157fa144813f0dcc95c2729, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ce28c1a4b157fa144813f0dcc95c2729, type: 2}
   m_RootGameObject: {fileID: 1822273845}
@@ -112117,6 +114700,88 @@ MonoBehaviour:
   topType: 1
   mAtlas: {fileID: 11400000, guid: caa64b23d1e1a0b4899b9a85950255b5, type: 2}
   mSpriteName: dongbai_youdabi
+  mFillCenter: 1
+--- !u!1 &1837791245
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100024, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1837791246}
+  - 114: {fileID: 1837791247}
+  m_Layer: 8
+  m_Name: liubei_toufa3
+  m_TagString: Sprites
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1837791246
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400024, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 1837791245}
+  m_LocalRotation: {x: -3.05079766e-08, y: 3.30905351e-07, z: -.999217212, w: .0395595878}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 496243878}
+--- !u!114 &1837791247
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400024, guid: e67515824a20a3d49866a39982021286,
+    type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 1837791245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 14
+  mHeight: 60
+  mDepth: 1158
+  HighLight: 0
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: .233333334
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: 0541f6a1815e0bf42a8eb3232211579a, type: 2}
+  mSpriteName: liubei_toufa3
   mFillCenter: 1
 --- !u!1 &1838167803
 GameObject:
@@ -115262,6 +117927,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: .374894947
       objectReference: {fileID: 0}
+    - target: {fileID: 100072, guid: 12641a2509ab0e84291d9e704b8da3cc, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 12641a2509ab0e84291d9e704b8da3cc, type: 2}
   m_RootGameObject: {fileID: 1262638389}
@@ -117736,6 +120405,88 @@ Transform:
   m_Children:
   - {fileID: 495321598}
   m_Father: {fileID: 1649615039}
+--- !u!1 &1918032857
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100038, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1918032858}
+  - 114: {fileID: 1918032859}
+  m_Layer: 8
+  m_Name: liubei_qunjia2
+  m_TagString: Sprites
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1918032858
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400038, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 1918032857}
+  m_LocalRotation: {x: -9.38132487e-08, y: 6.007661e-07, z: -.99647671, w: -.0838700309}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 434563716}
+--- !u!114 &1918032859
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400038, guid: e67515824a20a3d49866a39982021286,
+    type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 1918032857}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 24
+  mHeight: 38
+  mDepth: 1085
+  HighLight: 0
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: .631578922
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: 0541f6a1815e0bf42a8eb3232211579a, type: 2}
+  mSpriteName: liubei_qunjia2
+  mFillCenter: 1
 --- !u!1 &1918261569
 GameObject:
   m_ObjectHideFlags: 0
@@ -121558,6 +124309,33 @@ Transform:
   m_Children:
   - {fileID: 1166218467}
   m_Father: {fileID: 97503178}
+--- !u!1 &1992019375
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100060, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1992019376}
+  m_Layer: 0
+  m_Name: D_liubei_zuojianjia
+  m_TagString: Bones
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1992019376
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400060, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 1992019375}
+  m_LocalRotation: {x: -1.38681116e-07, y: -3.35065664e-07, z: .999861479, w: .0166463871}
+  m_LocalPosition: {x: 69.7012634, y: 84.1374741, z: 43.8837433}
+  m_LocalScale: {x: -.99999994, y: -.999999821, z: -1}
+  m_Children:
+  - {fileID: 192851532}
+  m_Father: {fileID: 88459495}
 --- !u!1 &1992259961
 GameObject:
   m_ObjectHideFlags: 0
@@ -122520,6 +125298,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: .374894947
       objectReference: {fileID: 0}
+    - target: {fileID: 100120, guid: bd275572319c060429bbcfa24c406cfe, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: bd275572319c060429bbcfa24c406cfe, type: 2}
   m_RootGameObject: {fileID: 1529643763}
@@ -122689,6 +125471,33 @@ MonoBehaviour:
   mAtlas: {fileID: 11400000, guid: d2b085e7c5abe97498d75ac2bce4d214, type: 2}
   mSpriteName: duizhang_zuodatui
   mFillCenter: 1
+--- !u!1 &2004570778
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100068, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 2004570779}
+  m_Layer: 0
+  m_Name: D_liubei_youjianjia
+  m_TagString: Bones
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2004570779
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400068, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 2004570778}
+  m_LocalRotation: {x: 2.83607932e-07, y: -6.35036258e-07, z: .800954044, w: .598725855}
+  m_LocalPosition: {x: -3.8635931, y: 123.427399, z: 140.302734}
+  m_LocalScale: {x: -.99999994, y: -.999999821, z: -1}
+  m_Children:
+  - {fileID: 410921209}
+  m_Father: {fileID: 88459495}
 --- !u!1 &2004774793
 GameObject:
   m_ObjectHideFlags: 0
@@ -122906,6 +125715,10 @@ Prefab:
     - target: {fileID: 400140, guid: a5788957b47990146829da3191484088, type: 2}
       propertyPath: m_LocalScale.z
       value: .374894947
+      objectReference: {fileID: 0}
+    - target: {fileID: 100140, guid: a5788957b47990146829da3191484088, type: 2}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a5788957b47990146829da3191484088, type: 2}
@@ -123674,6 +126487,88 @@ Transform:
   m_Children:
   - {fileID: 1778306027}
   m_Father: {fileID: 1316470440}
+--- !u!1 &2017563630
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100040, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 2017563631}
+  - 114: {fileID: 2017563632}
+  m_Layer: 8
+  m_Name: liubei_qunjia1
+  m_TagString: Sprites
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2017563631
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400040, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 2017563630}
+  m_LocalRotation: {x: 6.94169913e-08, y: 5.80387848e-07, z: -.98226428, w: .187501699}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1510400066}
+--- !u!114 &2017563632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400040, guid: e67515824a20a3d49866a39982021286,
+    type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 2017563630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 40
+  mHeight: 44
+  mDepth: 1085
+  HighLight: 0
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: .909090936
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: 0541f6a1815e0bf42a8eb3232211579a, type: 2}
+  mSpriteName: liubei_qunjia1
+  mFillCenter: 1
 --- !u!1 &2020961652
 GameObject:
   m_ObjectHideFlags: 0
@@ -125053,6 +127948,88 @@ Transform:
   m_Children:
   - {fileID: 1577908330}
   m_Father: {fileID: 932676783}
+--- !u!1 &2046597341
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100016, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 2046597342}
+  - 114: {fileID: 2046597343}
+  m_Layer: 8
+  m_Name: liubei_youdabi
+  m_TagString: Sprites
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2046597342
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400016, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 2046597341}
+  m_LocalRotation: {x: 9.69188321e-08, y: 7.78937647e-07, z: -.984537661, w: .175173208}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1133891289}
+--- !u!114 &2046597343
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400016, guid: e67515824a20a3d49866a39982021286,
+    type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 2046597341}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 34
+  mHeight: 46
+  mDepth: 1133
+  HighLight: 0
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: .739130437
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: 0541f6a1815e0bf42a8eb3232211579a, type: 2}
+  mSpriteName: liubei_youdabi
+  mFillCenter: 1
 --- !u!1 &2047421642
 GameObject:
   m_ObjectHideFlags: 0
@@ -125543,6 +128520,88 @@ Transform:
   m_Children:
   - {fileID: 1101104417}
   m_Father: {fileID: 377262424}
+--- !u!1 &2058026982
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100046, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 2058026983}
+  - 114: {fileID: 2058026984}
+  m_Layer: 8
+  m_Name: liubei_pifeng
+  m_TagString: Sprites
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2058026983
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400046, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 2058026982}
+  m_LocalRotation: {x: 7.01784657e-08, y: 5.80189237e-07, z: -.982024252, w: .188754991}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1528689886}
+--- !u!114 &2058026984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400046, guid: e67515824a20a3d49866a39982021286,
+    type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 2058026982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 100
+  mHeight: 120
+  mDepth: 1005
+  HighLight: 0
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: .833333313
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: 0541f6a1815e0bf42a8eb3232211579a, type: 2}
+  mSpriteName: liubei_pifeng
+  mFillCenter: 1
 --- !u!1 &2061495500
 GameObject:
   m_ObjectHideFlags: 0
@@ -126672,6 +129731,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: .374894947
       objectReference: {fileID: 0}
+    - target: {fileID: 100096, guid: e3b9482db9b89a9469b488e675e1e76f, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e3b9482db9b89a9469b488e675e1e76f, type: 2}
   m_RootGameObject: {fileID: 2009008667}
@@ -127358,6 +130421,88 @@ Transform:
   m_Children:
   - {fileID: 35376668}
   m_Father: {fileID: 1529643764}
+--- !u!1 &2089278755
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100044, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 2089278756}
+  - 114: {fileID: 2089278757}
+  m_Layer: 8
+  m_Name: liubei_pifeng1
+  m_TagString: Sprites
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2089278756
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400044, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 2089278755}
+  m_LocalRotation: {x: -6.62593749e-08, y: 5.57649685e-07, z: -.983706236, w: .179783329}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1622081958}
+--- !u!114 &2089278757
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400044, guid: e67515824a20a3d49866a39982021286,
+    type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 2089278755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 78
+  mHeight: 42
+  mDepth: 1070
+  HighLight: 0
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: 1.85714281
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: 0541f6a1815e0bf42a8eb3232211579a, type: 2}
+  mSpriteName: liubei_pifeng1
+  mFillCenter: 1
 --- !u!1 &2089775860
 GameObject:
   m_ObjectHideFlags: 0
@@ -127439,6 +130584,88 @@ MonoBehaviour:
   topType: 1
   mAtlas: {fileID: 11400000, guid: 72955456a2f9bd14b9b73caf15f64551, type: 2}
   mSpriteName: sunce_toufa01
+  mFillCenter: 1
+--- !u!1 &2090220282
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100050, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 2090220283}
+  - 114: {fileID: 2090220284}
+  m_Layer: 8
+  m_Name: liubei_bingqi2
+  m_TagString: Sprites
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2090220283
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400050, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 2090220282}
+  m_LocalRotation: {x: .020676747, y: .000659149722, z: -.999278486, w: .0318524502}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: -1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1185127112}
+--- !u!114 &2090220284
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400050, guid: e67515824a20a3d49866a39982021286,
+    type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 2090220282}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 22
+  mHeight: 162
+  mDepth: 1019
+  HighLight: 0
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 1
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: .135802463
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: 0541f6a1815e0bf42a8eb3232211579a, type: 2}
+  mSpriteName: liubei_bingqi2
   mFillCenter: 1
 --- !u!1 &2090350917
 GameObject:
@@ -129363,6 +132590,33 @@ Transform:
   m_Children:
   - {fileID: 1186035151}
   m_Father: {fileID: 1685368289}
+--- !u!1 &2141448170
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100096, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 2141448171}
+  m_Layer: 0
+  m_Name: D_liubei_qunjia
+  m_TagString: Bones
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2141448171
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400096, guid: e67515824a20a3d49866a39982021286, type: 2}
+  m_PrefabInternal: {fileID: 118281749}
+  m_GameObject: {fileID: 2141448170}
+  m_LocalRotation: {x: -5.19871151e-08, y: -5.9695185e-07, z: .996229351, w: .0867592469}
+  m_LocalPosition: {x: 24.2647934, y: 41.2969208, z: 92.2588043}
+  m_LocalScale: {x: -.99999994, y: -.99999994, z: -1}
+  m_Children:
+  - {fileID: 597420310}
+  m_Father: {fileID: 88459495}
 --- !u!1 &2143392207
 GameObject:
   m_ObjectHideFlags: 0

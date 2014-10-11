@@ -27,6 +27,7 @@ namespace KXSGCodec
   public partial class SCMailListMsg : TBase
   {
     private int _listType;
+    private sbyte _listVersion;
     private sbyte _containContent;
     private List<KXSGCodec.MailMsgInfo> _mailList;
 
@@ -43,6 +44,22 @@ namespace KXSGCodec
       {
         __isset.listType = true;
         this._listType = value;
+      }
+    }
+
+    /// <summary>
+    /// 当前邮件列表版本（-1为无版本号更新，只更新内容）
+    /// </summary>
+    public sbyte ListVersion
+    {
+      get
+      {
+        return _listVersion;
+      }
+      set
+      {
+        __isset.listVersion = true;
+        this._listVersion = value;
       }
     }
 
@@ -85,6 +102,7 @@ namespace KXSGCodec
     #endif
     public struct Isset {
       public bool listType;
+      public bool listVersion;
       public bool containContent;
       public bool mailList;
     }
@@ -113,12 +131,19 @@ namespace KXSGCodec
             break;
           case 2:
             if (field.Type == TType.Byte) {
-              ContainContent = iprot.ReadByte();
+              ListVersion = iprot.ReadByte();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
             break;
           case 3:
+            if (field.Type == TType.Byte) {
+              ContainContent = iprot.ReadByte();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 4:
             if (field.Type == TType.List) {
               {
                 MailList = new List<KXSGCodec.MailMsgInfo>();
@@ -157,10 +182,18 @@ namespace KXSGCodec
         oprot.WriteI32(ListType);
         oprot.WriteFieldEnd();
       }
+      if (__isset.listVersion) {
+        field.Name = "listVersion";
+        field.Type = TType.Byte;
+        field.ID = 2;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteByte(ListVersion);
+        oprot.WriteFieldEnd();
+      }
       if (__isset.containContent) {
         field.Name = "containContent";
         field.Type = TType.Byte;
-        field.ID = 2;
+        field.ID = 3;
         oprot.WriteFieldBegin(field);
         oprot.WriteByte(ContainContent);
         oprot.WriteFieldEnd();
@@ -168,7 +201,7 @@ namespace KXSGCodec
       if (MailList != null && __isset.mailList) {
         field.Name = "mailList";
         field.Type = TType.List;
-        field.ID = 3;
+        field.ID = 4;
         oprot.WriteFieldBegin(field);
         {
           oprot.WriteListBegin(new TList(TType.Struct, MailList.Count));
@@ -188,6 +221,8 @@ namespace KXSGCodec
       StringBuilder sb = new StringBuilder("SCMailListMsg(");
       sb.Append("ListType: ");
       sb.Append(ListType);
+      sb.Append(",ListVersion: ");
+      sb.Append(ListVersion);
       sb.Append(",ContainContent: ");
       sb.Append(ContainContent);
       sb.Append(",MailList: ");

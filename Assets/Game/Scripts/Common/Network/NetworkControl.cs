@@ -180,6 +180,9 @@ public class NetworkControl : MonoBehaviour
                         case (short)MessageType.SC_MAIL_LIST_MSG:
                             MailHandler.OnMailList(msg);
                             break;
+                        case (short)MessageType.SC_MAIL_UNREAD_STATE_MSG:
+                            MailHandler.OnMailUnreadStateMsg(msg);
+                            break;
                         case (short)MessageType.SC_MAIL_OPTION_RESULT_MSG:
                             MailHandler.OnMailOptionResultMsg(msg);
                             break;
@@ -198,13 +201,28 @@ public class NetworkControl : MonoBehaviour
                         case (short)MessageType.SC_GAME_NOTICE_DETAIL_MSG:
                             SystemHandler.OnNoticeDetail(msg);
                             break;
+                        case (short)MessageType.SC_SIGN_LOAD:
+                            SystemHandler.OnSignLoad(msg);
+                            break;
+                        case (short)MessageType.SC_SIGN_SUCC:
+                            SystemHandler.OnSignSuccess(msg);
+                            break;
+                        case (short)MessageType.SC_QUEST:
+                            SystemHandler.OnQuestLoad(msg);
+                            break;
+                        case (short)MessageType.SC_QUEST_RECIEVE_REWARD_SUCC:
+                            SystemHandler.OnQuestReward(msg);
+                            break;
+                        case (short)MessageType.SC_QUEST_FINISH:
+                            SystemHandler.OnQuestFinish(msg);
+                            break;
                     }
                     msg = NetManager.GetMessage();
                 }
             }
             catch (Exception e)
             {
-                var errorLog = string.Format("Message Parse Error.\n StackTrace:\n{0}\nMessage:\n{1}\n", e.StackTrace,
+                var errorLog = string.Format("Message Parse Error.\nMessage:\n{1}\nStackTrace:\n{0}", e.StackTrace,
                     e.Message);
                 //PopTextManager.PopTip(errorLog);
                 Debug.LogError(errorLog);

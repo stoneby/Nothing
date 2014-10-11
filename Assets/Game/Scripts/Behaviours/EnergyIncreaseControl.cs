@@ -31,7 +31,11 @@ public class EnergyIncreaseControl : Singleton<EnergyIncreaseControl>
     public int GetIncreased()
     {
         var timeSpan = DateTime.Now.Subtract(updateTime);
-        return (int)timeSpan.TotalMinutes / eachRecoverTime;
+        if(timeSpan > new TimeSpan(0,0,0,0))
+        {
+            return (int)timeSpan.TotalMinutes / eachRecoverTime;
+        }
+        return 0;
     }
 
     public void StartMonitor()

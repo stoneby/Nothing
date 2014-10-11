@@ -62,7 +62,7 @@ public class ChooseCardWindow : Window
     /// <summary>
     /// Shield FragCombine module in current version, may open in next version.
     /// </summary>
-    private const bool IsOpenFragmentCombine = false;
+    private const bool IsOpenFragmentCombine = true;
 
     private SCLotteryList scLotteryList;
     private SCLotteryComposeList scLotteryComposeList;

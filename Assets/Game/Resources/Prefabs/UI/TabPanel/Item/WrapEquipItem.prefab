@@ -3464,6 +3464,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89f46381ac0c6484f8950e3fd5fb990f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TempId: 0
 --- !u!114 &11400010
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3893,7 +3894,7 @@ MonoBehaviour:
   rightType: 1
   bottomType: 1
   topType: 1
-  mAtlas: {fileID: 11400000, guid: 5b92cbdcb180fb042a7069f903d9f7ae, type: 2}
+  mAtlas: {fileID: 11400000, guid: 54963bf6111d1514080984e576cacdd0, type: 2}
   mSpriteName: Item_145002
   mFillCenter: 1
 --- !u!114 &11400026
@@ -5903,7 +5904,7 @@ MonoBehaviour:
   rightType: 1
   bottomType: 1
   topType: 1
-  mAtlas: {fileID: 11400000, guid: 5b92cbdcb180fb042a7069f903d9f7ae, type: 2}
+  mAtlas: {fileID: 11400000, guid: 54963bf6111d1514080984e576cacdd0, type: 2}
   mSpriteName: Item_145002
   mFillCenter: 1
 --- !u!114 &11400096
@@ -6295,6 +6296,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89f46381ac0c6484f8950e3fd5fb990f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TempId: 0
 --- !u!114 &11400112
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6552,6 +6554,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89f46381ac0c6484f8950e3fd5fb990f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TempId: 0
 --- !u!114 &11400126
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6981,7 +6984,7 @@ MonoBehaviour:
   rightType: 1
   bottomType: 1
   topType: 1
-  mAtlas: {fileID: 11400000, guid: 5b92cbdcb180fb042a7069f903d9f7ae, type: 2}
+  mAtlas: {fileID: 11400000, guid: 54963bf6111d1514080984e576cacdd0, type: 2}
   mSpriteName: Item_145002
   mFillCenter: 1
 --- !u!114 &11400142
@@ -8754,6 +8757,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24523be266b209741bfdc72e3c995c9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  NPressNotTriggerWhenLPress: 1
   LongTriggerType: 1
   LongClickDuration: .5
 --- !u!114 &11400208
@@ -8767,6 +8771,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24523be266b209741bfdc72e3c995c9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  NPressNotTriggerWhenLPress: 1
   LongTriggerType: 1
   LongClickDuration: .5
 --- !u!114 &11400210
@@ -8780,6 +8785,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24523be266b209741bfdc72e3c995c9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  NPressNotTriggerWhenLPress: 1
   LongTriggerType: 1
   LongClickDuration: .5
 --- !u!114 &11400212
@@ -8887,7 +8893,7 @@ MonoBehaviour:
   rightType: 1
   bottomType: 1
   topType: 1
-  mAtlas: {fileID: 11400000, guid: 5b92cbdcb180fb042a7069f903d9f7ae, type: 2}
+  mAtlas: {fileID: 11400000, guid: 54963bf6111d1514080984e576cacdd0, type: 2}
   mSpriteName: Item_145002
   mFillCenter: 1
 --- !u!114 &11400216
@@ -9009,6 +9015,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24523be266b209741bfdc72e3c995c9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  NPressNotTriggerWhenLPress: 1
   LongTriggerType: 1
   LongClickDuration: .5
 --- !u!114 &11400222
@@ -9238,6 +9245,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89f46381ac0c6484f8950e3fd5fb990f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TempId: 0
 --- !u!114 &11400232
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9412,6 +9420,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DetailInfoObj: {fileID: 100014, guid: 7fe7d9ae13a17e240b60631d7f17de9d, type: 2}
+  UseTemplateId: 0
 --- !u!114 &11400240
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9424,6 +9433,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DetailInfoObj: {fileID: 100014, guid: 7fe7d9ae13a17e240b60631d7f17de9d, type: 2}
+  UseTemplateId: 0
 --- !u!114 &11400242
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9436,6 +9446,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DetailInfoObj: {fileID: 100014, guid: 7fe7d9ae13a17e240b60631d7f17de9d, type: 2}
+  UseTemplateId: 0
 --- !u!114 &11400244
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9448,6 +9459,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DetailInfoObj: {fileID: 100014, guid: 7fe7d9ae13a17e240b60631d7f17de9d, type: 2}
+  UseTemplateId: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

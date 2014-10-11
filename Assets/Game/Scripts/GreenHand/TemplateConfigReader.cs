@@ -8,7 +8,7 @@ using System.Collections;
 public class TemplateConfigReader : GreeenHandConfigReader
 {
     private const string ConfigFilePath = "";
-    private bool isLoaded = false;
+    private bool isLoaded;
 
     private class GreenHandConfig
     {

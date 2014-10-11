@@ -3,7 +3,9 @@ using System;
 namespace com.kx.sglm.gs.battle.share.skill.effect
 {
 
+	using BattleFighter = com.kx.sglm.gs.battle.share.actor.impl.BattleFighter;
 	using BattleRecordConstants = com.kx.sglm.gs.battle.share.data.record.BattleRecordConstants;
+	using SkillDataHolder = com.kx.sglm.gs.battle.share.skill.model.SkillDataHolder;
 
 	public class MutiHitEffect : AbstractAttackEffect
 	{

@@ -40,9 +40,9 @@ namespace com.kx.sglm.gs.battle.share.data.store
 		public override void saveToData()
 		{
 			data.saveSpString(spIndexList);
-			data.addIntValue(BattleKeyConstants.BATTLE_STORE_CUR_SCENE_INDEX, sceneIndex);
-			data.addIntValue(BattleKeyConstants.BATTLE_STORE_CUR_HERO_HP, curHp);
-			data.addIntValue(BattleKeyConstants.BATTLE_STORE_CUR_HERO_MP, curMp);
+			data.CurSceneIndex = sceneIndex;
+			data.CurHeroHp = curHp;
+			data.CurHeroMp = curMp;
 		}
 
 	}

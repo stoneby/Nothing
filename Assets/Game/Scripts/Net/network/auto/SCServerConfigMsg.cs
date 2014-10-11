@@ -30,6 +30,8 @@ namespace KXSGCodec
     private sbyte _buybackItemPriceRatio;
     private sbyte _sellItemSaveHours;
     private sbyte _mailShowMax;
+    private Dictionary<short, short> _moneyKey;
+    private int _mailUpdateInterval;
 
     /// <summary>
     /// 恢复体力时间（分钟）
@@ -143,6 +145,38 @@ namespace KXSGCodec
       }
     }
 
+    /// <summary>
+    /// 货币代码转换关系
+    /// </summary>
+    public Dictionary<short, short> MoneyKey
+    {
+      get
+      {
+        return _moneyKey;
+      }
+      set
+      {
+        __isset.moneyKey = true;
+        this._moneyKey = value;
+      }
+    }
+
+    /// <summary>
+    /// 邮件更新间隔时间
+    /// </summary>
+    public int MailUpdateInterval
+    {
+      get
+      {
+        return _mailUpdateInterval;
+      }
+      set
+      {
+        __isset.mailUpdateInterval = true;
+        this._mailUpdateInterval = value;
+      }
+    }
+
 
     public Isset __isset;
     #if !SILVERLIGHT
@@ -156,6 +190,8 @@ namespace KXSGCodec
       public bool buybackItemPriceRatio;
       public bool sellItemSaveHours;
       public bool mailShowMax;
+      public bool moneyKey;
+      public bool mailUpdateInterval;
     }
 
     public SCServerConfigMsg() {
@@ -218,6 +254,32 @@ namespace KXSGCodec
           case 7:
             if (field.Type == TType.Byte) {
               MailShowMax = iprot.ReadByte();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 8:
+            if (field.Type == TType.Map) {
+              {
+                MoneyKey = new Dictionary<short, short>();
+                TMap _map0 = iprot.ReadMapBegin();
+                for( int _i1 = 0; _i1 < _map0.Count; ++_i1)
+                {
+                  short _key2;
+                  short _val3;
+                  _key2 = iprot.ReadI16();
+                  _val3 = iprot.ReadI16();
+                  MoneyKey[_key2] = _val3;
+                }
+                iprot.ReadMapEnd();
+              }
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 9:
+            if (field.Type == TType.I32) {
+              MailUpdateInterval = iprot.ReadI32();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
@@ -291,6 +353,30 @@ namespace KXSGCodec
         oprot.WriteByte(MailShowMax);
         oprot.WriteFieldEnd();
       }
+      if (MoneyKey != null && __isset.moneyKey) {
+        field.Name = "moneyKey";
+        field.Type = TType.Map;
+        field.ID = 8;
+        oprot.WriteFieldBegin(field);
+        {
+          oprot.WriteMapBegin(new TMap(TType.I16, TType.I16, MoneyKey.Count));
+          foreach (short _iter4 in MoneyKey.Keys)
+          {
+            oprot.WriteI16(_iter4);
+            oprot.WriteI16(MoneyKey[_iter4]);
+          }
+          oprot.WriteMapEnd();
+        }
+        oprot.WriteFieldEnd();
+      }
+      if (__isset.mailUpdateInterval) {
+        field.Name = "mailUpdateInterval";
+        field.Type = TType.I32;
+        field.ID = 9;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteI32(MailUpdateInterval);
+        oprot.WriteFieldEnd();
+      }
       oprot.WriteFieldStop();
       oprot.WriteStructEnd();
     }
@@ -311,6 +397,10 @@ namespace KXSGCodec
       sb.Append(SellItemSaveHours);
       sb.Append(",MailShowMax: ");
       sb.Append(MailShowMax);
+      sb.Append(",MoneyKey: ");
+      sb.Append(MoneyKey);
+      sb.Append(",MailUpdateInterval: ");
+      sb.Append(MailUpdateInterval);
       sb.Append(")");
       return sb.ToString();
     }

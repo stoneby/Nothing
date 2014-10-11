@@ -26,9 +26,6 @@ namespace KXSGCodec
     private long _heroUuid;
     private sbyte _index;
     private string _equipUuid;
-    private string _unEquipUuid;
-    private long _unEquipHeroUuid;
-    private sbyte _unEquipHeroIndex;
 
     public long HeroUuid
     {
@@ -69,45 +66,6 @@ namespace KXSGCodec
       }
     }
 
-    public string UnEquipUuid
-    {
-      get
-      {
-        return _unEquipUuid;
-      }
-      set
-      {
-        __isset.unEquipUuid = true;
-        this._unEquipUuid = value;
-      }
-    }
-
-    public long UnEquipHeroUuid
-    {
-      get
-      {
-        return _unEquipHeroUuid;
-      }
-      set
-      {
-        __isset.unEquipHeroUuid = true;
-        this._unEquipHeroUuid = value;
-      }
-    }
-
-    public sbyte UnEquipHeroIndex
-    {
-      get
-      {
-        return _unEquipHeroIndex;
-      }
-      set
-      {
-        __isset.unEquipHeroIndex = true;
-        this._unEquipHeroIndex = value;
-      }
-    }
-
 
     public Isset __isset;
     #if !SILVERLIGHT
@@ -117,9 +75,6 @@ namespace KXSGCodec
       public bool heroUuid;
       public bool index;
       public bool equipUuid;
-      public bool unEquipUuid;
-      public bool unEquipHeroUuid;
-      public bool unEquipHeroIndex;
     }
 
     public SCHeroChangeEquip() {
@@ -154,27 +109,6 @@ namespace KXSGCodec
           case 3:
             if (field.Type == TType.String) {
               EquipUuid = iprot.ReadString();
-            } else { 
-              TProtocolUtil.Skip(iprot, field.Type);
-            }
-            break;
-          case 4:
-            if (field.Type == TType.String) {
-              UnEquipUuid = iprot.ReadString();
-            } else { 
-              TProtocolUtil.Skip(iprot, field.Type);
-            }
-            break;
-          case 5:
-            if (field.Type == TType.I64) {
-              UnEquipHeroUuid = iprot.ReadI64();
-            } else { 
-              TProtocolUtil.Skip(iprot, field.Type);
-            }
-            break;
-          case 6:
-            if (field.Type == TType.Byte) {
-              UnEquipHeroIndex = iprot.ReadByte();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
@@ -216,30 +150,6 @@ namespace KXSGCodec
         oprot.WriteString(EquipUuid);
         oprot.WriteFieldEnd();
       }
-      if (UnEquipUuid != null && __isset.unEquipUuid) {
-        field.Name = "unEquipUuid";
-        field.Type = TType.String;
-        field.ID = 4;
-        oprot.WriteFieldBegin(field);
-        oprot.WriteString(UnEquipUuid);
-        oprot.WriteFieldEnd();
-      }
-      if (__isset.unEquipHeroUuid) {
-        field.Name = "unEquipHeroUuid";
-        field.Type = TType.I64;
-        field.ID = 5;
-        oprot.WriteFieldBegin(field);
-        oprot.WriteI64(UnEquipHeroUuid);
-        oprot.WriteFieldEnd();
-      }
-      if (__isset.unEquipHeroIndex) {
-        field.Name = "unEquipHeroIndex";
-        field.Type = TType.Byte;
-        field.ID = 6;
-        oprot.WriteFieldBegin(field);
-        oprot.WriteByte(UnEquipHeroIndex);
-        oprot.WriteFieldEnd();
-      }
       oprot.WriteFieldStop();
       oprot.WriteStructEnd();
     }
@@ -252,12 +162,6 @@ namespace KXSGCodec
       sb.Append(Index);
       sb.Append(",EquipUuid: ");
       sb.Append(EquipUuid);
-      sb.Append(",UnEquipUuid: ");
-      sb.Append(UnEquipUuid);
-      sb.Append(",UnEquipHeroUuid: ");
-      sb.Append(UnEquipHeroUuid);
-      sb.Append(",UnEquipHeroIndex: ");
-      sb.Append(UnEquipHeroIndex);
       sb.Append(")");
       return sb.ToString();
     }

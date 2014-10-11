@@ -7,14 +7,12 @@ using UnityEngine;
 public class LoginAccountWindow : Window
 {
     private GameObject BtnLogin;
-    private GameObject BtnRegister;
     private GameObject BtnReturn;
 
     private GameObject InputAccount;
     private GameObject InputPassword;
 
     private UIEventListener BtnLoginUIEventListener;
-    private UIEventListener BtnRegisterUIEventListener;
     private UIEventListener BtnCloseUIEventListener;
 
     #region Window
@@ -22,25 +20,19 @@ public class LoginAccountWindow : Window
     public override void OnEnter()
     {
         BtnLoginUIEventListener.onClick += OnLoginButtonClick;
-        BtnRegisterUIEventListener.onClick += OnRegisterButtonClick;
         BtnCloseUIEventListener.onClick += OnCloseButtonClick;
 
         EventManager.Instance.AddListener<LoginEvent>(OnSCPlayerInfoHandler);
 
-        //        var obj = ServiceManager.GetDefaultAccount();
-        //        if (obj != null)
-        //        {
         var acinput = InputAccount.GetComponent<UIInput>();
         var pwinput = InputPassword.GetComponent<UIInput>();
         acinput.value = ServiceManager.DebugUserName;
         pwinput.value = ServiceManager.DebugPassword;
-        //        }
     }
 
     public override void OnExit()
     {
         if (BtnLoginUIEventListener != null) BtnLoginUIEventListener.onClick -= OnLoginButtonClick;
-        if (BtnRegisterUIEventListener != null) BtnRegisterUIEventListener.onClick -= OnRegisterButtonClick;
         if (BtnCloseUIEventListener != null) BtnCloseUIEventListener.onClick -= OnCloseButtonClick;
 
         EventManager.Instance.RemoveListener<LoginEvent>(OnSCPlayerInfoHandler);
@@ -55,18 +47,17 @@ public class LoginAccountWindow : Window
     {
         BtnLogin = transform.FindChild("Image Button - login").gameObject;
 
-        BtnRegister = transform.FindChild("Image Button - create").gameObject;
-
         BtnReturn = transform.FindChild("Image Button - close").gameObject;
 
         InputAccount = transform.FindChild("Input - account").gameObject;
         InputPassword = transform.FindChild("Input - password").gameObject;
 
         BtnLoginUIEventListener = UIEventListener.Get(BtnLogin);
-        BtnRegisterUIEventListener = UIEventListener.Get(BtnRegister);
         BtnCloseUIEventListener = UIEventListener.Get(BtnReturn);
     }
+
     #endregion
+
     private void OnLoginButtonClick(GameObject game)
     {
         var acinput = InputAccount.GetComponent<UIInput>();
@@ -83,10 +74,6 @@ public class LoginAccountWindow : Window
             return;
         }
 
-        //        if (ServiceManager.AccountData == null)
-        //        {
-        //            ServiceManager.AccountData = new AccountVO();
-        //        }
         ServiceManager.DebugUserName = acinput.value;
         ServiceManager.DebugPassword = pwinput.value;
         ServiceManager.AddServer(ServiceManager.ServerData.Url);
@@ -108,11 +95,6 @@ public class LoginAccountWindow : Window
         NetManager.SendMessage(csMsg);
     }
 
-    private void OnRegisterButtonClick(GameObject game)
-    {
-        WindowManager.Instance.Show(typeof(LoginRegisterWindow), true);
-    }
-
     private void OnCloseButtonClick(GameObject game)
     {
         WindowManager.Instance.Show(typeof(LoginMainWindow), true);
@@ -121,12 +103,10 @@ public class LoginAccountWindow : Window
     private static void OnSCPlayerInfoHandler(LoginEvent e)
     {
         Logger.LogWarning("OnSCPlayerInfoHandler get called back, with event-" + e.Message);
-        //Logger.LogWarning("Account data: " + ServiceManager.AccountData);
+
         if (ServiceManager.IsDebugAccount == 1)
         {
             ServiceManager.SetDebugAccount(ServiceManager.DebugUserName, ServiceManager.DebugPassword);
         }
-
-        //ServiceManager.SaveAccount();
     }
 }

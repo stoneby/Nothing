@@ -305,7 +305,7 @@ public class ItemModeLocator
         {
             return materialTempl[tempId].FitJobType;
         }
-        return -1;
+        return 6;
     }
 
     /// <summary>

@@ -38,6 +38,7 @@ namespace Template.Auto.Monster
     private int _aiID;
     private int _dropGroupId;
     private int _dropGroupRate;
+    private int _monsterScale;
 
     public int Id
     {
@@ -276,6 +277,22 @@ namespace Template.Auto.Monster
       }
     }
 
+    /// <summary>
+    /// 怪物显示比例
+    /// </summary>
+    public int MonsterScale
+    {
+      get
+      {
+        return _monsterScale;
+      }
+      set
+      {
+        __isset.monsterScale = true;
+        this._monsterScale = value;
+      }
+    }
+
 
     public Isset __isset;
     #if !SILVERLIGHT
@@ -297,6 +314,7 @@ namespace Template.Auto.Monster
       public bool aiID;
       public bool dropGroupId;
       public bool dropGroupRate;
+      public bool monsterScale;
     }
 
     public MonsterTemplate() {
@@ -415,6 +433,13 @@ namespace Template.Auto.Monster
           case 15:
             if (field.Type == TType.I32) {
               DropGroupRate = iprot.ReadI32();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 16:
+            if (field.Type == TType.I32) {
+              MonsterScale = iprot.ReadI32();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
@@ -552,6 +577,14 @@ namespace Template.Auto.Monster
         oprot.WriteI32(DropGroupRate);
         oprot.WriteFieldEnd();
       }
+      if (__isset.monsterScale) {
+        field.Name = "monsterScale";
+        field.Type = TType.I32;
+        field.ID = 16;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteI32(MonsterScale);
+        oprot.WriteFieldEnd();
+      }
       oprot.WriteFieldStop();
       oprot.WriteStructEnd();
     }
@@ -588,6 +621,8 @@ namespace Template.Auto.Monster
       sb.Append(DropGroupId);
       sb.Append(",DropGroupRate: ");
       sb.Append(DropGroupRate);
+      sb.Append(",MonsterScale: ");
+      sb.Append(MonsterScale);
       sb.Append(")");
       return sb.ToString();
     }

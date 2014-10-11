@@ -9,6 +9,7 @@ public class FriendEnergyHandler : FriendHandlerBase
     private GameObject cachedReceiveObject;
     private sbyte receiveTimesCached;
     private sbyte timesLimitCached;
+    private sbyte energyInfosCountCached;
 
     private void OnEnable()
     {
@@ -32,16 +33,15 @@ public class FriendEnergyHandler : FriendHandlerBase
     {
         receiveTimesCached = receiveTimes;
         timesLimitCached = timesLimit;
-        receiveLabel.text = string.Format("{0}/{1}", receiveTimesCached, timesLimitCached);
-        var count = energyInfos.Count;
-        UpdateItemList(count);
-        for (var i = 0; i < count; i++)
+        energyInfosCountCached = (sbyte)energyInfos.Count;
+        receiveLabel.text = string.Format("{0}/{1}", energyInfosCountCached - receiveTimesCached, timesLimitCached);
+        UpdateItemList(energyInfosCountCached);
+        for (var i = 0; i < energyInfosCountCached; i++)
         {
             var energyInfo = energyInfos[i];
             var child = Items.transform.GetChild(i);
             child.GetComponent<ReceiveItem>().Init(energyInfo, OnReceiveClicked);
         }
-        NGUITools.FindInParents<UIScrollView>(Items.gameObject).ResetPosition();
     }
 
     public void RefreshReceiveSucc(long uuid, sbyte receiveTimes)
@@ -50,7 +50,7 @@ public class FriendEnergyHandler : FriendHandlerBase
         {
             cachedReceiveObject.GetComponent<UIButton>().isEnabled = false;
             receiveTimesCached = receiveTimes;
-            receiveLabel.text = string.Format("{0}/{1}", receiveTimesCached, timesLimitCached);
+            receiveLabel.text = string.Format("{0}/{1}", energyInfosCountCached - receiveTimesCached, timesLimitCached);
         }
     }
 

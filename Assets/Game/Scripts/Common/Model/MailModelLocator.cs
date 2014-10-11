@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using KXSGCodec;
+﻿using KXSGCodec;
 using Object = UnityEngine.Object;
 
 public class MailModelLocator  
@@ -31,7 +30,11 @@ public class MailModelLocator
 
     public SCMailListMsg ScMailListMsg { get; set; }
 
-    public static bool AlreadyRequest;
+    public int UnReadCount { get; set; }
+
+    public int MailUpdateInterval = 30;
+
+    public sbyte MailListVersion = 0;
 
     public MailMsgInfo FindMailViaMailId(int mailId)
     {

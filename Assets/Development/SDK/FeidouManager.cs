@@ -56,7 +56,6 @@ public class FeidouManager
             }
         }
 #endif
-
 #if UNITY_IPHONE
         ServiceManager.IsDebugAccount = 0;
 		if (Application.platform != RuntimePlatform.OSXEditor)
@@ -70,6 +69,9 @@ public class FeidouManager
 			else 
 			{
 				Debug.Log("Calling ActivateLogin.");
+                GlobalDimmerController.Instance.Transparent = true;
+                GlobalDimmerController.Instance.DetectObject = null;
+                GlobalDimmerController.Instance.Show(true);
 				SDK_IOS.ActivateLogin();
 			}
         }
@@ -80,6 +82,9 @@ public class FeidouManager
     {
 #if UNITY_IPHONE
         Debug.Log("Calling ActivateLogin after initialize.");
+        GlobalDimmerController.Instance.Transparent = true;
+        GlobalDimmerController.Instance.DetectObject = null;
+        GlobalDimmerController.Instance.Show(true);
         SDK_IOS.ActivateLogin();
         SDKResponse.WhichResponse = null;
 #endif

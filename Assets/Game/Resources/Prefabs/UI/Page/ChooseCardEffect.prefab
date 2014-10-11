@@ -591,7 +591,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Particles:
   - {fileID: 100000, guid: 5674ed6acb8f5ab4eba47f5e39333906, type: 2}
-  - {fileID: 100126, guid: b8e447dc4d038654aa6aa691564658c4, type: 2}
+  - {fileID: 100170, guid: 3a5c92da21ed9be47aabdfef4328062b, type: 2}
   - {fileID: 100008, guid: 87494cdf2b03c9b40aa03f19ca4a8fce, type: 2}
   - {fileID: 100000, guid: a0a50bc946efb684ab969ffed5524dd1, type: 2}
   - {fileID: 100008, guid: c763946b9649d7b4ab3b9e963675587f, type: 2}
@@ -599,16 +599,16 @@ MonoBehaviour:
   CardMoveInterval: 1
   ExploreDelay: .0599999987
   Positions:
-  - {x: -360, y: 300, z: 0}
-  - {x: -180, y: 300, z: 0}
-  - {x: 0, y: 300, z: 0}
-  - {x: 180, y: 300, z: 0}
-  - {x: 360, y: 300, z: 0}
-  - {x: -360, y: 120, z: 0}
-  - {x: -180, y: 120, z: 0}
-  - {x: 0, y: 120, z: 0}
-  - {x: 180, y: 120, z: 0}
-  - {x: 360, y: 120, z: 0}
+  - {x: -370, y: 300, z: 0}
+  - {x: -190, y: 300, z: 0}
+  - {x: -10, y: 300, z: 0}
+  - {x: 170, y: 300, z: 0}
+  - {x: 350, y: 300, z: 0}
+  - {x: -370, y: 120, z: 0}
+  - {x: -190, y: 120, z: 0}
+  - {x: -10, y: 120, z: 0}
+  - {x: 170, y: 120, z: 0}
+  - {x: 350, y: 120, z: 0}
 --- !u!114 &11400008
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -698,7 +698,7 @@ MonoBehaviour:
   alwaysOnScreen: 0
   anchorOffset: 0
   renderQueue: 1
-  startingRenderQueue: 4500
+  startingRenderQueue: 3900
   mAlpha: 1
   mClipping: 0
   mClipRange: {x: 0, y: 0, z: 300, w: 200}
@@ -1036,11 +1036,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Particles:
   - {fileID: 100000, guid: 5674ed6acb8f5ab4eba47f5e39333906, type: 2}
-  - {fileID: 100126, guid: b8e447dc4d038654aa6aa691564658c4, type: 2}
+  - {fileID: 100170, guid: 3a5c92da21ed9be47aabdfef4328062b, type: 2}
   - {fileID: 100008, guid: 87494cdf2b03c9b40aa03f19ca4a8fce, type: 2}
   Effect2StartDelay: 2
-  CardMoveInterval: 1
-  ExploreDelay: .150000006
+  CardMoveInterval: .5
+  ExploreDelay: .0599999987
   Positions: []
 --- !u!114 &11400026
 MonoBehaviour:

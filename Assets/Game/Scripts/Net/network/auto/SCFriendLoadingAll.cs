@@ -29,6 +29,7 @@ namespace KXSGCodec
     private short _friendLimit;
     private short _friendLimitExtendTimes;
     private List<KXSGCodec.FriendInfo> _friendList;
+    private KXSGCodec.FriendInfo _myself;
 
     public short FriendLimit
     {
@@ -69,6 +70,19 @@ namespace KXSGCodec
       }
     }
 
+    public KXSGCodec.FriendInfo Myself
+    {
+      get
+      {
+        return _myself;
+      }
+      set
+      {
+        __isset.myself = true;
+        this._myself = value;
+      }
+    }
+
 
     public Isset __isset;
     #if !SILVERLIGHT
@@ -78,6 +92,7 @@ namespace KXSGCodec
       public bool friendLimit;
       public bool friendLimitExtendTimes;
       public bool friendList;
+      public bool myself;
     }
 
     public SCFriendLoadingAll() {
@@ -127,6 +142,14 @@ namespace KXSGCodec
               TProtocolUtil.Skip(iprot, field.Type);
             }
             break;
+          case 4:
+            if (field.Type == TType.Struct) {
+              Myself = new KXSGCodec.FriendInfo();
+              Myself.Read(iprot);
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
           default: 
             TProtocolUtil.Skip(iprot, field.Type);
             break;
@@ -171,6 +194,14 @@ namespace KXSGCodec
         }
         oprot.WriteFieldEnd();
       }
+      if (Myself != null && __isset.myself) {
+        field.Name = "myself";
+        field.Type = TType.Struct;
+        field.ID = 4;
+        oprot.WriteFieldBegin(field);
+        Myself.Write(oprot);
+        oprot.WriteFieldEnd();
+      }
       oprot.WriteFieldStop();
       oprot.WriteStructEnd();
     }
@@ -183,6 +214,8 @@ namespace KXSGCodec
       sb.Append(FriendLimitExtendTimes);
       sb.Append(",FriendList: ");
       sb.Append(FriendList);
+      sb.Append(",Myself: ");
+      sb.Append(Myself== null ? "<null>" : Myself.ToString());
       sb.Append(")");
       return sb.ToString();
     }

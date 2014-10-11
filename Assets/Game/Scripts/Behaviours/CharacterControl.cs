@@ -15,7 +15,6 @@ public class CharacterControl : MonoBehaviour
     public GameObject FriendLabelObj;
 
     public BuffBarController BuffBarController;
-
     public Character CharacterData;
 
     public int JobIndex;

@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace com.kx.sglm.gs.battle.share.skill.effect
 {
 
@@ -28,6 +30,11 @@ namespace com.kx.sglm.gs.battle.share.skill.effect
 		{
 			recoverOption(attacker, defencer);
 			recoverRecord(attacker, defencer, resultData);
+		}
+
+		public override void defencerAfterEffect(BattleFighter attacker, List<BattleFighter> defencerList, BattleFightRecord record)
+		{
+			//cur do nothing
 		}
 
 	}

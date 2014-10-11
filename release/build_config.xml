@@ -27,5 +27,8 @@
 		<replace file ="../Assets/Game/Resources/Config/GameConfiguration.xml" token="gameicon" value="${GameIcon}" encoding="UTF-8"/>
 		<replace file ="../Assets/Game/Resources/Config/GameConfiguration.xml" token="http://27.131.223.229/config/service.xml" value="${ServicePath}" encoding="UTF-8"/>
 		<replace file ="../Assets/Game/Resources/Config/GameConfiguration.xml" token="development" value="${DevelopmentBuild}" encoding="UTF-8"/>
+		<replace file ="../Assets/Game/Resources/Config/GameConfiguration.xml" token="full" value="${WithAssetBundles}" encoding="UTF-8"/>
+		<replace file ="../Assets/Game/Resources/Config/GameConfiguration.xml" token="half" value="${WithAssetBundles}" encoding="UTF-8"/>
+		<replace file ="../Assets/Game/Resources/Config/GameConfiguration.xml" token="logo" value="${NameLogo}" encoding="UTF-8"/>
 	</target>
 </project>

@@ -31,10 +31,12 @@
 /*注册的通知*/
 #define LOGIN_NOTIFICATION_SUCCESS                      (@"Login_Notification_Success")
 #define LOGOUT_NOTIFICATION_SUCCESS                     (@"Logout_Notification_Success")
-#define INITGAMESTART_NOTIFICATION_SUCCESS              (@"InitGameStart_Notification_Success")
+#define INITGAMESTART_NOTIFICATION                      (@"InitGameStart_Notification")
 #define ADDROLE_NOTIFICATION_SUCCESS                    (@"AddRole_Notification_Success")
 #define IOSPAY_NOTIFICATION_SUCCESS                     (@"IosPay_Notification_Success")
-#define IN_APP_PURCHASE_NOTIFICATION_SUCCESS            (@"In_App_Purchase_Notification_Success")
+#define IN_APP_PURCHASE_NOTIFICATION                    (@"In_App_Purchase_Notification")
+#define CLOSELOGINVIEWACTION                            (@"closeLoginViewAction")
+#define CLOSEPAYVIEWACTION                              (@"closePayViewAction")
 
 
 
@@ -63,10 +65,10 @@
 #define TRANSACTIONRECEIPT               (@"transactionReceipt")
 #define GOLDS                            (@"golds")
 
+
 //平台充值字段
 #define CURRENCY                         (@"currency")
 #define PRODUCTIDSPLATFORM               (@"productsPlatform")
-
 
 
 /*同步数据*/
@@ -163,14 +165,21 @@
 //设置是否debug状态， 默认为NO;
 +(void)isDebug:(BOOL)Debug;
 
+
 //是否预加载和处理ios支付(本sdk支付接口)掉单信息;
 +(void)prepareLoad:(BOOL)loadstate;
 
 //平台支付
 +(void)platformPayWithViewcontroller:(UIViewController *)viewC remark:(NSString *)remark  userid:(int)userid serverid:(int)serverid roleid:(NSString *)roleid extradata:(NSString *)extradata url:(NSString *)url;
 
+//无界面支付
++(void)payWithProductid:(NSString *)Productid price:(float)price gold:(int)gold remark:(NSString *)remark  userid:(int)userid serverid:(int)serverid roleid:(NSString *)roleid extradata:(NSString *)extradata;
 
 
+
+//FB推广和登录跳转回调
+-(void)FaceBookDidBecomeActiveWithID:(NSString *)appid;
+-(BOOL)FaceBookhandleOpenURL:(NSURL *)url;
 
 
 

@@ -254,7 +254,7 @@ public class InGameLog : MonoBehaviour {
 	{
 		if( !show )
 		{
-		    if (ServiceManager.IsTest)
+            if (ServiceManager.IsTest)
 		    {
                 if (alwaysShowFps)
                 {

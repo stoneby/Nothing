@@ -15,6 +15,11 @@
 		<echo>sglm-exe-${DSTAMP}-${TSTAMP}.zip</echo>
 		<zip destfile="./ExeRelease/sglm-exe-${DSTAMP}-${TSTAMP}.zip" basedir="./ExeBuild" />
 	</target>
+	<target name="ZipBundles" depends="Clean">
+		<echo>Zip AssetBundles</echo>
+		<echo>sglm-bundles-${BuildFunction}-${DSTAMP}-${TSTAMP}.zip</echo>
+		<zip destfile="./Bundles/sglm-bundles-${BuildFunction}-${DSTAMP}-${TSTAMP}.zip" basedir="./Bundles" />
+	</target>
 	<target name="ZipIos"  depends="Clean">
 		<echo>Rename Ios File</echo>
 		<echo>sglm-${IOS_Type}-${GameVersion}-${DSTAMP}-${TSTAMP}.ipa</echo>

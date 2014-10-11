@@ -79,10 +79,7 @@ public class UIMainScreenWindow : Window
     public override void OnEnter()
     {
         MtaManager.TrackBeginPage(MtaType.MainScreenWindow);
-        //if (ServiceManager.IsTest)
-        //{
-            WindowManager.Instance.Show<MainMenuBarWindow>(true);
-        //}
+        WindowManager.Instance.Show<MainMenuBarWindow>(true);
         InstallHandlers();
 		RefreshData ();
         SpawnAndPlay();
@@ -94,10 +91,7 @@ public class UIMainScreenWindow : Window
     public override void OnExit()
     {
         MtaManager.TrackEndPage(MtaType.MainScreenWindow);
-        //if (ServiceManager.IsTest)
-        //{
-            WindowManager.Instance.Show<MainMenuBarWindow>(false);
-        //}
+        WindowManager.Instance.Show<MainMenuBarWindow>(false);
         UnstallHandlers();
         Despawn();
         EnergyIncreaseControl.Instance.StopMonitor();
@@ -115,7 +109,7 @@ public class UIMainScreenWindow : Window
             var character = leaders[i].GetChild(0).GetComponent<Character>();
             character.StopState(Character.State.Idle);
             character.transform.localScale = Vector3.one;
-            CharacterPoolManager.Instance.CharacterPoolList[iconIds[i]].Return(character.gameObject);
+            CharacterPoolManager.Instance.Return(iconIds[i], character.gameObject);
         }
         iconIds.Clear();
     } 
@@ -125,7 +119,7 @@ public class UIMainScreenWindow : Window
         for (int i = 0; i < LeaderCount; i++)
         {
             var characterPoolManager = CharacterPoolManager.Instance;
-            var character = characterPoolManager.CharacterPoolList[iconIds[i]].Take().GetComponent<Character>();
+            var character = characterPoolManager.Take(iconIds[i]).GetComponent<Character>();
             character.PlayState(Character.State.Idle, true);
             Utils.AddChild(leaders[i].gameObject, character.gameObject);
             character.transform.localScale = Scale * Vector3.one;

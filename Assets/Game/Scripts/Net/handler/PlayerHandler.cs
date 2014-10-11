@@ -72,15 +72,17 @@ namespace Assets.Game.Scripts.Net.handler
                 PlayerModelLocator.Instance.ExtendHeroTimes = themsg.HeroExtendTimes;
                 PlayerModelLocator.Instance.ExtendItemTimes = themsg.ItemExtendTimes;
                 PlayerModelLocator.Instance.HeroMax = themsg.HeroMax;
+                PlayerModelLocator.Instance.CanSign = themsg.CanSign;
+                PlayerModelLocator.Instance.HasFinishedQuest = themsg.HasFinishedQuest;
                 EnergyIncreaseControl.Instance.Energy = themsg.Energy;
                 PlayerModelLocator.Instance.TeamProp = new Dictionary<int, int>(themsg.TeamProp);
                 PlayerModelLocator.Instance.TeamList = new List<int>(themsg.TeamList);
-                Logger.Log("Set PlayerModelLocator ends.");
+                Debug.Log("Set PlayerModelLocator ends.");
                 ServiceManager.UserID = themsg.UId;
 
                 var csMsg = new CSGameNoticeList();
                 NetManager.SendMessage(csMsg);
-                Logger.Log("Sended  CSGameNoticeList");
+                Debug.Log("Sended  CSGameNoticeList");
 
                 if (ServiceManager.IsDebugAccount == 1)
                 {

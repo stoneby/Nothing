@@ -19,6 +19,8 @@ public class HttpResourceManager : Singleton<HttpResourceManager>
 
         if (string.IsNullOrEmpty(ServiceManager.ServerData.DataUrl))
         {
+            IsLoadTemplateFinished = true;
+            WindowManager.Instance.GetWindow<LoginWindow>().GreenHandLoading.SetActive(false);
             return;
         }
 
@@ -64,6 +66,7 @@ public class HttpResourceManager : Singleton<HttpResourceManager>
         yield return null;
 
         IsLoadTemplateFinished = true;
+        WindowManager.Instance.GetWindow<LoginWindow>().GreenHandLoading.SetActive(false);
         //if (OnLoadFinish != null)
         //{
         //    OnLoadFinish();

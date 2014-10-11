@@ -9,6 +9,7 @@ public class GetItemControl : MonoBehaviour
     private GameObject containerBox;
     private GameObject spriteItem;
     private GameObject spriteHero;
+    private GameObject spriteHeroBg;
 
     private GameObject spriteNew;
 
@@ -25,8 +26,10 @@ public class GetItemControl : MonoBehaviour
         containerBox = transform.FindChild("Sprite box").gameObject;
 
         spriteHero = transform.FindChild("Container hero/Sprite head").gameObject;
+        spriteHeroBg = transform.FindChild("Container hero/Sprite bg").gameObject;
         spriteItem = transform.FindChild("Container item/Sprite head").gameObject;
         spriteNew = transform.FindChild("Sprite new").gameObject;
+        spriteNew.SetActive(false);
 	    haveNotInit = false;
 	    Reset();
 	}
@@ -42,7 +45,7 @@ public class GetItemControl : MonoBehaviour
     {
         if (haveNotInit) return;
 
-        spriteNew.SetActive(Data.IsNew);
+        spriteNew.SetActive(false);
         SetOpen();
     }
 
@@ -74,8 +77,7 @@ public class GetItemControl : MonoBehaviour
             }
             else
             {
-
-                sp.spriteName = "box";
+                sp.spriteName = "Box_Big";
             }
 
             containerBox.SetActive(true);
@@ -88,14 +90,17 @@ public class GetItemControl : MonoBehaviour
         {
             EffectManager.PlayEffect(EffectType.Jiesuan, 1.6f, 0, 0, gameObject.transform.position, 0, 1.0f);
             yield return new WaitForSeconds(1.6f);
+            var sp = spriteHeroBg.GetComponent<UISprite>();
+            sp.spriteName = "item_box";
             containerHero.SetActive(true);
             containerItem.SetActive(false);
-            var sp = spriteHero.GetComponent<UISprite>();
+            sp = spriteHero.GetComponent<UISprite>();
             var herodata = HeroModelLocator.Instance.FindHero(long.Parse(Data.Uuid));
             var tem = HeroModelLocator.Instance.GetHeroByTemplateId(herodata.TemplateId);
             HeroConstant.SetHeadByIndex(sp, tem.Icon - 1);
+            spriteNew.SetActive(Data.IsNew);
         }
-        else
+        else if (Data.RewardType == 2)
         {
             EffectManager.PlayEffect(EffectType.Baoxiang, 1.6f, 0, 0, gameObject.transform.position, 0, 1.0f);
             yield return new WaitForSeconds(1.6f);
@@ -107,7 +112,21 @@ public class GetItemControl : MonoBehaviour
 
             var tem = ItemModeLocator.Instance.GetIconId(item.TmplId);
             sp.spriteName = (tem != 0) ? ItemType.ItemHeadPrefix + tem : "item_111002";
-            
+            spriteNew.SetActive(Data.IsNew);
+        }
+        else if (Data.RewardType == 3)//碎片
+        {
+            EffectManager.PlayEffect(EffectType.Jiesuan, 1.6f, 0, 0, gameObject.transform.position, 0, 1.0f);
+            yield return new WaitForSeconds(1.6f);
+            var sp = spriteHeroBg.GetComponent<UISprite>();
+            sp.spriteName = "fragment_box";
+            containerHero.SetActive(true);
+            containerItem.SetActive(false);
+            sp = spriteHero.GetComponent<UISprite>();
+            var herodata = HeroModelLocator.Instance.FindHero(long.Parse(Data.Uuid));
+            var tem = HeroModelLocator.Instance.GetHeroByTemplateId(herodata.TemplateId);
+            HeroConstant.SetHeadByIndex(sp, tem.Icon - 1);
+            spriteNew.SetActive(Data.IsNew);
         }
     }
 }

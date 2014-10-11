@@ -193,7 +193,6 @@ Transform:
   - {fileID: 400010}
   - {fileID: 400012}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
 --- !u!4 &400002
 Transform:
   m_ObjectHideFlags: 1
@@ -205,7 +204,6 @@ Transform:
   m_LocalScale: {x: 1.00007999, y: 1.00007999, z: 1.00007999}
   m_Children: []
   m_Father: {fileID: 400006}
-  m_RootOrder: 1
 --- !u!4 &400004
 Transform:
   m_ObjectHideFlags: 1
@@ -217,7 +215,6 @@ Transform:
   m_LocalScale: {x: 1.00007999, y: 1.00007999, z: 1.00007999}
   m_Children: []
   m_Father: {fileID: 400006}
-  m_RootOrder: 0
 --- !u!4 &400006
 Transform:
   m_ObjectHideFlags: 1
@@ -231,7 +228,6 @@ Transform:
   - {fileID: 400004}
   - {fileID: 400002}
   m_Father: {fileID: 400010}
-  m_RootOrder: 2
 --- !u!4 &400008
 Transform:
   m_ObjectHideFlags: 1
@@ -243,7 +239,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400010}
-  m_RootOrder: 0
 --- !u!4 &400010
 Transform:
   m_ObjectHideFlags: 1
@@ -261,7 +256,6 @@ Transform:
   - {fileID: 400018}
   - {fileID: 400020}
   m_Father: {fileID: 400000}
-  m_RootOrder: 0
 --- !u!4 &400012
 Transform:
   m_ObjectHideFlags: 1
@@ -273,7 +267,6 @@ Transform:
   m_LocalScale: {x: 1.00007999, y: 1.00007999, z: 1.00007999}
   m_Children: []
   m_Father: {fileID: 400000}
-  m_RootOrder: 1
 --- !u!4 &400014
 Transform:
   m_ObjectHideFlags: 1
@@ -285,7 +278,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400010}
-  m_RootOrder: 1
 --- !u!4 &400016
 Transform:
   m_ObjectHideFlags: 1
@@ -297,7 +289,6 @@ Transform:
   m_LocalScale: {x: .999919951, y: .999919951, z: .999919951}
   m_Children: []
   m_Father: {fileID: 400010}
-  m_RootOrder: 3
 --- !u!4 &400018
 Transform:
   m_ObjectHideFlags: 1
@@ -309,7 +300,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400010}
-  m_RootOrder: 4
 --- !u!4 &400020
 Transform:
   m_ObjectHideFlags: 1
@@ -321,7 +311,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400010}
-  m_RootOrder: 5
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -404,9 +393,9 @@ MonoBehaviour:
   updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
-  mWidth: 84
+  mWidth: 68
   mHeight: 20
-  mDepth: 2100
+  mDepth: 16000
   HighLight: 0
   OffsetX: 0
   OffsetY: 0
@@ -472,7 +461,7 @@ MonoBehaviour:
   mPivot: 4
   mWidth: 46
   mHeight: 24
-  mDepth: 2100
+  mDepth: 16000
   HighLight: 0
   OffsetX: 0
   OffsetY: 0
@@ -619,7 +608,7 @@ MonoBehaviour:
   mPivot: 4
   mWidth: 78
   mHeight: 25
-  mDepth: 2100
+  mDepth: 16000
   HighLight: 0
   OffsetX: 0
   OffsetY: 0
@@ -785,7 +774,7 @@ MonoBehaviour:
   rightType: 1
   bottomType: 1
   topType: 1
-  mAtlas: {fileID: 11400000, guid: aef2f83cf81d2a84b901d9980a7f782a, type: 2}
+  mAtlas: {fileID: 11400000, guid: 98e2a58a80d0d884da2b3a85f12c2a2d, type: 2}
   mSpriteName: ground_1
   mFillCenter: 1
 --- !u!114 &11400020
@@ -820,7 +809,7 @@ MonoBehaviour:
   mPivot: 3
   mWidth: 65
   mHeight: 20
-  mDepth: 2100
+  mDepth: 16000
   HighLight: 0
   OffsetX: 0
   OffsetY: 0
@@ -886,7 +875,7 @@ MonoBehaviour:
   mPivot: 4
   mWidth: 123
   mHeight: 25
-  mDepth: 2100
+  mDepth: 16000
   HighLight: 0
   OffsetX: 0
   OffsetY: 0
@@ -952,7 +941,7 @@ MonoBehaviour:
   mPivot: 4
   mWidth: 30
   mHeight: 30
-  mDepth: 2002
+  mDepth: 15000
   HighLight: 0
   OffsetX: 0
   OffsetY: 0
@@ -971,7 +960,7 @@ MonoBehaviour:
   rightType: 1
   bottomType: 1
   topType: 1
-  mAtlas: {fileID: 11400000, guid: aef2f83cf81d2a84b901d9980a7f782a, type: 2}
+  mAtlas: {fileID: 11400000, guid: 98e2a58a80d0d884da2b3a85f12c2a2d, type: 2}
   mSpriteName: job_0
   mFillCenter: 1
 --- !u!114 &11400026
@@ -1006,7 +995,7 @@ MonoBehaviour:
   mPivot: 4
   mWidth: 78
   mHeight: 24
-  mDepth: 2100
+  mDepth: 16000
   HighLight: 0
   OffsetX: 0
   OffsetY: 0

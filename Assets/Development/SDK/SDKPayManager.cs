@@ -1,4 +1,5 @@
-﻿using KXSGCodec;
+﻿using System.Collections;
+using KXSGCodec;
 using UnityEngine;
 
 /// <summary>
@@ -22,6 +23,7 @@ public class SDKPayManager : MonoBehaviour
 #endif
 
     private UIEventListener payLis;
+    private const int isPayingTime = 5;
 
     private static string gameID;
 
@@ -38,9 +40,7 @@ public class SDKPayManager : MonoBehaviour
     public static void PayInSDK(ThriftSCMessage msg)
     {
         var themsg = msg.GetContent() as SCRechargeIdMsg;
-
 #if UNITY_IPHONE
-
         if (Application.platform != RuntimePlatform.OSXEditor)
         {
             if (SDKResponse.IsInitialized == false)
@@ -55,14 +55,14 @@ public class SDKPayManager : MonoBehaviour
             {
                 //if not initialized, initialize SDK first.
                 Debug.Log("Calling pay in IOS SDK");
+                GlobalDimmerController.Instance.Transparent = true;
+                GlobalDimmerController.Instance.DetectObject = null;
+                GlobalDimmerController.Instance.Show(true);
                 SDK_IOS.ActivatePay(themsg.GameOrderId.ToString());
             }
         }
-
 #endif
-
 #if UNITY_ANDROID
-
         if (Application.platform != RuntimePlatform.WindowsEditor)
         {
             if (SDKResponse.IsInitialized == false)
@@ -80,14 +80,39 @@ public class SDKPayManager : MonoBehaviour
                 jo.Call("platformpay",ServiceManager.UserID.ToString(),PlayerModelLocator.Instance.RoleId.ToString(),ServiceManager.ServerData.SID,themsg.GameOrderId.ToString(),"platformpay");
             }
         }
-
 #endif
-
     }
 
     #endregion
 
     #region Private Methods
+
+    /// <summary>
+    /// Send request for RechargeID message to server.
+    /// </summary>
+    /// <param name="go"></param>
+    private void OnPay(GameObject go)
+    {
+        //if (IsPaying)
+        //{
+        //    return;
+        //}
+        //IsPaying = true;
+        gameObject.GetComponent<UIButton>().isEnabled = false;
+        StartCoroutine("UpdatePayTime");
+
+        //Send message to server.
+        Debug.Log("Sending message to server.");
+        var msg = new CSGetRechargeIdMsg();
+        NetManager.SendMessage(msg);
+    }
+
+    private IEnumerator UpdatePayTime()
+    {
+        yield return new WaitForSeconds(isPayingTime);
+        //IsPaying = false;
+        gameObject.GetComponent<UIButton>().isEnabled = true;
+    }
 
     private void InstallHandlers()
     {
@@ -100,41 +125,23 @@ public class SDKPayManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Send request for RechargeID message to server.
-    /// </summary>
-    /// <param name="go"></param>
-    private void OnPay(GameObject go)
-    {
-        //if (IsPaying) return;
-        IsPaying = true;
-        //Send message to server.
-        Debug.Log("Sending message to server.");
-        var msg = new CSGetRechargeIdMsg();
-        NetManager.SendMessage(msg);
-    }
-
-    /// <summary>
     /// Pay after initialize SDK.
     /// </summary>
     private static void PayAfterInit()
     {
-
 #if UNITY_IPHONE
-
         Debug.Log("Calling pay in IOS SDK after initialize.");
+        GlobalDimmerController.Instance.Transparent = true;
+        GlobalDimmerController.Instance.DetectObject = null;
+        GlobalDimmerController.Instance.Show(true);
         SDK_IOS.ActivatePay(gameID);
         SDKResponse.WhichResponse = null;
-
 #endif
-
 #if UNITY_ANDROID
-
         Debug.Log("Calling SDK platformPay.");
         jo.Call("platformpay", ServiceManager.UserID.ToString(), PlayerModelLocator.Instance.RoleId.ToString(), ServiceManager.ServerData.SID, gameID, "platformpay");
         SDKResponse.WhichResponse = null;
-
 #endif
-
     }
 
     #endregion
@@ -146,16 +153,12 @@ public class SDKPayManager : MonoBehaviour
     {
 	    this.gameObject.SetActive(true);
         InstallHandlers();
-
 #if UNITY_ANDROID
-
         //Setting Android SDK paras.
         if (SystemInfo.deviceType == DeviceType.Desktop) return;
         jc = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
         jo = jc.GetStatic<AndroidJavaObject>("currentActivity");
-
 #endif
-
 	}
 
     void Awake()

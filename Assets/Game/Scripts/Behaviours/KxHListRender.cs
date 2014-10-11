@@ -43,6 +43,7 @@ public class KxHListRender : MonoBehaviour {
     private int maxItemCount;//最大使用Item的数量
 
     private int minX;
+    private int maxX;
     private float minItemX;
     private float maxItemX;
 
@@ -89,6 +90,7 @@ public class KxHListRender : MonoBehaviour {
             baseY2 *= CameraAdjuster.CameraScale;
 
             minX = - theWidth / 2 + itemWidth / 2;
+            maxX = theWidth/2 - itemWidth/2;
             minItemX = baseX1 - theWidth;
             maxItemX = baseX2 + theWidth;
             haveNotInit = false;
@@ -169,22 +171,21 @@ public class KxHListRender : MonoBehaviour {
             var boxx = itemBox.transform.localPosition.x;
             var v = 0.25f * (boxx - startX) / (endtime - startTime);
             boxx += v;
-            var maxx = boxx - dataPravider.Count * itemWidth + theWidth / 2;
-            if (boxx < 0)
+            var maxx = boxx + dataPravider.Count * itemWidth - theWidth / 2 - itemWidth / 2;
+            if (boxx > 0)
             {
                 StartCoroutine(MoveToPos(0));
             }
-            else if (maxx > -theWidth / 2)
+            else if (maxx < maxX)
             {
-                var tox = dataPravider.Count * itemWidth - theWidth / 2 - 3 * itemWidth / 2;
-                if (tox < 0) tox = 0;
+                var tox = boxx + maxX - maxx;// * itemWidth - theWidth / 2 - 3 * itemWidth / 2;
+                if (tox > 0) tox = 0;
                 StartCoroutine(MoveToPos(tox));
             }
             else
             {
                 StartCoroutine(MoveToPos(boxx));
             }
-
         }
 
         if (isDraging)

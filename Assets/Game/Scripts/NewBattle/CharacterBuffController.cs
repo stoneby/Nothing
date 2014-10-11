@@ -61,6 +61,8 @@ public class CharacterBuffController : MonoBehaviour
         }
     }
 
+    public float DebuffDuration { get; set; }
+
     /// <summary>
     /// Set buff data due to record list.
     /// </summary>
@@ -153,6 +155,7 @@ public class CharacterBuffController : MonoBehaviour
 
     public void ShowDebuff()
     {
+        DebuffDuration = 0;
         StartCoroutine(DoShowDebuff());
     }
 
@@ -173,6 +176,7 @@ public class CharacterBuffController : MonoBehaviour
 
     private IEnumerator DoShowDebuff()
     {
+        var timeSinceStart = Time.realtimeSinceStartup;
         var hurtList = HurtValueList.ToList();
         foreach (var hurt in hurtList)
         {
@@ -182,6 +186,7 @@ public class CharacterBuffController : MonoBehaviour
             }
             yield return new WaitForSeconds(HurtDelay);
         }
+        DebuffDuration = Time.realtimeSinceStartup - timeSinceStart;
     }
 
     private void Awake()

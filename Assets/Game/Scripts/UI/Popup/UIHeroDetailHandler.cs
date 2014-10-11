@@ -35,6 +35,7 @@ public class UIHeroDetailHandler : MonoBehaviour
     private const int MayChangePropCount = 4;
     private readonly int[] changedProps = new int[MayChangePropCount];
     private string cachedEquipUuid;
+    private GameObject highLightFrame;
 
     #endregion
 
@@ -71,20 +72,25 @@ public class UIHeroDetailHandler : MonoBehaviour
         leaderSkillDesc = leaderSkill.Find("Desc").GetComponent<UILabel>();
         commonWindow = WindowManager.Instance.GetWindow<UIHeroCommonWindow>();
         equipItems = new GameObject[MaxEquipCount];
-        const string equipPrefix = "Container items/HeroEquip";
+        const string equipPrefix = "HeroEquip";
+        var itemsContainer = transform.Find("Container items");
         for (var i = 0; i < MaxEquipCount; i++)
         {
-            equipItems[i] = transform.FindChild(equipPrefix + i).gameObject;
+            equipItems[i] = itemsContainer.Find(equipPrefix + i).gameObject;
         }
         foreach(var item in equipItems.Select(equipItem => equipItem.GetComponent<HeroEquipControl>()))
         {
             item.ClickedHandler = OpenSelectHandler;
         }
+        highLightFrame = itemsContainer.Find("HighLightFrame").gameObject;
+        NGUITools.SetActive(highLightFrame, false);
     }
 
     private GameObject selectPosEquipObj;
     private void OpenSelectHandler(GameObject obj)
     {
+        NGUITools.SetActive(highLightFrame, true);
+        highLightFrame.transform.position = obj.transform.position;
         if(selectPosEquipObj)
         {
             var heroEquipControl = selectPosEquipObj.GetComponent<HeroEquipControl>();
@@ -106,6 +112,7 @@ public class UIHeroDetailHandler : MonoBehaviour
 
     private void ConfirmEquipHandler(GameObject obj)
     {
+        NGUITools.SetActive(highLightFrame, false);
         ResetAfterSelItem();
         if (selectPosEquipObj)
         {

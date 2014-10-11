@@ -27,6 +27,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
+  m_RootOrder: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -55,7 +56,7 @@ MonoBehaviour:
     paddingBottom: 0
   - name: alive
     x: 640
-    y: 285
+    y: 330
     width: 164
     height: 44
     borderLeft: 0
@@ -67,8 +68,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: arrow
-    x: 444
-    y: 2
+    x: 597
+    y: 318
     width: 37
     height: 28
     borderLeft: 0
@@ -81,7 +82,7 @@ MonoBehaviour:
     paddingBottom: 0
   - name: bg
     x: 444
-    y: 203
+    y: 126
     width: 72
     height: 72
     borderLeft: 36
@@ -93,7 +94,7 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: bittle_again
-    x: 640
+    x: 805
     y: 330
     width: 164
     height: 44
@@ -118,6 +119,19 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 12
     paddingBottom: 2
+  - name: box5
+    x: 150
+    y: 230
+    width: 40
+    height: 40
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
   - name: btn_bg
     x: 537
     y: 347
@@ -185,7 +199,7 @@ MonoBehaviour:
     paddingBottom: 0
   - name: default_head
     x: 444
-    y: 276
+    y: 199
     width: 65
     height: 82
     borderLeft: 0
@@ -196,19 +210,6 @@ MonoBehaviour:
     paddingRight: 18
     paddingTop: 9
     paddingBottom: 9
-  - name: energy
-    x: 150
-    y: 229
-    width: 40
-    height: 43
-    borderLeft: 0
-    borderRight: 0
-    borderTop: 0
-    borderBottom: 0
-    paddingLeft: 0
-    paddingRight: 0
-    paddingTop: 0
-    paddingBottom: 0
   - name: equip
     x: 444
     y: 359
@@ -223,8 +224,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: exit_raid
-    x: 805
-    y: 330
+    x: 640
+    y: 285
     width: 164
     height: 44
     borderLeft: 0
@@ -250,7 +251,7 @@ MonoBehaviour:
     paddingBottom: 0
   - name: exp_bar
     x: 194
-    y: 257
+    y: 296
     width: 2
     height: 15
     borderLeft: 1
@@ -263,7 +264,7 @@ MonoBehaviour:
     paddingBottom: 0
   - name: exp_bg
     x: 191
-    y: 251
+    y: 290
     width: 2
     height: 21
     borderLeft: 1
@@ -305,32 +306,6 @@ MonoBehaviour:
     y: 275
     width: 220
     height: 114
-    borderLeft: 0
-    borderRight: 0
-    borderTop: 0
-    borderBottom: 0
-    paddingLeft: 0
-    paddingRight: 0
-    paddingTop: 0
-    paddingBottom: 0
-  - name: get_item
-    x: 640
-    y: 202
-    width: 125
-    height: 31
-    borderLeft: 0
-    borderRight: 0
-    borderTop: 0
-    borderBottom: 0
-    paddingLeft: 0
-    paddingRight: 0
-    paddingTop: 0
-    paddingBottom: 0
-  - name: gold
-    x: 150
-    y: 273
-    width: 48
-    height: 38
     borderLeft: 0
     borderRight: 0
     borderTop: 0
@@ -419,7 +394,7 @@ MonoBehaviour:
     paddingBottom: 0
   - name: mask
     x: 504
-    y: 122
+    y: 45
     width: 30
     height: 30
     borderLeft: 10
@@ -432,7 +407,7 @@ MonoBehaviour:
     paddingBottom: 0
   - name: ming
     x: 537
-    y: 304
+    y: 243
     width: 54
     height: 42
     borderLeft: 0
@@ -484,7 +459,7 @@ MonoBehaviour:
     paddingBottom: 0
   - name: star_grey
     x: 444
-    y: 92
+    y: 15
     width: 59
     height: 60
     borderLeft: 0
@@ -496,8 +471,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: star_yellow
-    x: 444
-    y: 31
+    x: 537
+    y: 286
     width: 59
     height: 60
     borderLeft: 0
@@ -508,9 +483,22 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
+  - name: task_btn
+    x: 444
+    y: 282
+    width: 74
+    height: 76
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
   - name: tip
     x: 444
-    y: 153
+    y: 76
     width: 92
     height: 49
     borderLeft: 0
@@ -535,8 +523,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: title
-    x: 592
-    y: 306
+    x: 150
+    y: 271
     width: 40
     height: 40
     borderLeft: 20

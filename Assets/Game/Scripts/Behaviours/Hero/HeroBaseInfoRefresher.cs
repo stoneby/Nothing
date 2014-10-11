@@ -3,7 +3,7 @@ using KXSGCodec;
 using Template.Auto.Hero;
 using UnityEngine;
 
-public class HeroBaseInfoRefresher : MonoBehaviour 
+public class HeroBaseInfoRefresher : MonoBehaviour
 {
     private KeyValuePair<int, GameObject> cachedHero = new KeyValuePair<int, GameObject>(InValid, null);
     private const int InValid = -1;
@@ -19,9 +19,9 @@ public class HeroBaseInfoRefresher : MonoBehaviour
     private bool IsLock
     {
         get { return isLock; }
-        set 
+        set
         {
-            if(LockSprite != null)
+            if (LockSprite != null)
             {
                 LockSprite.spriteName = value ? LockName : UnLockName;
                 isLock = value;
@@ -55,7 +55,7 @@ public class HeroBaseInfoRefresher : MonoBehaviour
 
     public void Refresh(HeroInfo heroInfo)
     {
-        if(heroInfo == null)
+        if (heroInfo == null)
         {
             Logger.LogWarning("You are refreshing hero info with null, Please check it.");
             return;
@@ -67,25 +67,35 @@ public class HeroBaseInfoRefresher : MonoBehaviour
         heroTemps.HeroTmpls.TryGetValue(heroInfo.TemplateId, out heroTemp);
         if (heroTemp != null)
         {
-
-            for (var index = Stars.childCount - 1; index >= Stars.childCount - heroTemp.Star; index--)
-            {
-                NGUITools.SetActive(Stars.GetChild(index).gameObject, true);
-            }
-            for (var index = 0; index < Stars.childCount - heroTemp.Star; index++)
-            {
-                NGUITools.SetActive(Stars.GetChild(index).gameObject, false);
-            }
-            HeroNameLabel.text = heroTemp.Name;
-            Despawn();
-            Spawn(heroTemp.Icon - 1);
+            Refresh(heroTemp);
             IsLock = heroInfo.Bind;
         }
     }
 
+    public void Refresh(HeroTemplate heroTemplate)
+    {
+        if (heroTemplate == null)
+        {
+            Logger.LogWarning("You are refreshing hero info with null, Please check it.");
+            return;
+        }
+
+        for (var index = Stars.childCount - 1; index >= Stars.childCount - heroTemplate.Star; index--)
+        {
+            NGUITools.SetActive(Stars.GetChild(index).gameObject, true);
+        }
+        for (var index = 0; index < Stars.childCount - heroTemplate.Star; index++)
+        {
+            NGUITools.SetActive(Stars.GetChild(index).gameObject, false);
+        }
+        HeroNameLabel.text = heroTemplate.Name;
+        Despawn();
+        Spawn(heroTemplate.Icon - 1);
+    }
+
     private void Spawn(int index)
     {
-        var character = CharacterPoolManager.Instance.CharacterPoolList[index].Take().GetComponent<Character>();
+        var character = CharacterPoolManager.Instance.Take(index).GetComponent<Character>();
         Utils.AddChild(Hero.gameObject, character.gameObject);
         cachedHero = new KeyValuePair<int, GameObject>(index, character.gameObject);
     }
@@ -97,7 +107,7 @@ public class HeroBaseInfoRefresher : MonoBehaviour
             var go = cachedHero.Value;
             var anim = go.GetComponent<Character>().Animation;
             anim.playAutomatically = true;
-            CharacterPoolManager.Instance.CharacterPoolList[cachedHero.Key].Return(go);
+            CharacterPoolManager.Instance.Return(cachedHero.Key, go);
             cachedHero = new KeyValuePair<int, GameObject>(InValid, null);
         }
     }

@@ -31,10 +31,12 @@ public class BattlegroundController : MonoBehaviour
     /// </remarks>
     public int TotalBattleNum;
 
+    public float Duration { get { return battlegroundLooper.Duration; } }
+
     private AbstractBattlegroundLooper battlegroundLooper;
     private int currentStep;
 
-    private const string BasePath = "Prefabs/NewBattle/Battleground";
+    private const string BasePath = "AssetBundles/Prefabs/NewBattle/Battleground";
 
     private bool initialized;
 
@@ -54,7 +56,7 @@ public class BattlegroundController : MonoBehaviour
         }
 
         var path = string.Format("{0}/{1}", BasePath, BattleID);
-        var battle = Resources.Load<GameObject>(path);
+        var battle = ResoucesManager.Instance.Load<GameObject>(path);
         if (battle == null)
         {
             Logger.LogError("Could not find path: " + path + " to generator battleground.");
@@ -117,6 +119,7 @@ public class BattlegroundController : MonoBehaviour
         initialized = false;
 
         Destroy(battlegroundLooper.gameObject);
+        battlegroundLooper = null;
         Resources.UnloadUnusedAssets();
     }
 }

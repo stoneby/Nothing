@@ -57,7 +57,7 @@ public class RaidsWindow : Window
 
     public override void OnEnter()
     {
-        PersistenceHandler.Instance.Cleanup();
+        //PersistenceHandler.Instance.Cleanup();
 
         Set2DCamera(!IsShowStage);
         MissionModelLocator.Instance.ComputeStagecount();
@@ -227,14 +227,14 @@ public class RaidsWindow : Window
         List<RaidStageInfo> temp;
         if (stages != null)
         {
-            if (MissionModelLocator.Instance.CurrRaidType == RaidType.RaidNormal)
-            {
+//            if (MissionModelLocator.Instance.CurrRaidType == RaidType.RaidNormal)
+//            {
                 temp = new List<RaidStageInfo>(stages.OrderByDescending(stageinfo => stageinfo.TemplateId));
-            }
-            else
-            {
-                temp = new List<RaidStageInfo>(stages.OrderBy(stageinfo => stageinfo.TemplateId));
-            }
+//            }
+//            else
+//            {
+//                temp = new List<RaidStageInfo>(stages.OrderBy(stageinfo => stageinfo.TemplateId));
+//            }
             
         }
         else

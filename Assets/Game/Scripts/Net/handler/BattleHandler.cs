@@ -22,7 +22,10 @@ namespace Assets.Game.Scripts.Net.handler
                 return;
             }
 
-            PersistenceHandler.Instance.Enabled = (battleStartMsg.BattleType != BattleType.GREENHANDPVE.Index);
+            if (PersistenceHandler.Instance.Enabled)
+            {
+                PersistenceHandler.Instance.Enabled = (battleStartMsg.BattleType != BattleType.GREENHANDPVE.Index);
+            }
 
             //Store missionmodellocator and battlestartmsg for battle persistence.
             PersistenceHandler.Instance.StoreStartBattle(battleStartMsg);
@@ -31,10 +34,10 @@ namespace Assets.Game.Scripts.Net.handler
             BattleModelLocator.Instance.Init(battleStartMsg);
 
             // client side show.
-            WindowManager.Instance.Show(typeof(BattleWindow), true);
-            WindowManager.Instance.GetWindow<LoginWindow>().GreenHandLoading.SetActive(false);
-            WindowManager.Instance.Show(typeof(RaidsWindow), false);
-            WindowManager.Instance.Show(typeof(SetBattleWindow), false);
+            WindowManager.Instance.Show<RaidsWindow>(false);
+            WindowManager.Instance.Show<SetBattleWindow>(false);
+
+            WindowManager.Instance.Show<BattleWindow>(true);
         }
 
         public static void OnEnergyNotEnough(ThriftSCMessage msg)

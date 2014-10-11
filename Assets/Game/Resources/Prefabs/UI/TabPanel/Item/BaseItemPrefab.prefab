@@ -388,6 +388,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ba1e4051f107ab428d80551aa6d720a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TempId: 0
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -817,7 +818,7 @@ MonoBehaviour:
   rightType: 1
   bottomType: 1
   topType: 1
-  mAtlas: {fileID: 11400000, guid: 5b92cbdcb180fb042a7069f903d9f7ae, type: 2}
+  mAtlas: {fileID: 11400000, guid: 54963bf6111d1514080984e576cacdd0, type: 2}
   mSpriteName: Item_202002
   mFillCenter: 1
 --- !u!114 &11400018
@@ -885,6 +886,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24523be266b209741bfdc72e3c995c9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  NPressNotTriggerWhenLPress: 1
   LongTriggerType: 1
   LongClickDuration: .5
 --- !u!114 &11400022
@@ -899,6 +901,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DetailInfoObj: {fileID: 100014, guid: 7fe7d9ae13a17e240b60631d7f17de9d, type: 2}
+  UseTemplateId: 0
 --- !u!114 &11400024
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -5,6 +5,10 @@ using KXSGCodec;
 public class FriendItem : MonoBehaviour
 {
     public FriendInfo FriendInfo { get; private set; }
+    public UILabel NameLabel
+    {
+        get { return nameLbl; }
+    }
 
     private UILabel nameLbl;
     private UILabel atkLbl;
@@ -21,7 +25,7 @@ public class FriendItem : MonoBehaviour
         nameLbl = transform.Find("Name").GetComponent<UILabel>();
         atkLbl = transform.Find("Attack/AtkValue").GetComponent<UILabel>();
         hpLbl = transform.Find("Hp/HpValue").GetComponent<UILabel>();
-        lvlLbl = transform.Find("Level/LevelValue").GetComponent<UILabel>();
+        lvlLbl = transform.Find("BG/Level/LevelValue").GetComponent<UILabel>();
         longPress = transform.Find("BG").GetComponent<NGUILongPress>();
         var bindIconTran = Utils.FindChild(transform, "BindIcon");
         if (bindIconTran)
@@ -64,7 +68,6 @@ public class FriendItem : MonoBehaviour
         if (longPress)
         {
             longPress.OnLongPress = OnLongPress;
-            longPress.OnNormalPress = OnNormalPress;
             longPress.OnLongPressFinish = OnLongPressFinish;
         }
     }
@@ -72,15 +75,6 @@ public class FriendItem : MonoBehaviour
     private void OnLongPressFinish(GameObject go)
     {
         WindowManager.Instance.Show<UIFriendDetailWindow>(false);
-    }
-
-    private void OnNormalPress(GameObject go)
-    {
-        var friendLock = WindowManager.Instance.Show<UIFriendLockWindow>(true);
-        if (friendLock != null)
-        {
-            friendLock.Refresh(FriendInfo, this);
-        }
     }
 
     private void OnLongPress(GameObject go)

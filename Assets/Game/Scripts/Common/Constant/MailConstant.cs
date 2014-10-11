@@ -23,6 +23,7 @@ public class MailConstant
     public const string EnergyAttachKey = "UIEMailEntry.Energy";
     public const string SoulAttachKey = "UIEMailEntry.Soul";
     public const string CoinsAttachKey = "UIEMailEntry.Coins";
+    public const string FragmentKey = "UIEMailEntry.Fragment";
     public const string DiamondAttachKey = "UIEMailEntry.Diamond";
     public const string RemainTimeKey = "UIEMailEntry.RemainTime";
     public const string MailOutOfDateKey = "UIEmailEntry.OutOfDate";
@@ -40,10 +41,11 @@ public class MailConstant
     public const string MailCoinsSpriteName = "Coins1";
     public const string MailEnergySpriteName = "Energy1";
     public const string MailSoulSpriteName = "SoulIcon";
+    public const string MailSuperChipName = "Fragment";
 
     public enum MailState
     {
-        UnShow,
+        UnShow = 1,
         UnRead,
         Read,
         Gain,
@@ -80,7 +82,63 @@ public class MailConstant
         {
             return;
         }
-        mailList.Sort((mailL, mailR) => mailR.CreateTime.CompareTo(mailL.CreateTime));
+        mailList.Sort((mailL, mailR) => mailR.Uuid.CompareTo(mailL.Uuid));
+    }
+
+    public static String GetCurrencyIconById(int theid)
+    {
+        if (theid == RoleProperties.ROLEBASE_DIAMOND)
+        {
+            return MailDiamondSpriteName;
+        }
+        else if (theid == RoleProperties.ROLEBASE_GOLD)
+        {
+            return MailCoinsSpriteName;
+        }
+        else if (theid == RoleProperties.ROLEBASE_ENERGY)
+        {
+            return MailEnergySpriteName;
+        }
+        else if (theid == RoleProperties.ROLEBASE_HERO_SPIRIT)
+        {
+            return MailSoulSpriteName;
+        }
+        else if (theid == RoleProperties.ROLEBASE_SUPER_CHIP)
+        {
+            return MailSuperChipName;
+        }
+        else
+        {
+            return "";
+        }
+    }
+
+    public static String GetCurrencyNameById(int theid)
+    {
+        if (theid == RoleProperties.ROLEBASE_DIAMOND)
+        {
+            return LanguageManager.Instance.GetTextValue(DiamondAttachKey);
+        }
+        else if (theid == RoleProperties.ROLEBASE_GOLD)
+        {
+            return LanguageManager.Instance.GetTextValue(CoinsAttachKey);
+        }
+        else if (theid == RoleProperties.ROLEBASE_ENERGY)
+        {
+            return LanguageManager.Instance.GetTextValue(EnergyAttachKey);
+        }
+        else if (theid == RoleProperties.ROLEBASE_HERO_SPIRIT)
+        {
+            return LanguageManager.Instance.GetTextValue(SoulAttachKey);
+        }
+        else if (theid == RoleProperties.ROLEBASE_SUPER_CHIP)
+        {
+            return LanguageManager.Instance.GetTextValue(FragmentKey);
+        }
+        else
+        {
+            return "";
+        }
     }
 
     public static void ShowAttachments(IEnumerable<MailAttachment> attachments, Transform parent, float interval)
@@ -132,6 +190,11 @@ public class MailConstant
                     {
                         icon.spriteName = MailSoulSpriteName;
                         curDesc.text = LanguageManager.Instance.GetTextValue(SoulAttachKey);
+                    }
+                    else if (mailAttachment.ItemId == RoleProperties.ROLEBASE_SUPER_CHIP)
+                    {
+                        icon.spriteName = MailSuperChipName;
+                        curDesc.text = LanguageManager.Instance.GetTextValue(FragmentKey);
                     }
                     value.text = mailAttachment.Count.ToString();
                     icon.MakePixelPerfect();

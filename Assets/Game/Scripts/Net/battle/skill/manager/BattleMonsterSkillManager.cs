@@ -77,7 +77,7 @@ namespace com.kx.sglm.gs.battle.share.skill.manager
 		{
 			// 也许会更换技能
 			resetLeftRound();
-			recordRound(record.getAttackAction());
+			recordRound(record.OrCreateAttack);
 		}
 
 		public override void onSceneStart(SceneStartEvent @event)

@@ -29,7 +29,7 @@ namespace com.kx.sglm.gs.battle.share.skill.action
 		private TargetGetterHolder[] targetGetterHolderArr;
 
 		/// <summary>
-		/// 技能动作 </summary>
+		/// 技能动作，一个技能可以包括多个动作 </summary>
 		private List<ISkillEffect> allEffect;
 
 		public AbstractSingletonBattleAction()
@@ -51,28 +51,36 @@ namespace com.kx.sglm.gs.battle.share.skill.action
 			optionAction(attacker, record);
 		}
 
+		/// <summary>
+		/// 核心方法，执行技能动作
+		/// </summary>
+		/// <param name="attacker"> </param>
+		/// <param name="record"> </param>
 		internal virtual void optionAction(BattleFighter attacker, BattleFightRecord record)
 		{
 			// 创建一个供不同动作之间数据沟通的记录
-			SkillDataHolder _holder = createDataHolder(record);
+			SkillDataHolder _holder = new SkillDataHolder();
 			// 动作分两步
+			// 准备数据
 //JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final java.util.List<com.kx.sglm.gs.battle.share.actor.impl.BattleFighter> _enemyFighterList = calcTargetList(attacker, true);
-			List<BattleFighter> _enemyFighterList = calcTargetList(attacker, true);
+//ORIGINAL LINE: final java.util.List<com.kx.sglm.gs.battle.share.actor.impl.BattleFighter> _enemyList = calcTargetList(attacker, true);
+			List<BattleFighter> _enemyList = calcTargetList(attacker, true);
 //JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final java.util.List<com.kx.sglm.gs.battle.share.actor.impl.BattleFighter> _friendFighterList = calcTargetList(attacker, false);
-			List<BattleFighter> _friendFighterList = calcTargetList(attacker, false);
-			foreach (ISkillEffect _effect in allEffect)
-			{
-				if (!ratioEffect(_effect))
-				{
-					continue;
-				}
-				List<BattleFighter> _fighterList = _effect.EnemyEffect ? _enemyFighterList : _friendFighterList;
-				_effect.onAction(attacker, _fighterList, _holder);
-				// TODO: 区分不同的effect
-				optionAfterAction(attacker, _fighterList, record);
-			}
+//ORIGINAL LINE: final java.util.List<com.kx.sglm.gs.battle.share.actor.impl.BattleFighter> _friendList = calcTargetList(attacker, false);
+			List<BattleFighter> _friendList = calcTargetList(attacker, false);
+			List<ISkillEffect> _activeEffects = calcActiveEffectByRate();
+
+			_holder.Record = record;
+			_holder.Attacker = attacker;
+			_holder.EnemyList = _enemyList;
+			_holder.FriendList = _friendList;
+			_holder.ActiveEffect = _activeEffects;
+
+			// 执行动作内容
+			optionEffectAction(_holder);
+			// 执行动作后操作
+			optionAfterAction(_holder);
+
 		}
 
 		protected internal virtual bool ratioEffect(ISkillEffect effect)
@@ -92,30 +100,57 @@ namespace com.kx.sglm.gs.battle.share.skill.action
 			}
 		}
 
-		/// <summary>
-		/// 攻击后操作
-		/// </summary>
-		/// <param name="attacker"> </param>
-		/// <param name="defencerList"> </param>
-		/// <param name="record"> </param>
-		public virtual void optionAfterAction(BattleFighter attacker, List<BattleFighter> defencerList, BattleFightRecord record)
+		internal virtual List<ISkillEffect> calcActiveEffectByRate()
 		{
-			attacker.afterAttack(record);
-			foreach (BattleFighter _defencer in defencerList)
+			List<ISkillEffect> _activeEffects = new List<ISkillEffect>();
+			foreach (ISkillEffect _effect in allEffect)
 			{
-				_defencer.afterDefence(attacker, record);
+				if (!ratioEffect(_effect))
+				{
+					continue;
+				}
+				_activeEffects.Add(_effect);
 			}
+			return _activeEffects;
+		}
+
+		/// <summary>
+		/// 技能操作
+		/// </summary>
+		/// <param name="holder"> </param>
+		internal virtual void optionEffectAction(SkillDataHolder holder)
+		{
+			foreach (ISkillEffect _effect in holder.ActiveEffect)
+			{
+				if (!ratioEffect(_effect))
+				{
+					continue;
+				}
+				List<BattleFighter> _fighterList = holder.getTargets(_effect);
+				_effect.onAction(holder.Attacker, _fighterList, holder);
+			}
+		}
+
+		/// <summary>
+		/// 技能释放后操作
+		/// </summary>
+		/// <param name="holder"> 包含当次技能的一些实时数据 </param>
+		internal virtual void optionAfterAction(SkillDataHolder holder)
+		{
+			BattleFightRecord _record = holder.Record;
+			holder.Attacker.attackerAfterSkillAction(_record);
+			foreach (ISkillEffect _effect in holder.ActiveEffect)
+			{
+				List<BattleFighter> _fighterList = holder.getTargets(_effect);
+				_effect.defencerAfterEffect(holder.Attacker, _fighterList, _record);
+			}
+
 		}
 
 		protected internal virtual List<BattleFighter> calcTargetList(BattleFighter attacker, bool enemyEffect)
 		{
 			TargetGetterHolder _holder = getTargetHolder(enemyEffect);
 			return _holder.calcTargetList(attacker);
-		}
-
-		public virtual SkillDataHolder createDataHolder(BattleFightRecord record)
-		{
-			return new SkillDataHolder(record);
 		}
 
 

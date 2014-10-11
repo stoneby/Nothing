@@ -160,9 +160,6 @@ namespace Assets.Game.Scripts.Net.handler
                     {
                         friend.Status = (sbyte)((friend.Status | FriendConstant.FriendBind) ^ FriendConstant.FriendBind);
                     }
-           
-                    var lockWindow = WindowManager.Instance.GetWindow<UIFriendLockWindow>();
-                    lockWindow.ShowLockSucc(friend);
                 }
             }
         }
@@ -176,8 +173,9 @@ namespace Assets.Game.Scripts.Net.handler
                 {
                     FriendModelLocator.Instance.ScFriendLoadingAll.FriendList.RemoveAll(
                         item => item.FriendUuid == deleteSucc.FriendUuid);
-                    var lockWindow = WindowManager.Instance.GetWindow<UIFriendLockWindow>();
-                    lockWindow.ShowDelSucc();
+                    var friendEntryWindow = WindowManager.Instance.GetWindow<UIFriendEntryWindow>();
+                    var friendList = friendEntryWindow.FriendHandlers[FriendConstant.FriendHandlerListIndex] as FriendListHandler;
+                    friendList.Refresh(FriendModelLocator.Instance.ScFriendLoadingAll.FriendList);
                 }
             }
         }

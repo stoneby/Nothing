@@ -28,10 +28,14 @@ public class LeaderControl : MonoBehaviour
 
     public UILabel CostMP;
 
+    public GameObject SkillDetail;
+
     private int currentCD;
 
     private FighterInfo figherData;
     private HeroBattleSkillTemplate skillData;
+
+    private NGUILongPress longPressControl;
 
     /// <summary>
     /// Initialize.
@@ -109,18 +113,19 @@ public class LeaderControl : MonoBehaviour
     /// <summary>
     /// Callback on head got clicked.
     /// </summary>
-    public void OnHeadClick()
+    public void OnHeadClick(GameObject go)
     {
         if (currentCD < Data.BaseCd || skillData == null)
         {
             return;
         }
 
-        var window = WindowManager.Instance.GetWindow<ActiveSkillConfirmWindow>();
-        if (window == null)
+        if (!WindowManager.Instance.ContainWindow<ActiveSkillConfirmWindow>())
         {
-            Logger.Log("!!!!!!!!!!!!!Assert window equal to null.");
+            Logger.Log("!!!!!!!!!!!!!Assert window is null.");
         }
+
+        var window = WindowManager.Instance.GetWindow<ActiveSkillConfirmWindow>();
         window.AssertType = ActiveSkillConfirmWindow.Type.OkCancel;
         window.Title = skillData.Name;
         window.Message = skillData.Desc;
@@ -182,4 +187,43 @@ public class LeaderControl : MonoBehaviour
         collider.enabled = true;
         SealEffect.Stop();
     }
+
+    private void ShowSkillDetail(GameObject go)
+    {
+        SkillDetail.SetActive(true);
+
+        var detailControl = SkillDetail.GetComponent<SkillDetailController>();
+        detailControl.Title.text = skillData.Name;
+        detailControl.Content.text = skillData.Desc;
+
+        //var floatWindow = SkillDetail.GetComponent<FloatWindowShower>();
+        //floatWindow.Show();
+    }
+
+    private void CloseSkillDetail(GameObject go)
+    {
+        SkillDetail.SetActive(false);
+    }
+
+    #region Mono
+
+    void OnEnable()
+    {
+        longPressControl.NPressNotTriggerWhenLPress = GreenHandGuideHandler.Instance.BattleFinishFlag;
+    }
+
+    void Awake()
+    {
+        longPressControl = gameObject.GetComponent<NGUILongPress>();
+        if (!longPressControl)
+        {
+            return;
+        }
+        longPressControl.OnLongPress = ShowSkillDetail;
+        longPressControl.OnLongPressFinish = CloseSkillDetail;
+        longPressControl.OnNormalPress = OnHeadClick;
+        SkillDetail.SetActive(false);
+    }
+
+    #endregion
 }

@@ -7,6 +7,15 @@
 /// </summary>
 public abstract class Window : MonoBehaviour
 {
+    public enum MemoryManagementType
+    {
+        Ignore,
+        Always,
+        UI,
+        Battle,
+        Login,
+    }
+
     #region Fields
 
     /// <summary>
@@ -18,6 +27,11 @@ public abstract class Window : MonoBehaviour
     /// Window group that this window belongs to.
     /// </summary>
     public WindowGroupType WindowGroup;
+
+    /// <summary>
+    /// Memory management type which is used by MemoryStrategy.
+    /// </summary>
+    public MemoryManagementType MemeoryType;
 
     #endregion
 

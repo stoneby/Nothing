@@ -37,6 +37,7 @@ public class BattleModeHandler
     {
         BattleMode.SetBattleField(teamController, enemyController, characters, mode);
     }
+
     public int CheckCanAttack(TeamSelectController teamController)
     {
         return BattleMode.CheckCanAttack(teamController);

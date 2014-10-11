@@ -103,7 +103,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 			return stateManager.hasState(state);
 		}
 
-		public virtual void afterAttack(BattleFightRecord record)
+		public virtual void attackerAfterSkillAction(BattleFightRecord record)
 		{
 			skillManager.afterAttack(record);
 		}

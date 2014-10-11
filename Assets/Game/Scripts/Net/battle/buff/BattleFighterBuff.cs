@@ -107,6 +107,10 @@ namespace com.kx.sglm.gs.battle.share.buff
 				{
 					return null;
 				}
+				if (!hasCanOptionStacking())
+				{
+					return null;
+				}
 				BattleFighterState _state = new BattleFighterState(buffAction.Id, buffAction.StateEnum, buffAction.BuffShowId, LeftRound);
 				_state.ParamMap = paramMap;
 				return _state;
@@ -164,6 +168,20 @@ namespace com.kx.sglm.gs.battle.share.buff
 					}
 				}
 			}
+		}
+
+		public virtual bool hasCanOptionStacking()
+		{
+			bool _canOption = false;
+			foreach (BuffStackInfo _info in stackingList)
+			{
+				if (_info.Active && _info.canOption(Owner))
+				{
+					_canOption = true;
+					break;
+				}
+			}
+			return _canOption;
 		}
 
 		protected internal virtual bool PropEffectBuff

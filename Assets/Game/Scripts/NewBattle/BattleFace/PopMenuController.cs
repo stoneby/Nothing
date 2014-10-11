@@ -28,13 +28,14 @@ public class PopMenuController : MonoBehaviour
         {
             Uuid = BattleModelLocator.Instance.Uuid,
             BattleResult = 0,
-            Star = 0
+            Star = 0,
+            CheckCode = BattleModelLocator.Instance.RaidID.ToString(),
         };
 
         PersistenceHandler.IsRaidFinish = true;
         
         //Battle persistence
-        PersistenceHandler.Instance.StoreBattleEndMessage(msg);
+        PersistenceHandler.Instance.Cleanup();
 
         NetManager.SendMessage(msg);
         MtaManager.TrackEndPage(MtaType.BattleScreen);

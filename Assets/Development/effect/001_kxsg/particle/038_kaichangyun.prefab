@@ -177,7 +177,7 @@ ParticleSystem:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
-  lengthInSec: 2.5
+  lengthInSec: 2
   startDelay: 0
   speed: 1
   randomSeed: 0
@@ -211,7 +211,7 @@ ParticleSystem:
         m_PostInfinity: 2
       minMaxState: 0
     startSpeed:
-      scalar: -2
+      scalar: 1
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -531,7 +531,7 @@ ParticleSystem:
           rgba: 4294967295
         key2:
           serializedVersion: 2
-          rgba: 0
+          rgba: 4278190080
         key3:
           serializedVersion: 2
           rgba: 0
@@ -4518,7 +4518,7 @@ ParticleSystem:
         rgba: 4294967295
       maxColor:
         serializedVersion: 2
-        rgba: 4294967295
+        rgba: 2046820351
       minMaxState: 0
     startSize:
       scalar: 10

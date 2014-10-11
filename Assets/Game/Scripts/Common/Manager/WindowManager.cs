@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityThreading;
 
 /// <summary>
 /// Windows mananger including the following types:
@@ -35,11 +37,6 @@ public class WindowManager : Singleton<WindowManager>
     /// Current window map between window group type and current window.
     /// </summary>
     private readonly Dictionary<WindowGroupType, Window> currentWindowMap = new Dictionary<WindowGroupType, Window>();
-
-    /// <summary>
-    /// History window list that keep track of window open records.
-    /// </summary>
-    private readonly List<Window> historyList = new List<Window>();
 
     #endregion
 
@@ -131,12 +128,11 @@ public class WindowManager : Singleton<WindowManager>
     /// </summary>
     /// <typeparam name="T">Generic window type</typeparam>
     /// <param name="show">Flag indicates if window to show or hide</param>
-    /// <param name="inHistory">Flag indicates if window to be recorded in history.</param>
     /// <returns>Window to show</returns>
-    public T Show<T>(bool show, bool inHistory = false) where T : Window
+    public T Show<T>(bool show) where T : Window
     {
         var type = typeof(T);
-        return Show(type, show, inHistory) as T;
+        return Show(type, show) as T;
     }
 
     /// <summary>
@@ -144,12 +140,11 @@ public class WindowManager : Singleton<WindowManager>
     /// </summary>
     /// <param name="windowName">Window name</param>
     /// <param name="show">Flag indicates if window to show or hide</param>
-    /// <param name="inHistory">Flag indicates if window to be recorded in history.</param>
     /// <returns>Window to show</returns>
-    public Window Show(string windowName, bool show, bool inHistory = false)
+    public Window Show(string windowName, bool show)
     {
         var type = Type.GetType(windowName);
-        return Show(type, show, inHistory);
+        return Show(type, show);
     }
 
     /// <summary>
@@ -157,9 +152,8 @@ public class WindowManager : Singleton<WindowManager>
     /// </summary>
     /// <param name="type">Window type</param>
     /// <param name="show">Flag indicates if window to show or hide</param>
-    /// <param name="inHistory">Flag indicates if window to be recorded in history.</param>
     /// <returns>Window to show</returns>
-    public Window Show(Type type, bool show, bool inHistory = false)
+    public Window Show(Type type, bool show)
     {
         if (!ContainWindow(type) && !show)
         {
@@ -195,22 +189,10 @@ public class WindowManager : Singleton<WindowManager>
 
             currentWindowMap[windowGroupType] = window;
             window.gameObject.SetActive(true);
-
-            if (inHistory)
-            {
-                historyList.Add(window);
-                Logger.LogWarning("===== Adding window to history ====" + window.name + ", from group: " + window.WindowGroup);
-            }
         }
         else
         {
             window.gameObject.SetActive(false);
-
-            if (inHistory)
-            {
-                historyList.Remove(window);
-                Logger.LogWarning("===== Remove window from history ====" + window.name + ", from group: " + window.WindowGroup);
-            }
         }
         return window;
     }
@@ -218,22 +200,40 @@ public class WindowManager : Singleton<WindowManager>
     /// <summary>
     /// Destroy window
     /// </summary>
-    /// <param name="lastWindow">Last window to destroy</param>
-    private void DestroyWindow(Window lastWindow)
+    /// <param name="window">Window to destroy</param>
+    public void DestroyWindow(Window window)
     {
-        var groupType = lastWindow.WindowGroup;
-        Logger.Log("Removing last window hold: " + windowMap[groupType][0]);
-
-        var find = windowMap[groupType].Remove(lastWindow);
-        if (!find)
+        var groupType = window.WindowGroup;
+        var isCurrentWindow = (currentWindowMap.ContainsKey(groupType) && (currentWindowMap[groupType] == window));
+        if (isCurrentWindow)
         {
-            Logger.LogError("Trying to remove window - " + lastWindow.name +
-                           ", but we got nothing from window map of group - " + groupType);
+            Logger.Log("The window you are destroying is the current showing window: " + window.name);
+            currentWindowMap.Remove(groupType);
         }
-        historyList.Remove(lastWindow);
 
-        Destroy(lastWindow.gameObject);
-        Resources.UnloadUnusedAssets();
+        windowMap[groupType].Remove(window);
+
+        Logger.LogWarning("DestroyWindow: " + window.name);
+
+        Destroy(window.gameObject);
+    }
+
+    public void DestroyWindow<T>()
+    {
+        var type = typeof(T);
+        DestroyWindow(type);
+    }
+
+    public void DestroyWindow(Type t)
+    {
+        if (!ContainWindow(t))
+        {
+            Logger.LogWarning("The window type you are trying to destroy does not exist. window: " + t.Name);
+            return;
+        }
+
+        var window = GetWindow(t);
+        DestroyWindow(window);
     }
 
     /// <summary>
@@ -282,58 +282,19 @@ public class WindowManager : Singleton<WindowManager>
         }     
     }
 
-    /// <summary>
-    /// Close last window by history steps.
-    /// </summary>
-    /// <remarks>
-    /// Only for those windows that is marked as history.
-    /// </remarks>
-    public void CloseLastWindowInHistory()
+    public void DestroyWindows(Window.MemoryManagementType memoryType)
     {
-        if (historyList.Count <= 0)
+        foreach (var map in windowMap)
         {
-            Logger.LogWarning("There is no more windows in history list, please check whether the close button is correct or not.");
-            return;
-        }
-        var lastWindow = historyList[historyList.Count - 1];
-        historyList.RemoveAt(historyList.Count - 1);
-        lastWindow.gameObject.SetActive(false);
-
-        Logger.LogWarning("===== Close last window from history ====" + lastWindow.name + ", from group: " + lastWindow.WindowGroup);
-
-        // [Note:] The following lines are tricky.
-        // In the full history window list, there should be some window is hidden by the same group window showing,
-        // We need to show back the hidden window for the full history list.
-
-        // find out if any other window in the same group of last window from back end.
-        Window lastWindowTheSameGroup = null;
-        for (var i = historyList.Count - 1; i >= 0; --i)
-        {
-            var window = historyList[i];
-            if (window.Active || window.WindowGroup != lastWindow.WindowGroup)
+            for (var i = map.Value.Count - 1; i >= 0 ; --i)
             {
-                continue;
+                var window = map.Value[i];
+                if (window.MemeoryType == memoryType)
+                {
+                    DestroyWindow(window);
+                }
             }
-            lastWindowTheSameGroup = historyList[i];
-            break;
         }
-        // show last window the same group.
-        if (lastWindowTheSameGroup != null)
-        {
-            lastWindowTheSameGroup.gameObject.SetActive(true);
-            Logger.LogWarning("===== Show last window with the same group from history ====" +
-                              lastWindowTheSameGroup.name + ", from group: " + lastWindowTheSameGroup.WindowGroup);
-        }
-    }
-
-    /// <summary>
-    /// Clear up window history.
-    /// </summary>
-    /// <remarks>Keep history only when in UI oepration, should clear out when back from battle.</remarks>
-    public void ClearHistory()
-    {
-        Logger.LogWarning("Clear history window list.");
-        historyList.Clear();
     }
 
     #endregion
@@ -365,29 +326,6 @@ public class WindowManager : Singleton<WindowManager>
         window.Path = path;
         window.WindowGroup = groupType;
         return window;
-    }
-
-    /// <summary>
-    /// Debug display
-    /// </summary>
-    private void Display()
-    {
-        foreach (var pair in windowMap)
-        {
-            Logger.Log("Window map including : group - " + pair.Key);
-            foreach (var window in pair.Value)
-            {
-                Logger.Log("Including window - " + window);
-            }
-        }
-    }
-
-    #endregion
-
-    #region Mono
-
-    void Start()
-    {
     }
 
     #endregion

@@ -299,8 +299,11 @@ public sealed class MissionModelLocator
         }
     }
 
-    public void ShowRaidWindow()
+    public int OpenedId;
+    public void ShowRaidWindow(int thetype = -1, int theid = -1)
     {
+        OpenedId = theid;
+        if (thetype > 0) CurrRaidType = thetype;
         if (Instance.RaidLoadingAll == null)
         {
             var csmsg = new CSRaidLoadingAll();

@@ -40,6 +40,8 @@ namespace KXSGCodec
     private short _itemExtendTimes;
     private List<int> _teamList;
     private Dictionary<int, int> _teamProp;
+    private bool _canSign;
+    private bool _hasFinishedQuest;
 
     public long UId
     {
@@ -268,6 +270,38 @@ namespace KXSGCodec
       }
     }
 
+    /// <summary>
+    /// 今日是否可以签到
+    /// </summary>
+    public bool CanSign
+    {
+      get
+      {
+        return _canSign;
+      }
+      set
+      {
+        __isset.canSign = true;
+        this._canSign = value;
+      }
+    }
+
+    /// <summary>
+    /// 是否有完成状态的任务
+    /// </summary>
+    public bool HasFinishedQuest
+    {
+      get
+      {
+        return _hasFinishedQuest;
+      }
+      set
+      {
+        __isset.hasFinishedQuest = true;
+        this._hasFinishedQuest = value;
+      }
+    }
+
 
     public Isset __isset;
     #if !SILVERLIGHT
@@ -291,6 +325,8 @@ namespace KXSGCodec
       public bool itemExtendTimes;
       public bool teamList;
       public bool teamProp;
+      public bool canSign;
+      public bool hasFinishedQuest;
     }
 
     public SCPlayerInfoMsg() {
@@ -445,6 +481,20 @@ namespace KXSGCodec
                 }
                 iprot.ReadMapEnd();
               }
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 18:
+            if (field.Type == TType.Bool) {
+              CanSign = iprot.ReadBool();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 19:
+            if (field.Type == TType.Bool) {
+              HasFinishedQuest = iprot.ReadBool();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
@@ -613,6 +663,22 @@ namespace KXSGCodec
         }
         oprot.WriteFieldEnd();
       }
+      if (__isset.canSign) {
+        field.Name = "canSign";
+        field.Type = TType.Bool;
+        field.ID = 18;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteBool(CanSign);
+        oprot.WriteFieldEnd();
+      }
+      if (__isset.hasFinishedQuest) {
+        field.Name = "hasFinishedQuest";
+        field.Type = TType.Bool;
+        field.ID = 19;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteBool(HasFinishedQuest);
+        oprot.WriteFieldEnd();
+      }
       oprot.WriteFieldStop();
       oprot.WriteStructEnd();
     }
@@ -653,6 +719,10 @@ namespace KXSGCodec
       sb.Append(TeamList);
       sb.Append(",TeamProp: ");
       sb.Append(TeamProp);
+      sb.Append(",CanSign: ");
+      sb.Append(CanSign);
+      sb.Append(",HasFinishedQuest: ");
+      sb.Append(HasFinishedQuest);
       sb.Append(")");
       return sb.ToString();
     }

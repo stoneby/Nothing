@@ -74,7 +74,7 @@ public class BattleLostWindow : Window
         }
         else
         {
-            WindowManager.Instance.Show<UIItemCommonWindow>(true, true);
+            WindowManager.Instance.Show<UIItemCommonWindow>(true);
         }
     }
 
@@ -95,7 +95,7 @@ public class BattleLostWindow : Window
         }
         else
         {
-            WindowManager.Instance.Show<UIHeroCommonWindow>(true, true);
+            WindowManager.Instance.Show<UIHeroCommonWindow>(true);
         }
     }
 

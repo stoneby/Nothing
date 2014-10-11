@@ -37,6 +37,7 @@ namespace Template.Auto.Raid
     private int _sprit;
     private int _reputation;
     private int _monsterGroupId;
+    private string _colorRate;
 
     public int Id
     {
@@ -259,6 +260,22 @@ namespace Template.Auto.Raid
       }
     }
 
+    /// <summary>
+    /// 英雄颜色概率配置
+    /// </summary>
+    public string ColorRate
+    {
+      get
+      {
+        return _colorRate;
+      }
+      set
+      {
+        __isset.colorRate = true;
+        this._colorRate = value;
+      }
+    }
+
 
     public Isset __isset;
     #if !SILVERLIGHT
@@ -279,6 +296,7 @@ namespace Template.Auto.Raid
       public bool sprit;
       public bool reputation;
       public bool monsterGroupId;
+      public bool colorRate;
     }
 
     public RaidStageTemplate() {
@@ -390,6 +408,13 @@ namespace Template.Auto.Raid
           case 14:
             if (field.Type == TType.I32) {
               MonsterGroupId = iprot.ReadI32();
+            } else { 
+              TProtocolUtil.Skip(iprot, field.Type);
+            }
+            break;
+          case 15:
+            if (field.Type == TType.String) {
+              ColorRate = iprot.ReadString();
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
             }
@@ -519,6 +544,14 @@ namespace Template.Auto.Raid
         oprot.WriteI32(MonsterGroupId);
         oprot.WriteFieldEnd();
       }
+      if (ColorRate != null && __isset.colorRate) {
+        field.Name = "colorRate";
+        field.Type = TType.String;
+        field.ID = 15;
+        oprot.WriteFieldBegin(field);
+        oprot.WriteString(ColorRate);
+        oprot.WriteFieldEnd();
+      }
       oprot.WriteFieldStop();
       oprot.WriteStructEnd();
     }
@@ -553,6 +586,8 @@ namespace Template.Auto.Raid
       sb.Append(Reputation);
       sb.Append(",MonsterGroupId: ");
       sb.Append(MonsterGroupId);
+      sb.Append(",ColorRate: ");
+      sb.Append(ColorRate);
       sb.Append(")");
       return sb.ToString();
     }

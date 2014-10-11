@@ -29,8 +29,9 @@ public class FragmentHero : MonoBehaviour
     private int materialCount;
 
     //Interface info.
-    private UISprite cornorSprite;
+    //private UISprite cornorSprite;
     private UISprite heroImage;
+    private UILabel combineInfo;
     private int star;
 
     #endregion
@@ -43,13 +44,16 @@ public class FragmentHero : MonoBehaviour
     public void Refresh()
     {
         var heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpls[templateId];
-        cornorSprite.spriteName = HeroConstant.HeroJobPrefix + heroTemplate.Job;
+        //cornorSprite.spriteName = HeroConstant.HeroJobPrefix + heroTemplate.Job;
 
-        star = heroTemplate.Star;
-        for (int i = 0; i < star; i++)
-        {
-            transform.Find("Star" + (i + 1)).gameObject.SetActive(true);
-        }
+        //star = heroTemplate.Star;
+        //for (int i = 0; i < 5; i++)
+        //{
+        //    transform.Find("Star" + (i + 1)).gameObject.SetActive(i < star);
+        //}
+
+        HeroConstant.SetHeadByIndex(heroImage, heroTemplate.Icon - 1);
+        combineInfo.text = MaterialCount + "/" + HeroModelLocator.Instance.HeroTemplates.HeroTmpls[templateId].ComposeCount;
         fragHeroLis.onClick = OnFragmentHero;
     }
 
@@ -67,18 +71,22 @@ public class FragmentHero : MonoBehaviour
     /// </summary>
     /// <param name="go"></param>
     private void OnFragmentHero(GameObject go)
-    {        
+    {
         WindowManager.Instance.Show<FragmentConfirmWindow>(true);
-        FragmentConfirmWindow tempWindow = WindowManager.Instance.GetWindow<FragmentConfirmWindow>();
+        var tempWindow = WindowManager.Instance.GetWindow<FragmentConfirmWindow>();
         tempWindow.TemplateId = templateId;
         tempWindow.MaterialCount = materialCount;
         if (heroImage.color == Color.white)
         {
             tempWindow.Refresh(true);
         }
-        else
+        else if (heroImage.color == Color.grey)
         {
             tempWindow.Refresh(false);
+        }
+        else
+        {
+            Logger.LogError("Not correct heroImage color.");
         }
     }
 
@@ -92,9 +100,10 @@ public class FragmentHero : MonoBehaviour
     private void Awake()
     {
         fragHeroLis = UIEventListener.Get(transform.gameObject);
-        cornorSprite = transform.Find("Cornor/CornorSprite").gameObject.GetComponent<UISprite>();
+        //cornorSprite = transform.Find("Cornor/CornorSprite").gameObject.GetComponent<UISprite>();
         heroImage = transform.Find("HeroImage").gameObject.GetComponent<UISprite>();
+        combineInfo = transform.Find("CombineInfo").gameObject.GetComponent<UILabel>();
     }
 
-    #endregion    	
+    #endregion
 }

@@ -1,4 +1,4 @@
-Ôªø//
+//
 //  MyRespond.m
 //  Unity-iPhone
 //
@@ -18,34 +18,40 @@ void PressInitialize(int gameid,const char * appversion,const char * f,const cha
     myrespond.myinterface=[FD_interface shareInstance];
     [FD_interface isDebug:YES];
     
-    //Ê∑ªÂä†Êé•Âè£Â±ûÊÄß
-    [[NSNotificationCenter defaultCenter] addObserver:MyRespond.class selector:@selector(login_Success:) name:LOGIN_NOTIFICATION_SUCCESS object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:MyRespond.class selector:@selector(logout_Success:) name:LOGOUT_NOTIFICATION_SUCCESS object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:MyRespond.class selector:@selector(initGameStart_Success:) name:INITGAMESTART_NOTIFICATION_SUCCESS object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:MyRespond.class selector:@selector(addRole_Success:) name:ADDROLE_NOTIFICATION_SUCCESS object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:MyRespond.class selector:@selector(iosPay_Success:) name:IOSPAY_NOTIFICATION_SUCCESS object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:MyRespond.class selector:@selector(Pay_Success:) name:IN_APP_PURCHASE_NOTIFICATION_SUCCESS object:nil];
+    //ÃÌº”Ω”ø⁄ Ù–‘
+    [[NSNotificationCenter defaultCenter]  addObserver:MyRespond.class selector:@selector (login_Success:) name:LOGIN_NOTIFICATION_SUCCESS object:nil];
+	[[NSNotificationCenter defaultCenter]  addObserver:MyRespond.class selector:@selector (logout_Success:) name:LOGOUT_NOTIFICATION_SUCCESS object:nil]; 
+	[[NSNotificationCenter defaultCenter]  addObserver:MyRespond.class selector:@selector (initGameStart_Success:) name:INITGAMESTART_NOTIFICATION object:nil];
+	[[NSNotificationCenter defaultCenter]  addObserver:MyRespond.class selector:@selector (addRole_Success:) name:ADDROLE_NOTIFICATION_SUCCESS object:nil];
+	[[NSNotificationCenter defaultCenter]  addObserver:MyRespond.class selector:@selector (iosPay_Success:) name:IOSPAY_NOTIFICATION_SUCCESS object:nil];
+	[[NSNotificationCenter defaultCenter]  addObserver:MyRespond.class selector:@selector (Pay_Success:) name: IN_APP_PURCHASE_NOTIFICATION object:nil];
+	[[NSNotificationCenter defaultCenter]  addObserver:MyRespond.class selector:@selector (closeLoginViewAction:) name:CLOSELOGINVIEWACTION object:nil]; 
+	[[NSNotificationCenter defaultCenter]  addObserver:MyRespond.class selector:@selector (closePayViewAction:) name:CLOSEPAYVIEWACTION object:nil];
+
     NSLog(@"NSNotification complete");
     
     [FD_interface InitWithGameid:gameid appversion:[NSString stringWithUTF8String:appversion] f:[NSString stringWithUTF8String:f] baseView:[UIApplication sharedApplication].keyWindow.rootViewController.view extradata:[NSString stringWithUTF8String:extradata]];
     NSLog(@"initialize complete");
 }
+
 void PressLogin(int serverid, const char * extradata)
 {
     NSString * str = [NSString stringWithUTF8String:extradata];
-    NSLog(@"login extra = %@", str);
+    NSLog(@"login start extra = %@", str);
     [FD_interface loginWithServerid:serverid extradata:str];
     NSLog(@"login complete");
 }
 
 void PressLogout(int userid,int serverid,const char * extradata)
 {
+	NSLog(@"logout start");
     [FD_interface logoutWithUserid:userid serverid:serverid extradata:[NSString stringWithUTF8String:extradata]];
     NSLog(@"logout complete");
 }
 
 void PressAddrole(int userid,const char * roleid,const char * rolename,int serverid,const char * extradata)
 {
+	NSLog(@"Addrole start");
     [FD_interface addroleWithUserid:userid roleid:[NSString stringWithUTF8String:roleid] rolename:[NSString stringWithUTF8String:rolename] serverid:serverid extradata:[NSString stringWithUTF8String:extradata]];
     NSLog(@"addrole complete");
 }
@@ -54,18 +60,21 @@ void PressIospay(int userid,const char * roleid,const char * currency,const char
                   const char * itemname,int itemprice,const char * coin,const char * orderid,const char * channel,
                   int serverid,const char * extradata)
 {
+	NSLog(@"iospay start");
     [FD_interface iospayWithUserid:userid roleid:[NSString stringWithUTF8String:roleid] currency:[NSString stringWithUTF8String:currency] amount:[NSString stringWithUTF8String:amount] itemid:[NSString stringWithUTF8String:itemid] itemname:[NSString stringWithUTF8String:itemname] itemprice:itemprice coin:[NSString stringWithUTF8String:coin] orderid:[NSString stringWithUTF8String:orderid] channel:[NSString stringWithUTF8String:channel] serverid:serverid extradata:[NSString stringWithUTF8String:extradata]];
     NSLog(@"iospay complete");
 }
 
 void PressWeburl(int userid,int urltype,const char * url,int serverid)
 {
+	NSLog(@"weburl start");
     [FD_interface weburlWithuserid:userid urltype:urltype url:[NSString stringWithUTF8String:url] serverid:serverid];
     NSLog(@"weburl complete");
 }
 
 void PressPay(const char * remark, int userid, int serverid, const char * roleid, const char * extradata)
 {
+	NSLog(@"pay start");
     [FD_interface payWithViewcontroller:[UIApplication sharedApplication].keyWindow.rootViewController remark:[NSString stringWithUTF8String:remark] userid:userid serverid:serverid roleid:[NSString stringWithUTF8String:roleid] extradata:[NSString stringWithUTF8String:extradata]];
     NSLog(@"pay complete");
 }
@@ -129,6 +138,24 @@ void PressPay(const char * remark, int userid, int serverid, const char * roleid
     const char* result=[str cStringUsingEncoding:NSASCIIStringEncoding];
     UnitySendMessage("SDKResponse", "Respond", result);
     NSLog(@"Sending message to Unity.");
+}
+
++(void) closeLoginViewAction:(NSNotification*) message
+{
+    NSLog(@"close login respond");
+    NSString* str=@"";
+    str=[[str stringByAppendingString:@"CloseLogin:"]stringByAppendingString:(NSString*)[message object]];
+    const char* result=[str cStringUsingEncoding:NSASCIIStringEncoding];
+    UnitySendMessage("SDKResponse", "Respond", result);
+}
+
++(void) closePayViewAction:(NSNotification*) message
+{
+    NSLog(@"close pay respond");
+    NSString* str=@"";
+    str=[[str stringByAppendingString:@"ClosePay:"]stringByAppendingString:(NSString*)[message object]];
+    const char* result=[str cStringUsingEncoding:NSASCIIStringEncoding];
+    UnitySendMessage("SDKResponse", "Respond", result);
 }
 
 -(BOOL)shouldAutorotate

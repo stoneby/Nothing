@@ -25,7 +25,9 @@ public sealed class PlayerModelLocator
     public int Famous;
     public int SuperChip;
     public Dictionary<int, int> TeamProp;
-    public List<int> TeamList; 
+    public List<int> TeamList;
+    public bool CanSign = false;
+    public bool HasFinishedQuest = false; 
 
     private static volatile PlayerModelLocator instance;
     private static readonly object SyncRoot = new Object();

@@ -157,7 +157,9 @@ public class LoginMainWindow : Window
         TexLogo = transform.FindChild("Texture - logo").gameObject;
         ContainerBox = transform.FindChild("Panel - box/Container - control").gameObject;
 
-
+        var tex = TexLogo.GetComponent<UITexture>();
+        tex.mainTexture = (Texture2D)Resources.Load("AssetBundles/Textures/logo/" + GameConfig.NameLogo, typeof(Texture2D)); 
+        //AssetDatabase.LoadMainAssetAtPath("Assets/logo/" + GameConfig.NameLogo + ".png") as Texture2D;
 
         BtnLoginUIEventListener = UIEventListener.Get(BtnPlay);
         AccountUIEventListener = UIEventListener.Get(SpriteAccount);

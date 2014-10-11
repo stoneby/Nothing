@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class MultipleCharacterGenerator : CharacterGenerator
 {
+    /// <summary>
+    /// Depth list to manage the drawcalls of character group.
+    /// </summary>
+    public List<int> DepthBaseList;
+
     public List<FighterInfo> FighterList { get; set; }
 
     /// <summary>
@@ -25,6 +30,18 @@ public class MultipleCharacterGenerator : CharacterGenerator
             CharacterList = new List<Character>();
         }
 
+        if (FighterList.Count > DepthBaseList.Count)
+        {
+            Logger.LogWarning("DepthBaseList count: " + DepthBaseList.Count + " should be equals to FighterList count: " + FighterList.Count);
+            var addCount = FighterList.Count - DepthBaseList.Count;
+            // make sure depth base list equals or greater than fighter list count, for error recovering.
+            for (var i = 0; i < addCount; ++i)
+            {
+                DepthBaseList.Add(0);
+            }
+        }
+
+        Initializer.DepthBaseList = DepthBaseList;
         Initializer.Initialize(FighterList);
         CharacterList.Clear();
         CharacterList.AddRange(Initializer.CharacterList);
@@ -33,7 +50,6 @@ public class MultipleCharacterGenerator : CharacterGenerator
     public override void Return(GameObject go)
     {
         var character = go.GetComponent<Character>();
-        var characterPoolManager = CharacterPoolManager.Instance;
-        characterPoolManager.CharacterPoolList[character.Index].Return(go);
+        Initializer.Cleanup(character);
     }
 }

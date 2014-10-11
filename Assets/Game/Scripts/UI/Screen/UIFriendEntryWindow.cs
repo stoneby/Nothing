@@ -12,15 +12,12 @@ public class UIFriendEntryWindow : Window
 
     public List<UIToggle> Toggles;
     public List<FriendHandlerBase> FriendHandlers;
-    public GameObject ExtendBagConfirm;
+    public CloseButtonControl CloseButtonControl;
 
     #endregion
 
     #region Private Fields
 
-    private ExtendBag itemExtendConfirm;
-    private UIEventListener closeLis;
-    private UIEventListener extendLis;
     private UILabel friendCount;
 
     #endregion
@@ -39,47 +36,17 @@ public class UIFriendEntryWindow : Window
 
     private void InstallHandlers()
     {
-        closeLis.onClick = OnClose;
-        extendLis.onClick = OnExtend;
+        CloseButtonControl.OnCloseWindow = OnClose;
     }
 
     private void UnInstallHandlers()
     {
-        closeLis.onClick = null;
-        extendLis.onClick = null;
+        CloseButtonControl.OnCloseWindow = null;
     }
 
-    private void OnExtend(GameObject go)
+    private void OnClose()
     {
-        if (ItemModeLocator.Instance.Bag.FriendExtTmpls.Count - FriendModelLocator.Instance.ExtendFriendTimes != 0)
-        {
-            itemExtendConfirm = NGUITools.AddChild(transform.gameObject, ExtendBagConfirm).GetComponent<ExtendBag>();
-            itemExtendConfirm.ExtendContentKey = FriendConstant.ExtendContentKey;
-            itemExtendConfirm.ExtendLimitKey = FriendConstant.ExtendLimitKey;
-            var bases = ItemModeLocator.Instance.Bag;
-            var costDict = bases.FriendExtTmpls.ToDictionary(item => item.Value.Id, item => item.Value.ExtendCost);
-            itemExtendConfirm.Init(FriendModelLocator.Instance.ExtendFriendTimes, bases.BagBaseTmpls[1].ExtendfriendCount,
-                                   costDict);
-            itemExtendConfirm.OkClicked += OnExendBagOk;
-        }
-        else
-        {
-            PopTextManager.PopTip("当前等级可拥有好友数量已达上限，不可继续扩展！");
-        }
-    }
-
-    private void OnClose(GameObject go)
-    {
-        WindowManager.Instance.Show<UIFriendEntryWindow>(false);
-    }
-
-    private void OnExendBagOk(GameObject go)
-    {
-        var msg = new CSFriendExtend
-        {
-            ExtendTimes = (sbyte)itemExtendConfirm.ExtendSize
-        };
-        NetManager.SendMessage(msg);
+        WindowManager.Instance.Show<UIMainScreenWindow>(true);
     }
 
     #endregion
@@ -99,10 +66,7 @@ public class UIFriendEntryWindow : Window
 
     private void Awake()
     {
-        closeLis = UIEventListener.Get(Utils.FindChild(transform, "Button-Close").gameObject);
-        var title = transform.Find("Title");
-        friendCount = title.Find("FriendCount/FriendCountValue").GetComponent<UILabel>();
-        extendLis = UIEventListener.Get(title.Find("Button-Extend").gameObject);
+        friendCount = transform.Find("TopTitle/FriendCount/FriendCountValue").GetComponent<UILabel>();
     }
 
     #endregion

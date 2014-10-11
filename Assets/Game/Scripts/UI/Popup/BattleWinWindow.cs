@@ -50,10 +50,11 @@ public class BattleWinWindow : Window
     //    private GameObject LabelCoin;
     //    private GameObject LabelEnergy;
     //    private GameObject LabelMingqi;
-    private GameObject LabelOldMaxEnergy;
-    private GameObject LabelNewMaxEnergy;
-    private GameObject LabelOldMaxFriend;
-    private GameObject LabelNewMaxFriend;
+
+//    private GameObject LabelOldMaxEnergy;
+//    private GameObject LabelNewMaxEnergy;
+//    private GameObject LabelOldMaxFriend;
+//    private GameObject LabelNewMaxFriend;
 
     private List<GameObject> SpriteIcons;
     private List<GameObject> LabelValues;
@@ -208,8 +209,9 @@ public class BattleWinWindow : Window
         {
             vv += 0.05f;
             if (vv > v) vv = v;
-            bar.value = vv;
+            bar.value = (vv > 1) ? vv - 1 : vv;
             yield return new WaitForSeconds(0.05f);
+            //if (vv >= 1) vv -= 1;
         }
 
         if (v >= 1)
@@ -222,18 +224,18 @@ public class BattleWinWindow : Window
             lb = LabelLevel.GetComponent<UILabel>();
             lb.text = "Lv." + (MissionModelLocator.Instance.OldLevel + 1).ToString();
 
-            var temp = LevelModelLocator.Instance.GetLevelByTemplateId(PlayerModelLocator.Instance.Level);
-            lb = LabelOldMaxEnergy.GetComponent<UILabel>();
-            lb.text = tempold.MaxEnergy.ToString();
-            lb = LabelNewMaxEnergy.GetComponent<UILabel>();
-            lb.text = temp.MaxEnergy.ToString();
+//            var temp = LevelModelLocator.Instance.GetLevelByTemplateId(PlayerModelLocator.Instance.Level);
+//            lb = LabelOldMaxEnergy.GetComponent<UILabel>();
+//            lb.text = tempold.MaxEnergy.ToString();
+//            lb = LabelNewMaxEnergy.GetComponent<UILabel>();
+//            lb.text = temp.MaxEnergy.ToString();
+//
+//            lb = LabelOldMaxFriend.GetComponent<UILabel>();
+//            lb.text = tempold.MaxFriend.ToString();
+//            lb = LabelNewMaxFriend.GetComponent<UILabel>();
+//            lb.text = temp.MaxFriend.ToString();
 
-            lb = LabelOldMaxFriend.GetComponent<UILabel>();
-            lb.text = tempold.MaxFriend.ToString();
-            lb = LabelNewMaxFriend.GetComponent<UILabel>();
-            lb.text = temp.MaxFriend.ToString();
-
-            bar.value = v;
+            //bar.value = v;
             CanClick = true;
             SpriteClick.SetActive(true);
         }
@@ -544,10 +546,10 @@ public class BattleWinWindow : Window
         LabelValues.Add(transform.FindChild("Label energy").gameObject);
         LabelValues.Add(transform.FindChild("Label mingqi").gameObject);
 
-        LabelOldMaxEnergy = transform.FindChild("Container levelup/Label enery value old").gameObject;
-        LabelNewMaxEnergy = transform.FindChild("Container levelup/Label enery value new").gameObject;
-        LabelOldMaxFriend = transform.FindChild("Container levelup/Label friend value old").gameObject;
-        LabelNewMaxFriend = transform.FindChild("Container levelup/Label friend value new").gameObject;
+//        LabelOldMaxEnergy = transform.FindChild("Container levelup/Label enery value old").gameObject;
+//        LabelNewMaxEnergy = transform.FindChild("Container levelup/Label enery value new").gameObject;
+//        LabelOldMaxFriend = transform.FindChild("Container levelup/Label friend value old").gameObject;
+//        LabelNewMaxFriend = transform.FindChild("Container levelup/Label friend value new").gameObject;
 
         LabelLevel = transform.FindChild("Label level").gameObject;
 

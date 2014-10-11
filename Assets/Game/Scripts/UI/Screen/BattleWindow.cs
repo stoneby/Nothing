@@ -41,11 +41,15 @@ public class BattleWindow : Window
 
         Battle.Init();
         Battle.StartBattle();
+
+        MemoryStrategy.Instance.HandleBattleBegin();
     }
 
     public override void OnExit()
     {
         Logger.Log("I am OnExit with type - " + GetType().Name);
+
+        MemoryStrategy.Instance.HandleBattleEnd();
     }
 
     #endregion

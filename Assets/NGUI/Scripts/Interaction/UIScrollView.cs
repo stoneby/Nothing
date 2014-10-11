@@ -901,8 +901,8 @@ public class UIScrollView : MonoBehaviour
 				if (restrictWithinPanel && mPanel.clipping != UIDrawCall.Clipping.None)
 					RestrictWithinBounds(false, canMoveHorizontally, canMoveVertically);
 				
-				if (mMomentum.magnitude < 0.0001f && onDragFinished != null) 
-					onDragFinished();
+                //if (mMomentum.magnitude < 0.0001f && onDragFinished != null) 
+                //    onDragFinished();
 				
 				return;
 			}

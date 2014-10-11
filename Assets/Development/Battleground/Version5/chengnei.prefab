@@ -296,7 +296,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &100040
 GameObject:
   m_ObjectHideFlags: 1
@@ -743,7 +743,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1526e14132d191c47904e293ab757e98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: .600000024
+  Speed: .800000012
   Duration: .5
   BaseWidget: {fileID: 11400052}
 --- !u!114 &11400014
@@ -1289,7 +1289,7 @@ MonoBehaviour:
   mHeight: 720
   mDepth: 5
   HighLight: 0
-  OffsetX: 389
+  OffsetX: 150
   OffsetY: 148
   MeshFactor: 50
   autoResizeBoxCollider: 0
@@ -1341,6 +1341,8 @@ MonoBehaviour:
   - {fileID: 11400058}
   - {fileID: 11400056}
   - {fileID: 11400000}
+  - {fileID: 11400012}
+  - {fileID: 11400002}
 --- !u!114 &11400048
 MonoBehaviour:
   m_ObjectHideFlags: 1

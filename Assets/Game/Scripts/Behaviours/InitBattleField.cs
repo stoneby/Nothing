@@ -1,6 +1,7 @@
 using Assets.Game.Scripts.Common.Model;
 using com.kx.sglm.gs.battle.share;
 using com.kx.sglm.gs.battle.share.data.record;
+using com.kx.sglm.gs.battle.share.data.store;
 using com.kx.sglm.gs.battle.share.enums;
 using com.kx.sglm.gs.battle.share.input;
 using com.kx.sglm.gs.hero.properties;
@@ -74,6 +75,13 @@ public class InitBattleField : MonoBehaviour, IBattleView
 
     #endregion
 
+    #region MakeUpOneByOne Duration Time
+
+    public float RunStepTime;
+    public float RunGapTime;
+
+    #endregion
+
     private int characterAttackValue;
     //left part of battlefield
     private GameObject leftContainerObj;
@@ -98,6 +106,8 @@ public class InitBattleField : MonoBehaviour, IBattleView
     private BattleSkillRecord leaderSkillRecord;
     private BattleTeamFightRecord battleTeamRecord;
     private BattleModeHandler battleModeHandler;
+
+    private bool firstEntered = true;
 
     public void Init()
     {
@@ -137,9 +147,9 @@ public class InitBattleField : MonoBehaviour, IBattleView
         // init character list & attack wait list from team selection controller.
         SyncCharacterList();
 
-        RequestRecords();
-
         StartCoroutine(InitBattleFighters());
+
+        RequestRecords();
     }
 
     private void InitTeamController()
@@ -201,8 +211,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
         TeamController.CharacterList.ForEach(character =>
         {
             var idIndex = character.IDIndex;
-            var pool = CharacterPoolManager.Instance.CharacterPoolList[idIndex];
-            pool.Return(character.gameObject);
+            CharacterPoolManager.Instance.Return(idIndex, character.gameObject);
         });
     }
 
@@ -221,9 +230,17 @@ public class InitBattleField : MonoBehaviour, IBattleView
     {
         yield return StartCoroutine(TransitionIn());
 
-        yield return StartCoroutine(MakeUpOneByOne(false));
-        RunToNextMonsters();
+        yield return StartCoroutine(RunToNextMonsters());
+        // wait little time for better result.
+        yield return new WaitForSeconds(0.01f);
+
+        firstEntered = false;
+        // Enable character select special case when the first time enter.
+        TeamController.Enable = true;
         BattleModelLocator.Instance.CanSelectHero = true;
+
+        //Set battle field when start battle.
+        battleModeHandler.SetBattleField(TeamController, MonsterController, charactersLeft, "Start");
     }
 
     private IEnumerator TransitionIn()
@@ -345,9 +362,10 @@ public class InitBattleField : MonoBehaviour, IBattleView
 
     IEnumerator MakeUpOneByOne(bool needresetcharacter = true)
     {
-        float runStepTime = (needresetcharacter) ? GameConfig.RunStepNeedTime : GameConfig.ShortTime;
-        float runWaitTime = (needresetcharacter) ? GameConfig.NextRunWaitTime : GameConfig.ShortTime;
-        float duration = GameConfig.ShortTime;
+        //float runStepTime = (needresetcharacter) ? GameConfig.RunStepNeedTime : GameConfig.ShortTime;
+        //float runWaitTime = (needresetcharacter) ? GameConfig.NextRunWaitTime : GameConfig.ShortTime;
+        float duration = 0;
+        float endTime = 0;
         for (var i = 0; i < TeamController.Col; i++)
         {
             for (var j = 0; j < TeamController.Row; j++)
@@ -364,7 +382,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
                             var hero = charactersLeft[i, j];
                             cc = hero.FaceObject.GetComponent<CharacterControl>();
                             cc.PlayCharacter(Character.State.Run, true);
-                            duration = (k - i) * runStepTime;
+                            duration = (k - i) * RunStepTime;
                             cc.SetCharacterAfter(duration);
 
                             // Move to target.
@@ -373,6 +391,8 @@ public class InitBattleField : MonoBehaviour, IBattleView
                                 TeamController.FormationController.LatestPositionList[
                                     TeamController.TwoDimensionToOne(i, j)];
                             iTween.MoveTo(target.gameObject, targetPosition, duration);
+
+                            endTime = Time.realtimeSinceStartup + duration > endTime ? Time.realtimeSinceStartup + duration : endTime;
 
                             charactersLeft[k, j] = null;
                             flag = false;
@@ -390,7 +410,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
 
                         cc.PlayCharacter(Character.State.Run, true);
 
-                        duration = (2 - i) * GameConfig.RunStepNeedTime + GameConfig.RunStepNeedTime;
+                        duration = (2 - i) * RunStepTime + RunStepTime;
 
                         if (needresetcharacter)
                         {
@@ -405,18 +425,18 @@ public class InitBattleField : MonoBehaviour, IBattleView
 
                         var target = charactersLeft[i, j];
                         iTween.MoveTo(target.gameObject, targetPosition, duration);
+
+                        endTime = Time.realtimeSinceStartup + duration > endTime ? Time.realtimeSinceStartup + duration : endTime;
                     }
-                    yield return new WaitForSeconds(runWaitTime);
+                    yield return new WaitForSeconds(RunGapTime);
                 }
             }
+            yield return new WaitForSeconds(endTime - Time.realtimeSinceStartup + RunGapTime);
         }
 
         SyncTeamController();
 
-        battleModeHandler.SetBattleField(TeamController, MonsterController, charactersLeft, "MakeUpOneByOne");
-
-        //Enable all leaders' collider.
-        leaderController.SetAllLeadersCollider(true);
+        battleModeHandler.SetBattleField(TeamController, MonsterController, charactersLeft, "LeftAttack");
 
         if (needresetcharacter)
         {
@@ -503,9 +523,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
         if (isAttacked)
         {
             battleModeHandler.StopFingerMove();
-
-            //Disable all leader collider when attack to prevent error.
-            leaderController.SetAllLeadersCollider(false);
 
             var selectedList = TeamController.SelectedCharacterList.Select(item => TeamController.TwoDimensionToOne(item.Location));
             DoAttack(selectedList.ToArray());
@@ -666,8 +683,10 @@ public class InitBattleField : MonoBehaviour, IBattleView
         }
     }
 
-    void RunToNextMonsters()
+    private IEnumerator RunToNextMonsters()
     {
+        var duration = BattleController.Duration;
+
         for (var i = 0; i < 3; i++)
         {
             for (var j = 0; j < 3; j++)
@@ -675,16 +694,17 @@ public class InitBattleField : MonoBehaviour, IBattleView
                 var hero = charactersLeft[i, j];
                 var cc = hero.FaceObject.GetComponent<CharacterControl>();
                 cc.PlayCharacter(Character.State.Run, true);
-                cc.SetCharacterAfter(GameConfig.RunRoNextMonstersTime);
+                cc.SetCharacterAfter(duration);
             }
         }
-
-        BattleController.Play();
 
         foreach (var enemyController in MonsterController.CharacterList.Select(character => character.FaceObject.GetComponent<MonsterControl>()))
         {
             enemyController.Move();
         }
+
+        BattleController.Play();
+        yield return new WaitForSeconds(duration);
     }
 
     private IEnumerator PlayOneAction(BattleFightRecord record)
@@ -876,11 +896,8 @@ public class InitBattleField : MonoBehaviour, IBattleView
 
     private IEnumerator RightAttackCoroutineHandler()
     {
-        SetCharacterCanSelect(false);
-
         // show character's debuff.
         ShowDebuff(TeamController.CharacterList);
-        yield return new WaitForSeconds(GameConfig.HeroBeenAttrackTime);
 
         if (battleTeamRecord.RecordList.Count > 0)
         {
@@ -894,18 +911,8 @@ public class InitBattleField : MonoBehaviour, IBattleView
                 {
                     case BattleRecordConstants.SINGLE_ACTION_TYPE_SP_ATTACK:
 
-                        //CameraEffect.LookAt = enemy.transform;
-                        //CameraEffect.LookAtTime = GameConfig.MoveCameraTime;
-                        //CameraEffect.LookInto();
+                        SetCharacterCanSelect(false);
 
-                        //yield return new WaitForSeconds(GameConfig.MoveCameraTime);
-                        //EffectManager.PlayEffect(EffectType.EnemySprite, GameConfig.PlayMonsterEffectTime, 0, 0, enemy.transform.position);
-                        //yield return new WaitForSeconds(GameConfig.PlayMonsterEffectTime);
-
-                        //CameraEffect.LookOut();
-
-                        //yield return new WaitForSeconds(GameConfig.MoveCameraTime);
-                        // [FIXME] will be removed after apple commitment.
                         yield return new WaitForSeconds(ec.PlayAttack());
                         monster.PlayState(Character.State.Idle, true);
                         yield return StartCoroutine(PlayCharacterBeenAttrack(record.ActionList));
@@ -918,6 +925,8 @@ public class InitBattleField : MonoBehaviour, IBattleView
                     case BattleRecordConstants.SINGLE_ACTION_TYPE_DEFENCE:
                         break;
                     default:
+                        SetCharacterCanSelect(false);
+
                         yield return new WaitForSeconds(ec.PlayAttack());
                         monster.PlayState(Character.State.Idle, true);
                         yield return StartCoroutine(PlayCharacterBeenAttrack(record.ActionList));
@@ -931,10 +940,21 @@ public class InitBattleField : MonoBehaviour, IBattleView
 
         recordIndex++;
         DealWithRecord();
+
         SetCharacterCanSelect(true);
 
         Logger.LogWarning("Team controller selected to true");
-        TeamController.Enable = true;
+
+        // enable team controller only if we are not first entered.
+        // first time hero's running in after monster attack.
+        if (!firstEntered)
+        {
+            //Enable character select.
+            TeamController.Enable = true;
+        }
+
+        //Enable all leaders' collider.
+        leaderController.SetAllLeadersCollider(true);
     }
 
     private void ShowDebuff(List<Character> characterList)
@@ -1077,66 +1097,6 @@ public class InitBattleField : MonoBehaviour, IBattleView
     IEnumerator PlayLeaderEffect()
     {
         BattleModelLocator.Instance.CanSelectHero = false;
-        //EffectManager.PlayAllEffect(false);
-        //GameObject effectbg = EffectBg;
-        //effectbg.SetActive(true);
-        //var tt = effectbg.GetComponent<UITexture>();
-        //tt.alpha = 0.9f;
-
-        //GameObject effectobj = EffectObject;
-        //tt = effectobj.GetComponent<UITexture>();
-        //tt.mainTexture = (Texture2D)Resources.Load(EffectType.LeaderTextures[Random.Range(0, 11)], typeof(Texture2D));
-        //effectobj.transform.localPosition = new Vector3(0, 0, 0);
-        //effectobj.transform.localScale = new Vector3(5, 5, 1);
-        //tt.alpha = 1.0f;
-        //effectobj.SetActive(true);
-
-        //PlayTweenScale(effectobj, 0.2f, new Vector3(5, 5, 1), new Vector3(1, 1, 1));
-
-        //yield return new WaitForSeconds(0.2f);
-        //TextBGObject.SetActive(true);
-        //tt = TextBGObject.GetComponent<UITexture>();
-        //tt.alpha = 1;
-
-        //PlayTweenScale(effectobj, 1.0f, new Vector3(1, 1, 1), new Vector3(0.9f, 0.9f, 1));
-
-
-        //TextObject.transform.localScale = new Vector3(5, 5, 1);
-        //var lb = TextObject.GetComponent<UILabel>();
-        //lb.text = BattleModelLocator.Instance.Skill.Name;
-        //lb.alpha = 1;
-        //TextObject.SetActive(true);
-
-        //PlayTweenScale(TextObject, 0.2f, new Vector3(5, 5, 1), new Vector3(1, 1, 1));
-        //yield return new WaitForSeconds(0.2f);
-
-        //PlayTweenScale(TextObject, 0.8f, new Vector3(1, 1, 1), new Vector3(0.9f, 0.9f, 1));
-
-        //yield return new WaitForSeconds(0.8f);
-
-        //BreakObject.SetActive(true);
-        //var tt1 = BreakObject.GetComponent<UITexture>();
-        //BreakObject.transform.localScale = new Vector3(1, 1, 1);
-        //tt1.alpha = 0.9f;
-
-        //yield return new WaitForSeconds(.1f);
-        //PlayTweenAlpha(effectbg, 0.3f, 0.9f, 0);
-
-        //PlayTweenScale(effectobj, 0.3f, new Vector3(1, 1, 1), new Vector3(5, 5, 1));
-        //PlayTweenAlpha(effectobj, 0.3f, 1, 0.1f);
-
-        //PlayTweenAlpha(BreakObject, 0.3f, 1, 0);
-        //PlayTweenScale(BreakObject, 0.3f, new Vector3(1, 1, 1), new Vector3(5, 5, 1));
-
-        //PlayTweenAlpha(TextBGObject, 0.3f, 1, 0);
-
-        //PlayTweenAlpha(TextObject, 0.2f, 1, 0);
-
-        //yield return new WaitForSeconds(.4f);
-        //effectobj.SetActive(false);
-        //BreakObject.SetActive(false);
-        //effectbg.SetActive(false);
-        //TextBGObject.SetActive(false);
 
         var attack = leaderSkillRecord.OrCreateFightRecord.getAttackAction();
         leaderController.TotalLeaderCD = leaderSkillRecord.getIntProp(BattleRecordConstants.BATTLE_HERO_PROP_MP);
@@ -1263,8 +1223,7 @@ public class InitBattleField : MonoBehaviour, IBattleView
 
             InitMonsterList();
 
-            RunToNextMonsters();
-            yield return new WaitForSeconds(GameConfig.RunRoNextMonstersTime);
+            yield return StartCoroutine(RunToNextMonsters());
 
             // special animation with last level hits in.
             if (BattleModelLocator.Instance.LevelManager.IsLastLevel())
@@ -1340,8 +1299,12 @@ public class InitBattleField : MonoBehaviour, IBattleView
         {
             Logger.LogWarning("Team controller selected to false");
 
-            // Disable team selection.
+            //Disable team selection.
             TeamController.Enable = false;
+
+            //Disable all leader collider when attack.
+            leaderController.SetAllLeadersCollider(false);
+
             // add selected characters to attack waiting list.
             attackWaitList.AddRange(TeamController.SelectedCharacterList);
 
@@ -1589,6 +1552,12 @@ public class InitBattleField : MonoBehaviour, IBattleView
                         MissionModelLocator.Instance.StarCount = starController.CurrentStar;
 
                         msg.Star = (sbyte)starController.CurrentStar;
+                        //增加回传数据
+                        msg.ResultCode =
+                            BattleModelLocator.Instance.MainBattle.StoreData.toStoreStr(
+                                BattleStoreConstants.BATTLE_RESULT_STORE_DATA);
+
+                        msg.CheckCode = BattleModelLocator.Instance.MainBattle.BattleSource.RaidStageId.ToString();
 
                         //Battle persistence
                         PersistenceHandler.Instance.StoreBattleEndMessage(msg);
@@ -1610,6 +1579,9 @@ public class InitBattleField : MonoBehaviour, IBattleView
 
     public void ResetAll()
     {
+        TeamController.Enable = false;
+        firstEntered = true;
+
         BattleModelLocator.Instance.NextList = null;
         MonsterController.OnSelectedChanged = null;
 

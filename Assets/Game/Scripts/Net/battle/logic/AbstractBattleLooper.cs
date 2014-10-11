@@ -41,7 +41,7 @@ namespace com.kx.sglm.gs.battle.share.logic
 		public AbstractBattleLooper(Battle battle)
 		{
 			this.battle = battle;
-			this.curState = BattleState.RUNTIME;
+			CurState = BattleState.PREPAIR;
 			this.firstEnter = true;
 		}
 
@@ -83,10 +83,10 @@ namespace com.kx.sglm.gs.battle.share.logic
 			{
 				return;
 			}
-			if (HangUp)
-			{
-				return;
-			}
+			//这里注掉是为了在显示上，怪物出手后，玩家出手前，玩家中毒掉血
+	//		if (isHangUp()) {
+	//			return;
+	//		}
 			onStart();
 			createNewSubAction();
 			firstEnter = false;
@@ -205,7 +205,7 @@ namespace com.kx.sglm.gs.battle.share.logic
 		public virtual void setFinish()
 		{
 			this.finished = true;
-			this.curState = BattleState.STOP;
+			CurState = BattleState.STOP;
 		}
 
 		public virtual A CurDefencer

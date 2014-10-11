@@ -161,7 +161,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &100020
 GameObject:
   m_ObjectHideFlags: 0
@@ -271,7 +271,7 @@ GameObject:
   - 114: {fileID: 11400044}
   - 114: {fileID: 11400046}
   m_Layer: 8
-  m_Name: sky2
+  m_Name: sky3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -323,6 +323,23 @@ GameObject:
   - 114: {fileID: 11400060}
   m_Layer: 8
   m_Name: rand4
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &100040
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 400040}
+  - 114: {fileID: 11400038}
+  - 114: {fileID: 11400028}
+  m_Layer: 8
+  m_Name: sky2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -481,6 +498,7 @@ Transform:
   m_Children:
   - {fileID: 400022}
   - {fileID: 400030}
+  - {fileID: 400040}
   - {fileID: 400032}
   m_Father: {fileID: 400020}
 --- !u!4 &400026
@@ -519,8 +537,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100030}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 360, z: 0}
-  m_LocalScale: {x: 7.41768694, y: 7.41768694, z: 7.41768694}
+  m_LocalPosition: {x: 0, y: 331.149689, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400024}
 --- !u!4 &400032
@@ -530,8 +548,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100032}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 360, z: 0}
-  m_LocalScale: {x: 4.37121534, y: 4.37121534, z: 4.37121534}
+  m_LocalPosition: {x: 0, y: -236, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400024}
 --- !u!4 &400034
@@ -567,6 +585,17 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400016}
+--- !u!4 &400040
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100040}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 360, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 400024}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1102,6 +1131,7 @@ MonoBehaviour:
   TextureLooperList:
   - {fileID: 11400026}
   - {fileID: 11400040}
+  - {fileID: 11400028}
   - {fileID: 11400046}
   WidgetLooperList: []
 --- !u!114 &11400024
@@ -1138,8 +1168,8 @@ MonoBehaviour:
   mHeight: 720
   mDepth: 5
   HighLight: 0
-  OffsetX: 389
-  OffsetY: 148
+  OffsetX: 150
+  OffsetY: 160
   MeshFactor: 50
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -1178,6 +1208,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LoopStyle: 0
   Speed: -1
+  Duration: .5
+--- !u!114 &11400028
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100040}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c8a76861f4add14ea33369798e4597c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LoopStyle: 0
+  Speed: -.100000001
   Duration: .5
 --- !u!114 &11400030
 MonoBehaviour:
@@ -1343,6 +1387,67 @@ MonoBehaviour:
   hideIfOffScreen: 0
   keepAspectRatio: 0
   aspectRatio: .888888896
+--- !u!114 &11400038
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100040}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5c5ca47aa5c01740810b7c66662099f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  rightAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  bottomAnchor:
+    target: {fileID: 0}
+    relative: 0
+    absolute: 0
+  topAnchor:
+    target: {fileID: 0}
+    relative: 1
+    absolute: 0
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 1
+  mWidth: 1280
+  mHeight: 128
+  mDepth: 0
+  HighLight: 0
+  OffsetX: 0
+  OffsetY: 0
+  MeshFactor: 50
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: 10
+  mType: 0
+  mFillDirection: 4
+  mFillAmount: 1
+  mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  mTexture: {fileID: 2800000, guid: 0422ad5e4596de041a9cd780575491fb, type: 3}
+  mMat: {fileID: 0}
+  mShader: {fileID: 4800000, guid: e75727d9555d9d14ca51d91908c681bc, type: 3}
+  mBorder: {x: 0, y: 0, z: 0, w: 0}
 --- !u!114 &11400040
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1387,8 +1492,8 @@ MonoBehaviour:
   updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 1
-  mWidth: 512
-  mHeight: 16
+  mWidth: 1280
+  mHeight: 108
   mDepth: 1
   HighLight: 0
   OffsetX: 0
@@ -1397,7 +1502,7 @@ MonoBehaviour:
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
-  aspectRatio: 32
+  aspectRatio: 11.8518515
   mType: 0
   mFillDirection: 4
   mFillAmount: 1
@@ -1448,9 +1553,9 @@ MonoBehaviour:
   updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 1
-  mWidth: 512
-  mHeight: 32
-  mDepth: 0
+  mWidth: 1280
+  mHeight: 128
+  mDepth: 6
   HighLight: 0
   OffsetX: 0
   OffsetY: 0
@@ -1458,7 +1563,7 @@ MonoBehaviour:
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
-  aspectRatio: 16
+  aspectRatio: 10
   mType: 0
   mFillDirection: 4
   mFillAmount: 1
@@ -1475,7 +1580,7 @@ MonoBehaviour:
     y: 0
     width: 1
     height: 1
-  mTexture: {fileID: 2800000, guid: 0422ad5e4596de041a9cd780575491fb, type: 3}
+  mTexture: {fileID: 2800000, guid: 3665bbf51ea61054bbdfb6e3d026bd85, type: 3}
   mMat: {fileID: 0}
   mShader: {fileID: 4800000, guid: e75727d9555d9d14ca51d91908c681bc, type: 3}
   mBorder: {x: 0, y: 0, z: 0, w: 0}
@@ -1491,7 +1596,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LoopStyle: 0
-  Speed: -.100000001
+  Speed: -1.5
   Duration: .5
 --- !u!114 &11400050
 MonoBehaviour:

@@ -17,7 +17,9 @@ public class GameConfig
     public static string OfficialSiteAddress;
     public static string BattleConfig;
     public static string GameIcon;
+    public static string NameLogo;
     public static string Build;
+    public static bool IsFullAssetBundles;
 
     //battle中的节奏
     public static float HeroRunReturnTime = 0.5f;        //武将出手后跑回的时间长度

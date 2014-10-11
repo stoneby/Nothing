@@ -42,7 +42,7 @@ public class HeroAndItemSummitHandler : MonoBehaviour
     #region Public Methods
 
     /// <summary>
-    /// Used to refresh the main window ui.
+    /// Used to refresh the main ui.
     /// </summary>
     /// <param name="lotteryList"></param>
     /// <param name="isChooseHeroCard"></param>
@@ -324,7 +324,7 @@ public class HeroAndItemSummitHandler : MonoBehaviour
         isFreeTime = timeRemain.TotalSeconds <= 0;
         timeForFree.gameObject.SetActive(!isFreeTime);
         freeThisTime.gameObject.SetActive(isFreeTime);
-        if (gameObject.activeSelf == true)
+        if (gameObject.activeSelf)
         {
             StartCoroutine("UpdateFreeTime", timeRemain);
         }

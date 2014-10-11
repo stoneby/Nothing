@@ -23,7 +23,6 @@ public class MonsterControl : MonoBehaviour
     /// Blood bar controller.
     /// </summary>
     public BloodBarController BloodController;
-
     public BuffBarController BuffBarController;
 
     public BattlegroundController BattleController
@@ -132,7 +131,7 @@ public class MonsterControl : MonoBehaviour
     public void SetCdLabel(int cd)
     {
         var cdLabel = CdLabel.GetComponent<UILabel>();
-        cdLabel.color = (cd == WarningCdValue) ? Color.red : Color.green;
+        cdLabel.color = (cd == WarningCdValue) ? Color.red : Color.white;
         cdLabel.text = "" + cd;
     }
 
