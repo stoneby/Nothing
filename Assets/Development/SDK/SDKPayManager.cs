@@ -7,9 +7,20 @@ using UnityEngine;
 /// </summary>
 public class SDKPayManager : MonoBehaviour
 {
+    #region Public Fields
+
+    public static bool ExecuteHangUpReCharge;
+    public static ReChargeItem HangUpReCharge;
+    public static string GameId;
+
+    #endregion
+
     #region Private Fields
 
-#if UNITY_ANDROID
+    private static bool IsUiInGame
+    {
+        get { return GameConfig.BundleID == "com.tencent.tmgp.sanguommd"; }
+    }
 
     /// <summary>
     /// Android necessary variable.
@@ -20,67 +31,102 @@ public class SDKPayManager : MonoBehaviour
     /// </summary>
     private static AndroidJavaObject jo;
 
-#endif
-
     private UIEventListener payLis;
-    private const int isPayingTime = 5;
+    private const int IsPayingTime = 5;
 
-    private static string gameID;
-
-    public static bool IsPaying = false;
+    private static SDKResponseManager sdkResponse;
 
     #endregion
 
     #region Public Methods
 
+    public static void DoPay(ThriftSCMessage msg)
+    {
+        var themsg = msg.GetContent() as SCRechargeIdMsg;
+        GameId = themsg.GameOrderId.ToString();
+
+        if (IsUiInGame)
+        {
+            PayInGame();
+        }
+        else
+        {
+            PayInSDK();
+        }
+    }
+
     /// <summary>
     /// Pay SDK function.
     /// </summary>
-    /// <param name="msg"></param>
-    public static void PayInSDK(ThriftSCMessage msg)
+    public static void PayInSDK(string productID = "", int price = 0, int amount = 0)
     {
-        var themsg = msg.GetContent() as SCRechargeIdMsg;
 #if UNITY_IPHONE
         if (Application.platform != RuntimePlatform.OSXEditor)
         {
-            if (SDKResponse.IsInitialized == false)
+            if (SDKResponseManager.IsInitialized == false)
             {
                 //if initialized, pay.
                 Debug.Log("Calling ActivateInitialize.");
-                SDKResponse.WhichResponse += PayAfterInit;
-                gameID = themsg.GameOrderId.ToString();
+                SDKResponseManager.WhichResponse += PayAfterInit;
                 SDK_IOS.ActivateInitialize();
             }
             else
             {
                 //if not initialized, initialize SDK first.
                 Debug.Log("Calling pay in IOS SDK");
-                GlobalDimmerController.Instance.Transparent = true;
-                GlobalDimmerController.Instance.DetectObject = null;
-                GlobalDimmerController.Instance.Show(true);
-                SDK_IOS.ActivatePay(themsg.GameOrderId.ToString());
+                sdkResponse.ShieldUI(false);
+                SDK_IOS.ActivatePay(GameId);
             }
         }
 #endif
+
 #if UNITY_ANDROID
         if (Application.platform != RuntimePlatform.WindowsEditor)
         {
-            if (SDKResponse.IsInitialized == false)
+            if (SDKResponseManager.IsInitialized == false)
             {
                 //if initialized, pay.
                 Debug.Log("Calling SDK initialize.");
-                SDKResponse.WhichResponse += PayAfterInit;
-                gameID = themsg.GameOrderId.ToString();
+                SDKResponseManager.WhichResponse += PayAfterInit;
                 jo.Call("initialize", ServiceManager.GameID, GameConfig.Version, ServiceManager.FValue, "initialize");
             }
             else
             {
                 //if not initialized, initialize SDK first.
-                Debug.Log("Calling SDK platformPay.");
-                jo.Call("platformpay",ServiceManager.UserID.ToString(),PlayerModelLocator.Instance.RoleId.ToString(),ServiceManager.ServerData.SID,themsg.GameOrderId.ToString(),"platformpay");
+                if (IsUiInGame)
+                {
+                    Debug.Log("Calling SDK tencentPay.");
+                    if (productID == "")
+                    {
+                        Debug.LogError("productID is empty in SDKPayManager.PayInSDK(,,), abort calling SDK tencentPay.");
+                        return;
+                    }
+
+                    if (!WindowManager.Instance.ContainWindow<ReChargeWindow>())
+                    {
+                        Debug.LogError("ReCharge window not exist in SDKPayManager.PayInSDK()");
+                    }
+                    sdkResponse.ShieldUI(true);
+                    sdkResponse.ShieldButton(WindowManager.Instance.GetWindow<ReChargeWindow>().ReChargeButtons);
+                    jo.Call("tencentpay", ServiceManager.UserID.ToString(), PlayerModelLocator.Instance.RoleId.ToString(), ServiceManager.ServerData.SID, GameId, price.ToString(), amount.ToString(), productID, "tencentpay");
+                }
+                else
+                {
+                    Debug.Log("Calling SDK platformPay.");
+                    sdkResponse.ShieldUI(true);
+                    jo.Call("platformpay", ServiceManager.UserID.ToString(), PlayerModelLocator.Instance.RoleId.ToString(), ServiceManager.ServerData.SID, GameId, "platformpay");
+                }
             }
         }
 #endif
+    }
+
+    public static void DoOnPay()
+    {
+        //Send message to server.
+        Debug.Log("Sending message to server.");
+        var msg = new CSGetRechargeIdMsg();
+        NetManager.SendMessage(msg);
     }
 
     #endregion
@@ -88,30 +134,64 @@ public class SDKPayManager : MonoBehaviour
     #region Private Methods
 
     /// <summary>
+    /// Call pay UI in game.
+    /// </summary>
+    private static void PayInGame()
+    {
+        //var window = WindowManager.Instance.ContainWindow<ReChargeWindow>() ? WindowManager.Instance.GetWindow<ReChargeWindow>() : WindowManager.Instance.Show<ReChargeWindow>(true);
+        var window = Singleton<WindowManager>.Instance.Show<ReChargeWindow>(true);
+
+        window.ReChargeID = GameId;
+
+        //Add IsAdditionalMoney info here.
+
+        window.Refresh();
+
+        if (ExecuteHangUpReCharge)
+        {
+            if (HangUpReCharge == null)
+            {
+                Debug.LogError("HangUpReCharge is null in SDKPayManager.");
+                return;
+            }
+            HangUpReCharge.OnReCharge(new GameObject());
+        }
+    }
+
+    /// <summary>
+    /// Pay after initialize SDK.
+    /// </summary>
+    private static void PayAfterInit()
+    {
+#if UNITY_IPHONE
+        Debug.Log("Calling pay in IOS SDK after initialize.");
+        sdkResponse.ShieldUI(false);
+        SDK_IOS.ActivatePay(GameId);
+        SDKResponseManager.WhichResponse = null;
+#endif
+
+#if UNITY_ANDROID
+        Debug.Log("Calling SDK platformPay.");
+        sdkResponse.ShieldUI(true);
+        jo.Call("platformpay", ServiceManager.UserID.ToString(), PlayerModelLocator.Instance.RoleId.ToString(),
+            ServiceManager.ServerData.SID, GameId, "platformpay");
+        SDKResponseManager.WhichResponse = null;
+#endif
+    }
+
+    /// <summary>
     /// Send request for RechargeID message to server.
     /// </summary>
     /// <param name="go"></param>
     private void OnPay(GameObject go)
     {
-        //if (IsPaying)
-        //{
-        //    return;
-        //}
-        //IsPaying = true;
-        gameObject.GetComponent<UIButton>().isEnabled = false;
-        StartCoroutine("UpdatePayTime");
+        if (!go.GetComponent<UIButton>())
+        {
+            Debug.LogError("Can't get UIButton in OnPay object.");
+        }
+        sdkResponse.ShieldButton(go.GetComponent<UIButton>());
 
-        //Send message to server.
-        Debug.Log("Sending message to server.");
-        var msg = new CSGetRechargeIdMsg();
-        NetManager.SendMessage(msg);
-    }
-
-    private IEnumerator UpdatePayTime()
-    {
-        yield return new WaitForSeconds(isPayingTime);
-        //IsPaying = false;
-        gameObject.GetComponent<UIButton>().isEnabled = true;
+        DoOnPay();
     }
 
     private void InstallHandlers()
@@ -124,34 +204,14 @@ public class SDKPayManager : MonoBehaviour
         payLis.onClick = null;
     }
 
-    /// <summary>
-    /// Pay after initialize SDK.
-    /// </summary>
-    private static void PayAfterInit()
-    {
-#if UNITY_IPHONE
-        Debug.Log("Calling pay in IOS SDK after initialize.");
-        GlobalDimmerController.Instance.Transparent = true;
-        GlobalDimmerController.Instance.DetectObject = null;
-        GlobalDimmerController.Instance.Show(true);
-        SDK_IOS.ActivatePay(gameID);
-        SDKResponse.WhichResponse = null;
-#endif
-#if UNITY_ANDROID
-        Debug.Log("Calling SDK platformPay.");
-        jo.Call("platformpay", ServiceManager.UserID.ToString(), PlayerModelLocator.Instance.RoleId.ToString(), ServiceManager.ServerData.SID, gameID, "platformpay");
-        SDKResponse.WhichResponse = null;
-#endif
-    }
-
     #endregion
 
     #region Mono
 
     // Use this for initialization
-	void Start () 
+    void Start()
     {
-	    this.gameObject.SetActive(true);
+        gameObject.SetActive(true);
         InstallHandlers();
 #if UNITY_ANDROID
         //Setting Android SDK paras.
@@ -159,11 +219,12 @@ public class SDKPayManager : MonoBehaviour
         jc = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
         jo = jc.GetStatic<AndroidJavaObject>("currentActivity");
 #endif
-	}
+    }
 
     void Awake()
     {
         payLis = UIEventListener.Get(transform.gameObject);
+        sdkResponse = GameObject.FindWithTag("SDKResponse").GetComponent<SDKResponseManager>();
     }
 
     #endregion

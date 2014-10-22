@@ -62,7 +62,8 @@ public class HeroItem : HeroItemBase
         set
         {
             bindState = value;
-            lockedIcon.gameObject.SetActive(bindState);
+            var isNotInTeam = (LeaderState == LeaderState.NotInTeam);
+            lockedIcon.gameObject.SetActive(bindState && isNotInTeam);
         }
     }
 
@@ -191,7 +192,7 @@ public class HeroItem : HeroItemBase
     {
         base.InitItem(heroInfo);
         HeroInfo = heroInfo;
-        BindState = heroInfo.Bind;
         LeaderState = HeroUtils.GetLeaderState(heroInfo.Uuid, curTeam, allTeams);
+        BindState = heroInfo.Bind;
     }
 }

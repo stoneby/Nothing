@@ -10,6 +10,7 @@ GameObject:
   - 4: {fileID: 400000}
   - 114: {fileID: 11400000}
   - 65: {fileID: 6500012}
+  - 114: {fileID: 11400048}
   m_Layer: 8
   m_Name: Menu
   m_TagString: Untagged
@@ -144,6 +145,7 @@ GameObject:
   - 4: {fileID: 400016}
   - 114: {fileID: 11400024}
   - 65: {fileID: 6500004}
+  - 114: {fileID: 11400046}
   m_Layer: 8
   m_Name: Button-Close
   m_TagString: Untagged
@@ -393,7 +395,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &100050
 GameObject:
   m_ObjectHideFlags: 0
@@ -1919,7 +1921,7 @@ MonoBehaviour:
   updateAnchors: 1
   mColor: {r: .235294119, g: .0901960805, b: .0745098069, a: 1}
   mPivot: 3
-  mWidth: 322
+  mWidth: 326
   mHeight: 22
   mDepth: 10
   HighLight: 0
@@ -1929,7 +1931,7 @@ MonoBehaviour:
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
-  aspectRatio: 14.363636
+  aspectRatio: 14.636364
   keepCrispWhenShrunk: 1
   mTrueTypeFont: {fileID: 12800000, guid: 482d99b42ce11584288190b4b23a76f2, type: 3}
   mFont: {fileID: 0}
@@ -1968,6 +1970,36 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ScrollView: {fileID: 11400070}
   SrollUpdateDetla: 10
+--- !u!114 &11400046
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100016}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d44bc69c2ca5f943b845318866dc1bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioClip: {fileID: 8300000, guid: 2df6f6d6aa5804d4d90094b20142f856, type: 3}
+  trigger: 0
+  volume: 1
+  pitch: 1
+--- !u!114 &11400048
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d44bc69c2ca5f943b845318866dc1bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioClip: {fileID: 8300000, guid: 24878f030c7d7a442893eda7d70ae07d, type: 3}
+  trigger: 0
+  volume: 1
+  pitch: 1
 --- !u!114 &11400052
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2139,7 +2171,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Path: 
   WindowGroup: 0
-  MemeoryType: 0
+  MemeoryType: 2
   CloseButtonControl: {fileID: 11400060}
   ScrollBackWhenNotFull: {fileID: 11400044}
   MailItem: {fileID: 400026, guid: daa995d1c95f81b428856ac3e35f2af5, type: 2}
@@ -2227,7 +2259,7 @@ MonoBehaviour:
   cellHeight: 120
   animateSmoothly: 0
   hideInactive: 1
-  keepWithinPanel: 1
+  keepWithinPanel: 0
   sorted: 0
 --- !u!114 &11400070
 MonoBehaviour:
@@ -2242,7 +2274,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movement: 1
   dragEffect: 2
-  restrictWithinPanel: 0
+  restrictWithinPanel: 1
   disableDragIfFits: 0
   smoothDragStart: 1
   iOSDragEmulation: 1

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Text;
 
 namespace com.kx.sglm.gs.battle.share.data.record
 {
@@ -59,6 +60,20 @@ namespace com.kx.sglm.gs.battle.share.data.record
 		}
 
 
+		public virtual string toRecordString()
+		{
+			StringBuilder _sb = new StringBuilder();
+			_sb.Append(index).Append(" ");
+			_sb.Append(side).Append(" ");
+			_sb.Append(stateFlag).Append(" ;");
+			foreach (FighterStateRecord _stateRecord in stateUpdateList)
+			{
+				_sb.Append(_stateRecord.toRecordString());
+				_sb.Append(" ;");
+			}
+			return _sb.ToString();
+		}
+
 
 		public virtual void addState(int buffId, int showId, sbyte state, int round, Dictionary<int, int> paramMap)
 		{
@@ -83,6 +98,8 @@ namespace com.kx.sglm.gs.battle.share.data.record
 				return stateUpdateList;
 			}
 		}
+
+
 
 	}
 

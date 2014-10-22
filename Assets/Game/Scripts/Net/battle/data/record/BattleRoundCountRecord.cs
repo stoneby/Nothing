@@ -4,6 +4,10 @@ namespace com.kx.sglm.gs.battle.share.data.record
 	public class BattleRoundCountRecord : BaseViewRecord<SingleActionRecord>
 	{
 
+		public BattleRoundCountRecord(int curRound) : base(curRound)
+		{
+		}
+
 		public override void show(IBattleView viewObj)
 		{
 			viewObj.showBattleRoundCountRecord(this);

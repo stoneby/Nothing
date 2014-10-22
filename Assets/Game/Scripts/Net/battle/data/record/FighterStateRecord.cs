@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Text;
 
 namespace com.kx.sglm.gs.battle.share.data.record
 {
@@ -91,6 +92,15 @@ namespace com.kx.sglm.gs.battle.share.data.record
 			return _param;
 		}
 
+		public virtual string toRecordString()
+		{
+			StringBuilder _sb = new StringBuilder();
+			_sb.Append(buffId).Append(",");
+			_sb.Append(state).Append(",");
+			_sb.Append(leftRound).Append(",");
+			return _sb.ToString();
+
+		}
 
 	}
 

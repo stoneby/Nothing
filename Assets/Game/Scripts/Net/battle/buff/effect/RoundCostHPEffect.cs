@@ -4,7 +4,7 @@ namespace com.kx.sglm.gs.battle.share.buff.effect
 {
 
 	using BattleFighter = com.kx.sglm.gs.battle.share.actor.impl.BattleFighter;
-	using BattleTeamFightRecord = com.kx.sglm.gs.battle.share.data.record.BattleTeamFightRecord;
+	using BattleTeamInfoRecord = com.kx.sglm.gs.battle.share.data.record.BattleTeamInfoRecord;
 	using SingleActionRecord = com.kx.sglm.gs.battle.share.data.record.SingleActionRecord;
 	using BattleLogicHelper = com.kx.sglm.gs.battle.share.helper.BattleLogicHelper;
 	using BattleRecordHelper = com.kx.sglm.gs.battle.share.helper.BattleRecordHelper;
@@ -61,11 +61,11 @@ namespace com.kx.sglm.gs.battle.share.buff.effect
 			int _reduceHp = getCostPercentValue(fighter);
 			_reduceHp += reduceValue;
 			_reduceHp = changeToAliveHp(_reduceHp, fighter);
-			BattleTeamFightRecord _fightRecord = fighter.Battle.Record.OrCreateTeamFighterRecord;
-			SingleActionRecord _buffAction = _fightRecord.OrCreateCurBuffAction;
+			BattleTeamInfoRecord _teamRecord = fighter.Battle.Record.OrCreateTeamRecord;
+			SingleActionRecord _buffAction = _teamRecord.OrCreateCurBuffAction;
 			BattleRecordHelper.initDefencerRecord(fighter, _buffAction);
 			BattleLogicHelper.costBaseHp(_reduceHp, fighter, _buffAction);
-			_fightRecord.finishCurBuffAction();
+			_teamRecord.finishCurBuffAction();
 		}
 
 		internal abstract int getCostPercentValue(BattleFighter fighter);

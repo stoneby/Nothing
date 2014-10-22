@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using KXSGCodec;
 using UnityEngine;
 
@@ -19,11 +20,26 @@ public class GetItemControl : MonoBehaviour
 
     private bool isOpen;
 
+    private GameObject TopCantainer;
+    private GameObject JobSprite;
+    private List<GameObject> Stars;
 	void Start ()
 	{
         containerHero = transform.FindChild("Container hero").gameObject;
         containerItem = transform.FindChild("Container item").gameObject;
         containerBox = transform.FindChild("Sprite box").gameObject;
+
+        TopCantainer = transform.FindChild("Container top").gameObject;
+        TopCantainer.SetActive(false);
+
+        Stars = new List<GameObject>();
+        Stars.Add(transform.FindChild("Container top/Sprite star1").gameObject);
+        Stars.Add(transform.FindChild("Container top/Sprite star2").gameObject);
+        Stars.Add(transform.FindChild("Container top/Sprite star3").gameObject);
+        Stars.Add(transform.FindChild("Container top/Sprite star4").gameObject);
+        Stars.Add(transform.FindChild("Container top/Sprite star5").gameObject);
+
+        JobSprite = transform.FindChild("Container top/Sprite job").gameObject;
 
         spriteHero = transform.FindChild("Container hero/Sprite head").gameObject;
         spriteHeroBg = transform.FindChild("Container hero/Sprite bg").gameObject;
@@ -97,8 +113,21 @@ public class GetItemControl : MonoBehaviour
             sp = spriteHero.GetComponent<UISprite>();
             var herodata = HeroModelLocator.Instance.FindHero(long.Parse(Data.Uuid));
             var tem = HeroModelLocator.Instance.GetHeroByTemplateId(herodata.TemplateId);
-            HeroConstant.SetHeadByIndex(sp, tem.Icon - 1);
+            
             spriteNew.SetActive(Data.IsNew);
+            TopCantainer.SetActive(true);
+            if (tem != null)
+            {
+                HeroConstant.SetHeadByIndex(sp, tem.Icon - 1);
+
+                var jobsp = JobSprite.GetComponent<UISprite>();
+                jobsp.spriteName = "job_" + tem.Job;
+
+                for (int i = 0; i < Stars.Count; i++)
+                {
+                    Stars[i].SetActive(i < tem.Star);
+                }
+            }
         }
         else if (Data.RewardType == 2)
         {
@@ -113,6 +142,15 @@ public class GetItemControl : MonoBehaviour
             var tem = ItemModeLocator.Instance.GetIconId(item.TmplId);
             sp.spriteName = (tem != 0) ? ItemType.ItemHeadPrefix + tem : "item_111002";
             spriteNew.SetActive(Data.IsNew);
+            TopCantainer.SetActive(true);
+            var q = ItemModeLocator.Instance.GetQuality(item.TmplId);
+            int k = ItemHelper.GetStarCount(q);
+            for (int i = 0; i < Stars.Count; i++)
+            {
+                Stars[i].SetActive(i < k);
+            }
+            var jobsp = JobSprite.GetComponent<UISprite>();
+            jobsp.spriteName = "job_" + ItemModeLocator.Instance.GetJob(item.TmplId);
         }
         else if (Data.RewardType == 3)//碎片
         {
@@ -123,10 +161,23 @@ public class GetItemControl : MonoBehaviour
             containerHero.SetActive(true);
             containerItem.SetActive(false);
             sp = spriteHero.GetComponent<UISprite>();
-            var herodata = HeroModelLocator.Instance.FindHero(long.Parse(Data.Uuid));
-            var tem = HeroModelLocator.Instance.GetHeroByTemplateId(herodata.TemplateId);
-            HeroConstant.SetHeadByIndex(sp, tem.Icon - 1);
+            //var herodata = HeroModelLocator.Instance.FindHero(long.Parse(Data.Uuid));
+            var tem = HeroModelLocator.Instance.GetHeroByTemplateId(int.Parse(Data.Uuid));
+            //HeroConstant.SetHeadByIndex(sp, tem.Icon - 1);
             spriteNew.SetActive(Data.IsNew);
+            TopCantainer.SetActive(true);
+            if (tem != null)
+            {
+                HeroConstant.SetHeadByIndex(sp, tem.Icon - 1);
+
+                var jobsp = JobSprite.GetComponent<UISprite>();
+                jobsp.spriteName = "job_" + tem.Job;
+
+                for (int i = 0; i < Stars.Count; i++)
+                {
+                    Stars[i].SetActive(i < tem.Star);
+                }
+            }
         }
     }
 }

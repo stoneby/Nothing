@@ -310,6 +310,7 @@ public class ChooseCardWindow : Window
 
     public override void OnEnter()
     {
+        GlobalWindowSoundController.Instance.PlayOpenSound();
         InstallHandlers();
 
         //Request message to server for initialization.

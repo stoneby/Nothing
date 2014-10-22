@@ -1,11 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Security.Principal;
-using KXSGCodec;
-using Template.Auto.Item;
 using Template.Auto.Reward;
-using Template.Auto.Sign;
 using UnityEngine;
-using System.Collections;
 
 public class SignItemControl : MonoBehaviour
 {
@@ -35,6 +30,8 @@ public class SignItemControl : MonoBehaviour
     /// Notification triggered when swipe happens.
     /// </summary>
     private OnSelectedCallback OnSelected;
+
+    public EffectSpawner LightEffect;
 
 	// Use this for initialization
 	void Start () 
@@ -71,18 +68,38 @@ public class SignItemControl : MonoBehaviour
         {
             OnSelected(gameObject);
         }
+    }
 
-//        if (CanSelect)
-//        {
-//            SystemModelLocator.Instance.RewardId = RewardId;
-//            WindowManager.Instance.Show<SignConfirmWindow>(true);
-//            
-//        }
-//        else
-//        {
-//            
-//        }
-        //WindowManager.Instance.Show<SignWindow>(true);
+    public bool CheckFull()
+    {
+        bool k = false;
+        if (RewardTemplate.RewardType == SIGN_REWARD_TYPE_HERO)
+        {
+            k = HeroModelLocator.Instance.IsHeroFull();
+            if (k)
+            {
+                Alert.Show(AssertionWindow.Type.Ok, "系统提示", "武将列表已满，点击“确定”前往武将界面？", AlertHeroHandler);
+            }
+        }
+        else if (RewardTemplate.RewardType == SIGN_REWARD_TYPE_ITEM)
+        {
+            k = ItemModeLocator.Instance.IsItemFull();
+            if (k)
+            {
+                Alert.Show(AssertionWindow.Type.Ok, "系统提示", "武将列表已满，点击“确定”前往武将界面？", AlertItemHandler);
+            }
+        }
+        return k;
+    }
+
+    private static void AlertHeroHandler(GameObject sender = null)
+    {
+        MainMenuBarWindow.OpenHeroWin();
+    }
+
+    private static void AlertItemHandler(GameObject sender = null)
+    {
+        MainMenuBarWindow.OpenEquipWin();
     }
 	
 	// Update is called once per frame
@@ -131,16 +148,28 @@ public class SignItemControl : MonoBehaviour
 
             Count = RewardTemplate.RewardCount;
         }
-
+        
         SetContent();
         
     }
 
     private void SetContent()
     {
-        if (SelectSprite == null) return;
+        if (GoodsIcon == null) return;
         SelectSprite.SetActive(HaveSign);
-        ClickSprite.SetActive(CanSelect);
+        //ClickSprite.SetActive(CanSelect);
+        if (LightEffect != null)
+        {
+            if (CanSelect)
+            {
+                LightEffect.Play();
+            }
+            else
+            {
+                LightEffect.Stop();
+            }
+        }
+       
 
         if (RewardTemplate.RewardType == SIGN_REWARD_TYPE_HERO)
         {

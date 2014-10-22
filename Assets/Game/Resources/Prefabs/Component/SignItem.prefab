@@ -92,6 +92,7 @@ GameObject:
   - 65: {fileID: 6500000}
   - 114: {fileID: 11400030}
   - 65: {fileID: 6500002}
+  - 114: {fileID: 11400036}
   m_Layer: 8
   m_Name: SignItem
   m_TagString: Untagged
@@ -275,6 +276,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &100034
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 400034}
+  - 114: {fileID: 11400038}
+  m_Layer: 8
+  m_Name: Light
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!4 &400000
 Transform:
   m_ObjectHideFlags: 1
@@ -354,6 +371,7 @@ Transform:
   - {fileID: 400028}
   - {fileID: 400030}
   - {fileID: 400006}
+  - {fileID: 400034}
   m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!4 &400012
@@ -495,6 +513,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 400010}
   m_RootOrder: 1
+--- !u!4 &400034
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100034}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 400010}
+  m_RootOrder: 9
 --- !u!65 &6500000
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -1326,6 +1356,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34d8bef44a53cc5408dd543088635dee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LightEffect: {fileID: 11400038}
   RewardId: 0
   HaveSign: 0
   CanSelect: 0
@@ -1445,6 +1476,34 @@ MonoBehaviour:
   mAtlas: {fileID: 11400000, guid: 54963bf6111d1514080984e576cacdd0, type: 2}
   mSpriteName: Item_111002
   mFillCenter: 1
+--- !u!114 &11400036
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d44bc69c2ca5f943b845318866dc1bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioClip: {fileID: 8300000, guid: 24878f030c7d7a442893eda7d70ae07d, type: 3}
+  trigger: 0
+  volume: 1
+  pitch: 1
+--- !u!114 &11400038
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5572cc2ad1d501146b2b4eed8e519002, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EffectPrefab: {fileID: 100002, guid: 61aabca70770e0e4e983930f04dd75a3, type: 2}
+  RenderQueue: 3800
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

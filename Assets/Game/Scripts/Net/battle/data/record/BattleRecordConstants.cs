@@ -111,6 +111,16 @@ namespace com.kx.sglm.gs.battle.share.data.record
 		/// <summary>
 		/// Fighter状态位 </summary>
 		public static readonly int BATTLE_FIGHTER_STATE_FLAG = RECORD_PROP_KEY_BASE++;
+
+		/// <summary>
+		/// 战斗报错 </summary>
+		private static int BATTLE_ERROR_RECORD_BASE = 0;
+		/// <summary>
+		/// 英雄连接颜色校验不通过 </summary>
+		public static readonly int BATTLE_ERROR_HERO_COLER_INDEX = BATTLE_ERROR_RECORD_BASE++;
+		/// <summary>
+		/// 目标错误 </summary>
+		public static readonly int BATTLE_ERROR_TARGET = BATTLE_ERROR_RECORD_BASE++;
 	}
 
 

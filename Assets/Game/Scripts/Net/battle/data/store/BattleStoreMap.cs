@@ -6,6 +6,8 @@ namespace com.kx.sglm.gs.battle.share.data.store
 {
 
 
+	using IBattleCompatibleUtils = com.kx.sglm.gs.battle.share.utils.IBattleCompatibleUtils;
+
 	/// <summary>
 	/// Êý¾ÝMap
 	/// @author liyuan2
@@ -15,10 +17,12 @@ namespace com.kx.sglm.gs.battle.share.data.store
 	{
 
 		private Dictionary<int, string> dataMap;
+		private IBattleCompatibleUtils compatibleUtils;
 
-		public BattleStoreMap()
+		public BattleStoreMap(IBattleCompatibleUtils compatibleUtils)
 		{
 			dataMap = new Dictionary<int, string>();
+			this.compatibleUtils = compatibleUtils;
 		}
 
 		public virtual bool Empty
@@ -64,8 +68,8 @@ namespace com.kx.sglm.gs.battle.share.data.store
 			StringBuilder _sb = new StringBuilder();
 			foreach (KeyValuePair<int, string> _entry in dataMap)
 			{
-				_sb.Append(_entry.Key).Append(",");
-				_sb.Append(_entry.Value).Append(";");
+				_sb.Append(_entry.Key).Append(BattleStoreConstants.BATTLE_STORE_KEY_SPLIT);
+				_sb.Append(_entry.Value).Append(BattleStoreConstants.BATTLE_STORE_DATA_SPLIT);
 			}
 			return _sb.ToString();
 		}
@@ -76,14 +80,14 @@ namespace com.kx.sglm.gs.battle.share.data.store
 			{
 				return;
 			}
-			string[] _values = value.Split(BattleStoreConstants.BATTLE_STORE_DATA_SPLIT, true);
+			string[] _values = compatibleUtils.splitString(value, BattleStoreConstants.BATTLE_STORE_DATA_SPLIT);
 			if (_values.Length == 0)
 			{
 				return;
 			}
 			foreach (string _kv in _values)
 			{
-				string[] _kvPair = _kv.Split(BattleStoreConstants.BATTLE_STORE_KEY_SPLIT, true);
+				string[] _kvPair = compatibleUtils.splitString(_kv, BattleStoreConstants.BATTLE_STORE_KEY_SPLIT);
 				if (_kvPair.Length != 2)
 				{
 					//TODO: loggers.error
@@ -92,6 +96,7 @@ namespace com.kx.sglm.gs.battle.share.data.store
 				dataMap[Convert.ToInt32(_kvPair[0])] = _kvPair[1];
 			}
 		}
+
 
 	}
 

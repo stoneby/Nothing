@@ -8,11 +8,12 @@ using UnityEngine;
 
 public class CharacterControl : MonoBehaviour
 {
-    public GameObject FootObj;
-    public GameObject JobObj;
-    public GameObject AttackObj;
-    public GameObject TopTimesObj;
-    public GameObject FriendLabelObj;
+    public UISprite FootSprite;
+    public UISprite JobSprite;
+    public UILabel BaseAttackLabel;
+    public UILabel AttackTimesLabel;
+    public UILabel FriendLabel;
+    public UILabel AttackLabel;
 
     public BuffBarController BuffBarController;
     public Character CharacterData;
@@ -33,10 +34,10 @@ public class CharacterControl : MonoBehaviour
     }
 
     private HeroTemplate templateData;
-    private GameObject topAttackObj;
-    private bool isSelected;
 
     private float afterTime;
+
+    private const string MultiplierFix = "x";
 
     public void SetFootIndex()
     {
@@ -45,16 +46,13 @@ public class CharacterControl : MonoBehaviour
             Logger.LogError("Foot index error, should be in range (0, " + Character.TotalColorCount + "], but is: " + FootIndex);
         }
 
-        var uisp = FootObj.GetComponent<UISprite>();
-        uisp.spriteName = "ground_" + FootIndex;
-        uisp = JobObj.GetComponent<UISprite>();
-        uisp.spriteName = (FootIndex == (int)FootColorType.Pink) ? "job_0" : "job_" + JobIndex;
+        FootSprite.spriteName = "ground_" + FootIndex;
+        JobSprite.spriteName = (FootIndex == (int)FootColorType.Pink) ? "job_0" : "job_" + JobIndex;
     }
 
     public void SetCanSelect(bool flag)
     {
-        if (FootObj == null) return;
-        var uisp = FootObj.GetComponent<UISprite>();
+        var uisp = FootSprite.GetComponent<UISprite>();
         uisp.alpha = flag ? 1 : 0.3f;
     }
 
@@ -77,15 +75,14 @@ public class CharacterControl : MonoBehaviour
         templateData = HeroModelLocator.Instance.GetHeroByTemplateId(tempid);
 
         JobIndex = templateData.Job;
-        var uisp = JobObj.GetComponent<UISprite>();
+        var uisp = JobSprite.GetComponent<UISprite>();
         uisp.spriteName = (FootIndex == (int)FootColorType.Pink) ? "job_0" : "job_" + JobIndex;
 
         var isFriend = (characterType != CharacterType.Hero);
-        FriendLabelObj.SetActive(isFriend);
+        FriendLabel.gameObject.SetActive(isFriend);
         if (isFriend)
         {
-            var uilb = FriendLabelObj.GetComponent<UILabel>();
-            uilb.text = characterType.ToString();
+            FriendLabel.text = characterType.ToString();
         }
     }
 
@@ -100,62 +97,30 @@ public class CharacterControl : MonoBehaviour
 
     public void SetAttackLabel(SingleFighterRecord record)
     {
-        var uilb = AttackObj.GetComponent<UILabel>();
         Attack = record.getIntProp(RoleAProperty.ATK);
         Restore = record.getIntProp(RoleAProperty.RECOVER);
-        uilb.text = "" + ((FootIndex == (int)FootColorType.Pink) ? (Restore) : (Attack));
+        BaseAttackLabel.text = "" + ((FootIndex == (int)FootColorType.Pink) ? (Restore) : (Attack));
     }
 
     public void PlayCharacter(Character.State state, bool loop)
     {
         CharacterData.PlayState(state, loop);
-        if (state == Character.State.Run || state == Character.State.Run)
-        {
-            NGUITools.SetActive(FootObj, false);
-        }
-        else
-        {
-            NGUITools.SetActive(FootObj, true);
-        }
+        var enableGroup = (state != Character.State.Run);
+        NGUITools.SetActive(FootSprite.gameObject, enableGroup);
     }
 
-    public void SetSelect(bool isselected, int selectindex = -1)
+    public void ShowAttack(bool show, int selectindex = -1)
     {
-        isSelected = isselected;
-        var uilb = TopTimesObj.GetComponent<UILabel>();
-        if (isselected)
+        if (show)
         {
-
-            if (selectindex > 6)
-            {
-                uilb.color = new Color(255, 0, 248);
-            }
-            else if (selectindex > 3)
-            {
-                uilb.color = new Color(0, 255, 2);
-            }
-            else
-            {
-                uilb.color = new Color(234, 240, 240);
-            }
-            uilb.text = (selectindex == 0) ? "" : "X" + BattleTypeConstant.MoreHitTimes[selectindex];
+            AttackTimesLabel.text = (selectindex == 0) ? "" : (MultiplierFix + BattleTypeConstant.MoreHitTimes[selectindex]);
             AttackValue = (FootIndex == (int)FootColorType.Pink) ? (int)(BattleTypeConstant.MoreHitTimes[selectindex] * Restore) : (int)(BattleTypeConstant.MoreHitTimes[selectindex] * Attack);
-            StartCoroutine(PopPlay());
+            AttackLabel.text = "" + AttackValue;
         }
         else
         {
-            uilb.text = "";
-            if (topAttackObj != null) Destroy(topAttackObj);
-        }
-    }
-
-    private IEnumerator PopPlay()
-    {
-        PopTextManager.ShowText(AttackValue.ToString(), 0.5f, 0, 0, 70, CharacterData.transform.localPosition);
-        yield return new WaitForSeconds(0.5f);
-        if (isSelected)
-        {
-            topAttackObj = PopTextManager.ShakeText(AttackValue.ToString(), -25, 25, CharacterData.transform.localPosition);
+            AttackTimesLabel.text = string.Empty;
+            AttackLabel.text = string.Empty;
         }
     }
 }

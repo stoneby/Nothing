@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using KXSGCodec;
 using Property;
+using FriendListType = FriendModelLocator.FriendListType;
 
 public class FriendUtils 
 {
@@ -95,5 +96,44 @@ public class FriendUtils
                     break;
                 }
         }
+    }
+
+    public static bool SendFriendListMessage(FriendListType friendListType)
+    {
+        bool isOutOfDate = false;
+        switch (friendListType)
+        {
+            case FriendListType.LoadingAll:
+                {
+                    isOutOfDate = FriendModelLocator.Instance.IsFriendListOutOfDate(FriendListType.LoadingAll);
+                    if (isOutOfDate)
+                    {
+                        var msg = new CSFriendLoadingAll();
+                        NetManager.SendMessage(msg);
+                    }
+                    break;
+                }
+            case FriendListType.Apply:
+                {
+                    isOutOfDate = FriendModelLocator.Instance.IsFriendListOutOfDate(FriendListType.Apply);
+                    if (isOutOfDate)
+                    {
+                        var msg = new CSFriendApplyList();
+                        NetManager.SendMessage(msg);
+                    }
+                    break;
+                }
+            case FriendListType.Receive:
+                {
+                    isOutOfDate = FriendModelLocator.Instance.IsFriendListOutOfDate(FriendListType.Receive);
+                    if (isOutOfDate)
+                    {
+                        var msg = new CSFriendRecieveEnergyList();
+                        NetManager.SendMessage(msg);
+                    }
+                    break;
+                }
+        }
+        return isOutOfDate;
     }
 }

@@ -169,8 +169,8 @@ public class Utils
 
     public static T Decode<T>(string path) where T :  TBase, new()
     {
-        var membuffer = (string.IsNullOrEmpty(ServiceManager.ServerData.DataUrl)) ? 
-            new TMemoryBuffer(Resources.Load<TextAsset>(path).bytes) :
+        var membuffer = (string.IsNullOrEmpty(ServiceManager.ServerData.DataUrl)) ?
+            new TMemoryBuffer(ResoucesManager.Instance.Load<TextAsset>(path).bytes) :
             new TMemoryBuffer(HttpResourceManager.Instance.GetTemplateData(path));
         TProtocol protocol = (new TCompactProtocol(membuffer));
         var temp = new T();
@@ -328,5 +328,13 @@ public class Utils
     public static string ConvertToResoucesPath(string resName)
     {
         return resName.Replace('.', '/');
+    }
+
+    public static void ClearCachedData()
+    {
+        HeroModelLocator.Instance.Clear();
+        ItemModeLocator.Instance.Clear();
+        FriendModelLocator.Instance.Clear();
+        MailModelLocator.Instance.Clear();
     }
 }

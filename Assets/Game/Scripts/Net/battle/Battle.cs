@@ -50,7 +50,7 @@ namespace com.kx.sglm.gs.battle.share
 			this.battleType = battleType;
 			this.battleSource = source;
 			this.record = new BattleRecord();
-			this.storeData = new BattleStoreData();
+			this.storeData = new BattleStoreData(source.BattleCompatibleUtils);
 			this.storeHandler = new BattleStoreHandler(storeData);
 		}
 

@@ -12,7 +12,6 @@ namespace Assets.Game.Scripts.Net.handler
                 FriendModelLocator.Instance.ScFriendLoadingAll = msg.GetContent() as SCFriendLoadingAll;
                 FriendModelLocator.Instance.ExtendFriendTimes =
                     FriendModelLocator.Instance.ScFriendLoadingAll.FriendLimitExtendTimes;
-                FriendModelLocator.AlreadyRequest = true;
                 WindowManager.Instance.Show<UIFriendEntryWindow>(true);
             }
         }
@@ -21,13 +20,12 @@ namespace Assets.Game.Scripts.Net.handler
         {
             if(msg != null)
             {
-                var friendList = msg.GetContent() as SCFriendApplyList;
-                FriendModelLocator.Instance.ApplyListCached = friendList.ApplyList;
+                FriendModelLocator.Instance.ScFriendApplyList = msg.GetContent() as SCFriendApplyList;
                 var friendEntryWindow = WindowManager.Instance.GetWindow<UIFriendEntryWindow>();
                 var addFriendHandler = friendEntryWindow.FriendHandlers[FriendConstant.AddFriendHandlerIndex] as AddFriendHandler;
                 if(addFriendHandler.gameObject.activeInHierarchy)
                 {
-                    addFriendHandler.Refresh(friendList.ApplyList);
+                    addFriendHandler.Refresh(FriendModelLocator.Instance.ScFriendApplyList.ApplyList);
                 }
             }
         }
@@ -57,7 +55,7 @@ namespace Assets.Game.Scripts.Net.handler
         {
             if(msg != null)
             {
-                var energyList = msg.GetContent() as SCFriendRecieveEnergyList;
+                var energyList = FriendModelLocator.Instance.ScFriendRecieveEnergyList = msg.GetContent() as SCFriendRecieveEnergyList;
                 if (energyList != null)
                 {
                     var friendEntryWindow = WindowManager.Instance.GetWindow<UIFriendEntryWindow>();
@@ -107,6 +105,7 @@ namespace Assets.Game.Scripts.Net.handler
                 var operSucc = msg.GetContent() as SCFriendApplyOperSucc;
                 if (operSucc != null)
                 {
+                    var applyListCached = FriendModelLocator.Instance.ScFriendApplyList.ApplyList;
                     if(operSucc.OperType == FriendConstant.FriendApplyAgree)
                     {
                         var friendList = FriendModelLocator.Instance.ScFriendLoadingAll.FriendList;
@@ -114,14 +113,12 @@ namespace Assets.Game.Scripts.Net.handler
                         {
                             friendList = FriendModelLocator.Instance.ScFriendLoadingAll.FriendList = new List<FriendInfo>();
                         }
-                        var friend =
-                            FriendModelLocator.Instance.ApplyListCached.Find(item => item.FriendUuid == operSucc.Uuid);
+                        var friend = applyListCached.Find(item => item.FriendUuid == operSucc.Uuid);
                         friendList.Add(friend);
                     }
                     else if(operSucc.OperType == FriendConstant.FriendApplyReject)
                     {
-                        FriendModelLocator.Instance.ApplyListCached.RemoveAll(item => item.FriendUuid == operSucc.Uuid);
-
+                        applyListCached.RemoveAll(item => item.FriendUuid == operSucc.Uuid);
                     }
                     var friendEntryWindow = WindowManager.Instance.GetWindow<UIFriendEntryWindow>();
                     var addFriendHandler = friendEntryWindow.FriendHandlers[FriendConstant.AddFriendHandlerIndex] as AddFriendHandler;

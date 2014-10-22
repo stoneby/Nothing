@@ -1,3 +1,5 @@
+using System.Text;
+
 namespace com.kx.sglm.gs.battle.share.input
 {
 
@@ -14,21 +16,22 @@ namespace com.kx.sglm.gs.battle.share.input
 		private int sideIndex = BattleSideEnum.SIDE_LEFT.Index;
 		private int targetIndex;
 
-
-	//	@Override
+		// @Override
 		public virtual void fireEvent(Battle battle)
 		{
 			BattleTeam _team = battle.BattleArmy.getActor(sideIndex);
 			if (_team == null)
 			{
-				//TODO: loggers.error
+				// TODO: loggers.error
 				return;
 			}
 //JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
 //ORIGINAL LINE: final boolean _rightInfo = _team.handleBattleFightInfo(targetIndex, heroIndex);
 			bool _rightInfo = _team.handleBattleFightInfo(targetIndex, heroIndex);
+
 			if (!_rightInfo)
 			{
+				Logger.Log("#ProduceFighterIndexAction.fireEvent.error: " + toInfoString());
 				return;
 			}
 
@@ -53,6 +56,19 @@ namespace com.kx.sglm.gs.battle.share.input
 			{
 				this.targetIndex = value;
 			}
+		}
+
+		public virtual string toInfoString()
+		{
+			StringBuilder _sb = new StringBuilder();
+			_sb.Append("index:");
+			for (int _i = 0; _i < this.heroIndex.Length; _i++)
+			{
+				_sb.Append(heroIndex[_i]).Append(",");
+			}
+			_sb.Append("target:").Append(this.targetIndex);
+
+			return _sb.ToString();
 		}
 
 	}

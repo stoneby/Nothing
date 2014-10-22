@@ -21,6 +21,7 @@ public class SignCourencyInfo : MonoBehaviour
 
     public void OnEnter(int rewardid)
     {
+        GlobalWindowSoundController.Instance.PlayOpenSound();
         if (TitleLabel == null)
         {
             TitleLabel = transform.FindChild("Label name").gameObject;
@@ -43,5 +44,6 @@ public class SignCourencyInfo : MonoBehaviour
     private void ClickBgHandler(GameObject obj)
     {
         gameObject.SetActive(false);
+        GlobalWindowSoundController.Instance.PlayCloseSound();
     }
 }

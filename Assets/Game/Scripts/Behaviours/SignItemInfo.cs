@@ -39,6 +39,7 @@ public class SignItemInfo : MonoBehaviour
 
     public void OnEnterEquip(RewardTemplate thetemp)
     {
+        GlobalWindowSoundController.Instance.PlayOpenSound();
         Init();
 
         var item = IconItem.GetComponent<SignItemControl>();
@@ -48,15 +49,15 @@ public class SignItemInfo : MonoBehaviour
         lb.text = item.Name;
 
         lb = AtkLabel.GetComponent<UILabel>();
-        lb.text = "攻击    [FFC300]" + ItemModeLocator.Instance.GetAttack(thetemp.RewardTempId, 1) + "[-]";
+        lb.text = "攻击    [FFC300]" + GetValue(ItemModeLocator.Instance.GetAttack(thetemp.RewardTempId, 1)) + "[-]";
 
         lb = HpLabel.GetComponent<UILabel>();
-        lb.text = "HP  [FFC300]" + ItemModeLocator.Instance.GetHp(thetemp.RewardTempId, 1) + "[-]";
+        lb.text = "HP  [FFC300]" + GetValue(ItemModeLocator.Instance.GetHp(thetemp.RewardTempId, 1)) + "[-]";
         lb = QiliLabel.GetComponent<UILabel>();
-        lb.text = "气力   [FFC300]" + ItemModeLocator.Instance.GetMp(thetemp.RewardTempId) + "[-]";
+        lb.text = "气力   [FFC300]" + GetValue(ItemModeLocator.Instance.GetMp(thetemp.RewardTempId)) + "[-]";
 
         lb = RecoverLabel.GetComponent<UILabel>();
-        lb.text = "回复   [FFC300]" + ItemModeLocator.Instance.GetRecover(thetemp.RewardTempId, 1) + "[-]";
+        lb.text = "回复   [FFC300]" + GetValue(ItemModeLocator.Instance.GetRecover(thetemp.RewardTempId, 1)) + "[-]";
 
         lb = SkillTitleLabel.GetComponent<UILabel>();
         lb.text = "装备技能";
@@ -65,8 +66,21 @@ public class SignItemInfo : MonoBehaviour
         lb.text = ItemModeLocator.Instance.GetDesc(thetemp.RewardTempId);
     }
 
+    private string GetValue(int val)
+    {
+        if (val >= 0)
+        {
+            return val.ToString();
+        }
+        else
+        {
+            return "-";
+        }
+    }
+
     public void OnEnterHero(RewardTemplate thetemp)
     {
+        GlobalWindowSoundController.Instance.PlayOpenSound();
         Init();
 
         var item = IconItem.GetComponent<SignItemControl>();
@@ -87,15 +101,29 @@ public class SignItemInfo : MonoBehaviour
         lb = RecoverLabel.GetComponent<UILabel>();
         lb.text = "回复   [FFC300]" + tem.Recover + "[-]";
 
-        lb = SkillTitleLabel.GetComponent<UILabel>();
-        lb.text = "武将技能";
 
-        lb = SkillLabel.GetComponent<UILabel>();
-        lb.text = HeroModelLocator.Instance.GetLeaderSkillTemplateById(tem.LeaderSkill).Desc;
+        var heroskilltemp = HeroModelLocator.Instance.GetLeaderSkillTemplateById(tem.LeaderSkill);
+        if (tem.LeaderSkill <= 0 || heroskilltemp == null)
+        {
+            SkillTitleLabel.SetActive(false);
+            SkillLabel.SetActive(false);
+        }
+        else
+        {
+            SkillTitleLabel.SetActive(true);
+            SkillLabel.SetActive(true);
+            lb = SkillTitleLabel.GetComponent<UILabel>();
+            lb.text = "武将技能";
+
+            lb = SkillLabel.GetComponent<UILabel>();
+            lb.text = heroskilltemp.Desc;
+        }
+        
     }
 
     private void ClickBgHandler(GameObject obj)
     {
+        GlobalWindowSoundController.Instance.PlayCloseSound();
         gameObject.SetActive(false);
     }
 }

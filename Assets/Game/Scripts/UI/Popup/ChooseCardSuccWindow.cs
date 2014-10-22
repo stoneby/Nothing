@@ -1,5 +1,6 @@
 using System;
 using System.Runtime.InteropServices;
+using System.Security.Policy;
 using KXSGCodec;
 using UnityEngine;
 
@@ -16,6 +17,8 @@ public class ChooseCardSuccWindow : Window
     #endregion
 
     #region Private Fields
+
+    private const float MoveDuration = 1.0f;
 
     private UIEventListener viewOKLis;
 
@@ -190,6 +193,22 @@ public class ChooseCardSuccWindow : Window
         {
             Logger.LogError("Not correct rewardItemIndex.");
         }
+
+        //Play hero give iTween with spawn and play.
+        if (!WindowManager.Instance.ContainWindow<UIMainScreenWindow>())
+        {
+            Logger.LogError("UIMainScreen window not exist! Can't play hero give iTween.");
+            return;
+        }
+        var window = WindowManager.Instance.GetWindow<UIMainScreenWindow>();
+
+        var character = window.DoSpawnAndPlay(rewardItemIndex);
+        iTween.MoveFrom(character.gameObject,
+            iTween.Hash("position", (character.transform.localPosition - new Vector3(window.BGTextureWidth, 0, 0)),
+            "time", MoveDuration,
+            "easetype", "linear",
+            "islocal", true));
+
     }
 
     #endregion

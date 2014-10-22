@@ -102,8 +102,8 @@ namespace com.kx.sglm.gs.battle.share.logic.loop
 
 		public override void onStart()
 		{
-			// TODO Auto-generated method stub
-
+			//回合开始，给战报记录一下当前的回合数
+			Battle.Record.CurRound = LoopCount;
 		}
 
 	}

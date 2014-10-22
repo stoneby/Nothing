@@ -11,6 +11,11 @@ public class UIMainScreenWindow : Window
 {
     public float Scale = 1.8f;
 
+    [HideInInspector]
+    public float BGTextureWidth;
+
+    public readonly int LeaderCount = 3;
+
     private UIEventListener startGameLis;
 	private UILabel diamond;
     private UILabel soul;
@@ -71,7 +76,6 @@ public class UIMainScreenWindow : Window
 
     private UISlider lvlSlider;
     private UISlider energySlider;
-    private const int LeaderCount = 3;
     private readonly List<Transform> leaders = new List<Transform>();
 
     #region Window
@@ -82,7 +86,10 @@ public class UIMainScreenWindow : Window
         WindowManager.Instance.Show<MainMenuBarWindow>(true);
         InstallHandlers();
 		RefreshData ();
-        SpawnAndPlay();
+        if (GreenHandGuideHandler.Instance.GiveHeroFinishFlag)
+        {
+            SpawnAndPlay();
+        }
         EnergyIncreaseControl.Instance.StartMonitor();
 
         GreenHandGuideHandler.Instance.ExecuteGreenHandFlag();
@@ -91,10 +98,24 @@ public class UIMainScreenWindow : Window
     public override void OnExit()
     {
         MtaManager.TrackEndPage(MtaType.MainScreenWindow);
-        WindowManager.Instance.Show<MainMenuBarWindow>(false);
+        if (WindowManager.Instance.ContainWindow<MainMenuBarWindow>())
+        {
+            WindowManager.Instance.Show<MainMenuBarWindow>(false);
+        }
         UnstallHandlers();
         Despawn();
         EnergyIncreaseControl.Instance.StopMonitor();
+    }
+
+    public Character DoSpawnAndPlay(int index)
+    {
+        var characterPoolManager = CharacterPoolManager.Instance;
+        var character = characterPoolManager.Take(iconIds[index]).GetComponent<Character>();
+        character.PlayState(Character.State.Idle, true);
+        Utils.AddChild(leaders[index].gameObject, character.gameObject);
+        character.transform.localScale = Scale * Vector3.one;
+
+        return character;
     }
 
     #endregion
@@ -106,23 +127,26 @@ public class UIMainScreenWindow : Window
         var count = leaders.Count;
         for(var i = count - 1; i >= 0 ; i--)
         {
+            if (!leaders[i].GetChild(0))
+            {
+                continue;
+            }
             var character = leaders[i].GetChild(0).GetComponent<Character>();
             character.StopState(Character.State.Idle);
             character.transform.localScale = Vector3.one;
             CharacterPoolManager.Instance.Return(iconIds[i], character.gameObject);
         }
-        iconIds.Clear();
+        if (iconIds != null)
+        {
+            iconIds.Clear();
+        }
     } 
     
     private void SpawnAndPlay()
     {
         for (int i = 0; i < LeaderCount; i++)
         {
-            var characterPoolManager = CharacterPoolManager.Instance;
-            var character = characterPoolManager.Take(iconIds[i]).GetComponent<Character>();
-            character.PlayState(Character.State.Idle, true);
-            Utils.AddChild(leaders[i].gameObject, character.gameObject);
-            character.transform.localScale = Scale * Vector3.one;
+            DoSpawnAndPlay(i);
         }
     }
 
@@ -165,6 +189,8 @@ public class UIMainScreenWindow : Window
         leaders.Add(leadersTran.Find("ThirdLeader"));
         BtnRecharge = transform.FindChild("Buttons/Button-Play").gameObject;
         if (ServiceManager.AppData != null) BtnRecharge.SetActive(ServiceManager.AppData.RechargeType != "0");
+
+        BGTextureWidth = Utils.FindChild(transform, "BG").GetComponent<UITexture>().width;
     }
 
     private void InstallHandlers()

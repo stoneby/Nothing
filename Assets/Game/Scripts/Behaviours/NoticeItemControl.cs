@@ -51,9 +51,9 @@ public class NoticeItemControl : KxItemRender
         ItemHeight = 88 + lb.height + 20;
         NoticeData.Content = str;
         ArrowDown.SetActive(true);
-        var cld = gameObject.GetComponent<BoxCollider>();
-        cld.size = new Vector3(705, ItemHeight, 0);
-        cld.center = new Vector3(0, 44 - ItemHeight / 2, 0);
+//        var cld = gameObject.GetComponent<BoxCollider>();
+//        cld.size = new Vector3(705, ItemHeight, 0);
+//        cld.center = new Vector3(0, 44 - ItemHeight / 2, 0);
         //Logger.Log("设置公告内容" + lb.height);
         //lb.height
     }
@@ -80,8 +80,8 @@ public class NoticeItemControl : KxItemRender
         ItemHeight = 88;
         IsOpened = false;
         ArrowDown.SetActive(false);
-        var cld = gameObject.GetComponent<BoxCollider>();
-        cld.size = new Vector3(705, ItemHeight, 0);
-        cld.center = new Vector3(0, 0, 0);
+//        var cld = gameObject.GetComponent<BoxCollider>();
+//        cld.size = new Vector3(705, ItemHeight, 0);
+//        cld.center = new Vector3(0, 0, 0);
     }
 }

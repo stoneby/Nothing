@@ -3,5 +3,7 @@ using System.Collections;
 
 public interface GreeenHandConfigReader
 {
-    bool ReadConfig(GreenHandGuideHandler handler,int configIndex);
+    string GetBattleType(int index);
+
+    bool ReadConfig(GreenHandGuideHandler handler, int configIndex);
 }

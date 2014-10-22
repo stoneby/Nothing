@@ -148,7 +148,6 @@ namespace com.kx.sglm.gs.battle.share.helper
 			{
 				updateBattleFighterRecord(_fighter, _teamInfoRecord);
 			}
-			record.finishCurTeamInfoRecord();
 		}
 
 		public static void updateBattleFighterRecord(BattleFighter fighter, BattleTeamInfoRecord teamInfoRecord)

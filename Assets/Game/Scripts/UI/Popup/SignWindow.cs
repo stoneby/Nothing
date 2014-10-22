@@ -22,6 +22,7 @@ public class SignWindow : Window
 
     public override void OnEnter()
     {
+        GlobalWindowSoundController.Instance.PlayOpenSound();
         if (TitleLabel == null)
         {
             TitleLabel = transform.FindChild("Label title").gameObject;
@@ -91,19 +92,23 @@ public class SignWindow : Window
 
     public override void OnExit()
     {
+        GlobalWindowSoundController.Instance.PlayCloseSound();
     }
 
     private void OnSelectHandler(GameObject obj)
     {
         var item = obj.GetComponent<SignItemControl>();
+        
         if (item.CanSelect)
         {
-            SystemModelLocator.Instance.RewardId = item.RewardId;
-            SignConfirm.SetActive(true);
-            var com = SignConfirm.GetComponent<SignConfirmWindow>();
-            com.ConfirmType = "sign";
-            com.OnEnter();
-
+            if (!item.CheckFull())
+            {
+                SystemModelLocator.Instance.RewardId = item.RewardId;
+                SignConfirm.SetActive(true);
+                var com = SignConfirm.GetComponent<SignConfirmWindow>();
+                com.ConfirmType = "sign";
+                com.OnEnter();
+            }
         }
         else if (item.RewardTemplate.RewardType == SignItemControl.SIGN_REWARD_TYPE_HERO)
         {

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 namespace com.kx.sglm.gs.battle.share.data.record
 {
 
-
 	/// <summary>
 	/// 一方队伍的出手。 <seealso cref="#getRecordList()"/>表示每个武将出手的动作
 	/// 
@@ -26,43 +25,10 @@ namespace com.kx.sglm.gs.battle.share.data.record
 		/// </summary>
 		private List<int> skillFighter;
 
-		private List<SingleActionRecord> buffAction;
-
-		private SingleActionRecord curBuffAction;
-
-
-
-		public BattleTeamFightRecord() : base()
+		public BattleTeamFightRecord(int curRound) : base(curRound)
 		{
 			skillFighter = new List<int>();
-			buffAction = new List<SingleActionRecord>();
-		}
 
-		public virtual List<SingleActionRecord> BuffAction
-		{
-			get
-			{
-				return buffAction;
-			}
-		}
-
-		public virtual SingleActionRecord OrCreateCurBuffAction
-		{
-			get
-			{
-				if (curBuffAction == null)
-				{
-					curBuffAction = new SingleActionRecord();
-					buffAction.Add(curBuffAction);
-				}
-				setModified();
-				return curBuffAction;
-			}
-		}
-
-		public virtual void finishCurBuffAction()
-		{
-			curBuffAction = null;
 		}
 
 		public virtual int TeamType
@@ -123,10 +89,6 @@ namespace com.kx.sglm.gs.battle.share.data.record
 			return null;
 		}
 
-        public override string ToString()
-        {
-            return string.Format("{0}: Team type: {1} Team side: {2}", GetType().Name, teamType, teamSide);
-        }
 	}
 
 }

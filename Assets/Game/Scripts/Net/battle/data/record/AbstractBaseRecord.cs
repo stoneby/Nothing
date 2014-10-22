@@ -45,6 +45,19 @@ namespace com.kx.sglm.gs.battle.share.data.record
 			return Convert.ToString(getProp(key));
 		}
 
+		public virtual bool Empty
+		{
+			get
+			{
+				return prop.Count == 0;
+			}
+		}
+
+		public virtual void clear()
+		{
+			prop.Clear();
+		}
+
 		public virtual string toReportStr()
 		{
 			// TODO Auto-generated method stub

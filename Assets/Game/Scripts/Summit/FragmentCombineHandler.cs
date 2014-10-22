@@ -1,5 +1,7 @@
-﻿using KXSGCodec;
+﻿using System.Linq;
+using KXSGCodec;
 using System.Collections.Generic;
+using Template.Auto.Hero;
 using UnityEngine;
 
 public class FragmentCombineHandler : MonoBehaviour
@@ -20,6 +22,12 @@ public class FragmentCombineHandler : MonoBehaviour
     private GameObject grid5;
     private GameObject starBar3;
     private GameObject starBar4;
+
+    //Refresh interface info.
+    private List<int> templateID5;
+    private List<int> templateID4;
+    private List<int> templateID3;
+    private int superChip;
 
     //Combine info from sever.
     private SCLotteryComposeList scLotteryComposeList;
@@ -49,41 +57,50 @@ public class FragmentCombineHandler : MonoBehaviour
         fragmentNum.text = scLotteryComposeList.SuperChip.ToString();
         PlayerModelLocator.Instance.SuperChip = scLotteryComposeList.SuperChip;
 
+        //Set interface info.
+        TransferToTemplateIDList(5, out templateID5);
+        TransferToTemplateIDList(4, out templateID4);
+        TransferToTemplateIDList(3, out templateID3);
+        superChip = scLotteryComposeList.SuperChip;
+
         //Initialize grid5 hero info.
-        AddedOrDelFragmentHero(grid5, scLotteryComposeList.Star5Chip, scLotteryComposeList.SuperChip);
+        AddedOrDelFragmentHero(grid5, templateID5.Count);
         grid5.GetComponent<UIGrid>().Reposition();
+        SetHeroItem(grid5, templateID5, superChip);
 
         //Initialize grid4 hero info.
-        AddedOrDelFragmentHero(grid4, scLotteryComposeList.Star4Chip, scLotteryComposeList.SuperChip);
+        AddedOrDelFragmentHero(grid4, templateID4.Count);
         grid4.GetComponent<UIGrid>().Reposition();
+        SetHeroItem(grid4, templateID4, superChip);
 
         //Initialize grid3 hero info.
-        AddedOrDelFragmentHero(grid3, scLotteryComposeList.Star3Chip, scLotteryComposeList.SuperChip);
+        AddedOrDelFragmentHero(grid3, templateID3.Count);
         grid3.GetComponent<UIGrid>().Reposition();
+        SetHeroItem(grid3, templateID3, superChip);
 
         //Initialize the starbar4 position.
-        if (scLotteryComposeList.Star5Chip.Count == 0)
+        if (templateID5.Count == 0)
         {
             starBar4.transform.localPosition = new Vector3(0, StarBar5PosY - StarBarHeight - GapDistance, 0);
         }
         else
         {
-            starBar4.transform.localPosition = new Vector3(0, StarBar5PosY - StarBarHeight - ((scLotteryComposeList.Star5Chip.Count - 1) / GridColumn + 1) * GridItemHeight - GapDistance, 0);
+            starBar4.transform.localPosition = new Vector3(0, StarBar5PosY - StarBarHeight - ((templateID5.Count - 1) / GridColumn + 1) * GridItemHeight - GapDistance, 0);
         }
 
         //Initialize the starbar3 position.
-        if (scLotteryComposeList.Star4Chip.Count == 0)
+        if (templateID4.Count == 0)
         {
             starBar3.transform.localPosition = new Vector3(0, starBar4.transform.localPosition.y - StarBarHeight - GapDistance, 0);
         }
         else
         {
-            starBar3.transform.localPosition = new Vector3(0, starBar4.transform.localPosition.y - StarBarHeight - ((scLotteryComposeList.Star4Chip.Count - 1) / GridColumn + 1) * GridItemHeight - GapDistance, 0);
+            starBar3.transform.localPosition = new Vector3(0, starBar4.transform.localPosition.y - StarBarHeight - ((templateID4.Count - 1) / GridColumn + 1) * GridItemHeight - GapDistance, 0);
         }
     }
 
     /// <summary>
-    /// Override Refresh function for refresh FragmentList info.
+    /// Override Refresh function for refresh FragmentList info, called when fragment combine succeed.
     /// </summary>
     /// <param name="msg"></param>
     public void Refresh(SCLotteryComposeSucc msg)
@@ -102,47 +119,16 @@ public class FragmentCombineHandler : MonoBehaviour
 
                 if (scLotteryComposeList != null)
                 {
-                    bool isFind = false;
-                    foreach (var listItem in scLotteryComposeList.Star5Chip)
+                    if (scLotteryComposeList.HeroChip.ContainsKey(scLotteryComposeSucc.TemplateId))
                     {
-                        if (isFind)
-                        {
-                            break;
-                        }
-                        if (listItem.ContainsKey(scLotteryComposeSucc.TemplateId))
-                        {
-                            listItem[scLotteryComposeSucc.TemplateId] = scLotteryComposeSucc.ChipCount;
-                            isFind = true;
-                        }
+                        scLotteryComposeList.HeroChip[scLotteryComposeSucc.TemplateId] = scLotteryComposeSucc.ChipCount;
                     }
-
-                    foreach (var listItem in scLotteryComposeList.Star4Chip)
+                    else
                     {
-                        if (isFind)
-                        {
-                            break;
-                        }
-                        if (listItem.ContainsKey(scLotteryComposeSucc.TemplateId))
-                        {
-                            listItem[scLotteryComposeSucc.TemplateId] = scLotteryComposeSucc.ChipCount;
-                            isFind = true;
-                        }
-                    }
-
-                    foreach (var listItem in scLotteryComposeList.Star3Chip)
-                    {
-                        if (isFind)
-                        {
-                            break;
-                        }
-                        if (listItem.ContainsKey(scLotteryComposeSucc.TemplateId))
-                        {
-                            listItem[scLotteryComposeSucc.TemplateId] = scLotteryComposeSucc.ChipCount;
-                            isFind = true;
-                        }
+                        Logger.LogError("Template id not found in scLotteryComposeList in FragmentCombineHandler.Refresh(), fragment combine UI not refreshed.");
                     }
                 }
-                
+
                 if (item.MaterialCount < composeCount * 0.8 || item.MaterialCount + PlayerModelLocator.Instance.SuperChip < composeCount)
                 {
                     item.SwitchColor(Color.grey);
@@ -163,51 +149,64 @@ public class FragmentCombineHandler : MonoBehaviour
     #region Private Methods
 
     /// <summary>
-    /// Add or delete FragmentHero prefab to specific num.
+    /// Select hero with specific star and compose count not equal to 0.
+    /// </summary>
+    /// <param name="star"></param>
+    /// <param name="templateID"></param>
+    private void TransferToTemplateIDList(int star, out List<int> templateID)
+    {
+        templateID = HeroModelLocator.Instance.HeroTemplates.HeroTmpls.Where(item => item.Value.Star == star && item.Value.ComposeCount != 0).Select(pair => pair.Key).ToList();
+    }
+
+    /// <summary>
+    /// Add or delete FragmentHero prefab to specific num in a star bar.
     /// </summary>
     /// <param name="parent"></param>
-    /// <param name="starChip"></param>
-    /// <param name="superChip"></param>
-    private void AddedOrDelFragmentHero(GameObject parent, List<Dictionary<int, int>> starChip, int superChip)
+    /// <param name="totalNum"></param>
+    private void AddedOrDelFragmentHero(GameObject parent, int totalNum)
     {
-        while (parent.transform.childCount > starChip.Count)
+        while (parent.transform.childCount > totalNum)
         {
             var herotemp = parent.transform.GetChild(0);
             herotemp.parent = null;
             Destroy(herotemp);
         }
-        while (parent.transform.childCount < starChip.Count)
+        while (parent.transform.childCount < totalNum)
         {
             var herotemp = Instantiate(FragmentHero) as GameObject;
             herotemp.SetActive(true);
             Utils.MoveToParent(parent.transform, herotemp.transform);
         }
+    }
 
-        for (int i = 0; i < starChip.Count; i++)
+    /// <summary>
+    /// Set hero item's data in a star bar.
+    /// </summary>
+    /// <param name="parent"></param>
+    /// <param name="templateIdList"></param>
+    /// <param name="superChipSetStarBar"></param>
+    private void SetHeroItem(GameObject parent, List<int> templateIdList, int superChipSetStarBar)
+    {
+        for (int i = 0; i < templateIdList.Count; i++)
         {
             var heroTemp = parent.transform.GetChild(i);
             var fragmentHeroTemp = parent.transform.GetChild(i).GetComponent<FragmentHero>();
-            Dictionary<int, int>.KeyCollection keyCol = starChip[i].Keys;
-            if (keyCol.Count != 1)
-            {
-                Logger.LogError("Incorrect StarChip info, check the server info.");
-                return;
-            }
-            foreach (int item in keyCol)
-            {
-                fragmentHeroTemp.TemplateId = item;
-                fragmentHeroTemp.MaterialCount = starChip[i][item];
-            }
+            fragmentHeroTemp.TemplateId = templateIdList[i];
+            //Set material count to message's num if possible, or 0.
+            int tempMaterialCount;
+            scLotteryComposeList.HeroChip.TryGetValue(templateIdList[i], out tempMaterialCount);
+            fragmentHeroTemp.MaterialCount = tempMaterialCount;
 
-            int composeCount =
-                HeroModelLocator.Instance.HeroTemplates.HeroTmpls[fragmentHeroTemp.TemplateId].ComposeCount;
+            int composeCount = HeroModelLocator.Instance.HeroTemplates.HeroTmpls[fragmentHeroTemp.TemplateId].ComposeCount;
 
-            if (fragmentHeroTemp.MaterialCount < composeCount * (1 - MaxSuperChipUse) || fragmentHeroTemp.MaterialCount + superChip < composeCount)
+            if (fragmentHeroTemp.MaterialCount < composeCount * (1 - MaxSuperChipUse) || fragmentHeroTemp.MaterialCount + superChipSetStarBar < composeCount)
             {
+                fragmentHeroTemp.CanCombine = false;
                 fragmentHeroTemp.SwitchColor(Color.grey);
             }
             else
             {
+                fragmentHeroTemp.CanCombine = true;
                 fragmentHeroTemp.SwitchColor(Color.white);
             }
 

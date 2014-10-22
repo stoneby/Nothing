@@ -36,12 +36,14 @@ public class ChooseCardEffectWindow : Window
 
     public override void OnEnter()
     {
+        GlobalWindowSoundController.Instance.PlayOpenSound();
         ShowElements(false);
         NGUITools.Destroy(detailClone);
     }
 
     public override void OnExit()
     {
+        GlobalWindowSoundController.Instance.PlayCloseSound();
         CleanUp();
     }
 

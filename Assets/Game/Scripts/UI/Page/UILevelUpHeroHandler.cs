@@ -16,7 +16,7 @@ public class UILevelUpHeroHandler : MonoBehaviour
     /// <summary>
     /// The particle system to show the level up.
     /// </summary>
-    public EffectSequnce LevelUpEffect;
+    public LevelUpEffectControl LevelUpEffectControl;
 
     public PropertyUpdater PropertyUpdater;
     public HeroBaseInfoRefresher HeroBaseInfoRefresher;
@@ -30,6 +30,9 @@ public class UILevelUpHeroHandler : MonoBehaviour
     private UIEventListener addLis;
     private UIEventListener subLis;
     private UIEventListener levelUpLis;
+    private UIButton addButton;
+    private UIButton subButton;
+    private UIButton levelUpButton;
     private UILabel nextCostTitle;
     private UILabel nextCostValue;
     private UILabel ownedSoulValue;
@@ -69,25 +72,16 @@ public class UILevelUpHeroHandler : MonoBehaviour
 
     private void CheckButtonEnabled()
     {
-        //Make sure can not go lower than current level.
-        subLis.GetComponent<UIButton>().isEnabled = HeroInfo.Lvl != curLvl;
-        //If it already reaches the limit, make sure can not level up any more.
-        if (HeroInfo.Lvl == HeroTemplate.LvlLimit)
-        {
-            addLis.GetComponent<UIButton>().isEnabled = false;
-            levelUpLis.GetComponent<UIButton>().isEnabled = false;
-        }
-        else if (GetCostSoul((short)(curLvl + 1), HeroTemplate.Star) < PlayerModelLocator.Instance.Sprit)
-        {
-            addLis.GetComponent<UIButton>().isEnabled = true;
-            levelUpLis.GetComponent<UIButton>().isEnabled = true;
-        }
+        var levelIncreased = curLvl > HeroInfo.Lvl;
+        subButton.isEnabled = levelIncreased;
+        addButton.isEnabled = CanLevelUp();
+        levelUpButton.isEnabled = levelIncreased;
     }
 
     private void OnEnable()
     {
         MtaManager.TrackBeginPage(MtaType.LevelUpHeroWindow);
-        LevelUpEffect.Stop();
+        LevelUpEffectControl.Stop();
         if (HeroInfo != null)
         {
             commonWindow.NormalClicked = OnNormalClick;
@@ -110,8 +104,11 @@ public class UILevelUpHeroHandler : MonoBehaviour
     private void Awake()
     {   
         addLis = UIEventListener.Get(transform.Find("Buttons/Button-Add").gameObject);
+        addButton = addLis.GetComponent<UIButton>();
         subLis = UIEventListener.Get(transform.Find("Buttons/Button-Sub").gameObject);
+        subButton = subLis.GetComponent<UIButton>();
         levelUpLis = UIEventListener.Get(transform.Find("Buttons/Button-LvlUp").gameObject);
+        levelUpButton = levelUpLis.GetComponent<UIButton>();
         nextCostTitle = Utils.FindChild(transform, "NextSoul").GetComponent<UILabel>();
         nextCostValue = nextCostTitle.transform.Find("NextSoulValue").GetComponent<UILabel>();
         usedSoulTitle = Utils.FindChild(transform, "UsedSoul").GetComponent<UILabel>();
@@ -146,18 +143,17 @@ public class UILevelUpHeroHandler : MonoBehaviour
 
     private void OnHeroPeopertyChanged(SCPropertyChangedNumber scpropertychanged)
     {
-        //var level = scpropertychanged.PropertyChanged[RoleProperties.ROLEBASE_LEVEL];
         curLvl = HeroInfo.Lvl;
         PropertyUpdater.UpdateProperty(curLvl, HeroTemplate.LvlLimit, HeroInfo.Prop[RoleProperties.ROLE_ATK],
                                        HeroInfo.Prop[RoleProperties.ROLE_HP], HeroInfo.Prop[RoleProperties.ROLE_RECOVER],
                                        HeroInfo.Prop[RoleProperties.ROLE_MP]);
-        CheckButtonEnabled();
         commonWindow.Refresh();
     }
 
     private void OnPlayerPropertyChanged(SCPropertyChangedNumber scpropertychanged = null)
     {
         ownedSoulValue.text = PlayerModelLocator.Instance.Sprit.ToString(CultureInfo.InvariantCulture);
+        CheckButtonEnabled();
     }
 
     private void ResetData()
@@ -214,12 +210,13 @@ public class UILevelUpHeroHandler : MonoBehaviour
         LevelUp(true);
         if (!CanLevelUp())
         {
-            addLis.GetComponent<UIButton>().isEnabled = false;
+            addButton.isEnabled = false;
         }
-        if(curLvl == HeroInfo.Lvl + 1)
+        if (curLvl == HeroInfo.Lvl + 1)
         {
-            subLis.GetComponent<UIButton>().isEnabled = true;
+            subButton.isEnabled = true;
         }
+        levelUpButton.isEnabled = true;
     }
 
     private bool CanLevelUp()
@@ -234,10 +231,11 @@ public class UILevelUpHeroHandler : MonoBehaviour
     private void OnSubLisClicked(GameObject go)
     {
         LevelUp(false);
-        addLis.GetComponent<UIButton>().isEnabled = CanLevelUp();
+        addButton.isEnabled = CanLevelUp();
         if (curLvl == HeroInfo.Lvl)
         {
-            subLis.GetComponent<UIButton>().isEnabled = false;
+            subButton.isEnabled = false;
+            levelUpButton.isEnabled = false;
         }
     }
 
@@ -308,7 +306,7 @@ public class UILevelUpHeroHandler : MonoBehaviour
     /// </summary>
     public void ShowLevelOver()
     {
-        LevelUpEffect.Play();
+        LevelUpEffectControl.Play();
         ResetData();
     }
 

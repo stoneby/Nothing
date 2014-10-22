@@ -15,6 +15,7 @@ namespace Assets.Game.Scripts.Net.handler
         public static void OnBattlePveStart(ThriftSCMessage msg)
         {
             var battleStartMsg = msg.GetContent() as SCBattlePveStartMsg;
+            //battleStartMsg.BattleType = (sbyte)BattleType.TESTPVE.index;
 
             if (battleStartMsg == null)
             {

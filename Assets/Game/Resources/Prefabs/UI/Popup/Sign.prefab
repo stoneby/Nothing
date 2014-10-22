@@ -2938,6 +2938,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Path: 
   WindowGroup: 0
+  MemeoryType: 2
 --- !u!114 &11400012
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3163,7 +3164,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d44bc69c2ca5f943b845318866dc1bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioClip: {fileID: 0}
+  audioClip: {fileID: 8300000, guid: 24878f030c7d7a442893eda7d70ae07d, type: 3}
   trigger: 0
   volume: 1
   pitch: 1
@@ -4129,6 +4130,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34d8bef44a53cc5408dd543088635dee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LightEffect: {fileID: 0}
   RewardId: 0
   HaveSign: 0
   CanSelect: 0
@@ -4448,6 +4450,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a3aae1cff84c4d41a2544f67bbff760, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ConfirmType: sign
 --- !u!114 &11400074
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5417,6 +5420,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34d8bef44a53cc5408dd543088635dee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LightEffect: {fileID: 0}
   RewardId: 0
   HaveSign: 0
   CanSelect: 0
@@ -7233,6 +7237,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34d8bef44a53cc5408dd543088635dee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LightEffect: {fileID: 0}
   RewardId: 0
   HaveSign: 0
   CanSelect: 0

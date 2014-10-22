@@ -30,6 +30,7 @@ namespace Assets.Game.Scripts.Net.handler
             WindowManager.Instance.Show(false);
             WindowManager.Instance.Show(typeof(LoginWindow), true);
             WindowManager.Instance.Show(typeof(LoginMainWindow), true);
+            Utils.ClearCachedData();
         }
 
         public static void OnErrorInfo(ThriftSCMessage msg)
@@ -152,6 +153,7 @@ namespace Assets.Game.Scripts.Net.handler
                 WindowManager.Instance.Show<SignWindow>(false);
                 var signmsg = new CSSignLoad();
                 NetManager.SendMessage(signmsg);
+                GlobalWindowSoundController.Instance.PlayRewardSound();
             }
             else
             {
@@ -185,6 +187,7 @@ namespace Assets.Game.Scripts.Net.handler
                 WindowManager.Instance.Show<TaskWindow>(false);
                 var taskmsg = new CSQuest();
                 NetManager.SendMessage(taskmsg);
+                GlobalWindowSoundController.Instance.PlayRewardSound();
             }
             else
             {

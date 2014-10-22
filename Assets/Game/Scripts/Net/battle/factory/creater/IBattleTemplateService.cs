@@ -3,6 +3,7 @@ using System.Collections.Generic;
 namespace com.kx.sglm.gs.battle.share.factory.creater
 {
 
+	using IBattleCompatibleUtils = com.kx.sglm.gs.battle.share.utils.IBattleCompatibleUtils;
 
 	public interface IBattleTemplateService
 	{
@@ -22,6 +23,8 @@ namespace com.kx.sglm.gs.battle.share.factory.creater
 		Dictionary<int, Template.Auto.Buff.BattleBuffTemplate> AllBuffMap {get;}
 
 		Template.Auto.Greenhand.GreenhandTemplate BattleGreenhandTemplate {get;}
+
+		IBattleCompatibleUtils BattleCompatibleUtils {get;}
 
 	}
 

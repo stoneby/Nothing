@@ -298,10 +298,12 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 			if (!isRightActionArr(battleIndexes))
 			{
 				Logger.Log("#HeroTeam.isRightFightInfo action error");
+				Battle.Record.addErrorInfo(BattleRecordConstants.BATTLE_ERROR_HERO_COLER_INDEX, "");
 				return false;
 			}
 			if (!battle.BattleType.canSelectTarget())
 			{
+				Logger.Log("#HeroTeam.isRightFightInfo target error");
 				return false;
 			}
 //JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
@@ -309,6 +311,7 @@ namespace com.kx.sglm.gs.battle.share.actor.impl
 			BattleTeam _oppoTeam = OppositeTeam;
 			if (!_oppoTeam.hasFighterIndex(targetIndex))
 			{
+				Battle.Record.addErrorInfo(BattleRecordConstants.BATTLE_ERROR_TARGET, targetIndex + "");
 				return false;
 			}
 			return true;

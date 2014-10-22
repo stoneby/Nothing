@@ -136,7 +136,7 @@ public class NetworkControl : MonoBehaviour
                             ChooseCardHandler.OnLotteryComposeSucc(msg);
                             break;
                         case (short)MessageType.SC_RECHARGE_ID_MSG:
-                            SDKPayManager.PayInSDK(msg);
+                            SDKPayManager.DoPay(msg);
                             break;
                         case (short)MessageType.SC_FRIEND_LOADING_ALL:
                             FriendHandler.OnFriendLoadingAll(msg);

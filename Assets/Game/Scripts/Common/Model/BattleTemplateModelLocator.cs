@@ -2,6 +2,7 @@
 using com.kx.sglm.gs.battle.share.data;
 using com.kx.sglm.gs.battle.share.factory.creater;
 using System.Collections.Generic;
+using com.kx.sglm.gs.battle.share.utils;
 using Template.Auto.Buff;
 using Template.Auto.Greenhand;
 using Template.Auto.Monster;
@@ -175,6 +176,13 @@ namespace Assets.Game.Scripts.Common.Model
 
         public GreenhandTemplate BattleGreenhandTemplate {
             get { return GreenhandModelLocator.Instance.BattleGreenhandTemplate(); }
+        }
+
+        public IBattleCompatibleUtils BattleCompatibleUtils {
+            get
+            {
+              return new BattleCompatibleUtils();  
+            }
         }
     }
 }

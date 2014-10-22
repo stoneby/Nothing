@@ -23,6 +23,7 @@ public class BattleLostWindow : Window
     public override void OnEnter()
     {
         MtaManager.TrackBeginPage(MtaType.BattleFailWindow);
+        GlobalWindowSoundController.Instance.PlayLoseSound();
         //base.OnEnter();
         //Logger.Log("I am OnEnter with type - " + GetType().Name);
 
@@ -52,9 +53,8 @@ public class BattleLostWindow : Window
         if (BackToRaidUIEventListener != null) BackToRaidUIEventListener.onClick -= BackToRaidHandler;
         if (ToHeroUIEventListener != null) ToHeroUIEventListener.onClick -= ToHeroHandler;
 
-        BattleResultHelper.Cleanup();
-
         MtaManager.TrackEndPage(MtaType.BattleFailWindow);
+        GlobalWindowSoundController.Instance.PlayCloseSound();
     }
 
     private void ReturnHandler(GameObject obj)

@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Linq;
 using KXSGCodec;
 using System.Collections.Generic;
 using UnityEngine;
@@ -23,7 +24,7 @@ namespace Assets.Game.Scripts.Net.handler
             {
                 PlayerModelLocator.Instance.Famous = themsg.Famous;
                 PlayerModelLocator.Instance.SuperChip = themsg.SuperChip;
-                var window=WindowManager.Instance.GetWindow<ChooseCardWindow>();
+                var window = WindowManager.Instance.GetWindow<ChooseCardWindow>();
                 window.ScLotteryList = themsg;
                 window.InitializeToggleButtons();
             }
@@ -50,6 +51,7 @@ namespace Assets.Game.Scripts.Net.handler
             var themsg = msg.GetContent() as SCHeroFristLoginGive;
             if (themsg != null)
             {
+                themsg.HeroInfos = themsg.HeroInfos.OrderByDescending(item => HeroModelLocator.Instance.HeroTemplates.HeroTmpls[item.TemplateId].Star).ToList();
                 Logger.Log("!!!!!!!!!!!!!!!!themsg is:" + themsg.HeroInfos[0].Uuid + "," + themsg.HeroInfos[1].Uuid + "," + themsg.HeroInfos[2].Uuid);
                 var window = WindowManager.Instance.Show<ChooseCardSuccWindow>(true);
                 window.StoredHeroFristLoginGiveMsg = themsg;
@@ -83,19 +85,19 @@ namespace Assets.Game.Scripts.Net.handler
 
         public static void AddToCacheItemList(List<ItemInfo> itemInfos)
         {
-            if(itemInfos != null && itemInfos.Count > 0)
+            if (itemInfos != null && itemInfos.Count > 0)
             {
-                if(ItemModeLocator.Instance.ScAllItemInfos == null)
+                if (ItemModeLocator.Instance.ScAllItemInfos == null)
                 {
                     ItemModeLocator.Instance.ScAllItemInfos = new SCAllItemInfos();
                 }
                 var cachedInfos = ItemModeLocator.Instance.ScAllItemInfos.ItemInfos;
-                if(cachedInfos == null)
+                if (cachedInfos == null)
                 {
                     ItemModeLocator.Instance.ScAllItemInfos.ItemInfos = new List<ItemInfo>();
                     cachedInfos = ItemModeLocator.Instance.ScAllItemInfos.ItemInfos;
                 }
-                for(var i = 0; i < itemInfos.Count; i++)
+                for (var i = 0; i < itemInfos.Count; i++)
                 {
                     cachedInfos.Add(itemInfos[i]);
                 }
@@ -104,19 +106,19 @@ namespace Assets.Game.Scripts.Net.handler
 
         public static void AddToCacheHeroList(List<HeroInfo> heroInfos)
         {
-            if(heroInfos != null && heroInfos.Count > 0)
+            if (heroInfos != null && heroInfos.Count > 0)
             {
-                if(HeroModelLocator.Instance.SCHeroList == null)
+                if (HeroModelLocator.Instance.SCHeroList == null)
                 {
                     HeroModelLocator.Instance.SCHeroList = new SCHeroList();
                 }
                 var cachedInfos = HeroModelLocator.Instance.SCHeroList.HeroList;
-                if(cachedInfos == null)
+                if (cachedInfos == null)
                 {
                     HeroModelLocator.Instance.SCHeroList.HeroList = new List<HeroInfo>();
                     cachedInfos = HeroModelLocator.Instance.SCHeroList.HeroList;
                 }
-                for(var i = 0; i < heroInfos.Count; i++)
+                for (var i = 0; i < heroInfos.Count; i++)
                 {
                     cachedInfos.Add(heroInfos[i]);
                 }
@@ -139,9 +141,16 @@ namespace Assets.Game.Scripts.Net.handler
         public static void OnLotteryComposeList(ThriftSCMessage msg)
         {
             var themsg = msg.GetContent() as SCLotteryComposeList;
+
+            if (themsg.HeroChip == null)
+            {
+                Logger.LogError("HeroChip is null in SCLotteryComposeList.");
+                return;
+            }
+
             if (themsg != null)
             {
-                var window=WindowManager.Instance.GetWindow<ChooseCardWindow>();
+                var window = WindowManager.Instance.GetWindow<ChooseCardWindow>();
                 window.ScLotteryComposeList = themsg;
                 window.FragmentCombineHandler.Refresh(themsg);
             }

@@ -29,64 +29,68 @@ public class ScrollBackWhenNotFull : MonoBehaviour
         restrictWithinPanelCached = ScrollView.restrictWithinPanel;
     }
 
-     private void OnDragFinished()
-     {
-         if (panelCached.finalClipRegion.w > gridCached.cellHeight * gridCached.transform.childCount)
-         {
-             if(ScrollView.movement == UIScrollView.Movement.Vertical)
-             {
-                 if (panelCached.clipOffset.y > 0.01)
-                 {
-                     ScrollView.restrictWithinPanel = false;
-                     var pos = panelCached.transform.localPosition + new Vector3(0, panelCached.clipOffset.y, 0);
-                     SpringPanel.Begin(panelCached.gameObject, pos, 13f);
-                 }
-                 else
-                 {
-                     ScrollView.restrictWithinPanel = restrictWithinPanelCached;
-                 }
-             }
-             else if (ScrollView.movement == UIScrollView.Movement.Horizontal)
-             {
-                 if (panelCached.clipOffset.x < 0.01)
-                 {
-                     ScrollView.restrictWithinPanel = false;
-                     var pos = panelCached.transform.localPosition + new Vector3(panelCached.clipOffset.x, 0, 0);
-                     SpringPanel.Begin(panelCached.gameObject, pos, 13f);
-                 }
-                 else
-                 {
-                     ScrollView.restrictWithinPanel = restrictWithinPanelCached;
-                 }
-             }
-
-         }
-         else
-         {
-             ScrollView.restrictWithinPanel = restrictWithinPanelCached;
-         }
-
-         if(ScrollView.movement == UIScrollView.Movement.Vertical)
-         {
-             if (panelCached.clipOffset.y > SrollUpdateDetla)
-             {
+    private void OnDragFinished()
+    {
+        if(panelCached.finalClipRegion.w > gridCached.cellHeight * gridCached.GetChildList().size)
+        {
+            if(ScrollView.movement == UIScrollView.Movement.Vertical)
+            {
+                if(panelCached.clipOffset.y > 0.01)
+                {
+                    ScrollView.restrictWithinPanel = false;
+                    var pos = panelCached.transform.localPosition + new Vector3(0, panelCached.clipOffset.y, 0);
+                    SpringPanel.Begin(panelCached.gameObject, pos, 13f);
+                }
+                else
+                {
+                    ScrollView.restrictWithinPanel = restrictWithinPanelCached;
+                }
+            }
+            else if(ScrollView.movement == UIScrollView.Movement.Horizontal)
+            {
+                if(panelCached.clipOffset.x < 0.01)
+                {
+                    ScrollView.restrictWithinPanel = false;
+                    var pos = panelCached.transform.localPosition + new Vector3(panelCached.clipOffset.x, 0, 0);
+                    var sp = SpringPanel.Begin(panelCached.gameObject, pos, 13f);
+                    sp.onFinished = onFinished;
+                }
+                else
+                {
+                    ScrollView.restrictWithinPanel = restrictWithinPanelCached;
+                }
+            }
+        }
+        else
+        {
+            ScrollView.restrictWithinPanel = restrictWithinPanelCached;
+        }
+        if(ScrollView.movement == UIScrollView.Movement.Vertical)
+        {
+            if(panelCached.clipOffset.y > SrollUpdateDetla)
+            {
                 if(OnSrollUpdate != null)
                 {
-                    OnSrollUpdate();          
+                    OnSrollUpdate();
                 }
-             }
-         }
-         else if(ScrollView.movement == UIScrollView.Movement.Horizontal)
-         {
-             if (panelCached.clipOffset.x < -SrollUpdateDetla)
-             {
-                 if (OnSrollUpdate != null)
-                 {
-                     OnSrollUpdate();
-                 }
-             }
-         }
-     }
+            }
+        }
+        else if(ScrollView.movement == UIScrollView.Movement.Horizontal)
+        {
+            if(panelCached.clipOffset.x < -SrollUpdateDetla)
+            {
+                if(OnSrollUpdate != null)
+                {
+                    OnSrollUpdate();
+                }
+            }
+        }
+    }
+
+    private void onFinished()
+    {
+        ScrollView.restrictWithinPanel = restrictWithinPanelCached;
+    }
 
     #endregion
 }

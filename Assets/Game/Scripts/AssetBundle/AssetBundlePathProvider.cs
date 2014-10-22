@@ -1,6 +1,7 @@
 ﻿public class AssetBundlePathProvider
 {
-    public static string BasePath = "http://27.131.223.229/client_res/tech_external";
+    public static string BaseVersionPath = "BundleVersions";
+    public static string VersionFileName = "VersionNum";
     public static string GetPlatform()
     {
 #if UNITY_ANDROID
@@ -17,7 +18,13 @@
     public static string GetBundleBaseUrl()
     {
         var platform = GetPlatform();
-        return string.Format("{0}/{1}/{2}/{3}/{4}/", BasePath, ResourcePath.BundlePath,
+        return string.Format("{0}/{1}/{2}/{3}/{4}/", ServiceManager.ResourceUrl, ResourcePath.BundlePath,
                              GameConfig.Version, platform, GameConfig.Language);
+    }
+
+    public static string GetVerionPathInResource()
+    {
+        var platform = GetPlatform();
+        return string.Format("{0}/{1}/{2}", BaseVersionPath, platform, VersionFileName);
     }
 }

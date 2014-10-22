@@ -18,6 +18,9 @@ public class FragmentHero : MonoBehaviour
         set { materialCount = value; }
     }
 
+    [HideInInspector]
+    public bool CanCombine;
+
     #endregion
 
     #region Private Fields
@@ -54,6 +57,8 @@ public class FragmentHero : MonoBehaviour
 
         HeroConstant.SetHeadByIndex(heroImage, heroTemplate.Icon - 1);
         combineInfo.text = MaterialCount + "/" + HeroModelLocator.Instance.HeroTemplates.HeroTmpls[templateId].ComposeCount;
+        if (combineInfo.text == "0/0")
+            Logger.Log("!!!!!!!!!!!!templateid:" + templateId + ", composecount" + combineInfo.text);
         fragHeroLis.onClick = OnFragmentHero;
     }
 
@@ -76,18 +81,7 @@ public class FragmentHero : MonoBehaviour
         var tempWindow = WindowManager.Instance.GetWindow<FragmentConfirmWindow>();
         tempWindow.TemplateId = templateId;
         tempWindow.MaterialCount = materialCount;
-        if (heroImage.color == Color.white)
-        {
-            tempWindow.Refresh(true);
-        }
-        else if (heroImage.color == Color.grey)
-        {
-            tempWindow.Refresh(false);
-        }
-        else
-        {
-            Logger.LogError("Not correct heroImage color.");
-        }
+        tempWindow.Refresh(CanCombine);
     }
 
     #endregion

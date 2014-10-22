@@ -27,7 +27,6 @@ public class PopTextManager
         pt.ShowText(str, popheight, new Vector3(pos.x + offsetx, pos.y + offsety, pos.z));
         obj.transform.localPosition = pos;
         Object.Destroy(obj, showtime);
-        
     }
 
     private static float LastTime = -10;

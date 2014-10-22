@@ -29,6 +29,7 @@ public class TaskWindow : Window
     private QuestChapterTemplate chapterTemp;
     public override void OnEnter()
     {
+        GlobalWindowSoundController.Instance.PlayOpenSound();
         if (TitleLabel == null)
         {
             TitleLabel = transform.FindChild("Label title").gameObject;
@@ -162,6 +163,7 @@ public class TaskWindow : Window
     }
     public override void OnExit()
     {
+        GlobalWindowSoundController.Instance.PlayCloseSound();
     }
 
     #endregion

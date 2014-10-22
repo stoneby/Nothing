@@ -15,8 +15,7 @@ public class FriendEnergyHandler : FriendHandlerBase
     {
         MtaManager.TrackBeginPage(MtaType.ReceiveEnergyWindow);
         receiveLabel.text = "";
-        var msg = new CSFriendRecieveEnergyList();
-        NetManager.SendMessage(msg);
+        FriendUtils.SendFriendListMessage(FriendModelLocator.FriendListType.Receive);
     }
     
     private void OnDisable()
@@ -34,7 +33,7 @@ public class FriendEnergyHandler : FriendHandlerBase
         receiveTimesCached = receiveTimes;
         timesLimitCached = timesLimit;
         energyInfosCountCached = (sbyte)energyInfos.Count;
-        receiveLabel.text = string.Format("{0}/{1}", energyInfosCountCached - receiveTimesCached, timesLimitCached);
+        receiveLabel.text = string.Format("{0}/{1}", receiveTimesCached, timesLimitCached);
         UpdateItemList(energyInfosCountCached);
         for (var i = 0; i < energyInfosCountCached; i++)
         {
@@ -50,7 +49,7 @@ public class FriendEnergyHandler : FriendHandlerBase
         {
             cachedReceiveObject.GetComponent<UIButton>().isEnabled = false;
             receiveTimesCached = receiveTimes;
-            receiveLabel.text = string.Format("{0}/{1}", energyInfosCountCached - receiveTimesCached, timesLimitCached);
+            receiveLabel.text = string.Format("{0}/{1}", receiveTimesCached, timesLimitCached);
         }
     }
 

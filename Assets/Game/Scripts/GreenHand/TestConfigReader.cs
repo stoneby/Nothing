@@ -5,6 +5,11 @@ public class TestConfigReader : GreeenHandConfigReader
 {
     public static int MaxConfigIndex = 32;
 
+    public string GetBattleType(int index)
+    {
+        return null;
+    }
+
     public bool ReadConfig(GreenHandGuideHandler handler, int index)
     {
 
@@ -103,8 +108,8 @@ public class TestConfigReader : GreeenHandConfigReader
         if (index == 30)
         {
             ResetConfig(handler);
-            handler.TextList = new List<string>() { "阵容已定！\n请主公[b][ffc900]乘胜追击[/b][-]！" };
             handler.ConfigMode = "NormalBlink";
+            handler.TextList = new List<string>() { "阵容已定！\n请主公[b][ffc900]乘胜追击[/b][-]！" };
             handler.NextConfigTriggerObjectTag = "GreenHand10";
             return true;
         }

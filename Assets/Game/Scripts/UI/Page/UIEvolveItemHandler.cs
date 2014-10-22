@@ -26,7 +26,7 @@ public class UIEvolveItemHandler : MonoBehaviour
     private const int CountOfMainAndTarget = 2;
     private Transform arrow;
     private bool containsGreaterStarItem;
-    public EffectSequnce EffectSequnce;
+    public LevelUpEffectControl LevelUpEffectControl;
     public float ArrowDelay = 1;
     public float ArrowDouration = 1;
     public string EnableEvolveSprite = "SortN";
@@ -100,7 +100,7 @@ public class UIEvolveItemHandler : MonoBehaviour
 
     private void Init()
     {
-        EffectSequnce.Stop();
+        LevelUpEffectControl.Stop();
         NGUITools.SetActive(arrow.gameObject, true);
         if(mats.Count == 0)
         {
@@ -158,8 +158,8 @@ public class UIEvolveItemHandler : MonoBehaviour
     private void CleanAssertWindow()
     {
         var assert = WindowManager.Instance.GetWindow<AssertionWindow>();
-        assert.OkButtonClicked = OnEvolveOk;
-        assert.CancelButtonClicked = OnEvolveCancel;
+        assert.OkButtonClicked = null;
+        assert.CancelButtonClicked = null;
         WindowManager.Instance.Show<AssertionWindow>(false);
     }
 
@@ -274,19 +274,20 @@ public class UIEvolveItemHandler : MonoBehaviour
         countOfStarBelow = infos.Count(info => ItemHelper.GetStarCount(ItemModeLocator.Instance.GetQuality(info.TmplId)) <= star);
     }
 
-    public void ShowEvolveOver()
+    public void ShowEvolveOver(ItemInfo evolveInfo)
     {
-        StartCoroutine("PlayEffect");
-        CleanUp();
+        StartCoroutine("PlayEffect", evolveInfo);
     }
 
-    private IEnumerator PlayEffect()
+    private IEnumerator PlayEffect(object evolveInfo)
     {
-        EffectSequnce.Play();
+        LevelUpEffectControl.Play();
         yield return new WaitForSeconds(ArrowDelay);
         NGUITools.SetActive(arrow.gameObject, false);
         yield return new WaitForSeconds(ArrowDouration);
         NGUITools.SetActive(arrow.gameObject, true);
+        CleanUp();
+        RefreshEvolve(evolveInfo as ItemInfo);
     }
 
     #endregion

@@ -44,10 +44,8 @@ public abstract class CharacterInitializer : MonoBehaviour
 
     public virtual void Cleanup()
     {
-        for (var i = 0; i < CharacterList.Count; ++i)
+        foreach (var character in CharacterList)
         {
-            var character = CharacterList[i];
-
             Cleanup(character);
         }
         CharacterList.Clear();

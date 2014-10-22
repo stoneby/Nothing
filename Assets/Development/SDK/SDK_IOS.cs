@@ -87,7 +87,9 @@ public class SDK_IOS
 
     #endregion
 
-	[DllImport("__Internal")]
+    #region Private Methods
+
+    [DllImport("__Internal")]
 	private static extern void PressInitialize(int gameid,string appversion,string f,string extradata);
 	[DllImport("__Internal")]
 	private static extern void PressLogin(int serverid,string extradata);
@@ -105,4 +107,6 @@ public class SDK_IOS
     private static extern void PressPay(string remark, int userid, int serverid, string roleid, string extradata);
     [DllImport("__Internal")]
 	private static extern void PressWeburl(int userid,int urltype,string url,int serverid);
+
+    #endregion
 }

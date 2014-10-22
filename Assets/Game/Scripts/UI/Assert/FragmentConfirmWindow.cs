@@ -58,8 +58,8 @@ public class FragmentConfirmWindow : Window
     /// <summary>
     /// Initialize or refresh private fields.
     /// </summary>
-    /// <param name="isWhite"></param>
-    public void Refresh(bool isWhite)
+    /// <param name="canCombine"></param>
+    public void Refresh(bool canCombine)
     {
         //initialze or refresh the private fields.
         var heroTemplate = HeroModelLocator.Instance.HeroTemplates.HeroTmpls[templateId];
@@ -81,7 +81,7 @@ public class FragmentConfirmWindow : Window
 
         accessibleWay.text = heroTemplate.Desc;
         combineCount.text = materialCount + "/" + heroTemplate.ComposeCount;
-        if (isWhite)
+        if (canCombine)
         {
             confirmBTN.isEnabled = true;
             if (materialCount < heroTemplate.ComposeCount)

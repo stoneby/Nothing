@@ -29,9 +29,12 @@ public class HttpResourceManager : Singleton<HttpResourceManager>
             fileDatas = new Dictionary<string, byte[]>();
         }
 
-        zipHelper.AutoMode = false;
-        zipHelper.UrlPath = string.Format("{0}{1}", ServiceManager.ServerData.DataUrl, ResourcePath.TemplatePath);
-        zipHelper.Download();
+        if (!string.IsNullOrEmpty(ServiceManager.ServerData.DataUrl))
+        {
+            zipHelper.AutoMode = false;
+            zipHelper.UrlPath = string.Format("{0}{1}", ServiceManager.ServerData.DataUrl, ResourcePath.TemplatePath);
+            zipHelper.Download();
+        }
     }
 
     public byte[] GetTemplateData(string type)
@@ -58,7 +61,7 @@ public class HttpResourceManager : Singleton<HttpResourceManager>
             if (index != -1)
             {
                 // [WARNING] This is very important building this key, refers to ResourcePath.cs.
-                var key = string.Format("Templates/{0}", fileInfor.Name.Substring(0, index));
+                var key = string.Format("{0}/{1}", ResourcePath.BaseTempatePath, fileInfor.Name.Substring(0, index));
                 fileDatas[key] = File.ReadAllBytes(entryPath);
             }
         }

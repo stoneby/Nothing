@@ -18,6 +18,7 @@ public class NoticeWindow : Window
 
     public override void OnEnter()
     {
+        GlobalWindowSoundController.Instance.PlayOpenSound();
         if (!haveInit)
         {
             haveInit = true;
@@ -36,6 +37,7 @@ public class NoticeWindow : Window
 
     public override void OnExit()
     {
+        GlobalWindowSoundController.Instance.PlayCloseSound();
     }
 
     //private int OpenedUuid;

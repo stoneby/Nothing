@@ -53,6 +53,7 @@ namespace com.kx.sglm.gs.battle.share.factory.creater
 			_source.Uuid = msg.Uuid;
 			_source.SpMaxBuffId = msg.SpMaxBuffId;
 			_source.RaidStageId = msg.RaidID;
+			_source.BattleCompatibleUtils = tmplService.BattleCompatibleUtils;
 			return _source;
 		}
 

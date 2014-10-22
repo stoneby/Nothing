@@ -28,8 +28,7 @@ public class BundleCreaterWindow : EditorWindow
         if (GUILayout.Button("Build Asset Bundles"))
         {
             CreateAssetBundle.Execute(buildTarget, buildSeparately, buildAssetOptions);
-            CreateMD5List.Execute(buildTarget);
-            CampareMD5ToGenerateVersionNum.Execute(buildTarget);
+            GenerateVersionNum.Execute(buildTarget);
         }
     }
 

@@ -122,7 +122,7 @@ namespace com.kx.sglm.gs.battle.share.data.record
 			this.actionList.Add(action);
 		}
 
-		public virtual bool Empty
+		public override bool Empty
 		{
 			get
 			{

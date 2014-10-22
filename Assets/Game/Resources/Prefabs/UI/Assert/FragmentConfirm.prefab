@@ -331,7 +331,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &100040
 GameObject:
   m_ObjectHideFlags: 1
@@ -1568,7 +1568,7 @@ MonoBehaviour:
   mEffectColor: {r: .0784313753, g: 0, b: 0, a: 1}
   mSymbols: 1
   mEffectDistance: {x: 1, y: 1}
-  mOverflow: 1
+  mOverflow: 0
   mMaterial: {fileID: 0}
   mApplyGradient: 1
   mGradientTop: {r: 1, g: 1, b: 1, a: 1}
@@ -3337,8 +3337,8 @@ MonoBehaviour:
   updateAnchors: 1
   mColor: {r: 1, g: .956862748, b: .176470593, a: 1}
   mPivot: 4
-  mWidth: 204
-  mHeight: 52
+  mWidth: 162
+  mHeight: 40
   mDepth: 10
   HighLight: 0
   OffsetX: 0
@@ -3347,12 +3347,12 @@ MonoBehaviour:
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
-  aspectRatio: 3.92307687
+  aspectRatio: 4.5
   keepCrispWhenShrunk: 1
   mTrueTypeFont: {fileID: 12800000, guid: 482d99b42ce11584288190b4b23a76f2, type: 3}
   mFont: {fileID: 0}
   mText: "\u6B66\u5C06\u4FE1\u606F"
-  mFontSize: 51
+  mFontSize: 40
   mFontStyle: 0
   mAlignment: 0
   mEncoding: 1

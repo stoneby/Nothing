@@ -60,8 +60,11 @@ public class MainMenuBarWindow : Window
     /// </summary>
     public void OnFriendClicked()
     {
-        var msg = new CSFriendLoadingAll();
-        NetManager.SendMessage(msg);
+        var isOutOfDate = FriendUtils.SendFriendListMessage(FriendModelLocator.FriendListType.LoadingAll);
+        if (!isOutOfDate)
+        {
+            WindowManager.Instance.Show<UIFriendEntryWindow>(true);
+        }
     }
 
     /// <summary>

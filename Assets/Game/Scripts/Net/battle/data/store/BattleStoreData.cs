@@ -6,6 +6,7 @@ namespace com.kx.sglm.gs.battle.share.data.store
 {
 
 	using MathUtils = com.kx.sglm.core.util.MathUtils;
+	using IBattleCompatibleUtils = com.kx.sglm.gs.battle.share.utils.IBattleCompatibleUtils;
 
 	/// <summary>
 	/// Õ½¶·ÄÚ´æ´¢
@@ -17,13 +18,15 @@ namespace com.kx.sglm.gs.battle.share.data.store
 	{
 
 		private BattleStoreMap[] datas;
+		private IBattleCompatibleUtils compatibleUtils;
 
-		public BattleStoreData()
+		public BattleStoreData(IBattleCompatibleUtils compatibleUtils)
 		{
+			this.compatibleUtils = compatibleUtils;
 			datas = new BattleStoreMap[BattleStoreConstants.BATTLE_STORE_DATA_SIZE];
 			for (int _i = 0; _i < BattleStoreConstants.BATTLE_STORE_DATA_SIZE; _i++)
 			{
-				datas[_i] = new BattleStoreMap();
+				datas[_i] = new BattleStoreMap(compatibleUtils);
 			}
 		}
 
@@ -194,11 +197,11 @@ namespace com.kx.sglm.gs.battle.share.data.store
 
 		public virtual void fromStoreStr(string value)
 		{
-			string[] _datas = value.Split(BattleStoreConstants.BATTLE_STORE_TYPE_SPLIT, true);
+			string[] _datas = compatibleUtils.splitString(value, BattleStoreConstants.BATTLE_STORE_TYPE_SPLIT);
 			datas = new BattleStoreMap[_datas.Length];
 			for (int _i = 0; _i < _datas.Length; _i++)
 			{
-				BattleStoreMap _mapData = new BattleStoreMap();
+				BattleStoreMap _mapData = new BattleStoreMap(compatibleUtils);
 				_mapData.fromStoreStr(_datas[_i]);
 				datas[_i] = _mapData;
 			}

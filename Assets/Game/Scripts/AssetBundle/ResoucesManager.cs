@@ -4,24 +4,35 @@ using System.Xml;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using System.Linq;
+using VersionInfo = BundleUtils.VersionInfo;
 
 public class ResoucesManager : Singleton<ResoucesManager>
 {
     #region Private Fields
 
     private readonly Dictionary<string, WWW> resoucesWwws = new Dictionary<string, WWW>();
-    private const string VersionFileName = "VersionNum.xml";
+    public static string VersionFileName = "VersionNum.xml";
     private bool isFullPackage;
-    private readonly Dictionary<string, int> versions = new Dictionary<string, int>();
-    private List<string> needDownFilesCached; 
+    private Dictionary<string, VersionInfo> versions = new Dictionary<string, VersionInfo>();
+    private Dictionary<string, VersionInfo> fullPackageOriginVersions = new Dictionary<string, VersionInfo>(); 
+    private List<string> needDownFilesCached = new List<string>();
+    private int needDownLoadTotalCount;
+    private float startDownloadTime;
+    private int curLoadingCount;
 
     #endregion
 
     #region public Fields
 
     public delegate void ResourcesDownLoaded();
+    public delegate void ResourcesDownLoadStarted();
+    public delegate void DownLoadProgessChanged(float progess);
 
+    public DownLoadProgessChanged OnDownLoadProgessChanged;
+    public ResourcesDownLoadStarted OnResourcesDownLoadStarted;
     public ResourcesDownLoaded OnResourcesDownLoaded;
+
+    public int LoadingCountAtSameTime = 6;
 
     public bool IsFullPackage
     {
@@ -39,20 +50,11 @@ public class ResoucesManager : Singleton<ResoucesManager>
 
     private void OnParseServiceFinish()
     {
+        PingTest.Instance.CheckConnection();
         isFullPackage = GameConfig.IsFullAssetBundles;
-        if(isFullPackage == false)
-        {
-            var baseUrl = AssetBundlePathProvider.GetBundleBaseUrl();
-            Debug.Log("DownLoadAllBundles ========================== " + baseUrl);
-            StartCoroutine(DownLoadAllBundles());
-        }
-        else
-        {
-            if (OnResourcesDownLoaded != null)
-            {
-                OnResourcesDownLoaded();
-            }
-        }
+        var baseUrl = AssetBundlePathProvider.GetBundleBaseUrl();
+        Debug.Log("Start DownLoadAllBundles from " + baseUrl + " ==========================  ");
+        StartCoroutine(DownLoadAllBundles());
     }
 
     private IEnumerator DownLoadAllBundles()
@@ -67,28 +69,54 @@ public class ResoucesManager : Singleton<ResoucesManager>
         var versionPath = baseUrl + VersionFileName;
         var versionWww = new WWW(versionPath);
         yield return versionWww;
-        var xmlDoc = new XmlDocument();
-        Debug.Log("version down load sucuss ========================== " );
-        xmlDoc.LoadXml(versionWww.text);
-        var xmlRoot = xmlDoc.DocumentElement;
-        foreach (var node in xmlRoot.ChildNodes)
+        Debug.Log("version down load sucuss ========================== ");
+        versions = ParseVersionNums(versionWww.text);
+        if (isFullPackage)
         {
-            if((node is XmlElement) == false)
-                continue;
-            var file = (node as XmlElement).GetAttribute("FileName");
-            var num = XmlConvert.ToInt32((node as XmlElement).GetAttribute("Num"));
-            versions.Add(file, num);
+            var versionPathInResources = AssetBundlePathProvider.GetVerionPathInResource();
+            var versionTextAsset = Resources.Load(versionPathInResources) as TextAsset;
+            if(versionTextAsset != null)
+            {
+                fullPackageOriginVersions = ParseVersionNums(versionTextAsset.text);
+            }
+            needDownFilesCached =
+                versions.Keys.Where(
+                    key =>
+                    (!fullPackageOriginVersions.ContainsKey(key) || versions[key].Version > fullPackageOriginVersions[key].Version)).
+                    ToList();
         }
-        needDownFilesCached = versions.Keys.ToList();
+        else
+        {
+            needDownFilesCached = versions.Keys.ToList();
+        }
+        CheckAssetBundlesLoaded();
+        needDownLoadTotalCount = needDownFilesCached.Count;
+    }
+
+    private Dictionary<string, VersionInfo> ParseVersionNums(string versionXml)
+    {
+        var xmlDoc = new XmlDocument();
+        xmlDoc.LoadXml(versionXml);
+        var xmlRoot = xmlDoc.DocumentElement;
+        return BundleUtils.ReadVersionNumFile(xmlRoot);
     }
 
     private void DownLoadResources()
     {
-        if (needDownFilesCached.Count > 0)
+        if (needDownFilesCached.Count > 0 && curLoadingCount < LoadingCountAtSameTime)
         {
+            if (needDownFilesCached.Count == needDownLoadTotalCount)
+            {
+                startDownloadTime = Time.realtimeSinceStartup;
+                if(OnResourcesDownLoadStarted != null)
+                {
+                    OnResourcesDownLoadStarted();
+                }
+            }
             var file = needDownFilesCached[0];
             needDownFilesCached.RemoveAt(0);
-            StartCoroutine(DownLoad(file, versions[file]));
+            StartCoroutine(DownLoad(file, versions[file].Version));
+            curLoadingCount++;
         }
     }
 
@@ -97,16 +125,33 @@ public class ResoucesManager : Singleton<ResoucesManager>
         var baseUrl = AssetBundlePathProvider.GetBundleBaseUrl();
         var path = baseUrl + file;
         var www = WWW.LoadFromCacheOrDownload(path, num);
+        if (BundleUtils.ComputeMd5(www.bytes) != versions[file].Md5)
+        {
+            Logger.LogWarning(
+                string.Format(
+                    "Down loaded asset bundle {0}'s md5 value is different from the version xml of the asset.", file));
+        }
         yield return www;
         resoucesWwws.Add(file, www);
-        DownLoadResources();
-        if (needDownFilesCached.Count == 0)
+        if (OnDownLoadProgessChanged != null)
         {
-            if (OnResourcesDownLoaded != null)
+            OnDownLoadProgessChanged(1 - (float)needDownFilesCached.Count / needDownLoadTotalCount);
+        }
+        curLoadingCount--;
+        DownLoadResources();
+        CheckAssetBundlesLoaded();
+    }
+
+    private void CheckAssetBundlesLoaded()
+    {
+        if(needDownFilesCached.Count == 0)
+        {
+            Debug.Log(" Asset bundle down load is finished *********************, it costs time   " +
+                      (Time.realtimeSinceStartup - startDownloadTime));
+            if(OnResourcesDownLoaded != null)
             {
                 OnResourcesDownLoaded();
             }
-            Debug.Log(" Asset bundle down load is finished *********************    "+Time.time); 
         }
     }
 
@@ -116,17 +161,13 @@ public class ResoucesManager : Singleton<ResoucesManager>
 
     public Object Load(string path)
     {
+        var bundleName = Utils.ConvertToAssetBundleName(path) + ".assetbundle";
         //读下载资源   
-        if (IsFullPackage == false)
+        if (resoucesWwws.ContainsKey(bundleName))
         {
-            var bundleName = Utils.ConvertToAssetBundleName(path) + ".assetbundle";
-            if (resoucesWwws.ContainsKey(bundleName))
-            {
-                var bundle = resoucesWwws[bundleName].assetBundle;
-                var obj = bundle.mainAsset;
-                bundle.Unload(false);
-                return obj;
-            }
+            var bundle = resoucesWwws[bundleName].assetBundle;
+            var obj = bundle.mainAsset;
+            return obj;
         }
         return Resources.Load(path);
     }
@@ -138,16 +179,12 @@ public class ResoucesManager : Singleton<ResoucesManager>
 
     public Object[] LoadAll(string path)
     {
-        if (IsFullPackage == false)
+        var bundleFolderName = Utils.ConvertToAssetBundleName(path) + ".assetbundle";
+        if (resoucesWwws.ContainsKey(bundleFolderName))
         {
-            var bundleFolderName = Utils.ConvertToAssetBundleName(path) + ".assetbundle";
-            if (resoucesWwws.ContainsKey(bundleFolderName))
-            {
-                var bundle = resoucesWwws[bundleFolderName].assetBundle;
-                var objs = bundle.LoadAll(typeof(Object));
-                bundle.Unload(false);
-                return objs;
-            }
+            var bundle = resoucesWwws[bundleFolderName].assetBundle;
+            var objs = bundle.LoadAll(typeof(Object));
+            return objs;
         }
         return Resources.LoadAll(path);
     }

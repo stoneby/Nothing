@@ -50,7 +50,9 @@ public class LoginMainWindow : Window
 
         NetManager.sessionId = "";
 
-        SDKResponse.TokenString = null;
+        SDKResponseManager.TokenString = null;
+
+        //Open switch account BTN in JinShan SDK.
 #if UNITY_ANDROID
         labelSwitchAccount.gameObject.SetActive(GameConfig.BundleID == "cn.kx.sglm.jinshan");
 #endif
@@ -204,7 +206,7 @@ public class LoginMainWindow : Window
         else
         {
             LoadResource();
-            FeidouManager.DoLogin();
+            SDKLoginManager.DoLogin();
         }
     }
 
@@ -216,6 +218,7 @@ public class LoginMainWindow : Window
             HttpResourceManager.Instance.LoadTemplate();
             WindowManager.Instance.Show<LoadingWaitWindow>(true);
         }
+        BackGroundSoundControl.Instance.PlaySound();
     }
 
     private void OnAccountClick(GameObject game = null)
@@ -228,7 +231,7 @@ public class LoginMainWindow : Window
         else
         {
             LoadResource();
-            FeidouManager.DoLogin();
+            SDKLoginManager.DoLogin();
         }
     }
 
@@ -241,7 +244,7 @@ public class LoginMainWindow : Window
     {
         Logger.Log("!!!!!!!!Switch account click succeed.");
         LoadResource();
-        FeidouManager.DoSwitchAccount();
+        SDKLoginManager.DoSwitchAccount();
     }
 
     //    private void OnSCPlayerInfoHandler(LoginEvent e)

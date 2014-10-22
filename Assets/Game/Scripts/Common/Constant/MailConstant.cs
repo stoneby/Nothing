@@ -32,6 +32,7 @@ public class MailConstant
     public const string MailNoNeedUpdateKey = "UIEmailEntry.NoNeedUpdate";
     public const string MailDelNoReadKey = "UIEmailEntry.DeleteNoRead";
     public const string MailDelAttachKey = "UIEmailEntry.DelAttach";
+    public const string FamousKey = "UIEMailEntry.Famous";
 
     public const string MailHeroItemPath = "Prefabs/UI/TabPanel/Email/MailHero";
     public const string MailItemPath = "Prefabs/UI/TabPanel/Email/MailItem";
@@ -42,6 +43,7 @@ public class MailConstant
     public const string MailEnergySpriteName = "Energy1";
     public const string MailSoulSpriteName = "SoulIcon";
     public const string MailSuperChipName = "Fragment";
+    public const string MailMingqiSpriteName = "ming";
 
     public enum MailState
     {
@@ -107,6 +109,10 @@ public class MailConstant
         {
             return MailSuperChipName;
         }
+        else if (theid == RoleProperties.ROLEBASE_FAMOUS)
+        {
+            return MailMingqiSpriteName;
+        }
         else
         {
             return "";
@@ -134,6 +140,10 @@ public class MailConstant
         else if (theid == RoleProperties.ROLEBASE_SUPER_CHIP)
         {
             return LanguageManager.Instance.GetTextValue(FragmentKey);
+        }
+        else if (theid == RoleProperties.ROLEBASE_FAMOUS)
+        {
+            return LanguageManager.Instance.GetTextValue(FamousKey);
         }
         else
         {

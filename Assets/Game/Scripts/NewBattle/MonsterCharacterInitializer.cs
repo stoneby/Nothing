@@ -50,7 +50,6 @@ public class MonsterCharacterInitializer : CharacterInitializer
 
             CharacterList.Add(character);
         }
-
     }
 
     public override void Cleanup()

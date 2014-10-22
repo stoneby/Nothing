@@ -53,6 +53,5 @@ public class SortFriendHandler : FriendHandlerBase
             var isMyself = info == myself;
             sortedItem.NameLabel.color = isMyself ? MyselfColor : Color.white;
         }
-        NGUITools.FindInParents<UIScrollView>(Items.gameObject).ResetPosition();
     }
 }

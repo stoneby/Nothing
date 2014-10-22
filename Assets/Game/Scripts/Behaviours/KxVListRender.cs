@@ -50,8 +50,10 @@ public class KxVListRender : MonoBehaviour
     private float totalHeight;
 
     private UIEventListener UpEventListener;
+    private UIEventListener BgClickEventListener;
     private GameObject UpButton;
     private GameObject ClipPanel;
+    private GameObject ClickBox;
 
     public void Init(IList datas, string prefabname,
         int thewidth, int theheight, int itemwidth, int itemheight, OnSelectedCallback selectedcallback = null, bool playeffect = true, bool showupbutton = false)
@@ -64,6 +66,12 @@ public class KxVListRender : MonoBehaviour
         {
             itemBox = transform.FindChild("Panel/Container").gameObject;
             ClipPanel = transform.FindChild("Panel").gameObject;
+            
+            ClickBox = transform.FindChild("Panel/Container click").gameObject;
+            var cld = ClickBox.GetComponent<BoxCollider>();
+            cld.size = new Vector3(thewidth, theheight, 0);
+            BgClickEventListener = UIEventListener.Get(ClickBox);
+            BgClickEventListener.onPress += OnPressHandler;
             itemBox.GetComponent<UIWidget>();
             itemPrefab = Resources.Load(prefabname) as GameObject;
             var pn = ClipPanel.GetComponent<UIPanel>();
@@ -182,11 +190,19 @@ public class KxVListRender : MonoBehaviour
 //        }
 //    }
 
+//    private void OnBgClickHandler(GameObject go)
+//    {
+//        OnPressHandler(go);
+//    }
+
     private void OnPressHandler(GameObject go, bool state)
     {
         //throw new System.NotImplementedException();
+        //Debug.Log("bg pressed");
         var mx = Input.mousePosition.x - centerX;
         var my = Input.mousePosition.y - centerY;
+
+        Debug.Log("bg pressed mx:" + mx + ", my:" + my);
 
         if (Input.GetMouseButtonDown(0))
         {

@@ -26,7 +26,7 @@ namespace com.kx.sglm.gs.battle.share.data.record
 		private List<PointRecord> fillPointList;
 
 
-		public BattleIndexRecord()
+		public BattleIndexRecord(int curRound) : base(curRound)
 		{
 			allPointList = new List<PointRecord>();
 			fillPointList = new List<PointRecord>();

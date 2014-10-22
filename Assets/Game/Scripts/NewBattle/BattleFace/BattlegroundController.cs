@@ -37,6 +37,11 @@ public class BattlegroundController : MonoBehaviour
     private int currentStep;
 
     private const string BasePath = "AssetBundles/Prefabs/NewBattle/Battleground";
+    private const string AudioBattleNormalPathBase = "Sounds/level_normal_";
+    private const string AudioBattleBossPath = "Sounds/level_boss";
+
+    private AudioClip normalClip;
+    private AudioClip bossClip;
 
     private bool initialized;
 
@@ -69,6 +74,8 @@ public class BattlegroundController : MonoBehaviour
             return;
         }
 
+        InitializeSounds();
+
         var battlegroundObject = NGUITools.AddChild(Parent, battle);
         battlegroundLooper = battlegroundObject.GetComponent<AbstractBattlegroundLooper>();
     }
@@ -95,14 +102,23 @@ public class BattlegroundController : MonoBehaviour
 
         if (currentStep == 0)
         {
+            audio.clip = normalClip;
+            audio.Play();
             battlegroundLooper.PlayBegin();
         }
         else if(currentStep == TotalStep - 1)
         {
+            audio.Stop();
+            audio.PlayOneShot(bossClip);
             battlegroundLooper.PlayEnd();
         }
         else
         {
+            if (!audio.isPlaying)
+            {
+                audio.clip = normalClip;
+                audio.Play();
+            }
             battlegroundLooper.PlayOnce();
         }
 
@@ -120,6 +136,65 @@ public class BattlegroundController : MonoBehaviour
 
         Destroy(battlegroundLooper.gameObject);
         battlegroundLooper = null;
-        Resources.UnloadUnusedAssets();
+
+        CleanupSounds();
+
+        // with memeory strategy enabled will call unload unused assets over there.
+        if (!MemoryStrategy.Instance.Enabled)
+        {
+            Resources.UnloadUnusedAssets();
+        }
+    }
+
+    private void InitializeSounds()
+    {
+        var audioIndex = GetAudioIndex();
+        var normalClipSoundPath = string.Format("{0}{1}", AudioBattleNormalPathBase, audioIndex);
+        normalClip = Resources.Load<AudioClip>(normalClipSoundPath);
+        if (normalClip == null)
+        {
+            Logger.LogWarning("Level normal sounds does not load successfully on path: " + normalClipSoundPath);
+        }
+
+        bossClip = Resources.Load<AudioClip>(AudioBattleBossPath);
+        if (bossClip == null)
+        {
+            Logger.LogWarning("Level normal sounds does not load successfully on path: " + AudioBattleBossPath);
+        }
+    }
+
+    private void CleanupSounds()
+    {
+        audio.clip = null;
+        normalClip = null;
+        bossClip = null;
+    }
+
+    /// <summary>
+    /// Get audio index by somehow strategy
+    /// </summary>
+    /// <returns>Audio index one based.</returns>
+    /// <remarks>
+    /// Temperary way fix with designer requirements.
+    /// Later you could change this method to find correct audio clip index.
+    /// </remarks>
+    private int GetAudioIndex()
+    {
+        if (BattleID == 8)
+        {
+            return 1;
+        }
+
+        if (BattleID == 9)
+        {
+            return 2;
+        }
+
+        if (BattleID == 2)
+        {
+            return 3;
+        }
+
+        return Random.Range(1, 3);
     }
 }

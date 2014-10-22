@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Resources;
+using System.Runtime.Remoting;
 using System.Text;
 using UnityEngine;
 
@@ -62,17 +64,6 @@ public class TeamSelectController : MonoBehaviour
     public float ColliderFactor = 1f;
 
     /// <summary>
-    /// Normal dragbar depth.
-    /// </summary>
-    /// <remarks>Color index range [1, 5].</remarks>
-    private int normalDepth;
-    /// <summary>
-    /// Lower dragbar depth.
-    /// </summary>
-    /// <remarks>Rotating dragbar, gray color in our case.</remarks>
-    private int lowerDepth;
-
-    /// <summary>
     /// Visible number of characters.
     /// </summary>
     public int VisibleCount
@@ -95,11 +86,26 @@ public class TeamSelectController : MonoBehaviour
     private bool initialized;
 
     /// <summary>
+    /// Normal dragbar depth.
+    /// </summary>
+    /// <remarks>Color index range [1, 5].</remarks>
+    private int normalDepth;
+    /// <summary>
+    /// Lower dragbar depth.
+    /// </summary>
+    /// <remarks>Rotating dragbar, gray color in our case.</remarks>
+    private int lowerDepth;
+
+    /// <summary>
     /// Flag indicates if drag process is started.
     /// </summary>
     private bool dragStart;
 
     private GameObject targetObject;
+
+    private const string AudioPathPrefix = "Sounds/Attack_";
+
+    private readonly List<AudioClip> selectAudios = new List<AudioClip>();
 
     #endregion
 
@@ -140,7 +146,7 @@ public class TeamSelectController : MonoBehaviour
 
     public Position OneDimensionToTwo(int i)
     {
-        return new Position {X = i / Row, Y = i % Row};
+        return new Position { X = i / Row, Y = i % Row };
     }
 
     public void Cleanup()
@@ -167,7 +173,7 @@ public class TeamSelectController : MonoBehaviour
         }
 
         initialized = true;
-        
+
         ////couldn't select as default.
         //Enable = true;
 
@@ -194,6 +200,8 @@ public class TeamSelectController : MonoBehaviour
         lowerDepth = normalDepth - 1;
 
         RegisterEventHandlers();
+
+        LoadAudios();
     }
 
     public override string ToString()
@@ -369,6 +377,10 @@ public class TeamSelectController : MonoBehaviour
 
             SelectedCharacterList.Add(currentCharacter);
 
+            // play sound only when select counter bigger than 1.
+            var selectCount = SelectedCharacterList.Count;
+            audio.PlayOneShot(selectAudios[selectCount - 1]);
+
             if (OnSelect != null)
             {
                 OnSelect(currentCharacter);
@@ -529,6 +541,16 @@ public class TeamSelectController : MonoBehaviour
             Logger.LogWarning("Waiting stack index of: " + index + ", right index: " + (index - Col));
             WaitingStackList[i].transform.position = sourcePosition;
         }
+    }
+
+    private void LoadAudios()
+    {
+        for (var i = 0; i < VisibleCount; ++i)
+        {
+            selectAudios.Add(ResoucesManager.Instance.Load<AudioClip>(AudioPathPrefix + (i + 1)));
+        }
+
+        Logger.LogWarning("Loading audio resouces count: " + selectAudios.Count);
     }
 
     #endregion

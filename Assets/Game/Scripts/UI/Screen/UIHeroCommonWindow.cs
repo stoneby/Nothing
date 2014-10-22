@@ -112,6 +112,7 @@ public class UIHeroCommonWindow : Window
 
     public override void OnEnter()
     {
+        GlobalWindowSoundController.Instance.PlayOpenSound();
         Infos = scHeroList.HeroList;
         NGUITools.SetActive(Heros.gameObject, true);
         HeroSortControl.Init(Infos);

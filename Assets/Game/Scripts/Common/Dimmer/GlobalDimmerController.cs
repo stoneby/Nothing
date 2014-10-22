@@ -1,10 +1,14 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Linq;
+using UnityEngine;
 
 /// <summary>
 /// Global dimmer controller, used for dim under parent game object and return it back.
 /// </summary>
 public class GlobalDimmerController : Singleton<GlobalDimmerController>
 {
+    #region Public Fields
+
     public UIWidget Dimmer;
     public UIWidget Dimmer2D;
     public GameObject DetectObject;
@@ -20,10 +24,19 @@ public class GlobalDimmerController : Singleton<GlobalDimmerController>
         }
     }
 
+    #endregion
+
+    #region Private Fields
+
     private float defaultAlpha;
     private const float TransparentAlpha = 0.01f;
     private UICamera.EventType eventType;
     private UICamera uiCamera;
+
+
+    #endregion
+
+    #region Public Methods
 
     public void Show(bool flag)
     {
@@ -51,7 +64,6 @@ public class GlobalDimmerController : Singleton<GlobalDimmerController>
                 }
                 var listener = UIEventListener.Get(DetectObject);
                 listener.onClick += OnDetectClick;
-                //MouseCheck();
             }
             else
             {
@@ -59,16 +71,6 @@ public class GlobalDimmerController : Singleton<GlobalDimmerController>
             }
         }
     }
-
-    private void OnDetectClick(GameObject go)
-    {
-        var listener = UIEventListener.Get(DetectObject);
-        listener.onClick -= OnDetectClick;
-
-        DetectObject = null;
-        //Show(false);
-    }
-
     public void MouseCheck()
     {
         // Cast a ray into the screen
@@ -110,10 +112,29 @@ public class GlobalDimmerController : Singleton<GlobalDimmerController>
         }
     }
 
+    #endregion
+
+    #region Private Fields
+
+    private void OnDetectClick(GameObject go)
+    {
+        var listener = UIEventListener.Get(DetectObject);
+        listener.onClick -= OnDetectClick;
+
+        DetectObject = null;
+        //Show(false);
+    }
+
+    #endregion
+
+    #region Mono
+
     // Use this for initialization
     void Awake()
     {
         defaultAlpha = Dimmer.alpha;
         uiCamera = Camera.main.GetComponent<UICamera>();
     }
+
+    #endregion
 }

@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using Assets.Game.Scripts.Common.Model;
+using com.kx.sglm.gs.battle.share.enums;
 using UnityEngine;
 
 #if !SILVERLIGHT
@@ -33,6 +36,14 @@ public class BattleWindow : Window
 
     #endregion
 
+    #region Private Fields
+
+    private const string GreenHandMtaType = "GreenHand";
+    private const string NormalMtaType = "Normal";
+    private const string PersistenceMtaType = "Persistence";
+
+    #endregion
+
     #region Window
 
     public override void OnEnter()
@@ -42,14 +53,40 @@ public class BattleWindow : Window
         Battle.Init();
         Battle.StartBattle();
 
+        //Load Character audio.
+        Character.LoadAudio();
+
+        //MTA track battle start.
+        var dict = new Dictionary<string, string>
+            {
+                {"Type", (PersistenceHandler.Instance.Mode!=PersistenceHandler.PersistenceMode.Normal) ?
+                    PersistenceMtaType :
+                    ((BattleModelLocator.Instance.BattleType == BattleType.GREENHANDPVE.Index) ? 
+                    GreenHandMtaType : 
+                    NormalMtaType)},
+                {"Raid", (MissionModelLocator.Instance.BattleStageTemplate!=null) ? MissionModelLocator.Instance.BattleStageTemplate.Id.ToString() : "None"},
+            };
+        MtaManager.TrackCustomBeginKVEvent(MtaType.KVEventBattleDuration, dict);
+
         MemoryStrategy.Instance.HandleBattleBegin();
+        BackGroundSoundControl.Instance.StopSound();
     }
 
     public override void OnExit()
     {
         Logger.Log("I am OnExit with type - " + GetType().Name);
 
+        //Clean Character audio.
+        Character.CleanUpAudio();
+
+        //MTA track battle end.
+        MtaManager.TrackCustomEndKVEvent(MtaType.KVEventBattleDuration);
+
+        // clean up all battle fields.
+        Battle.ResetAll();
+
         MemoryStrategy.Instance.HandleBattleEnd();
+        BackGroundSoundControl.Instance.PlaySound();
     }
 
     #endregion

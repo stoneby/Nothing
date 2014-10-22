@@ -44,4 +44,11 @@ public class MailModelLocator
         }
         return ScMailListMsg.MailList.Find(mail => mail.Uuid == mailId);
     }
+
+    public void Clear()
+    {
+        ScMailListMsg = null;
+        UnReadCount = 0;
+        MailListVersion = 0;
+    }
 }

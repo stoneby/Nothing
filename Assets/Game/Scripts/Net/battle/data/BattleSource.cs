@@ -7,6 +7,7 @@ namespace com.kx.sglm.gs.battle.share.data
 	using BattleSideEnum = com.kx.sglm.gs.battle.share.enums.BattleSideEnum;
 	using BattleType = com.kx.sglm.gs.battle.share.enums.BattleType;
 	using FighterType = com.kx.sglm.gs.battle.share.enums.FighterType;
+	using IBattleCompatibleUtils = com.kx.sglm.gs.battle.share.utils.IBattleCompatibleUtils;
 	using PropertyRawSet = com.kx.sglm.gs.battle.share.utils.PropertyRawSet;
 
 	/// <summary>
@@ -45,6 +46,8 @@ namespace com.kx.sglm.gs.battle.share.data
 		protected internal int raidStageId;
 
 		protected internal List<int> monsterGroup;
+
+		protected internal IBattleCompatibleUtils battleCompatibleUtils;
 
 
 		public BattleSource(BattleType battleType)
@@ -99,6 +102,21 @@ namespace com.kx.sglm.gs.battle.share.data
 			set
 			{
 				this.raidStageId = value;
+			}
+		}
+
+
+
+
+		public virtual IBattleCompatibleUtils BattleCompatibleUtils
+		{
+			get
+			{
+				return battleCompatibleUtils;
+			}
+			set
+			{
+				this.battleCompatibleUtils = value;
 			}
 		}
 

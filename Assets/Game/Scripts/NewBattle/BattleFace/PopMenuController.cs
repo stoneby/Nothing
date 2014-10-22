@@ -21,9 +21,6 @@ public class PopMenuController : MonoBehaviour
 
     public void OnButtonExit()
     {
-        // clean up all battle fields.
-        BattleResultHelper.Cleanup();
-
         var msg = new CSBattlePveFinishMsg
         {
             Uuid = BattleModelLocator.Instance.Uuid,
@@ -33,15 +30,16 @@ public class PopMenuController : MonoBehaviour
         };
 
         PersistenceHandler.IsRaidFinish = true;
-        
+
         //Battle persistence
+        PersistenceHandler.Instance.Mode = PersistenceHandler.PersistenceMode.Normal;
         PersistenceHandler.Instance.Cleanup();
 
         NetManager.SendMessage(msg);
         MtaManager.TrackEndPage(MtaType.BattleScreen);
 
         //Battle persistence:Check battle end succeed.
-        
+
         gameObject.SetActive(false);
         MissionModelLocator.Instance.ShowRaidWindow();
     }

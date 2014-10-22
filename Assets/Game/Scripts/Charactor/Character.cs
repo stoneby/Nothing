@@ -1,7 +1,7 @@
-﻿using System;
+﻿using com.kx.sglm.gs.battle.share.data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using com.kx.sglm.gs.battle.share.data;
 using UnityEngine;
 
 /// <summary>
@@ -15,13 +15,20 @@ public class Character : MonoBehaviour
     /// <summary>
     /// Character state type.
     /// </summary>
+    /// <remarks>
+    /// Idle to Hurt should be normal state that applied to all characters.
+    /// Special state when nine attack is ongoing, some characters have.
+    /// SP state is just for state when SP is ongoing, no animations for this
+    /// state for now, just a tag for a special case like audio playing.
+    /// </remarks>
     public enum State
     {
         Idle = 0,
         Run,
         Attack,
         Hurt,
-        Special
+        Special,    // which is nine attack
+        Super,
     }
 
     /// <summary>
@@ -125,6 +132,12 @@ public class Character : MonoBehaviour
     private List<string> animationList;
     private bool canSelected = true;
 
+    private const string AttackSoundBase = "Sounds/attack_job";
+    private static List<AudioClip> attackAudio;
+
+    private const string AttackSuperBase = "Sounds/attack_super";
+    private static AudioClip spAudio;
+
     #endregion
 
     #region Public Methods
@@ -149,10 +162,36 @@ public class Character : MonoBehaviour
     /// <param name="loop">Flag indicates if state is in loop mode</param>
     public void PlayState(State state, bool loop)
     {
-        // WARNING, in case of special attack like nine attack full not ready for all heros, we will use attack normal instead for temp way fix.
-        state = (animationList.Count == (int)state) ? State.Attack : state;
+        PlaySounds(state);
+
+        // WARNING, current only sp and special (nine attack) might not be in character animation list. Refers to State as details.
+        if (!animationList.Contains(state.ToString()))
+        {
+            state = State.Attack;
+        }
+
         Animation[animationList[(int)state]].wrapMode = (loop) ? WrapMode.Loop : WrapMode.Once;
         Animation.Play(animationList[(int)state]);
+    }
+
+    private void PlaySounds(State state)
+    {
+        if (state == State.Super)
+        {
+            if (spAudio != null)
+            {
+                audio.PlayOneShot(spAudio);
+            }
+        }
+        else if (state == State.Attack)
+        {
+            var audioIndex = JobIndex - 1;
+            // WARNING. audio index should be in range of 0 to attack audio count.
+            if (audioIndex >= 0 && audioIndex < attackAudio.Count)
+            {
+                audio.PlayOneShot(attackAudio[audioIndex]);
+            }
+        }
     }
 
     /// <summary>
@@ -167,6 +206,19 @@ public class Character : MonoBehaviour
     public void StopState()
     {
         Animation.Stop();
+    }
+
+    /// <summary>
+    /// Set animation speed by state.
+    /// </summary>
+    /// <param name="state">Character state.</param>
+    /// <param name="speed">Character speed.</param>
+    public void SetSpeed(State state, float speed)
+    {
+        if (animationList.Contains(state.ToString()))
+        {
+            Animation[animationList[(int) state]].speed = speed;
+        }
     }
 
     public void ShowBuff()
@@ -195,6 +247,41 @@ public class Character : MonoBehaviour
         var depth = (increase) ? DepthBase : (-DepthBase);
         var spriteList = AnimatedObject.transform.GetComponentsInChildren<UISprite>().ToList();
         spriteList.ForEach(sprite => sprite.depth += depth);
+    }
+
+    public static void LoadAudio()
+    {
+        if (attackAudio == null)
+        {
+            var jobCount = Enum.GetNames(typeof(HeroJob)).Count();
+
+            attackAudio = new List<AudioClip>();
+            for (var i = 0; i < jobCount; i++)
+            {
+                var clip = Resources.Load(AttackSoundBase + (i + 1)) as AudioClip;
+                if (clip == null)
+                {
+                    Logger.LogWarning("Audio clip loads fail on path: " + AttackSoundBase + (i + 1));
+                    continue;
+                }
+                attackAudio.Add(clip);
+            }
+        }
+
+        if (spAudio == null)
+        {
+            spAudio = Resources.Load<AudioClip>(AttackSuperBase);
+            if (spAudio == null)
+            {
+                Logger.LogWarning("Loading sp audio fail on path" + AttackSuperBase);
+            }
+        }
+    }
+
+    public static void CleanUpAudio()
+    {
+        attackAudio = null;
+        spAudio = null;
     }
 
     /// <overrides/>
@@ -243,6 +330,11 @@ public class Character : MonoBehaviour
             return;
         }
         AnimatedObject = transform.GetChild(0).gameObject;
+
+        if (!gameObject.GetComponent<AudioSource>())
+        {
+            gameObject.AddComponent<AudioSource>();
+        }
     }
 
     #endregion

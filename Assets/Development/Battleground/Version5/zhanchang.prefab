@@ -209,22 +209,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &100026
-GameObject:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 400026}
-  - 114: {fileID: 11400028}
-  m_Layer: 8
-  m_Name: Sprite
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1 &100028
 GameObject:
   m_ObjectHideFlags: 1
@@ -636,17 +620,6 @@ Transform:
   m_LocalScale: {x: 1.54054224, y: 1.54054224, z: 1.54054224}
   m_Children: []
   m_Father: {fileID: 400036}
---- !u!4 &400026
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100026}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 648, y: -720, z: 0}
-  m_LocalScale: {x: 1.91165531, y: 1.91165531, z: 1.91165531}
-  m_Children: []
-  m_Father: {fileID: 400048}
 --- !u!4 &400028
 Transform:
   m_ObjectHideFlags: 1
@@ -654,8 +627,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 647.951782, y: -720.028809, z: 0}
-  m_LocalScale: {x: 1.92502391, y: 1.92502391, z: 1.92502391}
+  m_LocalPosition: {x: 648, y: -720, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400048}
 --- !u!4 &400030
@@ -782,7 +755,6 @@ Transform:
   m_Children:
   - {fileID: 400034}
   - {fileID: 400028}
-  - {fileID: 400026}
   m_Father: {fileID: 400040}
 --- !u!4 &400050
 Transform:
@@ -805,7 +777,7 @@ Transform:
   m_GameObject: {fileID: 100052}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 360, z: 0}
-  m_LocalScale: {x: 4.1410718, y: 4.1410718, z: 4.1410718}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400046}
 --- !u!4 &400054
@@ -816,7 +788,7 @@ Transform:
   m_GameObject: {fileID: 100054}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 360, z: 0}
-  m_LocalScale: {x: 3.68626881, y: 3.68626881, z: 3.68626881}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400046}
 --- !u!4 &400056
@@ -1550,60 +1522,6 @@ MonoBehaviour:
   mAtlas: {fileID: 11400000, guid: 31c2855c21c86ac4fa3f95ffc51835f2, type: 2}
   mSpriteName: z05
   mFillCenter: 1
---- !u!114 &11400028
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100026}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  leftAnchor:
-    target: {fileID: 0}
-    relative: 0
-    absolute: 0
-  rightAnchor:
-    target: {fileID: 0}
-    relative: 1
-    absolute: 0
-  bottomAnchor:
-    target: {fileID: 0}
-    relative: 0
-    absolute: 0
-  topAnchor:
-    target: {fileID: 0}
-    relative: 1
-    absolute: 0
-  updateAnchors: 1
-  mColor: {r: 1, g: 1, b: 1, a: 1}
-  mPivot: 8
-  mWidth: 170
-  mHeight: 72
-  mDepth: 6
-  HighLight: 0
-  OffsetX: 0
-  OffsetY: 0
-  MeshFactor: 1
-  autoResizeBoxCollider: 0
-  hideIfOffScreen: 0
-  keepAspectRatio: 0
-  aspectRatio: 2.36111116
-  mType: 0
-  mFillDirection: 4
-  mFillAmount: 1
-  mInvert: 0
-  mFlip: 0
-  centerType: 1
-  leftType: 1
-  rightType: 1
-  bottomType: 1
-  topType: 1
-  mAtlas: {fileID: 11400000, guid: 31c2855c21c86ac4fa3f95ffc51835f2, type: 2}
-  mSpriteName: z01
-  mFillCenter: 1
 --- !u!114 &11400030
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1634,8 +1552,8 @@ MonoBehaviour:
   updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 8
-  mWidth: 350
-  mHeight: 84
+  mWidth: 438
+  mHeight: 106
   mDepth: 6
   HighLight: 0
   OffsetX: 0
@@ -1644,7 +1562,7 @@ MonoBehaviour:
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
-  aspectRatio: 4.16666651
+  aspectRatio: 4.13207531
   mType: 0
   mFillDirection: 4
   mFillAmount: 1
@@ -2017,8 +1935,8 @@ MonoBehaviour:
   mHeight: 720
   mDepth: 5
   HighLight: 0
-  OffsetX: 389
-  OffsetY: 148
+  OffsetX: 140
+  OffsetY: 163
   MeshFactor: 50
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -2266,8 +2184,8 @@ MonoBehaviour:
   updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 1
-  mWidth: 512
-  mHeight: 32
+  mWidth: 2560
+  mHeight: 145
   mDepth: 1
   HighLight: 0
   OffsetX: 0
@@ -2276,7 +2194,7 @@ MonoBehaviour:
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
-  aspectRatio: 16
+  aspectRatio: 17.6551723
   mType: 0
   mFillDirection: 4
   mFillAmount: 1
@@ -2327,8 +2245,8 @@ MonoBehaviour:
   updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 1
-  mWidth: 512
-  mHeight: 32
+  mWidth: 2560
+  mHeight: 145
   mDepth: 0
   HighLight: 0
   OffsetX: 0
@@ -2337,7 +2255,7 @@ MonoBehaviour:
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
-  aspectRatio: 16
+  aspectRatio: 17.6551723
   mType: 0
   mFillDirection: 4
   mFillAmount: 1

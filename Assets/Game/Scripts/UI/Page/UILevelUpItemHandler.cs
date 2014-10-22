@@ -8,7 +8,7 @@ public class UILevelUpItemHandler : MonoBehaviour
 {
     public PropertyUpdater PropertyUpdater;
     public ItemBase ItemBase;
-    public EffectSequnce LevelUpEffectSeq;
+    public LevelUpEffectControl LevelUpEffectControl;
     private bool isReady;
     private UISprite maskBg; 
     private UIGrid matGrid;
@@ -60,7 +60,7 @@ public class UILevelUpItemHandler : MonoBehaviour
             var itemLvlTmpls = ItemModeLocator.Instance.ItemConfig.ItemLvlTmpls;
             var level = MainInfo.Level;
             var maxLevel = MainInfo.MaxLvl;
-            while (exp >= itemLvlTmpls[level].MaxExp && level < maxLevel)
+            while (exp > itemLvlTmpls[level].MaxExp && level < maxLevel)
             {
                 exp -= itemLvlTmpls[level].MaxExp;
                 level++;
@@ -111,7 +111,7 @@ public class UILevelUpItemHandler : MonoBehaviour
     private void OnEnable()
     {
         MtaManager.TrackBeginPage(MtaType.LevelUpItemWindow);
-        LevelUpEffectSeq.Stop();
+        LevelUpEffectControl.Stop();
         commonWindow = WindowManager.Instance.GetWindow<UIItemCommonWindow>();
         commonWindow.NormalClicked = OnNormalClicked;
         var selected = MainInfo != null;
@@ -450,7 +450,7 @@ public class UILevelUpItemHandler : MonoBehaviour
 
     public void ShowLevelOver()
     {
-        LevelUpEffectSeq.Play();
+        LevelUpEffectControl.Play();
         UpdateLevelUp(preshowLvl);
         choiceIndexs.Clear();
     }

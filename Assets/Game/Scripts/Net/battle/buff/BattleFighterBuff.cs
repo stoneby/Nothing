@@ -175,7 +175,7 @@ namespace com.kx.sglm.gs.battle.share.buff
 			bool _canOption = false;
 			foreach (BuffStackInfo _info in stackingList)
 			{
-				if (_info.Active && _info.canOption(Owner))
+				if (_info.canOption(Owner))
 				{
 					_canOption = true;
 					break;

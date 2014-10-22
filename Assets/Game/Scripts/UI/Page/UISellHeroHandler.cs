@@ -29,6 +29,8 @@ public class UISellHeroHandler : MonoBehaviour
 
     private UIGrid grid;
 
+    public AudioSource SellHeroSound;
+
     #region Private Methods
 
     private void OnEnable()
@@ -142,13 +144,25 @@ public class UISellHeroHandler : MonoBehaviour
     {
         curSelUuidCache = commonWindow.GetInfo(commonWindow.CurSelPos).Uuid;
         CacheUuidsFromPos(cannotSellPosList, cachedCanNotSellUuids);
-        var assert = WindowManager.Instance.GetWindow<AssertionWindow>();
-        assert.Title = LanguageManager.Instance.GetTextValue("UISellHandler.ConfirmLabel");
-        assert.Message = "";
-        assert.AssertType = AssertionWindow.Type.OkCancel;
-        assert.OkButtonClicked = OnSellConfirm;
-        assert.CancelButtonClicked = OnSellCancel;
-        WindowManager.Instance.Show<AssertionWindow>(true);
+        var containHighStars =
+            sellObjects.Any(
+                sellObj =>
+                HeroModelLocator.Instance.GetHeroByTemplateId(commonWindow.GetInfo(sellObj.Key).TemplateId).Star >= 4);
+        if(containHighStars)
+        {
+            var assert = WindowManager.Instance.GetWindow<AssertionWindow>();
+            assert.Title = string.Format(LanguageManager.Instance.GetTextValue("UISellHandler.ConfirmLabel"),
+                             "[ffff00]", "[-]");
+            assert.Message = "";
+            assert.AssertType = AssertionWindow.Type.OkCancel;
+            assert.OkButtonClicked = OnSellConfirm;
+            assert.CancelButtonClicked = OnSellCancel;
+            WindowManager.Instance.Show<AssertionWindow>(true);
+        }
+        else
+        {
+            SendSellMessage();
+        }
     }
 
     private void OnSellCancel(GameObject sender)
@@ -163,13 +177,18 @@ public class UISellHeroHandler : MonoBehaviour
     {
         var assert = WindowManager.Instance.GetWindow<AssertionWindow>();
         assert.OkButtonClicked = null;
+        SendSellMessage();
+        WindowManager.Instance.Show<AssertionWindow>(false);
+    }
+
+    private void SendSellMessage()
+    {
         var sellList = sellObjects.Select(item => commonWindow.GetInfo(item.Key).Uuid).ToList();
-        if (sellList.Count > 0)
+        if(sellList.Count > 0)
         {
             var csHeroSell = new CSHeroSell {SellList = sellList};
             NetManager.SendMessage(csHeroSell);
         }
-        WindowManager.Instance.Show<AssertionWindow>(false);
     }
 
     private void OnNormalClick(GameObject go)
@@ -236,14 +255,6 @@ public class UISellHeroHandler : MonoBehaviour
         var row = item.Row;
         var col = item.Children.IndexOf(go.transform);
         return new Position{X = row, Y = col};
-    }
-
-    private void CancelHeroSell(GameObject go)
-    {
-        var pos = GetPosition(go);
-        RemoveSellObject(pos);
-        RefreshSellList(commonWindow.GetInfo(pos).Uuid, false);
-        grid.repositionNow = true;
     }
 
      private void RefreshSellList(long uuid, bool isToSell)
@@ -324,6 +335,7 @@ public class UISellHeroHandler : MonoBehaviour
 
     public void SellOverUpdate()
     {
+        SellHeroSound.Play();
         UpdateCurSelPosition();
         cannotSellPosList = GetPositionsViaUuids(cachedCanNotSellUuids, commonWindow.Infos, commonWindow.CountOfOneGroup);
         UpdateSelAndCanNotSellMasks();

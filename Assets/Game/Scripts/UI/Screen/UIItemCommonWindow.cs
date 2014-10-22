@@ -107,6 +107,7 @@ public class UIItemCommonWindow : Window
 
     public override void OnEnter()
     {
+        GlobalWindowSoundController.Instance.PlayOpenSound();
         Infos = ItemModeLocator.Instance.ScAllItemInfos.ItemInfos;
         SortControl.Init(Infos);
         InitWrapContents(Infos);

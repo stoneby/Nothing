@@ -201,7 +201,7 @@ namespace Assets.Game.Scripts.Net.handler
                 infos.RemoveAll(item => deleteIndexs.Contains(item.BagIndex));
                 infos.Add(themsg.EvolutedItemInfo.Info);
                 var commomWindow = WindowManager.Instance.GetWindow<UIItemCommonWindow>();
-                commomWindow.EvolveItemHandler.ShowEvolveOver();
+                commomWindow.EvolveItemHandler.ShowEvolveOver(themsg.EvolutedItemInfo.Info);
                 commomWindow.Refresh(infos);
             }
         }

@@ -19,6 +19,7 @@ public class SignConfirmWindow : MonoBehaviour
 
     public void OnEnter()
     {
+        GlobalWindowSoundController.Instance.PlayOpenSound();
         if (TitleLabel == null)
         {
             TitleLabel = transform.FindChild("Label name").gameObject;
@@ -43,6 +44,7 @@ public class SignConfirmWindow : MonoBehaviour
     private void ClickBgHandler(GameObject obj)
     {
         gameObject.SetActive(false);
+        GlobalWindowSoundController.Instance.PlayCloseSound();
     }
 
     private void ClickBtnHandler(GameObject obj)

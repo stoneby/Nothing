@@ -125,6 +125,8 @@ public class GameConfiguration : Singleton<GameConfiguration>
                     node["LocalServicePath"].InnerText);
             }
         }
+
+
     }
 
     private void ReadRaidMapXml()
@@ -419,6 +421,7 @@ public class GameConfiguration : Singleton<GameConfiguration>
 #endif
         MtaService.StartStatServiceWithAppKey(mta_appkey);
         MtaManager.TestServiceSpeed();
+        
     }
 
     #region Mono
@@ -431,6 +434,7 @@ public class GameConfiguration : Singleton<GameConfiguration>
         ReadGameConfigurationXml();
         ReadRaidMapXml();
         HandleAsyncOperation();
+        XgManager.init();
     }
 
     #endregion

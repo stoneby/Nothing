@@ -42,8 +42,8 @@ MonoBehaviour:
   material: {fileID: 2100000, guid: 1d24e9ac66b399e45903a1d0ded1fd59, type: 2}
   mSprites:
   - name: add_friend
-    x: 201
-    y: 210
+    x: 668
+    y: 903
     width: 242
     height: 64
     borderLeft: 0
@@ -55,8 +55,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: alive
-    x: 640
-    y: 330
+    x: 291
+    y: 754
     width: 164
     height: 44
     borderLeft: 0
@@ -68,8 +68,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: arrow
-    x: 597
-    y: 318
+    x: 201
+    y: 825
     width: 37
     height: 28
     borderLeft: 0
@@ -81,8 +81,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: bg
-    x: 444
-    y: 126
+    x: 150
+    y: 412
     width: 72
     height: 72
     borderLeft: 36
@@ -94,8 +94,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: bittle_again
-    x: 805
-    y: 330
+    x: 621
+    y: 754
     width: 164
     height: 44
     borderLeft: 0
@@ -108,7 +108,7 @@ MonoBehaviour:
     paddingBottom: 0
   - name: box
     x: 0
-    y: 3
+    y: 549
     width: 108
     height: 96
     borderLeft: 0
@@ -120,8 +120,8 @@ MonoBehaviour:
     paddingTop: 12
     paddingBottom: 2
   - name: box5
-    x: 150
-    y: 230
+    x: 109
+    y: 605
     width: 40
     height: 40
     borderLeft: 0
@@ -133,8 +133,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: btn_bg
-    x: 537
-    y: 347
+    x: 0
+    y: 186
     width: 102
     height: 83
     borderLeft: 51
@@ -146,8 +146,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: btn_down
-    x: 640
-    y: 375
+    x: 0
+    y: 41
     width: 140
     height: 55
     borderLeft: 0
@@ -159,8 +159,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: btn_up
-    x: 781
-    y: 375
+    x: 150
+    y: 743
     width: 140
     height: 55
     borderLeft: 0
@@ -172,8 +172,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: coin
-    x: 405
-    y: 61
+    x: 109
+    y: 566
     width: 38
     height: 38
     borderLeft: 0
@@ -185,8 +185,21 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: continue
-    x: 537
-    y: 431
+    x: 150
+    y: 799
+    width: 359
+    height: 24
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: Continue
+    x: 510
+    y: 799
     width: 359
     height: 24
     borderLeft: 0
@@ -198,8 +211,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: default_head
-    x: 444
-    y: 199
+    x: 150
+    y: 485
     width: 65
     height: 82
     borderLeft: 0
@@ -211,8 +224,8 @@ MonoBehaviour:
     paddingTop: 9
     paddingBottom: 9
   - name: equip
-    x: 444
-    y: 359
+    x: 0
+    y: 270
     width: 92
     height: 96
     borderLeft: 0
@@ -224,8 +237,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: exit_raid
-    x: 640
-    y: 285
+    x: 456
+    y: 754
     width: 164
     height: 44
     borderLeft: 0
@@ -237,8 +250,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: exp
-    x: 950
-    y: 476
+    x: 940
+    y: 988
     width: 73
     height: 36
     borderLeft: 0
@@ -250,8 +263,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: exp_bar
-    x: 194
-    y: 296
+    x: 420
+    y: 883
     width: 2
     height: 15
     borderLeft: 1
@@ -263,8 +276,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: exp_bg
-    x: 191
-    y: 290
+    x: 417
+    y: 877
     width: 2
     height: 21
     borderLeft: 1
@@ -276,8 +289,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: font_bg
-    x: 640
-    y: 234
+    x: 226
+    y: 692
     width: 136
     height: 50
     borderLeft: 134
@@ -289,10 +302,23 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: font_fail
-    x: 201
-    y: 390
-    width: 242
-    height: 122
+    x: 434
+    y: 855
+    width: 233
+    height: 112
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: font_levelup
+    x: 0
+    y: 646
+    width: 148
+    height: 76
     borderLeft: 0
     borderRight: 0
     borderTop: 0
@@ -303,9 +329,9 @@ MonoBehaviour:
     paddingBottom: 0
   - name: font_win
     x: 201
-    y: 275
-    width: 220
-    height: 114
+    y: 899
+    width: 232
+    height: 125
     borderLeft: 0
     borderRight: 0
     borderTop: 0
@@ -315,8 +341,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: hero_btn
-    x: 109
-    y: 2
+    x: 150
+    y: 645
     width: 75
     height: 97
     borderLeft: 0
@@ -328,8 +354,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: hero_wake
-    x: 201
-    y: 145
+    x: 668
+    y: 838
     width: 240
     height: 64
     borderLeft: 0
@@ -342,7 +368,7 @@ MonoBehaviour:
     paddingBottom: 0
   - name: item_bg
     x: 0
-    y: 312
+    y: 824
     width: 200
     height: 200
     borderLeft: 62
@@ -354,8 +380,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: item_box
-    x: 0
-    y: 100
+    x: 911
+    y: 857
     width: 110
     height: 110
     borderLeft: 0
@@ -367,8 +393,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: levelup_bg
-    x: 444
-    y: 456
+    x: 434
+    y: 968
     width: 505
     height: 56
     borderLeft: 0
@@ -381,7 +407,7 @@ MonoBehaviour:
     paddingBottom: 0
   - name: levelup_text
     x: 0
-    y: 211
+    y: 723
     width: 149
     height: 100
     borderLeft: 0
@@ -393,8 +419,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: mask
-    x: 504
-    y: 45
+    x: 434
+    y: 824
     width: 30
     height: 30
     borderLeft: 10
@@ -406,8 +432,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: ming
-    x: 537
-    y: 243
+    x: 93
+    y: 324
     width: 54
     height: 42
     borderLeft: 0
@@ -419,8 +445,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: next_raid
-    x: 805
-    y: 285
+    x: 786
+    y: 754
     width: 163
     height: 44
     borderLeft: 0
@@ -432,8 +458,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: pop_bg
-    x: 111
-    y: 122
+    x: 0
+    y: 97
     width: 88
     height: 88
     borderLeft: 40
@@ -446,7 +472,7 @@ MonoBehaviour:
     paddingBottom: 0
   - name: star_bg
     x: 201
-    y: 100
+    y: 854
     width: 215
     height: 44
     borderLeft: 0
@@ -458,8 +484,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: star_grey
-    x: 444
-    y: 15
+    x: 89
+    y: 125
     width: 59
     height: 60
     borderLeft: 0
@@ -471,8 +497,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: star_yellow
-    x: 537
-    y: 286
+    x: 150
+    y: 351
     width: 59
     height: 60
     borderLeft: 0
@@ -484,8 +510,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: task_btn
-    x: 444
-    y: 282
+    x: 150
+    y: 568
     width: 74
     height: 76
     borderLeft: 0
@@ -497,8 +523,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: tip
-    x: 444
-    y: 76
+    x: 484
+    y: 693
     width: 92
     height: 49
     borderLeft: 0
@@ -510,8 +536,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: tip_bg
-    x: 405
-    y: 18
+    x: 102
+    y: 506
     width: 30
     height: 42
     borderLeft: 11
@@ -523,12 +549,12 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: title
-    x: 150
-    y: 271
-    width: 40
-    height: 40
-    borderLeft: 20
-    borderRight: 20
+    x: 363
+    y: 692
+    width: 120
+    height: 50
+    borderLeft: 50
+    borderRight: 50
     borderTop: 0
     borderBottom: 0
     paddingLeft: 0
@@ -536,8 +562,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: title_blue
-    x: 303
-    y: 9
+    x: 0
+    y: 458
     width: 101
     height: 90
     borderLeft: 100
@@ -549,8 +575,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: title_red
-    x: 201
-    y: 9
+    x: 0
+    y: 367
     width: 101
     height: 90
     borderLeft: 100

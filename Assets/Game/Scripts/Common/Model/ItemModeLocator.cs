@@ -75,6 +75,15 @@ public class ItemModeLocator
 
     #region Public Methods
 
+    public bool IsItemFull()
+    {
+        if (ScAllItemInfos == null || ScAllItemInfos.ItemInfos == null)
+        {
+            return false;
+        }
+        return ScAllItemInfos.ItemInfos.Count >= ScAllItemInfos.Capacity;
+    }
+
     /// <summary>
     /// Sort the list of hero info by specific order type.
     /// </summary>
@@ -690,6 +699,18 @@ public class ItemModeLocator
     public bool IsMaterial(int tempId)
     {
         return GetItemType(tempId) == EquipType.Material;
+    }
+
+    public void Clear()
+    {
+        AlreadyMainRequest = false;
+        AlreadyBuyBackRequest = false;
+        OrderType = OrderType.Job;
+        ScAllItemInfos = null;
+        BuyBackItems = null;
+        ItemDetail = null;
+        GetItemPos = 0;
+        GetItemDetailPos = 0;
     }
 
     #endregion

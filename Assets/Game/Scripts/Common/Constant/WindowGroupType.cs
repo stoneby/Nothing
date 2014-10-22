@@ -5,6 +5,7 @@
 public enum WindowGroupType
 {
     Screen = 0,
+    Persistence,
     TabPanel,
     Popup,
     Face,
@@ -12,4 +13,5 @@ public enum WindowGroupType
     Tip,
     Page,
     Assert,
+    Loading
 }

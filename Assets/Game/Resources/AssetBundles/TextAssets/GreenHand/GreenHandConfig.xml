@@ -1,0 +1,27 @@
+<Root>
+  <ConfigElement Index="0" ConfigMode="BattleMove" BattleTriggerType="Start" TextList="主公，请连接[b][ffc900]同色武将[/b][-]进行攻击！" CanSelectIndexList="0, 1, 2" ValidateIndexList="0, 1, 2" MoveTraceIndexList="0, 2"/>
+  <ConfigElement Index="1" ConfigMode="BattleMove" BattleTriggerType="LeftAttack" TextList="带有[b][ffc900]蓝光[/b][-]的武将可以发动[b][ffc900]无双技能[/b][-]，伤害爆表。" CanSelectIndexList="3, 5, 7" ValidateIndexList="3, 7, 5" MoveTraceIndexList="3, 7, 5"/>
+  <ConfigElement Index="2" ConfigMode="BattleMove" BattleTriggerType="LeftAttack" TextList="连接的[b][ffc900]数量越多[/b][-]，[b][ffc900]伤害越高[/b][-]。&#xA;出手越晚的武将额外的伤害倍数加成越高。" CanSelectIndexList="6, 7, 8, 5, 2, 12" ValidateIndexList="6, 7, 8, 5, 2" MoveTraceIndexList="6, 8, 2"/>
+  <ConfigElement Index="3" ConfigMode="BattleMove" BattleTriggerType="UnderAttack" TextList="主公，[b][ffc900]左上角[/b][-]是当前队伍的HP。&#xA;[b][ff00ed]粉色[/b][-]可以[b][ffc900]回复HP[/b][-]，主公请试试~" CanSelectIndexList="6, 3" ValidateIndexList="6, 3" MoveTraceIndexList="6, 3"/>
+  <ConfigElement Index="4" ConfigMode="NormalBlink" BattleTriggerType="LeftAttack" TextList="主公，连接[b][ffc900]1个武将[/b][-]可以获得[b][ffc900]1点MP[/b][-]值。&#xA;MP值足够就可以释放[b][ffc900]主将技能[/b][-]哦~" NextConfigTriggerObjectTag="GreenHand0"/>
+  <ConfigElement Index="5" ConfigMode="NormalBlink" NextConfigTriggerObjectTag="GreenHand1"/>
+  <ConfigElement Index="6" ConfigMode="BattleMove" TextList="连接九个武将时，[b][ffc900]九连击[/b][-]的武将将施展[b][ffc900]全屏攻击[/b][-]。&#xA;主公连连看！" CanSelectIndexList="6, 7, 8, 5, 4, 3, 0, 1, 2" ValidateIndexList="6, 7, 8, 5, 4, 3, 0, 1, 2" MoveTraceIndexList="6, 8, 5, 3, 0, 2"/>
+  <ConfigElement Index="10" ConfigMode="CreatePlayer" TextList="恭喜主公首战告捷！&#xA;请问主公希望[b][ffc900]如何称呼[/b][-]您呢？"/>
+  <ConfigElement Index="20" ConfigMode="GiveHero" TextList="恭喜主公首战告捷！&#xA;有[b][ffc900]三名武将[/b][-]听闻主公威名，特来投奔！"/>
+  <ConfigElement Index="30" ConfigMode="NormalBlink" TextList="阵容已定！&#xA;请主公[b][ffc900]乘胜追击[/b][-]！" NextConfigTriggerObjectTag="GreenHand10"/>
+  <ConfigElement Index="31" ConfigMode="NormalBlink" NextConfigTriggerObjectTag="GreenHand11"/>
+  <ConfigElement Index="32" ConfigMode="NormalBlink" NextConfigTriggerObjectTag="GreenHand11"/>
+  <ConfigElement Index="33" ConfigMode="NormalBlink" NextConfigTriggerObjectTag="GreenHand12" IsWaitInFindTagObject="true" WaitSec="1.0"/>
+  <ConfigElement Index="34" ConfigMode="NormalBlink" TextList="选择强力[b][ffc900]队友助战[/b][-]，通关更简单。&#xA;而且可以获得额外的[b][ffc900]名气值奖励[/b][-]哦~" NextConfigTriggerObjectTag="GreenHand13"  TagObjectIndex="1"/>
+  <ConfigElement Index="35" ConfigMode="NormalBlink" NextConfigTriggerObjectTag="GreenHand14"/>
+  <ConfigElement Index="40" ConfigMode="NormalBlink" TextList="主公，前去[b][ffc900]召唤武将[/b][-]加入，增加队伍实力吧~" NextConfigTriggerObjectTag="GreenHand15" />
+  <ConfigElement Index="41" ConfigMode="NormalBlink" TextList="在这里可以随机召唤出[b][ffc900]3~5星[/b][-]武将陪主公征战沙场哟~&#xA;每次召唤[b][ffc900]24小时[/b][-]后会有一次[b][ffc900]免费[/b][-]召唤机会，主公记得随时上来看看！" NextConfigTriggerObjectTag="GreenHand16"/>
+  <ConfigElement Index="42" ConfigMode="NormalBlink" NextConfigTriggerObjectTag="GreenHand17"/>
+  <ConfigElement Index="43" ConfigMode="NormalBlink" NextConfigTriggerObjectTag="GreenHand18"/>
+  <ConfigElement Index="50" ConfigMode="NormalBlink" TextList="主公，赶快把新召唤的武将[b][ffc900]加入队伍[/b][-]吧！" NextConfigTriggerObjectTag="GreenHand20"/>
+  <ConfigElement Index="51" ConfigMode="NormalBlink" TextList="点击[b][ffc900]卸下[/b][-]当前的[b][ffc900]主将[/b][-]" NextConfigTriggerObjectTag="GreenHand21"/>
+  <ConfigElement Index="52" ConfigMode="NormalBlink" TextList="点击[b][ffc900]新武将[/b][-]，作为[b][ffc900]主将[/b][-]上阵~" NextConfigTriggerObjectTag="GreenHand22" TagObjectIndex="3"/>
+  <ConfigElement Index="53" ConfigMode="NormalBlink" TextList="点击卸下的武将，作为[b][ffc900]士兵[/b][-]上阵~" NextConfigTriggerObjectTag="GreenHand22" TagObjectIndex="2"/>
+  <ConfigElement Index="54" ConfigMode="NormalMove" TextList="[b][ffc900]拉动绳索[/b][-]可以返回[b][ffc900]主界面[/b][-]哦~" NextConfigTriggerObjectTag="GreenHand23" NormalMoveVec="0, -0.5, 0"/>
+  <ConfigElement Index="55" ConfigMode="End"/>
+</Root>

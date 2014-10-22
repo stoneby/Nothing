@@ -16,7 +16,6 @@ public class BuildManager
     {
         Debug.Log("====================================Switch To Android Target=======================");
         EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTarget.Android);
-
         ReadGameConfigurationXml();
 
         if (!GameConfig.IsFullAssetBundles)
@@ -29,24 +28,23 @@ public class BuildManager
         PlayerSettings.bundleIdentifier = GameConfig.BundleID;
         PlayerSettings.defaultInterfaceOrientation = UIOrientation.LandscapeLeft;
 
-        
-
         PlayerSettings.Android.keystoreName = "release/key/user.keystore";
         PlayerSettings.Android.keystorePass = "111111";
         PlayerSettings.Android.keyaliasName = "sglm";
         PlayerSettings.Android.keyaliasPass = "111111";
+        PlayerSettings.strippingLevel = StrippingLevel.Disabled;
 
         var iconFile = "Assets/icons/" + GameConfig.GameIcon + ".png";
         
-        Debug.Log("============================================================" + iconFile);
+        //Debug.Log("============================================================" + iconFile);
         int[] sizeList = PlayerSettings.GetIconSizesForTargetGroup(BuildTargetGroup.Android);//{144,96,72,48,36};
         Texture2D[] iconList = new Texture2D[sizeList.Length];
-        Debug.Log("============================================================Create icon count " + sizeList.Length);
+        //Debug.Log("============================================================Create icon count " + sizeList.Length);
         for (int i = 0; i < sizeList.Length; i++)
         {
 
             int iconSize = sizeList[i];
-            Debug.Log("============================================================Create icon size " + iconSize);
+            //Debug.Log("============================================================Create icon size " + iconSize);
             iconList[i] = AssetDatabase.LoadMainAssetAtPath(iconFile) as Texture2D;
             //iconList[i].Resize(iconSize, iconSize, TextureFormat.ARGB32, false);
         }
@@ -57,6 +55,8 @@ public class BuildManager
 
         FileUtil.DeleteFileOrDirectory("release/AndroidBuild");
         Directory.CreateDirectory("release/AndroidBuild");
+        //FileUtil.MoveFileOrDirectory("release/AndroidBuild/*.apk", "release/AndroidBuild/old");
+        //FileUtil.DeleteFileOrDirectory("release/AndroidBuild/*.apk");
 
         string[] scenes = { "Assets/game/scenes/BattleScene.unity" };
         var d = DateTime.Now;
@@ -64,14 +64,15 @@ public class BuildManager
         str += d.Year + GetValueName(d.Month) + GetValueName(d.Day) + "-" + GetValueName(d.Hour) +
                GetValueName(d.Minute) + "-" + PlayerSettings.bundleIdentifier;
         Debug.Log("开始打包Android");
+        str = "sglm-" + str + ".apk";
         string res;
         if (GameConfig.Build == "true" || GameConfig.Build == "development")
         {
-            res = BuildPipeline.BuildPlayer(scenes, "release/AndroidBuild/kxsg-" + str + ".apk", BuildTarget.Android, BuildOptions.ConnectWithProfiler | BuildOptions.Development);
+            res = BuildPipeline.BuildPlayer(scenes, "release/AndroidBuild/" + str, BuildTarget.Android, BuildOptions.ConnectWithProfiler | BuildOptions.Development);
         }
         else
         {
-            res = BuildPipeline.BuildPlayer(scenes, "release/AndroidBuild/kxsg-" + str + ".apk", BuildTarget.Android, BuildOptions.None);
+            res = BuildPipeline.BuildPlayer(scenes, "release/AndroidBuild/" + str, BuildTarget.Android, BuildOptions.None);
         } 
 
         if (res.Length > 0)
@@ -82,7 +83,19 @@ public class BuildManager
         {
             //FileUtil.DeleteFileOrDirectory("Assets/Plugins/Android");
         }
-        Debug.Log("Build Android Successful");
+
+        //FileUtil.CopyFileOrDirectory("release/AndroidBuild/" + str, "release/AndroidBuild/old/");
+
+        Debug.Log("********************************************************************************");
+        Debug.Log("*************************  Build Android Successful  ***************************");
+        str = "  " + str + "  ";
+        int k = (80 - str.Length)/2;
+        for (int i = 0; i < k; i++)
+        {
+            str = "*" + str + "*";
+        }
+        Debug.Log(str);
+        Debug.Log("*************************************************************************");
     }
 
     private static string GetValueName(int k)
@@ -91,10 +104,7 @@ public class BuildManager
         {
             return "0" + k;
         }
-        else
-        {
-            return "" + k;
-        }
+        return "" + k;
     }
 
     public static void BuildExe()
@@ -109,6 +119,7 @@ public class BuildManager
             FileUtil.DeleteFileOrDirectory("Assets/Game/Resources/AssetBundles");
         }
 
+        Debug.Log("------------------------------------" + GameConfig.GameName);
         PlayerSettings.productName = GameConfig.GameName;
         PlayerSettings.bundleVersion = GameConfig.Version;
         PlayerSettings.bundleIdentifier = GameConfig.BundleID;
@@ -153,6 +164,7 @@ public class BuildManager
             FileUtil.DeleteFileOrDirectory("Assets/Game/Resources/AssetBundles");
         }
 
+        Debug.Log("------------------------------------" + GameConfig.GameName);
         PlayerSettings.productName = GameConfig.GameName;
         PlayerSettings.bundleVersion = GameConfig.Version;
         PlayerSettings.bundleIdentifier = GameConfig.BundleID;
@@ -162,7 +174,7 @@ public class BuildManager
         PlayerSettings.iOS.exitOnSuspend = false;
         
         //PlayerSettings.iOS.targetResolution
-        Debug.Log("-------------------------" + GameConfig.GameIcon);
+        
         var iconFile = "Assets/icons/"+GameConfig.GameIcon+".png";
         //var iconFile = "Assets/icons/sglm.png";
         int[] sizeList = PlayerSettings.GetIconSizesForTargetGroup(BuildTargetGroup.iPhone);
@@ -182,6 +194,17 @@ public class BuildManager
         PlayerSettings.SetIconsForTargetGroup(BuildTargetGroup.iPhone, iconList);
         
         PlayerSettings.iOS.targetDevice = iOSTargetDevice.iPhoneAndiPad;
+        var paths = new string[1];
+        paths[0] = EditorApplication.currentScene;
+        var result = FindAllDependTextures(paths);
+        foreach(var path in result)
+        {
+            TextureImporter textureImporter = AssetImporter.GetAtPath(path) as TextureImporter;
+            textureImporter.textureFormat = TextureImporterFormat.PVRTC_RGBA4;
+            textureImporter.npotScale = TextureImporterNPOTScale.ToNearest;
+            textureImporter.mipmapEnabled = false;
+            AssetDatabase.ImportAsset(path);
+        }
 
         FileUtil.DeleteFileOrDirectory("Assets/Plugins/Android");
         FileUtil.DeleteFileOrDirectory("Assets/Plugins/AndroidI18N");
@@ -278,6 +301,15 @@ public class BuildManager
     public static void BuildIosBundles()
     {
         BuildBundles(BuildTarget.iPhone);
+    }   
+    
+    [MenuItem("Tool/TestDependency")]
+    public static void TestDependency()
+    {
+        var paths = new string[1];
+        paths[0] = EditorApplication.currentScene;
+        var result = FindAllDependTextures(paths);
+        Debug.Log(result.Count);
     }
 
     public static void BuildBundles(BuildTarget target)
@@ -302,6 +334,11 @@ public class BuildManager
                 case "Prefab":
                     {
                         objects = objects.Where(obj => obj is GameObject).ToArray();
+                        break;
+                    } 
+                case "TextAsset":
+                    {
+                        objects = objects.Where(obj => obj is TextAsset).ToArray();
                         break;
                     }
             }
@@ -328,8 +365,7 @@ public class BuildManager
                 BuildPipeline.BuildAssetBundle(null, objects, path, BuildAssetOptions, target);
             }
         }
-        CreateMD5List.Execute(target);
-        CampareMD5ToGenerateVersionNum.Execute(target);
+        GenerateVersionNum.Execute(target);
     }
 
     private static string GetResourcesLoadPath(string path)
@@ -370,5 +406,23 @@ public class BuildManager
         public string Folder { get; set; }
         public string Type { get; set; }
         public string Separately { get; set; }
+    }
+
+    public static List<string> FindAllDependTextures(string[] scenes)
+    {
+        var allDepends = AssetDatabase.GetDependencies(scenes);
+        var allDependTextures = allDepends.Where(item => item.EndsWith(".png") || item.EndsWith("jpg")).ToList();
+        var allDependPrefabs = allDepends.Where(item => item.EndsWith(".prefab")).ToList();
+        var allPaths = AssetDatabase.GetAllAssetPaths();
+        var resoursPrefabs = allPaths.Where(path => path.EndsWith(".prefab")).ToList();
+        var resourcesTextures = allPaths.Where(path => path.EndsWith(".png") || path.EndsWith("jpg")).ToList();
+        allDependPrefabs.AddRange(resoursPrefabs);
+        allDependPrefabs = allDependPrefabs.Distinct().ToList();
+        allDependTextures.AddRange(resourcesTextures);
+        var texturesOfPrefabs =
+            AssetDatabase.GetDependencies(allDependPrefabs.ToArray()).Where(item => item.EndsWith(".png") || item.EndsWith("jpg"));
+        allDependTextures.AddRange(texturesOfPrefabs);
+        allDependTextures = allDependTextures.Distinct().ToList();
+        return allDependTextures.ToList();
     }
 }

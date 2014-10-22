@@ -11,11 +11,14 @@ namespace com.kx.sglm.gs.battle.share.data.record
 
 		private List<T> recordList;
 
+		private int curRound;
+
 		/// <summary>
 		/// LogicUseOnly </summary>
 		private T curRecord;
 
 		private bool empty = true;
+
 
 		/// <summary>
 		/// LogicUseOnly
@@ -44,9 +47,11 @@ namespace com.kx.sglm.gs.battle.share.data.record
 			curRecord = null;
 		}
 
-		public BaseViewRecord()
+		public BaseViewRecord(int curRound)
 		{
 			recordList = new List<T>();
+			this.curRound = curRound;
+
 		}
 
 		public virtual void addRecord(T record)
@@ -73,7 +78,7 @@ namespace com.kx.sglm.gs.battle.share.data.record
 			this.empty = true;
 		}
 
-		public bool Empty
+		public sealed override bool Empty
 		{
 			get
 			{
@@ -81,6 +86,13 @@ namespace com.kx.sglm.gs.battle.share.data.record
 			}
 		}
 
+		public virtual int CurRound
+		{
+			get
+			{
+				return curRound;
+			}
+		}
 
 	}
 

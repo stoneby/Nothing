@@ -1,4 +1,5 @@
-﻿using com.kx.sglm.gs.battle.share.data;
+﻿using System.Collections;
+using com.kx.sglm.gs.battle.share.data;
 using UnityEngine;
 
 /// <summary>
@@ -17,6 +18,11 @@ public class MonsterControl : MonoBehaviour
     /// </summary>
     public GameObject AttackLocation;
 
+    /// <summary>
+    /// Range of hero attack.
+    /// </summary>
+    public float AttackRange;
+
     public GameObject BattleBG;
 
     /// <summary>
@@ -24,6 +30,12 @@ public class MonsterControl : MonoBehaviour
     /// </summary>
     public BloodBarController BloodController;
     public BuffBarController BuffBarController;
+
+    public GameObject PopAttackLocation;
+
+    public UILabel MultiHit;
+    public UILabel TotalHurt;
+    public GameObject MultiHitFix;
 
     public BattlegroundController BattleController
     {
@@ -70,6 +82,11 @@ public class MonsterControl : MonoBehaviour
     }
 
     /// <summary>
+    /// Total hurt stay duration.
+    /// </summary>
+    public float HurtStayTime;
+
+    /// <summary>
     /// Character data.
     /// </summary>
     public Character CharacterData;
@@ -102,6 +119,14 @@ public class MonsterControl : MonoBehaviour
     #endregion
 
     #region Public Methods
+
+    public Vector3 GetAttackLocation()
+    {
+        var theta = Random.Range(-AttackRange, AttackRange);
+        var attackPosition = AttackLocation.transform.localPosition;
+        var newPosition = new Vector3(attackPosition.x, attackPosition.y + theta, attackPosition.z);
+        return transform.TransformPoint(newPosition);
+    }
 
     /// <summary>
     /// Set blood bar.
@@ -156,6 +181,24 @@ public class MonsterControl : MonoBehaviour
         IsShowAim = flag;
     }
 
+    public void ShowMultiHit(int value)
+    {
+        MultiHit.text = "" + value;
+
+        MultiHit.gameObject.SetActive(true);
+        MultiHitFix.SetActive(true);
+    }
+
+    public void SetTotalHurt(int value)
+    {
+        TotalHurt.text = "" + value;
+    }
+
+    public void ShowTotalHurt(float hurt)
+    {
+        StartCoroutine(DoShowTotalHurt(hurt));
+    }
+
     /// <summary>
     /// Play shake.
     /// </summary>
@@ -205,6 +248,22 @@ public class MonsterControl : MonoBehaviour
         iTween.MoveTo(CharacterData.gameObject,
             iTween.Hash("position", (CharacterData.transform.localPosition - MoveDistance), "time", MoveDuration, "easetype", "linear",
                 "islocal", true));
+    }
+
+    #endregion
+
+    #region Private Methods
+
+    private IEnumerator DoShowTotalHurt(float hurt)
+    {
+        TotalHurt.text = "" + hurt;
+        TotalHurt.gameObject.SetActive(true);
+
+        yield return new WaitForSeconds(HurtStayTime);
+
+        TotalHurt.gameObject.SetActive(false);
+        MultiHit.gameObject.SetActive(false);
+        MultiHitFix.SetActive(false);
     }
 
     #endregion

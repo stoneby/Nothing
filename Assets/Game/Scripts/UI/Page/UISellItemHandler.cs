@@ -20,6 +20,8 @@ public class UISellItemHandler : MonoBehaviour
     private readonly List<short> cachedSelBagIndexs = new List<short>();
     private readonly Dictionary<Position, GameObject> sellObjects = new Dictionary<Position, GameObject>();
 
+    public AudioSource SellSound;
+
     private long TotalMoney
     {
         get { return totalMoney; }
@@ -333,6 +335,7 @@ public class UISellItemHandler : MonoBehaviour
 
     public void SellOverUpdate()
     {
+        SellSound.Play();
         if (sellObjects.ContainsKey(commonWindow.CurSelPos))
         {
             commonWindow.CurSelPos = HeroConstant.FirstPos;

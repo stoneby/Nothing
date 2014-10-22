@@ -11,6 +11,10 @@ namespace com.kx.sglm.gs.battle.share.data.record
 	public class BattleSkillRecord : BaseViewRecord<SingleActionRecord>
 	{
 
+		public BattleSkillRecord(int curRound) : base(curRound)
+		{
+		}
+
 		/// <summary>
 		///  Õ∑≈’ﬂIndex
 		/// </summary>
@@ -25,10 +29,6 @@ namespace com.kx.sglm.gs.battle.share.data.record
 		private int skillId;
 
 		private BattleFightRecord fightRecord;
-
-		public BattleSkillRecord()
-		{
-		}
 
 		public virtual BattleFightRecord OrCreateFightRecord
 		{
@@ -116,10 +116,6 @@ namespace com.kx.sglm.gs.battle.share.data.record
 			return null;
 		}
 
-        public override string ToString()
-        {
-            return string.Format("{0}- Team side: {1}", GetType().Name, teamSide);
-        }
 	}
 
 }

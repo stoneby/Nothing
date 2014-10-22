@@ -3,7 +3,6 @@ using Property;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Template;
 using Template.Auto.Hero;
 using Template.Auto.Skill;
 using Object = UnityEngine.Object;
@@ -235,6 +234,15 @@ public sealed class HeroModelLocator
 
     #region Public Methods
 
+    public bool IsHeroFull()
+    {
+        if(SCHeroList == null || SCHeroList.HeroList == null)
+        {
+            return false;
+        }
+        return SCHeroList.HeroList.Count >= PlayerModelLocator.Instance.HeroMax;
+    }
+
     public List<HeroInfo> FilterByJob(sbyte job, List<HeroInfo> heros)
     {
         return job == -1 ? heros : heros.Where(t => heroTemplates.HeroTmpls[t.TemplateId].Job == job).ToList();
@@ -247,7 +255,8 @@ public sealed class HeroModelLocator
         {
             return result;
         }
-        throw new Exception("Template id: " + templateid + " could not be found in skill template ");
+        return null;
+        //throw new Exception("Template id: " + templateid + " could not be found in skill template ");
     }
 
     /// <summary>
@@ -320,6 +329,14 @@ public sealed class HeroModelLocator
             return hero.HeroTmpls[templateid];
         }
         return null;
+    }
+
+    public void Clear()
+    {
+        OrderType = OrderType.Time;
+        GetHeroPos = 0;
+        SCHeroList = null;
+        AlreadyRequest = false;
     }
 
     #endregion

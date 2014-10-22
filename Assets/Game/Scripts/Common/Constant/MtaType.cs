@@ -36,4 +36,10 @@
 
     //自定义事件
     public const string VKEventBattle = "battle";
+
+    //新手引导读取配置事件
+    public const string KVEventReadGreenHandConfig = "ReadGreenHandConfig";
+
+    //各关卡的战斗持续时间统计
+    public const string KVEventBattleDuration = "BattleDuration";
 }

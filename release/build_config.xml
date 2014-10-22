@@ -8,7 +8,13 @@
 	<target name="AndroidConfig"  depends="ReplaceFile">
 		<echo>Android Package Config Params</echo>
 		<copy todir="../Assets/Plugins/Android">
-			<fileset dir="sdk/Android/${AndroidSDK}"/>
+			<fileset dir="sdk/Android/${AndroidSDK}">
+			</fileset>
+		</copy>
+		<copy todir="AndroidOld">
+			<fileset dir="AndroidBuild">
+				<include name="*.apk"/>
+			</fileset>
 		</copy>
 		<echo>Copy Android SDK Finish   ${AndroidSDK}</echo>
 	</target>
@@ -30,5 +36,21 @@
 		<replace file ="../Assets/Game/Resources/Config/GameConfiguration.xml" token="full" value="${WithAssetBundles}" encoding="UTF-8"/>
 		<replace file ="../Assets/Game/Resources/Config/GameConfiguration.xml" token="half" value="${WithAssetBundles}" encoding="UTF-8"/>
 		<replace file ="../Assets/Game/Resources/Config/GameConfiguration.xml" token="logo" value="${NameLogo}" encoding="UTF-8"/>
+	</target>
+	
+	<target name="TestCopy">
+		<echo>Android Package Config Params</echo>
+		<copy todir="AndroidBuild/old">
+			<fileset dir="AndroidBuild">
+				<include name="*.apk"/>
+			</fileset>
+		</copy>
+		<delete>
+            <fileset dir="AndroidBuild">
+                <include name="*" />
+                <exclude name="old/*.apk" />
+            </fileset>
+        </delete>
+		<echo>Copy Android SDK Finish</echo>
 	</target>
 </project>

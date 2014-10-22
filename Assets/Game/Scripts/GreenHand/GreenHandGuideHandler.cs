@@ -1,4 +1,5 @@
-﻿using Assets.Game.Scripts.Net.handler;
+﻿using System;
+using Assets.Game.Scripts.Net.handler;
 using KXSGCodec;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,34 +13,26 @@ public class GreenHandGuideHandler : Singleton<GreenHandGuideHandler>, IBattleMo
     public bool IsFlagAfterLogin = true;
     public bool IsGreenHand = false;
     public string ConfigMode;
-    public int CurrentConfigIndex;
     public List<string> TextList = new List<string>();
     public string NextConfigTriggerObjectTag;
     public int TagObjectIndex;
-    public Vector3 NormalMoveVec = new Vector3();
+    public Vector3 NormalMoveVec;
     public bool IsWait;
     public float WaitSec;
-
-    #region Battle Variables
-
-    public List<int> CanSelectIndexList = new List<int>();
-    public List<int> ValidateIndexList = new List<int>();
-    public List<int> MoveTraceIndexList = new List<int>();
-
-    #endregion
-
-    #endregion
-
-    #region Private Fields
-
-    public GameObject TagObject;
-    private List<Vector3> moveTrace = new List<Vector3>();
 
     public bool BattleFinishFlag = true;
     public bool GiveHeroFinishFlag = true;
     public bool RaidFinishFlag = true;
     public bool SummitFinishFlag = true;
     public bool TeamFinishFlag = true;
+
+    public GameObject TagObject;
+
+    #region Battle Variables
+
+    public List<int> CanSelectIndexList = new List<int>();
+    public List<int> ValidateIndexList = new List<int>();
+    public List<int> MoveTraceIndexList = new List<int>();
 
     /// <summary>
     /// Green hand guide finish flag.
@@ -48,6 +41,18 @@ public class GreenHandGuideHandler : Singleton<GreenHandGuideHandler>, IBattleMo
     {
         get { return BattleFinishFlag && GiveHeroFinishFlag && RaidFinishFlag && SummitFinishFlag && TeamFinishFlag; }
     }
+
+    #endregion
+
+    #endregion
+
+    #region Private Fields
+
+    private int currentConfigIndex;
+
+    private List<Vector3> moveTrace = new List<Vector3>();
+
+    private readonly GreeenHandConfigReader configReader = new TemplateConfigReader();
 
     #endregion
 
@@ -77,25 +82,13 @@ public class GreenHandGuideHandler : Singleton<GreenHandGuideHandler>, IBattleMo
         }
     }
 
-    /// <summary>
-    /// Read CanSelectIndex list and ValidateIndex list config.
-    /// </summary>
-    public bool ReadGuideConfig()
-    {
-        var configReader = new TestConfigReader();
-        var result = configReader.ReadConfig(this, CurrentConfigIndex);
-        Logger.Log("!!!!!!!!!!!!!!Read config in index: " + CurrentConfigIndex + ", result is: " + result);
-        CurrentConfigIndex++;
-        return result;
-    }
-
     #endregion
 
     #region Inherit From IBattleMode
 
     public void ResetCurrentConfig()
     {
-        CurrentConfigIndex = 0;
+        currentConfigIndex = 0;
     }
 
     public void SetBattleField(TeamSelectController teamController, TeamSimpleController enemyController, Character[,] characters, string mode)
@@ -104,25 +97,19 @@ public class GreenHandGuideHandler : Singleton<GreenHandGuideHandler>, IBattleMo
         switch (mode)
         {
             case "Start":
-                //nums is config index which could be triggered when start battle.
-                flag = (CurrentConfigIndex == 0);
+                flag = (GetGuideBattleType(currentConfigIndex) == "Start");
                 break;
             case "LeftAttack":
-                //nums is config index which could be triggered by left attack.
-                var nums = new[] { 2, 3, 5 };
-                flag = (nums.Contains(CurrentConfigIndex));
+                flag = (GetGuideBattleType(currentConfigIndex) == "LeftAttack");
                 break;
             case "Outter":
-                //nums is config index which could be triggered when click skill.
                 flag = true;
                 break;
             case "MonsterSelect":
-                //nums is config index which could be triggered when monster selected.
-                flag = (CurrentConfigIndex == 1);
+                flag = (GetGuideBattleType(currentConfigIndex) == "MonsterSelect");
                 break;
             case "UnderAttack":
-                //nums is config index which could be triggered when player under attack.
-                flag = (CurrentConfigIndex == 4);
+                flag = (GetGuideBattleType(currentConfigIndex) == "UnderAttack");
                 break;
             default:
                 Logger.LogError("Try to call SetBattleField with inCorrect mode.");
@@ -149,7 +136,7 @@ public class GreenHandGuideHandler : Singleton<GreenHandGuideHandler>, IBattleMo
     /// <returns></returns>
     public int CheckCanAttack(TeamSelectController teamController)
     {
-        if (teamController.SelectedCharacterList==null || ValidateIndexList==null)
+        if (teamController.SelectedCharacterList == null || ValidateIndexList == null)
         {
             Logger.LogError("List is null in CheckCanAttack.");
             return 0;
@@ -197,12 +184,40 @@ public class GreenHandGuideHandler : Singleton<GreenHandGuideHandler>, IBattleMo
         }
         WindowManager.Instance.Show<GreenHandGuideWindow>(false);
 
-        CurrentConfigIndex = 0;
+        currentConfigIndex = 0;
     }
 
     #endregion
 
     #region Private Methods
+
+    private string GetGuideBattleType(int index)
+    {
+        return configReader.GetBattleType(index);
+    }
+
+    /// <summary>
+    /// Read CanSelectIndex list and ValidateIndex list config.
+    /// </summary>
+    private bool ReadGuideConfig()
+    {
+        var result = configReader.ReadConfig(this, currentConfigIndex);
+
+        //MTA track Read Guide Config.
+        if (result)
+        {
+            //var dict = new Dictionary<string, string>
+            //{
+            //    {"Index", CurrentConfigIndex.ToString()},
+            //};
+            //MtaManager.TrackCustomKVEvent(MtaType.KVEventReadGreenHandConfig, dict);
+            MtaManager.TrackCustomKVEvent(MtaType.KVEventReadGreenHandConfig + currentConfigIndex.ToString(), new Dictionary<string, string>());
+        }
+
+        Logger.Log("!!!!!!!!!!!!!!Read config in index: " + currentConfigIndex + ", result is: " + result);
+        currentConfigIndex++;
+        return result;
+    }
 
     private IEnumerator DoShowMainScreen()
     {
@@ -589,7 +604,7 @@ public class GreenHandGuideHandler : Singleton<GreenHandGuideHandler>, IBattleMo
     public void GoToCreatePlayer()
     {
         Debug.Log("Go to CreatePlayer.");
-        CurrentConfigIndex = 10;
+        currentConfigIndex = 10;
         if (!ReadGuideConfig())
         {
             Logger.LogWarning("Read config fail, setting battle field cancelled.");
@@ -604,7 +619,7 @@ public class GreenHandGuideHandler : Singleton<GreenHandGuideHandler>, IBattleMo
         yield return null;
 
         Debug.Log("Go to HeroFirstLoginGive.");
-        CurrentConfigIndex = 20;
+        currentConfigIndex = 20;
         if (!ReadGuideConfig())
         {
             Logger.LogWarning("Read config fail, setting battle field cancelled.");
@@ -618,7 +633,7 @@ public class GreenHandGuideHandler : Singleton<GreenHandGuideHandler>, IBattleMo
     {
         yield return null;
 
-        CurrentConfigIndex = 30;
+        currentConfigIndex = 30;
         if (!ReadGuideConfig())
         {
             Logger.LogWarning("Read config fail, setting battle field cancelled.");
@@ -632,7 +647,7 @@ public class GreenHandGuideHandler : Singleton<GreenHandGuideHandler>, IBattleMo
     {
         yield return null;
 
-        CurrentConfigIndex = 40;
+        currentConfigIndex = 40;
         if (!ReadGuideConfig())
         {
             Logger.LogWarning("Read config fail, setting battle field cancelled.");
@@ -646,7 +661,7 @@ public class GreenHandGuideHandler : Singleton<GreenHandGuideHandler>, IBattleMo
     {
         yield return null;
 
-        CurrentConfigIndex = 50;
+        currentConfigIndex = 50;
         if (!ReadGuideConfig())
         {
             Logger.LogWarning("Read config fail, setting battle field cancelled.");

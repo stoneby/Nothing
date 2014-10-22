@@ -4,6 +4,7 @@ public class GameInit : MonoBehaviour
 {
     public GameObject Parent;
     public GameObject GameInputBox;
+    public int TargetFrameRate = 24;
 
     private const float DelayTime = 0.1f;
     private const string ShowDelay = "ShowDelay";
@@ -11,6 +12,7 @@ public class GameInit : MonoBehaviour
     private bool isWindowManagerReady;
     private bool isResourcesDownLoaded;
     private bool isRemoteXmlFinish;
+    private const float NearlyFullProgress = 0.95f;
 
     #region Coroutine
 
@@ -30,8 +32,11 @@ public class GameInit : MonoBehaviour
 
     void Awake()
     {
+        Application.targetFrameRate = TargetFrameRate;
         // This is importance in AddListener in Awake, PostEvent() is in Start, keep the sequence.
         EventManager.Instance.AddListener<WindowManagerReady>(OnManagerReady);
+        ResoucesManager.Instance.OnResourcesDownLoadStarted += OnResourcesDownLoadStarted;
+        ResoucesManager.Instance.OnDownLoadProgessChanged += OnDownLoadProgessChanged;
         ResoucesManager.Instance.OnResourcesDownLoaded += OnResourcesDownLoaded;
         GameConfiguration.Instance.OnParseRomoteXmlFinish += OnRomoteXmlFinish;
 
@@ -39,8 +44,27 @@ public class GameInit : MonoBehaviour
         gameInputBox.transform.localPosition += new Vector3(0, Utils.Root.activeHeight / 2f, 0);
     }
 
+    private void OnDownLoadProgessChanged(float progess)
+    {
+        var loadingWait = WindowManager.Instance.GetWindow<LoadingWaitWindow>();
+        if (progess >= NearlyFullProgress)
+        {
+            progess = 1;
+        }
+        loadingWait.SetProgress("" + (int)(progess * 100) + "%");
+    }
+
+    private void OnResourcesDownLoadStarted()
+    {
+        Debug.Log("=========================================>  OnResourcesDownLoaded ");
+        var loadingWait = WindowManager.Instance.Show<LoadingWaitWindow>(true);
+        loadingWait.CancelTimeOut();
+        loadingWait.ShowProgress();
+    }
+
     private void OnRomoteXmlFinish()
     {
+        Debug.Log("=========================================>  OnRomoteXmlFinish ");
         isRemoteXmlFinish = true;
         ExcuteGameStart();
     }
@@ -48,6 +72,7 @@ public class GameInit : MonoBehaviour
     private void OnResourcesDownLoaded()
     {
         Debug.Log("=========================================>  OnResourcesDownLoaded ");
+        WindowManager.Instance.Show<LoadingWaitWindow>(false);
         isResourcesDownLoaded = true;
         ResoucesManager.Instance.OnResourcesDownLoaded -= OnResourcesDownLoaded;
         ExcuteGameStart();

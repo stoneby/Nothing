@@ -24,9 +24,7 @@ namespace KXSGCodec
   public partial class SCLotteryComposeList : TBase
   {
     private int _superChip;
-    private List<Dictionary<int, int>> _star5Chip;
-    private List<Dictionary<int, int>> _star4Chip;
-    private List<Dictionary<int, int>> _star3Chip;
+    private Dictionary<int, int> _heroChip;
 
     public int SuperChip
     {
@@ -41,42 +39,16 @@ namespace KXSGCodec
       }
     }
 
-    public List<Dictionary<int, int>> Star5Chip
+    public Dictionary<int, int> HeroChip
     {
       get
       {
-        return _star5Chip;
+        return _heroChip;
       }
       set
       {
-        __isset.star5Chip = true;
-        this._star5Chip = value;
-      }
-    }
-
-    public List<Dictionary<int, int>> Star4Chip
-    {
-      get
-      {
-        return _star4Chip;
-      }
-      set
-      {
-        __isset.star4Chip = true;
-        this._star4Chip = value;
-      }
-    }
-
-    public List<Dictionary<int, int>> Star3Chip
-    {
-      get
-      {
-        return _star3Chip;
-      }
-      set
-      {
-        __isset.star3Chip = true;
-        this._star3Chip = value;
+        __isset.heroChip = true;
+        this._heroChip = value;
       }
     }
 
@@ -87,9 +59,7 @@ namespace KXSGCodec
     #endif
     public struct Isset {
       public bool superChip;
-      public bool star5Chip;
-      public bool star4Chip;
-      public bool star3Chip;
+      public bool heroChip;
     }
 
     public SCLotteryComposeList() {
@@ -115,87 +85,19 @@ namespace KXSGCodec
             }
             break;
           case 2:
-            if (field.Type == TType.List) {
+            if (field.Type == TType.Map) {
               {
-                Star5Chip = new List<Dictionary<int, int>>();
-                TList _list12 = iprot.ReadListBegin();
-                for( int _i13 = 0; _i13 < _list12.Count; ++_i13)
+                HeroChip = new Dictionary<int, int>();
+                TMap _map12 = iprot.ReadMapBegin();
+                for( int _i13 = 0; _i13 < _map12.Count; ++_i13)
                 {
-                  Dictionary<int, int> _elem14 = new Dictionary<int, int>();
-                  {
-                    _elem14 = new Dictionary<int, int>();
-                    TMap _map15 = iprot.ReadMapBegin();
-                    for( int _i16 = 0; _i16 < _map15.Count; ++_i16)
-                    {
-                      int _key17;
-                      int _val18;
-                      _key17 = iprot.ReadI32();
-                      _val18 = iprot.ReadI32();
-                      _elem14[_key17] = _val18;
-                    }
-                    iprot.ReadMapEnd();
-                  }
-                  Star5Chip.Add(_elem14);
+                  int _key14;
+                  int _val15;
+                  _key14 = iprot.ReadI32();
+                  _val15 = iprot.ReadI32();
+                  HeroChip[_key14] = _val15;
                 }
-                iprot.ReadListEnd();
-              }
-            } else { 
-              TProtocolUtil.Skip(iprot, field.Type);
-            }
-            break;
-          case 3:
-            if (field.Type == TType.List) {
-              {
-                Star4Chip = new List<Dictionary<int, int>>();
-                TList _list19 = iprot.ReadListBegin();
-                for( int _i20 = 0; _i20 < _list19.Count; ++_i20)
-                {
-                  Dictionary<int, int> _elem21 = new Dictionary<int, int>();
-                  {
-                    _elem21 = new Dictionary<int, int>();
-                    TMap _map22 = iprot.ReadMapBegin();
-                    for( int _i23 = 0; _i23 < _map22.Count; ++_i23)
-                    {
-                      int _key24;
-                      int _val25;
-                      _key24 = iprot.ReadI32();
-                      _val25 = iprot.ReadI32();
-                      _elem21[_key24] = _val25;
-                    }
-                    iprot.ReadMapEnd();
-                  }
-                  Star4Chip.Add(_elem21);
-                }
-                iprot.ReadListEnd();
-              }
-            } else { 
-              TProtocolUtil.Skip(iprot, field.Type);
-            }
-            break;
-          case 4:
-            if (field.Type == TType.List) {
-              {
-                Star3Chip = new List<Dictionary<int, int>>();
-                TList _list26 = iprot.ReadListBegin();
-                for( int _i27 = 0; _i27 < _list26.Count; ++_i27)
-                {
-                  Dictionary<int, int> _elem28 = new Dictionary<int, int>();
-                  {
-                    _elem28 = new Dictionary<int, int>();
-                    TMap _map29 = iprot.ReadMapBegin();
-                    for( int _i30 = 0; _i30 < _map29.Count; ++_i30)
-                    {
-                      int _key31;
-                      int _val32;
-                      _key31 = iprot.ReadI32();
-                      _val32 = iprot.ReadI32();
-                      _elem28[_key31] = _val32;
-                    }
-                    iprot.ReadMapEnd();
-                  }
-                  Star3Chip.Add(_elem28);
-                }
-                iprot.ReadListEnd();
+                iprot.ReadMapEnd();
               }
             } else { 
               TProtocolUtil.Skip(iprot, field.Type);
@@ -222,72 +124,19 @@ namespace KXSGCodec
         oprot.WriteI32(SuperChip);
         oprot.WriteFieldEnd();
       }
-      if (Star5Chip != null && __isset.star5Chip) {
-        field.Name = "star5Chip";
-        field.Type = TType.List;
+      if (HeroChip != null && __isset.heroChip) {
+        field.Name = "heroChip";
+        field.Type = TType.Map;
         field.ID = 2;
         oprot.WriteFieldBegin(field);
         {
-          oprot.WriteListBegin(new TList(TType.Map, Star5Chip.Count));
-          foreach (Dictionary<int, int> _iter33 in Star5Chip)
+          oprot.WriteMapBegin(new TMap(TType.I32, TType.I32, HeroChip.Count));
+          foreach (int _iter16 in HeroChip.Keys)
           {
-            {
-              oprot.WriteMapBegin(new TMap(TType.I32, TType.I32, _iter33.Count));
-              foreach (int _iter34 in _iter33.Keys)
-              {
-                oprot.WriteI32(_iter34);
-                oprot.WriteI32(_iter33[_iter34]);
-              }
-              oprot.WriteMapEnd();
-            }
+            oprot.WriteI32(_iter16);
+            oprot.WriteI32(HeroChip[_iter16]);
           }
-          oprot.WriteListEnd();
-        }
-        oprot.WriteFieldEnd();
-      }
-      if (Star4Chip != null && __isset.star4Chip) {
-        field.Name = "star4Chip";
-        field.Type = TType.List;
-        field.ID = 3;
-        oprot.WriteFieldBegin(field);
-        {
-          oprot.WriteListBegin(new TList(TType.Map, Star4Chip.Count));
-          foreach (Dictionary<int, int> _iter35 in Star4Chip)
-          {
-            {
-              oprot.WriteMapBegin(new TMap(TType.I32, TType.I32, _iter35.Count));
-              foreach (int _iter36 in _iter35.Keys)
-              {
-                oprot.WriteI32(_iter36);
-                oprot.WriteI32(_iter35[_iter36]);
-              }
-              oprot.WriteMapEnd();
-            }
-          }
-          oprot.WriteListEnd();
-        }
-        oprot.WriteFieldEnd();
-      }
-      if (Star3Chip != null && __isset.star3Chip) {
-        field.Name = "star3Chip";
-        field.Type = TType.List;
-        field.ID = 4;
-        oprot.WriteFieldBegin(field);
-        {
-          oprot.WriteListBegin(new TList(TType.Map, Star3Chip.Count));
-          foreach (Dictionary<int, int> _iter37 in Star3Chip)
-          {
-            {
-              oprot.WriteMapBegin(new TMap(TType.I32, TType.I32, _iter37.Count));
-              foreach (int _iter38 in _iter37.Keys)
-              {
-                oprot.WriteI32(_iter38);
-                oprot.WriteI32(_iter37[_iter38]);
-              }
-              oprot.WriteMapEnd();
-            }
-          }
-          oprot.WriteListEnd();
+          oprot.WriteMapEnd();
         }
         oprot.WriteFieldEnd();
       }
@@ -299,12 +148,8 @@ namespace KXSGCodec
       StringBuilder sb = new StringBuilder("SCLotteryComposeList(");
       sb.Append("SuperChip: ");
       sb.Append(SuperChip);
-      sb.Append(",Star5Chip: ");
-      sb.Append(Star5Chip);
-      sb.Append(",Star4Chip: ");
-      sb.Append(Star4Chip);
-      sb.Append(",Star3Chip: ");
-      sb.Append(Star3Chip);
+      sb.Append(",HeroChip: ");
+      sb.Append(HeroChip);
       sb.Append(")");
       return sb.ToString();
     }

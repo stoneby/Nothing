@@ -4,31 +4,32 @@ namespace com.kx.sglm.gs.battle.share.data.record
 {
 
 
+
 	public class BattleErrorRecord : IBattleViewRecord
 	{
 
 
-		private List<string> errorStrList;
+		private List<BattleErrorInfo> errorList;
 
 		public BattleErrorRecord()
 		{
-			errorStrList = new List<string>();
+			errorList = new List<BattleErrorInfo>();
 		}
 
 
-		public virtual void addErrorString(string errorString)
+		public virtual void addErrorString(int key, string errorString)
 		{
-			errorStrList.Add(errorString);
+			errorList.Add(new BattleErrorInfo(key, errorString));
 		}
 
 		public virtual bool hasError()
 		{
-			return errorStrList.Count > 0;
+			return !Empty;
 		}
 
 		public virtual void clearError()
 		{
-			errorStrList.Clear();
+			errorList.Clear();
 		}
 
 
@@ -43,12 +44,20 @@ namespace com.kx.sglm.gs.battle.share.data.record
 			viewObj.showBattleErrorRecord(this);
 		}
 
+		public virtual List<BattleErrorInfo> ErrorList
+		{
+			get
+			{
+				return errorList;
+			}
+		}
 
+	//	@Override
 		public virtual bool Empty
 		{
 			get
 			{
-				return errorStrList.Count == 0;
+				return errorList.Count == 0;
 			}
 		}
 

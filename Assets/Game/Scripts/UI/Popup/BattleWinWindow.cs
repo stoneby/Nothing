@@ -97,12 +97,12 @@ public class BattleWinWindow : Window
 
     public override void OnEnter()
     {
-
+        GlobalWindowSoundController.Instance.PlayWinSound();
     }
 
     public override void OnExit()
     {
-        BattleResultHelper.Cleanup();
+        GlobalWindowSoundController.Instance.PlayCloseSound();
     }
 
     private void OnEnterHandler()
@@ -195,8 +195,8 @@ public class BattleWinWindow : Window
         lb.text = MissionModelLocator.Instance.BattleStageTemplate.CostEnergy.ToString();
 
         var bar = ExpBar.GetComponent<UIProgressBar>();
-        var tempold = LevelModelLocator.Instance.GetLevelByTemplateId(MissionModelLocator.Instance.OldLevel);
-        var v = (float)(MissionModelLocator.Instance.OldExp + MissionModelLocator.Instance.BattleReward.Exp) / tempold.MaxExp;
+        //var tempold = LevelModelLocator.Instance.GetLevelByTemplateId(MissionModelLocator.Instance.OldLevel);
+        //var v = (float)(MissionModelLocator.Instance.OldExp + MissionModelLocator.Instance.BattleReward.Exp) / tempold.MaxExp;
 
         //        PopTextManager.PopTip("old exp:" + MissionModelLocator.Instance.OldExp + ", add exp:" + MissionModelLocator.Instance.BattleReward.Exp + ", need exp:" + temp.MaxExp);
         //        PopTextManager.PopTip("old level:" + MissionModelLocator.Instance.OldLevel + ", current level:" + PlayerModelLocator.Instance.Level);
@@ -204,25 +204,48 @@ public class BattleWinWindow : Window
         //        Debug.Log("old level:" + MissionModelLocator.Instance.OldLevel + ", current level:" + PlayerModelLocator.Instance.Level);
 
         yield return new WaitForSeconds(0.5f);
-        var vv = bar.value;
-        while (vv < v)
+        var k = MissionModelLocator.Instance.OldLevel;
+        var oldexp = MissionModelLocator.Instance.OldExp;
+        var addexp = MissionModelLocator.Instance.BattleReward.Exp;
+        lb = LabelLevel.GetComponent<UILabel>();
+        //var vv = bar.value;
+        Debug.Log("old:" + MissionModelLocator.Instance.OldLevel + ", new:" + PlayerModelLocator.Instance.Level);
+        GlobalWindowSoundController.Instance.PlayExpGrowSound();
+        while (k <= PlayerModelLocator.Instance.Level)
         {
-            vv += 0.05f;
-            if (vv > v) vv = v;
-            bar.value = (vv > 1) ? vv - 1 : vv;
-            yield return new WaitForSeconds(0.05f);
-            //if (vv >= 1) vv -= 1;
+            lb.text = "Lv." + k;
+            var tempnew = LevelModelLocator.Instance.GetLevelByTemplateId(k);
+            var toexp = (oldexp + addexp < tempnew.MaxExp) ? oldexp + addexp : tempnew.MaxExp;
+            float vv = (float)oldexp/tempnew.MaxExp;
+            bar.value = vv;
+            var v = (float)toexp / tempnew.MaxExp;
+            Debug.Log("from:" + oldexp + ", to:" + toexp);
+            yield return new WaitForSeconds(0.1f);
+            while (vv < v)
+            {
+                vv += 0.05f;
+                //if (vv > v) vv = v;
+                bar.value = vv;
+                yield return new WaitForSeconds(0.05f);
+                //if (vv >= 1) vv -= 1;
+            }
+            k++;
+            var offset = toexp - oldexp;
+            oldexp = 0;
+            addexp -= offset;
+            
         }
 
-        if (v >= 1)
+
+        if (PlayerModelLocator.Instance.Level > MissionModelLocator.Instance.OldLevel)
         {
             EffectManager.PlayEffect(EffectType.LevelUp, 1.1f, 0, 0, new Vector3(0, 0, 0), 0, 1.5f);
             //EffectManager.PlayEffect(EffectType.LevelUp, 1.1f, 0, 0, new Vector3(0, 0, 0));
             LevelupContainer.SetActive(true);
             CurrentStep = StepTypeLevelup;
             //yield return new WaitForSeconds(0.8f);
-            lb = LabelLevel.GetComponent<UILabel>();
-            lb.text = "Lv." + (MissionModelLocator.Instance.OldLevel + 1).ToString();
+            
+//            lb.text = "Lv." + (MissionModelLocator.Instance.OldLevel + 1).ToString();
 
 //            var temp = LevelModelLocator.Instance.GetLevelByTemplateId(PlayerModelLocator.Instance.Level);
 //            lb = LabelOldMaxEnergy.GetComponent<UILabel>();
@@ -247,8 +270,8 @@ public class BattleWinWindow : Window
 
     private void GetValues()
     {
-        int maxwidth = 700;
-        int thewidth = 140;
+        //int maxwidth = 700;
+        int thewidth = 170;
 
         int[] values = new int[5];
         values[0] = MissionModelLocator.Instance.BattleReward.Exp;
@@ -271,9 +294,9 @@ public class BattleWinWindow : Window
             if (values[i] > 0)
             {
                 SpriteIcons[i].SetActive(true);
-                SpriteIcons[i].transform.localPosition = new Vector3(basex + k * thewidth, 147, 0);
+                SpriteIcons[i].transform.localPosition = new Vector3(basex + k * thewidth, 145, 0);
                 LabelValues[i].SetActive(true);
-                LabelValues[i].transform.localPosition = new Vector3(basex + k * thewidth + 50, 147, 0);
+                LabelValues[i].transform.localPosition = new Vector3(basex + k * thewidth + 40, 142, 0);
                 var lb = LabelValues[i].GetComponent<UILabel>();
                 lb.text = values[i].ToString();
                 k++;
@@ -409,6 +432,7 @@ public class BattleWinWindow : Window
         while (CurrItemIndex < MissionModelLocator.Instance.BattleReward.RewardItem.Count)
         {
             yield return new WaitForSeconds(0.8f);
+            //GlobalWindowSoundController.Instance.PlayOpenBoxSound();
             var control = Items[CurrItemIndex].GetComponent<GetItemControl>();
             CurrItemIndex++;
             control.Open();

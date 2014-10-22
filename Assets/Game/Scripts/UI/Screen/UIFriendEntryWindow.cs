@@ -1,7 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
-using KXSGCodec;
-using UnityEngine;
 
 /// <summary>
 /// Specific window controller.
@@ -55,6 +52,7 @@ public class UIFriendEntryWindow : Window
 
     public override void OnEnter()
     {
+        GlobalWindowSoundController.Instance.PlayOpenSound();
         InstallHandlers();
     }
 

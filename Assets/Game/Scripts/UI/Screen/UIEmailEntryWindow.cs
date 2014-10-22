@@ -72,6 +72,7 @@ public class UIEmailEntryWindow : Window
     public override void OnEnter()
     {
         MtaManager.TrackBeginPage(MtaType.EmailEntryWindow);
+        GlobalWindowSoundController.Instance.PlayOpenSound();
         play = true;
         InstallHandlers();
         mailMsgInfos = MailModelLocator.Instance.ScMailListMsg.MailList;

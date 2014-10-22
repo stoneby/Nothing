@@ -36,6 +36,7 @@ public class UIBuildingTeamWindow : Window
 
     #region Public Fields
 
+    public UIPlaySound ModifyTeamSound;
     public GameObject HeroDetailInfo;
     public CloseButtonControl CloseButtonControl;
     public HeroSortControl HeroSortControl;
@@ -56,6 +57,7 @@ public class UIBuildingTeamWindow : Window
     public override void OnEnter()
     {
         MtaManager.TrackBeginPage(MtaType.HeroBuildingTeamWindow);
+        GlobalWindowSoundController.Instance.PlayOpenSound();
         isToClose = false;
         NGUITools.SetActive(Heros.gameObject, true);
         infos = scHeroList.HeroList;
@@ -292,6 +294,7 @@ public class UIBuildingTeamWindow : Window
         {
             var msg = new CSHeroModifyTeam {TeamIndex = curTeamIndex, NewTeamList = curTeam};
             NetManager.SendMessage(msg);
+            ModifyTeamSound.Play();
         }
         return isDirty;
     }

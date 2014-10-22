@@ -79,6 +79,5 @@ public class FriendListHandler : FriendHandlerBase
             givenItem.Init(infos[i], OnGiveClicked);
             givenItemList.Add(givenItem);
         }
-       NGUITools.FindInParents<UIScrollView>(Items.gameObject).ResetPosition();
     }
 }

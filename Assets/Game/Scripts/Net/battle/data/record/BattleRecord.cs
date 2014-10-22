@@ -29,6 +29,8 @@ namespace com.kx.sglm.gs.battle.share.data.record
 
 		private BattleErrorRecord errorRecord;
 
+		private int curRound;
+
 
 		public BattleRecord()
 		{
@@ -37,13 +39,21 @@ namespace com.kx.sglm.gs.battle.share.data.record
 			errorRecord = new BattleErrorRecord();
 		}
 
+		public virtual int CurRound
+		{
+			set
+			{
+				this.curRound = value;
+			}
+		}
+
 		public virtual BattleEndRecord OrCreateEndRecord
 		{
 			get
 			{
 				if (curEndRecord == null)
 				{
-					curEndRecord = new BattleEndRecord();
+					curEndRecord = new BattleEndRecord(curRound);
 					addList(curEndRecord);
 				}
 				return curEndRecord;
@@ -62,7 +72,7 @@ namespace com.kx.sglm.gs.battle.share.data.record
 			{
 				if (curSkillRecord == null)
 				{
-					curSkillRecord = new BattleSkillRecord();
+					curSkillRecord = new BattleSkillRecord(curRound);
 					addList(curSkillRecord);
 				}
 				return curSkillRecord;
@@ -80,7 +90,7 @@ namespace com.kx.sglm.gs.battle.share.data.record
 			{
 				if (curFightRecord == null)
 				{
-					curFightRecord = new BattleTeamFightRecord();
+					curFightRecord = new BattleTeamFightRecord(curRound);
 					addList(curFightRecord);
 				}
 				return curFightRecord;
@@ -93,7 +103,7 @@ namespace com.kx.sglm.gs.battle.share.data.record
 			{
 				if (curBuffRecord == null)
 				{
-					curBuffRecord = new BattleBuffRecord();
+					curBuffRecord = new BattleBuffRecord(curRound);
 					addList(curBuffRecord);
 				}
 				return curBuffRecord;
@@ -106,11 +116,16 @@ namespace com.kx.sglm.gs.battle.share.data.record
 			{
 				if (curTeamInfoRecord == null)
 				{
-					curTeamInfoRecord = new BattleTeamInfoRecord();
-					addList(curTeamInfoRecord);
+					createTeamRecord();
 				}
 				return curTeamInfoRecord;
 			}
+		}
+
+		public virtual void createTeamRecord()
+		{
+			curTeamInfoRecord = new BattleTeamInfoRecord(curRound);
+			addList(curTeamInfoRecord);
 		}
 
 		public virtual void finishCurTeamFightRecord()
@@ -135,7 +150,7 @@ namespace com.kx.sglm.gs.battle.share.data.record
 			{
 				if (curRoundCountRecord == null)
 				{
-					curRoundCountRecord = new BattleRoundCountRecord();
+					curRoundCountRecord = new BattleRoundCountRecord(curRound);
 					addList(curRoundCountRecord);
 				}
 				return curRoundCountRecord;
@@ -153,7 +168,7 @@ namespace com.kx.sglm.gs.battle.share.data.record
 			{
 				if (curIndexRecord == null)
 				{
-					curIndexRecord = new BattleIndexRecord();
+					curIndexRecord = new BattleIndexRecord(curRound);
 					addList(curIndexRecord);
 				}
 				return curIndexRecord;
@@ -196,18 +211,30 @@ namespace com.kx.sglm.gs.battle.share.data.record
 				}
 				_recordList.Add(_record);
 			}
+			if (errorRecord != null)
+			{
+				_recordList.Add(errorRecord);
+				clearError();
+			}
 			toReportRecordList.Clear();
 			return _recordList;
 		}
 
-		public virtual void addErrorInfo(string error)
+		public virtual void addErrorInfo(int errorType, string error)
 		{
-			this.errorRecord.addErrorString(error);
+			if (errorRecord == null)
+			{
+				errorRecord = new BattleErrorRecord();
+			}
+			this.errorRecord.addErrorString(errorType, error);
 		}
 
+		/// <summary>
+		/// 每次给客户端汇报时清除
+		/// </summary>
 		public virtual void clearError()
 		{
-			this.errorRecord.clearError();
+			this.errorRecord = null;
 		}
 
 	//	@Override

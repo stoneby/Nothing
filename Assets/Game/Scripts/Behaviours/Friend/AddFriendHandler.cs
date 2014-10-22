@@ -16,8 +16,7 @@ public class AddFriendHandler : FriendHandlerBase
 	{
         MtaManager.TrackBeginPage(MtaType.AddFriendWindow);
 	    InstallHandlers();
-        var msg = new CSFriendApplyList();
-        NetManager.SendMessage(msg);
+        FriendUtils.SendFriendListMessage(FriendModelLocator.FriendListType.Apply);
 	}
 	
 	void OnDisable ()
@@ -57,7 +56,6 @@ public class AddFriendHandler : FriendHandlerBase
             var child = Items.transform.GetChild(i);
             child.GetComponent<ApplyItem>().Init(infos[i], OnReject, OnAgree);
         }
-        NGUITools.FindInParents<UIScrollView>(Items.gameObject).ResetPosition();
     }
 
     protected void OnAgree(GameObject go)

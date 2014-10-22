@@ -224,14 +224,32 @@ public class PersistenceHandler : Singleton<PersistenceHandler>
             Debug.LogError("Catch Exception in DoReStartBattle, delete all persistence file to initialize." + e.Message);
             Debug.LogException(e);
             PopTextManager.PopTip("执行持久化操作时出现异常，已经删除存储的持久化信息。");
-            File.Move(LoginInfoPath, LoginInfoPath + "Rename");
-            new FileInfo(LoginInfoPath + "Rename").Delete();
-            File.Move(StartBattlePath, StartBattlePath + "Rename");
-            new FileInfo(StartBattlePath + "Rename").Delete();
-            File.Move(PersistencePath, PersistencePath + "Rename");
-            new FileInfo(PersistencePath + "Rename").Delete();
-            File.Move(EndBattlePath, EndBattlePath + "Rename");
-            new FileInfo(EndBattlePath + "Rename").Delete();
+
+            if (File.Exists(LoginInfoPath))
+            {
+                File.Move(LoginInfoPath, LoginInfoPath + "Rename");
+                new FileInfo(LoginInfoPath + "Rename").Delete();
+            }
+
+            if (File.Exists(StartBattlePath))
+            {
+                File.Move(StartBattlePath, StartBattlePath + "Rename");
+                new FileInfo(StartBattlePath + "Rename").Delete();
+            }
+
+            if (File.Exists(PersistencePath))
+            {
+                File.Move(PersistencePath, PersistencePath + "Rename");
+                new FileInfo(PersistencePath + "Rename").Delete();
+            }
+
+            if (File.Exists(LoginInfoPath))
+            {
+                File.Move(EndBattlePath, EndBattlePath + "Rename");
+                new FileInfo(EndBattlePath + "Rename").Delete();
+            }
+
+            Mode = PersistenceMode.Normal;
 
             //Store loginaccount file 
             var tempDictionary = new Dictionary<string, string>
@@ -287,14 +305,32 @@ public class PersistenceHandler : Singleton<PersistenceHandler>
             Debug.LogError("Catch Exception in DoReSendMessage, delete all persistence file to initialize.");
             Debug.LogException(e);
             PopTextManager.PopTip("执行持久化操作时出现异常，已经删除存储的持久化信息。");
-            File.Move(LoginInfoPath, LoginInfoPath + "Rename");
-            new FileInfo(LoginInfoPath + "Rename").Delete();
-            File.Move(StartBattlePath, StartBattlePath + "Rename");
-            new FileInfo(StartBattlePath + "Rename").Delete();
-            File.Move(PersistencePath, PersistencePath + "Rename");
-            new FileInfo(PersistencePath + "Rename").Delete();
-            File.Move(EndBattlePath, EndBattlePath + "Rename");
-            new FileInfo(EndBattlePath + "Rename").Delete();
+
+            if (File.Exists(LoginInfoPath))
+            {
+                File.Move(LoginInfoPath, LoginInfoPath + "Rename");
+                new FileInfo(LoginInfoPath + "Rename").Delete();
+            }
+
+            if (File.Exists(StartBattlePath))
+            {
+                File.Move(StartBattlePath, StartBattlePath + "Rename");
+                new FileInfo(StartBattlePath + "Rename").Delete();
+            }
+
+            if (File.Exists(PersistencePath))
+            {
+                File.Move(PersistencePath, PersistencePath + "Rename");
+                new FileInfo(PersistencePath + "Rename").Delete();
+            }
+
+            if (File.Exists(LoginInfoPath))
+            {
+                File.Move(EndBattlePath, EndBattlePath + "Rename");
+                new FileInfo(EndBattlePath + "Rename").Delete();
+            }
+
+            Mode = PersistenceMode.Normal;
 
             //Store loginaccount file 
             var tempDictionary = new Dictionary<string, string>
@@ -316,10 +352,10 @@ public class PersistenceHandler : Singleton<PersistenceHandler>
     {
         WindowManager.Instance.Show<SimpleConfirmWindow>(false);
         Mode = PersistenceMode.Normal;
-        if (Mode != PersistenceMode.ReSendMessageNow)
-        {
+        //if (Mode != PersistenceMode.ReSendMessageNow)
+        //{
             Cleanup();
-        }
+        //}
     }
 
     /// <summary>
@@ -591,14 +627,32 @@ public class PersistenceHandler : Singleton<PersistenceHandler>
             Debug.LogError("Catch Exception in PersistenceExecute, delete all persistence file to initialize.");
             Debug.LogException(e);
             PopTextManager.PopTip("执行持久化操作时出现异常，已经删除存储的持久化信息。");
-            File.Move(LoginInfoPath, LoginInfoPath + "Rename");
-            new FileInfo(LoginInfoPath + "Rename").Delete();
-            File.Move(StartBattlePath, StartBattlePath + "Rename");
-            new FileInfo(StartBattlePath + "Rename").Delete();
-            File.Move(PersistencePath, PersistencePath + "Rename");
-            new FileInfo(PersistencePath + "Rename").Delete();
-            File.Move(EndBattlePath, EndBattlePath + "Rename");
-            new FileInfo(EndBattlePath + "Rename").Delete();
+
+            if (File.Exists(LoginInfoPath))
+            {
+                File.Move(LoginInfoPath, LoginInfoPath + "Rename");
+                new FileInfo(LoginInfoPath + "Rename").Delete();
+            }
+
+            if (File.Exists(StartBattlePath))
+            {
+                File.Move(StartBattlePath, StartBattlePath + "Rename");
+                new FileInfo(StartBattlePath + "Rename").Delete();
+            }
+
+            if (File.Exists(PersistencePath))
+            {
+                File.Move(PersistencePath, PersistencePath + "Rename");
+                new FileInfo(PersistencePath + "Rename").Delete();
+            }
+
+            if (File.Exists(LoginInfoPath))
+            {
+                File.Move(EndBattlePath, EndBattlePath + "Rename");
+                new FileInfo(EndBattlePath + "Rename").Delete();
+            }
+
+            Mode = PersistenceMode.Normal;
         }
 
         //Store loginaccount file 

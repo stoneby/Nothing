@@ -62,7 +62,7 @@ public class TaskItemControl : MonoBehaviour
             GetLabel.SetActive(true);
             RewardItem.SetActive(true);
             var item = RewardItem.GetComponent<SignItemControl>();
-            item.SetData(questTemp.RewardId, false, false, ClickBtnHandler);
+            item.SetData(questTemp.RewardId, false, false, SelectHandler);
             RewardTemplate = item.RewardTemplate;
             GetButton.SetActive(false);
             return 0;
@@ -78,8 +78,9 @@ public class TaskItemControl : MonoBehaviour
             lb.color = new Color(250,230,0);
             var btn = GetButton.GetComponent<UIButton>();
             btn.enabled = true;
-            var sp = BtnBgScript.GetComponent<UISprite>();
-            sp.color = new Color(255, 255, 255);
+            BtnBgScript.SetActive(true);
+//            var sp = BtnBgScript.GetComponent<UISprite>();
+//            sp.color = new Color(255, 255, 255);
             return 0;
         }
         else
@@ -93,14 +94,33 @@ public class TaskItemControl : MonoBehaviour
             lb.color = new Color(100, 100, 100);
             var btn = GetButton.GetComponent<UIButton>();
             btn.enabled = false;
-            var sp = BtnBgScript.GetComponent<UISprite>();
-            sp.color = new Color(100, 100, 100);
+            BtnBgScript.SetActive(false);
             return 1;
         }
     }
 
     private void ClickBtnHandler(GameObject obj)
     {
+        if (questInfo.Status == 1)
+        {
+            var item = RewardItem.GetComponent<SignItemControl>();
+            if (item.CheckFull())
+            {
+                return;
+            }
+        }
+
+        if (OnSelected != null)
+        {
+            OnSelected(gameObject);
+        }
+    }
+
+    
+
+    private void SelectHandler(GameObject obj)
+    {
+
         if (OnSelected != null)
         {
             OnSelected(gameObject);

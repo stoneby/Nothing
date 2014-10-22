@@ -10,6 +10,10 @@ namespace com.kx.sglm.gs.battle.share.data.record
 	public class BattleEndRecord : BaseViewRecord<SingleActionRecord>
 	{
 
+		public BattleEndRecord(int curRound) : base(curRound)
+		{
+		}
+
 		private int endType;
 
 		public virtual int EndType

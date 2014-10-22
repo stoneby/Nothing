@@ -5,6 +5,7 @@ namespace com.kx.sglm.gs.battle.share.logic.loop
 	using BattleFighter = com.kx.sglm.gs.battle.share.actor.impl.BattleFighter;
 	using BattleTeam = com.kx.sglm.gs.battle.share.actor.impl.BattleTeam;
 	using BattleTeamFightRecord = com.kx.sglm.gs.battle.share.data.record.BattleTeamFightRecord;
+	using BattleTeamInfoRecord = com.kx.sglm.gs.battle.share.data.record.BattleTeamInfoRecord;
 	using TeamShotStartEvent = com.kx.sglm.gs.battle.share.@event.impl.TeamShotStartEvent;
 	using BattleLogicHelper = com.kx.sglm.gs.battle.share.helper.BattleLogicHelper;
 	using BattleRecordHelper = com.kx.sglm.gs.battle.share.helper.BattleRecordHelper;
@@ -38,12 +39,16 @@ namespace com.kx.sglm.gs.battle.share.logic.loop
 		public override void onStart()
 		{
 
+			Battle.Record.createTeamRecord();
+
 			Battle.BattleExcuter.onBattleTeamShotStart(this);
 			TeamShotStartEvent _event = createEvent();
 			CurAttacker.onTeamShotStart(_event);
 			CurAttacker.recalcBuffAndTeamProp();
 			CurDefencer.recalcBuffAndTeamProp();
 			recordBattleTeamInfo();
+
+			Battle.Record.finishCurTeamInfoRecord();
 		}
 
 		protected internal virtual TeamShotStartEvent createEvent()
